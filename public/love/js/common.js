@@ -3,7 +3,7 @@ $(function () {
     $('.days').text(days);
 
     var events = '';
-    $.getJSON('/js/data.json', function (datas) {
+    $.getJSON('/love/js/data.json', function (datas) {
         datas.forEach(function (data, index) {
             if (data.done) {
                 events += renderDone(index + 1, data.event, data.pic, data.desc);
