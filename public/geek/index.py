@@ -25,7 +25,7 @@ def generate_index_html():
             file_content = "<!DOCTYPE html>\n<html>\n<head>\n<title>Index of Folders</title>\n</head>\n<body>\n"
             file_content += "<h1>Index of Folders</h1>\n"
             file_content += "<ul>\n"
-            file_content += f"<li><a href='./{folder}/{file}'>{file}</a></li>\n"
+            file_content += f"<li><a href='./geek/{folder}/{file}'>{file}</a></li>\n"
         html_content += "</ul>\n</body>\n</html>"
         with open(folder_path + "/index.html", "w") as f:
             f.write(html_content)
