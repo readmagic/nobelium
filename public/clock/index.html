@@ -1,285 +1,108 @@
-<!DOCTYPE html>
-<html><head> 
-<meta charset="utf-8">
-<meta http-equiv="Cache-Control" content="no-siteapp">
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta name="applicable-device" content="pc,mobile">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>桌面时钟_在线极简时钟同步</title>
-<meta name="keywords" content="桌面时钟,在线时钟,极简时钟,时钟同步">
-<meta name="description" content="桌面时钟，在线极简同步时钟。">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<style type="text/css">
-a:link {
-	color: #FFF;
-}
-a:visited {
-	color: #FFF;
-}
-a:hover {
-	color: #F90;
-}
-a:active {
-	color: #FFF;
-}
-</style>
-</head> 
-<body> 
-<p>
-  <style>
-body {
-	background: #000
-}
+<!doctype html>
+<html>
 
-.clock {
-	position: absolute;
-	opacity: 1
-}
+<head>
+    <meta charset="utf-8">
+    <title>COOL-CLOCK</title>
 
-.fill .clock {
-	left: 50%;
-	top: 50%
-}
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
 
-.centre {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 0;
-	height: 0
-}
+        body {
+            background: #333;
+            background-size: 100%;
+            overflow: hidden;
+        }
 
-.expand {
-	position: absolute;
-	top: 0;
-	left: 0;
-	transform: translate(-50%, -50%)
-}
+        p {
+            margin: 0;
+            padding: 0;
+        }
 
-.anchor {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 0;
-	height: 0
-}
+        #clock {
+            font-family: 'Share Tech Mono', monospace;
+            text-align: center;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            color: #fff;
+            text-shadow: 0 0 30px #90aeff;
+        }
 
-.element {
-	position: absolute;
-	top: 0;
-	left: 0
-}
+        #clock .time {
+            letter-spacing: 0.05em;
+            font-size: 8em;
+            padding: .1em 0;
+        }
 
-.round {
-	border-radius: 296px
-}
+        #clock .date {
+            letter-spacing: 0.1em;
+            font-size: 1.5em;
+        }
 
-.circle-1 {
-	background: #fff;
-	width: 12px;
-	height: 12px
-}
+        #clock .text {
+            letter-spacing: 0.1em;
+            font-size: 1.5em;
+            padding-top: .3em;
+        }
+    </style>
 
-.circle-2 {
-	background: #fa9f22;
-	width: 8px;
-	height: 8px
-}
+</head>
 
-.circle-3 {
-	background: #000;
-	width: 4px;
-	height: 4px
-}
+<body>
 
-.second {
-	transform: rotate(180deg)
-}
+    <script type="text/javascript" src="./js/t.js"></script>
 
-.minute {
-	transform: rotate(54deg)
-}
+    <div id="clock">
+        <p class="date">{{ date }}</p>
+        <p class="time">{{ time }}</p>
+        <p class="text">本月剩余{{ residue }}天</p>
+    </div>
 
-.second-hand {
-	width: 2px;
-	height: 164px;
-	background: #fa9f22;
-	transform: translate(-50%, -100%) translateY(24px)
-}
+    <script>
+        var clock = new Vue({
+            el: '#clock',
+            data: {
+                time: '',
+                date: '',
+                residue: ''
+            }
+        });
 
-.hour {
-	transform: rotate(304.5deg)
-}
+        var week = ['星期天', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+        var timerID = setInterval(updateTime, 1000);
+        updateTime();
+        function updateTime() {
+            var cd = new Date();
+            clock.residue =  getMonthResidue(cd);
+            clock.time = zeroPadding(cd.getHours(), 2) + ':' + zeroPadding(cd.getMinutes(), 2) + ':' + zeroPadding(cd.getSeconds(), 2);
+            clock.date = zeroPadding(cd.getFullYear(), 4) + '-' + zeroPadding(cd.getMonth() + 1, 2) + '-' + zeroPadding(cd.getDate(), 2) + ' ' + week[cd.getDay()];
+        };
 
-.thin-hand {
-	width: 4px;
-	height: 50px;
-	background: #fff;
-	transform: translate(-50%, -100%)
-}
+        function getMonthResidue(today) {
+            var now = today.getDate();
+            var year = today.getYear();
+            if (year < 2000) year += 1900;
+            var month = today.getMonth();
+            var monarr = new Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+            if (((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0)) monarr[1] = "29";
+            return (monarr[month] - now)
+        }
 
-.fat-hand {
-	width: 10px;
-	height: 57px;
-	border-radius: 10px;
-	background: #fff;
-	transform: translate(-50%, -100%) translateY(-18px)
-}
+        function zeroPadding(num, digit) {
+            var zero = '';
+            for (var i = 0; i < digit; i++) {
+                zero += '0';
+            }
+            return (zero + num).slice(-digit);
+        }
+    </script>
+		<script src="/index.js"></script>
+  </body>
 
-.minute-hand {
-	height: 112px
-}
-
-.hour-text {
-	position: absolute;
-	font: 40px Hei, Helvetica, Arial, sans-serif;
-	color: #fff;
-	transform: translate(-50%, -50%)
-}
-
-.hour-10 {
-	padding-left: .4ex
-}
-
-.hour-11 {
-	padding-left: .25ex
-}
-
-.minute-text {
-	position: absolute;
-	font: 12px Avenir Next, Helvetica, Arial, sans-serif;
-	color: #fff;
-	transform: translate(-50%, -50%)
-}
-
-.minute-line {
-	background: #fff;
-	width: 1px;
-	height: 9px;
-	transform: translate(-50%, -100%) translateY(-131px);
-	opacity: .34
-}
-</style>
-</p><div class="fill">
-<div class="reference"></div>
-<div class="clock" id="utility-clock" style="transform: scale(0.765);">
-<div class="centre">
-<div class="dynamic"><div class="anchor" style="transform: rotate(6deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(12deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(18deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(24deg);"><div class="element minute-line"></div></div><div class="minute-text" style="top: -116.9px; left: 67.5px;">05</div><div class="anchor" style="transform: rotate(36deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(42deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(48deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(54deg);"><div class="element minute-line"></div></div><div class="minute-text" style="top: -67.5px; left: 116.9px;">10</div><div class="anchor" style="transform: rotate(66deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(72deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(78deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(84deg);"><div class="element minute-line"></div></div><div class="minute-text" style="top: 0px; left: 135px;">15</div><div class="anchor" style="transform: rotate(96deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(102deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(108deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(114deg);"><div class="element minute-line"></div></div><div class="minute-text" style="top: 67.5px; left: 116.9px;">20</div><div class="anchor" style="transform: rotate(126deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(132deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(138deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(144deg);"><div class="element minute-line"></div></div><div class="minute-text" style="top: 116.9px; left: 67.5px;">25</div><div class="anchor" style="transform: rotate(156deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(162deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(168deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(174deg);"><div class="element minute-line"></div></div><div class="minute-text" style="top: 135px; left: 0px;">30</div><div class="anchor" style="transform: rotate(186deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(192deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(198deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(204deg);"><div class="element minute-line"></div></div><div class="minute-text" style="top: 116.9px; left: -67.5px;">35</div><div class="anchor" style="transform: rotate(216deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(222deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(228deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(234deg);"><div class="element minute-line"></div></div><div class="minute-text" style="top: 67.5px; left: -116.9px;">40</div><div class="anchor" style="transform: rotate(246deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(252deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(258deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(264deg);"><div class="element minute-line"></div></div><div class="minute-text" style="top: 0px; left: -135px;">45</div><div class="anchor" style="transform: rotate(276deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(282deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(288deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(294deg);"><div class="element minute-line"></div></div><div class="minute-text" style="top: -67.5px; left: -116.9px;">50</div><div class="anchor" style="transform: rotate(306deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(312deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(318deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(324deg);"><div class="element minute-line"></div></div><div class="minute-text" style="top: -116.9px; left: -67.5px;">55</div><div class="anchor" style="transform: rotate(336deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(342deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(348deg);"><div class="element minute-line"></div></div><div class="anchor" style="transform: rotate(354deg);"><div class="element minute-line"></div></div><div class="minute-text" style="top: -135px; left: 0px;">60</div><div class="hour-text hour-1" style="top: -90.9px; left: 52.5px;">1</div><div class="hour-text hour-2" style="top: -52.5px; left: 90.9px;">2</div><div class="hour-text hour-3" style="top: 0px; left: 105px;">3</div><div class="hour-text hour-4" style="top: 52.5px; left: 90.9px;">4</div><div class="hour-text hour-5" style="top: 90.9px; left: 52.5px;">5</div><div class="hour-text hour-6" style="top: 105px; left: 0px;">6</div><div class="hour-text hour-7" style="top: 90.9px; left: -52.5px;">7</div><div class="hour-text hour-8" style="top: 52.5px; left: -90.9px;">8</div><div class="hour-text hour-9" style="top: 0px; left: -105px;">9</div><div class="hour-text hour-10" style="top: -52.5px; left: -90.9px;">10</div><div class="hour-text hour-11" style="top: -90.9px; left: -52.5px;">11</div><div class="hour-text hour-12" style="top: -105px; left: 0px;">12</div></div>
-<div class="expand round circle-1"></div>
-<div class="anchor hour" style="transform: rotate(343.348deg);">
-<div class="element thin-hand"></div>
-<div class="element fat-hand"></div>
-</div>
-<div class="anchor minute" style="transform: rotate(4120.18deg);">
-<div class="element thin-hand"></div>
-<div class="element fat-hand minute-hand"></div>
-</div>
-<div class="anchor second" style="transform: rotate(247211deg);">
-<div class="element second-hand"></div>
-</div>
-<div class="expand round circle-2"></div>
-<div class="expand round circle-3"></div>
-</div>
-</div>
-</div>
-<script type="text/javascript" charset="UTF-8" async="" src="js/js-sdk-pro.min.js" id="LA_COLLECT"></script><script>
-function toggleFullScreen() {
-  if (!document.fullscreenElement &&    // alternative standard method
-      !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement ) {  // current working methods
-    if (document.documentElement.requestFullscreen) {
-      document.documentElement.requestFullscreen();
-    } else if (document.documentElement.msRequestFullscreen) {
-      document.documentElement.msRequestFullscreen();
-    } else if (document.documentElement.mozRequestFullScreen) {
-      document.documentElement.mozRequestFullScreen();
-    } else if (document.documentElement.webkitRequestFullscreen) {
-      document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-    }
-  } else {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.msExitFullscreen) {
-      document.msExitFullscreen();
-    } else if (document.mozCancelFullScreen) {
-      document.mozCancelFullScreen();
-    } else if (document.webkitExitFullscreen) {
-      document.webkitExitFullscreen();
-    }
-  }
-}
-
-// 调用全屏函数
-toggleFullScreen();
-
-var clock = document.querySelector('#utility-clock')
-utilityClock(clock)
-if (clock.parentNode.classList.contains('fill')) autoResize(clock, 295 + 32)
-
-function utilityClock(container) {
-	var dynamic = container.querySelector('.dynamic')
-	var hourElement = container.querySelector('.hour')
-	var minuteElement = container.querySelector('.minute')
-	var secondElement = container.querySelector('.second')
-	var minute = function(n) {
-		return n % 5 == 0 ? minuteText(n) : minuteLine(n)
-	}
-	var minuteText = function(n) {
-		var element = document.createElement('div')
-		element.className = 'minute-text'
-		element.innerHTML = (n < 10 ? '0' : '') + n
-		position(element, n / 60, 135)
-		dynamic.appendChild(element)
-	}
-	var minuteLine = function(n) {
-		var anchor = document.createElement('div')
-		anchor.className = 'anchor'
-		var element = document.createElement('div')
-		element.className = 'element minute-line'
-		rotate(anchor, n)
-		anchor.appendChild(element)
-		dynamic.appendChild(anchor)
-	}
-	var hour = function(n) {
-		var element = document.createElement('div')
-		element.className = 'hour-text hour-' + n
-		element.innerHTML = n
-		position(element, n / 12, 105)
-		dynamic.appendChild(element)
-	}
-	var position = function(element, phase, r) {
-		var theta = phase * 2 * Math.PI
-		element.style.top = (-r * Math.cos(theta)).toFixed(1) + 'px'
-		element.style.left = (r * Math.sin(theta)).toFixed(1) + 'px'
-	}
-	var rotate = function(element, second) {
-		element.style.transform = element.style.webkitTransform = 'rotate(' + (second * 6) + 'deg)'
-	}
-	var animate = function() {
-		var now = new Date()
-		var time = now.getHours() * 3600 +
-			now.getMinutes() * 60 +
-			now.getSeconds() * 1 +
-			now.getMilliseconds() / 1000
-		rotate(secondElement, time)
-		rotate(minuteElement, time / 60)
-		rotate(hourElement, time / 60 / 12)
-		requestAnimationFrame(animate)
-	}
-	for (var i = 1; i <= 60; i++) minute(i)
-	for (var i = 1; i <= 12; i++) hour(i)
-	animate()
-}
-
-function autoResize(element, nativeSize) {
-	var update = function() {
-		var scale = Math.min(window.innerWidth, window.innerHeight) / nativeSize
-		element.style.transform = element.style.webkitTransform = 'scale(' + scale.toFixed(3) + ')'
-	}
-	update()
-	window.addEventListener('resize', update)
-}
-</script>
-<script language="javascript" type="text/javascript" src="js/t.js"></script><script>!function(p){'use strict';!function(t){var s=window,e=document,i=p,c=''.concat('https:'===e.location.protocol?'https://':'http://','sdk.51.la/js-sdk-pro.min.js'),n=e.createElement('script'),r=e.getElementsByTagName('script')[0];n.type='text/javascript',n.setAttribute('charset','UTF-8'),n.async=!0,n.src=c,n.id='LA_COLLECT',i.d=n;var o=function(){s.LA.ids.push(i)};s.LA?s.LA.ids&&o():(s.LA=p,s.LA.ids=[],o()),r.parentNode.insertBefore(n,r)}()}({id:'1vdgvIYlGPwXNNU6',ck:'1vdgvIYlGPwXNNU6'});</script>
-
-
-</body></html>
+</html>
