@@ -10,7 +10,8 @@ const NavBar = () => {
     { id: 1, name: locale.NAV.ABOUT, to: '/about', show: BLOG.showAbout },
     { id: 2, name: locale.NAV.RSS, to: '/feed', show: true },
     { id: 3, name: locale.NAV.SEARCH, to: '/search', show: true },
-    { id: 4, name: '极客时间', to: '/geek', show: true }
+    { id: 4, name: '极客时间', to: '/geek', show: true },
+    { id: 5, name: '桌面时钟', to: '/clock', show: true }
   ]
   return (
     <div className="flex-shrink-0">
