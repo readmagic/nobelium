@@ -183,7 +183,34 @@ body {
 </div>
 </div>
 <script type="text/javascript" charset="UTF-8" async="" src="js/js-sdk-pro.min.js" id="LA_COLLECT"></script><script>
-document.documentElement.requestFullscreen()
+function toggleFullScreen() {
+  if (!document.fullscreenElement &&    // alternative standard method
+      !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement ) {  // current working methods
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen();
+    } else if (document.documentElement.msRequestFullscreen) {
+      document.documentElement.msRequestFullscreen();
+    } else if (document.documentElement.mozRequestFullScreen) {
+      document.documentElement.mozRequestFullScreen();
+    } else if (document.documentElement.webkitRequestFullscreen) {
+      document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+    }
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
+    } else if (document.mozCancelFullScreen) {
+      document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    }
+  }
+}
+
+// 调用全屏函数
+toggleFullScreen();
+
 var clock = document.querySelector('#utility-clock')
 utilityClock(clock)
 if (clock.parentNode.classList.contains('fill')) autoResize(clock, 295 + 32)
