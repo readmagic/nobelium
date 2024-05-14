@@ -90,7 +90,7 @@
             var start = new Date('2024-05-12');
             var differenceInTime = today.getTime() - start.getTime();
             // 将毫秒差异转换为天数差异
-            var differenceInDays = differenceInTime / (1000 * 3600 * 24);
+            var differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
             return differenceInDays;
         }
         
