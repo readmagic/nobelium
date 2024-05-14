@@ -81,7 +81,7 @@
         updateTime();
         function updateTime() {
             var cd = new Date();
-            click.fish_time = fishTime(cd);
+            clock.fish_time = fishTime(cd);
             clock.residue =  getMonthResidue(cd);
             clock.time = zeroPadding(cd.getHours(), 2) + ':' + zeroPadding(cd.getMinutes(), 2) + ':' + zeroPadding(cd.getSeconds(), 2);
             clock.date = zeroPadding(cd.getFullYear(), 4) + '-' + zeroPadding(cd.getMonth() + 1, 2) + '-' + zeroPadding(cd.getDate(), 2) + ' ' + week[cd.getDay()];
