@@ -62,6 +62,7 @@
         <p class="date">{{ date }}</p>
         <p class="time">{{ time }}</p>
         <p class="text">本月剩余{{ residue }}天</p>
+        <p class="text">开缸{{ fish_time }}天</p>
     </div>
 
     <script>
@@ -70,7 +71,8 @@
             data: {
                 time: '',
                 date: '',
-                residue: ''
+                residue: '',
+                fish_time: ''
             }
         });
 
@@ -79,11 +81,19 @@
         updateTime();
         function updateTime() {
             var cd = new Date();
+            click.fish_time = fishTime(cd);
             clock.residue =  getMonthResidue(cd);
             clock.time = zeroPadding(cd.getHours(), 2) + ':' + zeroPadding(cd.getMinutes(), 2) + ':' + zeroPadding(cd.getSeconds(), 2);
             clock.date = zeroPadding(cd.getFullYear(), 4) + '-' + zeroPadding(cd.getMonth() + 1, 2) + '-' + zeroPadding(cd.getDate(), 2) + ' ' + week[cd.getDay()];
         };
-
+        function fishTime(today){
+            var start = new Date('2024-05-12');
+            var differenceInTime = today.getTime() - start.getTime();
+            // 将毫秒差异转换为天数差异
+            var differenceInDays = differenceInTime / (1000 * 3600 * 24);
+            return differenceInDays;
+        }
+        
         function getMonthResidue(today) {
             var now = today.getDate();
             var year = today.getYear();
