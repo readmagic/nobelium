@@ -83,4 +83,4 @@ mysql&gt; select * from t where id&gt;=10 and id&lt;11 for update;
 select * from t where d=5 for update; /*Q1*/
 </code></pre><p>以后，session B 的update 和session C的insert 都会被堵住。这是不是跟文章的结论矛盾？</p><p>其实不是的，这个例子用的是反证假设，就是假设不堵住，会出现问题；然后，推导出session A需要锁整个表所有的行和所有间隙。</p><p>评论区留言点赞板：</p><blockquote>
 <p>@ 某、人 、@郭江伟 两位同学尝试分析了上期问题，并给了有启发性的解答。</p>
-</blockquote><p></p>
+</blockquote><p></p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/75659' > </iframe></div>

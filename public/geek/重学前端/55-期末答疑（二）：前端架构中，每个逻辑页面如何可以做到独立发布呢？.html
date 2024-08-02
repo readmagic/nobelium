@@ -7,4 +7,4 @@ console.log(b); // [Function: b]
 })();
 </code></pre><p>答：这个地方比较特殊，“具有名称的函数表达式”会在外层词法环境和它自己执行产生的词法环境之间，产生一个词法环境，再把自己的名称和值当作变量塞进去。</p><p>所以你这里的b = 20 并没有改变外面的b，而是试图改变一个只读的变量b。这块儿的知识有点偏，你仅做理解掌握就好。</p><p><strong>25. 关于状态机这一块，我觉得是不是可以先讲一节正则的知识点呢。理解了正则，那么大家对状态机的概念就有了更加直观的理解了。</strong></p><p>答：一般正则都是状态机实现的，讲正则对理解它底层的状态机并没有多少意义。</p><p>当然了，词法分析也可以用正则来实现，我这里没有这么做而已，我写过一个JavaScript的词法分析是用正则做的，你可以参考这里:</p><ul>
 <li><a href="https://github.com/wintercn/JSinJS/blob/master/source/LexicalParser.js">https://github.com/wintercn/JSinJS/blob/master/source/LexicalParser.js</a></li>
-</ul><hr></hr><p>好了，今天的答疑就到这里，如果你还有问题，可以继续给我留言。我们一起讨论。</p><p></p>
+</ul><hr></hr><p>好了，今天的答疑就到这里，如果你还有问题，可以继续给我留言。我们一起讨论。</p><p></p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/96809' > </iframe></div>

@@ -293,4 +293,4 @@ private val responseQueue = new LinkedBlockingDeque[RequestChannel.Response]()
 <li>网络通信层由SocketServer组件和KafkaRequestHandlerPool组件构成。</li>
 <li>SocketServer实现了Reactor模式，用于高性能地并发处理I/O请求。</li>
 <li>SocketServer底层使用了Java的Selector实现NIO通信。</li>
-</ul><p><img src="https://static001.geekbang.org/resource/image/41/51/41317d400ed096bbca8efadf43186f51.jpg" alt=""></p><p>在下节课，我会重点介绍SocketServer处理不同类型Request所做的设计及其对应的代码。这是社区为了提高Broker处理控制类请求的重大举措，也是为了改善Broker一致性所做的努力，非常值得我们重点关注。</p><h2>课后讨论</h2><p>最后，请思考这样一个问题：为什么Request队列被设计成线程共享的，而Response队列则是每个Processor线程专属的？</p><p>欢迎你在留言区畅所欲言，跟我交流讨论，也欢迎你把今天的内容分享给你的朋友。</p>
+</ul><p><img src="https://static001.geekbang.org/resource/image/41/51/41317d400ed096bbca8efadf43186f51.jpg" alt=""></p><p>在下节课，我会重点介绍SocketServer处理不同类型Request所做的设计及其对应的代码。这是社区为了提高Broker处理控制类请求的重大举措，也是为了改善Broker一致性所做的努力，非常值得我们重点关注。</p><h2>课后讨论</h2><p>最后，请思考这样一个问题：为什么Request队列被设计成线程共享的，而Response队列则是每个Processor线程专属的？</p><p>欢迎你在留言区畅所欲言，跟我交流讨论，也欢迎你把今天的内容分享给你的朋友。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/231139' > </iframe></div>

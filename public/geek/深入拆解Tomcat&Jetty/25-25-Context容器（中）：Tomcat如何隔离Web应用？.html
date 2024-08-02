@@ -14,4 +14,4 @@
 </ul><p>线程上下文加载器不仅仅可以用在Tomcat和Spring类加载的场景里，核心框架类需要加载具体实现类时都可以用到它，比如我们熟悉的JDBC就是通过上下文类加载器来加载不同的数据库驱动的，感兴趣的话可以深入了解一下。</p><h2>课后思考</h2><p>在StandardContext的启动方法里，会将当前线程的上下文加载器设置为WebAppClassLoader。</p><pre><code>originalClassLoader = Thread.currentThread().getContextClassLoader();
 Thread.currentThread().setContextClassLoader(webApplicationClassLoader);
 </code></pre><p>在启动方法结束的时候，还会恢复线程的上下文加载器：</p><pre><code>Thread.currentThread().setContextClassLoader(originalClassLoader);
-</code></pre><p>这是为什么呢？</p><p>不知道今天的内容你消化得如何？如果还有疑问，请大胆的在留言区提问，也欢迎你把你的课后思考和心得记录下来，与我和其他同学一起讨论。如果你觉得今天有所收获，欢迎你把它分享给你的朋友。</p>
+</code></pre><p>这是为什么呢？</p><p>不知道今天的内容你消化得如何？如果还有疑问，请大胆的在留言区提问，也欢迎你把你的课后思考和心得记录下来，与我和其他同学一起讨论。如果你觉得今天有所收获，欢迎你把它分享给你的朋友。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/105711' > </iframe></div>

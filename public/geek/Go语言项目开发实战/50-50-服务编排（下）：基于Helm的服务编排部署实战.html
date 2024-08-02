@@ -144,4 +144,4 @@ iamctl-59fdc4995-xrzhn&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 1/1&nbsp;
 </code></pre><h2>总结</h2><p>这一讲，我们通过 <code>helm create iam</code> 创建了一个模板Chart，并基于这个模板Chart包进行了二次开发，最终创建了IAM应用的Helm Chart包：<a href="https://github.com/marmotedu/iam/tree/v1.1.0/deployments/iam">deployments/iam</a>。</p><p>有了Helm Chart包，我们就可以通过 <code>helm -n iam install iam deployments/iam</code> 命令来一键部署好整个IAM应用。当IAM应用中的所有Pod都处在 <code>Running</code> 状态后，说明IAM应用被成功部署。</p><p>最后，我们可以登录iamctl容器，执行 <code>test.sh iam::test::smoke</code> 命令，来对IAM应用进行冒烟测试。</p><h2>课后练习</h2><ol>
 <li>试着在Helm Chart中加入MariaDB、MongoDB、Redis模板，通过Helm一键部署好整个IAM应用。</li>
 <li>试着通过 <code>helm</code> 命令升级、回滚和删除IAM应用。</li>
-</ol><p>欢迎你在留言区与我交流讨论，我们下一讲见。</p>
+</ol><p>欢迎你在留言区与我交流讨论，我们下一讲见。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/421843' > </iframe></div>

@@ -54,4 +54,4 @@ $ bridge fdb show flannel.1 | grep 5e:f8:4f:00:e3:37
 <code>--cluster-cidr=10.244.0.0/16</code><br>
 第四步， 重启所有kubelet；<br>
 第五步， 执行<code>$ kubectl create -f https://raw.githubusercontent.com/coreos/flannel/bc79dd1505b0c8681ece4de4c0d86c5cd2643275/Documentation/kube-flannel.yml</code>。</p>
-</blockquote><h2>思考题</h2><p>可以看到，Flannel通过上述的“隧道”机制，实现了容器之间三层网络（IP地址）的连通性。但是，根据这个机制的工作原理，你认为Flannel能负责保证二层网络（MAC地址）的连通性吗？为什么呢？</p><p>感谢你的收听，欢迎你给我留言，也欢迎分享给更多的朋友一起阅读。</p>
+</blockquote><h2>思考题</h2><p>可以看到，Flannel通过上述的“隧道”机制，实现了容器之间三层网络（IP地址）的连通性。但是，根据这个机制的工作原理，你认为Flannel能负责保证二层网络（MAC地址）的连通性吗？为什么呢？</p><p>感谢你的收听，欢迎你给我留言，也欢迎分享给更多的朋友一起阅读。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/65287' > </iframe></div>

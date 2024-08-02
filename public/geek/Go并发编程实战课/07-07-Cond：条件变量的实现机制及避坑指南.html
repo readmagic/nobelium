@@ -166,4 +166,4 @@ func (p *PriorityQueue) Add(pod *v1.Pod) error {
 </code></pre><p>你可以思考一下，这里为什么使用Cond这个并发原语，能不能换成Channel实现呢？</p><h2>总结</h2><p>好了，我们来做个总结。</p><p>Cond是为等待/通知场景下的并发问题提供支持的。它提供了条件变量的三个基本方法Signal、Broadcast和Wait，为并发的goroutine提供等待/通知机制。</p><p>在实践中，处理等待/通知的场景时，我们常常会使用Channel替换Cond，因为Channel类型使用起来更简洁，而且不容易出错。但是对于需要重复调用Broadcast的场景，比如上面Kubernetes的例子，每次往队列中成功增加了元素后就需要调用Broadcast通知所有的等待者，使用Cond就再合适不过了。</p><p>使用Cond之所以容易出错，就是Wait调用需要加锁，以及被唤醒后一定要检查条件是否真的已经满足。你需要牢记这两点。</p><p>虽然我们讲到的百米赛跑的例子，也可以通过WaitGroup来实现，但是本质上WaitGroup和Cond是有区别的：WaitGroup是主goroutine等待确定数量的子goroutine完成任务；而Cond是等待某个条件满足，这个条件的修改可以被任意多的goroutine更新，而且Cond的Wait不关心也不知道其他goroutine的数量，只关心等待条件。而且Cond还有单个通知的机制，也就是Signal方法。</p><p><img src="https://static001.geekbang.org/resource/image/47/5d/477157d2dbe1b7e4511f56c2c9c2105d.jpg" alt=""></p><h2>思考题</h2><ol>
 <li>一个Cond的waiter被唤醒的时候，为什么需要再检查等待条件，而不是唤醒后进行下一步？</li>
 <li>你能否利用Cond实现一个容量有限的queue？</li>
-</ol><p>欢迎在留言区写下你的思考和答案，我们一起交流讨论。如果你觉得有所收获，也欢迎你把今天的内容分享给你的朋友或同事。</p>
+</ol><p>欢迎在留言区写下你的思考和答案，我们一起交流讨论。如果你觉得有所收获，也欢迎你把今天的内容分享给你的朋友或同事。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/299312' > </iframe></div>

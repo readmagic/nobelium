@@ -239,4 +239,4 @@ hello     */1 * * * *   False     0         Thu, 6 Sep 2018 14:34:00 -070
 </li>
 </ol><p>而如果某一次Job创建失败，这次创建就会被标记为“miss”。当在指定的时间窗口内，miss的数目达到100时，那么CronJob会停止再创建这个Job。</p><p>这个时间窗口，可以由spec.startingDeadlineSeconds字段指定。比如startingDeadlineSeconds=200，意味着在过去200 s里，如果miss的数目达到了100次，那么这个Job就不会被创建执行了。</p><h2>总结</h2><p>在今天这篇文章中，我主要和你分享了Job这个离线业务的编排方法，讲解了completions和parallelism字段的含义，以及Job Controller的执行原理。</p><p>紧接着，我通过实例和你分享了Job对象三种常见的使用方法。但是，根据我在社区和生产环境中的经验，大多数情况下用户还是更倾向于自己控制Job对象。所以，相比于这些固定的“模式”，掌握Job的API对象，和它各个字段的准确含义会更加重要。</p><p>最后，我还介绍了一种Job的控制器，叫作：CronJob。这也印证了我在前面的分享中所说的：用一个对象控制另一个对象，是Kubernetes编排的精髓所在。</p><h2>思考题</h2><p>根据Job控制器的工作原理，如果你定义的parallelism比completions还大的话，比如：</p><pre><code> parallelism: 4
  completions: 2
-</code></pre><p>那么，这个Job最开始创建的时候，会同时启动几个Pod呢？原因是什么？</p><p>感谢你的收听，欢迎你给我留言，也欢迎分享给更多的朋友一起阅读。</p>
+</code></pre><p>那么，这个Job最开始创建的时候，会同时启动几个Pod呢？原因是什么？</p><p>感谢你的收听，欢迎你给我留言，也欢迎分享给更多的朋友一起阅读。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/41607' > </iframe></div>

@@ -179,4 +179,4 @@ if err := client.Get().AbsPath("/version").Do(context.TODO()).Into(&amp;serverVe
 </code></pre><p>上面的代码请求了iam-apiserver的/version接口，并将返回结果保存在 <code>serverVersion</code> 变量中。</p><h2>总结</h2><p>这一讲，我主要剖析了iamctl命令行工具的实现，进而向你介绍了如何实现一个优秀的客户端工具。</p><p>对于一个大型系统 <code>xxx</code> 来说，通常需要有一个 <code>xxxctl</code> 命令行工具， <code>xxxctl</code> 命令行工具可以方便开发、运维使用系统功能，并能实现功能自动化。</p><p>IAM项目参考kubectl，实现了命令行工具 iamctl。iamctl集成了很多功能，我们可以通过iamctl子命令来使用这些功能。例如，我们可以通过iamctl对用户、密钥和策略进行CURD操作；可以设置iamctl自动补全脚本；可以查看IAM系统的版本信息。甚至，你还可以使用 <code>iamctl new</code> 命令，快速创建一个iamctl子命令模板。</p><p>iamctl使用了cobra、pflag、viper包来构建，每个子命令又包含了一些基本的功能，例如短描述、长描述、使用示例、命令行选项、选项校验等。iamctl命令可以加载不同的配置文件，来连接不同的客户端。iamctl通过SDK调用、REST API调用两种方式来调用服务端API接口。</p><h2>课后练习</h2><ol>
 <li>尝试在 <code>iamctl</code> 中添加一个 <code>cliprint</code> 子命令，该子命令会读取并打印命令行选项。</li>
 <li>思考下，还有哪些好的命令行工具构建方式，欢迎在留言区分享。</li>
-</ol><p>欢迎你在留言区与我交流讨论，我们下一讲见。</p>
+</ol><p>欢迎你在留言区与我交流讨论，我们下一讲见。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/407922' > </iframe></div>

@@ -80,4 +80,4 @@ case _, ok := &lt;-intChan:
 </ol><p>我把与以上规则相关的示例放在demo25.go文件中了。你一定要去试运行一下，然后尝试用上面的规则去解释它的输出内容。</p><p><strong>总结</strong></p><p>今天，我们先讲了单向通道的表示方法，操作符“<code>&lt;-</code>”仍然是关键。如果只用一个词来概括单向通道存在的意义的话，那就是“约束”，也就是对代码的约束。</p><p>我们可以使用带<code>range</code>子句的<code>for</code>语句从通道中获取数据，也可以通过<code>select</code>语句操纵通道。</p><p><code>select</code>语句是专门为通道而设计的，它可以包含若干个候选分支，每个分支中的<code>case</code>表达式都会包含针对某个通道的发送或接收操作。</p><p>当<code>select</code>语句被执行时，它会根据一套<strong>分支选择规则</strong>选中某一个分支并执行其中的代码。如果所有的候选分支都没有被选中，那么默认分支（如果有的话）就会被执行。注意，发送和接收操作的阻塞是分支选择规则的一个很重要的依据。</p><p><strong>思考题</strong></p><p>今天的思考题都由上述内容中的线索延伸而来。</p><ol>
 <li>如果在<code>select</code>语句中发现某个通道已关闭，那么应该怎样屏蔽掉它所在的分支？</li>
 <li>在<code>select</code>语句与<code>for</code>语句联用时，怎样直接退出外层的<code>for</code>语句？</li>
-</ol><p><a href="https://github.com/hyper0x/Golang_Puzzlers">戳此查看Go语言专栏文章配套详细代码。</a></p>
+</ol><p><a href="https://github.com/hyper0x/Golang_Puzzlers">戳此查看Go语言专栏文章配套详细代码。</a></p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/14664' > </iframe></div>

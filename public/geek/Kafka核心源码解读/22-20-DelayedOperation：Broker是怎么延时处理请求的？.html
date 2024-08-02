@@ -221,4 +221,4 @@
 </ul><p>总的来说，延迟请求模块属于Kafka的冷门组件。毕竟，大部分的请求还是能够被立即处理的。了解这部分模块的最大意义在于，你可以学习Kafka这个分布式系统是如何异步循环操作和管理定时任务的。这个功能是所有分布式系统都要面临的课题，因此，弄明白了这部分的原理和代码实现，后续我们在自行设计类似的功能模块时，就非常容易了。</p><h2>课后讨论</h2><p>DelayedOperationPurgatory类中定义了一个Reaper线程，用于将已过期的延迟请求从数据结构中移除掉。这实际上是由DelayedOperationPurgatory的advanceClock方法完成的。它里面有这样一句：</p><pre><code>val purged = watcherLists.foldLeft(0) {
   case (sum, watcherList) =&gt; sum + watcherList.allWatchers.map(_.purgeCompleted()).sum
 }
-</code></pre><p>你觉得这个语句是做什么用的？</p><p>欢迎在留言区写下你的思考和答案，跟我交流讨论，也欢迎你把今天的内容分享给你的朋友。</p>
+</code></pre><p>你觉得这个语句是做什么用的？</p><p>欢迎在留言区写下你的思考和答案，跟我交流讨论，也欢迎你把今天的内容分享给你的朋友。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/245869' > </iframe></div>

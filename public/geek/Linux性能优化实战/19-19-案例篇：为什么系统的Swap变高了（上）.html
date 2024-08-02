@@ -78,4 +78,4 @@ Node 0, zone   Normal
 <li>
 <p>而对匿名页的回收，需要通过Swap换出到磁盘中，下次访问时，再从磁盘换入到内存中。</p>
 </li>
-</ul><p>你可以设置/proc/sys/vm/min_free_kbytes，来调整系统定期回收内存的阈值（也就是页低阈值），还可以设置/proc/sys/vm/swappiness，来调整文件页和匿名页的回收倾向。</p><p>在 NUMA 架构下，每个 Node 都有自己的本地内存空间，而当本地内存不足时，默认既可以从其他 Node 寻找空闲内存，也可以从本地内存回收。</p><p>你可以设置 /proc/sys/vm/zone_reclaim_mode ，来调整NUMA本地内存的回收策略。</p><h2>思考</h2><p>最后，我想请你一起来聊聊你理解的 SWAP。我估计你以前已经碰到过 Swap 导致的性能问题，你是怎么分析这些问题的呢？你可以结合今天讲的 Swap 原理，记录自己的操作步骤，总结自己的解决思路。</p><p>欢迎在留言区和我讨论，也欢迎把这篇文章分享给你的同事、朋友。我们一起在实战中演练，在交流中进步。</p><p></p>
+</ul><p>你可以设置/proc/sys/vm/min_free_kbytes，来调整系统定期回收内存的阈值（也就是页低阈值），还可以设置/proc/sys/vm/swappiness，来调整文件页和匿名页的回收倾向。</p><p>在 NUMA 架构下，每个 Node 都有自己的本地内存空间，而当本地内存不足时，默认既可以从其他 Node 寻找空闲内存，也可以从本地内存回收。</p><p>你可以设置 /proc/sys/vm/zone_reclaim_mode ，来调整NUMA本地内存的回收策略。</p><h2>思考</h2><p>最后，我想请你一起来聊聊你理解的 SWAP。我估计你以前已经碰到过 Swap 导致的性能问题，你是怎么分析这些问题的呢？你可以结合今天讲的 Swap 原理，记录自己的操作步骤，总结自己的解决思路。</p><p>欢迎在留言区和我讨论，也欢迎把这篇文章分享给你的同事、朋友。我们一起在实战中演练，在交流中进步。</p><p></p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/75797' > </iframe></div>

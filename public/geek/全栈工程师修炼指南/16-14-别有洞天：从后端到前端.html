@@ -34,4 +34,4 @@ undefined
 <li>有位工程师做了一个<a href="http://latentflip.com/loupe/?code=Y29uc29sZS5sb2coIjEiKTsKCnNldFRpbWVvdXQoZnVuY3Rpb24gdGltZW91dCgpIHsKICAgIGNvbnNvbGUubG9nKCIyIik7Cn0sIDApOwoKc2V0VGltZW91dChmdW5jdGlvbiB0aW1lb3V0KCkgewogICAgY29uc29sZS5sb2coIjMiKTsKfSwgNTAwMCk7Cgpjb25zb2xlLmxvZygiNCIpOw%3D%3D!!!PGJ1dHRvbj5DbGljayBtZSE8L2J1dHRvbj4%3D">名为 Loupe的网站</a>，用动画来形象地展示事件循环的过程，本文的例子也可以在它上面运行。</li>
 <li>为什么浏览器中 JavaScript 代码的执行设计成单线程的，还有一个文中没有提到的原因，就是多线程的 GUI 特别容易死锁。这篇文章 <a href="https://community.oracle.com/blogs/kgh/2004/10/19/multithreaded-toolkits-failed-dream">Multithreaded toolkits: A failed dream?</a> 描述了其中的缘由，大致是说 GUI 的行为大多都是从更高层的抽象一层一层往下调用到更低层的抽象、具体工具类实现，再到操作系统；而事件则是反过来，从下往上冒泡。结果就是两个方向相反的行为在碰头，给资源加锁的时候一个正序，一个逆序，极其容易出现互相等待而饿死的情况，而这种情况下要彻底解决这一问题的难度无异于“逆转潮汐”。</li>
 <li><a href="https://www.html5rocks.com/zh/tutorials/internals/howbrowserswork/">浏览器的工作原理：新式网络浏览器幕后揭秘</a>，这可能是在互联网上流传最广泛地介绍浏览器工作原理的中文文章，非常推荐。</li>
-</ul><p></p>
+</ul><p></p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/145875' > </iframe></div>

@@ -157,4 +157,4 @@ ioctl(5, PERF_EVENT_IOC_SET_BPF, 4)     = 0
 </ul><p>对于绑定性能监控（perf event）的内核实现原理，你也不需要详细了解，只需要知道它的具体功能，就足够我们掌握 eBPF 了。如果你对它的实现方法有兴趣的话，可以参考内核源码 <a href="https://elixir.bootlin.com/linux/v5.4/source/kernel/events/core.c#L9039">perf_event_set_bpf_prog</a> 的实现；而最终性能监控调用 BPF 程序的实现，则可以参考内核源码 <a href="https://elixir.bootlin.com/linux/v5.4/source/kernel/trace/trace_kprobe.c#L1351">kprobe_perf_func</a> 的实现。</p><h2>小结</h2><p>今天，我带你一起梳理了 eBPF 在内核中的实现原理，并以上一讲的 Hello World 程序为例，借助 bpftool、strace 等工具，带你观察了 BPF 指令的具体格式。</p><p>然后，我们从 BCC 执行 eBPF 程序的过程入手，一起看了BPF 指令的加载和执行过程。用高级语言开发的 eBPF 程序，需要首先编译为 BPF 字节码（即 BPF 指令），然后借助  <code>bpf</code>  系统调用加载到内核中，最后再通过性能监控等接口，与具体的内核事件进行绑定。这样，内核的性能监控模块才会在内核事件发生时，自动执行我们开发的 eBPF 程序。</p><h2>思考题</h2><p>最后，我想邀请你来聊一聊这两个问题。</p><ol>
 <li>你通常是如何快速理解一门新技术的运行原理的？</li>
 <li>在今天的内容中，我使用 strace 跟踪 BCC 程序，进而找到了相关的系统调用。那么，有没有可能直接使用 BCC 来跟踪  <code>bpf</code> 系统调用呢？如果你的答案是肯定的，可以试着把它开发出来，并在评论区分享你的实践经验。</li>
-</ol><p>欢迎在留言区和我讨论，也欢迎把这节课分享给你的同事、朋友。我们一起在实战中演练，在交流中进步。</p>
+</ol><p>欢迎在留言区和我讨论，也欢迎把这节课分享给你的同事、朋友。我们一起在实战中演练，在交流中进步。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/481889' > </iframe></div>

@@ -25,4 +25,4 @@ transactionsDF.join(bcUserDF, Seq(“userID”), “inner”)
 "></p><p>利用广播变量，我们成功地避免了海量数据在集群内的存储、分发，节省了原本由Shuffle引入的磁盘和网络开销，大幅提升运行时执行性能。当然，采用广播变量优化也是有成本的，毕竟广播变量的创建和分发，也是会带来网络开销的。但是，相比大表的全网分发，小表的网络开销几乎可以忽略不计。这种小投入、大产出，用极小的成本去博取高额的性能收益，真可以说是“四两拨千斤”！</p><h2>小结</h2><p>在数据关联场景中，广播变量是克制Shuffle的杀手锏。掌握了它，我们就能以极小的成本，获得高额的性能收益。关键是我们要掌握两种创建广播变量的方式。</p><p>第一种，从普通变量创建广播变量。在广播变量的运行机制下，普通变量存储的数据封装成广播变量，由Driver端以Executors为粒度进行分发，每一个Executors接收到广播变量之后，将其交由BlockManager管理。</p><p>第二种，从分布式数据集创建广播变量，这就要比第一种方式复杂一些了。第一步，Driver需要从所有的Executors拉取数据分片，然后在本地构建全量数据；第二步，Driver把汇总好的全量数据分发给各个Executors，Executors再将接收到的全量数据缓存到存储系统的BlockManager中。</p><p>结合这两种方式，我们在做数据关联的时候，把Shuffle Joins转换为Broadcast Joins，就可以用小表广播来代替大表的全网分发，真正做到克制Shuffle。</p><h2>每日一练</h2><ol>
 <li>Spark广播机制现有的实现方式是存在隐患的，在数据量较大的情况下，Driver可能会成为瓶颈，你能想到更好的方式来重新实现Spark的广播机制吗？（提示：<a href="https://issues.apache.org/jira/browse/SPARK-17556">SPARK-17556</a>）</li>
 <li>在什么情况下，不适合把Shuffle Joins转换为Broadcast Joins？</li>
-</ol><p>期待在留言区看到你的思考和答案，我们下一讲见！</p>
+</ol><p>期待在留言区看到你的思考和答案，我们下一讲见！</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/359924' > </iframe></div>

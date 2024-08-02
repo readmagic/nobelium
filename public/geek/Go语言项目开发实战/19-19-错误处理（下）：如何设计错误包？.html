@@ -365,4 +365,4 @@ func GetUser(c *gin.Context) {
 </code></pre><p>上述代码中，通过<code>WriteResponse</code>统一处理错误。在 <code>WriteResponse</code> 函数中，如果<code>err != nil</code>，则从error中解析出Coder，并调用Coder提供的方法，获取错误相关的Http Status Code、int类型的业务码、暴露给用户的信息、错误的参考文档链接，并返回JSON格式的信息。如果 <code>err == nil</code> 则返回200和数据。</p><h2>总结</h2><p>记录错误是应用程序必须要做的一件事情，在实际开发中，我们通常会封装自己的错误包。一个优秀的错误包，应该能够支持错误堆栈、不同的打印格式、Wrap/Unwrap/Is/As等函数，并能够支持格式化创建error。</p><p>根据这些错误包设计要点，我基于 <code>github.com/pkg/errors</code> 包设计了IAM项目的错误包 <code>github.com/marmotedu/errors</code> ，该包符合我们上一讲设计的错误码规范。</p><p>另外，本讲也给出了一个具体的错误码实现 sample-code ， sample-code 支持业务Code码、HTTP Status Code、错误参考文档、可以对内对外展示不同的错误信息。</p><p>最后，因为错误码注释是有固定格式的，所以我们可以通过codegen工具解析错误码的注释，生成register函数调用和错误码文档。这种做法也体现了我一直强调的low code思想，可以提高开发效率，减少人为失误。</p><h2>课后练习</h2><ol>
 <li>在这门课里，我们定义了base、iam-apiserver服务的错误码，请试着定义iam-authz-server服务的错误码，并生成错误码文档。</li>
 <li>思考下，这门课的错误包和错误码设计能否满足你当前的项目需求，如果觉得不能满足，可以在留言区分享你的看法。</li>
-</ol><p>欢迎你在留言区与我交流讨论，我们下一讲见。</p>
+</ol><p>欢迎你在留言区与我交流讨论，我们下一讲见。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/393022' > </iframe></div>

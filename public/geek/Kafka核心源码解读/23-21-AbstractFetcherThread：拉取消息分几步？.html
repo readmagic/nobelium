@@ -98,4 +98,4 @@ ResultWithPartitions[Option[ReplicaFetch]]
 <li>AbstractFetcherThread类：拉取线程的抽象基类。它定义了公共方法来处理所有拉取线程都要实现的逻辑，如执行截断操作，获取消息等。</li>
 <li>拉取线程逻辑：循环执行截断操作和获取数据操作。</li>
 <li>分区读取状态：当前，源码定义了3类分区读取状态。拉取线程只能拉取处于可读取状态的分区的数据。</li>
-</ul><p><img src="https://static001.geekbang.org/resource/image/75/8d/750998c099f3d3575f6ba4c418bfce8d.jpg" alt=""></p><p>下节课，我会带你一起对照着doWork方法的代码，把拉取线程的完整执行逻辑串联一遍，这样的话，我们就能彻底掌握Follower副本拉取线程的工作原理了。在这个过程中，我们还会陆续接触到ReplicaFetcherThread类源码的3个重要方法的代码。你需要理解它们的实现机制以及doWork是怎么把它们组织在一起的。</p><h2>课后讨论</h2><p>请简单描述一下handlePartitionsWithErrors方法的实现原理。</p><p>欢迎在留言区写下你的思考和答案，跟我交流讨论，也欢迎你把今天的内容分享给你的朋友。</p>
+</ul><p><img src="https://static001.geekbang.org/resource/image/75/8d/750998c099f3d3575f6ba4c418bfce8d.jpg" alt=""></p><p>下节课，我会带你一起对照着doWork方法的代码，把拉取线程的完整执行逻辑串联一遍，这样的话，我们就能彻底掌握Follower副本拉取线程的工作原理了。在这个过程中，我们还会陆续接触到ReplicaFetcherThread类源码的3个重要方法的代码。你需要理解它们的实现机制以及doWork是怎么把它们组织在一起的。</p><h2>课后讨论</h2><p>请简单描述一下handlePartitionsWithErrors方法的实现原理。</p><p>欢迎在留言区写下你的思考和答案，跟我交流讨论，也欢迎你把今天的内容分享给你的朋友。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/247889' > </iframe></div>

@@ -24,4 +24,4 @@
 </ul><p>你同意哪个观点呢？</p><p>其实，这个问题本身就是个伪命题，单单通过题干中的信息是不足以给出孰好孰坏的结论的。这里的关键是，随着并发用户数的上升，事务的响应时间是如何变化的。</p><p>如果随着并发用户数的增加，事务的响应时间也呈线性增长，但CPU的使用率一直上不去，这就是典型的CPU资源没有被充分利用的现象。此时，你就需要去进一步诊断为什么CPU资源不能在并发场景下被充分利用。</p><p>而如果随着并发用户数的增加，事务的响应时间能基本保持稳定，同时CPU的使用率会随着并发用户数的增加呈线性增加，这反倒是我们希望看到的结果，也就是说更多的并发用户会需要使用更多的CPU资源。</p><p><span class="orange">5.  当需要在尽可能短的时间内，执行完大量GUI自动化测试用例时，业界主流的解决方案是什么？</span></p><p><strong>考点分析：测试执行架构的设计</strong></p><p><strong>答案与解析：</strong></p><p>这个问题其实不难回答，业界一般会采用两种方案：</p><ul>
 <li>一种是，使用第三方的云测服务，比如国外的Sauce Labs、国内的Testin等；</li>
 <li>另一种是，自己搭建Selenium Grid集群。</li>
-</ul><p>其实，这两种方案的本质都是将大量的测试用例以并发的方式来执行。更多的技术细节，你可以参考第39篇文章<a href="https://time.geekbang.org/column/article/40468">《从小作坊到工厂：什么是Selenium Grid？如何搭建Selenium Grid？》</a>中的相关内容。</p>
+</ul><p>其实，这两种方案的本质都是将大量的测试用例以并发的方式来执行。更多的技术细节，你可以参考第39篇文章<a href="https://time.geekbang.org/column/article/40468">《从小作坊到工厂：什么是Selenium Grid？如何搭建Selenium Grid？》</a>中的相关内容。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/69663' > </iframe></div>

@@ -70,4 +70,4 @@ var f = function(){
 var g = f/*这里没有被自动插入分号*/
 `Template`.match(/(a)/);
 console.log(RegExp.$1)
-</code></pre><p>这段代码本意是声明函数f，然后赋值给g，再测试Template中是否含有字母a。但是因为没有自动插入分号，函数f被认为跟Template一体的，进而被莫名其妙地执行了一次。</p><h2>总结</h2><p>这一节课，我们讨论了要不要加分号的问题。</p><p>首先我们介绍了自动插入分号机制，又对JavaScript语法中的no line terminator规则做了个整理，最后，我挑选了几种情况，为你介绍了不写分号需要注意的一些常见的错误。</p><p>最后留给你一个问题，请找一些开源项目，看看它们的编码规范是否要求加分号，欢迎留言讨论。</p>
+</code></pre><p>这段代码本意是声明函数f，然后赋值给g，再测试Template中是否含有字母a。但是因为没有自动插入分号，函数f被认为跟Template一体的，进而被莫名其妙地执行了一次。</p><h2>总结</h2><p>这一节课，我们讨论了要不要加分号的问题。</p><p>首先我们介绍了自动插入分号机制，又对JavaScript语法中的no line terminator规则做了个整理，最后，我挑选了几种情况，为你介绍了不写分号需要注意的一些常见的错误。</p><p>最后留给你一个问题，请找一些开源项目，看看它们的编码规范是否要求加分号，欢迎留言讨论。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/87179' > </iframe></div>

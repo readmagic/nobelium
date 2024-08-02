@@ -218,4 +218,4 @@ java.lang.OutOfMemoryError: Java heap space
 </code></pre><p>今天用到的代码，我都放在了GitHub上，你可以点击<a href="https://github.com/JosephZhu1983/java-common-mistakes">这个链接</a>查看。</p><h2>思考与讨论</h2><ol>
 <li>Spring的ConcurrentReferenceHashMap，针对Key和Value支持软引用和弱引用两种方式。你觉得哪种方式更适合做缓存呢？</li>
 <li>当我们需要动态执行一些表达式时，可以使用Groovy动态语言实现：new出一个GroovyShell类，然后调用evaluate方法动态执行脚本。这种方式的问题是，会重复产生大量的类，增加Metaspace区的GC负担，有可能会引起OOM。你知道如何避免这个问题吗？</li>
-</ol><p>针对OOM或内存泄露，你还遇到过什么案例吗？我是朱晔，欢迎在评论区与我留言分享，也欢迎你把今天的内容分享给你的朋友或同事，一起交流。</p>
+</ol><p>针对OOM或内存泄露，你还遇到过什么案例吗？我是朱晔，欢迎在评论区与我留言分享，也欢迎你把今天的内容分享给你的朋友或同事，一起交流。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/224784' > </iframe></div>

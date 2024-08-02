@@ -86,4 +86,4 @@ spec:
 <p>Pod，实际上是在扮演传统基础设施里“虚拟机”的角色；而容器，则是这个虚拟机里运行的用户程序。</p>
 </blockquote><p>所以下一次，当你需要把一个运行在虚拟机里的应用迁移到Docker容器中时，一定要仔细分析到底有哪些进程（组件）运行在这个虚拟机里。</p><p>然后，你就可以把整个虚拟机想象成为一个Pod，把这些进程分别做成容器镜像，把有顺序关系的容器，定义为Init Container。这才是更加合理的、松耦合的容器编排诀窍，也是从传统应用架构，到“微服务架构”最自然的过渡方式。</p><blockquote>
 <p>注意：Pod这个概念，提供的是一种编排思想，而不是具体的技术方案。所以，如果愿意的话，你完全可以使用虚拟机来作为Pod的实现，然后把用户容器都运行在这个虚拟机里。比如，Mirantis公司的<a href="https://github.com/Mirantis/virtlet">virtlet项目</a>就在干这个事情。甚至，你可以去实现一个带有Init进程的容器项目，来模拟传统应用的运行方式。这些工作，在Kubernetes中都是非常轻松的，也是我们后面讲解CRI时会提到的内容。</p>
-</blockquote><p>相反的，如果强行把整个应用塞到一个容器里，甚至不惜使用Docker In Docker这种在生产环境中后患无穷的解决方案，恐怕最后往往会得不偿失。</p><h2>思考题</h2><p>除了Network Namespace外，Pod里的容器还可以共享哪些Namespace呢？你能说出共享这些Namesapce的具体应用场景吗？</p><p>感谢你的收听，欢迎你给我留言，也欢迎分享给更多的朋友一起阅读。</p><p></p>
+</blockquote><p>相反的，如果强行把整个应用塞到一个容器里，甚至不惜使用Docker In Docker这种在生产环境中后患无穷的解决方案，恐怕最后往往会得不偿失。</p><h2>思考题</h2><p>除了Network Namespace外，Pod里的容器还可以共享哪些Namespace呢？你能说出共享这些Namesapce的具体应用场景吗？</p><p>感谢你的收听，欢迎你给我留言，也欢迎分享给更多的朋友一起阅读。</p><p></p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/40092' > </iframe></div>

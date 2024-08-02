@@ -60,4 +60,4 @@ net.core.default_qdisc = fq
 </ul><p>然后，我们也知道了拥塞窗口（CW）是每条连接分开各自维护的，以及初始拥塞窗口（ICW）的概念，并且知道，从Linux 3.0内核开始，ICW已经提升到10个MSS。</p><p>在Wireshark使用技巧上，你也要清楚如何用 <strong>TCP Stream Graphs</strong> 的Time sequence (Stevens)小工具，来观察慢启动和拥塞避免等现象，包括其中发生的快速重传等行为，都可以在图上看到，这非常有利于你的排查工作。</p><p>除此之外，我们也可以对拥塞控制做一些调整：</p><ul>
 <li>用<code>ip route change</code>命令，调整某个网卡接口的初始拥塞窗口。</li>
 <li>用<code>sysctl net.ipv4.tcp_congestion_control</code>命令，查看和修改内核使用的拥塞控制算法。</li>
-</ul><h2>思考题</h2><p>你在工作中有没有遇到拥塞引起的问题，或者有没有在抓包分析过程中，观察到过拥塞现象呢？欢迎在留言区分享你的经验，我们一同成长、进步。</p><h2>附件</h2><p>抓包示例文件：<a href="https://gitee.com/steelvictor/network-analysis/tree/master/11">https://gitee.com/steelvictor/network-analysis/tree/master/11</a></p>
+</ul><h2>思考题</h2><p>你在工作中有没有遇到拥塞引起的问题，或者有没有在抓包分析过程中，观察到过拥塞现象呢？欢迎在留言区分享你的经验，我们一同成长、进步。</p><h2>附件</h2><p>抓包示例文件：<a href="https://gitee.com/steelvictor/network-analysis/tree/master/11">https://gitee.com/steelvictor/network-analysis/tree/master/11</a></p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/486281' > </iframe></div>

@@ -309,4 +309,4 @@ private def processStartup(): Unit = {
 <li>Controller依赖ZooKeeper实现Controller选举，主要是借助于/controller临时节点和ZooKeeper的监听器机制。</li>
 <li>Controller触发场景有3种：集群启动时；/controller节点被删除时；/controller节点数据变更时。</li>
 <li>源码最终调用elect方法实现Controller选举。</li>
-</ul><p><img src="https://static001.geekbang.org/resource/image/e2/74/e28c134e4fd11ff8ed87933aee88d374.jpg" alt=""></p><p>下节课，我将带你学习Controller的其他重要功能，包括它如何管理Broker和副本等。你千万不要错过。</p><h2>课后讨论</h2><p>在这节课刚开始的时候，我提到，删除/controller会触发Controller选举，之后会同步集群元数据信息。那么，你知道源码是在哪里更新的元数据请求吗？</p><p>欢迎你在留言区畅所欲言，跟我交流讨论，也欢迎你把今天的内容分享给你的朋友。</p>
+</ul><p><img src="https://static001.geekbang.org/resource/image/e2/74/e28c134e4fd11ff8ed87933aee88d374.jpg" alt=""></p><p>下节课，我将带你学习Controller的其他重要功能，包括它如何管理Broker和副本等。你千万不要错过。</p><h2>课后讨论</h2><p>在这节课刚开始的时候，我提到，删除/controller会触发Controller选举，之后会同步集群元数据信息。那么，你知道源码是在哪里更新的元数据请求吗？</p><p>欢迎你在留言区畅所欲言，跟我交流讨论，也欢迎你把今天的内容分享给你的朋友。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/238614' > </iframe></div>

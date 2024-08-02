@@ -416,4 +416,4 @@ internal abstract class Task(
 <li>第二步，DispatchedContinuation会持有CoroutineDispatcher、以及前面创建的Continuation对象。课程中的CoroutineDispatcher实际上就是Default线程池。</li>
 <li>第三步，执行DispatchedContinuation的resumeCancellableWith()方法，这时候，就会执行dispatcher.dispatch()，这就会将协程的Continuation封装成Task添加到Worker的本地任务队列，等待执行。这里的Worker本质上就是Java的Thread。<strong>在这一步，协程就已经完成了线程的切换</strong>。</li>
 <li>第四步，Worker的run()方法会调用runWork()，它会从本地的任务队列当中取出Task，并且调用task.run()。而它实际上调用的是DispatchedContinuation的run()方法，在这里，会调用continuation.resume()，它将执行原本launch当中生成的SuspendLambda子类。<strong>这时候，launch协程体当中的代码，就在线程上执行了</strong>。</li>
-</ul><h2>思考题</h2><p>经过这节课的学习以后，请问你是否对协程的本质有了更深入的认识？请讲讲你的心得体会吧！</p>
+</ul><h2>思考题</h2><p>经过这节课的学习以后，请问你是否对协程的本质有了更深入的认识？请讲讲你的心得体会吧！</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/500420' > </iframe></div>

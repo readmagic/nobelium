@@ -51,4 +51,4 @@ Show variables like 'long_query_time';
 set global slow_query_log_file='/var/lib/mysql/test-slow.log';//记录日志地址
 set global long_query_time=1;//最大执行时间
 </code></pre><p>除此之外，很多数据库连接池中间件也有分析慢SQL的功能。总之，我们要在编程中避免低性能的SQL操作出现，除了要具备一些常用的SQL优化技巧之外，还要充分利用一些SQL工具，实现SQL性能分析与监控。</p><h2>思考题</h2><p>假设有一张订单表order，主要包含了主键订单编码order_no、订单状态status、提交时间create_time等列，并且创建了status列索引和create_time列索引。此时通过创建时间降序获取状态为1的订单编码，以下是具体实现代码：</p><pre><code>select order_no from order where status =1 order by create_time desc
-</code></pre><p><span class="orange">你知道其中的问题所在吗？我们又该如何优化？</span></p><p>期待在留言区看到你的答案。也欢迎你点击“请朋友读”，把今天的内容分享给身边的朋友，邀请他一起讨论。</p><p></p>
+</code></pre><p><span class="orange">你知道其中的问题所在吗？我们又该如何优化？</span></p><p>期待在留言区看到你的答案。也欢迎你点击“请朋友读”，把今天的内容分享给身边的朋友，邀请他一起讨论。</p><p></p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/113440' > </iframe></div>

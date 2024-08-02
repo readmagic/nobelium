@@ -55,4 +55,4 @@ ra.close
 </ul><h2>课程小结</h2><p>今天这一讲，我们学习了协程的定义、使用场景、实现原理和不同语言的具体实现机制。我们特别从编译技术的角度，关注了协程对栈的使用机制，看看它与传统的程序有什么不同。</p><p>在这个过程中，一方面，你会通过今天的课程对协程产生深入的认识；另一方面，你会更加深刻地认识到编译技术是如何跟语言特性的设计和运行时紧密配合的。</p><p>协程可以用库实现，也可以借助编译技术成为一门语言的原生特性。采用编译技术，能帮助我们自动计算活动记录的大小，实现自己独特的栈管理机制，实现抢占式调度等功能。</p><p>本讲的思维导图我也放在了下面，供你参考：</p><p><img src="https://static001.geekbang.org/resource/image/89/38/89f40bc89yyf16f0d855d43e85d9c838.jpg" alt=""></p><h2>一课一思</h2><p>上一讲我们讨论的是线程模式。我们知道，当并发访问量非常大的时候，线程模式消耗的资源会太多。那么你会如何解决这个问题？是否会采用协程？如果你使用的是Java语言，其原生并不支持协程，你会怎么办？欢迎发表你的观点。</p><h2>参考资料</h2><ol>
 <li><a href="https://blog.cloudflare.com/how-stacks-are-handled-in-go/">How Stacks are Handled in Go</a>，这篇文章介绍了Goroutine使用栈的机制，你可以看看它是如何很节约地使用内存的。</li>
 <li><a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.1041.3083&amp;rep=rep1&amp;type=pdf">Coroutines in Java</a>，这篇文章探讨了在Java中实现协程的各种技术考虑。</li>
-</ol>
+</ol><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/280269' > </iframe></div>

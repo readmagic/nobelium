@@ -75,4 +75,4 @@ if (rdbSaveBackground(server.rdb_filename,rsiptr) == C_OK)
 <li>尽量减少共享数据结构的使用，比如采用key partition的方法，让每个线程负责一部分key的访问，这样可以减少并发访问的冲突。当然，如果要做范围查询，程序仍然需要访问多个线程负责的key。</li>
 <li>对共享数据结构进行优化，尽量采用原子操作来减少并发控制的开销。</li>
 <li>将线程和CPU核绑定，减少线程在不同核上调度时带来的切换开销。</li>
-</ul><p>欢迎继续给我留言，分享你在学习课程时的思考。</p>
+</ul><p>欢迎继续给我留言，分享你在学习课程时的思考。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/432737' > </iframe></div>

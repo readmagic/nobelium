@@ -123,4 +123,4 @@ vrrp_instance test
 </ul><h2>总结</h2><p>今天我主要讲了跟IAM部署相关的两个组件，Nginx + Keepalived的相关功能。</p><p>我们可以基于物理机/虚拟机来部署IAM应用，在部署IAM应用时，需要确保整个应用具备高可用和弹性扩缩容能力。你可以通过Nginx的反向代理功能和负载均衡功能实现后端服务iam-apiserver和iam-authz-server的高可用，通过Keepalived实现Nginx的高可用，通过Nginx + Keepalived组合，来实现IAM应用的高可用和弹性伸缩能力。</p><h2>课后练习</h2><ol>
 <li>Keepalived的主备服务器要接在同一个交换机上。思考下，如果交换机故障，如何实现整个系统的高可用？</li>
 <li>iam-pump是有状态的服务，思考下，如何实现iam-pump的高可用？</li>
-</ol><p>欢迎你在留言区与我交流讨论，我们下一讲见。</p>
+</ol><p>欢迎你在留言区与我交流讨论，我们下一讲见。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/411663' > </iframe></div>

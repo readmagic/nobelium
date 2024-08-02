@@ -211,4 +211,4 @@ make[1]: Leaving directory `/home/colin/workspace/golang/src/github.com/marmoted
 </code></pre><p>如果觉得<strong>Entering directory</strong>这类信息很烦人，可以通过设置 <code>MAKEFLAGS += --no-print-directory</code> 来禁止Makefile打印这些信息。</p><h2>总结</h2><p>如果你想要高效管理项目，使用Makefile来管理是目前的最佳实践。我们可以通过下面的几个方法，来编写一个高质量的Makefile。</p><p>首先，你需要熟练掌握Makefile的语法。我建议你重点掌握以下语法：Makefile规则语法、伪目标、变量赋值、特殊变量、自动化变量。</p><p>接着，我们需要提前规划Makefile要实现的功能。一个大型Go项目通常需要实现以下功能：代码生成类命令、格式化类命令、静态代码检查、 测试类命令、构建类命令、Docker镜像打包类命令、部署类命令、清理类命令，等等。</p><p>然后，我们还需要通过Makefile功能分类、文件分层、复杂命令脚本化等方式，来设计一个合理的Makefile结构。</p><p>最后，我们还需要掌握一些Makefile编写技巧，例如：善用通配符、自动变量和函数；编写可扩展的Makefile；使用带层级的命名方式，等等。通过这些技巧，可以进一步保证我们编写出一个高质量的Makefile。</p><h2>课后练习</h2><ol>
 <li>走读IAM项目的Makefile实现，看下IAM项目是如何通过 <code>make tools.install</code> 一键安装所有功能，通过 <code>make tools.install.xxx</code> 来指定安装 <code>xxx</code> 工具的。</li>
 <li>你编写Makefile的时候，还用到过哪些编写技巧呢？欢迎和我分享你的经验，或者你踩过的坑。</li>
-</ol><p>期待在留言区看到你的思考和答案，也欢迎和我一起探讨关于Makefile的问题，我们下一讲见！</p>
+</ol><p>期待在留言区看到你的思考和答案，也欢迎和我一起探讨关于Makefile的问题，我们下一讲见！</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/388920' > </iframe></div>

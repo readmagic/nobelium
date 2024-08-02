@@ -15,4 +15,4 @@
 </ul><p>第二步，我们要搞清楚存储系统的两个重要组件：MemoryStore和DiskStore。其中，MemoryStore用来管理数据在内存中的存取，DiskStore用来管理数据在磁盘中的存取。</p><p>对于存储系统的3个服务对象来说，广播变量由MemoryStore管理，Shuffle中间文件的落盘和访问要经由DiskStore，而RDD缓存因为会同时支持内存缓存和磁盘缓存两种模式，所以两种组件都有可能用到。</p><p>最后，我们要理解MemoryStore和DiskStore的工作原理。</p><p>MemoryStore支持对象值和字节数组，统一采用MemoryEntry数据抽象对它们进行封装。对象值和字节数组二者之间存在着一种博弈关系，所谓的“以空间换时间”和“以时间换空间”，两者的取舍还要看具体的应用场景。</p><p>DiskStore则利用DiskBlockManager维护的数据块与磁盘文件的对应关系，来完成字节序列与磁盘文件之间的转换。</p><h2>每日一练</h2><ol>
 <li>结合RDD数据存储到MemoryStore的过程，你能推演出通过MemoryStore通过getValues/getBytes方法去访问RDD缓存内容的过程吗？</li>
 <li>参考RDD缓存存储的过程，你能推演出广播变量存入MemoryStore的流程吗？</li>
-</ol><p>期待在留言区看到你的思考和讨论，我们下一讲见！</p>
+</ol><p>期待在留言区看到你的思考和讨论，我们下一讲见！</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/355081' > </iframe></div>

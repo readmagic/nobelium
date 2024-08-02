@@ -99,4 +99,4 @@ select id%100 as m, count(*) as c from t1 group by m order by null limit 10;
 </li>
 </ol><p>最后，我给你留下一个思考题吧。</p><p>文章中图8和图9都是order by null，为什么图8的返回结果里面，0是在结果集的最后一行，而图9的结果里面，0是在结果集的第一行？</p><p>你可以把你的分析写在留言区里，我会在下一篇文章和你讨论这个问题。感谢你的收听，也欢迎你把这篇文章分享给更多的朋友一起阅读。</p><h1>上期问题时间</h1><p>上期的问题是：为什么不能用rename修改临时表的改名。</p><p>在实现上，执行rename table语句的时候，要求按照“库名/表名.frm”的规则去磁盘找文件，但是临时表在磁盘上的frm文件是放在tmpdir目录下的，并且文件名的规则是“#sql{进程id}_{线程id}_序列号.frm”，因此会报“找不到文件名”的错误。</p><p>评论区留言点赞板：</p><blockquote>
 <p>@poppy 同学，通过执行语句的报错现象推测了这个实现过程。</p>
-</blockquote><p></p>
+</blockquote><p></p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/80477' > </iframe></div>

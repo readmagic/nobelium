@@ -28,4 +28,4 @@
 </blockquote><p>虽然作为服务端的Nginx记录在日志里的是499，但是回复的HTTP响应，依然是遵循了标准HTTP协议，也就是回复了HTTP 400。那么消息网关作为客户端，它一定是收到了HTTP 400。</p><p>至于它是如何计入Web日志的，就是一个有意思的话题了。比如Nginx就没有记为400而是499，那消息网关在日志里记录的，也未必一定是400，也可能是它自己定义的某些值。所以说，这个问题的答案可能有两个：</p><ul>
 <li>记录的日志就是原始的HTTP 400。</li>
 <li>记录的是某种timeout，如果它更关心的是业务状态，而不是HTTP响应。</li>
-</ul><p><img src="https://static001.geekbang.org/resource/image/c3/03/c31828f3fc871503856b29c032290603.jpg?wh=2000x746" alt=""></p><p>好了，这次的答疑就到这里。你看完答案后有没有一些新的感悟呢？或者会不会有新的疑问呢？无论是哪种，都欢迎你在留言区跟大家一起分享，我们一同成长。</p>
+</ul><p><img src="https://static001.geekbang.org/resource/image/c3/03/c31828f3fc871503856b29c032290603.jpg?wh=2000x746" alt=""></p><p>好了，这次的答疑就到这里。你看完答案后有没有一些新的感悟呢？或者会不会有新的疑问呢？无论是哪种，都欢迎你在留言区跟大家一起分享，我们一同成长。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/495852' > </iframe></div>

@@ -117,4 +117,4 @@ probs_idx_sort[:3]
 输出：array([8, 7, 1])
 </code></pre><h2>小结</h2><p>恭喜你，完成了这一节课的学习。这一节介绍了一些常用且重要的功能。几乎在所有深度学习相关的项目中，你都会常常用到这些函数，当你阅读别人的代码的时候也会经常看到。</p><p>让我们一起来复习一下今天学到的这些函数，我画了一张表格，给你总结了它们各自的关键功能和使用要点。</p><p><img src="https://static001.geekbang.org/resource/image/29/yd/296b503a7c2fb89987695035c0184yyd.jpg?wh=1709x798" alt=""></p><p>我觉得NumPy最难懂的还是上节课的轴，如果你把轴的概念理解清楚之后，理解今天的内容会更加轻松。理解了原理之后，关键还是动手练习。</p><h2>每课一练</h2><p>给定数组scores，形状为（256，256，2），scores[: , :, 0] 与scores[:, :, 1]对应位置元素的和为1，现在我们要根据scores生产数组mask，要求scores通道0的值如果大于通道1的值，则mask对应的位置为0，否则为1。</p><p>scores如下，你可以试试用代码实现：</p><pre><code class="language-plain">scores = np.random.rand(256, 256, 2)
 scores[:,:,1] = 1 - scores[:,:,0]
-</code></pre><p>欢迎你在留言区记录你的疑问或者收获，也推荐你把这节课分享给你的朋友。</p>
+</code></pre><p>欢迎你在留言区记录你的疑问或者收获，也推荐你把这节课分享给你的朋友。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/426801' > </iframe></div>

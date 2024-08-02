@@ -199,4 +199,4 @@ fun testLocalVal() {
 <li>第三，<strong>尽可能对外暴露只读集合</strong>。根据<a href="https://en.wikipedia.org/wiki/Open%25E2%2580%2593closed_principle">开放封闭原则</a>，我们的程序应该尽量对修改封闭。借助Kotlin的只读集合，我们在这方面可以做得比Java更好。</li>
 <li>第四，<strong>只读集合底层不一定是不可变的，要警惕Java代码中的只读集合访问行为</strong>。Kotlin为了兼容Java，它的集合类型必须要与Java兼容，因此它不能创造出Java以外的集合类型，这也就决定了它只能是语法层面的不可变性。Kotlin官方也在考虑进一步的优化，期待后续的版本能有更加优雅的处理方式。</li>
 <li>第五，<strong>val并不意味着绝对的不可变</strong>。在Kotlin当中定义的val变量与属性，它们并非绝对不可变的。由于Kotlin的语法十分灵活，我们完全可以用val写出可变的局部变量和成员属性。这一点，我们一定要小心。</li>
-</ul><h2>思考题</h2><p>简单的五个准则，是不可能完全概括出Kotlin的不变性思维的。请问你还能想到其他的不变性准则吗？欢迎在留言区分享你的答案，也欢迎你把今天的内容分享给更多的朋友。</p>
+</ul><h2>思考题</h2><p>简单的五个准则，是不可能完全概括出Kotlin的不变性思维的。请问你还能想到其他的不变性准则吗？欢迎在留言区分享你的答案，也欢迎你把今天的内容分享给更多的朋友。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/484631' > </iframe></div>

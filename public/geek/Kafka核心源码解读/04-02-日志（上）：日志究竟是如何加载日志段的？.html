@@ -433,4 +433,4 @@
 </code></pre><h2>总结</h2><p>今天，我重点向你介绍了Kafka的Log源码，主要包括：</p><ol>
 <li><strong>Log文件的源码结构</strong>：你可以看下下面的导图，它展示了Log类文件的架构组成，你要重点掌握Log类及其相关方法。</li>
 <li><strong>加载日志段机制</strong>：我结合源码重点分析了日志在初始化时是如何加载日志段的。前面说过了，日志是日志段的容器，弄明白如何加载日志段是后续学习日志段管理的前提条件。</li>
-</ol><p><img src="https://static001.geekbang.org/resource/image/dd/fc/dd2bf4882021d969accb14c0017d9dfc.jpg" alt=""></p><p>总的来说，虽然洋洋洒洒几千字，但我也只讲了最重要的部分。我建议你多看几遍Log.scala中加载日志段的代码，这对后面我们理解Kafka Broker端日志段管理原理大有裨益。在下节课，我会继续讨论日志部分的源码，带你学习常见的Kafka日志操作。</p><h2>课后讨论</h2><p>Log源码中有个maybeIncrementHighWatermark方法，你能说说它的实现原理吗？</p><p>欢迎你在留言区畅所欲言，跟我交流讨论，也欢迎你把今天的内容分享给你的朋友。</p>
+</ol><p><img src="https://static001.geekbang.org/resource/image/dd/fc/dd2bf4882021d969accb14c0017d9dfc.jpg" alt=""></p><p>总的来说，虽然洋洋洒洒几千字，但我也只讲了最重要的部分。我建议你多看几遍Log.scala中加载日志段的代码，这对后面我们理解Kafka Broker端日志段管理原理大有裨益。在下节课，我会继续讨论日志部分的源码，带你学习常见的Kafka日志操作。</p><h2>课后讨论</h2><p>Log源码中有个maybeIncrementHighWatermark方法，你能说说它的实现原理吗？</p><p>欢迎你在留言区畅所欲言，跟我交流讨论，也欢迎你把今天的内容分享给你的朋友。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/224795' > </iframe></div>

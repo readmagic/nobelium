@@ -273,4 +273,4 @@ Global flags:
 </code></pre><p>在构建应用时，只需要提供应用简短/详细描述、应用二进制文件名称和命令行选项即可。App 包会根据 Options 提供的 <code>Flags()</code> 方法，来给应用添加命令行选项。命令行选项中提供了 <code>-c, --config</code> 选项来指定配置文件，App 包也会加载并解析这个配置文件，并将配置文件和命令行选项相同配置项进行 Merge，最终将配置项的值保存在传入的 Options 变量中，供业务代码使用。</p><p>最后，如果你想自己构建应用，我给出了一些我的建议：设计一个清晰易读、易扩展的应用框架；支持一些常见的选项，例如 <code>-h</code>， <code>-v</code>， <code>-c</code> 等；如果应用的命令行选项比较多，建议使用 <code>--secure.bind-port</code> 这样的长选项。</p><h2>课后练习</h2><ol>
 <li>除了 Cobra、Viper、Pflag 之外，你还遇到过哪些比较优秀的包或者工具，可以用来构建应用框架？欢迎在留言区分享。</li>
 <li>研究下 iam-apiserver 的命令行选项 <a href="https://github.com/marmotedu/iam/blob/v1.0.4/internal/apiserver/options/options.go">Options</a> 是如何通过 Options 的 Flags()方法来实现 Flag 分组的，并思考下这样做有什么好处。</li>
-</ol><p>欢迎你在留言区与我交流讨论。当然了，你也可以把这一讲分享给你身边的朋友，他们的一些想法或许会让你有更大的收获。我们下一讲见！</p>
+</ol><p>欢迎你在留言区与我交流讨论。当然了，你也可以把这一讲分享给你身边的朋友，他们的一些想法或许会让你有更大的收获。我们下一讲见！</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/396523' > </iframe></div>

@@ -212,4 +212,4 @@ reconfigurableChannelBuilder: Option[Reconfigurable])
 <li>Controller端请求：Controller发送三类请求给Broker，分别是LeaderAndIsrRequest、StopReplicaRequest和UpdateMetadataRequest。</li>
 <li>RequestSendThread：该线程负责将请求发送给集群中的相关或所有Broker。</li>
 <li>请求阻塞队列+RequestSendThread：Controller会为集群上所有Broker创建对应的请求阻塞队列和RequestSendThread线程。</li>
-</ul><p>其实，今天讲的所有东西都只是这节课的第二张图中“消费者”的部分，我们并没有详细了解请求是怎么被放到请求队列中的。接下来，我们就会针对这个问题，深入地去探讨Controller单线程的事件处理器是如何实现的。</p><p><img src="https://static001.geekbang.org/resource/image/00/b9/00fce28d26a94389f2bb5e957b650bb9.jpg" alt=""></p><h2>课后讨论</h2><p>你觉得，为每个Broker都创建一个RequestSendThread的方案有什么优缺点？</p><p>欢迎你在留言区写下你的思考和答案，跟我交流讨论，也欢迎你把今天的内容分享给你的朋友。</p>
+</ul><p>其实，今天讲的所有东西都只是这节课的第二张图中“消费者”的部分，我们并没有详细了解请求是怎么被放到请求队列中的。接下来，我们就会针对这个问题，深入地去探讨Controller单线程的事件处理器是如何实现的。</p><p><img src="https://static001.geekbang.org/resource/image/00/b9/00fce28d26a94389f2bb5e957b650bb9.jpg" alt=""></p><h2>课后讨论</h2><p>你觉得，为每个Broker都创建一个RequestSendThread的方案有什么优缺点？</p><p>欢迎你在留言区写下你的思考和答案，跟我交流讨论，也欢迎你把今天的内容分享给你的朋友。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/235904' > </iframe></div>

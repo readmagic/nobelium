@@ -294,4 +294,4 @@ fetcherLagStats.getAndMaybePut(topicPartition).lag = lag
 <li>truncate方法：根据Leader副本返回的位移值和Epoch值执行本地日志的截断操作。</li>
 <li>buildFetch方法：为一组特定分区构建FetchRequest对象所需的数据结构。</li>
 <li>processPartitionData方法：处理从Leader副本获取到的消息，主要是写入到本地日志中。</li>
-</ul><p><img src="https://static001.geekbang.org/resource/image/eb/52/ebd9a667369fc304bce3yybdd439a152.jpg" alt=""></p><p>实际上，今天的内容中多次出现副本管理器的身影。如果你仔细查看代码，你会发现Follower副本正是利用它来获取对应分区Partition对象的，然后依靠该对象执行消息写入。那么，副本管理器还有哪些其他功能呢？下一讲我将一一为你揭晓。</p><h2>课后讨论</h2><p>你可以去查阅下源码，说说updateFetchOffsetAndMaybeMarkTruncationComplete方法是做什么用的吗？</p><p>欢迎在留言区写下你的思考和答案，跟我交流讨论，也欢迎你把今天的内容分享给你的朋友。</p>
+</ul><p><img src="https://static001.geekbang.org/resource/image/eb/52/ebd9a667369fc304bce3yybdd439a152.jpg" alt=""></p><p>实际上，今天的内容中多次出现副本管理器的身影。如果你仔细查看代码，你会发现Follower副本正是利用它来获取对应分区Partition对象的，然后依靠该对象执行消息写入。那么，副本管理器还有哪些其他功能呢？下一讲我将一一为你揭晓。</p><h2>课后讨论</h2><p>你可以去查阅下源码，说说updateFetchOffsetAndMaybeMarkTruncationComplete方法是做什么用的吗？</p><p>欢迎在留言区写下你的思考和答案，跟我交流讨论，也欢迎你把今天的内容分享给你的朋友。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/248311' > </iframe></div>

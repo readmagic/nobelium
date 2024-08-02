@@ -44,4 +44,4 @@ flowersKV.reduceByKey(_ + _).collect
 </ol><p>在Reduce阶段我们要注意，Reduce Task通过网络拉取中间文件的过程，实际上就是不同Stages之间数据分发的过程。并且，Shuffle中数据分发的网络开销，会随着Map Task与Reduce Task的线性增长，呈指数级爆炸。</p><p>最后，从硬件资源的角度来看，Shuffle对每一种硬件资源都非常地渴求，尤其是内存、磁盘和网络。由于不同硬件资源之间的处理延迟差异巨大，我们很难在Shuffle过程中平衡CPU、内存、磁盘和网络之间的计算开销。因此，对于Shuffle我们避之唯恐不及，要能省则省、能拖则拖。</p><h2>每日一练</h2><ol>
 <li>以小红分到的花朵（数据分区0）为例，你能推导出reduceByKey中Map阶段的每个环节吗？（提示：PartitionedAppendOnlyMap需要多少次溢出到磁盘临时文件？每一个临时文件中的内容是什么？最终生成的中间文件，内容分别是什么？和groupByKey生成的中间文件一样吗？）</li>
 <li>Map阶段和Reduce阶段有不少环节都涉及数据缓存、数据存储，结合上一讲介绍的Spark配置项，你能把相关的配置项对号入座吗？</li>
-</ol><p>期待在留言区看到你的思考和讨论，我们下一讲见！</p>
+</ol><p>期待在留言区看到你的思考和讨论，我们下一讲见！</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/359907' > </iframe></div>

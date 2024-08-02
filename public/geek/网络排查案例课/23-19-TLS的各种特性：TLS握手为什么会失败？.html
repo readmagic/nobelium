@@ -133,4 +133,4 @@ write(2,&nbsp;"Oct 14 18:45:33 2020 GMT", 24Oct&nbsp;14&nbsp;18:45:33&nbsp;2020&
 </code></pre><p>另外在需要分析OpenSSL为什么报错的时候，你可以在前面加上 <strong>strace</strong>，这对于排查根因有不少的帮助。</p><p>然后，我也带你学习了<strong>如何在Wireshark里导出Cipher Suite的方法</strong>，就是在TLS详情中选中Cipher Suite，右单击，选中Copy，在次级菜单中选中All Visible Selected Tree Items。这时，列表就被复制出来了。</p><p>除此之外，我们还在排查TLS Alert 40这个信息时，通过查阅<a href="https://datatracker.ietf.org/doc/html/rfc5246">RFC5246</a>得到了答案。所以，在遇到一些协议类型、定义相关的问题时，<strong>最好查阅权威的RFC文档，这样可以获得最准确的信息</strong>。</p><h2>思考题</h2><p>最后还是给你留两道思考题：</p><ul>
 <li>我们知道TCP是三次握手，那么TLS握手是几次呢？</li>
 <li>假设服务端返回的证书链是根证书+中间证书+叶子证书，客户端没有这个根证书，但是有这个中间证书。你认为客户端会信任这个证书链吗？</li>
-</ul><p>欢迎在留言区分享你的答案，也欢迎你把今天的内容分享给更多的朋友。</p>
+</ul><p>欢迎在留言区分享你的答案，也欢迎你把今天的内容分享给更多的朋友。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/491674' > </iframe></div>

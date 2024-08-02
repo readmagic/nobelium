@@ -315,4 +315,4 @@ public Object payOrder() {
 </ul><p><img src="https://static001.geekbang.org/resource/image/ee/00/eed6e95e575bc5a0f047098f34523400.png?wh=1496x372" alt="图片"></p><p>返回结果如下：</p><p><img src="https://static001.geekbang.org/resource/image/25/63/25a043b6bf42dda429bde72e6206b963.png?wh=1534x574" alt="图片"></p><p>从上面的结果可以看到，压测流量请求会走到Mock Server上；而正常的流量请求会走到真正的第三方服务上。</p><p>到这里，全链路压测的Mock改造就成功了。</p><h2>总结</h2><p>好，这节课就讲到这里。</p><p>刚才，我们介绍了常见的前端和后端Mock Server，并做了详细的演示。我们还演示了系统改造的部分。主要的逻辑，就是业务方从数据上下文中获取压测标记，然后通过判断让它走不同的调用方向。<strong>这里的关键是让压测流量和正常流量在同一个服务中去实现</strong>。这样在全链路线上压测时，才能真正地把所有生产上用到的服务和方法都覆盖到了。</p><p>现在市场上的 Mock Server已经有很多了。至于用哪一种工具其实并不重要，只要能满足需求就可以。如果没有 Mock Server，我们还可以自己写一个服务。</p><p>Mock是一种比较简单易懂的逻辑，但它却能解决全链路压测中对第三方强依赖的问题，这可解决了一个大问题，希望你能够用好它。</p><h2>思考题</h2><p>​学完这节课，我想请你思考两个问题：</p><ol>
 <li>你还知道哪些可以作为Mock Server的应用？各有什么优缺点？</li>
 <li>你觉得Mock Server的配置中，还有哪些难点？</li>
-</ol><p>欢迎你在留言区与我交流讨论。我们下节课见！</p>
+</ol><p>欢迎你在留言区与我交流讨论。我们下节课见！</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/462212' > </iframe></div>

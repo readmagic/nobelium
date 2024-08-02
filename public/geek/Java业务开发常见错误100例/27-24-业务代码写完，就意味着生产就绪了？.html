@@ -362,4 +362,4 @@ tomcat_sessions_rejected
 </ol><p>同时，我们一般会把TraceID记录到日志中，方便实现日志和追踪的关联。</p><p>我用一张图对比了日志、指标和追踪的区别和特点：</p><p><img src="https://static001.geekbang.org/resource/image/85/4c/85cabd7ecb4c6a669ff2e8930a369c4c.jpg" alt=""></p><p>在我看来，完善的监控体系三者缺一不可，它们还可以相互配合，比如通过指标发现性能问题，通过追踪定位性能问题所在的应用和操作，最后通过日志定位出具体请求的明细参数。</p><p>今天用到的代码，我都放在了GitHub上，你可以点击<a href="https://github.com/JosephZhu1983/java-common-mistakes">这个链接</a>查看。</p><h2>思考与讨论</h2><ol>
 <li>Spring Boot Actuator提供了大量内置端点，你觉得端点和自定义一个@RestController有什么区别呢？你能否根据<a href="https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-endpoints-custom">官方文档</a>，开发一个自定义端点呢？</li>
 <li>在介绍指标Metrics时我们看到，InfluxDB中保存了由Micrometer框架自动帮我们收集的一些应用指标。你能否参考源码中两个Grafana配置的JSON文件，把这些指标在Grafana中配置出一个完整的应用监控面板呢？</li>
-</ol><p>应用投产之前，你还会做哪些生产就绪方面的工作呢？我是朱晔，欢迎在评论区与我留言分享你的想法，也欢迎你把今天的内容分享给你的朋友或同事，一起交流。</p>
+</ol><p>应用投产之前，你还会做哪些生产就绪方面的工作呢？我是朱晔，欢迎在评论区与我留言分享你的想法，也欢迎你把今天的内容分享给你的朋友或同事，一起交流。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/231568' > </iframe></div>

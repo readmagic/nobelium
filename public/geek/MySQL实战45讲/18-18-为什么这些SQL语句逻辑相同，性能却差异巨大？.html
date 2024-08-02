@@ -84,4 +84,4 @@ insert into trade_detail values(11, 'aaaaaaac', 4, 'commit');
 </code></pre><p>再加上取整个表总行数的C行，这个方案的扫描行数总共只需要C+M+1行。</p><p>当然也可以先取回id值，在应用中确定了三个id值以后，再执行三次where id=X的语句也是可以的。@倪大人 同学在评论区就提到了这个方法。</p><p>这次评论区出现了很多很棒的留言：</p><blockquote>
 <p>@老杨同志 提出了重新整理的方法、@雪中鼠[悠闲] 提到了用rowid的方法，是类似的思路，就是让表里面保存一个无空洞的自增值，这样就可以用我们的随机算法1来实现；<br>
 @吴宇晨 提到了拿到第一个值以后，用id迭代往下找的方案，利用了主键索引的有序性。</p>
-</blockquote><p></p>
+</blockquote><p></p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/74059' > </iframe></div>

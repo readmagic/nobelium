@@ -350,4 +350,4 @@ partitionsToMakeFollower
 <li>makeLeaders方法。它的作用是让Broker成为指定分区Leader副本。</li>
 <li>makeFollowers方法。它的作用是让Broker成为指定分区Follower副本的方法。</li>
 <li>ISR管理。ReplicaManager类提供了ISR收缩和定期传播ISR变更通知的功能。</li>
-</ul><p><img src="https://static001.geekbang.org/resource/image/b6/f2/b63ecd5619213340df68f0771607f6f2.jpg" alt=""></p><p>掌握了这些核心知识点，你差不多也就掌握了绝大部分的副本管理器功能，比如说Broker如何成为分区的Leader副本和Follower副本，以及ISR是如何被管理的。</p><p>你可能也发现了，有些非核心小功能我们今天并没有展开，比如Broker上的元数据缓存是怎么回事。下一节课，我将带你深入到这个缓存当中，去看看它到底是什么。</p><h2>课后讨论</h2><p>maybePropagateIsrChanges源码中，有个isrChangeSet字段。你知道它是在哪里被更新的吗？</p><p>欢迎在留言区写下你的思考和答案，跟我交流讨论，也欢迎你把今天的内容分享给你的朋友。</p>
+</ul><p><img src="https://static001.geekbang.org/resource/image/b6/f2/b63ecd5619213340df68f0771607f6f2.jpg" alt=""></p><p>掌握了这些核心知识点，你差不多也就掌握了绝大部分的副本管理器功能，比如说Broker如何成为分区的Leader副本和Follower副本，以及ISR是如何被管理的。</p><p>你可能也发现了，有些非核心小功能我们今天并没有展开，比如Broker上的元数据缓存是怎么回事。下一节课，我将带你深入到这个缓存当中，去看看它到底是什么。</p><h2>课后讨论</h2><p>maybePropagateIsrChanges源码中，有个isrChangeSet字段。你知道它是在哪里被更新的吗？</p><p>欢迎在留言区写下你的思考和答案，跟我交流讨论，也欢迎你把今天的内容分享给你的朋友。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/252075' > </iframe></div>

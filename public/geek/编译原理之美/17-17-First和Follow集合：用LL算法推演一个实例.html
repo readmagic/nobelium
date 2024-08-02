@@ -96,4 +96,4 @@ functionDeclarePostfix : '(' parameterList ')' block ;
 </code></pre><p>这样，解析程序先解析它们的公共部分，即declarePrefix，然后再看后面的差异。这时，它俩的First集合，一个{ =  ; }，一个是{  (  }，两者没有交集，能够很容易区分。</p><h2>课程小结</h2><p>本节课我们比较全面地梳理了自顶向下算法。语法解析过程可以看做是对图的遍历过程，遍历时可以采取深度优先或广度优先的策略，这里要注意，你可能在做深度优先遍历的时候，误用广度优先的思路。</p><p>针对LL算法，我们通过实例分析了First集合和Follow集合的使用场景和计算方式。掌握了这两个核心概念，特别是熟悉它们的使用场景，你会彻底掌握LL算法。</p><h2>一课一思</h2><p>处理ε是LL算法中的关键点。在你熟悉的语言中，哪些语法会产生ε，你在做语法解析的时候会怎样处理它们？欢迎在留言区分享你的思考。</p><p>最后，感谢你的阅读，如果这篇文章让你有所收获，也欢迎你将它分享给更多的朋友。</p><p>本节课的示例代码我放在了文末，供你参考。</p><ul>
 <li>lab/16～18（算法篇的示例代码）：<a href="https://gitee.com/richard-gong/PlayWithCompiler/tree/master/lab/16-18">码云</a>   <a href="https://github.com/RichardGong/PlayWithCompiler/tree/master/lab/16-18">GitHub</a></li>
 <li>LLParser.java（LL算法的语法解析器）：<a href="https://gitee.com/richard-gong/PlayWithCompiler/blob/master/lab/16-18/src/main/java/play/parser/LLParser.java">码云</a>   <a href="https://github.com/RichardGong/PlayWithCompiler/blob/master/lab/16-18/src/main/java/play/parser/LLParser.java">GitHub</a></li>
-</ul>
+</ul><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/138385' > </iframe></div>

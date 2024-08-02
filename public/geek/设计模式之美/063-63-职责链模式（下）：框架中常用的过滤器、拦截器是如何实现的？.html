@@ -149,4 +149,4 @@
 </code></pre><p>在Spring框架中，DispatcherServlet的doDispatch()方法来分发请求，它在真正的业务逻辑执行前后，执行HandlerExecutionChain中的applyPreHandle()和applyPostHandle()函数，用来实现拦截的功能。具体的代码实现很简单，你自己应该能脑补出来，这里就不罗列了。感兴趣的话，你可以自行去查看。</p><h2>重点回顾</h2><p>好了，今天的内容到此就讲完了。我们一块来总结回顾一下，你需要重点掌握的内容。</p><p>职责链模式常用在框架开发中，用来实现框架的过滤器、拦截器功能，让框架的使用者在不需要修改框架源码的情况下，添加新的过滤拦截功能。这也体现了之前讲到的对扩展开放、对修改关闭的设计原则。</p><p>今天，我们通过Servlet Filter、Spring Interceptor两个实际的例子，给你展示了在框架开发中职责链模式具体是怎么应用的。从源码中，我们还可以发现，尽管上一节课中我们有给出职责链模式的经典代码实现，但在实际的开发中，我们还是要具体问题具体对待，代码实现会根据不同的需求有所变化。实际上，这一点对于所有的设计模式都适用。</p><h2>课堂讨论</h2><ol>
 <li>前面在讲代理模式的时候，我们提到，Spring AOP是基于代理模式来实现的。在实际的项目开发中，我们可以利用AOP来实现访问控制功能，比如鉴权、限流、日志等。今天我们又讲到，Servlet Filter、Spring Interceptor也可以用来实现访问控制。那在项目开发中，类似权限这样的访问控制功能，我们该选择三者（AOP、Servlet Filter、Spring Interceptor）中的哪个来实现呢？有什么参考标准吗？</li>
 <li>除了我们讲到的Servlet Filter、Spring Interceptor之外，Dubbo Filter、Netty ChannelPipeline也是职责链模式的实际应用案例，你能否找一个你熟悉的并且用到职责链模式的框架，像我一样分析一下它的底层实现呢？</li>
-</ol><p>欢迎留言和我分享你的想法。如果有收获，欢迎你把这篇文章分享给你的朋友。</p>
+</ol><p>欢迎留言和我分享你的想法。如果有收获，欢迎你把这篇文章分享给你的朋友。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/217395' > </iframe></div>

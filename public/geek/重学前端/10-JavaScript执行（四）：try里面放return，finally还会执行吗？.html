@@ -55,4 +55,4 @@ console.log(foo());
       }
     }
     console.log(&quot;finished&quot;)
-</code></pre><p>break/continue 语句如果后跟了关键字，会产生带target的完成记录。一旦完成记录带了target，那么只有拥有对应label的循环语句会消费它。</p><h2>结语</h2><p>我们以Completion Record类型为线索，为你讲解了JavaScript语句执行的原理。</p><p>因为JavaScript语句存在着嵌套关系，所以执行过程实际上主要在一个树形结构上进行， 树形结构的每一个节点执行后产生Completion Record，根据语句的结构和Completion Record，JavaScript实现了各种分支和跳出逻辑。</p><p>你遇到哪些语句中的执行的实际效果，是跟你想象的有所出入呢，你可以给我留言，我们一起讨论。</p><p></p>
+</code></pre><p>break/continue 语句如果后跟了关键字，会产生带target的完成记录。一旦完成记录带了target，那么只有拥有对应label的循环语句会消费它。</p><h2>结语</h2><p>我们以Completion Record类型为线索，为你讲解了JavaScript语句执行的原理。</p><p>因为JavaScript语句存在着嵌套关系，所以执行过程实际上主要在一个树形结构上进行， 树形结构的每一个节点执行后产生Completion Record，根据语句的结构和Completion Record，JavaScript实现了各种分支和跳出逻辑。</p><p>你遇到哪些语句中的执行的实际效果，是跟你想象的有所出入呢，你可以给我留言，我们一起讨论。</p><p></p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/83860' > </iframe></div>

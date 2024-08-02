@@ -58,4 +58,4 @@ end
     _last_event = _last_event + 1
     data, err = _dict:get(KEY_DATA..tostring(_last_event))
 end
-</code></pre><p>总的来说，虽然 <code>lua-resty-worker-events</code> 会有 1 秒钟的延时，但还是实现了 worker 之间的事件通知机制，瑕不掩瑜。</p><p>不过，在一些实时性要求比较高的场景下，比如消息推送，OpenResty 缺少 worker 进程间直接通信的这个问题，就可能会给你带来一些困扰了。这一点目前没有更好的解决方案，如果你有好的想法，欢迎在 Github 或者 OpenResty 的邮件列表中来一起探讨。OpenResty 的很多功能都是由社区用户来驱动的，这样才能构造一个良性的生态循环。</p><h2>写在最后</h2><p>今天我们介绍的这三个库，都各具特色，也都为 OpenResty 的应用带来了更多的可能性。最后是一个互动话题，你是否发现过一些 OpenResty 周边有意思的库呢？或者对于今天提到的这几个库，你有什么发现或疑惑呢？欢迎留言和我分享，也欢迎你把这篇文章发给你身边的OpenResty使用者，一起交流和进步。</p><p></p>
+</code></pre><p>总的来说，虽然 <code>lua-resty-worker-events</code> 会有 1 秒钟的延时，但还是实现了 worker 之间的事件通知机制，瑕不掩瑜。</p><p>不过，在一些实时性要求比较高的场景下，比如消息推送，OpenResty 缺少 worker 进程间直接通信的这个问题，就可能会给你带来一些困扰了。这一点目前没有更好的解决方案，如果你有好的想法，欢迎在 Github 或者 OpenResty 的邮件列表中来一起探讨。OpenResty 的很多功能都是由社区用户来驱动的，这样才能构造一个良性的生态循环。</p><h2>写在最后</h2><p>今天我们介绍的这三个库，都各具特色，也都为 OpenResty 的应用带来了更多的可能性。最后是一个互动话题，你是否发现过一些 OpenResty 周边有意思的库呢？或者对于今天提到的这几个库，你有什么发现或疑惑呢？欢迎留言和我分享，也欢迎你把这篇文章发给你身边的OpenResty使用者，一起交流和进步。</p><p></p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/131665' > </iframe></div>

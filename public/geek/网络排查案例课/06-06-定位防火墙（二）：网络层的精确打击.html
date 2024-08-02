@@ -71,4 +71,4 @@ listening on any, link-type LINUX_SLL (Linux cooked v1), capture size 262144 byt
 <li>我们也学习了如何用iptables结合内核配置，<strong>实现一个简单的NAT网关</strong>：</li>
 </ul><pre><code class="language-plain">iptables -t nat -A POSTROUTING -d 110.242.68.0/24 -j MASQUERADE
 sysctl net.ipv4.ip_forward=1
-</code></pre><h2>思考题</h2><p>这节课，我给你介绍了利用防火墙的TTL跟原先的正常报文的TTL不一致的特点，从而识别出防火墙的方法。</p><p>那么，假设有一天，防火墙公司把这个特性也完善了，我们再也不能仅仅凭TTL的突变而发现防火墙了，你觉得<strong>还有什么办法可以识别出防火墙吗？</strong>这是一个开放式的话题，欢迎你把答案写在留言区，与同学们一同分享。</p><h2>附录</h2><p>抓包文件：<a href="https://gitee.com/steelvictor/network-analysis/tree/master/06">https://gitee.com/steelvictor/network-analysis/tree/master/06</a></p>
+</code></pre><h2>思考题</h2><p>这节课，我给你介绍了利用防火墙的TTL跟原先的正常报文的TTL不一致的特点，从而识别出防火墙的方法。</p><p>那么，假设有一天，防火墙公司把这个特性也完善了，我们再也不能仅仅凭TTL的突变而发现防火墙了，你觉得<strong>还有什么办法可以识别出防火墙吗？</strong>这是一个开放式的话题，欢迎你把答案写在留言区，与同学们一同分享。</p><h2>附录</h2><p>抓包文件：<a href="https://gitee.com/steelvictor/network-analysis/tree/master/06">https://gitee.com/steelvictor/network-analysis/tree/master/06</a></p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/481782' > </iframe></div>

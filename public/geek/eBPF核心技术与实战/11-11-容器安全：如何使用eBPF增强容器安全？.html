@@ -74,4 +74,4 @@ sudo bpftrace -e "uretprobe:/proc/$PID/root/usr/bin/bash:readline { printf(\"Use
 </code></pre><p>接着，回到容器终端，执行任意命令都会失败，并且失败信息都是 <code>Killed</code> 。</p><p>需要注意，这种直接杀死进程的方法实际上比较危险，如果出现误杀，可能会导致大量进程都无法正常启动。所以 bpftrace 要求你加上 <code>--unsafe</code>选项后才可以正常运行。</p><h2>小结</h2><p>今天，我带你一起梳理了 eBPF 的安全能力，并以容器应用为例，带你用 eBPF 分析并阻止了容器中的命令执行。</p><p>eBPF 所支持的 kprobe、uprobe、tracepoint 等各类探针已经非常全面地涵盖了从应用到内核中的各类安全问题相关的跟踪点，再配合其开销低、实时性好，且不需要修改并重新编译内核和应用等特性，使 eBPF 特别适合用于安全事件的动态监测和实时分析诊断。对于安全策略的执行，eBPF 也已经支持了 LSM 钩子、向进程发送信号、丢弃网络数据包等各类操作。</p><p>在这一讲的最后，我想提醒你：既然 eBPF 提供了这么强大的功能，在用好 eBPF 这些丰富特性的同时，你也要特别留意 eBPF 程序自身的安全性。比如，禁止普通用户和普通容器应用运行 eBPF 程序，而只允许管理员和系统服务运行。对容器来说，你可以利用 Capabilities 禁止普通容器的 <code>CAP_PERFMON</code>、<code>CAP_BPF</code>和 <code>CAP_SYS_ADMIN</code>等权限。</p><h2>思考题</h2><p>最后，我想邀请你来聊一聊：</p><ol>
 <li>在了解 eBPF 之前，你是如何监测、分析和阻止容器的安全问题的？</li>
 <li>在阻止容器 Bash 命令执行的案例中，除了杀死进程之外，还有哪些其他的方法？</li>
-</ol><p>期待你在留言区和我讨论，也欢迎把这节课分享给你的同事、朋友。让我们一起在实战中演练，在交流中进步。</p>
+</ol><p>期待你在留言区和我讨论，也欢迎把这节课分享给你的同事、朋友。让我们一起在实战中演练，在交流中进步。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/485101' > </iframe></div>

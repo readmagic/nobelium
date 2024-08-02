@@ -272,4 +272,4 @@ private def processNewResponses(): Unit = {
 <li>KafkaRequestHandler线程从Request队列中取出待处理请求，并进行处理。</li>
 <li>KafkaRequestHandler线程将Response放回到对应Processor线程的Response队列。</li>
 <li>Processor线程发送Response给Request发送方。</li>
-</ol><p><img src="https://static001.geekbang.org/resource/image/45/c4/458e65efcab7964911bb6a1755fa89c4.jpg" alt=""></p><p>其实，今天在谈到Request逻辑执行的时候，我卖了个关子——我提到，KafkaApis是请求逻辑的真正处理方法。也就是说，所有类型的请求处理逻辑都封装在KafkaApis文件下，但我并没有深入地去讲它。下节课，我会重点和你聊聊这个KafkaApis类。我一直认为，该类是查看所有Kafka源码的首要入口类，绝对值得我们花一整节课的时间去学习。</p><h2>课后讨论</h2><p>最后，请你结合今天的内容思考一个问题：你觉得，请求处理流程的哪些部分应用了经典的“生产者-消费者”模式？</p><p>欢迎你在留言区畅所欲言，跟我交流讨论，也欢迎你把今天的内容分享给你的朋友。</p>
+</ol><p><img src="https://static001.geekbang.org/resource/image/45/c4/458e65efcab7964911bb6a1755fa89c4.jpg" alt=""></p><p>其实，今天在谈到Request逻辑执行的时候，我卖了个关子——我提到，KafkaApis是请求逻辑的真正处理方法。也就是说，所有类型的请求处理逻辑都封装在KafkaApis文件下，但我并没有深入地去讲它。下节课，我会重点和你聊聊这个KafkaApis类。我一直认为，该类是查看所有Kafka源码的首要入口类，绝对值得我们花一整节课的时间去学习。</p><h2>课后讨论</h2><p>最后，请你结合今天的内容思考一个问题：你觉得，请求处理流程的哪些部分应用了经典的“生产者-消费者”模式？</p><p>欢迎你在留言区畅所欲言，跟我交流讨论，也欢迎你把今天的内容分享给你的朋友。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/233233' > </iframe></div>

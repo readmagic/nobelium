@@ -104,4 +104,4 @@ select * from t where id&gt;1 for update;
 </code></pre><p>这个查询语句加锁的范围就是next-key lock (-∞, supremum]。</p><p>验证方法的话，你可以使用下面的操作序列。你可以在图4中看到显示的结果。</p><p><img src="https://static001.geekbang.org/resource/image/12/65/12eb6a38c347203f60df72ecaea95565.png" alt=""></p><center><span class="reference">图3 复现空表的next-key lock</span></center><p><img src="https://static001.geekbang.org/resource/image/53/9f/531b6556ffc82c6b02f9a010a3ceb09f.png" alt=""></p><center><span class="reference">图4 show engine innodb status 部分结果</span></center><p>评论区留言点赞板：</p><blockquote>
 <p>@老杨同志 给出了正确的分析和SQL语句验证方法；<br>
 @库淘淘 指出了show engine innodb status验证结论。</p>
-</blockquote><p>赞这些思考和反馈。</p><p></p>
+</blockquote><p>赞这些思考和反馈。</p><p></p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/78658' > </iframe></div>

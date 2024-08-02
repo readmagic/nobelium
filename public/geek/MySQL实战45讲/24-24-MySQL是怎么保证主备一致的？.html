@@ -113,4 +113,4 @@ use 'test’命令之后的delete 语句，就是我们输入的SQL原文了。�
 <p>@一大只 同学验证了在sync_binlog=0的情况下，设置sync_delay和sync_no_delay_count的现象，点赞这种发现边界的意识和手动验证的好习惯。是这样的：sync_delay和sync_no_delay_count的逻辑先走，因此该等还是会等。等到满足了这两个条件之一，就进入sync_binlog阶段。这时候如果判断sync_binlog=0，就直接跳过，还是不调fsync。</p>
 </blockquote><blockquote>
 <p>@锅子 同学提到，设置sync_binlog=0的时候，还是可以看到binlog文件马上做了修改。这个是对的，我们说“写到了page cache”，就是文件系统的page cache。而你用ls命令看到的就是文件系统返回的结果。</p>
-</blockquote><p></p>
+</blockquote><p></p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/76446' > </iframe></div>

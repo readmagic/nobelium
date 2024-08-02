@@ -111,4 +111,4 @@ I1027 22:14:54.040223    5063 proxier.go:294] Adding new service &quot;kube-syst
 </code></pre><p>而如果是promiscuous-bridge模式的话，你应该看到CNI网桥的混杂模式（PROMISC）被开启，如下所示：</p><pre><code>$ ifconfig cni0 |grep PROMISC
 UP BROADCAST RUNNING PROMISC MULTICAST  MTU:1460  Metric:1
 </code></pre><h2>总结</h2><p>在本篇文章中，我为你详细讲解了从外部访问Service的三种方式（NodePort、LoadBalancer 和 External Name）和具体的工作原理。然后，我还为你讲述了当Service出现故障的时候，如何根据它的工作原理，按照一定的思路去定位问题的可行之道。</p><p>通过上述讲解不难看出，所谓Service，其实就是Kubernetes为Pod分配的、固定的、基于iptables（或者IPVS）的访问入口。而这些访问入口代理的Pod信息，则来自于Etcd，由kube-proxy通过控制循环来维护。</p><p>并且，你可以看到，Kubernetes里面的Service和DNS机制，也都不具备强多租户能力。比如，在多租户情况下，每个租户应该拥有一套独立的Service规则（Service只应该看到和代理同一个租户下的Pod）。再比如DNS，在多租户情况下，每个租户应该拥有自己的kube-dns（kube-dns只应该为同一个租户下的Service和Pod创建DNS Entry）。</p><p>当然，在Kubernetes中，kube-proxy和kube-dns其实也是普通的插件而已。你完全可以根据自己的需求，实现符合自己预期的Service。</p><h2>思考题</h2><p>为什么Kubernetes要求externalIPs必须是至少能够路由到一个Kubernetes的节点？</p><p>感谢你的收听，欢迎你给我留言，也欢迎分享给更多的朋友一起阅读。<br>
-</p>
+</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/68964' > </iframe></div>

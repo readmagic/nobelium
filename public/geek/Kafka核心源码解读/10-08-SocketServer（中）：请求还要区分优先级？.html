@@ -179,4 +179,4 @@ control.plane.listener.name=CONTROLLER
 <li>Control plane：负责处理控制类请求，这类请求需要高优先级处理。</li>
 <li>监听器：Kafka允许Broker定义多套监听器，每套监听器可用于Data plane或Control plane。</li>
 <li>优先级实现原理：你要知道的是，社区设计了两套资源分别处理Data plane和Control plane请求。</li>
-</ul><p><img src="https://static001.geekbang.org/resource/image/ee/8c/eec8d1027bf77384d8d2fb8116af948c.jpg" alt=""></p><p>下节课，我会带你串联起网络I/O层的所有组件，并且结合源码，带你深入理解一个请求在Kafka中是如何被处理的。敬请期待。</p><h2>课后讨论</h2><p>最后，我们来思考一个问题：如果不使用多套资源的方案，而是在请求队列这个层面进行改进，你觉得能够实现不同请求不同优先级的需求吗？比如说，将请求队列改造成支持抢占式的优先级队列方案，你可以说出这两个方案的优劣吗？</p><p>欢迎你在留言区畅所欲言，跟我交流讨论，也欢迎你把今天的内容分享给你的朋友。</p>
+</ul><p><img src="https://static001.geekbang.org/resource/image/ee/8c/eec8d1027bf77384d8d2fb8116af948c.jpg" alt=""></p><p>下节课，我会带你串联起网络I/O层的所有组件，并且结合源码，带你深入理解一个请求在Kafka中是如何被处理的。敬请期待。</p><h2>课后讨论</h2><p>最后，我们来思考一个问题：如果不使用多套资源的方案，而是在请求队列这个层面进行改进，你觉得能够实现不同请求不同优先级的需求吗？比如说，将请求队列改造成支持抢占式的优先级队列方案，你可以说出这两个方案的优劣吗？</p><p>欢迎你在留言区畅所欲言，跟我交流讨论，也欢迎你把今天的内容分享给你的朋友。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/232134' > </iframe></div>

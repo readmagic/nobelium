@@ -23,4 +23,4 @@
 <li>CPU的存储层次对大型软件系统的性能影响会很明显，也是你在性能调优时需要着重考虑的；</li>
 <li>高并发场景下的Cache Line伪共享问题是一个普遍存在的问题，你需要留意一下它；</li>
 <li>系统中需要运行的线程数可能大于CPU核数，这样就会导致线程排队等待CPU，这可能会导致一些延迟。如果你的任务对延迟容忍度低，你可以通过一些手段来人为干预Linux默认的调度策略。</li>
-</ul><h2>课后作业</h2><p>这节课的作业就是我们前面提到的思考题：在<a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v5.9-rc4&amp;id=1066d1b6974e095d5a6c472ad9180a957b496cd6">psi: Move PF_MEMSTALL out of task-&gt;flags</a>这个PATCH中，为什么没有考虑多线程并行操作新增加的位域（in_memstall）时的竞争问题？欢迎你在留言区与我讨论。</p><p>感谢你的阅读，如果你认为这节课的内容有收获，也欢迎把它分享给你的朋友，我们下一讲见。</p>
+</ul><h2>课后作业</h2><p>这节课的作业就是我们前面提到的思考题：在<a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v5.9-rc4&amp;id=1066d1b6974e095d5a6c472ad9180a957b496cd6">psi: Move PF_MEMSTALL out of task-&gt;flags</a>这个PATCH中，为什么没有考虑多线程并行操作新增加的位域（in_memstall）时的竞争问题？欢迎你在留言区与我讨论。</p><p>感谢你的阅读，如果你认为这节课的内容有收获，也欢迎把它分享给你的朋友，我们下一讲见。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/290588' > </iframe></div>

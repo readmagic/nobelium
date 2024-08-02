@@ -130,4 +130,4 @@ b62db1f: subject does not match regex [^(revert: )?(feat|fix|perf|style|refactor
 </code></pre><p>这里要强调的是，我们要保证<strong>不管使用手动操作，还是通过Makefile操作</strong>，都要确保git commit message规范检查结果、生成的CHANGELOG、生成的版本号是一致的。这需要我们<strong>采用同一种操作方式</strong>。</p><h2>总结</h2><p>在整个研发流程中，需要开发人员深度参与的阶段有两个，分别是开发阶段和测试阶段。在开发阶段，开发者完成代码开发之后，通常需要执行生成代码、版权检查、代码格式化、静态代码检查、单元测试、构建等操作。我们可以将这些操作集成在Makefile中，来提高效率，并借此统一操作。</p><p>另外，IAM项目在编写Makefile时也采用了一些技巧，例如<code>make help</code> 命令中，help信息是通过解析Makefile文件的注释来完成的；可以通过git-chglog自动生成CHANGELOG；通过gsemver自动生成语义化的版本号等。</p><h2>课后练习</h2><ol>
 <li>看下IAM项目的 <code>make dependencies</code> 是如何实现的，这样实现有什么好处？</li>
 <li>IAM项目中使用 了<code>gofmt</code> 、<code>goimports</code> 、<code>golines</code> 3种格式化工具，思考下，还有没有其他格式化工具值得集成在 <code>make format</code> 目标的命令中？</li>
-</ol><p>欢迎你在留言区分享你的见解，和我一起交流讨论，我们下一讲见！</p>
+</ol><p>欢迎你在留言区分享你的见解，和我一起交流讨论，我们下一讲见！</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/389649' > </iframe></div>

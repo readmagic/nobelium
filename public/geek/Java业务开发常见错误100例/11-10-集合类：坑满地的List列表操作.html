@@ -306,4 +306,4 @@ Node&lt;E&gt; node(int index) {
 </ul><p>第二，想当然认为，Arrays.asList一定可以把所有数组转换为正确的List。当传入基本类型数组的时候，List的元素是数组本身，而不是数组中的元素。</p><p>第三，想当然认为，内存中任何集合的搜索都是很快的，结果在搜索超大ArrayList的时候遇到性能问题。我们考虑利用HashMap哈希表随机查找的时间复杂度为O(1)这个特性来优化性能，不过也要考虑HashMap存储空间上的代价，要平衡时间和空间。</p><p>第四，想当然认为，链表适合元素增删的场景，选用LinkedList作为数据结构。在真实场景中读写增删一般是平衡的，而且增删不可能只是对头尾对象进行操作，可能在90%的情况下都得不到性能增益，建议使用之前通过性能测试评估一下。</p><p>今天用到的代码，我都放在了GitHub上，你可以点击<a href="https://github.com/JosephZhu1983/java-common-mistakes">这个链接</a>查看。</p><h2>思考与讨论</h2><p>最后，我给你留下与ArrayList在删除元素方面的坑有关的两个思考题吧。</p><ol>
 <li>调用类型是Integer的ArrayList的remove方法删除元素，传入一个Integer包装类的数字和传入一个int基本类型的数字，结果一样吗？</li>
 <li>循环遍历List，调用remove方法删除元素，往往会遇到ConcurrentModificationException异常，原因是什么，修复方式又是什么呢？</li>
-</ol><p>你还遇到过与集合类相关的其他坑吗？我是朱晔，欢迎在评论区与我留言分享你的想法，也欢迎你把这篇文章分享给你的朋友或同事，一起交流。</p>
+</ol><p>你还遇到过与集合类相关的其他坑吗？我是朱晔，欢迎在评论区与我留言分享你的想法，也欢迎你把这篇文章分享给你的朋友或同事，一起交流。</p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/216778' > </iframe></div>

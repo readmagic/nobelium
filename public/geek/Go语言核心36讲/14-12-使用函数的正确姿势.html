@@ -66,4 +66,4 @@ func modifyArray(a [3]string) [3]string {
 </code></pre><p>变量<code>complexArray1</code>是<code>[3][]string</code>类型的，也就是说，虽然它是一个数组，但是其中的每个元素又都是一个切片。这样一个值被传入函数的话，函数中对该参数值的修改会影响到<code>complexArray1</code>本身吗？我想，这可以留作今天的思考题。</p><p><strong>总结</strong></p><p>我们今天主要聚焦于函数的使用手法。在Go语言中，函数可是一等的（first-class）公民。它既可以被独立声明，也可以被作为普通的值来传递或赋予变量。除此之外，我们还可以在其他函数的内部声明匿名函数并把它直接赋给变量。</p><p>你需要记住Go语言是怎样鉴别一个函数的，函数的签名在这里起到了至关重要的作用。</p><p>函数是Go语言支持函数式编程的主要体现。我们可以通过“把函数传给函数”以及“让函数返回函数”来编写高阶函数，也可以用高阶函数来实现闭包，并以此做到部分程序逻辑的动态生成。</p><p>我们在最后还说了一下关于函数传参的一个注意事项，这很重要，可能会关系到程序的稳定和安全。</p><p>一个相关的原则是：既不要把你程序的细节暴露给外界，也尽量不要让外界的变动影响到你的程序。你可以想想这个原则在这里可以起到怎样的指导作用。</p><p><strong>思考题</strong></p><p>今天我给你留下两道思考题。</p><ol>
 <li><code>complexArray1</code>被传入函数的话，这个函数中对该参数值的修改会影响到它的原值吗？</li>
 <li>函数真正拿到的参数值其实只是它们的副本，那么函数返回给调用方的结果值也会被复制吗？</li>
-</ol><p><a href="https://github.com/hyper0x/Golang_Puzzlers">戳此查看Go语言专栏文章配套详细代码。</a></p><p></p>
+</ol><p><a href="https://github.com/hyper0x/Golang_Puzzlers">戳此查看Go语言专栏文章配套详细代码。</a></p><p></p><div><p>评论</p><iframe width='100%'  frameborder=0 height=900px src='https://time.geekbang.org/comment/nice/14671' > </iframe></div>
