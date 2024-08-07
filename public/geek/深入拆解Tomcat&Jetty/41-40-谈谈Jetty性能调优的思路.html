@@ -1,4 +1,4 @@
-<p>关于Tomcat的性能调优，前面我主要谈了工作经常会遇到的有关JVM GC、监控、I/O和线程池以及CPU的问题定位和调优，今天我们来看看Jetty有哪些调优的思路。</p><p>关于Jetty的性能调优，官网上给出了一些很好的建议，分为操作系统层面和Jetty本身的调优，我们将分别来看一看它们具体是怎么做的，最后再通过一个实战案例来学习一下如何确定Jetty的最佳线程数。</p><h2>操作系统层面调优</h2><p>对于Linux操作系统调优来说，我们需要加大一些默认的限制值，这些参数主要可以在<code>/etc/security/limits.conf</code>中或通过<code>sysctl</code>命令进行配置，其实这些配置对于Tomcat来说也是适用的，下面我来详细介绍一下这些参数。</p><p><strong>TCP缓冲区大小</strong></p><p>TCP的发送和接收缓冲区最好加大到16MB，可以通过下面的命令配置：</p><pre><code> sysctl -w net.core.rmem_max = 16777216
+<meta name="referrer" content="no-referrer" /><p>关于Tomcat的性能调优，前面我主要谈了工作经常会遇到的有关JVM GC、监控、I/O和线程池以及CPU的问题定位和调优，今天我们来看看Jetty有哪些调优的思路。</p><p>关于Jetty的性能调优，官网上给出了一些很好的建议，分为操作系统层面和Jetty本身的调优，我们将分别来看一看它们具体是怎么做的，最后再通过一个实战案例来学习一下如何确定Jetty的最佳线程数。</p><h2>操作系统层面调优</h2><p>对于Linux操作系统调优来说，我们需要加大一些默认的限制值，这些参数主要可以在<code>/etc/security/limits.conf</code>中或通过<code>sysctl</code>命令进行配置，其实这些配置对于Tomcat来说也是适用的，下面我来详细介绍一下这些参数。</p><p><strong>TCP缓冲区大小</strong></p><p>TCP的发送和接收缓冲区最好加大到16MB，可以通过下面的命令配置：</p><pre><code> sysctl -w net.core.rmem_max = 16777216
  sysctl -w net.core.wmem_max = 16777216
  sysctl -w net.ipv4.tcp_rmem =“4096 87380 16777216”
  sysctl -w net.ipv4.tcp_wmem =“4096 16384 16777216”

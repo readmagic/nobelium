@@ -1,4 +1,4 @@
-<p>你好，我是温铭。今天我们一起学习下LuaJIT 中唯一的数据结构：<code>table</code>。</p><p>和其他具有丰富数据结构的脚本语言不同，LuaJIT 中只有 <code>table</code> 这一个数据结构，并没有区分开数组、哈希、集合等概念，而是揉在了一起。让我们先温习下之前提到过的一个例子：</p><pre><code>local color = {first = &quot;red&quot;, &quot;blue&quot;, third = &quot;green&quot;, &quot;yellow&quot;}
+<meta name="referrer" content="no-referrer" /><p>你好，我是温铭。今天我们一起学习下LuaJIT 中唯一的数据结构：<code>table</code>。</p><p>和其他具有丰富数据结构的脚本语言不同，LuaJIT 中只有 <code>table</code> 这一个数据结构，并没有区分开数组、哈希、集合等概念，而是揉在了一起。让我们先温习下之前提到过的一个例子：</p><pre><code>local color = {first = &quot;red&quot;, &quot;blue&quot;, third = &quot;green&quot;, &quot;yellow&quot;}
 print(color[&quot;first&quot;])                 --&gt; output: red
 print(color[1])                         --&gt; output: blue
 print(color[&quot;third&quot;])                --&gt; output: green

@@ -1,4 +1,4 @@
-<p>你好，我是尉刚强。今天，我们来讨论下与系统动态监控相关的能力和配置思路。</p><p>对于从事Java语言开发的程序员来说，应该基本上都使用过Slf4j+Logback来打印日志。而对于一些软件性能要求比较高的系统来说，为了减少日志打印对性能的影响，默认情况下，系统一般只会打开WARN或ERROR级别的日志。</p><p>那么，如果软件系统在执行的过程中出现了一些异常情况，需要做进一步的分析，想要打开INFO级别的日志，该怎么办呢？其实这个时候，你就需要在软件执行期间，实现动态修改日志打印级别的能力。</p><p>这里我们以Logback配置为例，其修改打印日志级别的代码如下所示：</p><pre><code>LoggerContext loggerContext =
+<meta name="referrer" content="no-referrer" /><p>你好，我是尉刚强。今天，我们来讨论下与系统动态监控相关的能力和配置思路。</p><p>对于从事Java语言开发的程序员来说，应该基本上都使用过Slf4j+Logback来打印日志。而对于一些软件性能要求比较高的系统来说，为了减少日志打印对性能的影响，默认情况下，系统一般只会打开WARN或ERROR级别的日志。</p><p>那么，如果软件系统在执行的过程中出现了一些异常情况，需要做进一步的分析，想要打开INFO级别的日志，该怎么办呢？其实这个时候，你就需要在软件执行期间，实现动态修改日志打印级别的能力。</p><p>这里我们以Logback配置为例，其修改打印日志级别的代码如下所示：</p><pre><code>LoggerContext loggerContext =
 (LoggerContext) LoggerFactory.getILoggerFactory();
 Logger logger = loggerContext.getLogger(&quot;root&quot;);
 ((ch.qos.logback.classic.Logger)logger).setLevel(Level.valueOf(logLevel));

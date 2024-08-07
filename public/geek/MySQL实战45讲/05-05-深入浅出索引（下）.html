@@ -1,4 +1,4 @@
-<p>在上一篇文章中，我和你介绍了InnoDB索引的数据结构模型，今天我们再继续聊聊跟MySQL索引有关的概念。</p><p>在开始这篇文章之前，我们先来看一下这个问题：</p><p>在下面这个表T中，如果我执行 select * from T where k between 3 and 5，需要执行几次树的搜索操作，会扫描多少行？</p><p>下面是这个表的初始化语句。</p><pre><code>mysql&gt; create table T (
+<meta name="referrer" content="no-referrer" /><p>在上一篇文章中，我和你介绍了InnoDB索引的数据结构模型，今天我们再继续聊聊跟MySQL索引有关的概念。</p><p>在开始这篇文章之前，我们先来看一下这个问题：</p><p>在下面这个表T中，如果我执行 select * from T where k between 3 and 5，需要执行几次树的搜索操作，会扫描多少行？</p><p>下面是这个表的初始化语句。</p><pre><code>mysql&gt; create table T (
 ID int primary key,
 k int NOT NULL DEFAULT 0, 
 s varchar(16) NOT NULL DEFAULT '',

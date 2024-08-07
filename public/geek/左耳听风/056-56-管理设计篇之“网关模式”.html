@@ -1,4 +1,4 @@
-<p>前面，我们讲了Sidecar和Service Mesh这两种设计模式，它们都是在不侵入业务逻辑的情况下，把控制面（control plane）和数据面（data plane）的处理解耦分离。但是这两种模式都让我们的运维成本变得特别大，因为每个服务都需要一个Sidecar，这让本来就复杂的分布式系统的架构就更为复杂和难以管理了。</p>
+<meta name="referrer" content="no-referrer" /><p>前面，我们讲了Sidecar和Service Mesh这两种设计模式，它们都是在不侵入业务逻辑的情况下，把控制面（control plane）和数据面（data plane）的处理解耦分离。但是这两种模式都让我们的运维成本变得特别大，因为每个服务都需要一个Sidecar，这让本来就复杂的分布式系统的架构就更为复杂和难以管理了。</p>
 <p>在谈Service Mesh的时候，我们提到了Gateway。我个人觉得并不需要为每个服务的实例都配置上一个Sidecar。其实，一个服务集群配上一个Gateway就可以了，或是一组类似的服务配置上一个Gateway。</p>
 <p>这样一来，Gateway方式下的架构，可以细到为每一个服务的实例配置一个自己的Gateway，也可以粗到为一组服务配置一个，甚至可以粗到为整个架构配置一个接入的Gateway。于是，整个系统架构的复杂度就会变得简单可控起来。</p>
 <p><img src="https://static001.geekbang.org/resource/image/96/55/9618e7b3df119b07355891c76a741455.jpg?wh=3663x2226" alt="" /><br />

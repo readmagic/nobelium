@@ -1,4 +1,4 @@
-<p>你好，我是Chrono。</p><p>上节课我讲了自动类型推导，提到auto推导出的类型可以附加const、volatile修饰（通常合称为“cv修饰符”）。别看就这么两个关键字，里面的“门道”其实挺多的，用好了可以让你的代码更安全、运行得更快。今天我就来说说它们俩，以及比较少见的另一个关键字mutable。</p><h2>const与volatile</h2><p>先来看<strong>const</strong>吧，你一定对它很熟悉了。正如它的字面含义，表示“常量”。最简单的用法就是，<strong>定义程序用到的数字、字符串常量，代替宏定义</strong>。</p><pre><code>const int MAX_LEN       = 1024;
+<meta name="referrer" content="no-referrer" /><p>你好，我是Chrono。</p><p>上节课我讲了自动类型推导，提到auto推导出的类型可以附加const、volatile修饰（通常合称为“cv修饰符”）。别看就这么两个关键字，里面的“门道”其实挺多的，用好了可以让你的代码更安全、运行得更快。今天我就来说说它们俩，以及比较少见的另一个关键字mutable。</p><h2>const与volatile</h2><p>先来看<strong>const</strong>吧，你一定对它很熟悉了。正如它的字面含义，表示“常量”。最简单的用法就是，<strong>定义程序用到的数字、字符串常量，代替宏定义</strong>。</p><pre><code>const int MAX_LEN       = 1024;
 const std::string NAME  = &quot;metroid&quot;;
 </code></pre><p>但如果我们从C++程序的生命周期角度来看的话，就会发现，它和宏定义还是有本质区别的：<strong>const定义的常量在预处理阶段并不存在，而是直到运行阶段才会出现</strong>。</p><p>所以，准确地说，它实际上是运行时的“变量”，只不过不允许修改，是“只读”的（read only），叫“只读变量”更合适。</p><p>既然它是“变量”，那么，使用指针获取地址，再“强制”写入也是可以的。但这种做法破坏了“常量性”，绝对不提倡。这里，我只是给你做一个示范性质的实验，还要用到另外一个关键字volatile。</p><pre><code>// 需要加上volatile修饰，运行时才能看到效果
 const volatile int MAX_LEN  = 1024;

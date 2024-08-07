@@ -1,4 +1,4 @@
-<p>前面我们多次提到一个累加器的例子，示例代码如下。在这个例子中，add10K()这个方法不是线程安全的，问题就出在变量count的可见性和count+=1的原子性上。可见性问题可以用volatile来解决，而原子性问题我们前面一直都是采用的互斥锁方案。</p><pre><code>public class Test {
+<meta name="referrer" content="no-referrer" /><p>前面我们多次提到一个累加器的例子，示例代码如下。在这个例子中，add10K()这个方法不是线程安全的，问题就出在变量count的可见性和count+=1的原子性上。可见性问题可以用volatile来解决，而原子性问题我们前面一直都是采用的互斥锁方案。</p><pre><code>public class Test {
   long count = 0;
   void add10K() {
     int idx = 0;

@@ -1,4 +1,4 @@
-<p>你好，我是七牛云许式伟。</p><p>在上一章，我们实现了一个 mock 版本的服务端，代码如下：</p><ul>
+<meta name="referrer" content="no-referrer" /><p>你好，我是七牛云许式伟。</p><p>在上一章，我们实现了一个 mock 版本的服务端，代码如下：</p><ul>
 <li><a href="https://github.com/qiniu/qpaint/tree/v31/paintdom">https://github.com/qiniu/qpaint/tree/v31/paintdom</a></li>
 </ul><p>接下来我们将一步步迭代，把它变成一个产品级的服务端程序。</p><p>我们之前已经提到，服务端程序的业务逻辑被分为两层：底层是业务逻辑的实现层，通常我们有意识地把它组织为一颗 DOM 树。上层则是 RESTful API 层，它负责接收用户的网络请求，并转为对底层 DOM 树的方法调用。</p><p>上一讲我们关注的是 RESTful API 层。我们为了实现它，引入了 RPC 框架<a href="https://github.com/qiniu/http"> restrpc</a> 和单元测试框架 <a href="https://github.com/qiniu/qiniutest">qiniutest</a>。</p><p>这一讲我们关注的是底层的业务逻辑实现层。</p><h2>使用界面（接口）</h2><p>我们先看下这一层的使用界面（接口）。从 DOM 树的角度来说，在这一讲之前，它的逻辑结构如下：</p><pre><code>&lt;Drawing1&gt;
   &lt;Shape11&gt;

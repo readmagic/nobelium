@@ -1,4 +1,4 @@
-<p>上一节，我们讲了输入输出设备的层次模型，还是比较复杂的，块设备尤其复杂。这一节为了让你更清晰地了解设备驱动程序的架构，我们先来讲稍微简单一点的字符设备驱动。</p><p>这一节，我找了两个比较简单的字符设备驱动来解析一下。一个是输入字符设备，鼠标。代码在drivers/input/mouse/logibm.c这里。</p><pre><code>/*
+<meta name="referrer" content="no-referrer" /><p>上一节，我们讲了输入输出设备的层次模型，还是比较复杂的，块设备尤其复杂。这一节为了让你更清晰地了解设备驱动程序的架构，我们先来讲稍微简单一点的字符设备驱动。</p><p>这一节，我找了两个比较简单的字符设备驱动来解析一下。一个是输入字符设备，鼠标。代码在drivers/input/mouse/logibm.c这里。</p><pre><code>/*
  * Logitech Bus Mouse Driver for Linux
  */
 module_init(logibm_init);

@@ -1,4 +1,4 @@
-<p>前面我们学习了如何使用fork创建进程，也学习了进程管理和调度的相关数据结构。这一节，我们就来看一看，创建进程这个动作在内核里都做了什么事情。</p><p>fork是一个系统调用，根据咱们讲过的系统调用的流程，流程的最后会在sys_call_table中找到相应的系统调用sys_fork。</p><p>sys_fork是如何定义的呢？根据SYSCALL_DEFINE0这个宏的定义，下面这段代码就定义了sys_fork。</p><pre><code>SYSCALL_DEFINE0(fork)
+<meta name="referrer" content="no-referrer" /><p>前面我们学习了如何使用fork创建进程，也学习了进程管理和调度的相关数据结构。这一节，我们就来看一看，创建进程这个动作在内核里都做了什么事情。</p><p>fork是一个系统调用，根据咱们讲过的系统调用的流程，流程的最后会在sys_call_table中找到相应的系统调用sys_fork。</p><p>sys_fork是如何定义的呢？根据SYSCALL_DEFINE0这个宏的定义，下面这段代码就定义了sys_fork。</p><pre><code>SYSCALL_DEFINE0(fork)
 {
 ......
 	return _do_fork(SIGCHLD, 0, 0, NULL, NULL, 0);

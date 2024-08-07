@@ -1,4 +1,4 @@
-<p>上一节，我们讲了存储虚拟化，这一节我们来讲网络虚拟化。</p><p>网络虚拟化有和存储虚拟化类似的地方，例如，它们都是基于virtio的，因而我们在看网络虚拟化的过程中，会看到和存储虚拟化很像的数据结构和原理。但是，网络虚拟化也有自己的特殊性。例如，存储虚拟化是将宿主机上的文件作为客户机上的硬盘，而网络虚拟化需要依赖于内核协议栈进行网络包的封装与解封装。那怎么实现客户机和宿主机之间的互通呢？我们就一起来看一看。</p><h2>解析初始化过程</h2><p>我们还是从Virtio Network Device这个设备的初始化讲起。</p><pre><code>static const TypeInfo device_type_info = {
+<meta name="referrer" content="no-referrer" /><p>上一节，我们讲了存储虚拟化，这一节我们来讲网络虚拟化。</p><p>网络虚拟化有和存储虚拟化类似的地方，例如，它们都是基于virtio的，因而我们在看网络虚拟化的过程中，会看到和存储虚拟化很像的数据结构和原理。但是，网络虚拟化也有自己的特殊性。例如，存储虚拟化是将宿主机上的文件作为客户机上的硬盘，而网络虚拟化需要依赖于内核协议栈进行网络包的封装与解封装。那怎么实现客户机和宿主机之间的互通呢？我们就一起来看一看。</p><h2>解析初始化过程</h2><p>我们还是从Virtio Network Device这个设备的初始化讲起。</p><pre><code>static const TypeInfo device_type_info = {
     .name = TYPE_DEVICE,
     .parent = TYPE_OBJECT,
     .instance_size = sizeof(DeviceState),

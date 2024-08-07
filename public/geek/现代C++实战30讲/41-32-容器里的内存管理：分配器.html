@@ -1,4 +1,4 @@
-<p>你好，我是吴咏炜。</p><p>上一讲里我们讨论了 C++ 里内存管理的基本工具，分配和释放函数。今天，我们来讨论一下容器里管理内存的机制——分配器（allocator）。</p><h2>一点点历史</h2><p>从网上可以找到的 SGI STL 的文档 <span class="orange">[1]</span> 中能够看到，在 C++ 标准化之前，STL 已经引入了分配器的概念，并且还引入了多种分配器，为不同的使用场景进行优化：</p><ul>
+<meta name="referrer" content="no-referrer" /><p>你好，我是吴咏炜。</p><p>上一讲里我们讨论了 C++ 里内存管理的基本工具，分配和释放函数。今天，我们来讨论一下容器里管理内存的机制——分配器（allocator）。</p><h2>一点点历史</h2><p>从网上可以找到的 SGI STL 的文档 <span class="orange">[1]</span> 中能够看到，在 C++ 标准化之前，STL 已经引入了分配器的概念，并且还引入了多种分配器，为不同的使用场景进行优化：</p><ul>
 <li><code>alloc</code>：线程安全的默认分配器；默认对小于 128 字节的分配要求使用内存池，超过则使用 <code>malloc_alloc</code></li>
 <li><code>pthread_alloc</code>：每线程使用独立内存池的分配器</li>
 <li><code>single_client_alloc</code>：线程不安全的快速分配器</li>

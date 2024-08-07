@@ -1,4 +1,4 @@
-<p>在这一章的第一节里，我们大致讲了管道的使用方式以及相应的命令行。这一节，我们就具体来看一下管道是如何实现的。</p><p>我们先来看，我们常用的<strong>匿名管道</strong>（Anonymous Pipes），也即将多个命令串起来的竖线，背后的原理到底是什么。</p><p>上次我们说，它是基于管道的，那管道如何创建呢？管道的创建，需要通过下面这个系统调用。</p><pre><code>int pipe(int fd[2])
+<meta name="referrer" content="no-referrer" /><p>在这一章的第一节里，我们大致讲了管道的使用方式以及相应的命令行。这一节，我们就具体来看一下管道是如何实现的。</p><p>我们先来看，我们常用的<strong>匿名管道</strong>（Anonymous Pipes），也即将多个命令串起来的竖线，背后的原理到底是什么。</p><p>上次我们说，它是基于管道的，那管道如何创建呢？管道的创建，需要通过下面这个系统调用。</p><pre><code>int pipe(int fd[2])
 </code></pre><p>在这里，我们创建了一个管道pipe，返回了两个文件描述符，这表示管道的两端，一个是管道的读取端描述符fd[0]，另一个是管道的写入端描述符fd[1]。</p><p><img src="https://static001.geekbang.org/resource/image/8f/a7/8fa3144bf3a34ddf789884a75fa2d4a7.png" alt=""></p><p>我们来看在内核里面是如何实现的。</p><pre><code>SYSCALL_DEFINE1(pipe, int __user *, fildes)
 {
 	return sys_pipe2(fildes, 0);

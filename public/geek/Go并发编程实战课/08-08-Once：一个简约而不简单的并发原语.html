@@ -1,4 +1,4 @@
-<p>你好，我是鸟窝。</p><p>这一讲我来讲一个简单的并发原语：Once。为什么要学习Once呢？我先给你答案：<strong>Once可以用来执行且仅仅执行一次动作，常常用于单例对象的初始化场景。</strong></p><p>那这节课，我们就从对单例对象进行初始化这件事儿说起。</p><p>初始化单例资源有很多方法，比如定义package级别的变量，这样程序在启动的时候就可以初始化：</p><pre><code>package abc
+<meta name="referrer" content="no-referrer" /><p>你好，我是鸟窝。</p><p>这一讲我来讲一个简单的并发原语：Once。为什么要学习Once呢？我先给你答案：<strong>Once可以用来执行且仅仅执行一次动作，常常用于单例对象的初始化场景。</strong></p><p>那这节课，我们就从对单例对象进行初始化这件事儿说起。</p><p>初始化单例资源有很多方法，比如定义package级别的变量，这样程序在启动的时候就可以初始化：</p><pre><code>package abc
 
 import time
 

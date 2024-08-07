@@ -1,4 +1,4 @@
-<blockquote>
+<meta name="referrer" content="no-referrer" /><blockquote>
 <p>作者注：本文只作了解，不建议作为面试题考察。</p>
 </blockquote><p>你好，我是曹春晖，是《Go 语言高级编程》的作者之一。</p><p>今天我想跟你分享一下 Go 语言内存方面的话题，聊一聊Go语言中的垃圾回收（GC）机制的实现，希望你能从中有所收获。</p><h2>武林秘籍救不了段错误</h2><p><img src="https://static001.geekbang.org/resource/image/5f/c8/5f4574358998f372abcab606df8803c8.png?wh=500x300" alt="图片" title="包教包会包分配"></p><p>在各种流传甚广的 C 语言葵花宝典里，一般都有这么一条神秘的规则，不能返回局部变量：</p><pre><code class="language-plain">int * func(void) {
     int num = 1234;

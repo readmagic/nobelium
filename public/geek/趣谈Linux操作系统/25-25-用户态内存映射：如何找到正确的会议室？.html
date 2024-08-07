@@ -1,4 +1,4 @@
-<p>前面几节，我们既看了虚拟内存空间如何组织的，也看了物理页面如何管理的。现在我们需要一些数据结构，将二者关联起来。</p><h2>mmap的原理</h2><p>在虚拟地址空间那一节，我们知道，每一个进程都有一个列表vm_area_struct，指向虚拟地址空间的不同的内存块，这个变量的名字叫<strong>mmap</strong>。</p><pre><code>struct mm_struct {
+<meta name="referrer" content="no-referrer" /><p>前面几节，我们既看了虚拟内存空间如何组织的，也看了物理页面如何管理的。现在我们需要一些数据结构，将二者关联起来。</p><h2>mmap的原理</h2><p>在虚拟地址空间那一节，我们知道，每一个进程都有一个列表vm_area_struct，指向虚拟地址空间的不同的内存块，这个变量的名字叫<strong>mmap</strong>。</p><pre><code>struct mm_struct {
 	struct vm_area_struct *mmap;		/* list of VMAs */
 ......
 }

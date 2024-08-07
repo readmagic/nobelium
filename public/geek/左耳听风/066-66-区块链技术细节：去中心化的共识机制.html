@@ -1,4 +1,4 @@
-<p>其实，去中心化的共识机制也是要解决拜占庭将军问题（<a href="https://web.archive.org/web/20170205142845/http://lamport.azurewebsites.net/pubs/byz.pdf">The Byzantine Generals Problem</a>），它是莱斯利·兰伯特（Leslie Lamport）于1982年提出来的，用来解释一致性问题的一个虚构模型。同时，它也是分布式领域中最复杂、最严格的容错模型。</p>
+<meta name="referrer" content="no-referrer" /><p>其实，去中心化的共识机制也是要解决拜占庭将军问题（<a href="https://web.archive.org/web/20170205142845/http://lamport.azurewebsites.net/pubs/byz.pdf">The Byzantine Generals Problem</a>），它是莱斯利·兰伯特（Leslie Lamport）于1982年提出来的，用来解释一致性问题的一个虚构模型。同时，它也是分布式领域中最复杂、最严格的容错模型。</p>
 <h1>分布式一致性算法</h1>
 <p>拜占庭的将军们没有一个中心化的领导机构，所以，如果他们需要攻击某个城市，所有将军需要对任何将军可能提出的攻击时间达成共识。也就是说，只有所有的将军都达成了共识，在同一个攻击时间攻击，就有非常大的胜率。但是，问题来了。这时，可能会有多个将军同时发出不同的攻击计划，而且这些将军中还有叛徒。那么，将军们怎样达成共识呢？</p>
 <p>莱斯利·兰伯特证明，当叛变者不超过 1/3时，存在有效的算法。不论叛变者如何折腾，忠诚的将军们总能达成一致的结果。如果叛变者过多，则无法保证一定能达到一致性。</p>

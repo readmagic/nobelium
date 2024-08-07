@@ -1,4 +1,4 @@
-<p>你好，我是张磊。今天我和你分享的主题是：从容器到容器云，谈谈Kubernetes的本质。</p><p>在前面的四篇文章中，我以Docker项目为例，一步步剖析了Linux容器的具体实现方式。通过这些讲解你应该能够明白：一个“容器”，实际上是一个由Linux Namespace、Linux Cgroups和rootfs三种技术构建出来的进程的隔离环境。</p><p>从这个结构中我们不难看出，一个正在运行的Linux容器，其实可以被“一分为二”地看待：</p><ol>
+<meta name="referrer" content="no-referrer" /><p>你好，我是张磊。今天我和你分享的主题是：从容器到容器云，谈谈Kubernetes的本质。</p><p>在前面的四篇文章中，我以Docker项目为例，一步步剖析了Linux容器的具体实现方式。通过这些讲解你应该能够明白：一个“容器”，实际上是一个由Linux Namespace、Linux Cgroups和rootfs三种技术构建出来的进程的隔离环境。</p><p>从这个结构中我们不难看出，一个正在运行的Linux容器，其实可以被“一分为二”地看待：</p><ol>
 <li>
 <p>一组联合挂载在/var/lib/docker/aufs/mnt上的rootfs，这一部分我们称为“容器镜像”（Container Image），是容器的静态视图；</p>
 </li>

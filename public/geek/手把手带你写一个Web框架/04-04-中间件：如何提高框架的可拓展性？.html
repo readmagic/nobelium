@@ -1,4 +1,4 @@
-<p>你好，我是轩脉刃。</p><p>到目前为止我们已经完成了Web框架的基础部分，使用net/http启动了一个Web服务，并且定义了自己的Context，可以控制请求超时。</p><p>之前在讲具体实现的时候，我们反复强调要注意代码的优化。那么如何优化呢？具体来说，很重要的一点就是封装。所以今天我们就回顾一下之前写的代码，看看如何通过封装来进一步提高代码扩展性。</p><p>在第二课，我们在业务文件夹中的controller.go的逻辑中设置了一个有超时时长的控制器：</p><pre><code class="language-go">func FooControllerHandler(c *framework.Context) error {
+<meta name="referrer" content="no-referrer" /><p>你好，我是轩脉刃。</p><p>到目前为止我们已经完成了Web框架的基础部分，使用net/http启动了一个Web服务，并且定义了自己的Context，可以控制请求超时。</p><p>之前在讲具体实现的时候，我们反复强调要注意代码的优化。那么如何优化呢？具体来说，很重要的一点就是封装。所以今天我们就回顾一下之前写的代码，看看如何通过封装来进一步提高代码扩展性。</p><p>在第二课，我们在业务文件夹中的controller.go的逻辑中设置了一个有超时时长的控制器：</p><pre><code class="language-go">func FooControllerHandler(c *framework.Context) error {
 	...
     // 在业务逻辑处理前，创建有定时器功能的 context
 	durationCtx, cancel := context.WithTimeout(c.BaseContext(), time.Duration(1*time.Second))

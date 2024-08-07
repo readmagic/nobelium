@@ -1,4 +1,4 @@
-<p>前不久，有同学问我，<code>String.indexOf</code>方法和自己实现的<code>indexOf</code>方法在字节码层面上差不多，为什么执行效率却有天壤之别呢？今天我们就来看一看。</p>
+<meta name="referrer" content="no-referrer" /><p>前不久，有同学问我，<code>String.indexOf</code>方法和自己实现的<code>indexOf</code>方法在字节码层面上差不多，为什么执行效率却有天壤之别呢？今天我们就来看一看。</p>
 <pre><code>public int indexOf(String str) {
     if (coder() == str.coder()) {
         return isLatin1() ? StringLatin1.indexOf(value, str.value)

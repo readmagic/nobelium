@@ -1,4 +1,4 @@
-<p>你好，我是胡夕。今天，我们正式进入到第四大模块“状态机”的学习。</p><p>Kafka源码中有很多状态机和管理器，比如之前我们学过的Controller通道管理器ControllerChannelManager、处理Controller事件的ControllerEventManager，等等。这些管理器和状态机，大多与各自的“宿主”组件关系密切，可以说是大小不同、功能各异。就比如Controller的这两个管理器，必须要与Controller组件紧耦合在一起才能实现各自的功能。</p><p>不过，Kafka中还是有一些状态机和管理器具有相对独立的功能框架，不严重依赖使用方，也就是我在这个模块为你精选的TopicDeletionManager（主题删除管理器）、ReplicaStateMachine（副本状态机）和PartitionStateMachine（分区状态机）。</p><ul>
+<meta name="referrer" content="no-referrer" /><p>你好，我是胡夕。今天，我们正式进入到第四大模块“状态机”的学习。</p><p>Kafka源码中有很多状态机和管理器，比如之前我们学过的Controller通道管理器ControllerChannelManager、处理Controller事件的ControllerEventManager，等等。这些管理器和状态机，大多与各自的“宿主”组件关系密切，可以说是大小不同、功能各异。就比如Controller的这两个管理器，必须要与Controller组件紧耦合在一起才能实现各自的功能。</p><p>不过，Kafka中还是有一些状态机和管理器具有相对独立的功能框架，不严重依赖使用方，也就是我在这个模块为你精选的TopicDeletionManager（主题删除管理器）、ReplicaStateMachine（副本状态机）和PartitionStateMachine（分区状态机）。</p><ul>
 <li>TopicDeletionManager：负责对指定Kafka主题执行删除操作，清除待删除主题在集群上的各类“痕迹”。</li>
 <li>ReplicaStateMachine：负责定义Kafka副本状态、合法的状态转换，以及管理状态之间的转换。</li>
 <li>PartitionStateMachine：负责定义Kafka分区状态、合法的状态转换，以及管理状态之间的转换。</li>

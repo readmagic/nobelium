@@ -1,4 +1,4 @@
-<p>好的音乐总是伴随着游戏一起，一直被玩家所记忆。在游戏中播放音乐和音效并不是什么困难的事情，但是究竟什么时候播放什么音效，具体怎么实现，这恐怕就需要一些技巧了。比如，我今天要讲的，我们可以和某些函数捆绑在一起实现。</p><p>Pygame支持mp3、ogg、wav音频和音效的播放。音乐的模块都在pygame.mixer中，这里面包括音乐和音效。</p><p>我们在使用音频部分模块的时候，需要先初始化一次。</p><pre><code>pygame.mixer.init()
+<meta name="referrer" content="no-referrer" /><p>好的音乐总是伴随着游戏一起，一直被玩家所记忆。在游戏中播放音乐和音效并不是什么困难的事情，但是究竟什么时候播放什么音效，具体怎么实现，这恐怕就需要一些技巧了。比如，我今天要讲的，我们可以和某些函数捆绑在一起实现。</p><p>Pygame支持mp3、ogg、wav音频和音效的播放。音乐的模块都在pygame.mixer中，这里面包括音乐和音效。</p><p>我们在使用音频部分模块的时候，需要先初始化一次。</p><pre><code>pygame.mixer.init()
 </code></pre><p>这个初始化应该在pygame.init()的初始化之后。</p><p>我们来看一下具体的函数，这些函数，存在在pygame.mixer.Sound模块下。</p><p><img src="https://static001.geekbang.org/resource/image/29/4d/299c0650d736f939189c49b32eb2b54d.jpg" alt=""></p><p>我们再来看一下Pygame.mixer.music音乐模块。我们可以尝试一下载入音频并且播放。</p><pre><code>pygame.mixer.music.load('bgm.mp3')
 pygame.mixer.music.set_volume(0.5)
 pygame.mixer.music.play()

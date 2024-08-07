@@ -1,4 +1,4 @@
-<p>你好，我是轩脉刃。</p><p>上一节课，我们梳理了Gorm的核心逻辑，也通过思维导图，详细分析了Gorm的源码搞清楚它是如何封装database/sql的。这节课我们就要思考和操作，如何将Gorm融合进入hade框架了。</p><p>Gorm的使用分为两个部分，数据库的连接和数据库的操作。</p><p>对于数据库操作接口的封装，Gorm已经做的非常好了，它在gorm.DB中定义了非常多的对数据库的操作接口，这些接口已经是非常易用了，而且每个操作接口在<a href="https://gorm.io/docs/">官方文档</a>中都有对应的说明和使用教程。比如在DB的操作接口列表中，我们可以看到常用的增删改查的逻辑：</p><pre><code class="language-go">func (db *DB) Create(value interface{}) (tx *DB)
+<meta name="referrer" content="no-referrer" /><p>你好，我是轩脉刃。</p><p>上一节课，我们梳理了Gorm的核心逻辑，也通过思维导图，详细分析了Gorm的源码搞清楚它是如何封装database/sql的。这节课我们就要思考和操作，如何将Gorm融合进入hade框架了。</p><p>Gorm的使用分为两个部分，数据库的连接和数据库的操作。</p><p>对于数据库操作接口的封装，Gorm已经做的非常好了，它在gorm.DB中定义了非常多的对数据库的操作接口，这些接口已经是非常易用了，而且每个操作接口在<a href="https://gorm.io/docs/">官方文档</a>中都有对应的说明和使用教程。比如在DB的操作接口列表中，我们可以看到常用的增删改查的逻辑：</p><pre><code class="language-go">func (db *DB) Create(value interface{}) (tx *DB)
 
 func (db *DB) Delete(value interface{}, conds ...interface{}) (tx *DB)
 

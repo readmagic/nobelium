@@ -1,4 +1,4 @@
-<p>你好，我是孔令飞。</p><p>上一讲，我介绍了公有云厂商普遍采用的SDK设计方式。其实，还有一些比较优秀的SDK设计方式，比如 Kubernetes的 <a href="https://github.com/kubernetes/client-go">client-go</a> SDK设计方式。IAM项目参考client-go，也实现了client-go风格的SDK：<a href="https://github.com/marmotedu/marmotedu-sdk-go">marmotedu-sdk-go</a>。</p><p>和 <a href="https://time.geekbang.org/column/article/406389">33讲</a> 介绍的SDK设计方式相比，client-go风格的SDK具有以下优点：</p><ul>
+<meta name="referrer" content="no-referrer" /><p>你好，我是孔令飞。</p><p>上一讲，我介绍了公有云厂商普遍采用的SDK设计方式。其实，还有一些比较优秀的SDK设计方式，比如 Kubernetes的 <a href="https://github.com/kubernetes/client-go">client-go</a> SDK设计方式。IAM项目参考client-go，也实现了client-go风格的SDK：<a href="https://github.com/marmotedu/marmotedu-sdk-go">marmotedu-sdk-go</a>。</p><p>和 <a href="https://time.geekbang.org/column/article/406389">33讲</a> 介绍的SDK设计方式相比，client-go风格的SDK具有以下优点：</p><ul>
 <li>大量使用了Go interface特性，将接口的定义和实现解耦，可以支持多种实现方式。</li>
 <li>接口调用层级跟资源的层级相匹配，调用方式更加友好。</li>
 <li>多版本共存。</li>

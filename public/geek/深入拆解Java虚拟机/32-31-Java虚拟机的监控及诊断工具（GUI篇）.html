@@ -1,4 +1,4 @@
-<p>今天我们来继续了解Java虚拟机的监控及诊断工具。</p>
+<meta name="referrer" content="no-referrer" /><p>今天我们来继续了解Java虚拟机的监控及诊断工具。</p>
 <h2>eclipse MAT</h2>
 <p>在上一篇中，我介绍了<code>jmap</code>工具，它支持导出Java虚拟机堆的二进制快照。eclipse的<a href="https://www.eclipse.org/mat/">MAT工具</a>便是其中一个能够解析这类二进制快照的工具。</p>
 <p>MAT本身也能够获取堆的二进制快照。该功能将借助<code>jps</code>列出当前正在运行的Java进程，以供选择并获取快照。由于<code>jps</code>会将自己列入其中，因此你会在列表中发现一个已经结束运行的<code>jps</code>进程。</p>

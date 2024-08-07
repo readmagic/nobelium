@@ -1,4 +1,4 @@
-<p>你好，我是张磊。今天我和你分享的主题是：白话容器基础之重新认识Docker容器。</p><p>在前面的三次分享中，我分别从Linux Namespace的隔离能力、Linux Cgroups的限制能力，以及基于rootfs的文件系统三个角度，为你剖析了一个Linux容器的核心实现原理。</p><blockquote>
+<meta name="referrer" content="no-referrer" /><p>你好，我是张磊。今天我和你分享的主题是：白话容器基础之重新认识Docker容器。</p><p>在前面的三次分享中，我分别从Linux Namespace的隔离能力、Linux Cgroups的限制能力，以及基于rootfs的文件系统三个角度，为你剖析了一个Linux容器的核心实现原理。</p><blockquote>
 <p>备注：之所以要强调Linux容器，是因为比如Docker on Mac，以及Windows Docker（Hyper-V实现），实际上是基于虚拟化技术实现的，跟我们这个专栏着重介绍的Linux容器完全不同。</p>
 </blockquote><p>而在今天的分享中，我会通过一个实际案例，对“白话容器基础”系列的所有内容做一次深入的总结和扩展。希望通过这次的讲解，能够让你更透彻地理解Docker容器的本质。</p><p>在开始实践之前，你需要准备一台Linux机器，并安装Docker。这个流程我就不再赘述了。</p><p>这一次，<span class="orange">我要用Docker部署一个用Python编写的Web应用</span>。这个应用的代码部分（<code>app.py</code>）非常简单：</p><pre><code>from flask import Flask
 import socket

@@ -1,4 +1,4 @@
-<p>你好，我是张磊。今天我和你分享的主题是：为什么说Kubernetes只有soft multi-tenancy？</p><p>在前面的文章中，我为你详细讲解了Kubernetes生态里，主流容器网络方案的工作原理。</p><p>不难发现，Kubernetes的网络模型，以及前面这些网络方案的实现，都只关注容器之间网络的“连通”，却并不关心容器之间网络的“隔离”。这跟传统的IaaS层的网络方案，区别非常明显。</p><p>你肯定会问了，Kubernetes的网络方案对“隔离”到底是如何考虑的呢？难道Kubernetes就不管网络“多租户”的需求吗？</p><p>接下来，在今天这篇文章中，我就来回答你的这些问题。</p><p>在Kubernetes里，网络隔离能力的定义，是依靠一种专门的API对象来描述的，即：NetworkPolicy。</p><p><span class="orange">一个完整的NetworkPolicy对象的示例</span>，如下所示：</p><pre><code>apiVersion: networking.k8s.io/v1
+<meta name="referrer" content="no-referrer" /><p>你好，我是张磊。今天我和你分享的主题是：为什么说Kubernetes只有soft multi-tenancy？</p><p>在前面的文章中，我为你详细讲解了Kubernetes生态里，主流容器网络方案的工作原理。</p><p>不难发现，Kubernetes的网络模型，以及前面这些网络方案的实现，都只关注容器之间网络的“连通”，却并不关心容器之间网络的“隔离”。这跟传统的IaaS层的网络方案，区别非常明显。</p><p>你肯定会问了，Kubernetes的网络方案对“隔离”到底是如何考虑的呢？难道Kubernetes就不管网络“多租户”的需求吗？</p><p>接下来，在今天这篇文章中，我就来回答你的这些问题。</p><p>在Kubernetes里，网络隔离能力的定义，是依靠一种专门的API对象来描述的，即：NetworkPolicy。</p><p><span class="orange">一个完整的NetworkPolicy对象的示例</span>，如下所示：</p><pre><code>apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: test-network-policy

@@ -1,4 +1,4 @@
-<p>你好，我是张磊。今天我和你分享的主题是：声明式API与Kubernetes编程范式。</p><p>在前面的几篇文章中，我和你分享了很多Kubernetes的API对象。这些API对象，有的是用来描述应用，有的则是为应用提供各种各样的服务。但是，无一例外地，为了使用这些API对象提供的能力，你都需要编写一个对应的YAML文件交给Kubernetes。</p><p>这个YAML文件，正是Kubernetes声明式API所必须具备的一个要素。不过，是不是只要用YAML文件代替了命令行操作，就是声明式API了呢？</p><p>举个例子。我们知道，Docker Swarm的编排操作都是基于命令行的，比如：</p><pre><code>$ docker service create --name nginx --replicas 2  nginx
+<meta name="referrer" content="no-referrer" /><p>你好，我是张磊。今天我和你分享的主题是：声明式API与Kubernetes编程范式。</p><p>在前面的几篇文章中，我和你分享了很多Kubernetes的API对象。这些API对象，有的是用来描述应用，有的则是为应用提供各种各样的服务。但是，无一例外地，为了使用这些API对象提供的能力，你都需要编写一个对应的YAML文件交给Kubernetes。</p><p>这个YAML文件，正是Kubernetes声明式API所必须具备的一个要素。不过，是不是只要用YAML文件代替了命令行操作，就是声明式API了呢？</p><p>举个例子。我们知道，Docker Swarm的编排操作都是基于命令行的，比如：</p><pre><code>$ docker service create --name nginx --replicas 2  nginx
 $ docker service update --image nginx:1.7.9 nginx
 </code></pre><p>像这样的两条命令，就是用Docker Swarm启动了两个Nginx容器实例。其中，第一条create命令创建了这两个容器，而第二条update命令则把它们“滚动更新”成了一个新的镜像。</p><p>对于这种使用方式，我们称为<strong>命令式命令行操作</strong>。</p><p>那么，像上面这样的创建和更新两个Nginx容器的操作，在Kubernetes里又该怎么做呢？</p><p>这个流程，相信你已经非常熟悉了：我们需要在本地编写一个Deployment的YAML文件：</p><pre><code>apiVersion: apps/v1
 kind: Deployment

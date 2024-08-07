@@ -1,4 +1,4 @@
-<p>今天我们来聊聊Java里的反射机制。</p>
+<meta name="referrer" content="no-referrer" /><p>今天我们来聊聊Java里的反射机制。</p>
 <p>反射是Java语言中一个相当重要的特性，它允许正在运行的Java程序观测，甚至是修改程序的动态行为。</p>
 <p>举例来说，我们可以通过Class对象枚举该类中的所有方法，我们还可以通过Method.setAccessible（位于java.lang.reflect包，该方法继承自AccessibleObject）绕过Java语言的访问权限，在私有方法所在类之外的地方调用该方法。</p>
 <p>反射在Java中的应用十分广泛。开发人员日常接触到的Java集成开发环境（IDE）便运用了这一功能：每当我们敲入点号时，IDE便会根据点号前的内容，动态展示可以访问的字段或者方法。</p>

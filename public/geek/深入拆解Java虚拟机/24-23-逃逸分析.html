@@ -1,4 +1,4 @@
-<p>我们知道，Java中<code>Iterable</code>对象的foreach循环遍历是一个语法糖，Java编译器会将该语法糖编译为调用<code>Iterable</code>对象的<code>iterator</code>方法，并用所返回的<code>Iterator</code>对象的<code>hasNext</code>以及<code>next</code>方法，来完成遍历。</p>
+<meta name="referrer" content="no-referrer" /><p>我们知道，Java中<code>Iterable</code>对象的foreach循环遍历是一个语法糖，Java编译器会将该语法糖编译为调用<code>Iterable</code>对象的<code>iterator</code>方法，并用所返回的<code>Iterator</code>对象的<code>hasNext</code>以及<code>next</code>方法，来完成遍历。</p>
 <pre><code>public void forEach(ArrayList&lt;Object&gt; list, Consumer&lt;Object&gt; f) {
   for (Object obj : list) {
     f.accept(obj);

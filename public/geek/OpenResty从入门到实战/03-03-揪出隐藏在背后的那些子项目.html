@@ -1,4 +1,4 @@
-<p>你好，我是温铭。</p><p>我们先来揭晓上一节最后留下的思考题，如何把 Lua 代码从 nginx.conf 里面抽取出来，保持代码的可读性和可维护性呢？</p><p>操作其实很简单。</p><p>我们先在 geektime 的工作目录下，创建一个名为 lua 的目录，专门用来存放代码：</p><pre><code>$ mkdir lua
+<meta name="referrer" content="no-referrer" /><p>你好，我是温铭。</p><p>我们先来揭晓上一节最后留下的思考题，如何把 Lua 代码从 nginx.conf 里面抽取出来，保持代码的可读性和可维护性呢？</p><p>操作其实很简单。</p><p>我们先在 geektime 的工作目录下，创建一个名为 lua 的目录，专门用来存放代码：</p><pre><code>$ mkdir lua
 $ cat lua/hello.lua
 ngx.say(&quot;hello, world&quot;)
 </code></pre><p>然后修改 nginx.conf 的配置，把 content_by_lua_block 改为 content_by_lua_file：</p><pre><code>pid logs/nginx.pid;

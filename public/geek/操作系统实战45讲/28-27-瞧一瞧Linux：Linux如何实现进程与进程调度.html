@@ -1,4 +1,4 @@
-<p>你好，我是LMOS。</p><p>在前面的课程中，我们已经写好了Cosmos的进程管理组件，实现了多进程调度运行，今天我们一起探索Linux如何表示进程以及如何进行多进程调度。</p><p>好了，话不多说，我们开始吧。</p><h2>Linux如何表示进程</h2><p>在Cosmos中，我们设计了一个thread_t数据结构来代表一个进程，Linux也同样是用一个数据结构表示一个进程。</p><p>下面我们先来研究Linux的进程数据结构，然后看看Linux进程的地址空间数据结构，最后再来理解Linux的文件表结构。</p><h3>Linux进程的数据结构</h3><p>Linux系统下，把运行中的应用程序抽象成一个数据结构task_struct，一个应用程序所需要的各种资源，如内存、文件等都包含在task_struct结构中。</p><p>因此，task_struct结构是非常巨大的一个数据结构，代码如下。</p><pre><code>struct task_struct {
+<meta name="referrer" content="no-referrer" /><p>你好，我是LMOS。</p><p>在前面的课程中，我们已经写好了Cosmos的进程管理组件，实现了多进程调度运行，今天我们一起探索Linux如何表示进程以及如何进行多进程调度。</p><p>好了，话不多说，我们开始吧。</p><h2>Linux如何表示进程</h2><p>在Cosmos中，我们设计了一个thread_t数据结构来代表一个进程，Linux也同样是用一个数据结构表示一个进程。</p><p>下面我们先来研究Linux的进程数据结构，然后看看Linux进程的地址空间数据结构，最后再来理解Linux的文件表结构。</p><h3>Linux进程的数据结构</h3><p>Linux系统下，把运行中的应用程序抽象成一个数据结构task_struct，一个应用程序所需要的各种资源，如内存、文件等都包含在task_struct结构中。</p><p>因此，task_struct结构是非常巨大的一个数据结构，代码如下。</p><pre><code>struct task_struct {
     struct thread_info thread_info;//处理器特有数据 
     volatile long   state;       //进程状态 
     void            *stack;      //进程内核栈地址 

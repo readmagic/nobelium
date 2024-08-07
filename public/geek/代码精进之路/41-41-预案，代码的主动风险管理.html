@@ -1,4 +1,4 @@
-<p>上一次，我们聊了保持代码长治久安的基础——代码规范。这一次，我们接着聊第二个方面，代码的风险预案。</p><p>有些问题，并没有适用于各种场景的解决办法；有些设计，并不能适用于所有的用户；有些实现，并不能经受过去、现在和未来的检验。在你的日常工作中，有没有这样的情况出现？</p><p>做好预案，是我们管理风险的一个很重要的手段。代码的安全管理，也需要预案。</p><h2>评审案例</h2><p>让我们一起来看一段节选的Java代码变更。</p><pre><code>     public static String[] getDefaultCipherSuites() {
+<meta name="referrer" content="no-referrer" /><p>上一次，我们聊了保持代码长治久安的基础——代码规范。这一次，我们接着聊第二个方面，代码的风险预案。</p><p>有些问题，并没有适用于各种场景的解决办法；有些设计，并不能适用于所有的用户；有些实现，并不能经受过去、现在和未来的检验。在你的日常工作中，有没有这样的情况出现？</p><p>做好预案，是我们管理风险的一个很重要的手段。代码的安全管理，也需要预案。</p><h2>评审案例</h2><p>让我们一起来看一段节选的Java代码变更。</p><pre><code>     public static String[] getDefaultCipherSuites() {
 -        int ssl_ctx = SSL_CTX_new();
 -        String[] supportedCiphers = SSL_CTX_get_ciphers(ssl_ctx);
 -        SSL_CTX_free(ssl_ctx);

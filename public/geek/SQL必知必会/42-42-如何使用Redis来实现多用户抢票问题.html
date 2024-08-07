@@ -1,4 +1,4 @@
-<p>在上一篇文章中，我们已经对Redis有了初步的认识，了解到Redis采用Key-Value的方式进行存储，在Redis内部，使用的是redisObject对象来表示所有的key和value。同时我们还了解到Redis本身用的是单线程的机制，采用了多路I/O复用的技术，在处理多个I/O请求的时候效率很高。</p><p>今天我们来更加深入地了解一下Redis的原理，内容包括以下几方面：</p><ol>
+<meta name="referrer" content="no-referrer" /><p>在上一篇文章中，我们已经对Redis有了初步的认识，了解到Redis采用Key-Value的方式进行存储，在Redis内部，使用的是redisObject对象来表示所有的key和value。同时我们还了解到Redis本身用的是单线程的机制，采用了多路I/O复用的技术，在处理多个I/O请求的时候效率很高。</p><p>今天我们来更加深入地了解一下Redis的原理，内容包括以下几方面：</p><ol>
 <li>Redis的事务处理机制是怎样的？与RDBMS有何不同？</li>
 <li>Redis的事务处理的命令都有哪些？如何使用它们完成事务操作？</li>
 <li>如何使用Python的多线程机制和Redis的事务命令模拟多用户抢票？</li>
