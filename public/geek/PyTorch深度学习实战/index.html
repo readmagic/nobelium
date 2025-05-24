@@ -1,42 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-<title>PyTorch深度学习实战</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyTorch深度学习实战</title>
+    <link rel="stylesheet" href="../assets/course_list.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-<h1>PyTorch深度学习实战</h1>
-<ul>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/00-%E5%BC%80%E7%AF%87%E8%AF%8D-%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E5%85%A5%E9%97%A8PyTorch%EF%BC%9F.html' target='_blank'>00-开篇词-如何高效入门PyTorch？.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/01-01-PyTorch%EF%BC%9A%E7%BD%91%E7%BA%A2%E4%B8%AD%E7%9A%84%E9%A1%B6%E6%B5%81%E6%98%8E%E6%98%9F.html' target='_blank'>01-01-PyTorch：网红中的顶流明星.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/02-02-NumPy%EF%BC%88%E4%B8%8A%EF%BC%89%EF%BC%9A%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E8%AF%A6%E8%A7%A3.html' target='_blank'>02-02-NumPy（上）：核心数据结构详解.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/03-03-NumPy%EF%BC%88%E4%B8%8B%EF%BC%89%EF%BC%9A%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C.html' target='_blank'>03-03-NumPy（下）：深度学习中的常用操作.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/04-04-Tensor%EF%BC%9APyTorch%E4%B8%AD%E6%9C%80%E5%9F%BA%E7%A1%80%E7%9A%84%E8%AE%A1%E7%AE%97%E5%8D%95%E5%85%83.html' target='_blank'>04-04-Tensor：PyTorch中最基础的计算单元.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/05-05-Tensor%E5%8F%98%E5%BD%A2%E8%AE%B0%EF%BC%9A%E5%BF%AB%E9%80%9F%E6%8E%8C%E6%8F%A1Tensor%E5%88%87%E5%88%86%E3%80%81%E5%8F%98%E5%BD%A2%E7%AD%89%E6%96%B9%E6%B3%95.html' target='_blank'>05-05-Tensor变形记：快速掌握Tensor切分、变形等方法.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/06-06-Torchvision%EF%BC%88%E4%B8%8A%EF%BC%89%EF%BC%9A%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%8F%96%EF%BC%8C%E8%AE%AD%E7%BB%83%E5%BC%80%E5%A7%8B%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5.html' target='_blank'>06-06-Torchvision（上）：数据读取，训练开始的第一步.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/07-07-Torchvision%EF%BC%88%E4%B8%AD%EF%BC%89%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%A2%9E%E5%BC%BA%EF%BC%8C%E8%AE%A9%E6%95%B0%E6%8D%AE%E6%9B%B4%E5%8A%A0%E5%A4%9A%E6%A0%B7%E6%80%A7.html' target='_blank'>07-07-Torchvision（中）：数据增强，让数据更加多样性.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/08-08-Torchvision%EF%BC%88%E4%B8%8B%EF%BC%89%EF%BC%9A%E5%85%B6%E4%BB%96%E6%9C%89%E8%B6%A3%E7%9A%84%E5%8A%9F%E8%83%BD.html' target='_blank'>08-08-Torchvision（下）：其他有趣的功能.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/09-09-%E5%8D%B7%E7%A7%AF%EF%BC%88%E4%B8%8A%EF%BC%89%EF%BC%9A%E5%A6%82%E4%BD%95%E7%94%A8%E5%8D%B7%E7%A7%AF%E4%B8%BA%E8%AE%A1%E7%AE%97%E6%9C%BA%E2%80%9C%E5%BC%80%E5%A4%A9%E7%9C%BC%E2%80%9D%EF%BC%9F.html' target='_blank'>09-09-卷积（上）：如何用卷积为计算机“开天眼”？.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/10-10-%E5%8D%B7%E7%A7%AF%EF%BC%88%E4%B8%8B%EF%BC%89%EF%BC%9A%E5%A6%82%E4%BD%95%E7%94%A8%E5%8D%B7%E7%A7%AF%E4%B8%BA%E8%AE%A1%E7%AE%97%E6%9C%BA%E2%80%9C%E5%BC%80%E5%A4%A9%E7%9C%BC%E2%80%9D%EF%BC%9F.html' target='_blank'>10-10-卷积（下）：如何用卷积为计算机“开天眼”？.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/11-11-%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%EF%BC%9A%E5%A6%82%E4%BD%95%E5%B8%AE%E5%8A%A9%E6%A8%A1%E5%9E%8B%E5%AD%A6%E4%BC%9A%E2%80%9C%E8%87%AA%E7%9C%81%E2%80%9D%EF%BC%9F.html' target='_blank'>11-11-损失函数：如何帮助模型学会“自省”？.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/12-12-%E8%AE%A1%E7%AE%97%E6%A2%AF%E5%BA%A6%EF%BC%9A%E7%BD%91%E7%BB%9C%E7%9A%84%E5%89%8D%E5%90%91%E4%B8%8E%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD.html' target='_blank'>12-12-计算梯度：网络的前向与反向传播.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/13-13-%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95%EF%BC%9A%E6%9B%B4%E6%96%B0%E6%A8%A1%E5%9E%8B%E5%8F%82%E6%95%B0%E7%9A%84%E6%96%B9%E6%B3%95.html' target='_blank'>13-13-优化方法：更新模型参数的方法.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/14-%E5%8A%A0%E9%A4%90-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%B6%E5%AE%9E%E5%B0%B1%E9%82%A3%E4%B9%88%E5%87%A0%E4%BB%B6%E4%BA%8B.html' target='_blank'>14-加餐-机器学习其实就那么几件事.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/15-14-%E6%9E%84%E5%BB%BA%E7%BD%91%E7%BB%9C%EF%BC%9A%E4%B8%80%E7%AB%99%E5%BC%8F%E5%AE%9E%E7%8E%B0%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%B8%8E%E8%AE%AD%E7%BB%83.html' target='_blank'>15-14-构建网络：一站式实现模型搭建与训练.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/16-15-%E5%8F%AF%E8%A7%86%E5%8C%96%E5%B7%A5%E5%85%B7%EF%BC%9A%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E8%AE%AD%E7%BB%83%E7%9A%84%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9B%91%E6%8E%A7%EF%BC%9F.html' target='_blank'>16-15-可视化工具：如何实现训练的可视化监控？.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/17-16-%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%AD%E7%BB%83%EF%BC%9A%E5%A6%82%E4%BD%95%E5%8A%A0%E9%80%9F%E4%BD%A0%E7%9A%84%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%EF%BC%9F.html' target='_blank'>17-16-分布式训练：如何加速你的模型训练？.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/18-17-%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%EF%BC%88%E4%B8%8A%EF%BC%89%EF%BC%9A%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%E5%8E%9F%E7%90%86%E4%B8%8E%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B.html' target='_blank'>18-17-图像分类（上）：图像分类原理与图像分类模型.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/19-18-%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%EF%BC%88%E4%B8%8B%EF%BC%89%EF%BC%9A%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%EF%BC%9F.html' target='_blank'>19-18-图像分类（下）：如何构建一个图像分类模型？.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/20-19-%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2%EF%BC%88%E4%B8%8A%EF%BC%89%EF%BC%9A%E8%AF%A6%E8%A7%A3%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2%E5%8E%9F%E7%90%86%E4%B8%8E%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2%E6%A8%A1%E5%9E%8B.html' target='_blank'>20-19-图像分割（上）：详解图像分割原理与图像分割模型.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/21-20-%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2%EF%BC%88%E4%B8%8B%EF%BC%89%EF%BC%9A%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2%E6%A8%A1%E5%9E%8B%EF%BC%9F.html' target='_blank'>21-20-图像分割（下）：如何构建一个图像分割模型？.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/22-21-NLP%E5%9F%BA%E7%A1%80%EF%BC%88%E4%B8%8A%EF%BC%89%EF%BC%9A%E8%AF%A6%E8%A7%A3%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%8E%9F%E7%90%86%E4%B8%8E%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95.html' target='_blank'>22-21-NLP基础（上）：详解自然语言处理原理与常用算法.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/23-22-NLP%E5%9F%BA%E7%A1%80%EF%BC%88%E4%B8%8B%EF%BC%89%EF%BC%9A%E8%AF%A6%E8%A7%A3%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6.html' target='_blank'>23-22-NLP基础（下）：详解语言模型与注意力机制.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/24-23-%E6%83%85%E6%84%9F%E5%88%86%E6%9E%90%EF%BC%9A%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8LSTM%E8%BF%9B%E8%A1%8C%E6%83%85%E6%84%9F%E5%88%86%E6%9E%90%EF%BC%9F.html' target='_blank'>24-23-情感分析：如何使用LSTM进行情感分析？.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/25-24-%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB%EF%BC%9A%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8BERT%E6%9E%84%E5%BB%BA%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%EF%BC%9F.html' target='_blank'>25-24-文本分类：如何使用BERT构建文本分类模型？.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/26-25-%E6%91%98%E8%A6%81%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E6%96%87%E6%91%98%E7%94%9F%E6%88%90%EF%BC%9F.html' target='_blank'>26-25-摘要：如何快速实现自动文摘生成？.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/27-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B-Tango%EF%BC%9A%E5%B8%88%E5%82%85%E9%A2%86%E8%BF%9B%E9%97%A8%EF%BC%8C%E4%BF%AE%E8%A1%8C%E5%9C%A8%E4%B8%AA%E4%BA%BA.html' target='_blank'>27-用户故事-Tango：师傅领进门，修行在个人.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/28-%E7%AD%94%E7%96%91%E7%AF%87-%E6%80%9D%E8%80%83%E9%A2%98%E7%AD%94%E6%A1%88%E9%9B%86%E9%94%A6.html' target='_blank'>28-答疑篇-思考题答案集锦.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/29-%E7%BB%93%E6%9D%9F%E8%AF%AD-%E4%BA%BA%E7%94%9F%E5%85%85%E6%BB%A1%E9%80%89%E6%8B%A9%EF%BC%8C%E9%80%89%E6%8B%A9%E4%B8%8E%E5%8A%AA%E5%8A%9B%E5%90%8C%E6%A0%B7%E9%87%8D%E8%A6%81.html' target='_blank'>29-结束语-人生充满选择，选择与努力同样重要.html</a></li>
-<li><a href='./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/30-%E6%9C%9F%E6%9C%AB%E6%B5%8B%E8%AF%95-%E6%9D%A5%E8%B5%B4%E4%B8%80%E5%9C%BA100%E5%88%86%E4%B9%8B%E7%BA%A6%EF%BC%81.html' target='_blank'>30-期末测试-来赴一场100分之约！.html</a></li>
-</ul>
+    <header>
+        <div class="header-content">
+            <h1>PyTorch深度学习实战</h1>
+            <a href="../../homepage_redesign/index.html" class="back-link"><i class="fas fa-arrow-left"></i> 返回首页</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="course-list">
+            <ul>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/00-%E5%BC%80%E7%AF%87%E8%AF%8D-%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E5%85%A5%E9%97%A8PyTorch%EF%BC%9F.html">00-开篇词-如何高效入门PyTorch？.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/01-01-PyTorch%EF%BC%9A%E7%BD%91%E7%BA%A2%E4%B8%AD%E7%9A%84%E9%A1%B6%E6%B5%81%E6%98%8E%E6%98%9F.html">01-01-PyTorch：网红中的顶流明星.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/02-02-NumPy%EF%BC%88%E4%B8%8A%EF%BC%89%EF%BC%9A%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E8%AF%A6%E8%A7%A3.html">02-02-NumPy（上）：核心数据结构详解.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/03-03-NumPy%EF%BC%88%E4%B8%8B%EF%BC%89%EF%BC%9A%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C.html">03-03-NumPy（下）：深度学习中的常用操作.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/04-04-Tensor%EF%BC%9APyTorch%E4%B8%AD%E6%9C%80%E5%9F%BA%E7%A1%80%E7%9A%84%E8%AE%A1%E7%AE%97%E5%8D%95%E5%85%83.html">04-04-Tensor：PyTorch中最基础的计算单元.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/05-05-Tensor%E5%8F%98%E5%BD%A2%E8%AE%B0%EF%BC%9A%E5%BF%AB%E9%80%9F%E6%8E%8C%E6%8F%A1Tensor%E5%88%87%E5%88%86%E3%80%81%E5%8F%98%E5%BD%A2%E7%AD%89%E6%96%B9%E6%B3%95.html">05-05-Tensor变形记：快速掌握Tensor切分、变形等方法.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/06-06-Torchvision%EF%BC%88%E4%B8%8A%EF%BC%89%EF%BC%9A%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%8F%96%EF%BC%8C%E8%AE%AD%E7%BB%83%E5%BC%80%E5%A7%8B%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5.html">06-06-Torchvision（上）：数据读取，训练开始的第一步.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/07-07-Torchvision%EF%BC%88%E4%B8%AD%EF%BC%89%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%A2%9E%E5%BC%BA%EF%BC%8C%E8%AE%A9%E6%95%B0%E6%8D%AE%E6%9B%B4%E5%8A%A0%E5%A4%9A%E6%A0%B7%E6%80%A7.html">07-07-Torchvision（中）：数据增强，让数据更加多样性.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/08-08-Torchvision%EF%BC%88%E4%B8%8B%EF%BC%89%EF%BC%9A%E5%85%B6%E4%BB%96%E6%9C%89%E8%B6%A3%E7%9A%84%E5%8A%9F%E8%83%BD.html">08-08-Torchvision（下）：其他有趣的功能.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/09-09-%E5%8D%B7%E7%A7%AF%EF%BC%88%E4%B8%8A%EF%BC%89%EF%BC%9A%E5%A6%82%E4%BD%95%E7%94%A8%E5%8D%B7%E7%A7%AF%E4%B8%BA%E8%AE%A1%E7%AE%97%E6%9C%BA%E2%80%9C%E5%BC%80%E5%A4%A9%E7%9C%BC%E2%80%9D%EF%BC%9F.html">09-09-卷积（上）：如何用卷积为计算机“开天眼”？.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/10-10-%E5%8D%B7%E7%A7%AF%EF%BC%88%E4%B8%8B%EF%BC%89%EF%BC%9A%E5%A6%82%E4%BD%95%E7%94%A8%E5%8D%B7%E7%A7%AF%E4%B8%BA%E8%AE%A1%E7%AE%97%E6%9C%BA%E2%80%9C%E5%BC%80%E5%A4%A9%E7%9C%BC%E2%80%9D%EF%BC%9F.html">10-10-卷积（下）：如何用卷积为计算机“开天眼”？.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/11-11-%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%EF%BC%9A%E5%A6%82%E4%BD%95%E5%B8%AE%E5%8A%A9%E6%A8%A1%E5%9E%8B%E5%AD%A6%E4%BC%9A%E2%80%9C%E8%87%AA%E7%9C%81%E2%80%9D%EF%BC%9F.html">11-11-损失函数：如何帮助模型学会“自省”？.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/12-12-%E8%AE%A1%E7%AE%97%E6%A2%AF%E5%BA%A6%EF%BC%9A%E7%BD%91%E7%BB%9C%E7%9A%84%E5%89%8D%E5%90%91%E4%B8%8E%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD.html">12-12-计算梯度：网络的前向与反向传播.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/13-13-%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95%EF%BC%9A%E6%9B%B4%E6%96%B0%E6%A8%A1%E5%9E%8B%E5%8F%82%E6%95%B0%E7%9A%84%E6%96%B9%E6%B3%95.html">13-13-优化方法：更新模型参数的方法.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/14-%E5%8A%A0%E9%A4%90-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%B6%E5%AE%9E%E5%B0%B1%E9%82%A3%E4%B9%88%E5%87%A0%E4%BB%B6%E4%BA%8B.html">14-加餐-机器学习其实就那么几件事.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/15-14-%E6%9E%84%E5%BB%BA%E7%BD%91%E7%BB%9C%EF%BC%9A%E4%B8%80%E7%AB%99%E5%BC%8F%E5%AE%9E%E7%8E%B0%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%B8%8E%E8%AE%AD%E7%BB%83.html">15-14-构建网络：一站式实现模型搭建与训练.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/16-15-%E5%8F%AF%E8%A7%86%E5%8C%96%E5%B7%A5%E5%85%B7%EF%BC%9A%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E8%AE%AD%E7%BB%83%E7%9A%84%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9B%91%E6%8E%A7%EF%BC%9F.html">16-15-可视化工具：如何实现训练的可视化监控？.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/17-16-%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%AD%E7%BB%83%EF%BC%9A%E5%A6%82%E4%BD%95%E5%8A%A0%E9%80%9F%E4%BD%A0%E7%9A%84%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%EF%BC%9F.html">17-16-分布式训练：如何加速你的模型训练？.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/18-17-%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%EF%BC%88%E4%B8%8A%EF%BC%89%EF%BC%9A%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%E5%8E%9F%E7%90%86%E4%B8%8E%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B.html">18-17-图像分类（上）：图像分类原理与图像分类模型.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/19-18-%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%EF%BC%88%E4%B8%8B%EF%BC%89%EF%BC%9A%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%EF%BC%9F.html">19-18-图像分类（下）：如何构建一个图像分类模型？.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/20-19-%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2%EF%BC%88%E4%B8%8A%EF%BC%89%EF%BC%9A%E8%AF%A6%E8%A7%A3%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2%E5%8E%9F%E7%90%86%E4%B8%8E%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2%E6%A8%A1%E5%9E%8B.html">20-19-图像分割（上）：详解图像分割原理与图像分割模型.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/21-20-%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2%EF%BC%88%E4%B8%8B%EF%BC%89%EF%BC%9A%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2%E6%A8%A1%E5%9E%8B%EF%BC%9F.html">21-20-图像分割（下）：如何构建一个图像分割模型？.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/22-21-NLP%E5%9F%BA%E7%A1%80%EF%BC%88%E4%B8%8A%EF%BC%89%EF%BC%9A%E8%AF%A6%E8%A7%A3%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%8E%9F%E7%90%86%E4%B8%8E%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95.html">22-21-NLP基础（上）：详解自然语言处理原理与常用算法.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/23-22-NLP%E5%9F%BA%E7%A1%80%EF%BC%88%E4%B8%8B%EF%BC%89%EF%BC%9A%E8%AF%A6%E8%A7%A3%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6.html">23-22-NLP基础（下）：详解语言模型与注意力机制.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/24-23-%E6%83%85%E6%84%9F%E5%88%86%E6%9E%90%EF%BC%9A%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8LSTM%E8%BF%9B%E8%A1%8C%E6%83%85%E6%84%9F%E5%88%86%E6%9E%90%EF%BC%9F.html">24-23-情感分析：如何使用LSTM进行情感分析？.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/25-24-%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB%EF%BC%9A%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8BERT%E6%9E%84%E5%BB%BA%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%EF%BC%9F.html">25-24-文本分类：如何使用BERT构建文本分类模型？.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/26-25-%E6%91%98%E8%A6%81%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E6%96%87%E6%91%98%E7%94%9F%E6%88%90%EF%BC%9F.html">26-25-摘要：如何快速实现自动文摘生成？.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/27-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B-Tango%EF%BC%9A%E5%B8%88%E5%82%85%E9%A2%86%E8%BF%9B%E9%97%A8%EF%BC%8C%E4%BF%AE%E8%A1%8C%E5%9C%A8%E4%B8%AA%E4%BA%BA.html">27-用户故事-Tango：师傅领进门，修行在个人.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/28-%E7%AD%94%E7%96%91%E7%AF%87-%E6%80%9D%E8%80%83%E9%A2%98%E7%AD%94%E6%A1%88%E9%9B%86%E9%94%A6.html">28-答疑篇-思考题答案集锦.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/29-%E7%BB%93%E6%9D%9F%E8%AF%AD-%E4%BA%BA%E7%94%9F%E5%85%85%E6%BB%A1%E9%80%89%E6%8B%A9%EF%BC%8C%E9%80%89%E6%8B%A9%E4%B8%8E%E5%8A%AA%E5%8A%9B%E5%90%8C%E6%A0%B7%E9%87%8D%E8%A6%81.html">29-结束语-人生充满选择，选择与努力同样重要.html</a></li>
+<li><a href="./PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/30-%E6%9C%9F%E6%9C%AB%E6%B5%8B%E8%AF%95-%E6%9D%A5%E8%B5%B4%E4%B8%80%E5%9C%BA100%E5%88%86%E4%B9%8B%E7%BA%A6%EF%BC%81.html">30-期末测试-来赴一场100分之约！.html</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 极客时间课程 | 现代简约风格设计</p>
+    </footer>
+
+    <script src="../assets/course_list.js"></script>
 </body>
 </html>

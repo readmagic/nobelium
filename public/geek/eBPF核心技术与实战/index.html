@@ -1,28 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-<title>eBPF核心技术与实战</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eBPF核心技术与实战</title>
+    <link rel="stylesheet" href="../assets/course_list.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-<h1>eBPF核心技术与实战</h1>
-<ul>
-<li><a href='./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/00-%E5%BC%80%E7%AF%87%E8%AF%8D-%E6%83%B3%E8%A6%81%E6%B4%9E%E6%82%89%E7%B3%BB%E7%BB%9F%E5%BA%95%E5%B1%82%E7%9A%84%E9%BB%91%E7%9B%92%EF%BC%9F%E5%85%88%E6%8E%8C%E6%8F%A1eBPF%EF%BC%81.html' target='_blank'>00-开篇词-想要洞悉系统底层的黑盒？先掌握eBPF！.html</a></li>
-<li><a href='./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/01-01-%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A7%88%EF%BC%9AeBPF%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B%E5%8F%8A%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.html' target='_blank'>01-01-技术概览：eBPF的发展历程及工作原理.html</a></li>
-<li><a href='./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/02-02-%E5%85%88%E5%88%A9%E5%85%B6%E5%99%A8%EF%BC%9A%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E5%AD%A6%E4%B9%A0eBPF%EF%BC%9F.html' target='_blank'>02-02-先利其器：如何高效学习eBPF？.html</a></li>
-<li><a href='./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/03-03-%E5%88%9D%E7%AA%A5%E9%97%A8%E5%BE%84%EF%BC%9A%E5%BC%80%E5%8F%91%E5%B9%B6%E8%BF%90%E8%A1%8C%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AAeBPF%E7%A8%8B%E5%BA%8F.html' target='_blank'>03-03-初窥门径：开发并运行你的第一个eBPF程序.html</a></li>
-<li><a href='./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/04-04-%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86%EF%BC%9AeBPF%E6%98%AF%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%90%97%EF%BC%9F.html' target='_blank'>04-04-运行原理：eBPF是一个新的虚拟机吗？.html</a></li>
-<li><a href='./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/05-05-%E7%BC%96%E7%A8%8B%E6%8E%A5%E5%8F%A3%EF%BC%9AeBPF%E7%A8%8B%E5%BA%8F%E6%98%AF%E6%80%8E%E4%B9%88%E8%B7%9F%E5%86%85%E6%A0%B8%E8%BF%9B%E8%A1%8C%E4%BA%A4%E4%BA%92%E7%9A%84%EF%BC%9F.html' target='_blank'>05-05-编程接口：eBPF程序是怎么跟内核进行交互的？.html</a></li>
-<li><a href='./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/06-06-%E4%BA%8B%E4%BB%B6%E8%A7%A6%E5%8F%91%EF%BC%9A%E5%90%84%E7%B1%BBeBPF%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%A7%A6%E5%8F%91%E6%9C%BA%E5%88%B6%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF.html' target='_blank'>06-06-事件触发：各类eBPF程序的触发机制及其应用场景.html</a></li>
-<li><a href='./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/07-07-%E5%86%85%E6%A0%B8%E8%B7%9F%E8%B8%AA%EF%BC%88%E4%B8%8A%EF%BC%89%EF%BC%9A%E5%A6%82%E4%BD%95%E6%9F%A5%E8%AF%A2%E5%86%85%E6%A0%B8%E4%B8%AD%E7%9A%84%E8%B7%9F%E8%B8%AA%E7%82%B9%EF%BC%9F.html' target='_blank'>07-07-内核跟踪（上）：如何查询内核中的跟踪点？.html</a></li>
-<li><a href='./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/08-08-%E5%86%85%E6%A0%B8%E8%B7%9F%E8%B8%AA%EF%BC%88%E4%B8%8B%EF%BC%89%EF%BC%9A%E5%BC%80%E5%8F%91%E5%86%85%E6%A0%B8%E8%B7%9F%E8%B8%AA%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%BF%9B%E9%98%B6%E6%96%B9%E6%B3%95.html' target='_blank'>08-08-内核跟踪（下）：开发内核跟踪程序的进阶方法.html</a></li>
-<li><a href='./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/09-09-%E7%94%A8%E6%88%B7%E6%80%81%E8%B7%9F%E8%B8%AA%EF%BC%9A%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8eBPF%E6%8E%92%E6%9F%A5%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%EF%BC%9F.html' target='_blank'>09-09-用户态跟踪：如何使用eBPF排查应用程序？.html</a></li>
-<li><a href='./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/10-10-%E7%BD%91%E7%BB%9C%E8%B7%9F%E8%B8%AA%EF%BC%9A%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8eBPF%E6%8E%92%E6%9F%A5%E7%BD%91%E7%BB%9C%E9%97%AE%E9%A2%98%EF%BC%9F.html' target='_blank'>10-10-网络跟踪：如何使用eBPF排查网络问题？.html</a></li>
-<li><a href='./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/11-11-%E5%AE%B9%E5%99%A8%E5%AE%89%E5%85%A8%EF%BC%9A%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8eBPF%E5%A2%9E%E5%BC%BA%E5%AE%B9%E5%99%A8%E5%AE%89%E5%85%A8%EF%BC%9F.html' target='_blank'>11-11-容器安全：如何使用eBPF增强容器安全？.html</a></li>
-<li><a href='./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/12-12-%E9%AB%98%E6%80%A7%E8%83%BD%E7%BD%91%E7%BB%9C%E5%AE%9E%E6%88%98%EF%BC%88%E4%B8%8A%EF%BC%89%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AA%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E5%99%A8%EF%BC%9F.html' target='_blank'>12-12-高性能网络实战（上）：如何开发一个负载均衡器？.html</a></li>
-<li><a href='./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/13-13-%E9%AB%98%E6%80%A7%E8%83%BD%E7%BD%91%E7%BB%9C%E5%AE%9E%E6%88%98%EF%BC%88%E4%B8%8B%EF%BC%89%EF%BC%9A%E5%A6%82%E4%BD%95%E5%AE%8C%E5%96%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E5%99%A8%EF%BC%9F.html' target='_blank'>13-13-高性能网络实战（下）：如何完善负载均衡器？.html</a></li>
-<li><a href='./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/14-%E9%98%B6%E6%AE%B5%E6%80%BB%E7%BB%93-%E5%AE%9E%E7%94%A8eBPF%E5%B7%A5%E5%85%B7%E5%8F%8A%E6%9C%80%E6%96%B0%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93.html' target='_blank'>14-阶段总结-实用eBPF工具及最新开源项目总结.html</a></li>
-<li><a href='./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/15-%E6%9C%AA%E6%9D%A5%E5%8F%AF%E6%9C%9F-%E9%82%80%E4%BD%A0%E4%B8%8EeBPF%E5%85%B1%E8%B5%B4%E4%B8%80%E5%9C%BA%E6%8A%80%E6%9C%AF%E9%9D%A9%E6%96%B0%E4%B9%8B%E7%BA%A6.html' target='_blank'>15-未来可期-邀你与eBPF共赴一场技术革新之约.html</a></li>
-<li><a href='./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/16-%E5%8A%A0%E9%A4%90-%E6%9D%8E%E7%A8%8B%E8%BF%9C%EF%BC%9A%E8%B0%88%E8%B0%88eBPF%E5%9C%A8%E4%BA%91%E5%8E%9F%E7%94%9F%E4%B8%AD%E7%9A%84%E7%BA%B5%E4%B8%8E%E6%A8%AA.html' target='_blank'>16-加餐-李程远：谈谈eBPF在云原生中的纵与横.html</a></li>
-</ul>
+    <header>
+        <div class="header-content">
+            <h1>eBPF核心技术与实战</h1>
+            <a href="../../homepage_redesign/index.html" class="back-link"><i class="fas fa-arrow-left"></i> 返回首页</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="course-list">
+            <ul>
+<li><a href="./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/00-%E5%BC%80%E7%AF%87%E8%AF%8D-%E6%83%B3%E8%A6%81%E6%B4%9E%E6%82%89%E7%B3%BB%E7%BB%9F%E5%BA%95%E5%B1%82%E7%9A%84%E9%BB%91%E7%9B%92%EF%BC%9F%E5%85%88%E6%8E%8C%E6%8F%A1eBPF%EF%BC%81.html">00-开篇词-想要洞悉系统底层的黑盒？先掌握eBPF！.html</a></li>
+<li><a href="./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/01-01-%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A7%88%EF%BC%9AeBPF%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B%E5%8F%8A%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.html">01-01-技术概览：eBPF的发展历程及工作原理.html</a></li>
+<li><a href="./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/02-02-%E5%85%88%E5%88%A9%E5%85%B6%E5%99%A8%EF%BC%9A%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E5%AD%A6%E4%B9%A0eBPF%EF%BC%9F.html">02-02-先利其器：如何高效学习eBPF？.html</a></li>
+<li><a href="./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/03-03-%E5%88%9D%E7%AA%A5%E9%97%A8%E5%BE%84%EF%BC%9A%E5%BC%80%E5%8F%91%E5%B9%B6%E8%BF%90%E8%A1%8C%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AAeBPF%E7%A8%8B%E5%BA%8F.html">03-03-初窥门径：开发并运行你的第一个eBPF程序.html</a></li>
+<li><a href="./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/04-04-%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86%EF%BC%9AeBPF%E6%98%AF%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%90%97%EF%BC%9F.html">04-04-运行原理：eBPF是一个新的虚拟机吗？.html</a></li>
+<li><a href="./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/05-05-%E7%BC%96%E7%A8%8B%E6%8E%A5%E5%8F%A3%EF%BC%9AeBPF%E7%A8%8B%E5%BA%8F%E6%98%AF%E6%80%8E%E4%B9%88%E8%B7%9F%E5%86%85%E6%A0%B8%E8%BF%9B%E8%A1%8C%E4%BA%A4%E4%BA%92%E7%9A%84%EF%BC%9F.html">05-05-编程接口：eBPF程序是怎么跟内核进行交互的？.html</a></li>
+<li><a href="./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/06-06-%E4%BA%8B%E4%BB%B6%E8%A7%A6%E5%8F%91%EF%BC%9A%E5%90%84%E7%B1%BBeBPF%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%A7%A6%E5%8F%91%E6%9C%BA%E5%88%B6%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF.html">06-06-事件触发：各类eBPF程序的触发机制及其应用场景.html</a></li>
+<li><a href="./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/07-07-%E5%86%85%E6%A0%B8%E8%B7%9F%E8%B8%AA%EF%BC%88%E4%B8%8A%EF%BC%89%EF%BC%9A%E5%A6%82%E4%BD%95%E6%9F%A5%E8%AF%A2%E5%86%85%E6%A0%B8%E4%B8%AD%E7%9A%84%E8%B7%9F%E8%B8%AA%E7%82%B9%EF%BC%9F.html">07-07-内核跟踪（上）：如何查询内核中的跟踪点？.html</a></li>
+<li><a href="./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/08-08-%E5%86%85%E6%A0%B8%E8%B7%9F%E8%B8%AA%EF%BC%88%E4%B8%8B%EF%BC%89%EF%BC%9A%E5%BC%80%E5%8F%91%E5%86%85%E6%A0%B8%E8%B7%9F%E8%B8%AA%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%BF%9B%E9%98%B6%E6%96%B9%E6%B3%95.html">08-08-内核跟踪（下）：开发内核跟踪程序的进阶方法.html</a></li>
+<li><a href="./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/09-09-%E7%94%A8%E6%88%B7%E6%80%81%E8%B7%9F%E8%B8%AA%EF%BC%9A%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8eBPF%E6%8E%92%E6%9F%A5%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%EF%BC%9F.html">09-09-用户态跟踪：如何使用eBPF排查应用程序？.html</a></li>
+<li><a href="./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/10-10-%E7%BD%91%E7%BB%9C%E8%B7%9F%E8%B8%AA%EF%BC%9A%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8eBPF%E6%8E%92%E6%9F%A5%E7%BD%91%E7%BB%9C%E9%97%AE%E9%A2%98%EF%BC%9F.html">10-10-网络跟踪：如何使用eBPF排查网络问题？.html</a></li>
+<li><a href="./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/11-11-%E5%AE%B9%E5%99%A8%E5%AE%89%E5%85%A8%EF%BC%9A%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8eBPF%E5%A2%9E%E5%BC%BA%E5%AE%B9%E5%99%A8%E5%AE%89%E5%85%A8%EF%BC%9F.html">11-11-容器安全：如何使用eBPF增强容器安全？.html</a></li>
+<li><a href="./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/12-12-%E9%AB%98%E6%80%A7%E8%83%BD%E7%BD%91%E7%BB%9C%E5%AE%9E%E6%88%98%EF%BC%88%E4%B8%8A%EF%BC%89%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AA%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E5%99%A8%EF%BC%9F.html">12-12-高性能网络实战（上）：如何开发一个负载均衡器？.html</a></li>
+<li><a href="./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/13-13-%E9%AB%98%E6%80%A7%E8%83%BD%E7%BD%91%E7%BB%9C%E5%AE%9E%E6%88%98%EF%BC%88%E4%B8%8B%EF%BC%89%EF%BC%9A%E5%A6%82%E4%BD%95%E5%AE%8C%E5%96%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E5%99%A8%EF%BC%9F.html">13-13-高性能网络实战（下）：如何完善负载均衡器？.html</a></li>
+<li><a href="./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/14-%E9%98%B6%E6%AE%B5%E6%80%BB%E7%BB%93-%E5%AE%9E%E7%94%A8eBPF%E5%B7%A5%E5%85%B7%E5%8F%8A%E6%9C%80%E6%96%B0%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93.html">14-阶段总结-实用eBPF工具及最新开源项目总结.html</a></li>
+<li><a href="./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/15-%E6%9C%AA%E6%9D%A5%E5%8F%AF%E6%9C%9F-%E9%82%80%E4%BD%A0%E4%B8%8EeBPF%E5%85%B1%E8%B5%B4%E4%B8%80%E5%9C%BA%E6%8A%80%E6%9C%AF%E9%9D%A9%E6%96%B0%E4%B9%8B%E7%BA%A6.html">15-未来可期-邀你与eBPF共赴一场技术革新之约.html</a></li>
+<li><a href="./eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/16-%E5%8A%A0%E9%A4%90-%E6%9D%8E%E7%A8%8B%E8%BF%9C%EF%BC%9A%E8%B0%88%E8%B0%88eBPF%E5%9C%A8%E4%BA%91%E5%8E%9F%E7%94%9F%E4%B8%AD%E7%9A%84%E7%BA%B5%E4%B8%8E%E6%A8%AA.html">16-加餐-李程远：谈谈eBPF在云原生中的纵与横.html</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 极客时间课程 | 现代简约风格设计</p>
+    </footer>
+
+    <script src="../assets/course_list.js"></script>
 </body>
 </html>

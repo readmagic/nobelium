@@ -1,36 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-<title>图解GoogleV8</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图解GoogleV8</title>
+    <link rel="stylesheet" href="../assets/course_list.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-<h1>图解GoogleV8</h1>
-<ul>
-<li><a href='./%E5%9B%BE%E8%A7%A3GoogleV8/00-%E5%BC%80%E7%AF%87%E8%AF%8D-%E5%A6%82%E4%BD%95%E5%AD%A6%E4%B9%A0%E8%B0%B7%E6%AD%8C%E9%AB%98%E6%80%A7%E8%83%BDJavaScript%E5%BC%95%E6%93%8EV8%EF%BC%9F.html' target='_blank'>00-开篇词-如何学习谷歌高性能JavaScript引擎V8？.html</a></li>
-<li><a href='./%E5%9B%BE%E8%A7%A3GoogleV8/01-01-V8%E6%98%AF%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E4%B8%80%E6%AE%B5JavaScript%E4%BB%A3%E7%A0%81%E7%9A%84%EF%BC%9F.html' target='_blank'>01-01-V8是如何执行一段JavaScript代码的？.html</a></li>
-<li><a href='./%E5%9B%BE%E8%A7%A3GoogleV8/02-02-%E5%87%BD%E6%95%B0%E5%8D%B3%E5%AF%B9%E8%B1%A1%EF%BC%9A%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E5%BD%BB%E5%BA%95%E6%90%9E%E6%87%82JavaScript%E7%9A%84%E5%87%BD%E6%95%B0%E7%89%B9%E7%82%B9.html' target='_blank'>02-02-函数即对象：一篇文章彻底搞懂JavaScript的函数特点.html</a></li>
-<li><a href='./%E5%9B%BE%E8%A7%A3GoogleV8/03-03-%E5%BF%AB%E5%B1%9E%E6%80%A7%E5%92%8C%E6%85%A2%E5%B1%9E%E6%80%A7%EF%BC%9AV8%E6%98%AF%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7%E8%AE%BF%E9%97%AE%E9%80%9F%E5%BA%A6%E7%9A%84%EF%BC%9F.html' target='_blank'>03-03-快属性和慢属性：V8是怎样提升对象属性访问速度的？.html</a></li>
-<li><a href='./%E5%9B%BE%E8%A7%A3GoogleV8/04-04-%E5%87%BD%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F%EF%BC%9A%E6%B6%89%E5%8F%8A%E5%A4%A7%E9%87%8F%E6%A6%82%E5%BF%B5%EF%BC%8C%E5%87%BD%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%88%B0%E5%BA%95%E8%AF%A5%E6%80%8E%E4%B9%88%E5%AD%A6%EF%BC%9F.html' target='_blank'>04-04-函数表达式：涉及大量概念，函数表达式到底该怎么学？.html</a></li>
-<li><a href='./%E5%9B%BE%E8%A7%A3GoogleV8/05-05-%E5%8E%9F%E5%9E%8B%E9%93%BE%EF%BC%9AV8%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%AF%B9%E8%B1%A1%E7%BB%A7%E6%89%BF%E7%9A%84%EF%BC%9F.html' target='_blank'>05-05-原型链：V8是如何实现对象继承的？.html</a></li>
-<li><a href='./%E5%9B%BE%E8%A7%A3GoogleV8/06-06-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%EF%BC%9AV8%E6%98%AF%E5%A6%82%E4%BD%95%E6%9F%A5%E6%89%BE%E5%8F%98%E9%87%8F%E7%9A%84%EF%BC%9F.html' target='_blank'>06-06-作用域链：V8是如何查找变量的？.html</a></li>
-<li><a href='./%E5%9B%BE%E8%A7%A3GoogleV8/07-07-%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%EF%BC%9AV8%E6%98%AF%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B01%2B%E2%80%9C2%E2%80%9D%E7%9A%84%EF%BC%9F.html' target='_blank'>07-07-类型转换：V8是怎么实现1+“2”的？.html</a></li>
-<li><a href='./%E5%9B%BE%E8%A7%A3GoogleV8/08-08-%E7%AD%94%E7%96%91%EF%BC%9A%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8V8%E7%9A%84%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7d8%EF%BC%9F.html' target='_blank'>08-08-答疑：如何构建和使用V8的调试工具d8？.html</a></li>
-<li><a href='./%E5%9B%BE%E8%A7%A3GoogleV8/09-09-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%8E%AF%E5%A2%83%EF%BC%9A%E8%BF%90%E8%A1%8CJavaScript%E4%BB%A3%E7%A0%81%E7%9A%84%E5%9F%BA%E7%9F%B3.html' target='_blank'>09-09-运行时环境：运行JavaScript代码的基石.html</a></li>
-<li><a href='./%E5%9B%BE%E8%A7%A3GoogleV8/10-10-%E6%9C%BA%E5%99%A8%E4%BB%A3%E7%A0%81%EF%BC%9A%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%9C%BA%E5%99%A8%E7%A0%81%E7%A9%B6%E7%AB%9F%E6%98%AF%E5%A6%82%E4%BD%95%E8%A2%ABCPU%E6%89%A7%E8%A1%8C%E7%9A%84%EF%BC%9F.html' target='_blank'>10-10-机器代码：二进制机器码究竟是如何被CPU执行的？.html</a></li>
-<li><a href='./%E5%9B%BE%E8%A7%A3GoogleV8/11-11-%E5%A0%86%E5%92%8C%E6%A0%88%EF%BC%9A%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E6%98%AF%E5%A6%82%E4%BD%95%E5%BD%B1%E5%93%8D%E5%88%B0%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E7%9A%84%EF%BC%9F.html' target='_blank'>11-11-堆和栈：函数调用是如何影响到内存布局的？.html</a></li>
-<li><a href='./%E5%9B%BE%E8%A7%A3GoogleV8/12-12-%E5%BB%B6%E8%BF%9F%E8%A7%A3%E6%9E%90%EF%BC%9AV8%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E9%97%AD%E5%8C%85%E7%9A%84%EF%BC%9F.html' target='_blank'>12-12-延迟解析：V8是如何实现闭包的？.html</a></li>
-<li><a href='./%E5%9B%BE%E8%A7%A3GoogleV8/13-13-%E5%AD%97%E8%8A%82%E7%A0%81%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9AV8%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%88%E9%87%8D%E6%96%B0%E5%BC%95%E5%85%A5%E5%AD%97%E8%8A%82%E7%A0%81%EF%BC%9F.html' target='_blank'>13-13-字节码（一）：V8为什么又重新引入字节码？.html</a></li>
-<li><a href='./%E5%9B%BE%E8%A7%A3GoogleV8/14-14-%E5%AD%97%E8%8A%82%E7%A0%81%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E8%A7%A3%E9%87%8A%E5%99%A8%E6%98%AF%E5%A6%82%E4%BD%95%E8%A7%A3%E9%87%8A%E6%89%A7%E8%A1%8C%E5%AD%97%E8%8A%82%E7%A0%81%E7%9A%84%EF%BC%9F.html' target='_blank'>14-14-字节码（二）：解释器是如何解释执行字节码的？.html</a></li>
-<li><a href='./%E5%9B%BE%E8%A7%A3GoogleV8/15-15-%E9%9A%90%E8%97%8F%E7%B1%BB%EF%BC%9A%E5%A6%82%E4%BD%95%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E5%BF%AB%E9%80%9F%E6%9F%A5%E6%89%BE%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7%EF%BC%9F.html' target='_blank'>15-15-隐藏类：如何在内存中快速查找对象属性？.html</a></li>
-<li><a href='./%E5%9B%BE%E8%A7%A3GoogleV8/16-16-%E7%AD%94%E7%96%91%EF%BC%9AV8%E6%98%AF%E6%80%8E%E4%B9%88%E9%80%9A%E8%BF%87%E5%86%85%E8%81%94%E7%BC%93%E5%AD%98%E6%9D%A5%E6%8F%90%E5%8D%87%E5%87%BD%E6%95%B0%E6%89%A7%E8%A1%8C%E6%95%88%E7%8E%87%E7%9A%84%EF%BC%9F.html' target='_blank'>16-16-答疑：V8是怎么通过内联缓存来提升函数执行效率的？.html</a></li>
-<li><a href='./%E5%9B%BE%E8%A7%A3GoogleV8/17-17-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%EF%BC%9AV8%E6%98%AF%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%E7%9A%84%EF%BC%9F.html' target='_blank'>17-17-消息队列：V8是怎么实现回调函数的？.html</a></li>
-<li><a href='./%E5%9B%BE%E8%A7%A3GoogleV8/18-18-%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9AV8%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%BE%AE%E4%BB%BB%E5%8A%A1%E7%9A%84%EF%BC%9F.html' target='_blank'>18-18-异步编程（一）：V8是如何实现微任务的？.html</a></li>
-<li><a href='./%E5%9B%BE%E8%A7%A3GoogleV8/19-19-%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9AV8%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0async-await%E7%9A%84%EF%BC%9F.html' target='_blank'>19-19-异步编程（二）：V8是如何实现async-await的？.html</a></li>
-<li><a href='./%E5%9B%BE%E8%A7%A3GoogleV8/20-20-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9AV8%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84%EF%BC%9F.html' target='_blank'>20-20-垃圾回收（一）：V8的两个垃圾回收器是如何工作的？.html</a></li>
-<li><a href='./%E5%9B%BE%E8%A7%A3GoogleV8/21-21-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9AV8%E6%98%AF%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8%E6%89%A7%E8%A1%8C%E6%95%88%E7%8E%87%E7%9A%84%EF%BC%9F.html' target='_blank'>21-21-垃圾回收（二）：V8是如何优化垃圾回收器执行效率的？.html</a></li>
-<li><a href='./%E5%9B%BE%E8%A7%A3GoogleV8/22-22-%E7%AD%94%E7%96%91%EF%BC%9A%E5%87%A0%E7%A7%8D%E5%B8%B8%E8%A7%81%E5%86%85%E5%AD%98%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E7%AD%96%E7%95%A5.html' target='_blank'>22-22-答疑：几种常见内存问题的解决策略.html</a></li>
-<li><a href='./%E5%9B%BE%E8%A7%A3GoogleV8/23-%E7%BB%93%E6%9D%9F%E8%AF%AD-%E6%88%91%E7%9A%84%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E8%B8%A9%E5%9D%91%E5%8F%B2.html' target='_blank'>23-结束语-我的前端学习踩坑史.html</a></li>
-<li><a href='./%E5%9B%BE%E8%A7%A3GoogleV8/24-%E7%BB%93%E8%AF%BE%E6%B5%8B%E8%AF%95-%E8%BF%99%E4%BA%9BV8%E7%9A%84%E7%9F%A5%E8%AF%86%E4%BD%A0%E9%83%BD%E6%8E%8C%E6%8F%A1%E4%BA%86%E5%90%97%EF%BC%9F.html' target='_blank'>24-结课测试-这些V8的知识你都掌握了吗？.html</a></li>
-</ul>
+    <header>
+        <div class="header-content">
+            <h1>图解GoogleV8</h1>
+            <a href="../../homepage_redesign/index.html" class="back-link"><i class="fas fa-arrow-left"></i> 返回首页</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="course-list">
+            <ul>
+<li><a href="./%E5%9B%BE%E8%A7%A3GoogleV8/00-%E5%BC%80%E7%AF%87%E8%AF%8D-%E5%A6%82%E4%BD%95%E5%AD%A6%E4%B9%A0%E8%B0%B7%E6%AD%8C%E9%AB%98%E6%80%A7%E8%83%BDJavaScript%E5%BC%95%E6%93%8EV8%EF%BC%9F.html">00-开篇词-如何学习谷歌高性能JavaScript引擎V8？.html</a></li>
+<li><a href="./%E5%9B%BE%E8%A7%A3GoogleV8/01-01-V8%E6%98%AF%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E4%B8%80%E6%AE%B5JavaScript%E4%BB%A3%E7%A0%81%E7%9A%84%EF%BC%9F.html">01-01-V8是如何执行一段JavaScript代码的？.html</a></li>
+<li><a href="./%E5%9B%BE%E8%A7%A3GoogleV8/02-02-%E5%87%BD%E6%95%B0%E5%8D%B3%E5%AF%B9%E8%B1%A1%EF%BC%9A%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E5%BD%BB%E5%BA%95%E6%90%9E%E6%87%82JavaScript%E7%9A%84%E5%87%BD%E6%95%B0%E7%89%B9%E7%82%B9.html">02-02-函数即对象：一篇文章彻底搞懂JavaScript的函数特点.html</a></li>
+<li><a href="./%E5%9B%BE%E8%A7%A3GoogleV8/03-03-%E5%BF%AB%E5%B1%9E%E6%80%A7%E5%92%8C%E6%85%A2%E5%B1%9E%E6%80%A7%EF%BC%9AV8%E6%98%AF%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7%E8%AE%BF%E9%97%AE%E9%80%9F%E5%BA%A6%E7%9A%84%EF%BC%9F.html">03-03-快属性和慢属性：V8是怎样提升对象属性访问速度的？.html</a></li>
+<li><a href="./%E5%9B%BE%E8%A7%A3GoogleV8/04-04-%E5%87%BD%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F%EF%BC%9A%E6%B6%89%E5%8F%8A%E5%A4%A7%E9%87%8F%E6%A6%82%E5%BF%B5%EF%BC%8C%E5%87%BD%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%88%B0%E5%BA%95%E8%AF%A5%E6%80%8E%E4%B9%88%E5%AD%A6%EF%BC%9F.html">04-04-函数表达式：涉及大量概念，函数表达式到底该怎么学？.html</a></li>
+<li><a href="./%E5%9B%BE%E8%A7%A3GoogleV8/05-05-%E5%8E%9F%E5%9E%8B%E9%93%BE%EF%BC%9AV8%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%AF%B9%E8%B1%A1%E7%BB%A7%E6%89%BF%E7%9A%84%EF%BC%9F.html">05-05-原型链：V8是如何实现对象继承的？.html</a></li>
+<li><a href="./%E5%9B%BE%E8%A7%A3GoogleV8/06-06-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%EF%BC%9AV8%E6%98%AF%E5%A6%82%E4%BD%95%E6%9F%A5%E6%89%BE%E5%8F%98%E9%87%8F%E7%9A%84%EF%BC%9F.html">06-06-作用域链：V8是如何查找变量的？.html</a></li>
+<li><a href="./%E5%9B%BE%E8%A7%A3GoogleV8/07-07-%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%EF%BC%9AV8%E6%98%AF%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B01%2B%E2%80%9C2%E2%80%9D%E7%9A%84%EF%BC%9F.html">07-07-类型转换：V8是怎么实现1+“2”的？.html</a></li>
+<li><a href="./%E5%9B%BE%E8%A7%A3GoogleV8/08-08-%E7%AD%94%E7%96%91%EF%BC%9A%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8V8%E7%9A%84%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7d8%EF%BC%9F.html">08-08-答疑：如何构建和使用V8的调试工具d8？.html</a></li>
+<li><a href="./%E5%9B%BE%E8%A7%A3GoogleV8/09-09-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%8E%AF%E5%A2%83%EF%BC%9A%E8%BF%90%E8%A1%8CJavaScript%E4%BB%A3%E7%A0%81%E7%9A%84%E5%9F%BA%E7%9F%B3.html">09-09-运行时环境：运行JavaScript代码的基石.html</a></li>
+<li><a href="./%E5%9B%BE%E8%A7%A3GoogleV8/10-10-%E6%9C%BA%E5%99%A8%E4%BB%A3%E7%A0%81%EF%BC%9A%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%9C%BA%E5%99%A8%E7%A0%81%E7%A9%B6%E7%AB%9F%E6%98%AF%E5%A6%82%E4%BD%95%E8%A2%ABCPU%E6%89%A7%E8%A1%8C%E7%9A%84%EF%BC%9F.html">10-10-机器代码：二进制机器码究竟是如何被CPU执行的？.html</a></li>
+<li><a href="./%E5%9B%BE%E8%A7%A3GoogleV8/11-11-%E5%A0%86%E5%92%8C%E6%A0%88%EF%BC%9A%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E6%98%AF%E5%A6%82%E4%BD%95%E5%BD%B1%E5%93%8D%E5%88%B0%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E7%9A%84%EF%BC%9F.html">11-11-堆和栈：函数调用是如何影响到内存布局的？.html</a></li>
+<li><a href="./%E5%9B%BE%E8%A7%A3GoogleV8/12-12-%E5%BB%B6%E8%BF%9F%E8%A7%A3%E6%9E%90%EF%BC%9AV8%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E9%97%AD%E5%8C%85%E7%9A%84%EF%BC%9F.html">12-12-延迟解析：V8是如何实现闭包的？.html</a></li>
+<li><a href="./%E5%9B%BE%E8%A7%A3GoogleV8/13-13-%E5%AD%97%E8%8A%82%E7%A0%81%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9AV8%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%88%E9%87%8D%E6%96%B0%E5%BC%95%E5%85%A5%E5%AD%97%E8%8A%82%E7%A0%81%EF%BC%9F.html">13-13-字节码（一）：V8为什么又重新引入字节码？.html</a></li>
+<li><a href="./%E5%9B%BE%E8%A7%A3GoogleV8/14-14-%E5%AD%97%E8%8A%82%E7%A0%81%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E8%A7%A3%E9%87%8A%E5%99%A8%E6%98%AF%E5%A6%82%E4%BD%95%E8%A7%A3%E9%87%8A%E6%89%A7%E8%A1%8C%E5%AD%97%E8%8A%82%E7%A0%81%E7%9A%84%EF%BC%9F.html">14-14-字节码（二）：解释器是如何解释执行字节码的？.html</a></li>
+<li><a href="./%E5%9B%BE%E8%A7%A3GoogleV8/15-15-%E9%9A%90%E8%97%8F%E7%B1%BB%EF%BC%9A%E5%A6%82%E4%BD%95%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E5%BF%AB%E9%80%9F%E6%9F%A5%E6%89%BE%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7%EF%BC%9F.html">15-15-隐藏类：如何在内存中快速查找对象属性？.html</a></li>
+<li><a href="./%E5%9B%BE%E8%A7%A3GoogleV8/16-16-%E7%AD%94%E7%96%91%EF%BC%9AV8%E6%98%AF%E6%80%8E%E4%B9%88%E9%80%9A%E8%BF%87%E5%86%85%E8%81%94%E7%BC%93%E5%AD%98%E6%9D%A5%E6%8F%90%E5%8D%87%E5%87%BD%E6%95%B0%E6%89%A7%E8%A1%8C%E6%95%88%E7%8E%87%E7%9A%84%EF%BC%9F.html">16-16-答疑：V8是怎么通过内联缓存来提升函数执行效率的？.html</a></li>
+<li><a href="./%E5%9B%BE%E8%A7%A3GoogleV8/17-17-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%EF%BC%9AV8%E6%98%AF%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%E7%9A%84%EF%BC%9F.html">17-17-消息队列：V8是怎么实现回调函数的？.html</a></li>
+<li><a href="./%E5%9B%BE%E8%A7%A3GoogleV8/18-18-%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9AV8%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%BE%AE%E4%BB%BB%E5%8A%A1%E7%9A%84%EF%BC%9F.html">18-18-异步编程（一）：V8是如何实现微任务的？.html</a></li>
+<li><a href="./%E5%9B%BE%E8%A7%A3GoogleV8/19-19-%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9AV8%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0async-await%E7%9A%84%EF%BC%9F.html">19-19-异步编程（二）：V8是如何实现async-await的？.html</a></li>
+<li><a href="./%E5%9B%BE%E8%A7%A3GoogleV8/20-20-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9AV8%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84%EF%BC%9F.html">20-20-垃圾回收（一）：V8的两个垃圾回收器是如何工作的？.html</a></li>
+<li><a href="./%E5%9B%BE%E8%A7%A3GoogleV8/21-21-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9AV8%E6%98%AF%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8%E6%89%A7%E8%A1%8C%E6%95%88%E7%8E%87%E7%9A%84%EF%BC%9F.html">21-21-垃圾回收（二）：V8是如何优化垃圾回收器执行效率的？.html</a></li>
+<li><a href="./%E5%9B%BE%E8%A7%A3GoogleV8/22-22-%E7%AD%94%E7%96%91%EF%BC%9A%E5%87%A0%E7%A7%8D%E5%B8%B8%E8%A7%81%E5%86%85%E5%AD%98%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E7%AD%96%E7%95%A5.html">22-22-答疑：几种常见内存问题的解决策略.html</a></li>
+<li><a href="./%E5%9B%BE%E8%A7%A3GoogleV8/23-%E7%BB%93%E6%9D%9F%E8%AF%AD-%E6%88%91%E7%9A%84%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E8%B8%A9%E5%9D%91%E5%8F%B2.html">23-结束语-我的前端学习踩坑史.html</a></li>
+<li><a href="./%E5%9B%BE%E8%A7%A3GoogleV8/24-%E7%BB%93%E8%AF%BE%E6%B5%8B%E8%AF%95-%E8%BF%99%E4%BA%9BV8%E7%9A%84%E7%9F%A5%E8%AF%86%E4%BD%A0%E9%83%BD%E6%8E%8C%E6%8F%A1%E4%BA%86%E5%90%97%EF%BC%9F.html">24-结课测试-这些V8的知识你都掌握了吗？.html</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 极客时间课程 | 现代简约风格设计</p>
+    </footer>
+
+    <script src="../assets/course_list.js"></script>
 </body>
 </html>

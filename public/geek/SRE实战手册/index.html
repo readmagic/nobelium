@@ -1,24 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-<title>SRE实战手册</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRE实战手册</title>
+    <link rel="stylesheet" href="../assets/course_list.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-<h1>SRE实战手册</h1>
-<ul>
-<li><a href='./SRE%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/00-%E5%BC%80%E7%AF%87%E8%AF%8D-SRE%E6%98%AF%E8%A7%A3%E5%86%B3%E7%B3%BB%E7%BB%9F%E7%A8%B3%E5%AE%9A%E6%80%A7%E9%97%AE%E9%A2%98%E7%9A%84%E7%81%B5%E4%B8%B9%E5%A6%99%E8%8D%AF%E5%90%97%EF%BC%9F.html' target='_blank'>00-开篇词-SRE是解决系统稳定性问题的灵丹妙药吗？.html</a></li>
-<li><a href='./SRE%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/01-01-SRE%E8%BF%B7%E6%80%9D%EF%BC%9A%E6%97%A0%E6%89%80%E4%B8%8D%E8%83%BD%E7%9A%84%E8%A7%92%E8%89%B2%EF%BC%9F%E8%BF%98%E6%98%AF%E8%BF%90%E7%BB%B4%E7%9A%84%E5%8D%87%E7%BA%A7%EF%BC%9F.html' target='_blank'>01-01-SRE迷思：无所不能的角色？还是运维的升级？.html</a></li>
-<li><a href='./SRE%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/02-02-%E7%B3%BB%E7%BB%9F%E5%8F%AF%E7%94%A8%E6%80%A7%EF%BC%9A%E6%B2%A1%E6%9C%89%E6%95%85%E9%9A%9C%EF%BC%8C%E7%B3%BB%E7%BB%9F%E5%B0%B1%E4%B8%80%E5%AE%9A%E6%98%AF%E7%A8%B3%E5%AE%9A%E7%9A%84%E5%90%97%EF%BC%9F.html' target='_blank'>02-02-系统可用性：没有故障，系统就一定是稳定的吗？.html</a></li>
-<li><a href='./SRE%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/03-03-SRE%E5%88%87%E5%85%A5%E7%82%B9%EF%BC%9A%E9%80%89%E6%8B%A9SLI%EF%BC%8C%E8%AE%BE%E5%AE%9ASLO.html' target='_blank'>03-03-SRE切入点：选择SLI，设定SLO.html</a></li>
-<li><a href='./SRE%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/04-04-%E9%94%99%E8%AF%AF%E9%A2%84%E7%AE%97%EF%BC%9A%E8%BE%BE%E6%88%90%E7%A8%B3%E5%AE%9A%E6%80%A7%E7%9B%AE%E6%A0%87%E7%9A%84%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6.html' target='_blank'>04-04-错误预算：达成稳定性目标的共识机制.html</a></li>
-<li><a href='./SRE%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/05-05-%E6%A1%88%E4%BE%8B%EF%BC%9A%E8%90%BD%E5%9C%B0SLO%E6%97%B6%E8%BF%98%E9%9C%80%E8%A6%81%E8%80%83%E8%99%91%E5%93%AA%E4%BA%9B%E5%9B%A0%E7%B4%A0%EF%BC%9F.html' target='_blank'>05-05-案例：落地SLO时还需要考虑哪些因素？.html</a></li>
-<li><a href='./SRE%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/06-06-%E6%95%85%E9%9A%9C%E5%8F%91%E7%8E%B0%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BB%BA%E8%AE%BEOn-Call%E6%9C%BA%E5%88%B6%EF%BC%9F.html' target='_blank'>06-06-故障发现：如何建设On-Call机制？.html</a></li>
-<li><a href='./SRE%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/07-07-%E6%95%85%E9%9A%9C%E5%A4%84%E7%90%86%EF%BC%9A%E4%B8%80%E5%88%87%E4%BB%A5%E6%81%A2%E5%A4%8D%E4%B8%9A%E5%8A%A1%E4%B8%BA%E6%9C%80%E9%AB%98%E4%BC%98%E5%85%88%E7%BA%A7.html' target='_blank'>07-07-故障处理：一切以恢复业务为最高优先级.html</a></li>
-<li><a href='./SRE%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/08-08-%E6%95%85%E9%9A%9C%E5%A4%8D%E7%9B%98%EF%BC%9A%E9%BB%84%E9%87%91%E4%B8%89%E9%97%AE%E4%B8%8E%E5%88%A4%E5%AE%9A%E4%B8%89%E5%8E%9F%E5%88%99.html' target='_blank'>08-08-故障复盘：黄金三问与判定三原则.html</a></li>
-<li><a href='./SRE%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/09-09-%E6%A1%88%E4%BE%8B%EF%BC%9A%E4%BA%92%E8%81%94%E7%BD%91%E5%85%B8%E5%9E%8B%E7%9A%84SRE%E7%BB%84%E7%BB%87%E6%9E%B6%E6%9E%84%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84%EF%BC%9F.html' target='_blank'>09-09-案例：互联网典型的SRE组织架构是怎样的？.html</a></li>
-<li><a href='./SRE%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/10-10-%E7%BB%8F%E9%AA%8C%EF%BC%9A%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E9%AB%98%E6%95%88%E7%9A%84SRE%E7%BB%84%E7%BB%87%E5%8D%8F%E4%BD%9C%E6%9C%BA%E5%88%B6%EF%BC%9F.html' target='_blank'>10-10-经验：都有哪些高效的SRE组织协作机制？.html</a></li>
-<li><a href='./SRE%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/11-%E7%BB%93%E6%9D%9F%E8%AF%AD-%E8%81%8A%E8%81%8A%E6%88%91%E7%9A%84SRE%E8%90%BD%E5%9C%B0%E5%BF%83%E8%B7%AF%E5%8E%86%E7%A8%8B.html' target='_blank'>11-结束语-聊聊我的SRE落地心路历程.html</a></li>
-<li><a href='./SRE%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/12-%E7%AD%94%E7%96%91-%E6%B2%A1%E4%BB%80%E4%B9%88%E8%83%BD%E9%98%BB%E6%8C%A1%E4%BD%A0%E6%8B%93%E5%B1%95%E8%BE%B9%E7%95%8C%E7%9A%84%E6%B8%B4%E6%9C%9B.html' target='_blank'>12-答疑-没什么能阻挡你拓展边界的渴望.html</a></li>
-</ul>
+    <header>
+        <div class="header-content">
+            <h1>SRE实战手册</h1>
+            <a href="../../homepage_redesign/index.html" class="back-link"><i class="fas fa-arrow-left"></i> 返回首页</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="course-list">
+            <ul>
+<li><a href="./SRE%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/00-%E5%BC%80%E7%AF%87%E8%AF%8D-SRE%E6%98%AF%E8%A7%A3%E5%86%B3%E7%B3%BB%E7%BB%9F%E7%A8%B3%E5%AE%9A%E6%80%A7%E9%97%AE%E9%A2%98%E7%9A%84%E7%81%B5%E4%B8%B9%E5%A6%99%E8%8D%AF%E5%90%97%EF%BC%9F.html">00-开篇词-SRE是解决系统稳定性问题的灵丹妙药吗？.html</a></li>
+<li><a href="./SRE%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/01-01-SRE%E8%BF%B7%E6%80%9D%EF%BC%9A%E6%97%A0%E6%89%80%E4%B8%8D%E8%83%BD%E7%9A%84%E8%A7%92%E8%89%B2%EF%BC%9F%E8%BF%98%E6%98%AF%E8%BF%90%E7%BB%B4%E7%9A%84%E5%8D%87%E7%BA%A7%EF%BC%9F.html">01-01-SRE迷思：无所不能的角色？还是运维的升级？.html</a></li>
+<li><a href="./SRE%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/02-02-%E7%B3%BB%E7%BB%9F%E5%8F%AF%E7%94%A8%E6%80%A7%EF%BC%9A%E6%B2%A1%E6%9C%89%E6%95%85%E9%9A%9C%EF%BC%8C%E7%B3%BB%E7%BB%9F%E5%B0%B1%E4%B8%80%E5%AE%9A%E6%98%AF%E7%A8%B3%E5%AE%9A%E7%9A%84%E5%90%97%EF%BC%9F.html">02-02-系统可用性：没有故障，系统就一定是稳定的吗？.html</a></li>
+<li><a href="./SRE%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/03-03-SRE%E5%88%87%E5%85%A5%E7%82%B9%EF%BC%9A%E9%80%89%E6%8B%A9SLI%EF%BC%8C%E8%AE%BE%E5%AE%9ASLO.html">03-03-SRE切入点：选择SLI，设定SLO.html</a></li>
+<li><a href="./SRE%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/04-04-%E9%94%99%E8%AF%AF%E9%A2%84%E7%AE%97%EF%BC%9A%E8%BE%BE%E6%88%90%E7%A8%B3%E5%AE%9A%E6%80%A7%E7%9B%AE%E6%A0%87%E7%9A%84%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6.html">04-04-错误预算：达成稳定性目标的共识机制.html</a></li>
+<li><a href="./SRE%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/05-05-%E6%A1%88%E4%BE%8B%EF%BC%9A%E8%90%BD%E5%9C%B0SLO%E6%97%B6%E8%BF%98%E9%9C%80%E8%A6%81%E8%80%83%E8%99%91%E5%93%AA%E4%BA%9B%E5%9B%A0%E7%B4%A0%EF%BC%9F.html">05-05-案例：落地SLO时还需要考虑哪些因素？.html</a></li>
+<li><a href="./SRE%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/06-06-%E6%95%85%E9%9A%9C%E5%8F%91%E7%8E%B0%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BB%BA%E8%AE%BEOn-Call%E6%9C%BA%E5%88%B6%EF%BC%9F.html">06-06-故障发现：如何建设On-Call机制？.html</a></li>
+<li><a href="./SRE%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/07-07-%E6%95%85%E9%9A%9C%E5%A4%84%E7%90%86%EF%BC%9A%E4%B8%80%E5%88%87%E4%BB%A5%E6%81%A2%E5%A4%8D%E4%B8%9A%E5%8A%A1%E4%B8%BA%E6%9C%80%E9%AB%98%E4%BC%98%E5%85%88%E7%BA%A7.html">07-07-故障处理：一切以恢复业务为最高优先级.html</a></li>
+<li><a href="./SRE%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/08-08-%E6%95%85%E9%9A%9C%E5%A4%8D%E7%9B%98%EF%BC%9A%E9%BB%84%E9%87%91%E4%B8%89%E9%97%AE%E4%B8%8E%E5%88%A4%E5%AE%9A%E4%B8%89%E5%8E%9F%E5%88%99.html">08-08-故障复盘：黄金三问与判定三原则.html</a></li>
+<li><a href="./SRE%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/09-09-%E6%A1%88%E4%BE%8B%EF%BC%9A%E4%BA%92%E8%81%94%E7%BD%91%E5%85%B8%E5%9E%8B%E7%9A%84SRE%E7%BB%84%E7%BB%87%E6%9E%B6%E6%9E%84%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84%EF%BC%9F.html">09-09-案例：互联网典型的SRE组织架构是怎样的？.html</a></li>
+<li><a href="./SRE%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/10-10-%E7%BB%8F%E9%AA%8C%EF%BC%9A%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E9%AB%98%E6%95%88%E7%9A%84SRE%E7%BB%84%E7%BB%87%E5%8D%8F%E4%BD%9C%E6%9C%BA%E5%88%B6%EF%BC%9F.html">10-10-经验：都有哪些高效的SRE组织协作机制？.html</a></li>
+<li><a href="./SRE%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/11-%E7%BB%93%E6%9D%9F%E8%AF%AD-%E8%81%8A%E8%81%8A%E6%88%91%E7%9A%84SRE%E8%90%BD%E5%9C%B0%E5%BF%83%E8%B7%AF%E5%8E%86%E7%A8%8B.html">11-结束语-聊聊我的SRE落地心路历程.html</a></li>
+<li><a href="./SRE%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/12-%E7%AD%94%E7%96%91-%E6%B2%A1%E4%BB%80%E4%B9%88%E8%83%BD%E9%98%BB%E6%8C%A1%E4%BD%A0%E6%8B%93%E5%B1%95%E8%BE%B9%E7%95%8C%E7%9A%84%E6%B8%B4%E6%9C%9B.html">12-答疑-没什么能阻挡你拓展边界的渴望.html</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 极客时间课程 | 现代简约风格设计</p>
+    </footer>
+
+    <script src="../assets/course_list.js"></script>
 </body>
 </html>

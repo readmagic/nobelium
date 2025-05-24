@@ -1,36 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-<title>Vim实用技巧必知必会</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vim实用技巧必知必会</title>
+    <link rel="stylesheet" href="../assets/course_list.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-<h1>Vim实用技巧必知必会</h1>
-<ul>
-<li><a href='./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/00-%E5%BC%80%E7%AF%87%E8%AF%8D-%E6%88%91%E4%BB%AC%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%AD%A6Vim%EF%BC%9F.html' target='_blank'>00-开篇词-我们为什么要学Vim？.html</a></li>
-<li><a href='./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/01-%E5%AF%BC%E8%AF%BB-%E6%B1%A0%E5%BB%BA%E5%BC%BA%EF%BC%9AVim%E5%B0%B1%E6%98%AF%E5%9B%9B%E4%B8%AA%E5%AD%97%E2%80%9C%E5%94%AF%E5%BF%AB%E4%B8%8D%E7%A0%B4%E2%80%9D.html' target='_blank'>01-导读-池建强：Vim就是四个字“唯快不破”.html</a></li>
-<li><a href='./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/02-01-%E5%90%84%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%9A%84Vim%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%EF%BC%9A%E4%B8%8A%E8%B7%AF%E5%89%8D%E5%87%86%E5%A4%87%E5%A5%BD%E4%BD%A0%E7%9A%84%E5%AE%9D%E9%A9%AC.html' target='_blank'>02-01-各平台下的Vim安装方法：上路前准备好你的宝马.html</a></li>
-<li><a href='./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/03-02-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E5%92%8C%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%EF%BC%9A%E5%BA%94%E5%AF%B9%E7%AE%80%E5%8D%95%E7%9A%84%E7%BC%96%E8%BE%91%E4%BB%BB%E5%8A%A1.html' target='_blank'>03-02-基本概念和基础命令：应对简单的编辑任务.html</a></li>
-<li><a href='./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/04-03-%E6%9B%B4%E5%A4%9A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%EF%BC%9A%E5%BA%94%E5%AF%B9%E7%A8%8D%E5%A4%8D%E6%9D%82%E7%9A%84%E7%BC%96%E8%BE%91%E4%BB%BB%E5%8A%A1.html' target='_blank'>04-03-更多常用命令：应对稍复杂的编辑任务.html</a></li>
-<li><a href='./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/05-04-%E5%88%9D%E6%AD%A5%E5%AE%9A%E5%88%B6%EF%BC%9A%E8%AE%A9%E4%BD%A0%E7%9A%84Vim%E6%9B%B4%E9%A1%BA%E6%89%8B.html' target='_blank'>05-04-初步定制：让你的Vim更顺手.html</a></li>
-<li><a href='./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/06-05-%E5%A4%9A%E6%96%87%E4%BB%B6%E6%89%93%E5%BC%80%E4%B8%8E%E7%BC%93%E5%86%B2%E5%8C%BA%EF%BC%9A%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4%E7%9A%84%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF.html' target='_blank'>06-05-多文件打开与缓冲区：复制粘贴的正确姿势.html</a></li>
-<li><a href='./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/07-06-%E7%AA%97%E5%8F%A3%E5%92%8C%E6%A0%87%E7%AD%BE%E9%A1%B5%EF%BC%9A%E4%BF%AE%E6%94%B9%E3%80%81%E5%AF%B9%E6%AF%94%E5%A4%9A%E4%B8%AA%E6%96%87%E4%BB%B6%E7%9A%84%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF.html' target='_blank'>07-06-窗口和标签页：修改、对比多个文件的正确姿势.html</a></li>
-<li><a href='./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/08-07-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%EF%BC%9A%E5%AE%9E%E7%8E%B0%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E7%9A%84%E6%90%9C%E7%B4%A2%E5%92%8C%E6%9B%BF%E6%8D%A2.html' target='_blank'>08-07-正则表达式：实现文件内容的搜索和替换.html</a></li>
-<li><a href='./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/09-08-%E5%9F%BA%E6%9C%AC%E7%BC%96%E7%A8%8B%E6%94%AF%E6%8C%81%EF%BC%9A%E8%A7%84%E9%81%BF%E3%80%81%E8%A7%A3%E5%86%B3%E7%BC%96%E7%A8%8B%E6%97%B6%E7%9A%84%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98.html' target='_blank'>09-08-基本编程支持：规避、解决编程时的常见问题.html</a></li>
-<li><a href='./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/10-09-%E4%B8%83%E5%A4%A7%E5%B8%B8%E7%94%A8%E6%8A%80%E5%B7%A7%EF%BC%9A%E8%AE%A9%E7%BC%96%E8%BE%91%E6%95%88%E7%8E%87%E5%86%8D%E4%B8%8A%E4%B8%80%E4%B8%AA%E5%8F%B0%E9%98%B6.html' target='_blank'>10-09-七大常用技巧：让编辑效率再上一个台阶.html</a></li>
-<li><a href='./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/11-10-%E4%BB%A3%E7%A0%81%E9%87%8D%E6%9E%84%E5%AE%9E%E9%AA%8C%EF%BC%9A%E5%9C%A8%E5%AE%9E%E6%88%98%E4%B8%AD%E6%8F%90%E9%AB%98%E7%BC%96%E8%BE%91%E7%86%9F%E7%BB%83%E5%BA%A6.html' target='_blank'>11-10-代码重构实验：在实战中提高编辑熟练度.html</a></li>
-<li><a href='./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/12-11-%E6%96%87%E6%9C%AC%E7%9A%84%E7%BB%86%E8%8A%82%EF%BC%9A%E5%85%B3%E4%BA%8E%E5%AD%97%E7%AC%A6%E3%80%81%E7%BC%96%E7%A0%81%E3%80%81%E8%A1%8C%E4%BD%A0%E6%89%80%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%84%E4%B8%80%E5%88%87.html' target='_blank'>12-11-文本的细节：关于字符、编码、行你所需要知道的一切.html</a></li>
-<li><a href='./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/13-12-%E8%AF%AD%E6%B3%95%E5%8A%A0%E4%BA%AE%E5%92%8C%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88%EF%BC%9A%E9%A2%9C%E5%8D%B3%E6%AD%A3%E4%B9%89.html' target='_blank'>13-12-语法加亮和配色方案：颜即正义.html</a></li>
-<li><a href='./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/14-13-YouCompleteMe%EF%BC%9AVim%E9%87%8C%E7%9A%84%E8%87%AA%E5%8A%A8%E5%AE%8C%E6%88%90.html' target='_blank'>14-13-YouCompleteMe：Vim里的自动完成.html</a></li>
-<li><a href='./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/15-14-Vim%E8%84%9A%E6%9C%AC%E7%AE%80%E4%BB%8B%EF%BC%9A%E5%BC%80%E5%A7%8B%E4%BD%A0%E7%9A%84%E6%B7%B1%E5%BA%A6%E5%AE%9A%E5%88%B6.html' target='_blank'>15-14-Vim脚本简介：开始你的深度定制.html</a></li>
-<li><a href='./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/16-15-%E6%8F%92%E4%BB%B6%E8%8D%9F%E8%90%83%EF%BC%9A%E4%B8%8D%E5%8F%AF%E6%88%96%E7%BC%BA%E7%9A%84%E6%8F%92%E4%BB%B6.html' target='_blank'>16-15-插件荟萃：不可或缺的插件.html</a></li>
-<li><a href='./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/17-16-%E7%BB%88%E7%AB%AF%E5%92%8CGDB%E6%94%AF%E6%8C%81%EF%BC%9A%E4%B8%8D%E7%A6%BB%E5%BC%80Vim%E5%AE%8C%E6%88%90%E5%BC%80%E5%8F%91%E4%BB%BB%E5%8A%A1.html' target='_blank'>17-16-终端和GDB支持：不离开Vim完成开发任务.html</a></li>
-<li><a href='./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/18-%E6%8B%93%E5%B1%951-%E7%BA%AF%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%EF%BC%9A%E4%BD%BF%E7%94%A8Vim%E4%B9%A6%E5%86%99%E4%B8%AD%E8%8B%B1%E6%96%87%E6%96%87%E6%A1%A3.html' target='_blank'>18-拓展1-纯文本编辑：使用Vim书写中英文文档.html</a></li>
-<li><a href='./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/19-%E6%8B%93%E5%B1%952-C%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84Vim%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83%EF%BC%9AC%E4%BB%A3%E7%A0%81%E7%9A%84%E6%90%9C%E7%B4%A2%E3%80%81%E6%8F%90%E7%A4%BA%E5%92%8C%E8%87%AA%E5%8A%A8%E5%AE%8C%E6%88%90.html' target='_blank'>19-拓展2-C程序员的Vim工作环境：C代码的搜索、提示和自动完成.html</a></li>
-<li><a href='./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/20-%E6%8B%93%E5%B1%953-Python%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84Vim%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83%EF%BC%9A%E5%AE%8C%E6%95%B4%E7%9A%84Python%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83.html' target='_blank'>20-拓展3-Python程序员的Vim工作环境：完整的Python开发环境.html</a></li>
-<li><a href='./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/21-%E6%8B%93%E5%B1%954-%E6%8F%92%E4%BB%B6%E6%A0%B7%E4%BE%8B%E5%88%86%E6%9E%90%EF%BC%9A%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E6%94%B9%E8%BF%9B%E6%8F%92%E4%BB%B6.html' target='_blank'>21-拓展4-插件样例分析：自己动手改进插件.html</a></li>
-<li><a href='./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/22-%E6%8B%93%E5%B1%955-%E5%85%B6%E4%BB%96%E6%8F%92%E4%BB%B6%E5%92%8C%E6%8A%80%E5%B7%A7%EF%BC%9A%E5%90%B4%E5%92%8F%E7%82%9C%E7%9A%84%E7%AE%B1%E5%BA%95%E7%A7%81%E8%97%8F.html' target='_blank'>22-拓展5-其他插件和技巧：吴咏炜的箱底私藏.html</a></li>
-<li><a href='./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/23-%E7%BB%93%E6%9D%9F%E8%AF%AD-Vim%E6%A3%AE%E6%9E%97%E6%8E%A2%E7%A7%98%EF%BC%8C%E4%B8%80%E5%88%87%E6%89%8D%E5%88%9A%E5%88%9A%E5%BC%80%E5%A7%8B.html' target='_blank'>23-结束语-Vim森林探秘，一切才刚刚开始.html</a></li>
-<li><a href='./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/24-%E7%BB%93%E8%AF%BE%E6%B5%8B%E8%AF%95-%E8%BF%99%E4%BA%9BVim%E7%9A%84%E7%9F%A5%E8%AF%86%E4%BD%A0%E9%83%BD%E6%8E%8C%E6%8F%A1%E4%BA%86%E5%90%97%EF%BC%9F.html' target='_blank'>24-结课测试-这些Vim的知识你都掌握了吗？.html</a></li>
-</ul>
+    <header>
+        <div class="header-content">
+            <h1>Vim实用技巧必知必会</h1>
+            <a href="../../homepage_redesign/index.html" class="back-link"><i class="fas fa-arrow-left"></i> 返回首页</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="course-list">
+            <ul>
+<li><a href="./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/00-%E5%BC%80%E7%AF%87%E8%AF%8D-%E6%88%91%E4%BB%AC%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%AD%A6Vim%EF%BC%9F.html">00-开篇词-我们为什么要学Vim？.html</a></li>
+<li><a href="./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/01-%E5%AF%BC%E8%AF%BB-%E6%B1%A0%E5%BB%BA%E5%BC%BA%EF%BC%9AVim%E5%B0%B1%E6%98%AF%E5%9B%9B%E4%B8%AA%E5%AD%97%E2%80%9C%E5%94%AF%E5%BF%AB%E4%B8%8D%E7%A0%B4%E2%80%9D.html">01-导读-池建强：Vim就是四个字“唯快不破”.html</a></li>
+<li><a href="./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/02-01-%E5%90%84%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%9A%84Vim%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%EF%BC%9A%E4%B8%8A%E8%B7%AF%E5%89%8D%E5%87%86%E5%A4%87%E5%A5%BD%E4%BD%A0%E7%9A%84%E5%AE%9D%E9%A9%AC.html">02-01-各平台下的Vim安装方法：上路前准备好你的宝马.html</a></li>
+<li><a href="./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/03-02-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E5%92%8C%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%EF%BC%9A%E5%BA%94%E5%AF%B9%E7%AE%80%E5%8D%95%E7%9A%84%E7%BC%96%E8%BE%91%E4%BB%BB%E5%8A%A1.html">03-02-基本概念和基础命令：应对简单的编辑任务.html</a></li>
+<li><a href="./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/04-03-%E6%9B%B4%E5%A4%9A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%EF%BC%9A%E5%BA%94%E5%AF%B9%E7%A8%8D%E5%A4%8D%E6%9D%82%E7%9A%84%E7%BC%96%E8%BE%91%E4%BB%BB%E5%8A%A1.html">04-03-更多常用命令：应对稍复杂的编辑任务.html</a></li>
+<li><a href="./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/05-04-%E5%88%9D%E6%AD%A5%E5%AE%9A%E5%88%B6%EF%BC%9A%E8%AE%A9%E4%BD%A0%E7%9A%84Vim%E6%9B%B4%E9%A1%BA%E6%89%8B.html">05-04-初步定制：让你的Vim更顺手.html</a></li>
+<li><a href="./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/06-05-%E5%A4%9A%E6%96%87%E4%BB%B6%E6%89%93%E5%BC%80%E4%B8%8E%E7%BC%93%E5%86%B2%E5%8C%BA%EF%BC%9A%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4%E7%9A%84%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF.html">06-05-多文件打开与缓冲区：复制粘贴的正确姿势.html</a></li>
+<li><a href="./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/07-06-%E7%AA%97%E5%8F%A3%E5%92%8C%E6%A0%87%E7%AD%BE%E9%A1%B5%EF%BC%9A%E4%BF%AE%E6%94%B9%E3%80%81%E5%AF%B9%E6%AF%94%E5%A4%9A%E4%B8%AA%E6%96%87%E4%BB%B6%E7%9A%84%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF.html">07-06-窗口和标签页：修改、对比多个文件的正确姿势.html</a></li>
+<li><a href="./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/08-07-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%EF%BC%9A%E5%AE%9E%E7%8E%B0%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E7%9A%84%E6%90%9C%E7%B4%A2%E5%92%8C%E6%9B%BF%E6%8D%A2.html">08-07-正则表达式：实现文件内容的搜索和替换.html</a></li>
+<li><a href="./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/09-08-%E5%9F%BA%E6%9C%AC%E7%BC%96%E7%A8%8B%E6%94%AF%E6%8C%81%EF%BC%9A%E8%A7%84%E9%81%BF%E3%80%81%E8%A7%A3%E5%86%B3%E7%BC%96%E7%A8%8B%E6%97%B6%E7%9A%84%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98.html">09-08-基本编程支持：规避、解决编程时的常见问题.html</a></li>
+<li><a href="./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/10-09-%E4%B8%83%E5%A4%A7%E5%B8%B8%E7%94%A8%E6%8A%80%E5%B7%A7%EF%BC%9A%E8%AE%A9%E7%BC%96%E8%BE%91%E6%95%88%E7%8E%87%E5%86%8D%E4%B8%8A%E4%B8%80%E4%B8%AA%E5%8F%B0%E9%98%B6.html">10-09-七大常用技巧：让编辑效率再上一个台阶.html</a></li>
+<li><a href="./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/11-10-%E4%BB%A3%E7%A0%81%E9%87%8D%E6%9E%84%E5%AE%9E%E9%AA%8C%EF%BC%9A%E5%9C%A8%E5%AE%9E%E6%88%98%E4%B8%AD%E6%8F%90%E9%AB%98%E7%BC%96%E8%BE%91%E7%86%9F%E7%BB%83%E5%BA%A6.html">11-10-代码重构实验：在实战中提高编辑熟练度.html</a></li>
+<li><a href="./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/12-11-%E6%96%87%E6%9C%AC%E7%9A%84%E7%BB%86%E8%8A%82%EF%BC%9A%E5%85%B3%E4%BA%8E%E5%AD%97%E7%AC%A6%E3%80%81%E7%BC%96%E7%A0%81%E3%80%81%E8%A1%8C%E4%BD%A0%E6%89%80%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%84%E4%B8%80%E5%88%87.html">12-11-文本的细节：关于字符、编码、行你所需要知道的一切.html</a></li>
+<li><a href="./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/13-12-%E8%AF%AD%E6%B3%95%E5%8A%A0%E4%BA%AE%E5%92%8C%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88%EF%BC%9A%E9%A2%9C%E5%8D%B3%E6%AD%A3%E4%B9%89.html">13-12-语法加亮和配色方案：颜即正义.html</a></li>
+<li><a href="./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/14-13-YouCompleteMe%EF%BC%9AVim%E9%87%8C%E7%9A%84%E8%87%AA%E5%8A%A8%E5%AE%8C%E6%88%90.html">14-13-YouCompleteMe：Vim里的自动完成.html</a></li>
+<li><a href="./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/15-14-Vim%E8%84%9A%E6%9C%AC%E7%AE%80%E4%BB%8B%EF%BC%9A%E5%BC%80%E5%A7%8B%E4%BD%A0%E7%9A%84%E6%B7%B1%E5%BA%A6%E5%AE%9A%E5%88%B6.html">15-14-Vim脚本简介：开始你的深度定制.html</a></li>
+<li><a href="./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/16-15-%E6%8F%92%E4%BB%B6%E8%8D%9F%E8%90%83%EF%BC%9A%E4%B8%8D%E5%8F%AF%E6%88%96%E7%BC%BA%E7%9A%84%E6%8F%92%E4%BB%B6.html">16-15-插件荟萃：不可或缺的插件.html</a></li>
+<li><a href="./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/17-16-%E7%BB%88%E7%AB%AF%E5%92%8CGDB%E6%94%AF%E6%8C%81%EF%BC%9A%E4%B8%8D%E7%A6%BB%E5%BC%80Vim%E5%AE%8C%E6%88%90%E5%BC%80%E5%8F%91%E4%BB%BB%E5%8A%A1.html">17-16-终端和GDB支持：不离开Vim完成开发任务.html</a></li>
+<li><a href="./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/18-%E6%8B%93%E5%B1%951-%E7%BA%AF%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%EF%BC%9A%E4%BD%BF%E7%94%A8Vim%E4%B9%A6%E5%86%99%E4%B8%AD%E8%8B%B1%E6%96%87%E6%96%87%E6%A1%A3.html">18-拓展1-纯文本编辑：使用Vim书写中英文文档.html</a></li>
+<li><a href="./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/19-%E6%8B%93%E5%B1%952-C%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84Vim%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83%EF%BC%9AC%E4%BB%A3%E7%A0%81%E7%9A%84%E6%90%9C%E7%B4%A2%E3%80%81%E6%8F%90%E7%A4%BA%E5%92%8C%E8%87%AA%E5%8A%A8%E5%AE%8C%E6%88%90.html">19-拓展2-C程序员的Vim工作环境：C代码的搜索、提示和自动完成.html</a></li>
+<li><a href="./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/20-%E6%8B%93%E5%B1%953-Python%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84Vim%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83%EF%BC%9A%E5%AE%8C%E6%95%B4%E7%9A%84Python%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83.html">20-拓展3-Python程序员的Vim工作环境：完整的Python开发环境.html</a></li>
+<li><a href="./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/21-%E6%8B%93%E5%B1%954-%E6%8F%92%E4%BB%B6%E6%A0%B7%E4%BE%8B%E5%88%86%E6%9E%90%EF%BC%9A%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E6%94%B9%E8%BF%9B%E6%8F%92%E4%BB%B6.html">21-拓展4-插件样例分析：自己动手改进插件.html</a></li>
+<li><a href="./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/22-%E6%8B%93%E5%B1%955-%E5%85%B6%E4%BB%96%E6%8F%92%E4%BB%B6%E5%92%8C%E6%8A%80%E5%B7%A7%EF%BC%9A%E5%90%B4%E5%92%8F%E7%82%9C%E7%9A%84%E7%AE%B1%E5%BA%95%E7%A7%81%E8%97%8F.html">22-拓展5-其他插件和技巧：吴咏炜的箱底私藏.html</a></li>
+<li><a href="./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/23-%E7%BB%93%E6%9D%9F%E8%AF%AD-Vim%E6%A3%AE%E6%9E%97%E6%8E%A2%E7%A7%98%EF%BC%8C%E4%B8%80%E5%88%87%E6%89%8D%E5%88%9A%E5%88%9A%E5%BC%80%E5%A7%8B.html">23-结束语-Vim森林探秘，一切才刚刚开始.html</a></li>
+<li><a href="./Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/24-%E7%BB%93%E8%AF%BE%E6%B5%8B%E8%AF%95-%E8%BF%99%E4%BA%9BVim%E7%9A%84%E7%9F%A5%E8%AF%86%E4%BD%A0%E9%83%BD%E6%8E%8C%E6%8F%A1%E4%BA%86%E5%90%97%EF%BC%9F.html">24-结课测试-这些Vim的知识你都掌握了吗？.html</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 极客时间课程 | 现代简约风格设计</p>
+    </footer>
+
+    <script src="../assets/course_list.js"></script>
 </body>
 </html>

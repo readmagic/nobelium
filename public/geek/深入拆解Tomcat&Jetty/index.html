@@ -1,56 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-<title>深入拆解Tomcat&Jetty</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深入拆解Tomcat&Jetty</title>
+    <link rel="stylesheet" href="../assets/course_list.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-<h1>深入拆解Tomcat&Jetty</h1>
-<ul>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/00-%E5%BC%80%E7%AF%87%E8%AF%8D-Java%E7%A8%8B%E5%BA%8F%E5%91%98%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E6%88%90%E9%95%BF%EF%BC%9F.html' target='_blank'>00-开篇词-Java程序员如何快速成长？.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/01-01-Web%E5%AE%B9%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%B7%AF%E5%BE%84.html' target='_blank'>01-01-Web容器学习路径.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/02-02-HTTP%E5%8D%8F%E8%AE%AE%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A.html' target='_blank'>02-02-HTTP协议必知必会.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/03-03-%E4%BD%A0%E5%BA%94%E8%AF%A5%E7%9F%A5%E9%81%93%E7%9A%84Servlet%E8%A7%84%E8%8C%83%E5%92%8CServlet%E5%AE%B9%E5%99%A8.html' target='_blank'>03-03-你应该知道的Servlet规范和Servlet容器.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/04-04-%E5%AE%9E%E6%88%98%EF%BC%9A%E7%BA%AF%E6%89%8B%E5%B7%A5%E6%89%93%E9%80%A0%E5%92%8C%E8%BF%90%E8%A1%8C%E4%B8%80%E4%B8%AAServlet.html' target='_blank'>04-04-实战：纯手工打造和运行一个Servlet.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/05-05-Tomcat%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%EF%BC%88%E4%B8%8A%EF%BC%89%EF%BC%9A%C2%A0%E8%BF%9E%E6%8E%A5%E5%99%A8%E6%98%AF%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E7%9A%84%EF%BC%9F.html' target='_blank'>05-05-Tomcat系统架构（上）： 连接器是如何设计的？.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/06-06-Tomcat%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%EF%BC%88%E4%B8%8B%EF%BC%89%EF%BC%9A%E8%81%8A%E8%81%8A%E5%A4%9A%E5%B1%82%E5%AE%B9%E5%99%A8%E7%9A%84%E8%AE%BE%E8%AE%A1.html' target='_blank'>06-06-Tomcat系统架构（下）：聊聊多层容器的设计.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/07-07-Tomcat%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E9%94%AE%E5%BC%8F%E5%90%AF%E5%81%9C%EF%BC%9F.html' target='_blank'>07-07-Tomcat如何实现一键式启停？.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/08-08-Tomcat%E7%9A%84%E2%80%9C%E9%AB%98%E5%B1%82%E4%BB%AC%E2%80%9D%E9%83%BD%E8%B4%9F%E8%B4%A3%E5%81%9A%E4%BB%80%E4%B9%88%EF%BC%9F.html' target='_blank'>08-08-Tomcat的“高层们”都负责做什么？.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/09-09-%E6%AF%94%E8%BE%83%EF%BC%9AJetty%E6%9E%B6%E6%9E%84%E7%89%B9%E7%82%B9%E4%B9%8BConnector%E7%BB%84%E4%BB%B6.html' target='_blank'>09-09-比较：Jetty架构特点之Connector组件.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/10-10-%E6%AF%94%E8%BE%83%EF%BC%9AJetty%E6%9E%B6%E6%9E%84%E7%89%B9%E7%82%B9%E4%B9%8BHandler%E7%BB%84%E4%BB%B6.html' target='_blank'>10-10-比较：Jetty架构特点之Handler组件.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/11-11-%E6%80%BB%E7%BB%93%EF%BC%9A%E4%BB%8ETomcat%E5%92%8CJetty%E4%B8%AD%E6%8F%90%E7%82%BC%E7%BB%84%E4%BB%B6%E5%8C%96%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83.html' target='_blank'>11-11-总结：从Tomcat和Jetty中提炼组件化设计规范.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/12-12-%E5%AE%9E%E6%88%98%EF%BC%9A%E4%BC%98%E5%8C%96%E5%B9%B6%E6%8F%90%E9%AB%98Tomcat%E5%90%AF%E5%8A%A8%E9%80%9F%E5%BA%A6.html' target='_blank'>12-12-实战：优化并提高Tomcat启动速度.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/13-13-%E7%83%AD%E7%82%B9%E9%97%AE%E9%A2%98%E7%AD%94%E7%96%91%EF%BC%881%EF%BC%89%EF%BC%9A%E5%A6%82%E4%BD%95%E5%AD%A6%E4%B9%A0%E6%BA%90%E7%A0%81%EF%BC%9F.html' target='_blank'>13-13-热点问题答疑（1）：如何学习源码？.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/14-14-NioEndpoint%E7%BB%84%E4%BB%B6%EF%BC%9ATomcat%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E9%9D%9E%E9%98%BB%E5%A1%9EI-O%EF%BC%9F.html' target='_blank'>14-14-NioEndpoint组件：Tomcat如何实现非阻塞I-O？.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/15-15-Nio2Endpoint%E7%BB%84%E4%BB%B6%EF%BC%9ATomcat%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%BC%82%E6%AD%A5I-O%EF%BC%9F.html' target='_blank'>15-15-Nio2Endpoint组件：Tomcat如何实现异步I-O？.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/16-16-AprEndpoint%E7%BB%84%E4%BB%B6%EF%BC%9ATomcatAPR%E6%8F%90%E9%AB%98I-O%E6%80%A7%E8%83%BD%E7%9A%84%E7%A7%98%E5%AF%86.html' target='_blank'>16-16-AprEndpoint组件：TomcatAPR提高I-O性能的秘密.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/17-17-Executor%E7%BB%84%E4%BB%B6%EF%BC%9ATomcat%E5%A6%82%E4%BD%95%E6%89%A9%E5%B1%95Java%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F.html' target='_blank'>17-17-Executor组件：Tomcat如何扩展Java线程池？.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/18-18-%E6%96%B0%E7%89%B9%E6%80%A7%EF%BC%9ATomcat%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81WebSocket%EF%BC%9F.html' target='_blank'>18-18-新特性：Tomcat如何支持WebSocket？.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/19-19-%E6%AF%94%E8%BE%83%EF%BC%9AJetty%E7%9A%84%E7%BA%BF%E7%A8%8B%E7%AD%96%E7%95%A5EatWhatYouKill.html' target='_blank'>19-19-比较：Jetty的线程策略EatWhatYouKill.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/20-20-%E6%80%BB%E7%BB%93%EF%BC%9ATomcat%E5%92%8CJetty%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1%E6%B1%A0%E6%8A%80%E6%9C%AF.html' target='_blank'>20-20-总结：Tomcat和Jetty中的对象池技术.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/21-21-%E6%80%BB%E7%BB%93%EF%BC%9ATomcat%E5%92%8CJetty%E7%9A%84%E9%AB%98%E6%80%A7%E8%83%BD%E3%80%81%E9%AB%98%E5%B9%B6%E5%8F%91%E4%B9%8B%E9%81%93.html' target='_blank'>21-21-总结：Tomcat和Jetty的高性能、高并发之道.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/22-22-%E7%83%AD%E7%82%B9%E9%97%AE%E9%A2%98%E7%AD%94%E7%96%91%EF%BC%882%EF%BC%89%EF%BC%9A%E5%86%85%E6%A0%B8%E5%A6%82%E4%BD%95%E9%98%BB%E5%A1%9E%E4%B8%8E%E5%94%A4%E9%86%92%E8%BF%9B%E7%A8%8B%EF%BC%9F.html' target='_blank'>22-22-热点问题答疑（2）：内核如何阻塞与唤醒进程？.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/23-23-Host%E5%AE%B9%E5%99%A8%EF%BC%9ATomcat%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E7%83%AD%E9%83%A8%E7%BD%B2%E5%92%8C%E7%83%AD%E5%8A%A0%E8%BD%BD%EF%BC%9F.html' target='_blank'>23-23-Host容器：Tomcat如何实现热部署和热加载？.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/24-24-Context%E5%AE%B9%E5%99%A8%EF%BC%88%E4%B8%8A%EF%BC%89%EF%BC%9ATomcat%E5%A6%82%E4%BD%95%E6%89%93%E7%A0%B4%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%89%98%E6%9C%BA%E5%88%B6%EF%BC%9F.html' target='_blank'>24-24-Context容器（上）：Tomcat如何打破双亲委托机制？.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/25-25-Context%E5%AE%B9%E5%99%A8%EF%BC%88%E4%B8%AD%EF%BC%89%EF%BC%9ATomcat%E5%A6%82%E4%BD%95%E9%9A%94%E7%A6%BBWeb%E5%BA%94%E7%94%A8%EF%BC%9F.html' target='_blank'>25-25-Context容器（中）：Tomcat如何隔离Web应用？.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/26-26-Context%E5%AE%B9%E5%99%A8%EF%BC%88%E4%B8%8B%EF%BC%89%EF%BC%9ATomcat%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0Servlet%E8%A7%84%E8%8C%83%EF%BC%9F.html' target='_blank'>26-26-Context容器（下）：Tomcat如何实现Servlet规范？.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/27-27-%E6%96%B0%E7%89%B9%E6%80%A7%EF%BC%9ATomcat%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81%E5%BC%82%E6%AD%A5Servlet%EF%BC%9F.html' target='_blank'>27-27-新特性：Tomcat如何支持异步Servlet？.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/28-28-%E6%96%B0%E7%89%B9%E6%80%A7%EF%BC%9ASpringBoot%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E5%86%85%E5%B5%8C%E5%BC%8F%E7%9A%84Tomcat%E5%92%8CJetty%EF%BC%9F.html' target='_blank'>28-28-新特性：SpringBoot如何使用内嵌式的Tomcat和Jetty？.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/29-29-%E6%AF%94%E8%BE%83%EF%BC%9AJetty%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%85%B7%E6%9C%89%E4%B8%8A%E4%B8%8B%E6%96%87%E4%BF%A1%E6%81%AF%E7%9A%84%E8%B4%A3%E4%BB%BB%E9%93%BE%EF%BC%9F.html' target='_blank'>29-29-比较：Jetty如何实现具有上下文信息的责任链？.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/30-30-%E7%83%AD%E7%82%B9%E9%97%AE%E9%A2%98%E7%AD%94%E7%96%91%EF%BC%883%EF%BC%89%EF%BC%9ASpring%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.html' target='_blank'>30-30-热点问题答疑（3）：Spring框架中的设计模式.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/31-31-Logger%E7%BB%84%E4%BB%B6%EF%BC%9ATomcat%E7%9A%84%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%E5%8F%8A%E5%AE%9E%E6%88%98.html' target='_blank'>31-31-Logger组件：Tomcat的日志框架及实战.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/32-32-Manager%E7%BB%84%E4%BB%B6%EF%BC%9ATomcat%E7%9A%84Session%E7%AE%A1%E7%90%86%E6%9C%BA%E5%88%B6%E8%A7%A3%E6%9E%90.html' target='_blank'>32-32-Manager组件：Tomcat的Session管理机制解析.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/33-33-Cluster%E7%BB%84%E4%BB%B6%EF%BC%9ATomcat%E7%9A%84%E9%9B%86%E7%BE%A4%E9%80%9A%E4%BF%A1%E5%8E%9F%E7%90%86.html' target='_blank'>33-33-Cluster组件：Tomcat的集群通信原理.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/34-%E7%89%B9%E5%88%AB%E6%94%BE%E9%80%81-%E5%A6%82%E4%BD%95%E6%8C%81%E7%BB%AD%E4%BF%9D%E6%8C%81%E5%AF%B9%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%85%B4%E8%B6%A3%EF%BC%9F.html' target='_blank'>34-特别放送-如何持续保持对学习的兴趣？.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/35-34-JVMGC%E5%8E%9F%E7%90%86%E5%8F%8A%E8%B0%83%E4%BC%98%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%80%9D%E8%B7%AF.html' target='_blank'>35-34-JVMGC原理及调优的基本思路.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/36-35-%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7Tomcat%E7%9A%84%E6%80%A7%E8%83%BD%EF%BC%9F.html' target='_blank'>36-35-如何监控Tomcat的性能？.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/37-36-TomcatI-O%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E5%B9%B6%E5%8F%91%E8%B0%83%E4%BC%98.html' target='_blank'>37-36-TomcatI-O和线程池的并发调优.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/38-37-Tomcat%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%88%86%E6%9E%90%E5%8F%8A%E8%B0%83%E4%BC%98.html' target='_blank'>38-37-Tomcat内存溢出的原因分析及调优.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/39-38-Tomcat%E6%8B%92%E7%BB%9D%E8%BF%9E%E6%8E%A5%E5%8E%9F%E5%9B%A0%E5%88%86%E6%9E%90%E5%8F%8A%E7%BD%91%E7%BB%9C%E4%BC%98%E5%8C%96.html' target='_blank'>39-38-Tomcat拒绝连接原因分析及网络优化.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/40-39-Tomcat%E8%BF%9B%E7%A8%8B%E5%8D%A0%E7%94%A8CPU%E8%BF%87%E9%AB%98%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F.html' target='_blank'>40-39-Tomcat进程占用CPU过高怎么办？.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/41-40-%E8%B0%88%E8%B0%88Jetty%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98%E7%9A%84%E6%80%9D%E8%B7%AF.html' target='_blank'>41-40-谈谈Jetty性能调优的思路.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/42-41-%E7%83%AD%E7%82%B9%E9%97%AE%E9%A2%98%E7%AD%94%E7%96%91%EF%BC%884%EF%BC%89%EF%BC%9ATomcat%E5%92%8CJetty%E6%9C%89%E5%93%AA%E4%BA%9B%E4%B8%8D%E5%90%8C%EF%BC%9F.html' target='_blank'>42-41-热点问题答疑（4）：Tomcat和Jetty有哪些不同？.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/43-%E7%BB%93%E6%9D%9F%E8%AF%AD-%E9%9D%99%E4%B8%8B%E5%BF%83%E6%9D%A5%EF%BC%8C%E5%93%81%E5%91%B3%E7%BB%8F%E5%85%B8.html' target='_blank'>43-结束语-静下心来，品味经典.html</a></li>
-<li><a href='./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/44-%E7%BB%93%E8%AF%BE%E6%B5%8B%E8%AF%95-%E8%BF%99%E4%BA%9BTomcat%26Jetty%E7%9A%84%E7%9F%A5%E8%AF%86%E4%BD%A0%E9%83%BD%E6%8E%8C%E6%8F%A1%E4%BA%86%E5%90%97%EF%BC%9F.html' target='_blank'>44-结课测试-这些Tomcat&Jetty的知识你都掌握了吗？.html</a></li>
-</ul>
+    <header>
+        <div class="header-content">
+            <h1>深入拆解Tomcat&Jetty</h1>
+            <a href="../../homepage_redesign/index.html" class="back-link"><i class="fas fa-arrow-left"></i> 返回首页</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="course-list">
+            <ul>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/00-%E5%BC%80%E7%AF%87%E8%AF%8D-Java%E7%A8%8B%E5%BA%8F%E5%91%98%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E6%88%90%E9%95%BF%EF%BC%9F.html">00-开篇词-Java程序员如何快速成长？.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/01-01-Web%E5%AE%B9%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%B7%AF%E5%BE%84.html">01-01-Web容器学习路径.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/02-02-HTTP%E5%8D%8F%E8%AE%AE%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A.html">02-02-HTTP协议必知必会.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/03-03-%E4%BD%A0%E5%BA%94%E8%AF%A5%E7%9F%A5%E9%81%93%E7%9A%84Servlet%E8%A7%84%E8%8C%83%E5%92%8CServlet%E5%AE%B9%E5%99%A8.html">03-03-你应该知道的Servlet规范和Servlet容器.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/04-04-%E5%AE%9E%E6%88%98%EF%BC%9A%E7%BA%AF%E6%89%8B%E5%B7%A5%E6%89%93%E9%80%A0%E5%92%8C%E8%BF%90%E8%A1%8C%E4%B8%80%E4%B8%AAServlet.html">04-04-实战：纯手工打造和运行一个Servlet.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/05-05-Tomcat%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%EF%BC%88%E4%B8%8A%EF%BC%89%EF%BC%9A%C2%A0%E8%BF%9E%E6%8E%A5%E5%99%A8%E6%98%AF%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E7%9A%84%EF%BC%9F.html">05-05-Tomcat系统架构（上）： 连接器是如何设计的？.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/06-06-Tomcat%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%EF%BC%88%E4%B8%8B%EF%BC%89%EF%BC%9A%E8%81%8A%E8%81%8A%E5%A4%9A%E5%B1%82%E5%AE%B9%E5%99%A8%E7%9A%84%E8%AE%BE%E8%AE%A1.html">06-06-Tomcat系统架构（下）：聊聊多层容器的设计.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/07-07-Tomcat%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E9%94%AE%E5%BC%8F%E5%90%AF%E5%81%9C%EF%BC%9F.html">07-07-Tomcat如何实现一键式启停？.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/08-08-Tomcat%E7%9A%84%E2%80%9C%E9%AB%98%E5%B1%82%E4%BB%AC%E2%80%9D%E9%83%BD%E8%B4%9F%E8%B4%A3%E5%81%9A%E4%BB%80%E4%B9%88%EF%BC%9F.html">08-08-Tomcat的“高层们”都负责做什么？.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/09-09-%E6%AF%94%E8%BE%83%EF%BC%9AJetty%E6%9E%B6%E6%9E%84%E7%89%B9%E7%82%B9%E4%B9%8BConnector%E7%BB%84%E4%BB%B6.html">09-09-比较：Jetty架构特点之Connector组件.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/10-10-%E6%AF%94%E8%BE%83%EF%BC%9AJetty%E6%9E%B6%E6%9E%84%E7%89%B9%E7%82%B9%E4%B9%8BHandler%E7%BB%84%E4%BB%B6.html">10-10-比较：Jetty架构特点之Handler组件.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/11-11-%E6%80%BB%E7%BB%93%EF%BC%9A%E4%BB%8ETomcat%E5%92%8CJetty%E4%B8%AD%E6%8F%90%E7%82%BC%E7%BB%84%E4%BB%B6%E5%8C%96%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83.html">11-11-总结：从Tomcat和Jetty中提炼组件化设计规范.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/12-12-%E5%AE%9E%E6%88%98%EF%BC%9A%E4%BC%98%E5%8C%96%E5%B9%B6%E6%8F%90%E9%AB%98Tomcat%E5%90%AF%E5%8A%A8%E9%80%9F%E5%BA%A6.html">12-12-实战：优化并提高Tomcat启动速度.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/13-13-%E7%83%AD%E7%82%B9%E9%97%AE%E9%A2%98%E7%AD%94%E7%96%91%EF%BC%881%EF%BC%89%EF%BC%9A%E5%A6%82%E4%BD%95%E5%AD%A6%E4%B9%A0%E6%BA%90%E7%A0%81%EF%BC%9F.html">13-13-热点问题答疑（1）：如何学习源码？.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/14-14-NioEndpoint%E7%BB%84%E4%BB%B6%EF%BC%9ATomcat%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E9%9D%9E%E9%98%BB%E5%A1%9EI-O%EF%BC%9F.html">14-14-NioEndpoint组件：Tomcat如何实现非阻塞I-O？.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/15-15-Nio2Endpoint%E7%BB%84%E4%BB%B6%EF%BC%9ATomcat%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%BC%82%E6%AD%A5I-O%EF%BC%9F.html">15-15-Nio2Endpoint组件：Tomcat如何实现异步I-O？.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/16-16-AprEndpoint%E7%BB%84%E4%BB%B6%EF%BC%9ATomcatAPR%E6%8F%90%E9%AB%98I-O%E6%80%A7%E8%83%BD%E7%9A%84%E7%A7%98%E5%AF%86.html">16-16-AprEndpoint组件：TomcatAPR提高I-O性能的秘密.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/17-17-Executor%E7%BB%84%E4%BB%B6%EF%BC%9ATomcat%E5%A6%82%E4%BD%95%E6%89%A9%E5%B1%95Java%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F.html">17-17-Executor组件：Tomcat如何扩展Java线程池？.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/18-18-%E6%96%B0%E7%89%B9%E6%80%A7%EF%BC%9ATomcat%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81WebSocket%EF%BC%9F.html">18-18-新特性：Tomcat如何支持WebSocket？.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/19-19-%E6%AF%94%E8%BE%83%EF%BC%9AJetty%E7%9A%84%E7%BA%BF%E7%A8%8B%E7%AD%96%E7%95%A5EatWhatYouKill.html">19-19-比较：Jetty的线程策略EatWhatYouKill.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/20-20-%E6%80%BB%E7%BB%93%EF%BC%9ATomcat%E5%92%8CJetty%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1%E6%B1%A0%E6%8A%80%E6%9C%AF.html">20-20-总结：Tomcat和Jetty中的对象池技术.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/21-21-%E6%80%BB%E7%BB%93%EF%BC%9ATomcat%E5%92%8CJetty%E7%9A%84%E9%AB%98%E6%80%A7%E8%83%BD%E3%80%81%E9%AB%98%E5%B9%B6%E5%8F%91%E4%B9%8B%E9%81%93.html">21-21-总结：Tomcat和Jetty的高性能、高并发之道.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/22-22-%E7%83%AD%E7%82%B9%E9%97%AE%E9%A2%98%E7%AD%94%E7%96%91%EF%BC%882%EF%BC%89%EF%BC%9A%E5%86%85%E6%A0%B8%E5%A6%82%E4%BD%95%E9%98%BB%E5%A1%9E%E4%B8%8E%E5%94%A4%E9%86%92%E8%BF%9B%E7%A8%8B%EF%BC%9F.html">22-22-热点问题答疑（2）：内核如何阻塞与唤醒进程？.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/23-23-Host%E5%AE%B9%E5%99%A8%EF%BC%9ATomcat%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E7%83%AD%E9%83%A8%E7%BD%B2%E5%92%8C%E7%83%AD%E5%8A%A0%E8%BD%BD%EF%BC%9F.html">23-23-Host容器：Tomcat如何实现热部署和热加载？.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/24-24-Context%E5%AE%B9%E5%99%A8%EF%BC%88%E4%B8%8A%EF%BC%89%EF%BC%9ATomcat%E5%A6%82%E4%BD%95%E6%89%93%E7%A0%B4%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%89%98%E6%9C%BA%E5%88%B6%EF%BC%9F.html">24-24-Context容器（上）：Tomcat如何打破双亲委托机制？.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/25-25-Context%E5%AE%B9%E5%99%A8%EF%BC%88%E4%B8%AD%EF%BC%89%EF%BC%9ATomcat%E5%A6%82%E4%BD%95%E9%9A%94%E7%A6%BBWeb%E5%BA%94%E7%94%A8%EF%BC%9F.html">25-25-Context容器（中）：Tomcat如何隔离Web应用？.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/26-26-Context%E5%AE%B9%E5%99%A8%EF%BC%88%E4%B8%8B%EF%BC%89%EF%BC%9ATomcat%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0Servlet%E8%A7%84%E8%8C%83%EF%BC%9F.html">26-26-Context容器（下）：Tomcat如何实现Servlet规范？.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/27-27-%E6%96%B0%E7%89%B9%E6%80%A7%EF%BC%9ATomcat%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81%E5%BC%82%E6%AD%A5Servlet%EF%BC%9F.html">27-27-新特性：Tomcat如何支持异步Servlet？.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/28-28-%E6%96%B0%E7%89%B9%E6%80%A7%EF%BC%9ASpringBoot%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E5%86%85%E5%B5%8C%E5%BC%8F%E7%9A%84Tomcat%E5%92%8CJetty%EF%BC%9F.html">28-28-新特性：SpringBoot如何使用内嵌式的Tomcat和Jetty？.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/29-29-%E6%AF%94%E8%BE%83%EF%BC%9AJetty%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%85%B7%E6%9C%89%E4%B8%8A%E4%B8%8B%E6%96%87%E4%BF%A1%E6%81%AF%E7%9A%84%E8%B4%A3%E4%BB%BB%E9%93%BE%EF%BC%9F.html">29-29-比较：Jetty如何实现具有上下文信息的责任链？.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/30-30-%E7%83%AD%E7%82%B9%E9%97%AE%E9%A2%98%E7%AD%94%E7%96%91%EF%BC%883%EF%BC%89%EF%BC%9ASpring%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.html">30-30-热点问题答疑（3）：Spring框架中的设计模式.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/31-31-Logger%E7%BB%84%E4%BB%B6%EF%BC%9ATomcat%E7%9A%84%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%E5%8F%8A%E5%AE%9E%E6%88%98.html">31-31-Logger组件：Tomcat的日志框架及实战.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/32-32-Manager%E7%BB%84%E4%BB%B6%EF%BC%9ATomcat%E7%9A%84Session%E7%AE%A1%E7%90%86%E6%9C%BA%E5%88%B6%E8%A7%A3%E6%9E%90.html">32-32-Manager组件：Tomcat的Session管理机制解析.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/33-33-Cluster%E7%BB%84%E4%BB%B6%EF%BC%9ATomcat%E7%9A%84%E9%9B%86%E7%BE%A4%E9%80%9A%E4%BF%A1%E5%8E%9F%E7%90%86.html">33-33-Cluster组件：Tomcat的集群通信原理.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/34-%E7%89%B9%E5%88%AB%E6%94%BE%E9%80%81-%E5%A6%82%E4%BD%95%E6%8C%81%E7%BB%AD%E4%BF%9D%E6%8C%81%E5%AF%B9%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%85%B4%E8%B6%A3%EF%BC%9F.html">34-特别放送-如何持续保持对学习的兴趣？.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/35-34-JVMGC%E5%8E%9F%E7%90%86%E5%8F%8A%E8%B0%83%E4%BC%98%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%80%9D%E8%B7%AF.html">35-34-JVMGC原理及调优的基本思路.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/36-35-%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7Tomcat%E7%9A%84%E6%80%A7%E8%83%BD%EF%BC%9F.html">36-35-如何监控Tomcat的性能？.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/37-36-TomcatI-O%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E5%B9%B6%E5%8F%91%E8%B0%83%E4%BC%98.html">37-36-TomcatI-O和线程池的并发调优.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/38-37-Tomcat%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%88%86%E6%9E%90%E5%8F%8A%E8%B0%83%E4%BC%98.html">38-37-Tomcat内存溢出的原因分析及调优.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/39-38-Tomcat%E6%8B%92%E7%BB%9D%E8%BF%9E%E6%8E%A5%E5%8E%9F%E5%9B%A0%E5%88%86%E6%9E%90%E5%8F%8A%E7%BD%91%E7%BB%9C%E4%BC%98%E5%8C%96.html">39-38-Tomcat拒绝连接原因分析及网络优化.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/40-39-Tomcat%E8%BF%9B%E7%A8%8B%E5%8D%A0%E7%94%A8CPU%E8%BF%87%E9%AB%98%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F.html">40-39-Tomcat进程占用CPU过高怎么办？.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/41-40-%E8%B0%88%E8%B0%88Jetty%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98%E7%9A%84%E6%80%9D%E8%B7%AF.html">41-40-谈谈Jetty性能调优的思路.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/42-41-%E7%83%AD%E7%82%B9%E9%97%AE%E9%A2%98%E7%AD%94%E7%96%91%EF%BC%884%EF%BC%89%EF%BC%9ATomcat%E5%92%8CJetty%E6%9C%89%E5%93%AA%E4%BA%9B%E4%B8%8D%E5%90%8C%EF%BC%9F.html">42-41-热点问题答疑（4）：Tomcat和Jetty有哪些不同？.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/43-%E7%BB%93%E6%9D%9F%E8%AF%AD-%E9%9D%99%E4%B8%8B%E5%BF%83%E6%9D%A5%EF%BC%8C%E5%93%81%E5%91%B3%E7%BB%8F%E5%85%B8.html">43-结束语-静下心来，品味经典.html</a></li>
+<li><a href="./%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty/44-%E7%BB%93%E8%AF%BE%E6%B5%8B%E8%AF%95-%E8%BF%99%E4%BA%9BTomcat%26Jetty%E7%9A%84%E7%9F%A5%E8%AF%86%E4%BD%A0%E9%83%BD%E6%8E%8C%E6%8F%A1%E4%BA%86%E5%90%97%EF%BC%9F.html">44-结课测试-这些Tomcat&amp;Jetty的知识你都掌握了吗？.html</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 极客时间课程 | 现代简约风格设计</p>
+    </footer>
+
+    <script src="../assets/course_list.js"></script>
 </body>
 </html>

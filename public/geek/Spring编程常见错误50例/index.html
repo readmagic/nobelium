@@ -1,40 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-<title>Spring编程常见错误50例</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring编程常见错误50例</title>
+    <link rel="stylesheet" href="../assets/course_list.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-<h1>Spring编程常见错误50例</h1>
-<ul>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/00-%E5%BC%80%E7%AF%87%E8%AF%8D-%E8%B4%B4%E5%BF%83%E2%80%9C%E4%BF%9D%E5%A7%86%E2%80%9DSpring%E7%BD%A2%E5%B7%A5%E4%BA%86%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F.html' target='_blank'>00-开篇词-贴心“保姆”Spring罢工了怎么办？.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/01-%E5%AF%BC%E8%AF%BB-5%E5%88%86%E9%92%9F%E8%BD%BB%E6%9D%BE%E4%BA%86%E8%A7%A3Spring%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html' target='_blank'>01-导读-5分钟轻松了解Spring基础知识.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/02-01-SpringBean%E5%AE%9A%E4%B9%89%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF.html' target='_blank'>02-01-SpringBean定义常见错误.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/03-02-SpringBean%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF%EF%BC%88%E4%B8%8A%EF%BC%89.html' target='_blank'>03-02-SpringBean依赖注入常见错误（上）.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/04-03-SpringBean%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF%EF%BC%88%E4%B8%8B%EF%BC%89.html' target='_blank'>04-03-SpringBean依赖注入常见错误（下）.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/05-04-SpringBean%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF.html' target='_blank'>05-04-SpringBean生命周期常见错误.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/06-05-SpringAOP%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF%EF%BC%88%E4%B8%8A%EF%BC%89.html' target='_blank'>06-05-SpringAOP常见错误（上）.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/07-06-SpringAOP%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF%EF%BC%88%E4%B8%8B%EF%BC%89.html' target='_blank'>07-06-SpringAOP常见错误（下）.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/08-07-Spring%E4%BA%8B%E4%BB%B6%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF.html' target='_blank'>08-07-Spring事件常见错误.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/09-08-%E7%AD%94%E7%96%91%E7%8E%B0%E5%9C%BA%EF%BC%9ASpringCore%E7%AF%87%E6%80%9D%E8%80%83%E9%A2%98%E5%90%88%E9%9B%86.html' target='_blank'>09-08-答疑现场：SpringCore篇思考题合集.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/10-%E5%AF%BC%E8%AF%BB-5%E5%88%86%E9%92%9F%E8%BD%BB%E6%9D%BE%E4%BA%86%E8%A7%A3%E4%B8%80%E4%B8%AAHTTP%E8%AF%B7%E6%B1%82%E7%9A%84%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B.html' target='_blank'>10-导读-5分钟轻松了解一个HTTP请求的处理过程.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/11-09-SpringWebURL%E8%A7%A3%E6%9E%90%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF.html' target='_blank'>11-09-SpringWebURL解析常见错误.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/12-10-SpringWebHeader%E8%A7%A3%E6%9E%90%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF.html' target='_blank'>12-10-SpringWebHeader解析常见错误.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/13-11-SpringWebBody%E8%BD%AC%E5%8C%96%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF.html' target='_blank'>13-11-SpringWebBody转化常见错误.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/14-12-SpringWeb%E5%8F%82%E6%95%B0%E9%AA%8C%E8%AF%81%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF.html' target='_blank'>14-12-SpringWeb参数验证常见错误.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/15-13-SpringWeb%E8%BF%87%E6%BB%A4%E5%99%A8%E4%BD%BF%E7%94%A8%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF%EF%BC%88%E4%B8%8A%EF%BC%89.html' target='_blank'>15-13-SpringWeb过滤器使用常见错误（上）.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/16-14-SpringWeb%E8%BF%87%E6%BB%A4%E5%99%A8%E4%BD%BF%E7%94%A8%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF%EF%BC%88%E4%B8%8B%EF%BC%89.html' target='_blank'>16-14-SpringWeb过滤器使用常见错误（下）.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/17-15-SpringSecurity%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF.html' target='_blank'>17-15-SpringSecurity常见错误.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/18-16-SpringException%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF.html' target='_blank'>18-16-SpringException常见错误.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/19-17-%E7%AD%94%E7%96%91%E7%8E%B0%E5%9C%BA%EF%BC%9ASpringWeb%E7%AF%87%E6%80%9D%E8%80%83%E9%A2%98%E5%90%88%E9%9B%86.html' target='_blank'>19-17-答疑现场：SpringWeb篇思考题合集.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/20-18-SpringData%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF.html' target='_blank'>20-18-SpringData常见错误.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/21-19-Spring%E4%BA%8B%E5%8A%A1%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF%EF%BC%88%E4%B8%8A%EF%BC%89.html' target='_blank'>21-19-Spring事务常见错误（上）.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/22-20-Spring%E4%BA%8B%E5%8A%A1%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF%EF%BC%88%E4%B8%8B%EF%BC%89.html' target='_blank'>22-20-Spring事务常见错误（下）.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/23-21-SpringRestTemplate%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF.html' target='_blank'>23-21-SpringRestTemplate常见错误.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/24-22-SpringTest%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF.html' target='_blank'>24-22-SpringTest常见错误.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/25-23-%E7%AD%94%E7%96%91%E7%8E%B0%E5%9C%BA%EF%BC%9ASpring%E8%A1%A5%E5%85%85%E7%AF%87%E6%80%9D%E8%80%83%E9%A2%98%E5%90%88%E9%9B%86.html' target='_blank'>25-23-答疑现场：Spring补充篇思考题合集.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/26-%E7%9F%A5%E8%AF%86%E5%9B%9E%E9%A1%BE-%E7%B3%BB%E7%BB%9F%E6%A2%B3%E7%90%86Spring%E7%BC%96%E7%A8%8B%E9%94%99%E8%AF%AF%E6%A0%B9%E6%BA%90.html' target='_blank'>26-知识回顾-系统梳理Spring编程错误根源.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/27-%E7%BB%93%E6%9D%9F%E8%AF%AD-%E9%97%AE%E9%A2%98%E6%80%BB%E6%AF%94%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%E5%A4%9A.html' target='_blank'>27-结束语-问题总比解决办法多.html</a></li>
-<li><a href='./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/28-%E6%9C%9F%E6%9C%AB%E6%B5%8B%E8%AF%95-%E6%9D%A5%E8%B5%B4%E4%B8%80%E5%9C%BA100%E5%88%86%E4%B9%8B%E7%BA%A6%EF%BC%81.html' target='_blank'>28-期末测试-来赴一场100分之约！.html</a></li>
-</ul>
+    <header>
+        <div class="header-content">
+            <h1>Spring编程常见错误50例</h1>
+            <a href="../../homepage_redesign/index.html" class="back-link"><i class="fas fa-arrow-left"></i> 返回首页</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="course-list">
+            <ul>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/00-%E5%BC%80%E7%AF%87%E8%AF%8D-%E8%B4%B4%E5%BF%83%E2%80%9C%E4%BF%9D%E5%A7%86%E2%80%9DSpring%E7%BD%A2%E5%B7%A5%E4%BA%86%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F.html">00-开篇词-贴心“保姆”Spring罢工了怎么办？.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/01-%E5%AF%BC%E8%AF%BB-5%E5%88%86%E9%92%9F%E8%BD%BB%E6%9D%BE%E4%BA%86%E8%A7%A3Spring%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">01-导读-5分钟轻松了解Spring基础知识.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/02-01-SpringBean%E5%AE%9A%E4%B9%89%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF.html">02-01-SpringBean定义常见错误.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/03-02-SpringBean%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF%EF%BC%88%E4%B8%8A%EF%BC%89.html">03-02-SpringBean依赖注入常见错误（上）.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/04-03-SpringBean%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF%EF%BC%88%E4%B8%8B%EF%BC%89.html">04-03-SpringBean依赖注入常见错误（下）.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/05-04-SpringBean%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF.html">05-04-SpringBean生命周期常见错误.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/06-05-SpringAOP%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF%EF%BC%88%E4%B8%8A%EF%BC%89.html">06-05-SpringAOP常见错误（上）.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/07-06-SpringAOP%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF%EF%BC%88%E4%B8%8B%EF%BC%89.html">07-06-SpringAOP常见错误（下）.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/08-07-Spring%E4%BA%8B%E4%BB%B6%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF.html">08-07-Spring事件常见错误.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/09-08-%E7%AD%94%E7%96%91%E7%8E%B0%E5%9C%BA%EF%BC%9ASpringCore%E7%AF%87%E6%80%9D%E8%80%83%E9%A2%98%E5%90%88%E9%9B%86.html">09-08-答疑现场：SpringCore篇思考题合集.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/10-%E5%AF%BC%E8%AF%BB-5%E5%88%86%E9%92%9F%E8%BD%BB%E6%9D%BE%E4%BA%86%E8%A7%A3%E4%B8%80%E4%B8%AAHTTP%E8%AF%B7%E6%B1%82%E7%9A%84%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B.html">10-导读-5分钟轻松了解一个HTTP请求的处理过程.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/11-09-SpringWebURL%E8%A7%A3%E6%9E%90%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF.html">11-09-SpringWebURL解析常见错误.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/12-10-SpringWebHeader%E8%A7%A3%E6%9E%90%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF.html">12-10-SpringWebHeader解析常见错误.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/13-11-SpringWebBody%E8%BD%AC%E5%8C%96%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF.html">13-11-SpringWebBody转化常见错误.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/14-12-SpringWeb%E5%8F%82%E6%95%B0%E9%AA%8C%E8%AF%81%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF.html">14-12-SpringWeb参数验证常见错误.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/15-13-SpringWeb%E8%BF%87%E6%BB%A4%E5%99%A8%E4%BD%BF%E7%94%A8%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF%EF%BC%88%E4%B8%8A%EF%BC%89.html">15-13-SpringWeb过滤器使用常见错误（上）.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/16-14-SpringWeb%E8%BF%87%E6%BB%A4%E5%99%A8%E4%BD%BF%E7%94%A8%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF%EF%BC%88%E4%B8%8B%EF%BC%89.html">16-14-SpringWeb过滤器使用常见错误（下）.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/17-15-SpringSecurity%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF.html">17-15-SpringSecurity常见错误.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/18-16-SpringException%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF.html">18-16-SpringException常见错误.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/19-17-%E7%AD%94%E7%96%91%E7%8E%B0%E5%9C%BA%EF%BC%9ASpringWeb%E7%AF%87%E6%80%9D%E8%80%83%E9%A2%98%E5%90%88%E9%9B%86.html">19-17-答疑现场：SpringWeb篇思考题合集.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/20-18-SpringData%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF.html">20-18-SpringData常见错误.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/21-19-Spring%E4%BA%8B%E5%8A%A1%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF%EF%BC%88%E4%B8%8A%EF%BC%89.html">21-19-Spring事务常见错误（上）.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/22-20-Spring%E4%BA%8B%E5%8A%A1%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF%EF%BC%88%E4%B8%8B%EF%BC%89.html">22-20-Spring事务常见错误（下）.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/23-21-SpringRestTemplate%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF.html">23-21-SpringRestTemplate常见错误.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/24-22-SpringTest%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF.html">24-22-SpringTest常见错误.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/25-23-%E7%AD%94%E7%96%91%E7%8E%B0%E5%9C%BA%EF%BC%9ASpring%E8%A1%A5%E5%85%85%E7%AF%87%E6%80%9D%E8%80%83%E9%A2%98%E5%90%88%E9%9B%86.html">25-23-答疑现场：Spring补充篇思考题合集.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/26-%E7%9F%A5%E8%AF%86%E5%9B%9E%E9%A1%BE-%E7%B3%BB%E7%BB%9F%E6%A2%B3%E7%90%86Spring%E7%BC%96%E7%A8%8B%E9%94%99%E8%AF%AF%E6%A0%B9%E6%BA%90.html">26-知识回顾-系统梳理Spring编程错误根源.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/27-%E7%BB%93%E6%9D%9F%E8%AF%AD-%E9%97%AE%E9%A2%98%E6%80%BB%E6%AF%94%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%E5%A4%9A.html">27-结束语-问题总比解决办法多.html</a></li>
+<li><a href="./Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B/28-%E6%9C%9F%E6%9C%AB%E6%B5%8B%E8%AF%95-%E6%9D%A5%E8%B5%B4%E4%B8%80%E5%9C%BA100%E5%88%86%E4%B9%8B%E7%BA%A6%EF%BC%81.html">28-期末测试-来赴一场100分之约！.html</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 极客时间课程 | 现代简约风格设计</p>
+    </footer>
+
+    <script src="../assets/course_list.js"></script>
 </body>
 </html>
