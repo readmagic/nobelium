@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是范学雷。今天，我们一起来讨论Java的外部函数接口。</p><p>Java的外部函数接口这个新特性，我写这篇文章的时候，还在孵化期，还没有发布预览版。由于孵化期的特性还不成熟，不同的版本之间的差异可能会很大。我建议你使用最新版本，现在来说就是JDK 17来体验孵化期的特性。</p><p>Java的外部函数接口这个特性，有可能会是Java自诞生以来最重要的两个特性之一，它和外部内存接口一起，会极大地丰富Java语言的生态环境。提前了解一下这样的新特性，有助于我们思考现在的技术手段和未来的技术规划。</p><p>我们从阅读案例开始，来看一看Java的外部函数接口为什么可能会带来这么大的影响，以及它能够给我们的代码带来什么样的变化吧。</p><h2>阅读案例</h2><p>我们知道，像Java或者Go这样的通用编程语言，都需要和其他的编程语言或者环境打交道，比如操作系统或者C语言。Java是通过Java本地接口（Java Native Interface, JNI）来支持这样的做法的。 本地接口，拓展了一门编程语言的生存空间和适用范围。有了本地接口，就不用所有的事情都在这门编程语言内部实现了。</p><p>比如下面的代码，就是一个使用Java本地接口实现的“Hello, world!"的小例子。其中的sayHello这个方法，使用了修饰符native，这表明它是一个本地的方法。</p><!-- [[[read_end]]] --><pre><code class="language-java">public class HelloWorld {
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
     static {
         System.loadLibrary("helloWorld");
     }

@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是胡夕。</p><p>上节课，我们学习了单线程事件队列模型处理Controller事件的代码。Controller组件通过ControllerEventManager类构造了一个阻塞队列，同时配以专属的事件处理线程，实现了对各类ControllerEvent的处理。</p><p>这种设计思路既保证了多线程访问所需的线程安全，还简化了Controller端的代码结构，极大地提升了代码的可维护性。</p><p>今天，我们学习下Controller选举部分的源码。</p><p>还记得我在<a href="https://time.geekbang.org/column/article/235562">第11节课</a>的案例中提到的“恢复大法”——删除ZooKeeper的/controller节点吗？当时，我们靠着这个“秘籍”涉险过关，既恢复了错误的集群状态，又避免了重启整个生产环境。</p><p>但你有没有想过，为什么删除/controller节点能够令集群元数据重新保持同步呢？如果不了解这背后的原理，我们是不敢贸然在生产环境做这种操作的。今天，我们要学习的就是这背后的一整套实现逻辑，重点关注下Controller是怎么被选举出来的。</p><p>我始终认为，只有掌握了这些知识，才算真正入门Kafka服务器端的代码了。作为Broker端最重要的组件之一，Controller在Kafka中的地位无可替代。整个Kafka集群就只有一个Controller，从某种意义上来说，它是目前Kafka这个分布式系统中唯一的“单点”。</p><!-- [[[read_end]]] --><p>因此，了解这个“单点”的选举触发场景，以及如何被选举出来的，对于我们后面深入理解Controller在集群中的作用非常有帮助。毕竟，Controller对外提供的一些服务也是采用了类似的实现原理。</p><h2>概览</h2><h3>ZooKeeper /controller节点</h3><p>再次强调下，<strong>在一个Kafka集群中，某段时间内只能有一台Broker被选举为Controller。随着时间的推移，可能会有不同的Broker陆续担任过Controller的角色，但是在某一时刻，Controller只能由一个Broker担任</strong>。</p><p>那选择哪个Broker充当Controller呢？当前，Controller的选举过程依赖ZooKeeper完成。ZooKeeper除了扮演集群元数据的“真理之源”角色，还定义了/controller临时节点（Ephemeral Node），以协助完成Controller的选举。</p><p>下面这段代码展示的是一个双Broker的Kafka集群上的ZooKeeper中/controller节点：</p><pre><code>{&quot;version&quot;:1,&quot;brokerid&quot;:0,&quot;timestamp&quot;:&quot;1585098432431&quot;}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 cZxid = 0x1a
 ctime = Wed Mar 25 09:07:12 CST 2020
 mZxid = 0x1a

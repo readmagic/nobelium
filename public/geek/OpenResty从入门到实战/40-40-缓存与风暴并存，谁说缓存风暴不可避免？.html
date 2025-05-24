@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是温铭。</p><p>在前面缓存的那节课中，我为你介绍了，共享字典和 lru 缓存在高性能方面的一些优化技巧。其实，我们还遗留了一个非常重要的问题，也值得我们今天用单独的一节课来介绍，那就是“缓存风暴”。</p><h2>什么是缓存风暴？</h2><p>什么是缓存风暴呢？让我们先来设想下面这么一个场景。</p><p>数据源在 MySQL 数据库中，缓存的数据放在共享字典中，超时时间为 60 秒。在这 60 秒内的时间里，所有的请求都从缓存中获取数据，MySQL 没有任何的压力。但是，一旦到达 60 秒，也就是缓存数据失效的那一刻，如果正好有大量的并发请求进来，在缓存中没有查询到结果，就要触发查询数据源的函数，那么这些请求全部都将去查询 MySQL 数据库，直接造成数据库服务器卡顿，甚至卡死。</p><p>这种现象就叫做“缓存风暴”，它也有一个对应的英文名字<code>Dog-Pile</code>。很明显，我们之前出现的缓存相关的代码，都没有做过对应的处理。比如下面这段代码，就是有缓存风暴隐患的伪代码：</p><pre><code>local value = get_from_cache(key)
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 if not value then
     value = query_db(sql)
     set_to_cache(value, timeout ＝ 60)

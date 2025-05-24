@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是LMOS。</p><p>上节课我们学习了伙伴系统，了解了它是怎样管理物理内存页面的。那么你自然会想到这个问题：Linux系统中，比页更小的内存对象要怎样分配呢？</p><p>带着这个问题，我们来一起看看<strong>SLAB分配器的原理和实现。</strong>在学习过程中，你也可以对照一下我们Cosmos的内存管理组件，看看两者的内存管理有哪些异同。</p><h2>SLAB</h2><p>与Cosmos物理内存页面管理器一样，Linux中的伙伴系统是以页面为最小单位分配的，现实更多要以内核对象为单位分配内存，其实更具体一点说，就是根据内核对象的实例变量大小来申请和释放内存空间，这些数据结构实例变量的大小通常从几十字节到几百字节不等，远远小于一个页面的大小。</p><p>如果一个几十字节大小的数据结构实例变量，就要为此分配一个页面，这无疑是对宝贵物理内存的一种巨大浪费，因此一个更好的技术方案应运而生，就是<strong>Slab分配器</strong>（由Sun公司的雇员Jeff Bonwick在Solaris 2.4中设计并实现）。</p><p>由于作者公开了实现方法，后来被Linux所借鉴，用于实现内核中更小粒度的内存分配。看看吧，你以为Linux很强大，真的强大吗？不过是站在巨人的肩膀上飞翔的。</p><h3>走进SLAB对象</h3><p>何为SLAB对象？在SLAB分配器中，它把一个内存页面或者一组连续的内存页面，划分成大小相同的块，其中这一个小的内存块就是SLAB对象，但是这一组连续的内存页面中不只是SLAB对象，还有SLAB管理头和着色区。</p><!-- [[[read_end]]] --><p>我画个图你就明白了，如下所示。</p><p><img src="https://static001.geekbang.org/resource/image/1b/22/1b210fe094e7eba4b19ef118f76e6322.jpg?wh=5881x2933" alt="" title="SLAB对象示意图"></p><p>上图中有一个内存页面和两个内存页面的SLAB，你可能对着色区有点陌生，我来给你讲解一下。</p><p>这个着色区也是一块动态的内存块，建立SLAB时才会设置它的大小，目的是为了错开不同SLAB中的对象地址，降低硬件Cache行中的地址争用，以免导致Cache抖动效应，整个系统性能下降。</p><p>SLAB头其实是一个数据结构，但是它不一定放在保存对象内存页面的开始。通常会有一个保存SLAB管理头的SLAB，在Linux中，SLAB管理头用kmem_cache结构来表示，代码如下。</p><pre><code>struct array_cache {
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
     unsigned int avail;
     unsigned int limit;
     void *entry[]; 

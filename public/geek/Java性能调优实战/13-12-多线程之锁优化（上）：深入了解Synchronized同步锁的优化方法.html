@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是刘超。从这讲开始，我们就正式进入到第三模块——多线程性能调优。</p><p><strong>在并发编程中，多个线程访问同一个共享资源时，我们必须考虑如何维护数据的原子性。</strong>在JDK1.5之前，Java是依靠Synchronized关键字实现锁功能来做到这点的。Synchronized是JVM实现的一种内置锁，锁的获取和释放是由JVM隐式实现。</p><p>到了JDK1.5版本，并发包中新增了Lock接口来实现锁功能，它提供了与Synchronized关键字类似的同步功能，只是在使用时需要显式获取和释放锁。</p><p>Lock同步锁是基于Java实现的，而Synchronized是基于底层操作系统的Mutex Lock实现的，每次获取和释放锁操作都会带来用户态和内核态的切换，从而增加系统性能开销。因此，在锁竞争激烈的情况下，Synchronized同步锁在性能上就表现得非常糟糕，它也常被大家称为重量级锁。</p><p><span class="orange">特别是在单个线程重复申请锁的情况下，JDK1.5版本的Synchronized锁性能要比Lock的性能差很多。</span>例如，在Dubbo基于Netty实现的通信中，消费端向服务端通信之后，由于接收返回消息是异步，所以需要一个线程轮询监听返回信息。而在接收消息时，就需要用到锁来确保request session的原子性。如果我们这里使用Synchronized同步锁，那么每当同一个线程请求锁资源时，都会发生一次用户态和内核态的切换。</p><!-- [[[read_end]]] --><p>到了JDK1.6版本之后，Java对Synchronized同步锁做了充分的优化，甚至在某些场景下，它的性能已经超越了Lock同步锁。这一讲我们就来看看Synchronized同步锁究竟是通过了哪些优化，实现了性能地提升。</p><h2>Synchronized同步锁实现原理</h2><p>了解Synchronized同步锁优化之前，我们先来看看它的底层实现原理，这样可以帮助我们更好地理解后面的内容。</p><p><strong>通常Synchronized实现同步锁的方式有两种，一种是修饰方法，一种是修饰方法块。</strong>以下就是通过Synchronized实现的两种同步方法加锁的方式：</p><pre><code>// 关键字在实例方法上，锁为当前实例
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 	public synchronized void method1() {
 	    // code
 	}

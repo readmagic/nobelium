@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是徐文浩。</p><p>上一讲里，我们通过一个简单的统计广告点击率和广告计费的Storm Topology，看到了第一代流式数据处理系统面临的三个核心挑战，分别是：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>数据的正确性，也就是需要能够保障“正好一次”的数据处理。</li>
 <li>系统的容错能力，也就是我们不能因为某一台服务器的硬件故障，就丢失掉一部分数据。</li>
 <li>对于时间窗口的正确处理，也就是能够准确地根据事件时间生成报表，而不是简单地使用进行处理的服务器的本地时间。并且，还需要能够考虑到分布式集群中，数据的传输可能会有延时的情况出现。</li>

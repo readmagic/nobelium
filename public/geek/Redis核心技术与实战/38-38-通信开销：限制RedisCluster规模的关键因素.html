@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是蒋德钧。</p><p>Redis Cluster能保存的数据量以及支撑的吞吐量，跟集群的实例规模密切相关。Redis官方给出了Redis Cluster的规模上限，就是一个集群运行1000个实例。</p><p>那么，你可能会问，为什么要限定集群规模呢？其实，这里的一个关键因素就是，<strong>实例间的通信开销会随着实例规模增加而增大</strong>，在集群超过一定规模时（比如800节点），集群吞吐量反而会下降。所以，集群的实际规模会受到限制。</p><p>今天这节课，我们就来聊聊，集群实例间的通信开销是如何影响Redis Cluster规模的，以及如何降低实例间的通信开销。掌握了今天的内容，你就可以通过合理的配置来扩大Redis Cluster的规模，同时保持高吞吐量。</p><h2>实例通信方法和对集群规模的影响</h2><p>Redis Cluster在运行时，每个实例上都会保存Slot和实例的对应关系（也就是Slot映射表），以及自身的状态信息。</p><p>为了让集群中的每个实例都知道其它所有实例的状态信息，实例之间会按照一定的规则进行通信。这个规则就是Gossip协议。</p><p>Gossip协议的工作原理可以概括成两点。</p><p>一是，每个实例之间会按照一定的频率，从集群中随机挑选一些实例，把PING消息发送给挑选出来的实例，用来检测这些实例是否在线，并交换彼此的状态信息。PING消息中封装了发送消息的实例自身的状态信息、部分其它实例的状态信息，以及Slot映射表。</p><!-- [[[read_end]]] --><p>二是，一个实例在接收到PING消息后，会给发送PING消息的实例，发送一个PONG消息。PONG消息包含的内容和PING消息一样。</p><p>下图显示了两个实例间进行PING、PONG消息传递的情况。</p><p><img src="https://static001.geekbang.org/resource/image/5e/86/5eacfc36c4233ae7c99f80b1511yyb86.jpg" alt=""></p><p>Gossip协议可以保证在一段时间后，集群中的每一个实例都能获得其它所有实例的状态信息。</p><p>这样一来，即使有新节点加入、节点故障、Slot变更等事件发生，实例间也可以通过PING、PONG消息的传递，完成集群状态在每个实例上的同步。</p><p>经过刚刚的分析，我们可以很直观地看到，实例间使用Gossip协议进行通信时，通信开销受到<strong>通信消息大小</strong>和<strong>通信频率</strong>这两方面的影响，</p><p>消息越大、频率越高，相应的通信开销也就越大。如果想要实现高效的通信，可以从这两方面入手去调优。接下来，我们就来具体分析下这两方面的实际情况。</p><p>首先，我们来看实例通信的消息大小。</p><h3>Gossip消息大小</h3><p>Redis实例发送的PING消息的消息体是由clusterMsgDataGossip结构体组成的，这个结构体的定义如下所示：</p><pre><code>typedef struct {
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
     char nodename[CLUSTER_NAMELEN];  //40字节
     uint32_t ping_sent; //4字节
     uint32_t pong_received; //4字节

@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是范学雷。今天，我们讨论反应式编程。</p><p>反应式编程曾经是一个很热门的话题。它是代码的控制的一种模式。如果不分析其他的模式，我们很难识别反应式编程的好与坏，以及最合适它的使用场景。所以，我们今天的讨论，和以往有很大的不同。</p><p>除了反应式编程之外，我们还会花很大的篇幅讨论其他的编程模式，包括现在的和未来的。希望这样的安排，能够帮助你根据具体的场景，选择最合适的模式。</p><p>我们从阅读案例开始，先来看一看最传统的模式，然后一步一步地过渡到反应式编程，最后我们再来稍微聊几句Java尚未发布的协程模式。</p><h2>阅读案例</h2><p>我想，你和我一样，无论是学习C语言，还是Java语言，都是从打印"Hello, world!"这个简单的例子开始的。我们再来看看这个我们熟悉的代码。</p><pre><code class="language-java">System.out.println("Hello, World!");
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 </code></pre><p>这段代码就是使用了最常用的代码控制模式：指令式编程模型。<strong>所谓指令式编程模型，需要我们通过代码发布指令，然后等待指令的执行以及指令执行带来的状态变化。我们还要根据目前的状态，来确定下一次要发布的指令，并且用代码把下一个指令表示出来。</strong></p><p>上面的代码里，我们发布的指令就是：标准输出打印“Hello, World!”这句话。然后，我们就等待指令的执行结果，验证我们编写的代码有没有按照我们的指令工作。</p><!-- [[[read_end]]] --><h3><strong>指令式编程模型</strong></h3><p><strong>指令式编程模型关注的重点就在于控制状态。</strong>"Hello, world!"这个例子能看出来一点端倪，但是要了解状态变化和控制，我们需要看两行以上的代码。</p><pre><code class="language-java">try {
     Digest messageDigest = Digest.of("SHA-256");
     byte[] digestValue =

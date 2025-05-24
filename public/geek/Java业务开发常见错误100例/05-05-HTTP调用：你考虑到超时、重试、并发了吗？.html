@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是朱晔。今天，我们一起聊聊进行HTTP调用需要注意的超时、重试、并发等问题。</p><p>与执行本地方法不同，进行HTTP调用本质上是通过HTTP协议进行一次网络请求。网络请求必然有超时的可能性，因此我们必须考虑到这三点：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>首先，框架设置的默认超时是否合理；</li>
 <li>其次，考虑到网络的不稳定，超时后的请求重试是一个不错的选择，但需要考虑服务端接口的幂等性设计是否允许我们重试；</li>
 <li>最后，需要考虑框架是否会像浏览器那样限制并发连接数，以免在服务并发很大的情况下，HTTP调用的并发数限制成为瓶颈。</li>

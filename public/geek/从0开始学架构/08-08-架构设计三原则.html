@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>前面几期专栏，我跟你系统的聊了架构设计的主要目的是为了解决软件系统复杂度带来的问题，并分析了复杂度的来源。从今天开始，我会分两期讲讲<span class="orange">架构设计的3个原则</span>，以及架构设计原则的案例。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>成为架构师是每个程序员的梦想，但并不意味着把编程做好就能够自然而然地成为一个架构师，优秀程序员和架构师之间还有一个明显的鸿沟需要跨越，这个鸿沟就是“<strong>不确定性</strong>”。</p>
 <p>对于编程来说，本质上是不能存在不确定的，对于同样一段代码，不管是谁写的，不管什么时候执行，执行的结果应该都是确定的（注意：“确定的”并不等于“正确的”，有bug也是确定的）。而对于架构设计来说，本质上是不确定的，同样的一个系统，A公司和B公司做出来的架构可能差异很大，但最后都能正常运转；同样一个方案，A设计师认为应该这样做，B设计师认为应该那样做，看起来好像都有道理……相比编程来说，架构设计并没有像编程语言那样的语法来进行约束，更多的时候是面对多种可能性时进行选择。</p>
 <p>可是一旦涉及“选择”，就很容易让架构师陷入两难的境地，例如：</p>

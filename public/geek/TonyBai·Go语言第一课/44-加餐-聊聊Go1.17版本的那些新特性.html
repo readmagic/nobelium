@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是Tony Bai。</p><p>现在是2021年12月，万众期盼的潜力网红版本Go 1.18的开发已经冻结，Go核心开发团队正在紧锣密鼓地修bug。我们已经可以开始期待2022年的2月份，Go 1.18将携带包括泛型语法的大批新特性赶来。不过当下我们不能“舍近求远”，今年8月中旬Go核心团队发布的<a href="https://go.dev/blog/go1.17">Go 1.17版本</a>才是当下最具统治力的Go社区网红，它的影响力依旧处于巅峰。</p><p>根据我们在<a href="https://time.geekbang.org/column/article/427489">第3讲</a>中提到的Go版本选择策略，我估计很多Go开发者都还没切换到Go 1.17版本，没有亲自体验过Go 1.17新特性带来的变化；还有一些Go开发者虽然已经升级到Go 1.17版本，但也仅限于对Go 1.17版本的基本使用，可能还不是很清楚Go 1.17版本中究竟有哪些新特性，以及这些新特性会带给他们哪些好处。</p><p>所以今天这讲，我们就来聊聊Go 1.17版本中的新特性，目的是让那些没用过Go 1.17版本，或者用过Go 1.17版本但还不知道它新特性变化的Go开发者，对Go 1.17有一个全面的了解。</p><p>Go 1.17版本中的新特性很多，在这里我就不一一列举了，我仅挑几个有代表性的、重要的新特性和你好好聊聊。这里会包括新的语法特性、Go Module机制变化，以及Go编译器与运行时方面的变化。</p><!-- [[[read_end]]] --><h2>新的语法特性</h2><p>在<a href="https://time.geekbang.org/column/article/426740">第2讲</a>学习Go语言设计哲学时，我们知道了Go语言的设计者们在语言设计之初，就<strong>拒绝了走语言特性融合的道路</strong>，选择了“做减法”，并致力于打造一门<strong>简单</strong>的编程语言。从诞生到现在，Go语言自身语法特性变化很小，甚至可以用<strong>屈指可数</strong>来形容，因此新语法特性对于Gopher来说属于“稀缺品”。这也直接导致了每次Go新版本发布，我们都要先看看语法特性是否有变更，每个新加入语法特性都值得我们投入更多关注，去深入研究。</p><p>不出所料，Go 1.17版本在语法特性方面仅仅做了一处增强，那就是<strong>支持切片转换为数组指针</strong>。下面我们详细来看一下。</p><h3>支持将切片转换为数组指针</h3><p>在<a href="https://time.geekbang.org/column/article/444348">第15讲</a>中，我们对Go中的切片做了系统全面的讲解。我们知道，通过数组切片化，我们可以将一个数组转换为切片。转换后，数组将成为转换后的切片的底层数组，通过切片，我们可以直接改变数组中的元素，就像下面代码这样：</p><pre><code class="language-plain">a := [3]int{11, 12, 13}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 b := a[:] // 通过切片化将数组a转换为切片b
 b[1] += 10
 fmt.Printf("%v\n", a) // [11 22 13]

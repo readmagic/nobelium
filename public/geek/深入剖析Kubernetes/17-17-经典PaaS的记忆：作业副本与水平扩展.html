@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是张磊。今天我和你分享的主题是：经典PaaS的记忆之作业副本与水平扩展。</p><p>在上一篇文章中，我为你详细介绍了Kubernetes项目中第一个重要的设计思想：控制器模式。</p><p>而在今天这篇文章中，我就来为你详细讲解一下，Kubernetes里第一个控制器模式的完整实现：Deployment。</p><p>Deployment看似简单，但实际上，它实现了Kubernetes项目中一个非常重要的功能：<span class="orange">Pod的“水平扩展/收缩”（horizontal scaling out/in）</span>。这个功能，是从PaaS时代开始，一个平台级项目就必须具备的编排能力。</p><p>举个例子，如果你更新了Deployment的Pod模板（比如，修改了容器的镜像），那么Deployment就需要遵循一种叫作“滚动更新”（rolling update）的方式，来升级现有的容器。</p><p>而这个能力的实现，依赖的是Kubernetes项目中的一个非常重要的概念（API对象）：ReplicaSet。</p><p>ReplicaSet的结构非常简单，我们可以通过这个YAML文件查看一下：</p><pre><code>apiVersion: apps/v1
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 kind: ReplicaSet
 metadata:
   name: nginx-set

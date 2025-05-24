@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是蒋德钧。</p><p>咱们的课程已经更新过半了，在前面几个模块里，我带你从源码层面，分别了解和学习了Redis的数据结构、事件驱动框架和缓存算法的具体实现过程，相信你现在对Redis的数据类型和运行框架有了更加深入的认识。不过，阅读源码确实是一个比较烧脑的任务，需要你多花些时间钻研。所以，今天这节课，我们就通过加餐，来聊聊相对比较轻松的话题：Redis的性能测试工具。</p><p>我们在使用Redis的时候，经常会遇到需要评估Redis性能的场景。比如，当我们需要为部署Redis实例规划服务器配置规格时，或者当需要根据工作负载大小，决定Redis实例个数的时候，我们都需要了解Redis实例的运行性能。</p><p>那么这节课，我就来和你聊聊Redis的性能测试工具redis-benchmark，并带你了解下redis-benchmark的使用方法和基本实现。掌握了今天学习的内容之后，你既可以把redis-benchmark用在需要评估Redis性能的场景中，而且你还可以对redis-benchmark进行二次开发，添加新的功能特性，来满足实际业务场景中的需求。</p><p>好，下面，我们就先来看看redis-benchmark的使用。</p><!-- [[[read_end]]] --><h2>redis-benchmark的使用</h2><p>redis-benchmark这个工具是在Redis源码的<a href="https://github.com/redis/redis/tree/5.0/src/redis-benchmark.c">redis-benchmark.c</a>文件中实现的。这个工具实际上是模拟多个客户端给Redis server发送请求。这些请求可以包括Redis对不同数据类型的多种操作，比如对String类型的GET、SET操作，对List类型的LPUSH、LPOP操作，等等。在测试的过程中，redis-benchmark工具会记录每个请求的响应时间，最后会把请求响应时间的分布以及请求吞吐率统计并打印出来。</p><p>现在，我们可以先运行一下这个工具，一是对redis-benchmark有个直观的印象，二是可以来学习下这个工具的使用。</p><p>我在一台启动了Redis server的机器上，直接执行redis-benchmark命令，如下所示：</p><pre><code>./redis-benchmark
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 </code></pre><p>然后，我们就可以得到性能测试结果。以下给出的代码片段只是展示了一部分的测试结果，是所测试的Redis server执行SET和GET两个命令的性能结果。</p><pre><code>...
 ====== SET ======
   100000 requests completed in 1.43 seconds

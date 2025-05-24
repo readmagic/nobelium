@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是吴磊。</p><p>从今天开始，我们进入原理篇的学习。我会以性能调优为导向，给你详细讲讲Spark中的核心概念RDD和DAG，以及重要组件调度系统、存储系统和内存管理。这节课，咱们先来说说RDD。</p><p>RDD可以说是Spark中最基础的概念了，使用Spark的开发者想必对RDD都不陌生，甚至提起RDD，你的耳朵可能都已经听出茧子了。不过，随着Spark开发API的演进和发展，现在上手开发基本都是DataFrame或Dataset API。所以很多初学者会认为，“反正RDD API基本都没人用了，我也没必要弄明白RDD到底是什么。”</p><p>真的是这样的吗？当然不是。</p><h2>RDD为何如此重要</h2><p>首先，RDD作为Spark对于分布式数据模型的抽象，是构建Spark分布式内存计算引擎的基石。很多Spark核心概念与核心组件，如DAG和调度系统都衍生自RDD。<strong>因此，深入理解RDD有利于你更全面、系统地学习Spark的工作原理。</strong></p><p>其次，尽管RDD API使用频率越来越低，绝大多数人也都已经习惯于DataFrame和Dataset API，但是，无论采用哪种API或是哪种开发语言，你的应用在Spark内部最终都会转化为RDD之上的分布式计算。换句话说，<strong>如果你想要在运行时判断应用的性能瓶颈，前提是你要对RDD足够了解</strong>。还记得吗？定位性能瓶颈是Spark性能调优的第一步。</p><!-- [[[read_end]]] --><p>不仅如此，对于RDD不求甚解还有可能带来潜在的性能隐患，接下来，我们就从一个反例入手，一起来分析一下。</p><p>还记得，我们在第1讲中讲过的数据过滤与聚合的反例吗？通过这个例子我们明白了性能调优的必要性。那这个例子和RDD有什么关系呢？</p><p>别着急，我们先来回顾一下这个案例中的代码实现，去挖掘开发者采用这种实现方式的深层原因。</p><pre><code>  //实现方案1 —— 反例
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 def createInstance(factDF: DataFrame, startDate: String, endDate: String): DataFrame = {
 val instanceDF = factDF
     .filter(col(&quot;eventDate&quot;) &gt; lit(startDate) &amp;&amp; col(&quot;eventDate&quot;) &lt;= lit(endDate))

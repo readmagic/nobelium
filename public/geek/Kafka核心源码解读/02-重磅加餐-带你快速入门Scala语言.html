@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是胡夕。最近，我在留言区看到一些同学反馈说“Scala语言不太容易理解”，于是，我决定临时加一节课，给你讲一讲Scala语言的基础语法，包括变量和函数的定义、元组的写法、函数式编程风格的循环语句的写法、它独有的case类和强大的match模式匹配功能，以及Option对象的用法。</p><p>学完这节课以后，相信你能够在较短的时间里掌握这些实用的Scala语法，特别是Kafka源码中用到的Scala语法特性，彻底扫清源码阅读路上的编程语言障碍。</p><h2>Java函数式编程</h2><p>就像我在开篇词里面说的，你不熟悉Scala语言其实并没有关系，但你至少要对Java 8的函数式编程有一定的了解，特别是要熟悉Java 8 Stream的用法。</p><p>倘若你之前没有怎么接触过Lambda表达式和Java 8 Stream，我给你推荐一本好书：<strong>《Java 8实战》</strong>。这本书通过大量的实例深入浅出地讲解了Lambda表达式、Stream以及函数式编程方面的内容，你可以去读一读。</p><p>现在，我就给你分享一个实际的例子，借着它开始我们今天的所有讨论。</p><p>TopicPartition是Kafka定义的主题分区类，它建模的是Kafka主题的分区对象，其关键代码如下：</p><!-- [[[read_end]]] --><pre><code>public final class TopicPartition implements Serializable {
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
   private final int partition;
   private final String topic;
   // 其他字段和方法......

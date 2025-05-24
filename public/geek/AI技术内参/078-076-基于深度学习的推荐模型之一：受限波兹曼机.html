@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>这几周我们进入专栏里一个比较大的模块，那就是推荐系统。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>上周，我们谈了现代推荐系统的架构体系，帮助你在宏观上对推荐系统的构建有一个更加完整的认识。这周，我们主要来看在推荐系统研究领域里一个比较前沿的话题，那就是<strong>如何利用深度学习来提升推荐系统的精度</strong>。</p>
 <p>今天，我们首先来看一篇经典的文章《受限波兹曼机进行协同过滤》（<a href="https://www.cs.toronto.edu/~rsalakhu/papers/rbmcf.pdf">Restricted Boltzmann machines for collaborative filtering</a>）[1]，这篇文章尝试使用<strong><span class="orange">受限波兹曼机</span></strong>（Restricted Boltzmann Machines），简称 <strong><span class="orange">RBM</span></strong>，来对推荐系统进行建模。这应该是最早把深度学习应用到推荐建模的典范。</p>
 <h2>受限波兹曼机（RBM）</h2>

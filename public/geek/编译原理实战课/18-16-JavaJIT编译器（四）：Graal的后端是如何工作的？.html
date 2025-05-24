@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是宫文学。</p><p>前面两讲中，我介绍了Sea of Nodes类型的HIR，以及基于HIR的各种分析处理，这可以看做是编译器的中端。</p><p>可编译器最终还是要生成机器码的。那么，这个过程是怎么实现的呢？与硬件架构相关的LIR是什么样子的呢？指令选择是怎么做的呢？</p><p>这一讲，我就带你了解Graal编译器的后端功能，回答以上这些问题，破除你对后端处理过程的神秘感。</p><p>首先，我们来直观地了解一下后端处理的流程。</p><h2>后端的处理流程</h2><p>在<a href="https://time.geekbang.org/column/article/256914">第14讲</a>中，我们在运行Java示例程序的时候（比如<code>atLeastTen()</code>方法），使用了“<code>-Dgraal.Dump=:5</code>”的选项，这个选项会dump出整个编译过程最详细的信息。</p><p>对于HIR的处理过程，程序会通过网络端口，dump到IdealGraphVisualizer里面。而后端的处理过程，缺省则会dump到工作目录下的一个“<code>graal_dumps</code>”子目录下。你可以用文本编辑器打开查看里面的信息。</p><pre><code>//至少返回10
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 public int atLeastTen(int a){
     if (a &lt; 10)
         return 10;

@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是王沛。</p><p>我在开篇词就说过，要用好 React Hooks，很重要的一点，就是要能够从 Hooks 的角度去思考问题。要做到这一点其实也不难，就是在遇到一个功能开发的需求时，首先问自己一个问题：<strong>这个功能中的哪些逻辑可以抽出来成为独立的 Hooks？</strong></p><p>这么问的目的，是为了让我们尽可能地把业务逻辑拆成独立的 Hooks ，这样有助于实现代码的模块化和解耦，同时也方便后面的维护。如果你基础篇的知识掌握得牢固的话，就会发现，这是因为 Hooks 有两个非常核心的优点：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>一是方便进行逻辑复用；</li>
 <li>二是帮助关注分离。</li>
 </ul><p>接下来我就通过一个案例，来带你认识什么是自定义Hooks，以及如何创建。然后，我们再通过其它3个典型案例，来看看自定义Hooks 具体有什么用，从而帮你掌握从 Hooks 角度去解决问题的思考方式。</p><h1>如何创建自定义 Hooks？</h1><p>自定义 Hooks 在形式上其实非常简单，就是<strong>声明一个名字以 use 开头的函数</strong>，比如 useCounter。这个函数在形式上和普通的 JavaScript 函数没有任何区别，你可以传递任意参数给这个 Hook，也可以返回任何值。</p><p>但是要注意，Hooks 和普通函数在语义上是有区别的，就在于<strong>函数中有没有用到其它 Hooks。</strong></p><!-- [[[read_end]]] --><p>什么意思呢？就是说如果你创建了一个 useXXX 的函数，但是内部并没有用任何其它 Hooks，那么这个函数就不是一个 Hook，而只是一个普通的函数。但是如果用了其它 Hooks ，那么它就是一个 Hook。</p><p>举一个简单的例子，在第3讲中我们看到过一个简单计数器的实现，当时把业务逻辑都写在了函数组件内部，但其实是可以把业务逻辑提取出来成为一个 Hook。比如下面的代码：</p><pre><code>import { useState, useCallback }from 'react';

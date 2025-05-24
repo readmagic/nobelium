@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是茹炳晟，今天我和你分享的主题是“从小工到专家：聊聊测试执行环境的架构设计（上）”。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>在上一篇文章中，我介绍了Selenium Grid的基础知识，以及如何搭建Selenium Grid。现在，你已经非常清楚，Selenium Grid的作用主要是承担了测试执行机器的角色，被用来执行实际的测试工作。但是，实际工程中的测试执行环境往往更复杂，而测试执行机器也只是其中的一个重要部分。</p>
 <p>因此，我们还需要控制发起测试的Jenkins，并管理测试用例执行和结果显示的系统。同时，为了更方便地与CI/CD流水线集成，我们还希望不同类型的测试发起过程可以有统一的接口。</p>
 <p>那么，从今天开始的两篇文章，我将由浅入深地和你聊聊测试执行环境中的基本概念，以及架构设计的思路。</p>

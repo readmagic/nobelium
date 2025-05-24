@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是高楼。这节课，我们来看看怎样设计全链路压测的全局监控。</p><p>对于全链路压测来说，因为涉及到的服务比较多，所以分析逻辑难度加大，对监控的要求当然也更加复杂。</p><p>如果我们总是在性能瓶颈出现之后再去做分析，很可能会发现缺少各种数据。这时能做的就只有重新运行一遍场景，再增加监控工具，实现更多的数据采集，以补充分析逻辑中需要的数据。</p><p>但是这样的事情肯定是越少发生越好，所以在全链路压测场景执行之前，我们就要把监控策略考虑清楚。</p><p>怎么样来规划监控策略呢？跟着RESAR性能工程理念，我们从系统架构、性能分析决策树、全局监控几个方面来有节奏、有层次地思考一下。</p><h2>系统架构</h2><p>对于性能分析来说，我们要分析的是整个系统架构中，压测场景中涉及到的每一个技术组件，这些技术组件只有从架构的视角才能看得清楚。</p><p>从服务视角，我们可以知道需要监控的服务有哪些，保证服务的覆盖；从资源视角，可以让我们知道资源使用率应该达到多少才是合理的，同时资源视角也和容量模型有关，是重要的容量模型输入。</p><p>服务视角：</p><p><img src="https://static001.geekbang.org/resource/image/2f/4b/2f032901efyy2d9f9e3df8f123e8534b.png?wh=1673x926" alt="图片"></p><p>资源视角：</p><p><img src="https://static001.geekbang.org/resource/image/67/be/67cee8f3f2b161f2af5e5e65c6e310be.png?wh=871x485" alt="图片"></p><p>看到这样的系统架构，我们可不能只知道里面有几个框，还要清楚四点。</p><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>服务列表和调用关系。</li>
 </ol><p>这一点在系统架构的文档中应该有描述。举例来说，在我们这个系统中，当我们发起一个登录请求时，对应上面的架构就是：gateway - member - auth - mysql(redis)。了解了调用关系之后，等你要分析登录业务的性能时，就可以一层层剥离问题了。</p><!-- [[[read_end]]] --><ol start="2">
 <li>服务的规模。</li>

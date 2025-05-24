@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是海纳。</p><p>这节课是对前面所有课程的一次总结和回顾。前面我们介绍了很多内存管理的相关机制，其实都是为了把这节课的故事讲完整。在前面的课程里，我们了解了进程内部的分布，但也留下了三个关键的问题没有讲清楚：</p><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>fork的工作方式非常奇怪，一方面父进程和子进程还可以访问共有的变量，另一方面，它们又可以各自修改这个变量，且这个修改对方都看不见，这是怎么做到的呢？</li>
 <li>我们在<a href="https://time.geekbang.org/column/article/430073">第1节课</a>讲内存映射时，就讲过页表中未映射状态的页表项，并不存在一块具体的物理内存与之对应。但是当我们访问到这一页的时候，页表项可以自动变成已映射的正常状态。谁在背后做了什么事情呢？</li>
 <li>mmap的功能十分强大，这些强大的能力是怎么完成的呢？</li>

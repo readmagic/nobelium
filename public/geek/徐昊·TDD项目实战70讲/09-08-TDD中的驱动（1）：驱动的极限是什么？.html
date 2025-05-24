@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是徐昊。从今天开始，我们来讨论一下测试驱动开发中的驱动是什么意思。</p><p>在上节课，我们讨论了测试驱动中测试的性质。它们不是“单元测试”，而是不同粒度的功能测试。或者如我建议的那样，你可以叫它们“单元级别功能测试”。那么这些单元级别功能测试将会如何驱动我们的开发呢？今天我们就来讨论一下这个问题。</p><h2>如果当初我们那么做了</h2><p><a href="https://time.geekbang.org/column/article/496699">上节课</a>我们讲到，TDD中测试针对的粒度是独立的功能上下文或变化点。测试验证功能上下文或变化点符合功能需求。</p><p>对于相同的功能，如果我们划分的功能上下文不同，会有什么结果呢？回看之前的TDD演示，在<a href="https://time.geekbang.org/column/article/494207">第一讲</a>中，我们讨论了三种实现方式：</p><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>从给定的参数列表中寻找对应选项，并根据选项类型读取参数；</li>
 <li>将参数列表按照选项，分割成由选项名称和参数组成的数组；</li>
 <li>将参数列表按照选项，分解成由选项名称和参数组成的映射。</li>

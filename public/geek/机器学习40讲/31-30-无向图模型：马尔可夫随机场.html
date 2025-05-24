@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>作为有向图模型的代表，贝叶斯网络将随机变量之间的条件独立性与依赖关系嵌入到图结构之中，既有助于直观表示，又能简化计算。但这是不是意味着贝叶斯网络可以通吃所有概率关系呢？并非如此。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>下面这个例子就说明了贝叶斯网络的局限之处，它取自达芙妮·科勒（Daphne Koller）的经典教材《概率图模型》（Probabilistic Graphical Models）的例3.8。</p>
 <p>“四个学生Alice、Bob、Charles和Debbie在一个学习小组中，但由于A和C、B和D两两之间因为感情的纠葛导致没有交流，因此每个人可以交流的对象都只有2个。这样的关系应该如何表示呢？”</p>
 <p>这四个学生可以建模成概率图中的四个结点，也就是四个随机变量。用贝叶斯网络构造这组关系时，由于A和C之间不存在交流，两者之间也就没有信息的流动，所以在给定B和D的前提下，A和C是条件独立的；同样的道理，在给定A和C的前提下，B和D也是条件独立的。这就要求构造出来的贝叶斯网络能够同时表示这两组条件独立性。</p>

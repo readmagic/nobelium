@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>IPC这块的内容比较多，为了让你能够更好地理解，我分成了三节来讲。前面我们解析完了共享内存的内核机制后，今天我们来看最后一部分，信号量的内核机制。</p><p>首先，我们需要创建一个信号量，调用的是系统调用semget。代码如下：</p><pre><code>SYSCALL_DEFINE3(semget, key_t, key, int, nsems, int, semflg)
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 {
 	struct ipc_namespace *ns;
 	static const struct ipc_ops sem_ops = {

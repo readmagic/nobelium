@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是轩脉刃。</p><p>上一讲我们使用 net/http 搭建了一个最简单的 HTTP 服务，为了帮你理解服务启动逻辑，我用思维导图梳理了主流程，如果你还有不熟悉，可以再回顾一下。</p><p>今天我将带你进一步丰富我们的框架，添加上下文 Context 为请求设置超时时间。</p><p>从主流程中我们知道（第三层关键结论），HTTP 服务会为每个请求创建一个 Goroutine 进行服务处理。在服务处理的过程中，有可能就在本地执行业务逻辑，也有可能再去下游服务获取数据。如下图，本地处理逻辑 A，下游服务 a/b/c/d， 会形成一个标准的树形逻辑链条。</p><p><img src="https://static001.geekbang.org/resource/image/33/71/33361f90298865f98e3038f11f02e671.jpg?wh=1920x1080" alt=""></p><p>在这个逻辑链条中，每个本地处理逻辑，或者下游服务请求节点，都有可能存在超时问题。<strong>而对于 HTTP 服务而言，超时往往是造成服务不可用、甚至系统瘫痪的罪魁祸首</strong>。</p><p>系统瘫痪也就是我们俗称的雪崩，某个服务的不可用引发了其他服务的不可用。比如上图中，如果服务 d 超时，导致请求处理缓慢甚至不可用，加剧了 Goroutine 堆积，同时也造成了服务 a/b/c 的请求堆积，Goroutine 堆积，瞬时请求数加大，导致 a/b/c 的服务都不可用，整个系统瘫痪，怎么办？</p><p>最有效的方法就是从源头上控制一个请求的“最大处理时长”，所以，对于一个 Web 框架而言，“超时控制”能力是必备的。今天我们就用 Context 为框架增加这个能力。</p><!-- [[[read_end]]] --><h2>context 标准库设计思路</h2><p>如何控制超时，官方是有提供 context 标准库作为解决方案的，但是由于标准库的功能并不够完善，一会我们会基于标准库，来根据需求自定义框架的 Context。所以理解其背后的设计思路就可以了。</p><p>为了防止雪崩，context 标准库的解决思路是：<strong>在整个树形逻辑链条中，用上下文控制器 Context，实现每个节点的信息传递和共享</strong>。</p><p>具体操作是：用 Context 定时器为整个链条设置超时时间，时间一到，结束事件被触发，链条中正在处理的服务逻辑会监听到，从而结束整个逻辑链条，让后续操作不再进行。</p><p>明白操作思路之后，我们深入 context 标准库看看要对应具备哪些功能。</p><p>按照上一讲介绍的了解标准库的方法，我们先通过  <code>go doc context | grep "^func"</code> 看提供了哪些库函数（function）：</p><pre><code class="language-go">// 创建退出 Context
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 func WithCancel(parent Context) (ctx Context, cancel CancelFunc){}
 // 创建有超时时间的 Context
 func WithTimeout(parent Context, timeout time.Duration) (Context, CancelFunc){}

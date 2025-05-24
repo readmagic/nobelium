@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>我们已经讨论过了通道的基本操作以及背后的规则。今天，我再来讲讲通道的高级玩法。</p><p>首先来说说单向通道。我们在说“通道”的时候指的都是双向通道，即：既可以发也可以收的通道。</p><p>所谓单向通道就是，只能发不能收，或者只能收不能发的通道。一个通道是双向的，还是单向的是由它的类型字面量体现的。</p><p>还记得我们在上篇文章中说过的接收操作符<code>&lt;-</code>吗？如果我们把它用在通道的类型字面量中，那么它代表的就不是“发送”或“接收”的动作了，而是表示通道的方向。</p><p>比如：</p><pre><code>var uselessChan = make(chan&lt;- int, 1)
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 </code></pre><p>我声明并初始化了一个名叫<code>uselessChan</code>的变量。这个变量的类型是<code>chan&lt;- int</code>，容量是<code>1</code>。</p><p>请注意紧挨在关键字<code>chan</code>右边的那个<code>&lt;-</code>，这表示了这个通道是单向的，并且只能发而不能收。</p><p>类似的，如果这个操作符紧挨在<code>chan</code>的左边，那么就说明该通道只能收不能发。所以，前者可以被简称为发送通道，后者可以被简称为接收通道。</p><p>注意，与发送操作和接收操作对应，这里的“发”和“收”都是站在操作通道的代码的角度上说的。</p><p>从上述变量的名字上你也能猜到，这样的通道是没用的。通道就是为了传递数据而存在的，声明一个只有一端（发送端或者接收端）能用的通道没有任何意义。那么，单向通道的用途究竟在哪儿呢？</p><!-- [[[read_end]]] --><p><strong>问题：单向通道有什么应用价值？</strong></p><p>你可以先自己想想，然后再接着往下看。</p><p><strong>典型回答</strong></p><p>概括地说，单向通道最主要的用途就是约束其他代码的行为。</p><p><strong>问题解析</strong></p><p>这需要从两个方面讲，都跟函数的声明有些关系。先来看下面的代码：</p><pre><code>func SendInt(ch chan&lt;- int) {
 	ch &lt;- rand.Intn(1000)
 }

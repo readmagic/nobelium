@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是方远。</p><p>在上一节课中，我们掌握了图像分割的理论知识，你是不是已经迫不及待要上手体验一下，找找手感了呢？</p><p>今天我们就从头开始，来完成一个图像分割项目。项目的内容是，对图片中的小猫进行语义分割。为了实现这个项目，我会引入一个简单但实用的网络结构：UNet。通过这节课的学习，你不但能再次体验一下完整机器学习的模型实现过程，还能实际训练一个语义分割模型。</p><p>课程代码你可以从<a href="https://github.com/syuu1987/geekTime-semantic-segmentation/tree/main">这里</a>下载。</p><h2>数据部分</h2><p>我们还是从机器学习开发三件套：数据、训练、评估说起。首先是数据准备部分，我们先对训练数据进行标记，然后完成数据读取工作。</p><h3>分割图像的标记</h3><p>之前也提到过，图像分割的准备相比图像分类的准备更加复杂。那我们如何标记语义分割所需要的图片呢？在图像分割中，我们使用的每张图片都要有一张与之对应的Mask，如下所示：</p><p><img src="https://static001.geekbang.org/resource/image/c2/db/c258c4f2ffd1f819c662aa1e9f6a8cdb.jpg?wh=1024x640" alt="图片"><br>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <img src="https://static001.geekbang.org/resource/image/1a/a0/1a35623ceccb0750cd8058568d847fa0.png?wh=1024x640" alt="图片"></p><p>上节课我们说过，Mask就是含有像素类别的特征图。结合这里的示例图片，我们可以看到，Mask就是原图所对应的一张图片，它的每个位置都记录着原图每个位置对应的像素类别。对于Mask的标记，我们需要使用到Labelme工具。</p><p>标记的方法一共包括七步，我们挨个看一下。</p><p>第一步，下载安装<a href="https://github.com/wkentaro/labelme">Labelme</a>。我们按照Github中的安装方式进行安装即可。如果安装比较慢的话，你可以使用国内的镜像（例如清华的）进行安装。</p><!-- [[[read_end]]] --><p>第二步，我们要将需要标记的图⽚放到⼀个⽂件夹中。这里我是将所有猫的图片放入到cats文件夹中了。</p><p><img src="https://static001.geekbang.org/resource/image/f3/04/f3c8cc99959c74f363ec290558a51d04.png?wh=1722x882" alt="图片"></p><p>第三步，我们事先准备好⼀个label.txt的⽂件，⾥⾯每⼀⾏写好的需要标记的类别。我的label.txt如下：</p><pre><code class="language-python">__ignore__
 _background_
 cat

@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是蒋德钧。从这节课开始，我们就来到了课程的第二个模块，在这个模块里，我会带你了解和学习与Redis实例运行相关方面的知识，包括Redis server的启动过程、基于事件驱动框架的网络通信机制以及Redis线程执行模型。今天，我们先来学习下Redis server的启动过程。</p><p>我们知道，main函数是Redis整个运行程序的入口，并且Redis实例在运行时，也会从这个main函数开始执行。同时，由于Redis是典型的Client-Server架构，一旦Redis实例开始运行，Redis server也就会启动，而main函数其实也会负责Redis server的启动运行。</p><blockquote>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>我在<a href="https://time.geekbang.org/column/article/399866">第1讲</a>给你介绍过Redis源码的整体架构。其中，Redis运行的基本控制逻辑是在<a href="https://github.com/redis/redis/tree/5.0/src/server.c">server.c</a>文件中完成的，而main函数就是在server.c中。</p>
 </blockquote><p>你平常在设计或实现一个网络服务器程序时，可能会遇到一个问题，那就是服务器启动时，应该做哪些操作、有没有一个典型的参考实现。所以今天这节课，我就从main函数开始，给你介绍下Redis server是如何在main函数中启动并完成初始化的。通过这节课内容的学习，你可以掌握Redis针对以下三个问题的实现思路：</p><!-- [[[read_end]]] --><ol>
 <li><strong>Redis server启动后具体会做哪些初始化操作？</strong></li>

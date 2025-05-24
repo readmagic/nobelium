@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是张磊。今天我和你分享的主题是：深入理解StatefulSet之拓扑状态。</p><p>在上一篇文章中，我在结尾处讨论到了Deployment实际上并不足以覆盖所有的应用编排问题。</p><p>造成这个问题的根本原因，在于Deployment对应用做了一个简单化假设。</p><p>它认为，一个应用的所有Pod，是完全一样的。所以，它们互相之间没有顺序，也无所谓运行在哪台宿主机上。需要的时候，Deployment就可以通过Pod模板创建新的Pod；不需要的时候，Deployment就可以“杀掉”任意一个Pod。</p><p>但是，在实际的场景中，并不是所有的应用都可以满足这样的要求。</p><p>尤其是分布式应用，它的多个实例之间，往往有依赖关系，比如：主从关系、主备关系。</p><p>还有就是数据存储类应用，它的多个实例，往往都会在本地磁盘上保存一份数据。而这些实例一旦被杀掉，即便重建出来，实例与数据之间的对应关系也已经丢失，从而导致应用失败。</p><p>所以，这种实例之间有不对等关系，以及实例对外部数据有依赖关系的应用，就被称为“有状态应用”（Stateful Application）。</p><p>容器技术诞生后，大家很快发现，它用来封装“无状态应用”（Stateless Application），尤其是Web服务，非常好用。但是，一旦你想要用容器运行“有状态应用”，其困难程度就会直线上升。而且，这个问题解决起来，单纯依靠容器技术本身已经无能为力，这也就导致了很长一段时间内，“有状态应用”几乎成了容器技术圈子的“忌讳”，大家一听到这个词，就纷纷摇头。</p><!-- [[[read_end]]] --><p>不过，Kubernetes项目还是成为了“第一个吃螃蟹的人”。</p><p>得益于“控制器模式”的设计思想，Kubernetes项目很早就在Deployment的基础上，扩展出了对“有状态应用”的初步支持。这个编排功能，就是：StatefulSet。</p><p>StatefulSet的设计其实非常容易理解。它把真实世界里的应用状态，抽象为了两种情况：</p><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>
 <p><strong>拓扑状态</strong>。这种情况意味着，应用的多个实例之间不是完全对等的关系。这些应用实例，必须按照某些顺序启动，比如应用的主节点A要先于从节点B启动。而如果你把A和B两个Pod删除掉，它们再次被创建出来时也必须严格按照这个顺序才行。并且，新创建出来的Pod，必须和原来Pod的网络标识一样，这样原先的访问者才能使用同样的方法，访问到这个新Pod。</p>
 </li>

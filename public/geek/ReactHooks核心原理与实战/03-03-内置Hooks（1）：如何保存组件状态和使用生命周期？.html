@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是王沛。这节课我们一起来学习基本 Hooks 的用法。</p><p>如果你用过基于类的组件，那么对组件的生命周期函数一定不会陌生，例如 componentDidMount, componentDidUpdate，等等。如果没有使用过，那也没关系，因为在今天这节课里，你会看到基于 Hooks 去考虑组件的实现，这会是一个非常不同的思路，你完全不用去关心一个组件的生命周期是怎样的。</p><p>特别是如果你已经习惯了类组件的开发，那么要做的，甚至是彻底忘掉那些生命周期方法。不要遇到一个需求，就映射到这个功能该在哪个生命周期中去做，然后又要去想原来的声明周期方法在函数组件中应该怎么用 Hooks 去实现。</p><p>正确的思路应该是<strong>遇到需求时，直接考虑在 Hooks 中去如何实现</strong>。</p><p>React 提供的 Hooks 其实非常少，一共只有10个，比如 useState、useEffect、useCallback、useMemo、useRef、useContext等等。这一讲我们会先学习 useState 和 useEffect 这两个最为核心的 Hooks。下一讲则会介绍另外四个常用的 Hooks。掌握了这些Hooks，你就能进行90%的React 开发了。</p><p>不过在讲之前我想强调一点，这些 Hooks 的功能其实非常简单，多看看官方文档就可以了。因为这节课的目的，其实是让你学会如何用 Hooks 的思路去进行功能的实现。</p><!-- [[[read_end]]] --><h1>useState：让函数组件具有维持状态的能力</h1><p>在第一讲中，你已经知道了 state 是 React 组件的一个核心机制，那么 useState 这个 Hook 就是用来管理 state 的，它可以<strong>让函数组件具有维持状态的能力</strong>。也就是说，在一个函数组件的多次渲染之间，这个 state 是共享的。下面这个例子就显示了 useState 的用法：</p><pre><code>import React, { useState } from 'react';
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 
 function Example() {
   // 创建一个保存 count 的 state，并给初始值 0

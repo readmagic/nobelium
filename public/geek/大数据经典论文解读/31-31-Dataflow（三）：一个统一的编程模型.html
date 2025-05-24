@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是徐文浩。</p><p>在过去的几讲里，我们看到了大数据的流式处理系统是如何一步一步进化的。从最早出现的S4，到能够做到“至少一次”处理的Storm，最后是能够做到“正好一次”数据处理的MillWheel。你应该能发现，这些流式处理框架，每一个都很相似，它们都采用了有向无环图一样的设计。但是在实现和具体接口上又很不一样，每一个框架都定义了一个属于自己的逻辑。</p><p>S4是无中心的架构，一切都是PE；Storm是中心化的架构，定义了发送数据的Spout和处理数据的Bolt；而MillWheel则更加复杂，不仅有Computation、Stream、Key这些有向无环图里的逻辑概念，还引入了Timer、State这些为了持久化状态和处理时钟差异的概念。</p><p>和我们在大数据的批处理看到的不同，S4、Storm以及MillWheel其实是某一个数据处理系统，而不是MapReduce这样高度抽象的编程模型。每一个流式数据处理系统各自有各自对于问题的抽象和理解，<strong>很多概念不是从模型角度的“该怎么样”抽象出来，而是从实际框架里具体实现的“是怎么样”的角度，抽象出来的</strong>。</p><p>不过，我们也看到了这些系统有很多相似之处，它们都采用了有向无环图模型，也都把同一个Key的数据在逻辑上作为一个单元进行抽象。随着工业界对于流式数据处理系统的不断研发和运用，到了2015年，仍然是Google，发表了今天我们要解读的这一篇《The Dataflow Model》的论文。</p><!-- [[[read_end]]] --><p>那么，在学完这一讲之后，我希望你能够对过去几讲的论文进一步融会贯通，能够做到：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>从抽象模型的角度来理解流式数据处理，而不仅仅是从系统框架如何实现的角度，思考流式数据处理。</li>
 <li>掌握Dataflow里ParDo、GroupByKey，以及窗口、触发器和增量数据处理这些概念。</li>
 <li>能够把这些概念和之前学习过的S4、Storm，以及MillWheel系统联系起来，思考如何在这些系统上扩展，以实现Dataflow的编程模型。</li>

@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是葛俊。</p><p>在“研发流程”和“工程方法”模块中，我主要是从团队的角度和你分享如何提高研发效能，所以很多同学希望我能分享一些工具的使用，来提高自己的效能。所以今天，我准备了一篇关于VIM的文章。在这篇文章中，我会着重带你深入了解VIM的两个特点。因为正是基于这两个特点，VIM可以很好地提高我们的工作效率。至于更多的、具体的VIM使用方法和技巧，我会在接下来的“个人效能”模块中，用另一篇文章专门详细与你介绍。</p><p>如果你已经是一个VIM的使用者了，那我希望文中关于VIM原理的讨论，可以帮助你更深入地理解它，进而可以更高效地使用它。而如果你还不是VIM的使用者，那我推荐你学习它的基本方法，并寻找适当的场景去使用它。</p><p>其实，向开发者们推荐编辑器，尤其是像VIM这样一个比较容易引起争议的编辑器，是一件有风险的事儿。但，基于我对VIM的了解和它能给开发者带来的巨大好处，我认为这个风险是值得的，相信你也能从中有所收获。</p><p>我们下来看看什么是VIM。</p><h2>什么是VIM？</h2><p>VIM是一个老牌的编辑器，前身是VI，第1个版本发行于1978年，距离今天已经有41年的历史了。</p><p>VIM是VI Improved，是提高版的VI，相对来说比较新，但实际上它的第1个版本也早在1991年就发布，也已经有28年的历史了。</p><!-- [[[read_end]]] --><p>VIM和我们日常使用的编辑器，比如VS Code、Notepad++、Sublime Text等，差别很大，而且上手比较难，新手在使用时常常会手足无措。<strong>一个常见的问题是，打开了VIM就不知道怎么退出。</strong>比如，有人就曾在<a href="https://stackoverflow.com/questions/11828270/how-do-i-exit-the-vim-editor">Stack Overflow</a>上提问怎么退出VIM，6年以来的阅读量已经接近200万。又比如，我还听到过一个玩笑，问怎样产生一个随机字符串呢，答案是让一个不会使用VIM的人打开VIM并尝试退出。</p><p>虽然如此，但在美国对开发人员进行的最喜欢的编辑器的调研中，VIM往往能排进前5名。我个人的看法是，每一个开发者都应该学一些VIM，原因有二：</p><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>VIM基于命令行模式的特色，能<strong>让文本编辑工作更高效</strong>；</li>
 <li>VIM有极高的跨平台性，<strong>可以一次学习然后多处使用，尤其可以作为很多其他IDE的插件使用。</strong></li>
 </ol><p>比如，当前我在进行微信小程序的项目开发，使用VS Code作为我主力IDE。在VS Code中，我每天都在使用VIM插件，VIM的命令操作大大提高了我的开发效率。作为开发者，编辑文本是最基本的工作，所以花些时间去了解最基本的VIM操作来提高效率和手指健康，是相当值得的。</p><p>在我看来，VIM有两大特点：</p><ol>

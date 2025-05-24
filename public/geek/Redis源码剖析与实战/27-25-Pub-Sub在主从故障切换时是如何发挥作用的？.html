@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是蒋德钧。</p><p></p><p>在前面两节课，我们学习了哨兵工作的基本过程：哨兵会使用sentinelRedisInstance结构体来记录主节点的信息，在这个结构体中又记录了监听同一主节点的其他哨兵的信息。<strong>那么，一个哨兵是如何获得其他哨兵的信息的呢？</strong></p><p></p><p>这其实就和哨兵在运行过程中，使用的<strong>发布订阅（Pub/Sub）</strong>通信方法有关了。Pub/Sub通信方法可以让哨兵订阅一个或多个频道，当频道中有消息时，哨兵可以收到相应消息；同时，哨兵也可以向频道中发布自己生成的消息，以便订阅该频道的其他客户端能收到消息。</p><p></p><p>今天这节课，我就带你来了解发布订阅通信方法的实现，以及它在哨兵工作过程中的应用。同时，你还可以了解哨兵之间是如何发现彼此的，以及客户端是如何知道故障切换完成的。Pub/Sub通信方法在分布式系统中可以用作多对多的信息交互，在学完这节课之后，当你要实现分布式节点间通信时，就可以把它应用起来。</p><p></p><p>好了，接下来，我们先来看下发布订阅通信方法的实现。</p><p></p><h2>发布订阅通信方法的实现</h2><p>发布订阅通信方法的基本模型是包含<strong>发布者、频道和订阅者</strong>，发布者把消息发布到频道上，而订阅者会订阅频道，一旦频道上有消息，频道就会把消息发送给订阅者。一个频道可以有多个订阅者，而对于一个订阅者来说，它也可以订阅多个频道，从而获得多个发布者发布的消息。</p><!-- [[[read_end]]] --><p>下图展示的就是发布者-频道-订阅者的基本模型，你可以看下。</p><p></p><p><img src="https://static001.geekbang.org/resource/image/b4/9d/b41f7bc078c210ef35d17bf3dc9be09d.jpg?wh=1920x789" alt="图片"></p><h3>频道的实现</h3><p>了解了发布订阅方法的基本模型后，我们就来看下频道是如何实现的，因为在发布订阅通信方法中，频道很重要，它是发布者和订阅者之间通信的基础。</p><p>其实，Redis的全局变量server使用了一个成员变量<strong>pubsub_channels</strong>来保存频道，pubsub_channels的初始化是在initServer函数（在<a href="https://github.com/redis/redis/tree/5.0/src/server.c">server.c</a>文件中）中完成的。initServer函数会调用dictCreate创建一个<strong>keylistDictType类型的哈希表</strong>，然后用这个哈希表来保存频道的信息，如下所示：</p><pre><code class="language-plain">void initServer(void) {
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 …
 server.pubsub_channels = dictCreate(&amp;keylistDictType,NULL);
 …

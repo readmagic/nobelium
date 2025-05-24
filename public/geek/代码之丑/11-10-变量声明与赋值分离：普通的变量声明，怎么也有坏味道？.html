@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是郑晔。</p><p>我们已经用连续几讲的篇幅在挑战很多人固有的编程习惯了，从各种控制语句，到 getter 和 setter，甚至连直接使用基本类型都已经成了坏味道，这一讲，我们再来挑战一个很多人习以为常的编程习惯：变量的声明与赋值。</p><p>我估计有人已经露出了惊讶的表情。你可能会想：要说前面几种坏味道可能确实是编码没有做好，该封装没封装，该返回没返回，一个变量声明怎么还会有坏味道啊？难道是变量声明都不让用了吗？</p><p>诚然，变量声明是写程序不可或缺的一部分，我并不打算让你戒掉变量声明，严格地说，我们是要把变量初始化这件事做好。</p><h2>变量的初始化</h2><p>我们先来看一段代码：</p><pre><code>EpubStatus status = null;
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 CreateEpubResponse response = createEpub(request);
 if (response.getCode() == 201) {
   status = EpubStatus.CREATED;

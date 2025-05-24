@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>今天的内容是线性回归的正则化扩展。正则化称得上是机器学习里的刮骨疗毒，刮的是过拟合（overfitting）这个任何机器学习方法都无法摆脱的附骨之疽。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>本质上讲，<strong>过拟合就是模型过于复杂，复杂到削弱了它的泛化性能</strong>。由于训练数据的数目是有限的，因此我们总是可以通过增加参数的数量来提升模型的复杂度，进而降低训练误差。可人尽皆知的是，学习的本领越专精，应用的口径就越狭窄，过于复杂的模型就像那个御膳房里专门切黄瓜丝的御厨，让他改切萝卜就下不去刀了。</p>
 <p>正则化（regularization）是用于抑制过拟合的方法的统称，它<strong>通过动态调整估计参数的取值来降低模型的复杂度，以偏差的增加为代价来换取方差的下降</strong>。这是因为当一些参数足够小时，它们对应的属性对输出结果的贡献就会微乎其微，这在实质上去除了非相关属性的影响。</p>
 <p>在线性回归里，最常见的正则化方式就是在损失函数（loss function）中添加<strong>正则化项</strong>（regularizer），而添加的正则化项$R(\lambda)$往往是待估计参数的$p$-范数。将均方误差和参数的范数之和作为一个整体来进行约束优化，相当于额外添加了一重关于参数的限制条件，避免大量参数同时出现较大的取值。由于正则化的作用通常是让参数估计值的幅度下降，因此在统计学中它也被称为<strong>系数收缩方法</strong>（shrinkage method）。</p><!-- [[[read_end]]] -->

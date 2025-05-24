@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是周爱民。</p><p>在前端的历史中，有很多人都曾经因为同一道面试题而彻夜不眠。这道题出现在9年之前，它的提出者“蔡mc（蔡美纯）”曾是JQuery的提交者之一，如今已经隐去多年，不复现身于前端。然而这道经典面试题仍然多年挂于各大论坛，被众多后来者一遍又一遍地分析。</p><p>在2010年10月，<a href="https://github.com/snandy">Snandy</a>于iteye/cnblogs上发起对这个话题的讨论之后，淘宝的玉伯（lifesinger）也随即成为这个问题早期的讨论者之一，并写了一篇“<strong>a.x = a = { }, 深入理解赋值表达式</strong>”来专门讨论它。再后来，随着它在各种面试题集中频繁出现，这个问题也就顺利登上了知乎，成为一桩很有历史的悬案。</p><p>蔡mc最初提出这个问题时用的标题是“<strong>赋值运算符:"=", 写了10年javascript未必全了解的"="</strong>”，原本的示例代码如下：</p><pre><code>var c = {};
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 c.a = c = [];
 alert(c.a); //c.a是什么？
 </code></pre><p>蔡mc是在阅读JQuery代码的过程中发现了这一使用模式：</p><pre><code>elemData = {}

@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>今天，我们来一起了解一下JDK中用于监控及诊断工具。本篇中我将使用刚刚发布的Java 11版本的工具进行示范。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <h2>jps</h2>
 <p>你可能用过<code>ps</code>命令，打印所有正在运行的进程的相关信息。JDK中的<code>jps</code>命令（<a href="https://docs.oracle.com/en/java/javase/11/tools/jps.html">帮助文档</a>）沿用了同样的概念：它将打印所有正在运行的Java进程的相关信息。</p>
 <p>在默认情况下，<code>jps</code>的输出信息包括Java进程的进程ID以及主类名。我们还可以通过追加参数，来打印额外的信息。例如，<code>-l</code>将打印模块名以及包名；<code>-v</code>将打印传递给Java虚拟机的参数（如<code>-XX:+UnlockExperimentalVMOptions -XX:+UseZGC</code>）；<code>-m</code>将打印传递给主类的参数。</p>

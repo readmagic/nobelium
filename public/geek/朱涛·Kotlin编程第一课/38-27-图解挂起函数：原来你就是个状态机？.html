@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是朱涛。今天我们来研究Kotlin挂起函数的实现原理。</p><p>挂起函数，是整个Kotlin协程的核心，它的重要性不言而喻。几乎所有协程里的知识点，都离不开挂起函数。而且也正是因为挂起函数的原因，我们才可以使用协程简化异步任务。</p><p>今天这节课，我会从这个CPS转换开始说起，带你进一步挖掘它背后的细节。在这个过程中，我们还会接触到Kotlin库当中的协程基础元素：Continuation、CoroutineContext与挂起函数的底层联系。最后，我会带你灵活运用下这些知识点，以此进一步完善我们的KtHttp，让它可以直接支持挂起函数。</p><p>好，接下来，我们就正式开始吧！</p><h2>CPS转换背后的细节</h2><p>在<a href="https://time.geekbang.org/column/article/487085">第15讲</a>当中，我们已经初步介绍过挂起函数的用法了：挂起函数，只是比普通的函数多了suspend关键字。有了这个suspend关键字以后，Kotlin编译器就会特殊对待这个函数，将其转换成一个带有Callback的函数，这里的Callback就是Continuation接口。</p><p>而这个过程，我们称之为CPS转换：</p><p><img src="https://static001.geekbang.org/resource/image/37/92/3732f7a3473e82c5a5d109a18d87f992.gif?wh=720x405" alt="图片"></p><p>以上的CPS 转换过程中，函数的类型发生了变化：<code>suspend ()-&gt;String</code>  变成了  <code>(Continuation)-&gt; Any?</code>。这意味着，如果你在Java里访问一个Kotlin挂起函数getUserInfo()，会看到 getUserInfo()的类型是 <code>(Continuation)-&gt; Object</code>，也就是：接收 Continuation 为参数，返回值是Object。</p><!-- [[[read_end]]] --><p>而在这里，函数签名的变化可以分为两个部分：<strong>函数参数</strong>的变化和<strong>函数返回值</strong>的变化。</p><h3>CPS参数变化</h3><p>我们先来看函数参数的变化，suspend()变成 (Continuation)的情况，这里我们以第15讲当中的代码为例：</p><pre><code class="language-plain">// 代码段1
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 
 suspend fun testCoroutine() {
     val user = getUserInfo()

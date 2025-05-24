@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是胜辉。</p><p>在前面预习篇的两节课里，我们一起回顾和学习了网络分层模型与排查工具，也初步学习了一下抓包分析技术。相信现在的你，已经比刚开始的时候多了不少底气了。那么从今天开始，我们就要正式进入TCP这本大部头，而首先要攻破的，就是握手和挥手。</p><p>TCP的三次握手非常有名，我们工作中也时常能用到，所以这块知识的实用性是很强的。更不用说，技术面试里面，无论是什么岗位，似乎只要是技术岗，都可能会问到TCP握手。可见，它跟操作系统基础、编程基础等类似，同属于计算机技术的底座之一。</p><p>握手，说简单也简单，不就是三次握手嘛。说复杂也复杂，别看只是三次握手，中间还是有不少学问的，有些看似复杂的问题，也能用握手的技术来解决。不信你就跟我看这几个案例。</p><h2>TCP连接都是用TCP协议沟通的吗？</h2><p>看到这个小标题，可能你都觉得奇怪了：TCP连接不用TCP协议沟通还用什么呢？</p><p>确实，一般来说TCP连接是标准的TCP三次握手完成的：</p><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>客户端发送SYN；</li>
 <li>服务端收到SYN后，回复SYN+ACK；</li>
 <li>客户端收到SYN+ACK后，回复ACK。</li>

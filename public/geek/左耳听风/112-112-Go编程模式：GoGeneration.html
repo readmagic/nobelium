@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是陈皓，网名左耳朵耗子。</p><p>这节课，我们来学习一下Go语言的代码生成的玩法。</p><p>Go语言的代码生成主要还是用来解决编程泛型的问题。泛型编程主要是解决这样一个问题：因为静态类型语言有类型，所以，相关的算法或是对数据处理的程序会因为类型不同而需要复制一份，这样会导致数据类型和算法功能耦合。</p><p>我之所以说泛型编程可以解决这样的问题，就是说，在写代码的时候，不用关心处理数据的类型，只需要关心相关的处理逻辑。</p><p>泛型编程是静态语言中非常非常重要的特征，如果没有泛型，我们就很难做到多态，也很难完成抽象，这就会导致我们的代码冗余量很大。</p><h2>现实中的类比</h2><p>为了帮你更好地理解，我举个现实当中的例子。我们用螺丝刀来做打比方，螺丝刀本来只有一个拧螺丝的作用，但是因为螺丝的类型太多，有平口的，有十字口的，有六角的……螺丝还有不同的尺寸，这就导致我们的螺丝刀为了要适配各种千奇百怪的螺丝类型（样式和尺寸），也是各种样式的。</p><p>而真正的抽象是，螺丝刀不应该关心螺丝的类型，它只要关注自己的功能是不是完备，并且让自己可以适配不同类型的螺丝就行了，这就是所谓的泛型编程要解决的实际问题。</p><h2>Go语方的类型检查</h2><p>因为Go语言目前并不支持真正的泛型，所以，只能用 <code>interface{}</code> 这样的类似于 <code>void*</code>  的过度泛型来玩，这就导致我们要在实际过程中进行类型检查。</p><!-- [[[read_end]]] --><p>Go语言的类型检查有两种技术，一种是 Type Assert，一种是Reflection。</p><h3>Type Assert</h3><p>这种技术，一般是对某个变量进行 <code>.(type)</code>的转型操作，它会返回两个值，分别是variable和error。  variable是被转换好的类型，error表示如果不能转换类型，则会报错。</p><p>在下面的示例中，我们有一个通用类型的容器，可以进行 <code>Put(val)</code>和 <code>Get()</code>，注意，这里使用了 <code>interface{}</code>做泛型。</p><pre><code>//Container is a generic container, accepting anything.
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 type Container []interface{}
 
 //Put adds an element to the container.

@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是吴咏炜。</p><p>上一讲正文我介绍了两个可以在 C++ 中进行单元测试的库。今天，类似的，我介绍两个实用的日志库，分别是 Easylogging++ <span class="orange">[1]</span> 和 spdlog <span class="orange">[2]</span>。</p><h2>Easylogging++</h2><p>事实上，我本来想只介绍 Easylogging++ 的。但在检查其 GitHub 页面时，我发现了一个问题：它在 2019 年基本没有更新，且目前上报的问题也没有人处理。这是个潜在问题，除非你觉得这个库好到愿意自己动手修问题（话说回来，这个库还是不错的，我在这个项目贡献了 8 个被合并的 pull request）。不管怎样，原先说了要介绍这个库，所以我也还是介绍一下。</p><h3>概述</h3><p>Easylogging++ 一共只有两个文件，一个是头文件，一个是普通 C++ 源文件。事实上，它的一个较早版本只有一个文件。正如 Catch2 里一旦定义了 <code>CATCH_CONFIG_MAIN</code> 编译速度会大大减慢一样，把什么东西都放一起最终证明对编译速度还是相当不利的，因此，有人提交了一个补丁，把代码拆成了两个文件。使用 Easylogging++ 也只需要这两个文件——除此之外，就只有对标准和系统头文件的依赖了。</p><p>要使用 Easylogging++，推荐直接把这两个文件放到你的项目里。Easylogging++ 有很多的配置项会影响编译结果，我们先大致查看一下常用的可配置项：</p><!-- [[[read_end]]] --><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li><code>ELPP_UNICODE</code>：启用 Unicode 支持，为在 Windows 上输出混合语言所必需</li>
 <li><code>ELPP_THREAD_SAFE</code>：启用多线程支持</li>
 <li><code>ELPP_DISABLE_LOGS</code>：全局禁用日志输出</li>

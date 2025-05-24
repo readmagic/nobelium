@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>到目前为止，专栏中介绍的机器学习模型都属于参数模型，它们利用训练数据求解出关于问题的一般性知识，再将这些知识通过全局性模型的结构和参数加以外化。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>一旦模型的结构和参数被确定，它们就不再依赖训练数据，可以直接用于未知数据的预测。而径向基核的出现一定程度上打破了这种规律，它将普适的全局特性打散成若干局部特性的组合，每个局部特性只能在它所覆盖的近邻区域内得以保持，由此产生的非结构化模型会具有更加灵活的表示能力。</p>
 <p>在我看来，<strong>局部化的核心作用是模型复杂度和拟合精确性的折中</strong>。如果将整个输入空间看作一个大的整体区间，对它进行全局式的建模，那么单个模型就足以描述输入输出之间的规律，但这不可避免地会对表达能力造成较大的限制。</p>
 <p>一个极端的情形是让所有输入的输出都等于同一个常数，这样的模型显然毫无信息量可言。可是在另一个极端，如果将局部特性继续加以细化，细化到让每个数据点都定义出不同局部特性的子区间，其结果就是基于实例的学习。</p>

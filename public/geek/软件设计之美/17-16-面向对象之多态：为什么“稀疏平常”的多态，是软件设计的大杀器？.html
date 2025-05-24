@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好！我是郑晔。</p><p>前面两讲，我们讲了面向对象的两个特点：封装和继承，但真正让面向对象华丽蜕变的是它的第三个特点：多态。</p><p>有一次，我在一个C++的开发团队里做了一个小调查。问题很简单：你用过virtual吗？下面坐着几十个C++程序员，只有寥寥数人举起了手。</p><p>在C++里，virtual表示这个函数是在父类中声明的，然后在子类中改写（Override）过。或许你已经发现了，这不就是多态吗？没错，这就是多态。这个调查说明了一件事，很多程序员虽然在用支持面向对象的程序设计语言，但根本没有用过多态。</p><p>只使用封装和继承的编程方式，我们称之为基于对象（Object Based）编程，而只有把多态加进来，才能称之为面向对象（Object Oriented）编程。也就是说，多态是一个分水岭，将基于对象与面向对象区分开来，可以说，没写过多态的代码，就是没写过面向对象的代码。</p><p>对于面向对象而言，多态至关重要，正是因为多态的存在，软件设计才有了更大的弹性，能够更好地适应未来的变化。我们说，软件设计是一门关注长期变化的学问，只有当你开始理解了多态，你才真正踏入应对长期变化的大门。这一讲，我们就谈谈多态。</p><h2>理解多态</h2><p>多态（Polymorphism），顾名思义，一个接口，多种形态。同样是一个绘图（draw）的方法，如果以正方形调用，则绘制出一个正方形；如果以圆形调用，则画出的是圆形：</p><!-- [[[read_end]]] --><pre><code>interface Shape {
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
   // 绘图接口
   void draw();
 }

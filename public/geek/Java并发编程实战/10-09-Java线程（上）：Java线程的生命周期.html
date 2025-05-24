@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>在Java领域，实现并发程序的主要手段就是多线程。线程是操作系统里的一个概念，虽然各种不同的开发语言如Java、C#等都对其进行了封装，但是万变不离操作系统。Java语言里的线程本质上就是操作系统的线程，它们是一一对应的。</p><p>在操作系统层面，线程也有“生老病死”，专业的说法叫有生命周期。对于有生命周期的事物，要学好它，思路非常简单，只要能搞懂<strong>生命周期中各个节点的状态转换机制</strong>就可以了。</p><p>虽然不同的开发语言对于操作系统线程进行了不同的封装，但是对于线程的生命周期这部分，基本上是雷同的。所以，我们可以先来了解一下通用的线程生命周期模型，这部分内容也适用于很多其他编程语言；然后再详细有针对性地学习一下Java中线程的生命周期。</p><h2>通用的线程生命周期</h2><p>通用的线程生命周期基本上可以用下图这个“五态模型”来描述。这五态分别是：<strong>初始状态、可运行状态、运行状态、休眠状态</strong>和<strong>终止状态</strong>。</p><p><img src="https://static001.geekbang.org/resource/image/9b/e5/9bbc6fa7fb4d631484aa953626cf6ae5.png" alt=""></p><center><span class="reference">通用线程状态转换图——五态模型</span></center><p>这“五态模型”的详细情况如下所示。</p><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li><strong>初始状态</strong>，指的是线程已经被创建，但是还不允许分配CPU执行。这个状态属于编程语言特有的，不过这里所谓的被创建，仅仅是在编程语言层面被创建，而在操作系统层面，真正的线程还没有创建。</li>
 <li><strong>可运行状态</strong>，指的是线程可以分配CPU执行。在这种状态下，真正的操作系统线程已经被成功创建了，所以可以分配CPU执行。</li>
 <li>当有空闲的CPU时，操作系统会将其分配给一个处于可运行状态的线程，被分配到CPU的线程的状态就转换成了<strong>运行状态</strong>。</li>

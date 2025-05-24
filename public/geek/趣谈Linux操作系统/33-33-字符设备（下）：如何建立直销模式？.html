@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>上一节，我们讲了一个设备能够被打开、能够读写，主流的功能基本就完成了。我们讲输入输出设备的时候说到，如果一个设备有事情需要通知操作系统，会通过中断和设备驱动程序进行交互，今天我们就来解析中断处理机制。</p><p>鼠标就是通过中断，将自己的位置和按键信息，传递给设备驱动程序。</p><pre><code>static int logibm_open(struct input_dev *dev)
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 {
 	if (request_irq(logibm_irq, logibm_interrupt, 0, &quot;logibm&quot;, NULL)) {
 		printk(KERN_ERR &quot;logibm.c: Can't allocate irq %d\n&quot;, logibm_irq);

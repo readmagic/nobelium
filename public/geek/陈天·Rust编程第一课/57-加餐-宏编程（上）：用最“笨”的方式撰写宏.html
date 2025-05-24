@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是陈天。</p><p>学过上一讲，相信你现在应该理解为什么在课程的<a href="https://time.geekbang.org/column/article/414478">第 6 讲</a>我们说，宏的本质其实很简单，抛开 quote/unquote，宏编程主要的工作就是把一棵语法树转换成另一颗语法树，而这个转换的过程深入下去，不过就是数据结构到数据结构的转换。</p><p>那在Rust里宏到底是如何做到转换的呢？</p><p>接下来，我们就一起尝试构建声明宏和过程宏。希望你能从自己撰写的过程中，感受构建宏的过程中做数据转换的思路和方法，掌握了这个方法，你可以应对几乎所有和宏编程有关的问题。</p><h2>如何构建声明宏</h2><p>首先看声明宏是如何创建的。</p><p>我们 <code>cargo new macros --lib</code> 创建一个新的项目，然后在新生成的项目下，创建 examples 目录，添加 examples/rule.rs（<a href="https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=13d255537f5bae59fb83a205373b1ff7">代码</a>）：</p><pre><code class="language-rust">#[macro_export]
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 macro_rules! my_vec {
     // 没带任何参数的 my_vec，我们创建一个空的 vec
     () =&gt; {

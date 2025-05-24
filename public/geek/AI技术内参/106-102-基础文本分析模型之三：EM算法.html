@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>周一我们分享的模型是“概率隐语义分析”（Probabilistic Latent Semantic Indexing），或者简称为PLSA，这类模型有效地弥补了隐语义分析的不足，在LDA兴起之前，成为了有力的文本分析工具。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>不管是PLSA，还是LDA，其模型的训练过程都直接或者间接地依赖一个算法，这个算法叫作“<strong><span class="orange">期望最大化</span>”</strong>（Expectation Maximization），或简称为 <strong><span class="orange">EM算法</span></strong>。实际上，EM算法是针对隐参数模型（Latent Variable Model）最直接有效的训练方法之一。既然这些模型都需要EM算法，我们今天就来谈一谈这个算法的一些核心思想。</p>
 <h2>EM和MLE的关系</h2>
 <p>EM算法深深根植于一种更加传统的统计参数方法：<strong>最大似然估计</strong>（Maximum Likelihood Estimation），有时候简称为 <strong>MLE</strong>。<strong>绝大多数的机器学习都可以表达成为某种概率模型的MLE求解过程</strong>。</p>

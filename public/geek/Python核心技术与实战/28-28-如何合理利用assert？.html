@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是景霄。</p><p>相信你平时在写代码时，肯定或多或少看到过assert的存在。我也曾在日常的code review中，被一些同事要求增加assert语句，让代码更加健壮。</p><p>不过，尽管如此，我发现在很多情况下，assert还是很容易被忽略，人们似乎对这么一个“不起眼”的东西并不关心。但事实上，这个看似“不起眼”的东西，如果能用好，对我们的程序大有裨益。</p><p>说了这么多，那么究竟什么是assert，我们又该如何合理地使用assert呢？今天这节课，我就带你一起来学习它的用法。</p><h2>什么是assert？</h2><p>Python的assert语句，可以说是一个debug的好工具，主要用于测试一个条件是否满足。如果测试的条件满足，则什么也不做，相当于执行了pass语句；如果测试条件不满足，便会抛出异常AssertionError，并返回具体的错误信息（optional）。</p><p>它的具体语法是下面这样的：</p><pre><code>assert_stmt ::=  &quot;assert&quot; expression [&quot;,&quot; expression]
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 </code></pre><p>我们先来看一个简单形式的<code>assert expression</code>，比如下面这个例子：</p><pre><code>assert 1 == 2
 </code></pre><p>它就相当于下面这两行代码：</p><pre><code>if __debug__:
     if not expression: raise AssertionError

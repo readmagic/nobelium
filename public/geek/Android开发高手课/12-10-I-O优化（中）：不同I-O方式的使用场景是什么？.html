@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p><span class="orange">今天是2019年的第一天，在开始今天的学习前，先要祝你新年快乐、工作顺利。</span></p><p>I/O是一个非常大的话题，很难一次性将每个细节都讲清楚。对于服务器开发者来说，可以根据需要选择合适的文件系统和磁盘类型，也可以根据需要调整内核参数。但对于移动开发者来说，我们看起来好像做不了什么I/O方面的优化？</p><p>事实上并不是这样的，启动优化中“数据重排”就是一个例子。如果我们非常清楚文件系统和磁盘的工作机制，就能少走一些弯路，减少应用程序I/O引发的问题。</p><p>在上一期中，我不止一次的提到Page Cache机制，它很大程度上提升了磁盘I/O的性能，但是也有可能导致写入数据的丢失。那究竟有哪些I/O方式可以选择，又应该如何应用在我们的实际工作中呢？今天我们一起来看看不同I/O方式的使用场景。</p><h2>I/O的三种方式</h2><p>请你先在脑海里回想一下上一期提到的Linux通用I/O架构模型，里面会包括应用程序、文件系统、Page Cache和磁盘几个部分。细心的同学可能还会发现，在图中的最左侧跟右上方还有Direct I/O和mmap的这两种I/O方式。</p><p>那张图似乎有那么一点复杂，下面我为你重新画了一张简图。从图中可以看到标准I/O、mmap、直接I/O这三种I/O方式在流程上的差异，接下来我详细讲一下不同I/O方式的关键点以及在实际应用中需要注意的地方。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/3e/38/3e295519291c337bb394fb5fdbd7d538.png" alt=""></p><p><strong>1. 标准I/O</strong></p><p>我们应用程序平时用到read/write操作都属于标准I/O，也就是缓存I/O（Buffered I/O）。它的关键特性有：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>
 <p>对于读操作来说，当应用程序读取某块数据的时候，如果这块数据已经存放在页缓存中，那么这块数据就可以立即返回给应用程序，而不需要经过实际的物理读盘操作。</p>
 </li>

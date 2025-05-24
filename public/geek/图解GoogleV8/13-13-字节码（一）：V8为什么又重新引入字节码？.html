@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是李兵。</p><p>在第一节课我们就介绍了V8的编译流水线，我们知道V8在执行一段JavaScript代码之前，需要将其编译为字节码，然后再解释执行字节码或者将字节码编译为二进制代码然后再执行。</p><p>所谓字节码，是指编译过程中的中间代码，你可以把字节码看成是机器代码的抽象，在V8中，字节码有两个作用：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>第一个是解释器可以直接解释执行字节码;</li>
 <li>第二个是优化编译器可以将字节码编译为二进制代码，然后再执行二进制机器代码。</li>
 </ul><p>虽然目前的架构使用了字节码，不过早期的V8并不是这样设计的，那时候V8团队认为这种“先生成字节码再执行字节码”的方式，多了个中间环节，多出来的中间环节会牺牲代码的执行速度。</p><p>于是在早期，V8团队采取了非常激进的策略，直接将JavaScript代码编译成机器代码。其执行流程如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/6a/68/6a9f1a826b924eb74f0ab08a18528a68.jpg" alt="" title="早期V8执行流水线"></p><p>观察上面的执行流程图，我们可以发现，早期的V8也使用了两个编译器：</p><ol>

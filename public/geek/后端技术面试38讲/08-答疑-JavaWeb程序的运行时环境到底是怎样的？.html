@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>今天是第一模块的最后一讲。在这一讲中，我们主要讲了软件的基础原理，今天，我将会针对这一模块中大家提出的普遍问题进行总结和答疑，让我们整理一下，再接着学习下一个模块的内容。</p><h2>问题一</h2><blockquote>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p><span class="orange">@小美</span><br>
 既然一个JVM是一个进程，JVM上跑Tomcat，Tomcat上可以部署多个应用。这样的话，每个跑在Tomcat上的应用是一个线程吗？该怎么理解“如果一个应用crash了，其他应用也会crash”？</p>
 </blockquote><p>理解程序运行时的执行环境，直观感受程序是如何运行的，对我们开发和维护软件很有意义。我们以小美同学提的这个场景为例，看下Java Web程序的运行时环境是什么样的，来重新梳理下进程、线程、应用、Web容器、Java虚拟机和操作系统之间的关系。</p><p>我们用Java开发Web应用，开发完成，编译打包以后得到的是一个war包，这个war包放入Tomcat的应用程序路径下，启动Tomcat就可以通过HTTP请求访问这个Web应用了。</p><p>在这个场景下，进程是哪个？线程有哪些？Web程序的war包是如何启动的？HTTP请求如何被处理？Tomcat在这里扮演的是什么角色？JVM又扮演什么角色？</p><p>首先，我们是通过执行Tomcat的Shell脚本启动Tomcat的，而在Shell脚本里，其实启动的是Java虚拟机，大概是这样一个Shell命令：</p><!-- [[[read_end]]] --><pre><code>java org.apache.catalina.startup.Bootstrap &quot;$@&quot; start 

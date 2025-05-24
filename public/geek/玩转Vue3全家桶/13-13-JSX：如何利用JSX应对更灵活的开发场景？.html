@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是大圣。</p><p>在上一讲中，我给你介绍了如何使用Chrome和Vue Devtools来调试项目，相信你已经拥有了调试复杂项目的能力。今天，我们来聊一个相对独立的话题，就是Vue中的JSX。你肯定会有这样的疑惑，JSX不是React的知识点吗？怎么Vue里也有？</p><p>实际上，Vue中不仅有JSX，而且Vue还借助JSX发挥了Javascript动态化的优势。此外，Vue中的JSX在组件库、路由库这类开发场景中，也发挥着重要的作用。对你来说，学习JSX，可以让你实现更灵活的开发需求，这一讲我们重点关注一下Vue中的JSX。</p><h2>h函数</h2><p>在聊JSX之前，我需要先给你简单介绍一下h函数，因为理解了h函数之后，你才能更好地理解JSX是什么。下面，我会通过一个小圣要实现的需求作为引入，来给你讲一下h函数。</p><p>在Vue 3的项目开发中，template是Vue 3默认的写法。虽然template长得很像HTML，但Vue其实会把template解析为render函数，之后，组件运行的时候通过render函数去返回虚拟DOM，你可以在Vue Devtools中看到组件编译之后的结果。</p><p><img src="https://static001.geekbang.org/resource/image/75/af/75e3242df6e45538a6d43c5f0d39a1af.png?wh=1920x1140" alt="图片"></p><p>在上面的示意图中，调试窗口右侧代码中的_sfc_render_函数就是清单应用的template解析成JavaScript之后的结果。所以除了template之外，在某些场景下，我们可以直接写render函数来实现组件。</p><!-- [[[read_end]]] --><p>先举个小例子，我给小圣模拟了这样一个需求：我们需要通过一个值的范围在数字1到6之间的变量，去渲染标题组件 h1~h6，并根据传递的props去渲染标签名。对于这个需求，小圣有点拿不准了，不知道怎么实现会更合适，于是小圣按照之前学习的template语法，写了很多的v-if：</p><pre><code class="language-xml">  &lt;h1 v-if="num==1"&gt;{{title}}&lt;/h1&gt;
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
   &lt;h2 v-if="num==2"&gt;{{title}}&lt;/h2&gt;
   &lt;h3 v-if="num==3"&gt;{{title}}&lt;/h3&gt;
   &lt;h4 v-if="num==4"&gt;{{title}}&lt;/h4&gt;

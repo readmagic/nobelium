@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是陈天。</p><p>开发软件系统时，我们弄清楚需求，要对需求进行架构上的分析和设计。在这个过程中，合理地定义和使用 trait，会让代码结构具有很好的扩展性，让系统变得非常灵活。</p><p>之前在 get hands dirty 系列中就粗略见识到了 trait 的巨大威力，使用了 From&lt;T&gt; / TryFrom&lt;T&gt; trait 进行类型间的转换（<a href="https://time.geekbang.org/column/article/413634">第 5 讲</a>），还使用了 Deref trait （<a href="https://time.geekbang.org/column/article/414478">第 6 讲</a>）让类型在不暴露其内部结构代码的同时，让内部结构的方法可以对外使用。</p><p>经过上两讲的学习，相信你现在对trait 的理解就深入了。在实际解决问题的过程中，<strong>用好这些 trait，会让你的代码结构更加清晰，阅读和使用都更加符合 Rust 生态的习惯</strong>。比如数据结构实现了 Debug trait，那么当你想打印数据结构时，就可以用 {:?} 来打印；如果你的数据结构实现了 From&lt;T&gt;，那么，可以直接使用 into() 方法做数据转换。</p><h2>trait</h2><p>Rust 语言的标准库定义了大量的标准 trait，来先来数已经学过的，看看攒了哪些：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>Clone / Copy trait，约定了数据被深拷贝和浅拷贝的行为；</li>
 <li>Read / Write trait，约定了对 I/O 读写的行为；</li>
 <li>Iterator，约定了迭代器的行为；</li>

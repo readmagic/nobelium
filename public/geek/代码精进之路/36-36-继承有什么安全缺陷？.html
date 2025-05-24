@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>有时候，为了解决一个问题，我们需要一个解决办法。可是，这个办法本身还会带来更多的问题。新问题的解决带来更新的问题，就这样周而复始，绵延不绝。</p><p>比如<a href="https://time.geekbang.org/column/article/87256">上一篇文章</a><a href="https://time.geekbang.org/column/article/87256">中</a>，我们说到的敏感信息通过异常信息泄露的问题，就是面向对象设计和实现给我们带来的小困扰。再比如<a href="https://time.geekbang.org/column/article/86590">前面还有</a><a href="https://time.geekbang.org/column/article/86590">一个</a><a href="https://time.geekbang.org/column/article/86590">案例</a>，说到了共享内存或者缓存技术带来的潜在危害和挑战，这些都是成熟技术发展背后需要做出的小妥协。只是有时候，这些小小的妥协如果没有被安排好和处理好，可能就会带来不成比例的代价。</p><h2>评审案例</h2><p>我们一起来看一段节选的java.io.FilePermission类的定义。你知道为什么FilePermission被定义为final类吗？</p><pre><code>package java.io;
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 
 // &lt;snipped&gt;
 /**

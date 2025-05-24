@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是刘超。</p><p>我想你肯定遇到过内存溢出，或是内存使用率过高的问题。碰到内存持续上升的情况，其实我们很难从业务日志中查看到具体的问题，<span class="orange">那么面对多个进程以及大量业务线程，我们该如何精准地找到背后的原因呢？</span></p><h2>常用的监控和诊断内存工具</h2><p>工欲善其事，必先利其器。平时排查内存性能瓶颈时，我们往往需要用到一些Linux命令行或者JDK工具来辅助我们监测系统或者虚拟机内存的使用情况，下面我就来介绍几种好用且常用的工具。</p><h3>Linux命令行工具之top命令</h3><p>top命令是我们在Linux下最常用的命令之一，它可以实时显示正在执行进程的CPU使用率、内存使用率以及系统负载等信息。其中上半部分显示的是系统的统计信息，下半部分显示的是进程的使用率统计信息。</p><p><img src="https://static001.geekbang.org/resource/image/36/49/3633095ed54d1ef22fc08310497d6b49.jpg" alt=""></p><p>除了简单的top之外，我们还可以通过top -Hp pid查看具体线程使用系统资源情况：</p><p><img src="https://static001.geekbang.org/resource/image/1e/47/1e4429a9785ae4e6c0884655ee8b5747.jpg" alt=""></p><h3>Linux命令行工具之vmstat命令</h3><p>vmstat是一款指定采样周期和次数的功能性监测工具，我们可以看到，它不仅可以统计内存的使用情况，还可以观测到CPU的使用率、swap的使用情况。但vmstat一般很少用来查看内存的使用情况，而是经常被用来观察进程的上下文切换。</p><p><img src="https://static001.geekbang.org/resource/image/31/62/31a79622cdcadda4e9003b075378dc62.jpg" alt=""></p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>r：等待运行的进程数；</li>
 <li>b：处于非中断睡眠状态的进程数；</li>
 <li>swpd：虚拟内存使用情况；</li>

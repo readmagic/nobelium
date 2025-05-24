@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是陈天。</p><p>从这一讲开始，我们就到进阶篇了。在进阶篇中，我们会先进一步夯实对类型系统的理解，然后再展开网络处理、Unsafe Rust、FFI 等主题。</p><p>为什么要把类型系统作为进阶篇的基石？之前讲解 rgrep 的代码时你可以看到，当要构建可读性更强、更加灵活、更加可测试的系统时，我们都要或多或少使用 trait 和泛型编程。</p><p>所以可以说在 Rust 开发中，泛型编程是我们必须掌握的一项技能。在你构建每一个数据结构或者函数时，最好都问问自己：我是否有必要在此刻就把类型定死？是不是可以把这个决策延迟到尽可能靠后的时刻，这样可以为未来留有余地？</p><p>在《架构整洁之道》里 Uncle Bob 说：<strong>架构师的工作不是作出决策，而是尽可能久地推迟决策，在现在不作出重大决策的情况下构建程序，以便以后有足够信息时再作出决策</strong>。所以，如果我们能通过泛型来推迟决策，系统的架构就可以足够灵活，可以更好地面对未来的变更。</p><p>今天，我们就来讲讲如何在实战中使用泛型编程，来延迟决策。如果你对 Rust 的泛型编程掌握地还不够牢靠，建议再温习一下第 <a href="https://time.geekbang.org/column/article/420021">12</a> 和 <a href="https://time.geekbang.org/column/article/420028">13</a> 讲，也可以阅读 The Rust Programming Language <a href="https://doc.rust-lang.org/book/ch10-00-generics.html">第 10 章</a>作为辅助。</p><h2>泛型数据结构的逐步约束</h2><!-- [[[read_end]]] --><p>在进入正题之前，我们以标准库的 <a href="https://doc.rust-lang.org/src/std/io/buffered/bufreader.rs.html#48-53">BufReader</a> 结构为例，先简单回顾一下，在定义数据结构和实现数据结构时，如果使用了泛型参数，到底有什么样的好处。</p><p>看这个定义的小例子：</p><pre><code class="language-rust">pub struct BufReader&lt;R&gt; {
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
     inner: R,
     buf: Box&lt;[u8]&gt;,
     pos: usize,

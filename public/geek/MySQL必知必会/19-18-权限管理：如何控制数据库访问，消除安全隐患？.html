@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是朱晓峰，今天，我来和你聊一聊权限管理。</p><p>我们在开发应用的时候，经常会遇到一种需求，就是要根据用户的不同，对数据进行横向和纵向的分组。</p><p>所谓横向的分组，就是指用户可以接触到的数据的范围，比如可以看到哪些表的数据；所谓纵向的分组，就是指用户对接触到的数据能访问到什么程度，比如能看、能改，甚至是删除。</p><p>我们把具有相同数据访问范围和程度的用户归成不同的类别，这种类别就叫角色。通过角色，管理用户对数据库访问的范围和程度就更加方便了。这也就是对用户的数据访问权限的管理。</p><p><strong>恰当的权限设定，可以确保数据的安全性，这是至关重要的</strong>。</p><p>那么，怎么进行权限管理呢？这节课，我就结合超市项目的实际案例，给你讲一下权限管理的具体操作，包括怎么操作角色和用户，怎么通过角色给用户授权，怎么直接给用户授权，从而帮助你管理好用户的权限，提升数据库的安全性。</p><p>下面我就来先讲讲角色。我们可以通过角色对相同权限的用户进行分组管理，这样可以使权限管理更加简单高效。</p><h2>角色的作用</h2><p>角色是在MySQL 8.0中引入的新功能，相当于一个权限的集合。引入角色的目的是方便管理拥有相同权限的用户。</p><p>下面我举个超市项目中的例子，来具体说明一下如何通过角色管理用户权限。</p><!-- [[[read_end]]] --><p>超市项目中有库管、营运和财务等不同的模块，它们各自对应不同的数据表。比如库存模块中的盘点表（demo.invcount）、营运模块中的商品信息表（demo.goodsmaster），还有财务模块中的应付账款表（demo.settlement）。下面是这些表的具体信息。</p><p>盘点表：</p><p><img src="https://static001.geekbang.org/resource/image/81/28/812f141d6f1f7fb85a2c797a3c666528.jpeg" alt=""></p><p>商品信息表：</p><p><img src="https://static001.geekbang.org/resource/image/00/dd/00151b4b837c70fc5d7516b3307cf8dd.jpeg" alt=""></p><p>应付账款表：</p><p><img src="https://static001.geekbang.org/resource/image/81/c6/81c3b5cd0937fca32b0a54847170cec6.jpeg" alt=""></p><p>在超市项目中，员工的职责不同，包括库管、营运和财务等，不同的职责有不同的数据访问权限。比如：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>张三是库管，他就可以查询商品信息表，对盘点表有增删改查的权限，但无权访问应付账款表；</li>
 <li>李四是营运，他就拥有对商品信息表有增删改查的权限，而对库存表和应付账款表，只有查看的权限；</li>
 <li>王五是财务，他就有对应付账款表有增删改查的权限，对商品信息表和库存表，只有查看的权限。</li>

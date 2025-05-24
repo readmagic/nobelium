@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>我在前面已经提到过一个事实，就是推荐系统的框架大都是多种召回策略外挂一个融合排序。召回策略的姿势繁多，前面的专栏文章已经涉及了一部分内容。今天我们继续说融合排序。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <h2>要深还是要宽</h2>
 <p>融合排序，最常见的就是CTR预估，你一定不要把自己真的只局限在C上，这里说的CTR预估的C，可以是产品中的任何行为，视频是不是会看完，看完后是不是会收藏，是不是会分享到第三方平台，查看的商品是不是会购买等等，都可以看成那个可以被预估发生概率的CTR。</p>
 <p>CTR预估的常见做法就是广义线性模型，如 Logistic Regression，然后再采用特征海洋战术，就是把几乎所有的精力都放在搞特征上：挖掘新特征、挖掘特征组合、寻找新的特征离散方法等等。</p>

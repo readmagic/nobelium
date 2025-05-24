@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>在<a href="https://time.geekbang.org/column/article/113550">上一篇文章</a>中我介绍了TCP协议是如何保证数据完整传输的，相信你还记得，一个TCP连接过程包括了建立连接、传输数据和断开连接三个阶段。</p><p>而HTTP协议，正是建立在TCP连接基础之上的。<strong>HTTP是一种允许浏览器向服务器获取资源的协议，是Web的基础</strong>，通常由浏览器发起请求，用来获取不同类型的文件，例如HTML文件、CSS文件、JavaScript文件、图片、视频等。此外，<strong>HTTP也是浏览器使用最广的协议</strong>，所以要想学好浏览器，就要先深入了解HTTP。</p><p>不知道你是否有过下面这些疑问：</p><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>为什么通常在第一次访问一个站点时，打开速度很慢，当再次访问这个站点时，速度就很快了？</li>
 <li>当登录过一个网站之后，下次再访问该站点，就已经处于登录状态了，这是怎么做到的呢？</li>
 </ol><p>这一切的秘密都隐藏在HTTP的请求过程中。所以，在今天这篇文章中，我将通过分析一个HTTP请求过程中每一步的状态来带你了解完整的HTTP请求过程，希望你看完这篇文章后，能够对HTTP协议有个全新的认识。</p><h2>浏览器端发起HTTP请求流程</h2><p>如果你在浏览器地址栏里键入极客时间网站的地址：<a href="http://time.geekbang.org/index.html%EF%BC%8C">http://time.geekbang.org/index.html，</a> 那么接下来，浏览器会完成哪些动作呢？下面我们就一步一步详细“追踪”下。</p><!-- [[[read_end]]] --><h3>1. 构建请求</h3><p>首先，浏览器构建<strong>请求行</strong>信息（如下所示），构建好后，浏览器准备发起网络请求。</p><pre><code>GET /index.html HTTP1.1

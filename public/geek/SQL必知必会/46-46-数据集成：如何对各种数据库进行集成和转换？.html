@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>我们的数据可能分散在不同的数据源中，如果想要对这些数据分析，就需要先对这些数据进行集成。同时因为不同的来源，这些数据可能会存在各种问题，比如这些数据源采用了不同的DBMS，数据之间存在冗余的情况，比如某一条数据在不同的数据源中都有记录，那么在数据集成中我们只保留其中的一条就可以了。除此以外，这些不同的数据源还可能字段标识不统一，再或者我们需要将数据转换成我们想要的格式要求进行输出。</p><p>数据集成是数据分析之前非常重要的工作，它将不同来源、不同规范以及不同质量的数据进行统一收集和整理，为后续数据分析提供统一的数据源。</p><p>好了，关于这部分内容，今天我们一起来学习下：</p><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>我们将数据从OLTP系统中转换加载到OLAP数据仓库中，这中间重要的步骤就是ETL。那什么是ETL呢？</li>
 <li>认识Kettle工具。在Kettle中有两个重要的脚本，分别是Transformation转换和Job作业，它们分别代表什么？</li>
 <li>完成两个实例项目。通过使用Kettle完成MySQL数据表的数据同步，以及根据我们的需求将银行客户转账的记录导出到目标文件中。</li>

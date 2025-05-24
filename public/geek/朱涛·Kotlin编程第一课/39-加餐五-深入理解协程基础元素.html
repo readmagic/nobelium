@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是朱涛。</p><p>在上一讲当中，我们深入研究了Kotlin挂起函数的原理，实际更多的是在了解协程的“基础层”。而接下来，我们将会开始研究协程启动的原理，探索协程的“中间层”。</p><p>在<a href="https://time.geekbang.org/column/article/495862">第26讲</a>里，我曾提到过，Kotlin的协程框架其实就是协程基础元素组合出来的框架。如果我们想要弄懂Kotlin协程，首先就要将它的“基础层”理解透彻。</p><p>所以今天，我还是决定来一次加餐，带你系统深入地认识一下Kotlin协程当中的基础元素。等你对协程的基础层有了深入认识以后，下节课研究协程启动原理就会轻松一些了。</p><h2>协程基础元素</h2><p>通过第26讲我们现在已经知道，Kotlin协程的基础元素大致有这些：Continuation、SafeContinuation、CoroutineContext、CombinedContext、CancellationException、intrinsics。</p><p><img src="https://static001.geekbang.org/resource/image/c6/ae/c65bbb36321c7683ea6d17155d2ee2ae.jpg?wh=2000x1125" alt=""></p><p>其中的CoroutineContext、CancellationException我都已经介绍过了，另外的CombinedContext，其实就是CoroutineContext的一个实现类，而SafeContinuation则是Continuation的实现类。</p><!-- [[[read_end]]] --><p>所以，在整个协程基础元素当中，我们最需要关心的，其实就是<strong>Continuation和intrinsics</strong>。</p><p>在intrinsics里，有一个重要的高阶函数suspendCoroutineUninterceptedOrReturn{}，我们后面会讲到它。至于Continuation，虽然我们在前面已经介绍过它是什么，但还没有系统了解过它的用法，所以接下来，我们就先系统了解一下Continuation的两种用法。</p><h2>Continuation到底该怎么用？</h2><p>实际上，在<a href="https://time.geekbang.org/column/article/488985">第18讲</a>里，我们就已经学过Continuation的其中一种用法了：</p><pre><code>// 代码段1
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 
 suspend fun &lt;T : Any&gt; KtCall&lt;T&gt;.await(): T =
     suspendCancellableCoroutine { continuation -&gt;

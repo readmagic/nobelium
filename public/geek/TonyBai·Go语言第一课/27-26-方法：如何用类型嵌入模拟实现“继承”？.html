@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是Tony Bai。</p><p>在前面的两节课中，我们学习了Go方法的声明、本质，以及receiver类型选择的三个原则。可以说，学完这些内容，我们就基本上解决了<strong>独立的自定义类型</strong>的方法的设计问题。</p><p>什么是<strong>独立的自定义类型</strong>呢？就是这个类型的所有方法都是自己显式实现的。我们举个例子，自定义类型T有两个方法M1和M2，如果T是一个独立的自定义类型，那我们在声明类型T的Go包源码文件中一定可以找到其所有方法的实现代码，比如：</p><pre><code class="language-plain">func (T) M1() {...}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 func (T) M2() {...}
 </code></pre><p>这里你一定会问：<strong>难道还有某种自定义类型的方法不是自己显式实现的吗？</strong>当然有！这就是我们这讲中要重点讲解的内容：<strong>如何让某个自定义类型“继承”其他类型的方法实现</strong>。</p><p>这里你肯定又会提出质疑：<strong>老师，你不是说过Go不支持经典的面向对象编程范式吗？怎么还会有继承这一说法呢</strong>？没错！Go语言从设计伊始，就决定不支持经典面向对象的编程范式与语法元素，所以我们这里只是借用了“继承”这个词汇而已，说是“继承”，实则依旧是一种<strong>组合</strong>的思想。</p><p>而这种“继承”，我们是通过Go语言的<strong>类型嵌入（Type Embedding）</strong>来实现的。所以这一节课，我们就来学习一下这种语法，看看通过这种语法，我们如何实现对嵌入类型的方法的“继承”，同时也搞清楚这种方式对新定义的类型的方法集合的影响。</p><!-- [[[read_end]]] --><p>现在，我们先来学习一下什么是类型嵌入。</p><h2>什么是类型嵌入</h2><p>类型嵌入指的就是在一个类型的定义中嵌入了其他类型。Go语言支持两种类型嵌入，分别是<strong>接口类型的类型嵌入</strong>和<strong>结构体类型的类型嵌入</strong>。</p><h3>接口类型的类型嵌入</h3><p>我们先用一个案例，直观地了解一下什么是接口类型的类型嵌入。虽然我们现在还没有系统学习接口类型，但在前面的讲解中，我们已经多次接触了接口类型。我们知道，<strong>接口类型声明了由一个方法集合代表的接口</strong>，比如下面接口类型E：</p><pre><code class="language-plain">type E interface {
     M1()

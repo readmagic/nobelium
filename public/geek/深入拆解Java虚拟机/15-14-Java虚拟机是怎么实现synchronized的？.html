@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>在Java程序中，我们可以利用synchronized关键字来对程序进行加锁。它既可以用来声明一个synchronized代码块，也可以直接标记静态方法或者实例方法。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>当声明synchronized代码块时，编译而成的字节码将包含monitorenter和monitorexit指令。这两种指令均会消耗操作数栈上的一个引用类型的元素（也就是synchronized关键字括号里的引用），作为所要加锁解锁的锁对象。</p>
 <pre><code>  public void foo(Object lock) {
     synchronized (lock) {

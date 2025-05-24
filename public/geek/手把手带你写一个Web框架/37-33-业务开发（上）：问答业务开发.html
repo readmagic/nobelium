@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是轩脉刃。</p><p>上两节课我们开发了一个完整的用户模块的前后端，并且运用了hade框架的不少命令行工具和基础服务。这节课，我们继续开发这个类知乎问答网站的另外一个比较大的业务模块：问答业务模块。</p><p>关于问答业务模块的开发，整体的开发流程和基本的使用方式和用户模块其实差不多，说到底这两个模块都是操作数据库中对应的数据表，我们同样使用先分析需求，再实现后端接口，最后是实现前端接口的流程。</p><p>问答模块，包含问题表、回答表和之前的用户表，这三个表之间有一些关联关系，在GORM中，如何使用这些关联关系建模，并且封装问答服务，接着对这些问答服务的方法提供足够的测试，是我们今天的解说重点。</p><h2>页面和接口设计</h2><p>还是先梳理一下问答模块页面，它包含四个页面：<strong>问题创建页、问题列表页、问题详情页、问题更新页</strong>。名称都很清晰，在问题更新页中，我们可以对某个问题进行更新修改。不过我们暂时不提供回答的修改功能，只提供回答的创建和删除功能。</p><h3>问题创建页</h3><p>在这个页面中，用户可以提出一个问题。提出问题的时候，让用户输入问题的标题和内容。通过点击提交，这个问题就提交进入数据库，并且在列表页面展示了。</p><p><img src="https://static001.geekbang.org/resource/image/ee/cc/eefc121a3a73216454cb31b462f2bacc.png?wh=853x780" alt="图片"></p><p>问题创建页明显就只会和后端有一个接口的交互，问题创建接口 /question/create。它是POST请求，请求参数包括问题标题 title和问题内容 context。我们用一个结构来表示这个接口的请求内容：</p><!-- [[[read_end]]] --><pre><code class="language-go">type questionCreateParam struct {
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
    Title   string `json:"title" binding:"required"`
    Content string `json:"content" binding:"required"`
 }

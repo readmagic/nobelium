@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是吴咏炜。</p><p>我们已经连续讲了两讲模板和编译期编程了。今天我们还是继续这个话题，讲的内容是模板里的一个特殊概念——替换失败非错（substitution failure is not an error），英文简称为 SFINAE。</p><h2>函数模板的重载决议</h2><p>我们之前已经讨论了不少模板特化。我们今天来着重看一个函数模板的情况。当一个函数名称和某个函数模板名称匹配时，重载决议过程大致如下：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>根据名称找出所有适用的函数和函数模板</li>
 <li>对于适用的函数模板，要根据实际情况对模板形参进行替换；替换过程中如果发生错误，这个模板会被丢弃</li>
 <li>在上面两步生成的可行函数集合中，编译器会寻找一个最佳匹配，产生对该函数的调用</li>

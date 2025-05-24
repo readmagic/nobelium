@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>我们知道Tomcat和Jetty的核心功能是处理请求，并且请求的处理者不止一个，因此Tomcat和Jetty都实现了责任链模式，其中Tomcat是通过Pipeline-Valve来实现的，而Jetty是通过HandlerWrapper来实现的。HandlerWrapper中保存了下一个Handler的引用，将各Handler组成一个链表，像下面这样：</p><p>WebAppContext -&gt; SessionHandler -&gt; SecurityHandler -&gt; ServletHandler</p><p>这样链中的Handler从头到尾能被依次调用，除此之外，Jetty还实现了“回溯”的链式调用，那就是从头到尾依次链式调用Handler的<strong>方法A</strong>，完成后再回到头节点，再进行一次链式调用，只不过这一次调用另一个<strong>方法B</strong>。你可能会问，一次链式调用不就够了吗，为什么还要回过头再调一次呢？这是因为一次请求到达时，Jetty需要先调用各Handler的初始化方法，之后再调用各Handler的请求处理方法，并且初始化必须在请求处理之前完成。</p><p>而Jetty是通过ScopedHandler来做到这一点的，那ScopedHandler跟HandlerWrapper有什么关系呢？ScopedHandler是HandlerWrapper的子类，我们还是通过一张图来回顾一下各种Handler的继承关系：</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/68/50/68f3668cc7b179b5311d1bb5cb3cf350.jpg" alt=""></p><p>从图上我们看到，ScopedHandler是Jetty非常核心的一个Handler，跟Servlet规范相关的Handler，比如ContextHandler、SessionHandler、ServletHandler、WebappContext等都直接或间接地继承了ScopedHandler。</p><p>今天我就分析一下ScopedHandler是如何实现“回溯”的链式调用的。</p><h2>HandlerWrapper</h2><p>为了方便理解，我们先来回顾一下HandlerWrapper的源码：</p><pre><code>public class HandlerWrapper extends AbstractHandlerContainer
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 {
    protected Handler _handler;
    

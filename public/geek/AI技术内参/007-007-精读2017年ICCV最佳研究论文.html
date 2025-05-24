@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>ICCV（International Conference on Computer Vision，国际计算机视觉大会），是每两年举办一次的计算机视觉顶级会议。从1987年开始举办，已经有30年的历史。2017年的ICCV大会于10月22日至29日在意大利的水城威尼斯举行。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>在每届ICCV大会上，都会从众多学术论文中挑选出两篇最有新意和价值的论文作为最佳研究论文和最佳学生论文。ICCV的最佳论文奖又叫作“马尔奖项”（Marr Prize），是为了纪念英国的心理学家和神经科学家大卫·马尔（David Marr）而设计的奖项。马尔将心理学、人工智能和神经生理学的研究成果结合起来，提出了全新的关于视觉处理的理论，他被认为是计算神经科学的创始人。</p>
 <p>今天，我就来带你认真剖析一下ICCV 2017年的最佳研究论文“<a href="https://research.fb.com/wp-content/uploads/2017/08/maskrcnn.pdf">Mask R-CNN</a>”。这篇论文是一个集大成的工作，介绍了一个新的方法可以用于同时解决图像的“<strong>物体识别</strong>”（Object Detection）、“<strong>语义分割</strong>”（Semantic Segmentation）和“<strong>数据点分割</strong>”（Instance Segmentation）的工作。</p>
 <p>什么意思呢？通俗地讲，那就是给定一个输入的图像，利用这篇论文提出的模型可以分析这个图像里究竟有哪些物体，比如是一只猫，还是一条狗；同时能够定位这些物体在整个图像中的位置；并且还能针对图像中的每一个像素，知道其属于哪一个物体，也就是我们经常所说的，把物体从图像中“抠”出来。</p>

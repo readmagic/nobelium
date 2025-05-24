@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是何小锋。上一讲我分享了动态代理，其作用总结起来就是一句话：“我们可以通过动态代理技术，屏蔽 RPC 调用的细节，从而让使用者能够面向接口编程。”</p><p>到今天为止，我们已经把 RPC 通信过程中要用到的所有基础知识都讲了一遍，但这些内容多属于理论。<strong>这一讲我们就来实战一下，看看具体落实到代码上，我们应该怎么实现一个 RPC 框架？</strong></p><p>为了能让咱们快速达成共识，我选择剖析 gRPC 源码（源码地址：<a href="https://github.com/grpc/grpc-java">https://github.com/grpc/grpc-java</a>）。通过分析 gRPC 的通信过程，我们可以清楚地知道在 gRPC 里面这些知识点是怎么落地到具体代码上的。</p><p>gRPC 是由 Google 开发并且开源的一款高性能、跨语言的 RPC 框架，当前支持 C、Java 和 Go 等语言，当前 Java 版本最新 Release 版为 1.27.0。gRPC 有很多特点，比如跨语言，通信协议是基于标准的 HTTP/2 设计的，序列化支持 PB（Protocol Buffer）和 JSON，整个调用示例如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/86/0d/8671942cd89feea3a2544d3530da450d.jpg" alt="" title="gRPC调用示例图"></p><p>如果你想快速地了解一个全新框架的工作原理，我个人认为最快的方式就是从使用示例开始，所以现在我们就以最简单的 HelloWord 为例开始了解。</p><p>在这个例子里面，我们会定义一个 say 方法，调用方通过 gRPC 调用服务提供方，然后服务提供方会返回一个字符串给调用方。</p><!-- [[[read_end]]] --><p>为了保证调用方和服务提供方能够正常通信，我们需要先约定一个通信过程中的契约，也就是我们在 Java  里面说的定义一个接口，这个接口里面只会包含一个 say 方法。在 gRPC 里面定义接口是通过写 Protocol Buffer 代码，从而把接口的定义信息通过 Protocol Buffer 语义表达出来。HelloWord 的 Protocol Buffer 代码如下所示：</p><pre><code>syntax = &quot;proto3&quot;;
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 
 option java_multiple_files = true;
 option java_package = &quot;io.grpc.hello&quot;;

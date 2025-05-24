@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是吴咏炜。</p><p>单元测试已经越来越成为程序员工作密不可分的一部分了。在 C++ 里，我们当然也是可以很方便地进行单元测试的。今天，我就来介绍两个单元测试库：一个是 Boost.Test <span class="orange">[1]</span>，一个是 Catch2 <span class="orange">[2]</span>。</p><h2>Boost.Test</h2><p>单元测试库有很多，我选择 Boost 的原因我在上一讲已经说过：“如果我需要某个功能，在标准库里没有，在 Boost 里有，我会很乐意直接使用 Boost 里的方案，而非另外去查找。”再说，Boost.Test 提供的功能还挺齐全的，我需要的都有了。作为开胃小菜，我们先看一个单元测试的小例子：</p><pre><code class="language-c++">#define BOOST_TEST_MAIN
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 #include &lt;boost/test/unit_test.hpp&gt;
 #include &lt;stdexcept&gt;
 

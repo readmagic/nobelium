@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是宫文学。今天这一讲，我来带你研究一下Go语言自带的编译器，它可以被简称为gc。</p><p>我之所以要来带你研究Go语言的编译器，一方面是因为Go现在确实非常流行，很多云端服务都用Go开发，Docker项目更是巩固了Go语言的地位；另一方面，我希望你能把它当成编译原理的教学参考书来使用。这是因为：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>Go语言的编译器完全用Go语言本身来实现，它完全实现了从前端到后端的所有工作，而不像Java要分成多个编译器来实现不同的功能模块，不像Python缺少了后端，也不像Julia用了太多的语言。所以你研究它所采用的编译技术会更方便。</li>
 <li>Go编译器里基本上使用的都是经典的算法：经典的递归下降算法、经典的SSA格式的IR和CFG、经典的优化算法、经典的Lower和代码生成，因此你可以通过一个编译器就把这些算法都贯穿起来。</li>
 <li>除了编译器，你还可以学习到一门语言的其他构成部分的实现思路，包括运行时（垃圾收集器、并发调度机制等）、标准库和工具链，甚至连链接器都是用Go语言自己实现的，从而对实现一门语言所需要做的工作有更完整的认识。</li>

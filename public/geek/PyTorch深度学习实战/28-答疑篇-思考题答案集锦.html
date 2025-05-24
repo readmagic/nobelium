@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是编辑宇新。春节将至，给你拜个早年。</p><p>距离我们的专栏更新结束，已经过去不少时间啦。方远老师仍然会在工作之余，回到专栏里转一转，看看同学最新的学习动态。大部分的疑问，老师都在留言区里做了回复。</p><p>除了紧跟更新的第一批同学，也很开心看到有更多新朋友加入到这个专栏的学习中。课程的思考题，为了给你留足思考和研究的时间，我们选择用加餐的方式，把所有参考答案一次性发布出来。</p><p>这里要提醒一下，建议你先自己思考和练习后，再来对答案。每节课都有超链接，方便你跳转回顾。</p><h2><a href="https://time.geekbang.org/column/article/426126">第2节课</a></h2><p>题目：在刚才用户对游戏评分的那个问题中，你能计算一下每位用户对三款游戏打分的平均分吗？</p><p>答案：</p><pre><code class="language-plain">&gt;&gt;&gt;interest_score.mean(axis=1)
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 </code></pre><h2><a href="https://time.geekbang.org/column/article/42680">第3节课</a></h2><p>题目：给定数组scores，形状为（256，256，2），scores[: , :, 0] 与scores[:, :, 1]对应位置元素的和为1，现在我们要根据scores生产数组mask，要求scores通道0的值如果大于通道1的值，则mask对应的位置为0，否则为1。</p><p>scores如下，你可以试试用代码实现：</p><pre><code class="language-plain">scores = np.random.rand(256, 256, 2)
 scores[:,:,1] = 1 - scores[:,:,0]
 </code></pre><!-- [[[read_end]]] --><p>答案：</p><pre><code class="language-plain">mask = np.argmax(scores, axis=2)

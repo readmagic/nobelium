@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是蒋德钧。今天我们来聊聊，Redis中是如何通过优化设计数据结构，来提升内存利用率的。</p><p>我们知道Redis是内存数据库，所以，高效使用内存对Redis的实现来说非常重要。而实际上，Redis主要是通过两大方面的技术来提升内存使用效率的，分别是<strong>数据结构的优化设计与使用</strong>，以及<strong>内存数据按一定规则淘汰</strong>。</p><p>关于内存数据按规则淘汰，这是通过Redis内存替换策略实现的，也就是将很少使用的数据从内存中淘汰，从而把有限的内存空间用于保存会被频繁访问的数据。这部分的设计与实现，主要和内存替换策略有关，我会在后面的缓存模块给你详细介绍。</p><p>所以这节课，我主要是带你学习Redis数据结构在面向内存使用效率方面的优化，其中包括两方面的设计思路：一是<strong>内存友好的数据结构设计</strong>；二是<strong>内存友好的数据使用方式</strong>。</p><p>这两方面的设计思路和实现方法是具有通用性的，当你在设计系统软件时，如果需要对内存使用精打细算，以便节省内存开销，这两种设计方法和实现考虑就非常值得学习和掌握。</p><p>好，接下来，我们就先来学习下内存友好的数据结构设计。</p><h2>内存友好的数据结构</h2><p>首先要知道，在Redis中，有三种数据结构针对内存使用效率做了设计优化，分别是简单动态字符串（SDS）、压缩列表（ziplist）和整数集合（intset）。下面，我们就分别来学习一下。</p><!-- [[[read_end]]] --><h3>SDS的内存友好设计</h3><p>实际上，我在<a href="https://time.geekbang.org/column/article/400314">第2讲</a>中就已经给你介绍过SDS的结构设计，这里我们先做个简单的回顾：SDS设计了不同类型的结构头，包括sdshdr8、sdshdr16、sdshdr32和sdshdr64。这些不同类型的结构头可以适配不同大小的字符串，从而避免了内存浪费。</p><p>不过，SDS除了使用精巧设计的结构头外，在保存较小字符串时，其实还使用了<strong>嵌入式字符串</strong>的设计方法。这种方法避免了给字符串分配额外的空间，而是可以让字符串直接保存在Redis的基本数据对象结构体中。</p><p>所以这也就是说，要想理解嵌入式字符串的设计与实现，我们就需要先来了解下，Redis使用的基本数据对象结构体redisObject是什么样的。</p><h4>redisObject结构体与位域定义方法</h4><p>redisObject结构体是在server.h文件中定义的，主要功能是用来保存键值对中的值。这个结构一共定义了4个元数据和一个指针。</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li><strong>type</strong>：redisObject的数据类型，是应用程序在Redis中保存的数据类型，包括String、List、Hash等。</li>
 <li><strong>encoding</strong>：redisObject的编码类型，是Redis内部实现各种数据类型所用的数据结构。</li>
 <li><strong>lru</strong>：redisObject的LRU时间。</li>

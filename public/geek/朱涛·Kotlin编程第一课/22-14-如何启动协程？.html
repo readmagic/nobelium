@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是朱涛。</p><p>从今天开始，咱们正式进入协程API的学习，一起来攻克Kotlin当中最关键的部分。这节课呢，我会给你介绍下如何启动协程，主要包括协程的调试技巧、启动协程的三种方式。这些都是学习协程最基本的概念，也是后续学习更多高阶概念的基础。</p><p>注意，在这节课当中，我会使用协程API编写大量的案例。我也希望你能够打开IDE，跟着我一起来运行对应的代码。通过这样的方式，你一定会有更多的收获。</p><p>好，接下来，让我们直接开始学习吧！</p><h2>协程调试</h2><p>想要学好Kotlin协程，掌握它的调试技巧很重要。一般来说，我们可以通过两种手段来进行调试：设置VM参数、断点调试。</p><h3>协程VM参数</h3><p>我们先来看第一种。具体的做法呢，其实很简单，我们只需要将VM参数设置成“-Dkotlinx.coroutines.debug”。</p><p><img src="https://static001.geekbang.org/resource/image/27/51/2722a0409f4709c6e8f63a77e4de3751.gif?wh=1254x832" alt="图片"></p><p>完成这个设置后，当我们在log当中打印“Thread.currentThread().name”的时候，如果当前代码是运行在协程当中的，那么它就会带上协程的相关信息。具体我们可以看个代码的例子：</p><pre><code class="language-plain">// 不必关心代码逻辑，关心输出结果即可
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 fun main() {
     GlobalScope.launch(Dispatchers.IO) {
         println("Coroutine started:${Thread.currentThread().name}")

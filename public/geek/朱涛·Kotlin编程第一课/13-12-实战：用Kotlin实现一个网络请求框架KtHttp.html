@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是朱涛，又到了实战环节。</p><p>在前面几节课当中，我们一起学习了Kotlin的委托、泛型、注解、反射这几个高级特性。那么今天这节课，我们将会运用这些特性，来写一个<strong>Kotlin版本的HTTP网络请求框架</strong>。由于它是纯Kotlin开发的，我们就把它叫做是KtHttp吧。</p><p>事实上，在Java和Kotlin领域，有许多出色的网络请求框架，比如 <a href="https://github.com/square/okhttp">OkHttp</a>、<a href="https://github.com/square/Retrofit">Retrofit</a>、<a href="https://github.com/kittinunf/fue">Fuel</a>。而我们今天要实现的KtHttp，它的灵感来自于Retrofit。之所以选择Retrofit作为借鉴的对象，是因为它的底层使用了大量的<strong>泛型、注解和反射</strong>的技术。如果你能跟着我一起用泛型、注解、反射来实现一个简单的网络请求框架，相信你对这几个知识点的认识也会更加透彻。</p><p>在这节课当中，我会带你从0开始实现这个网络请求框架。和往常一样，为了方便你理解，我们的代码会分为两个版本：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>1.0 版本，我们会用Java思维，以最简单直白的方式来实现KtHttp的基础功能——同步式的GET网络请求；</li>
 <li>2.0 版本，我们会用函数式思维来重构代码。</li>
 </ul><p>另外，在正式开始学习之前，我也建议你去clone我GitHub上面的KtHttp工程：<a href="https://github.com/chaxiu/KtHttp.git">https://github.com/chaxiu/KtHttp.git</a>，然后用IntelliJ打开，并切换到<strong>start</strong>分支跟着课程一步步敲代码。</p><!-- [[[read_end]]] --><h2>1.0：Java思维</h2><p>在正式开始之前，我们还是先来看看程序的运行效果：</p><p><img src="https://static001.geekbang.org/resource/image/32/bc/321d151db077766997ed8d8b911f1fbc.gif?wh=1294x862" alt="图片"></p><p>在上面的动图中，我们通过KtHttp请求了一个服务器的API，然后在控制台输出了结果。这其实是我们在开发工作当中十分常见的需求。通过这个KtHttp，我们就可以在程序当中访问任何服务器的API，比如<a href="https://docs.github.com/en">GitHub的API</a>。</p><p>那么，为了描述服务器返回的内容，我们定义了两个数据类：</p><pre><code class="language-plain">// 这种写法是有问题的，但这节课我们先不管。

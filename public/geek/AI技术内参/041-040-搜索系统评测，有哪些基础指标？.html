@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>我在之前几周的专栏文章里主要讲解了最经典的信息检索（Information Retrieval）技术和基于机器学习的排序学习算法（Learning to Rank），以及如何对查询关键字（Query）进行理解，包括查询关键字分类、查询关键字解析以及查询关键字扩展。这些经典的技术是2000年后开始流行的各类搜索引擎的核心技术。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>在进一步介绍更多的搜索引擎技术前，我觉得有必要专门抽出一周时间，来好好地看一下搜索系统的评测（Evaluation）以及我们经常使用的各类指标（Metric）。俗话说得好，“如果你不能衡量它，你就不能改进它”（If You Can't Measure It, You Can't Improve It）。意思其实就是说，对待一个系统，如果我们无法去衡量这个系统的好坏，没有相应的评测指标，那就很难真正地去琢磨怎么改进这些指标，从而达到提升系统的目的。</p>
 <p>虽然我们这里是在搜索系统这个重要场景中讨论评测和指标，但实际上我们这周要讨论的很多细节都可以应用到很多类似的场景。比如，我们后面要讨论的推荐系统、广告系统等，在这些场景中几乎就可以无缝地使用这周要讲的很多内容。</p>
 <h2>线下评测</h2>

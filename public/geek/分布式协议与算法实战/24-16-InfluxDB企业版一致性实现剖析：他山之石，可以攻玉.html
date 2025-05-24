@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是韩健。</p><p>学习了前面15讲的内容后，我们了解了很多常用的理论和算法（比如CAP定理、Raft算法等）。是不是理解了这些内容，就能够游刃有余地处理实际系统的问题了呢？</p><p>在我看来，还远远不够，因为理论和实践的中间是存在鸿沟的，比如，你可能有这样的感受，提到编程语言的语法或者分布式算法的论文，你说起来头头是道，但遇到实际系统时，还是无法写程序，开发分布式系统。</p><p>而我常说，实战是学习的最终目的。为了帮你更好地掌握前面的理论和算法，接下来，我用5讲的时间，分别以InfluxDB企业版一致性实现、Hashicorp Raft、KV系统开发实战为例，带你了解如何在实战中使用技术，掌握分布式的实战能力。</p><p>今天这一讲，我就以InfluxDB企业版为例，带你看一看系统是如何实现一致性的。有的同学可能会问了：为什么是InfluxDB企业版呢？因为它是排名第一的时序数据库，相比其他分布式系统（比如KV存储），时序数据库更加复杂，因为我们要分别设计2个完全不一样的一致性模型。当你理解了这样一个复杂的系统实现后，就能更加得心应手地处理简单系统的问题了。</p><p>那么为了帮你达到这个目的。我会先介绍一下时序数据库的背景知识，因为技术是用来解决实际场景的问题的，正如我之前常说的“要根据场景特点，权衡折中来设计系统”。所以当你了解了这些背景知识后，就能更好的理解为什么要这么设计了。</p><!-- [[[read_end]]] --><h2>什么是时序数据库？</h2><p>你可以这么理解，时序数据库，就是存储时序数据的数据库，就像MySQL是存储关系型数据的数据库。而时序数据，就是按照时间顺序记录系统、设备状态变化的数据，比如CPU利用率、某一时间的环境温度等，就像下面的样子：</p><pre><code>&gt; insert cpu_usage,host=server01,location=cn-sz user=23.0,system=57.0
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 &gt; select * from cpu_usage
 name: cpu_usage
 time                host     location system user

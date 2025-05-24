@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p><a href="https://time.geekbang.org/column/article/147501">上一篇文章</a>我们聊了HTTP/1.1的发展史，虽然HTTP/1.1已经做了大量的优化，但是依然存在很多性能瓶颈，依然不能满足我们日益变化的新需求，所以就有了我们今天要聊的HTTP/2。</p><p>本文我们依然从需求的层面来谈，先分析HTTP/1.1存在哪些问题，然后再来分析HTTP/2是如何解决这些问题的。</p><p>我们知道HTTP/1.1为网络效率做了大量的优化，最核心的有如下三种方式：</p><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>增加了持久连接；</li>
 <li>浏览器为每个域名最多同时维护6个TCP持久连接；</li>
 <li>使用CDN的实现域名分片机制。</li>

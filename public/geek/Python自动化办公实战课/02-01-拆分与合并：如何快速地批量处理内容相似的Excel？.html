@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是尹会生。今天是咱们的第一节课，我先带你学习下，如何用Python操作Excel。</p><p>Excel是我们在工作中用到的最频繁的软件之一，它有着强大的计算能力和便捷的图表功能。如果我们要在同一个Excel文件中进行操作，手工进行也很方便，但问题是，如果我们需要同时操作多个Excel文件，就是一件非常耗时的事情了。</p><p>在工作场景中，需要同时操作多个Excel的情况主要有2种：批量合并和批量拆分。我来带你看2个场景。</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>批量合并。假设你需要对某些工作内容进行问卷调查，这时你用Excel做了调查问卷模版。我想你会这样做：先把Excel通过工作群分发给所有员工，再把群里收集到的反馈附件汇总成一个文件。</li>
 <li>批量拆分。假设你是公司的财务人员，你需要使用Excel对员工工资进行核算，之后再打印出来。但是公司要求员工薪水保密，所以每个员工的工资需要拆分成一个独立的文件，最后还需要打印出来。</li>
 </ul><p>无论是合并，还是拆分，我们都面临着一个困境：没有现成的软件可以实现多个Excel文件的合并和拆分操作，所以你只好对每一个Excel文件都进行“打开-复制粘贴-保存”的工作。</p><p>很多人在面对这样的工作需求时，都<strong>忍不住立马去做，却很少停下来分析问题</strong>。其实，这三步是很简单的工作，不过也是无意义的重复工作，既浪费了时间，又没有真正产生价值。</p><!-- [[[read_end]]] --><p>幸运的是，这些工作都可以通过Python来解决。今天，我就给你介绍一下用Python实现重复工作自动化，快速实现Excel的合并和拆分的方法。</p><h2>如何用Python手工操作一个Excel文件？</h2><p>刚刚我们说到批量处理，其实也就是逐一处理多个文件。如果我们想要提升这类工作的效率，就可以先借助Python把每一次处理都自动化。所以，在讲具体的合并和拆分方法前，我们要解决的第一个问题，就是用Python代替你的双手来操作一个Excel文件。</p><p>如果要用Python操作Excel文件，首先就要支持读写Excel的功能。<strong>在Python中，要想实现对某一个功能的支持，就需要安装扩展库。</strong></p><p>支持Excel读取的扩展库叫做xlrd库，支持Excel写入的扩展库叫做xlwt库。我们可以使用下面的命令行进行安装：</p><pre><code>pip3 install xlrd 

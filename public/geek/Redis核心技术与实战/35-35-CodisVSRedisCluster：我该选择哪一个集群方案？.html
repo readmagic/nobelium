@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是蒋德钧。</p><p>Redis的切片集群使用多个实例保存数据，能够很好地应对大数据量的场景。在<a href="https://time.geekbang.org/column/article/275337">第8讲</a>中，我们学习了Redis官方提供的切片集群方案Redis Cluster，这为你掌握切片集群打下了基础。今天，我再来带你进阶一下，我们来学习下Redis Cluster方案正式发布前，业界已经广泛使用的Codis。</p><p>我会具体讲解Codis的关键技术实现原理，同时将Codis和Redis Cluster进行对比，帮你选出最佳的集群方案。</p><p>好了，话不多说，我们先来学习下Codis的整体架构和流程。</p><h2>Codis的整体架构和基本流程</h2><p>Codis集群中包含了4类关键组件。</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>codis server：这是进行了二次开发的Redis实例，其中增加了额外的数据结构，支持数据迁移操作，主要负责处理具体的数据读写请求。</li>
 <li>codis proxy：接收客户端请求，并把请求转发给codis server。</li>
 <li>Zookeeper集群：保存集群元数据，例如数据位置信息和codis proxy信息。</li>

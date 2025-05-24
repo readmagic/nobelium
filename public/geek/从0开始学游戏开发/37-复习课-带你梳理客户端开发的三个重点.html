@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>我们用了将近两个月的时间，讲述了游戏客户端的开发流程和代码编写，今天我来带你总结并且回顾一下。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>我这里列了一些编写游戏客户端<strong>你必须要掌握的知识和注意的事项</strong>。希望通过梳理这些知识，能让你对学过的内容有一个全盘的认识和更加深入的理解。</p>
 <h2>重点一：客户端开发中4个重要方法</h2>
 <p><strong>首先，我们来看，设置前后遮挡效果时要用到的一个虚拟概念，Z值。</strong> 2D游戏中其实是不存在这个概念的，因为Z值是高度概念，一般只存在于3D游戏当中。2D游戏的坐标轴，拥有X和Y两种位置。X轴是横向坐标，Y轴是纵向坐标。在斜45度角的游戏，或者需要经常改变前后遮挡位置游戏中，往往才需要加入这个概念。在2D开发中，用好了Z值，能够帮你计算2D游戏中图片的前后位置，在游戏中设置前后遮挡效果的时候就会更加方便。</p>

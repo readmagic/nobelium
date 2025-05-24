@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是温铭。</p><p>通过前面几篇文章的介绍，相信你对 OpenResty 的轮廓已经有了一个大概的认知。下面几节课里，我会带你熟悉下 OpenResty 的两个基石：NGINX 和 LuaJIT。万丈高楼平地起，掌握些这些基础的知识，才能更好地去学习 OpenResty。</p><p>今天我先来讲 NGINX。这里我只会介绍下，OpenResty 中可能会用到的一些 NGINX 基础知识，这些仅仅是 NGINX 很小的一个子集。如果你需要系统和深入学习 NGINX，可以参考陶辉老师的《NGINX 核心知识 100 讲》，这也是极客时间上评价非常高的一门课程。</p><p>说到配置，其实，在 OpenResty 的开发中，我们需要注意下面几点：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>要尽可能少地配置 nginx.conf；</li>
 <li>避免使用if、set 、rewrite 等多个指令的配合；</li>
 <li>能通过 Lua 代码解决的，就别用 NGINX 的配置、变量和模块来解决。</li>

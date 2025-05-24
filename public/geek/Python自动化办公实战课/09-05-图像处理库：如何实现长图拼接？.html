@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是尹会生。</p><p>我们在工作中，除了和文字、表格打交道之外，还会经常涉及到批量处理图片和视频的工作。比如：媒体从业者在发微博长图文时，需要把多个图片拼接成一幅长图；作为视频剪辑人员，需要从互联网下载多段视频，再进行合并。</p><p>这类工作可以用功能强大的商业软件实现，不过这些软件大都操作繁琐，而且还需要付费。为了降低学习成本和购买软件的成本，我们往往还会使用开源软件替代商业软件来实现图片和视频处理功能。但是开源软件通常都是以命令行方式运行的，所以我们不仅要记住命令，还得记住命令的常用参数。</p><p>不过，幸运的是，虽然直接使用开源软件不够友好，但如果通过Python来调用这些开源软件，那实现长图和视频拼接就轻而易举了，而且还能大批量地处理图片和视频。</p><h1>Python是如何调用外部命令的</h1><p>为了让你了解Python是如何操作这些开源软件的，我先来给你介绍一下Python调用外部程序的原理。</p><p>我们要想使用Python语言之外的功能，要依靠两大途径：导入函数库和调用外部命令。</p><p>在第一讲我使用的xlrd库是通过import xlrd命令导入到Python语言中的，Python语言默认是不支持Excel的。那么通过导入函数库，Python就可以获得对Excel的操作能力。</p><!-- [[[read_end]]] --><p>还有一种情况是，需要操作Python语言之外的功能，但这个功能没有人将它开发成函数库，那如果我们想要使用这些功能，使用的途径就是调用外部命令了，而调用外部命令就需要Python内部函数库的subprocess模块来实现。</p><p>这个模块的实现机制是：它的run()函数的参数可以指定一个可以运行的程序的路径，而Python会根据这个路径来运行可执行文件，然后再根据运行结果，以及Python的逻辑判断去进行后续的自动化处理工作。</p><p>这个实现机制并不难，我给你写一段简单的程序，帮你理解Python是怎样调用外部命令的。这里以macOS系统为例，我们通过Python获取当前目录下所有文件的功能。</p><pre><code>from subprocess import run, Popen, PIPE
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 
 cmd1 = [&quot;ls&quot;, &quot;.&quot;]
 returncode = run(cmd1)

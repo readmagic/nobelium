@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是高楼。</p><p>针对打开首页接口的性能问题，我们在上节课中确定了是Gateway在消耗响应时间，达到了近100毫秒。于是，我们开始定位Gateway上的响应时间消耗。</p><p>在第一阶段的时候，我们关注了应用所在的主机，同时还了解到，宿主机总共有四台机器；在第二阶段，我们查看了物理机的CPU模式。并尝试通过修改CPU运行模式来优化性能。可是，问题仍然没有解决，TPS没见提升，响应时间依旧很长。</p><p>今天这节课，我们进入第三阶段，继续分析其他的瓶颈点，比如wa cpu、资源均衡使用、网络带宽等问题。其中，<strong>在性能的分析逻辑里，资源均衡使用是一个非常容易被忽略，但又极为重要的方面。</strong>我们通常都盯着计数器给出的数值有什么异常，而不是考虑资源怎么做相应的调配。</p><p>在我们这个案例中，系统是用k8s来管理资源的，所以我们必须要关注资源的均衡使用，避免出现有些服务性能很差，却和性能好的服务分配同样资源的情况。另外，网络资源在k8s中会跨越好几层，我们也要着重关注一下。</p><p>在学习这节课时，我建议你多思考下资源的均衡使用问题。现在，我们就开始今天的课程。</p><h2>定位gateway上的响应时间消耗</h2><h3>第三阶段：NFS服务器的wa cpu偏高</h3><p>根据分析的逻辑，我们仍然是先看全局监控数据，思路依旧是“全局-定向”，这是我一贯的顺序了。</p><!-- [[[read_end]]] --><p>因此，我们现在再来查一下全局监控计数器，得到下面这样的视图：</p><pre><code>[root@lenvo-nfs-server ~]# top
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 top - 00:12:28 up 32 days,  4:22,  3 users,  load average: 9.89, 7.87, 4.71
 Tasks: 217 total,   1 running, 216 sleeping,   0 stopped,   0 zombie
 %Cpu0  :  0.0 us,  4.0 sy,  0.0 ni, 34.8 id, 61.2 wa,  0.0 hi,  0.0 si,  0.0 st

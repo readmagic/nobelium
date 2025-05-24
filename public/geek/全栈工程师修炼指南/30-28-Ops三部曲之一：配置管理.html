@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是四火。</p><p>欢迎进入第五章：寻找最佳实践。本章我们会讲到 Ops，由于 Ops 的范围实在太广了，因此从今天开始，接连三讲，我们会讨论 Ops 的三个常见话题，今天要谈的就是其中的第一个——配置管理。</p><p>我们总在谈论 Ops，所谓 Ops，指的就是 Operations，如果你专门去搜索，你恐怕也很难找到一个准确的定义。在中文翻译上看，“运维”这个词用得比较多，但是我认为 Ops 的含义明显更为广泛。我的理解是，和实际的软件开发和质量保证相对应的，环境搭建、配置管理、自动化流程、部署发布，等等的实践活动，无论线上还是线下，无论它们是在开发测试环节还是产品发布环节，都可以算作 Ops。</p><p>当然，<strong>我们并不需要执着去找出 Ops 和开发、测试的分界线，它们实际是互有重叠的</strong>，我觉得<a href="https://zh.wikipedia.org/wiki/DevOps#/media/File:Devops.svg">维基百科</a>上的这张图就很好地展示了这一点。</p><p><img src="https://static001.geekbang.org/resource/image/e0/46/e01e10d70ba403368ee9f9973d87f646.jpg" alt=""></p><p>我想很多程序员不喜欢 Ops，也不愿意谈 Ops，这都可以理解，毕竟，和开发本身比起来，它没有那么多的创造性，有时甚至属于“重要但无趣”的工作。但是，我必须要强调的是，不只对于全栈工程师而言，Ops 能力对于每一个通常意义上的软件工程师来说，都是必须要锻炼的重要方面。</p><p>需要明确的是，我今天要讲的配置管理，我认为就是 Ops 的一个重要部分，它关注的是软件代码以各种形式，在项目的各个阶段存在的配置。几乎每个做运维的人都要经常去修改大量的线上配置，无论是来自操作系统还是应用本身。这个话题很少有人谈及，但却存在于每个程序员的日常工作中。</p><!-- [[[read_end]]] --><h2>常见的配置方式</h2><p>在实际的项目开发过程中，当我们讲到“配置”的时候，其实隐含了许多不同的方式，这些方式有时候看起来差不多，实际却有着最适合的场景。</p><h3>1.源代码中的常量</h3><p>代码常量是一种最典型的配置方式，它的特点是定义和使用方便，且只对开发人员友好。每次变更的时候，都需要改动代码，经过一定的测试和 Code Review，之后还要通过指定流程的部署，才能发布到产品线上。</p><p>通常来说，项目中常量类的定义有着明确的规约，比如这样的示例代码：</p><pre><code>public final class ProductConstants {
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
     private ProductConstants() {}
 
     public static int MAX_NUMBER = 9999;

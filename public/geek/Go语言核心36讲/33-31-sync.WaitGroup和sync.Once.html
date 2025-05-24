@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>我们在前几次讲的互斥锁、条件变量和原子操作都是最基本重要的同步工具。在Go语言中，除了通道之外，它们也算是最为常用的并发安全工具了。</p><p>说到通道，不知道你想过没有，之前在一些场合下里，我们使用通道的方式看起来都似乎有些蹩脚。</p><p>比如：<strong>声明一个通道，使它的容量与我们手动启用的goroutine的数量相同，之后再利用这个通道，让主goroutine等待其他goroutine的运行结束。</strong></p><p>这一步更具体地说就是：让其他的goroutine在运行结束之前，都向这个通道发送一个元素值，并且，让主goroutine在最后从这个通道中接收元素值，接收的次数需要与其他的goroutine的数量相同。</p><p>这就是下面的<code>coordinateWithChan</code>函数展示的多goroutine协作流程。</p><pre><code>func coordinateWithChan() {
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
  sign := make(chan struct{}, 2)
  num := int32(0)
  fmt.Printf(&quot;The number: %d [with chan struct{}]\n&quot;, num)

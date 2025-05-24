@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>如果要设计一套秒杀系统，那我想你的老板肯定会先对你说：千万不要超卖，这是大前提。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>如果你第一次接触秒杀，那你可能还不太理解，库存100件就卖100件，在数据库里减到0就好了啊，这有什么麻烦的？是的，理论上是这样，但是具体到业务场景中，“减库存”就不是这么简单了。</p>
 <p>例如，我们平常购物都是这样，看到喜欢的商品然后下单，但并不是每个下单请求你都最后付款了。你说系统是用户下单了就算这个商品卖出去了，还是等到用户真正付款了才算卖出了呢？这的确是个问题！</p>
 <p>我们可以先根据减库存是发生在下单阶段还是付款阶段，把减库存做一下划分。</p>

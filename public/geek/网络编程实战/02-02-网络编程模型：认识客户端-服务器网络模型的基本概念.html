@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是盛延敏。上一讲我们学习了TCP/IP的创建和历史，以及Linux操作系统的建立和发展，相信你对网络编程这棵大树已经有了一个宏观上的认识，那么今天我们再往前走几步，近距离看看这棵大树的细枝末节到底是怎样的。</p><p>从哪里开始呢？从网络编程的基本概念开始说起吧。</p><h2>客户端-服务器网络编程模型</h2><p>在谈论网络编程时，我们首先需要建立一个概念，也就是我们今天的主题“客户端-服务器”。</p><p>拿我们常用的网络购物来说，我们在手机上的每次操作，都是作为客户端向服务器发送请求，并收到响应的例子。</p><p>这个过程具体阐释如下：</p><p><img src="https://static001.geekbang.org/resource/image/78/83/78e415180d2946c418485d30f3f78f83.png?wh=1266*228" alt=""></p><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>当一个客户端需要服务时，比如网络购物下单，它会向服务器端发送一个请求。注意，这个请求是按照双方约定的格式来发送的，以便保证服务器端是可以理解的；</li>
 <li>服务器端收到这个请求后，会根据双方约定的格式解释它，并且以合适的方式进行操作，比如调用数据库操作来创建一个购物单；</li>
 <li>服务器端完成处理请求之后，会给客户端发送一个响应，比如向客户端发送购物单的实际付款额，然后等待客户端的下一步操作；</li>

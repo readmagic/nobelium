@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>上一节，我们封装了一个长长的网络包，“大炮”准备完毕，开始发送。</p><p>发送的时候可以说是重重关隘，从手机到移动网络、互联网，还要经过多个运营商才能到达数据中心，到了数据中心就进入第二个复杂的过程，从网关到VXLAN隧道，到负载均衡，到Controller层、组合服务层、基础服务层，最终才下单入库。今天，我们就来看这最后一段过程。</p><h2>7.一座座城池一道道关，流控拥塞与重传</h2><p>网络包已经组合完毕，接下来我们来看，如何经过一道道城关，到达目标公网IP。</p><p>对于手机来讲，默认的网关在PGW上。在移动网络里面，从手机到SGW，到PGW是有一条隧道的。在这条隧道里面，会将上面的这个包作为隧道的乘客协议放在里面，外面SGW和PGW在核心网机房的IP地址。网络包直到PGW（PGW是隧道的另一端）才将里面的包解出来，转发到外部网络。</p><p>所以，从手机发送出来的时候，网络包的结构为：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>
 <p>源MAC：手机也即UE的MAC；</p>
 </li>

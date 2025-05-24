@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>上两节课，我们学习了访问者模式。在23种设计模式中，访问者模式的原理和实现可以说是最难理解的了，特别是它的代码实现。其中，用Single Dispatch来模拟Double Dispatch的实现思路尤其不好理解。不知道你有没有将它拿下呢？如果还没有弄得很清楚，那就要多看几遍、多自己动脑经琢磨一下。</p><p>今天，我们学习另外一种行为型模式，备忘录模式。这个模式理解、掌握起来不难，代码实现比较灵活，应用场景也比较明确和有限，主要是用来防丢失、撤销、恢复等。所以，相对于上两节课，今天的内容学起来相对会比较轻松些。</p><p>话不多说，让我们正式开始今天的学习吧！</p><h2>备忘录模式的原理与实现</h2><p>备忘录模式，也叫快照（Snapshot）模式，英文翻译是Memento Design Pattern。在GoF的《设计模式》一书中，备忘录模式是这么定义的：</p><blockquote>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>Captures and externalizes an object’s internal state so that it can be restored later, all without violating encapsulation.</p>
 </blockquote><p>翻译成中文就是：在不违背封装原则的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态，以便之后恢复对象为先前的状态。</p><!-- [[[read_end]]] --><p>在我看来，这个模式的定义主要表达了两部分内容。一部分是，存储副本以便后期恢复。这一部分很好理解。另一部分是，要在不违背封装原则的前提下，进行对象的备份和恢复。这部分不太好理解。接下来，我就结合一个例子来解释一下，特别带你搞清楚这两个问题：</p><ul>
 <li>为什么存储和恢复副本会违背封装原则？</li>

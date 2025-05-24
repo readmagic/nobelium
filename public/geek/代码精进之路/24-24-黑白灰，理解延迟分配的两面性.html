@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>上一次，我们讨论了减少内存使用的两个大方向，减少实例数量和减少实例的尺寸。如果我们把时间的因素考虑在内，还有一些重要的技术，可以用来减少运行时的实例数量。其中，延迟分配是一个重要的思路。</p><h2>延迟分配</h2><p>在前面讨论怎么写声明的时候，为了避免初始化的遗漏或者不必要的代码重复，我们一般建议“声明时就初始化”。但是，如果初始化涉及的计算量比较大，占用的资源比较多或者占用的时间比较长，声明时就初始化的方案可能会占用不必要的资源，甚至成为软件的一个潜在安全问题。</p><p>这时候，我们就需要考虑延迟分配的方案了。也就是说，不到需要时候，不占用不必要的资源。</p><p>下面，我们通过一个例子来了解下什么是延迟分配，以及延迟分配的好处。</p><p>在Java核心类中，ArrayList是一个可调整大小的列表，内部实现使用数组存储数据。它的优点是列表大小可调整，数组结构紧凑。列表大小可以预先确定，并且在大小不经常变化的情况下，ArrayList要比LinkedList节省空间，所以是一个优先选项。</p><p>但是，一旦列表大小不能确定，或者列表大小经常变化，ArrayList的内部数组就需要调整大小，这就需要内部分配新数组，废弃旧数组，并且把旧数组的数据拷贝到新数组。这时候，ArrayList就不是一个好的选择了。</p><!-- [[[read_end]]] --><p>在JDK 7中，ArrayList的实现可以用下面的一小段伪代码体现。你可以从代码中体会下内部数组调整带来的“酸辣”。</p><pre><code>package java.util;
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 
 public class ArrayList&lt;E&gt; extends AbstractList&lt;E&gt;
         implements List&lt;E&gt;, RandomAccess, Cloneable, java.io.Serializable {

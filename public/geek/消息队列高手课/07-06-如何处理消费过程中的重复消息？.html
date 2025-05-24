@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是李玥。上节课我们讲了如何确保消息不会丢失，课后我给你留了一个思考题，如果消息重复了怎么办？这节课，我们就来聊一聊如何处理重复消息的问题。</p><p>在消息传递过程中，如果出现传递失败的情况，发送方会执行重试，重试的过程中就有可能会产生重复的消息。对使用消息队列的业务系统来说，如果没有对重复消息进行处理，就有可能会导致系统的数据出现错误。</p><p>比如说，一个消费订单消息，统计下单金额的微服务，如果没有正确处理重复消息，那就会出现重复统计，导致统计结果错误。</p><p>你可能会问，如果消息队列本身能保证消息不重复，那应用程序的实现不就简单了？那有没有消息队列能保证消息不重复呢？</p><h2>消息重复的情况必然存在</h2><p>在MQTT协议中，给出了三种传递消息时能够提供的服务质量标准，这三种服务质量从低到高依次是：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>
 <p><strong>At most once</strong>: 至多一次。消息在传递时，最多会被送达一次。换一个说法就是，没什么消息可靠性保证，允许丢消息。一般都是一些对消息可靠性要求不太高的监控场景使用，比如每分钟上报一次机房温度数据，可以接受数据少量丢失。</p>
 </li>

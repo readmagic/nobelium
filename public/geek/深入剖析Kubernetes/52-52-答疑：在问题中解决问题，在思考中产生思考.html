@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>在本篇文章中，我将会对本专栏部分文章最后的思考题，进行一次集中的汇总和答疑。希望能够帮助你更好地理解和掌握 Kubernetes 项目。</p><p><span class="orange">问题1：</span>你是否知道如何修复容器中的top指令以及/proc文件系统中的信息呢？（提示：lxcfs）</p><p>其实，这个问题的答案在提示里其实已经给出了，即 lxcfs 方案。通过lxcfs，你可以把宿主机的 /var/lib/lxcfs/proc 文件系统挂载到Docker容器的/proc目录下。使得容器中进程读取相应文件内容时，实际上会从容器对应的Cgroups中读取正确的资源限制。 从而得到正确的top 命令的返回值。</p><blockquote>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>问题选自第6篇文章<a href="https://time.geekbang.org/column/article/14653">《白话容器基础（二）：隔离与限制》</a>。</p>
 </blockquote><p><span class="orange">问题2：</span>既然容器的rootfs（比如，Ubuntu镜像），是以只读方式挂载的，那么又如何在容器里修改Ubuntu镜像的内容呢？（提示：Copy-on-Write）</p><p>这个问题的答案也同样出现在了提示里。</p><p>简单地说，修改一个镜像里的文件的时候，联合文件系统首先会从上到下在各个层中查找有没有目标文件。如果找到，就把这个文件复制到可读写层进行修改。这个修改的结果会屏蔽掉下层的文件，这种方式就被称为copy-on-write。</p><!-- [[[read_end]]] --><blockquote>
 <p>问题选自第7篇文章<a href="https://time.geekbang.org/column/article/17921">《白话容器基础（三）：深入理解容器镜像》</a>。</p>

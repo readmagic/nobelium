@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>前面所说的隔离设计通常都需要对系统做解耦设计，而把一个单体系统解耦，不单单是把业务功能拆分出来，正如上面所说，拆分完后还会面对很多的问题。其中一个重要的问题就是这些系统间的通讯。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>通讯一般来说分同步和异步两种。同步通讯就像打电话，需要实时响应，而异步通讯就像发邮件，不需要马上回复。各有千秋，我们很难说谁比谁好。但是在面对超高吞吐量的场景下，异步处理就比同步处理有比较大的优势了，这就好像一个人不可能同时接打很多电话，但是他可以同时接收很多的电子邮件一样。</p>
 <p>同步调用虽然让系统间只耦合于接口，而且实时性也会比异步调用要高，但是我们也需要知道同步调用会带来如下几个问题。</p>
 <ul>

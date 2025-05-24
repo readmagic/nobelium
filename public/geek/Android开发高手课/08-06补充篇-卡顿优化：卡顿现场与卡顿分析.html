@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>我们使用上一期所讲的插桩或者Profilo的方案，可以得到卡顿过程所有运行函数的耗时。在大部分情况下，这几种方案的确非常好用，可以让我们更加明确真正的卡顿点在哪里。</p><p>但是，你肯定还遇到过很多莫名其妙的卡顿，比如读取1KB的文件、读取很小的asset资源或者只是简单的创建一个目录。</p><p>为什么看起来这么简单的操作也会耗费那么长的时间呢？那我们如何通过收集更加丰富的卡顿现场信息，进一步定位并排查问题呢？</p><h2>卡顿现场</h2><p>我先来举一个线上曾经发现的卡顿例子，下面是它的具体耗时信息。</p><p><img src="https://static001.geekbang.org/resource/image/23/46/2398281c40faaa3620f48e1d23da9046.png" alt=""></p><p>从图上看，Activity的onCreate函数耗时达到3秒，而其中Lottie动画中<a href="http://androidxref.com/9.0.0_r3/xref/frameworks/base/core/java/android/content/res/AssetManager.java#852">openNonAsset</a>函数耗时竟然将近2秒。尽管是读取一个30KB的资源文件，但是它的耗时真的会有那么长吗？</p><p>今天我们就一起来分析这个问题吧。</p><p><strong>1. Java实现</strong></p><p>进一步分析openNonAsset相关源码的时候发现，AssetManager内部有大量的synchronized锁。首先我怀疑还是锁的问题，接下来需要把卡顿时各个线程的状态以及堆栈收集起来做进一步分析。</p><p><strong>步骤一：获得Java线程状态</strong></p><p>通过Thread的getState方法可以获取线程状态，当时主线程果然是BLOCKED状态。</p><!-- [[[read_end]]] --><p>什么是BLOCKED状态呢？当线程无法获取下面代码中的object对象锁的时候，线程就会进入BLOCKED状态。</p><pre><code>// 线程等待获取object对象锁
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 synchronized (object)  {
     dosomething();
 }  

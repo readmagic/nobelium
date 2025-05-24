@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>在“<a href="https://time.geekbang.org/column/article/119891">03 | 语法分析（一）：纯手工打造公式计算器</a>”中，我们已经初步实现了一个公式计算器。而且你还在这个过程中，直观地获得了写语法分析程序的体验，在一定程度上破除了对语法分析算法的神秘感。</p><p>当然了，你也遇到了一些问题，比如怎么消除左递归，怎么确保正确的优先级和结合性。所以本节课的主要目的就是解决这几个问题，让你掌握像算术运算这样的二元表达式（Binary Expression）。</p><p>不过在课程开始之前，我想先带你简单地温习一下什么是左递归（Left Recursive）、优先级（Priority）和结合性（Associativity）。</p><p>在二元表达式的语法规则中，如果产生式的第一个元素是它自身，那么程序就会无限地递归下去，这种情况就叫做<strong>左递归。</strong>比如加法表达式的产生式“加法表达式 + 乘法表达式”，就是左递归的。而优先级和结合性则是计算机语言中与表达式有关的核心概念。它们都涉及了语法规则的设计问题。</p><p>我们要想深入探讨语法规则设计，需要像在词法分析环节一样，先了解如何用形式化的方法表达语法规则。“工欲善其事必先利其器”。熟练地阅读和书写语法规则，是我们在语法分析环节需要掌握的一项基本功。</p><p>所以本节课我会先带你了解如何写语法规则，然后在此基础上，带你解决上面提到的三个问题。</p><!-- [[[read_end]]] --><h2>书写语法规则，并进行推导</h2><p>我们已经知道，语法规则是由上下文无关文法表示的，而上下文无关文法是由一组替换规则（又叫产生式）组成的，比如算术表达式的文法规则可以表达成下面这种形式：</p><pre><code>add -&gt; mul | add + mul
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 mul -&gt; pri | mul * pri
 pri -&gt; Id | Num | (add) 
 </code></pre><p>按照上面的产生式，add可以替换成mul，或者add + mul。这样的替换过程又叫做“推导”。以“2+3*5” 和 “2+3+4”这两个算术表达式为例，这两个算术表达式的推导过程分别如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/e9/81/e9aa620c009aaae5505cf568a54de381.jpg" alt=""></p><p>通过上图的推导过程，你可以清楚地看到这两个表达式是怎样生成的。而分析过程中形成的这棵树，其实就是AST。只不过我们手写的算法在生成AST的时候，通常会做一些简化，省略掉中间一些不必要的节点。比如，“add-add-mul-pri-Num”这一条分支，实际手写时会被简化成“add-Num”。其实，简化AST也是优化编译过程的一种手段，如果不做简化，呈现的效果就是上图的样子。</p><p>那么，上图中两颗树的叶子节点有哪些呢？Num、+和*都是终结符，终结符都是词法分析中产生的Token。而那些非叶子节点，就是非终结符。文法的推导过程，就是把非终结符不断替换的过程，让最后的结果没有非终结符，只有终结符。</p><p>而在实际应用中，语法规则经常写成下面这种形式：</p><pre><code>add ::= mul | add + mul

@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是四火。</p><p>HTTP 协议是互联网基础中的基础，和很多技术谈具体应用场景不同的是，几乎所有的互联网服务都是它的应用，没有它，互联网的“互联”将无从谈起，因此我们把它作为正式学习的开篇。</p><p>说到其原理和协议本身，我相信大多数人都能说出个大概来，比如，有哪些常见的方法，常见 HTTP 头，返回码的含义等等。但你是否想过，这个古老而富有生命力的互联网“基石”是怎样发展演化过来的呢？从它身上，我们能否管中窥豹，一叶知秋，找到互联网成长和演进的影子？</p><p>今天，我想带你从实践的角度，亲身感受下这个过程，相信除了 HTTP 本身，你还可以发现网络协议发展过程中的一些通用和具有共性的东西。</p><p><img src="https://static001.geekbang.org/resource/image/ac/2a/ac90bdd14bced3d81e314a7eddf6972a.png" alt=""></p><h2>HTTP/0.9</h2><p>和很多其它协议一样，1991年，HTTP 在最开始的 0.9 版就定义了协议最核心的内容，虽说从功能上看只是具备了如今内容的一个小小的子集。比如，确定了客户端、服务端的这种基本结构，使用域名/IP 加端口号来确定目标地址的方式，还有换行回车作为基本的分隔符。</p><p>它非常简单，不支持请求正文，不支持除了  GET  以外的其它方法，不支持头部，甚至没有版本号的显式指定，而且整个请求只有一行，因而也被称为“The One-line Protocol”。比如：</p><!-- [[[read_end]]] --><pre><code>GET /target.html
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 </code></pre><p>虽说 0.9 版本如今已经极少见到了，但幸运的是 Google 还依然支持（Bing 和 Baidu 不支持）。我们不妨自己动手，实践一下！虽然不能使用浏览器，但别忘了，我们还有一个更古老的工具 telnet。在命令行下建立连接：</p><pre><code>telnet www.google.com 80
 </code></pre><p>你会看到类似这样的提示：</p><pre><code>Trying 2607:f8b0:400a:803::2004...
 Connected to www.google.com.

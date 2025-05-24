@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是宫文学。</p><p>上一节课，我们设计了IR的数据结构，并且分析了如何从AST生成IR。并且，这些IR还可以生成.dot文件，以直观的图形化的方式显示出来。</p><p>不过，我们上一节课只分析了if语句，这还远远不够。这节课，我会先带你分析for循环语句，加深对你控制流和数据流的理解。接着，我们就会开始享受这个IR带来的红利，用它来完成一些基本的本地优化工作，包括公共子表达式删除、拷贝传播和死代码删除，让你初步体会基于IR做优化的感觉。</p><p>那么，我们先接着上一节课，继续把for循环从AST转换成IR。</p><h2>把For循环转换成IR</h2><p>同样地，我们还是借助一个例子来做分析。这个例子是一个实现累加功能的函数，bar函数接受一个参数a，然后返回从1到a的累加值。</p><pre><code class="language-plain">function bar(a:number):number{
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
     let sum:number = 0;
     for(let i = 1; i &lt;= a; i++){
         sum = sum + i;

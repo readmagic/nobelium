@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是Tony Bai。</p><p>上一讲我们学习了Go接口的基础知识与设计惯例，知道Go接口是构建Go应用骨架的重要元素。从语言设计角度来看，Go语言的接口（interface）和并发（concurrency）原语是我最喜欢的两类Go语言语法元素。Go语言核心团队的技术负责人Russ Cox也曾说过这样一句话：“<strong>如果要从Go语言中挑选出一个特性放入其他语言，我会选择接口</strong>”，这句话足以说明接口这一语法特性在这位Go语言大神心目中的地位。</p><p>为什么接口在Go中有这么高的地位呢？这是因为<strong>接口是Go这门静态语言中唯一“动静兼备”的语法特性</strong>。而且，接口“动静兼备”的特性给Go带来了强大的表达能力，但同时也给Go语言初学者带来了不少困惑。要想真正解决这些困惑，我们必须深入到Go运行时层面，看看Go语言在运行时是如何表示接口类型的。在这一讲中，我就带着你一起深入到接口类型的运行时表示层面看看。</p><p>好，在解惑之前，我们先来看看接口的静态与动态特性，看看“动静皆备”到底是什么意思。</p><h2>接口的静态特性与动态特性</h2><p>接口的<strong>静态特性</strong>体现在<strong>接口类型变量具有静态类型</strong>，比如<code>var err error</code>中变量err的静态类型为error。拥有静态类型，那就意味着编译器会在编译阶段对所有接口类型变量的赋值操作进行类型检查，编译器会检查右值的类型是否实现了该接口方法集合中的所有方法。如果不满足，就会报错：</p><!-- [[[read_end]]] --><pre><code class="language-plain">var err error = 1 // cannot use 1 (type int) as type error in assignment: int does not implement error (missing Error method)
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 </code></pre><p>而接口的<strong>动态特性</strong>，就体现在接口类型变量在运行时还存储了右值的真实类型信息，这个右值的真实类型被称为接口类型变量的<strong>动态类型</strong>。你看一下下面示例代码：</p><pre><code class="language-plain">var err error
 err = errors.New("error1")
 fmt.Printf("%T\n", err)  // *errors.errorString

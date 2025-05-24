@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是郑晔。</p><p>上一讲，我们讲的是因为代码不一致造成的坏味道，其中我提到的“方案不一致”，是因为随着时间的流逝，总会有一些新的方案产生，替换原有的方案。这其中，最明显的一个例子就是程序设计语言。没有哪门语言是完美的，所以，只要有一个活跃的社区，这门语言就会不断地演进。</p><p>从 C++ 11 开始，C++ 开始出现了大规模的演化，让之前学习 C++的人感觉自己就像没学过这门语言一样；Python 2 与 Python 3 甚至是不兼容的演化；Java 也是每隔一段时间就会出现一次大的语言演进。</p><p>也正是因为语言本身的演化，在不同时期接触不同版本的程序员写出来的程序，甚至不像是在用同一门语言在编程。所以，我们有机会看到在同一个代码库中，各种不同时期风格的代码并存。</p><p>通常来说，新的语言特性都是为了提高代码的表达性，减少犯错误的几率。所以，在实践中，我是非常鼓励你采用新的语言特性写代码的。</p><p>这一讲，我们就以 Java 为例，讲讲如何使用“新”语言特性让代码写得更好。其实，这里的“新”只是相对的，我准备讨论的是 Java 8 的语言特性，按照官方的标准，这是一个已经到了生命周期终点的版本，只不过，从语言特性上来说，Java 8 是最近有重大变更的一个版本，而很多程序员的编码习惯停留在更早的版本。</p><!-- [[[read_end]]] --><h2>Optional</h2><p>我们先来看一段代码：</p><pre><code>String name = book.getAuthor().getName();
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 </code></pre><p>这是我们在讲“<a href="https://time.geekbang.org/column/article/333135">缺乏封装</a>”时用到的一个例子，我们这里暂且不考虑缺乏封装的问题。即便如此，严格地说，这段代码依然是有问题的。因为它没有考虑对象可能为 null 的场景。</p><p>所以，这段代码更严谨的写法是这样：</p><pre><code>Author author = book.getAuthor();
 String name = (author == null) ? null : author.getName();
 </code></pre><p>然而，在很多真实的项目中，这种严格的写法却是稀有的，所以，在实际的运行过程中，我们总会惊喜地发现各种空指针异常。如果你要问程序员为什么不写对象为 null 的判断，答案很可能出乎你意料：他们忘了。</p><p>是的，忘了，就是这么简单得令人发指的理由。</p><p>不用过于责备这些程序员缺乏职业素养，因为这不是个体问题，而是行业整体的问题，IT 行业每年都会因此造成巨大的损失。空指针的发明者 Tony Hoare 将其称为“自己犯下的十亿美元错误”。</p><p>对于这个如此常见的问题，Java 8 中已经给出了一个解决方案，它就是 Optional。Optional 提供了一个对象容器，你需要从中“取出（get）”你所需要的对象，但在取出之前，你需要判断一下这个对象容器中是否真的存在一个对象。用这个思路可以这样改写这段代码：</p><pre><code>class Book {

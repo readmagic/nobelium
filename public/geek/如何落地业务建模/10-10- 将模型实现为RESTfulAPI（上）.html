@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是徐昊。今天我们来聊聊如何将模型映射为RESTful API。</p><p>通过前面九节课的学习，你应该已经学会了如何通过几种设计模式避免架构约束对模型的影响（4-6节），也学会了几种不同的建模方法以构造业务模型（7-9节）。然而我们之前讲的内容，主要的着眼点在于如何获得模型，以及如何组织代码。接下来，就是通过模型获得API，从而将模型作为业务能力，暴露给其他消费者调用。</p><p>在前面的课程中，我们一直都在强调领域驱动设计受到行业热捧的一个原因：<strong>寻找到一个在软件系统生命周期内稳固的不变点，由它构成架构、协同与交流的基础，帮助我们更好地应对软件中的不确定性</strong>。</p><p>API作为对外暴露的接口，也是需要保持高稳定性的组件。我们希望API最好能像领域模型一样稳定。于是<strong>通过领域模型驱动获得API的设计</strong>（Domain Model Driven API Design），就成了一种非常自然的选择。</p><p>那么今天我们就来讲一讲怎样构建领域驱动的API设计，以及为何我们会选用RESTful API。</p><h2>什么风格的API适合作为模型API？</h2><p>想要实现领域模型驱动API并不困难，但是我们需要选择恰当的API风格：<strong>要从数据角度，而不要从行为角度去构建API</strong>，以保证构建的API能够和领域模型结合得更加紧密。</p><!-- [[[read_end]]] --><p>从行为角度和数据角度构造API存在什么差异呢？让我们通过一个例子来解释它，我想你也猜到了，对，还是极客时间的例子。我们在讲解催化剂方法时，展示过它：</p><p><img src="https://static001.geekbang.org/resource/image/53/7d/5342374c949cfdd92d718aa476dac57d.jpg?wh=8000x4251" alt=""></p><p>如果从行为角度进行API设计，那么我们的着眼点就应该从人机交互上入手，寻找系统提供了什么服务，并针对这些服务进行API设计。</p><p>于是在这个例子中，我们就应该从“送朋友专栏”“订阅专栏”“用户注册”“阅读内容”“专栏评分”这些交互入手，建立对应的API。</p><p>我们很自然可以想到，为每一个交互定义一个接口，从而得到服务的定义（以gRPC为例）：</p><pre><code>service GeekTime {
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
     rpc SendGift(SendGiftRequest) returns SendGiftReply {}
   
     rpc SubscribeColumn(SubscribeColumnRequest) returns SubscribeColumnReply {}

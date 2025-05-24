@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>通常我们会遇到要手写脚本的时候，就要针对一些接口编写脚本。这时候，我们需要知道接口规范和后台的数据是什么。而有些性能测试工程师写脚本时，并不知道后端的逻辑，只知道实现脚本，事实上，只知道实现脚本是远远不够的。</p><p>在这一篇文章中，我不打算讲复杂的内容，只想针对新手写一步步的操作，描述最简单的脚本编写。如果你已经具有丰富的脚本编写经验，会觉得本文很简单。</p><p>我没有打算把JMeter的功能点一一罗列出来，作为一个性能测试的专栏，不写一下脚本的实现似乎不像个样子。在脚本实现中，我们最常用的协议就是HTTP和TCP了吧，所以在今天的内容里，我简单地说一下如何编写HTTP和TCP脚本，以应测试主题。</p><p>我先画个图说明一下。</p><p><img src="https://static001.geekbang.org/resource/image/c9/e6/c99990fb1cfce0410b6bb2be24107be6.jpg" alt=""></p><p>这样的图做性能的人一定要知道，相信很多人也画的出来。</p><p>我们知道HTTP是应用层的协议之一，现在很多场景都在用它，并且是用的HTTP1.1的版本，对应的是RFC2616，当然还有补充协议RFC7231、6265。</p><p>HTTP中只规定了传输的规则，规定了请求、响应、连接、方法、状态定义等。我们写脚本的时候，必须符合这些规则。比如为什么要在脚本中定义个Header？Header里为什么要那样写？这些在RFC中都说得明明白白了。</p><!-- [[[read_end]]] --><p>还有一点也需要注意，HTTP是通过Socket来使用TCP的，Socket做为套接层API，它本身不是协议，只规定了API。</p><p>而我们通常在JMeter中写TCP脚本，就是直接调用Socket层的API。TCP脚本和HTTP脚本最大的区别就是，TCP脚本中发送和接收的内容完全取决于Socket server是怎么处理的，并没有通用的规则。所以脚本中也就只有根据具体的项目来发挥了。</p><h2>手工编写HTTP脚本</h2><h3>服务端代码逻辑说明</h3><p>我们先自己编写一小段服务端代码的逻辑。现在用Spring Boot写一个示例，其实就是分分钟的事情。我们做性能测试的人至少要知道访问的是什么东西。</p><p>Controller关键代码如下：</p><pre><code>@RestController
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 @RequestMapping(value = &quot;pa&quot;)
 public class PAController {
 

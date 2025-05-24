@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>除了正则化之外，优化也是深度学习需要解决的一个核心问题。由于深度神经网络中的隐藏层数目较多，因而将整个网络作为一个整体进行优化是非常困难的事情，需要花费大量的时间和计算力。出于效率和精确性的考虑，在深度学习的优化上需要使用专门的技术。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>出于可解性的考虑，传统机器学习算法往往会小心翼翼地选择代价函数和优化条件，将待优化问题转化为容易求解的<strong>凸优化问题</strong>。但在神经网络，尤其是在深度神经网络中，更一般的非凸情况是不可避免的，这就给深度学习中的优化带来很多额外的挑战。</p>
 <p>当待优化的代价函数的输入是$n$维向量时，其二阶导数就包含针对不同变量分别求偏导所得到的很多分量，将这些分量按顺序排列可以得到<strong>Hessian矩阵</strong>。而在神经网络的训练中，Hessian矩阵的病态问题非常常见，甚至无论优化问题是否具有凸优化的形式，病态的Hessian矩阵都会出现。</p>
 <p>在线性方程$\mathbf{A} \mathbf{x} = \mathbf{b}$中，当系数矩阵$\mathbf{A}$的微小扰动会给解集$\mathbf{x}$带来较大幅度的波动时，这样的矩阵就被称为<strong>病态矩阵</strong>（ill-conditioned matrix）。</p>

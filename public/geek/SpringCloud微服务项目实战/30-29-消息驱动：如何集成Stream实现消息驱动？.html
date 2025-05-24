@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是姚秋辰。</p><p>在上节课中，我们通过一些实际案例了解到了消息驱动技术的应用场景，这节课我们就使用Spring Cloud Stream技术来一场演练，基于RabbitMQ消息中间件来落地实践场景。</p><p>以往我们在项目中使用Stream时，大都是使用经典的@Input、@Output和@StreamListener等注解来注册消息生产者和消费者，而Stream在3.1版本之后在这几个注解上打了一个@Deprecated标记，意思是这种对接方式已经被淘汰了，不推荐继续使用。取而代之的是更为流行的Functional Programming风格，也就是我们俗称的函数式编程。</p><p>从近几年的技术发展趋势就可以看出来，函数式编程成了一种技术演进的趋势，它能让你以更少的代码和精简化的配置实现自己的业务逻辑。函数式编程和约定大于配置相结合的编程风格比较放飞自我，在接下来的实战环节中，你就会体会到这种less code style的快感了。</p><p>因为函数式消息驱动在同一个应用包含多个Event Topic的情况下有一些特殊配置，所以为了方便演示这个场景，我选择了Customer服务中的两个具有关联性的业务，分别是用户领取优惠券和删除优惠券，这节课我们就将这两个服务改造成基于消息驱动的实现方式。</p><!-- [[[read_end]]] --><h2>实现消息驱动</h2><p>我把业务场景里的消息生产者和消费者都定义在了Customer服务中，可能你会以为，在真实项目里，生产者和消费者应该分别定义在不同的应用中，大多数情况下确实如此。比如在<a href="https://time.geekbang.org/column/article/487158">上节课</a>的消息广播场景里，一个订单完成之后，通过广播消息触发下游各个服务的业务流程，这里的生产者和消费者是分在不同应用中的。</p><p>但是呢，我们也有把生产者和消费者定义在同一个应用中的场景，我叫它自产自销。比如在一些削峰填谷的例子中，为了平滑处理用户流量并降低负载，我们可以将高QPS但时效性要求不高的请求堆积到消息组件里，让当前应用的消费者慢慢去处理。比如我曾经实现的批量发布商品就是这么个自产自销的例子，商品服务接收请求后丢到MQ，让同一个应用内部的消费者慢慢消化。</p><p>我们接下来就分三步走，用这个自产自销的路子来实现消息驱动业务。先添加生产者代码，再定义消费者逻辑，最后添加配置文件。</p><p>按照惯例，集成之前你需要先把下面这个Stream依赖项添加到coupon-customer-impl项目的pom文件中。由于我们底层使用的中间件是RabbitMQ，所以我们引入的是stream-rabbit组件，如果你使用的是不同的中间件，那么需要引入对口的依赖项。</p><pre><code class="language-plain">&lt;dependency&gt;
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
     &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
     &lt;artifactId&gt;spring-cloud-starter-stream-rabbit&lt;/artifactId&gt;
 &lt;/dependency&gt;

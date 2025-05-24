@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是张磊。今天我和你分享的主题是：Kubernetes的资源模型与资源管理。</p><p>作为一个容器集群编排与管理项目，Kubernetes为用户提供的基础设施能力，不仅包括了我在前面为你讲述的应用定义和描述的部分，还包括了对应用的资源管理和调度的处理。那么，从今天这篇文章开始，我就来为你详细讲解一下后面这部分内容。</p><p><span class="orange">而作为Kubernetes的资源管理与调度部分的基础，我们要从它的资源模型开始说起。</span></p><p>我在前面的文章中已经提到过，在Kubernetes里，Pod是最小的原子调度单位。这也就意味着，所有跟调度和资源管理相关的属性都应该是属于Pod对象的字段。而这其中最重要的部分，就是Pod的CPU和内存配置，如下所示：</p><pre><code>apiVersion: v1
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 kind: Pod
 metadata:
   name: frontend

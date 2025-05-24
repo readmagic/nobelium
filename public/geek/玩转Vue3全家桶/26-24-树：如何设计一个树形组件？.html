@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是大圣。</p><p>上一讲，我们一起学习了弹窗组件的设计与实现，这类组件的主要特点是需要渲染在最外层body标签之内，并且还需要支持JavaScript动态创建和调用组件。相信学完上一讲，你不但会对弹窗类组件的实现加深理解，也会对TDD模式更有心得。</p><p>除了弹窗组件，树形组件我们在前端开发中经常用到，所以今天我就跟你聊一下树形组件的设计思路跟实现细节。</p><h2>组件功能分析</h2><p>我们进入<a href="https://e3.shengxinjing.cn/#/component/tree">Element3的Tree组件文档页面</a>，现在我们对Vue的组件如何设计和实现已经很熟悉了，我重点挑跟之前组件设计不同的地方为你讲解。</p><p>在设计新组件的时候，我们需要重点考虑的就是树形组件和之前我们之前的Container、Button、Notification有什么区别。树形组件的主要特点是可以无限层级、这种需求在日常工作和生活中其实很常见，比如后台管理系统的菜单管理、文件夹管理、生物分类、思维导图等等。</p><p><img src="https://static001.geekbang.org/resource/image/0y/f6/0yy86b867a51890c7ea1ebbaf11f90f6.png?wh=1814x744" alt="图片"></p><p>根据上图所示，我们可以先拆解出树形组件的功能需求。</p><p>首先，树形组件的节点可以无限展开，父节点可以展开和收起节点，并且每一个节点有一个复选框，可以切换当前节点和所有子节点的选择状态。另外，同一级所有节点选中的时候，父节点也能自动选中。</p><!-- [[[read_end]]] --><p>下面的代码是Element3的Tree组件使用方式，所有的节点配置都是一个data对象实现的。每个节点里的label用来显示文本；expaned显示是否展开；checked用来决定复选框选中列表，data数据内部的children属性用来配置子节点数组，子节点的数据结构和父节点相同，可以递归实现。</p><pre><code class="language-javascript">&lt;el-tree
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
   :data="data"
   show-checkbox
   v-model:expanded="expandedList"

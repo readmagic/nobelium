@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是王昊天。</p><p>我们在生活中，经常会访问各种网页来获取信息。你有没有想过，我们除了可以获得网页上展示给我们的信息，还能获得它原本不打算展示给我们的信息，甚至可以在网页的服务器上运行我们想要执行的代码来搞一些破坏呢，这种行为就是命令注入。</p><p>相信你已经对命令注入有了极大的兴趣，这节课让我们一起来学习这个神奇的攻击方式。</p><h2>命令注入</h2><p>命令注入，就是在仅仅需要输入数据的场合，攻击者构造数据的同时输入了恶意命令代码，而系统并未过滤掉恶意命令，使得恶意命令代码一并执行，最终导致信息泄露或者正常数据遭到破坏。</p><p>在命令注入中，最常见的是<strong>操作系统命令注入</strong>，攻击者可以使用这种注入攻击对服务器执行操作系统命令。例如攻击者可以执行命令<code>rm -f</code>，来删除一些重要的文件。这是服务器的管理人员非常不想看到的，下面让我们一起来学习这个可怕的攻击方式吧。</p><h3>操作系统命令注入</h3><p>当一个Web应用，没有正确清理用户可控输入信息，那么它就有可能会受到此漏洞的影响。</p><p>如果这个漏洞存在，那么攻击者就具有执行操作系统命令的能力，就可以上传攻击程序，甚至获得密码信息。这对应用所在服务器会造成很严重的影响。</p><p>为了加深你的理解，我们一起来看一个有趣的示例。</p><p>有一个网页应用，它包含许多文件，我们可以通过网络访问到。当访问<code>Doc1.pdf</code>文件时，我们可以通过<code>Burp Suite</code>获取到如下<code>HTTP POST</code>请求。</p><!-- [[[read_end]]] --><pre><code class="language-plain">POST /public/doc HTTP/1.1
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 Host: www.example.com
 [...]
 Referer: http://127.0.0.1/WebGoat/attack?Screen=20

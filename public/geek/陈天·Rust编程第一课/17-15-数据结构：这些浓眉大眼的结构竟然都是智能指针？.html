@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是陈天。</p><p>到现在为止我们学了Rust的所有权与生命周期、内存管理以及类型系统，基础知识里还剩一块版图没有涉及：数据结构，数据结构里最容易让人困惑的就是智能指针，所以今天我们就来解决这个难点。</p><p>我们之前简单介绍过指针，这里还是先回顾一下：指针是一个持有内存地址的值，可以通过解引用来访问它指向的内存地址，理论上可以解引用到任意数据类型；引用是一个特殊的指针，它的解引用访问是受限的，只能解引用到它引用数据的类型，不能用作它用。</p><p>那什么是智能指针呢？</p><h2>智能指针</h2><p>在指针和引用的基础上，Rust 偷师 C++，提供了智能指针。智能指针是一个表现行为很像指针的数据结构，但除了指向数据的指针外，它还有元数据以提供额外的处理能力。</p><p>这个定义有点模糊，我们对比其他的数据结构来明确一下。</p><p>你有没有觉得很像之前讲的胖指针。智能指针一定是一个胖指针，但胖指针不一定是一个智能指针。比如 &amp;str 就只是一个胖指针，它有指向堆内存字符串的指针，同时还有关于字符串长度的元数据。</p><p>我们看智能指针 String 和 &amp;str 的区别：<img src="https://static001.geekbang.org/resource/image/f4/59/f4401040f7d36b9e610b6867a5d0cf59.jpg?wh=1913x1206" alt=""></p><p>从图上可以看到，String 除了多一个 capacity 字段，似乎也没有什么特殊。<strong>但 String 对堆上的值有所有权，而 &amp;str 是没有所有权的，这是 Rust 中智能指针和普通胖指针的区别</strong>。</p><!-- [[[read_end]]] --><p>那么又有一个问题了，智能指针和结构体有什么区别呢？因为我们知道，String 是用结构体定义的：</p><pre><code class="language-rust">pub struct String {
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
     vec: Vec&lt;u8&gt;,
 }
 </code></pre><p>和普通的结构体不同的是，String 实现了 Deref 和 DerefMut，这使得它在解引用的时候，会得到 &amp;str，看下面的<a href="https://doc.rust-lang.org/src/alloc/string.rs.html#2301-2316">标准库的实现</a>：</p><pre><code class="language-rust">impl ops::Deref for String {

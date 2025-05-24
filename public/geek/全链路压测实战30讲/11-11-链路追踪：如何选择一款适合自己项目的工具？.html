@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是高楼。</p><p>从这里开始，我们进入链路追踪改造部分，这节课，我们来看一下怎么在全链路压测项目中选择合适的链路追踪方案。</p><h2>为什么需要链路追踪？</h2><p>首先，我们看下这个课程的开源电商项目的部署架构。</p><p><img src="https://static001.geekbang.org/resource/image/2f/4b/2f032901efyy2d9f9e3df8f123e8534b.png?wh=1673x926" alt="图片"></p><p>从部署架构图中你可以很直观地看到，在微服务架构下，系统的功能是由大量的微服务协调组成的。例如：电商下单业务就需要会员系统服务（mall-member）、认证中心服务（mall-auth）、订单系统服务（mall-order）、购物车系统服务（mall-cart）逐级调用才能完成。而实际在电商企业，每个服务可能是由不同的团队进行开发，部署在成百上千台服务器上的。</p><p>这么复杂的调用链路就带来一系列问题：</p><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>如何快速发现性能问题？</li>
 <li>如何精准判断故障影响范围？</li>
 <li>如何梳理服务依赖以及依赖的合理性？</li>

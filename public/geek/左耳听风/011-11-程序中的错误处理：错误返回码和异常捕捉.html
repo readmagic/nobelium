@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>今天，我们来讨论一下程序中的错误处理。也许你会觉得这个事没什么意思，处理错误的代码并不难写。但你想过没有，要把错误处理写好，并不是件容易的事情。另外，任何一个稳定的程序中都会有大量的代码在处理错误，所以说，处理错误是程序中一件比较重要的事情。这里，我会用两篇文章来系统地讲一下错误处理的各种方式和相关实践。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <h1>传统的错误检查</h1>
 <p>首先，我们知道，处理错误最直接的方式是通过错误码，这也是传统的方式，在过程式语言中通常都是用这样的方式处理错误的。比如C语言，基本上来说，其通过函数的返回值标识是否有错，然后通过全局的<code>errno</code>变量并配合一个 <code>errstr</code> 的数组来告诉你为什么出错。</p>
 <p>为什么是这样的设计？道理很简单，除了可以共用一些错误，更重要的是这其实是一种妥协。比如：<code>read()</code>, <code>write()</code>, <code>open()</code> 这些函数的返回值其实是返回有业务逻辑的值。也就是说，这些函数的返回值有两种语义，一种是成功的值，比如 <code>open()</code> 返回的文件句柄指针 <code>FILE*</code> ，或是错误 <code>NULL</code>。这样会导致调用者并不知道是什么原因出错了，需要去检查 <code>errno</code> 来获得出错的原因，从而可以正确地处理错误。</p>

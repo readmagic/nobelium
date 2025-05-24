@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是周爱民，欢迎回到我的专栏。</p><p>今天我将为你介绍的是在ECMAScript规范中，实现起来“最简单”的JavaScript语法榜前三名的JavaScript语句。</p><p>标题中的<code>throw 1</code>就排在这个“最简单榜”第三名。</p><blockquote>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>NOTE: 预定的加餐将是下一讲的内容，敬请期待。^^.</p>
 </blockquote><h2>为什么讲最简单语法榜</h2><p>为什么要介绍这个所谓的“最简单的JavaScript语法榜”呢？</p><p>在我看来，在ECMAScript规范中，对JavaScript语法的实现，尤其是语句、表达式，以及基础特性最核心的部分等等，都可以在对这前三名的实现过程和渐次演进关系中展示出来。甚至基本上可以说，<span class="orange">你只要理解了最简单榜的前三名，也就理解了设计一门计算机语言的基础模型与逻辑</span>。</p><p><code>throw</code>语句在ECMAScript规范描述中，它的执行实现逻辑只有三行：</p><blockquote>
 <p><em>ThrowStatement</em> : <strong>throw</strong>  <em>Expression</em>;<br>

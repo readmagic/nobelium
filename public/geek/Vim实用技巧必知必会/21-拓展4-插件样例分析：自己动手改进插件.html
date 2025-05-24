@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是吴咏炜。</p><p>上一讲，我们对 Vim 脚本作了初步的介绍。Vim 脚本可以应用在很多不同的场景下，比如我们的 vimrc 配置文件和配色方案也都是 Vim 脚本。但我们今天更关心的，是我们经常使用的、一般称为“插件”的特殊 Vim 脚本。虽说插件和其他 Vim 脚本之间的界限也并非泾渭分明，但我们一般把满足以下条件的 Vim 脚本称为插件：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>功能独立，不依赖特殊的个性化配置</li>
 <li>存在加载时即会执行的代码，一般放在 plugin 目录下（也有放在 ftplugin、ftdetect 等其他目录下的情况）</li>
 </ul><p>今天，我们就利用目前学到的知识，来由浅入深地分析四个样例，了解插件代码是如何编写的，从而可以自己动手定制、改进，进而编写自己的插件，真真正正地定制自己的 Vim 环境，并为整个 Vim 社区作出贡献。</p><h2>ycmconf</h2><p>我们要看的第一个脚本，是在讲 YCM 时引入的 ycmconf。这是一个非常简单的插件，我们就拿它开始我们今天的课程。</p><p>如果你之前按我说的步骤安装的话，现在应该可以在 Vim 配置目录下的 pack/minpac/start/ycmconf 里找到它。你也可以自己用 Git 签出：</p><pre><code class="language-bash">git clone https://github.com/adah1972/ycmconf.git

@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是高楼。</p><p>这节课，我们来收拾“查询商品”这个接口。虽然这次的现象同样是TPS低、响应时间长，但是，这个接口走的路径和之前的不一样，所以在分析过程中会有些新鲜的东西，你将看到在资源真的不足的情况下，我们只有增加相应节点的资源才能提升性能。</p><p>在我的项目中，我一直都在讲，<strong>不要轻易给出资源不足的结论。因为但凡有优化的空间，我们都要尝试做优化，而不是直接告诉客户加资源。而给出“增加资源”这个结论，也必须建立在有足够证据的基础上</strong>。在这节课中，你也将看到这一点。</p><p>话不多说，我们直接开始今天的内容。</p><h2>压力场景数据</h2><p>对于查询商品接口，我们第一次试执行性能场景的结果如下：</p><p><img src="https://static001.geekbang.org/resource/image/75/a2/75ef8d040cdbcef4556bbfa7fd7098a2.png" alt=""></p><p>你看，TPS只有250左右，并且响应时间也明显随着压力的增加而增加了，看起来瓶颈已经出现了，对吧？根据哥的逻辑，下一步就是看架构图啦。</p><h2>先看架构图</h2><p>我们用APM工具来看看这个接口的架构。</p><p><img src="https://static001.geekbang.org/resource/image/6b/70/6bcbe3236d91fd7628fa5a6186243870.png" alt=""></p><p>你看，从压力机到Gateway服务、到Search服务、再到ES-Client，这个APM工具也只能帮我们到这里了。因为我们用的是ElasticSearch 7来做的搜索服务的支撑，而这个skywalking工具也没有对应的Agent，所以后面并没有配置skywalking。</p><!-- [[[read_end]]] --><p>在这里，我要多啰嗦几句。现在的APM工具大多是基于应用层来做的，有些运维APM采集的数据会更多一些，但也是响应时间、吞吐量等这样的信息。对于性能分析而言，现在的APM工具有减少排查时间的能力，但是在组件级的细化定位上还有待提高。虽然AI OPS也被提到了台面，但是也没见过哪个公司上了AIOPS产品后，就敢不让人看着。</p><p>总之，从细化分析的角度，我们在定位问题的根本原因时，手头有什么工具就可以用什么工具，即使什么工具都没有，撸日志也是照样能做到的，所以我建议你不要迷信工具，要“迷信”思路。</p><p>下面我们来拆分下这个接口的响应时间，看看这个案例的问题点在哪里。</p><h2>拆分响应时间</h2><p><strong>“在RESAR性能分析逻辑中，拆分响应时间只是一个分析的起点</strong>。”这是我一直在强调的一句话。如果性能工程师连这个都不会做，就只能好好学习天天向上了。</p><p>根据架构图，我们拆分响应时间如下。</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>Gateway服务上的响应时间：</li>
 </ul><p><img src="https://static001.geekbang.org/resource/image/dc/0d/dc64c9e8ace689c86d6584b64f9f230d.png" alt=""></p><ul>
 <li>Search服务上的响应时间：</li>

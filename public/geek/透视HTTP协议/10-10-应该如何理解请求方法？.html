@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>上一讲我介绍了HTTP的报文结构，它是由header+body构成，请求头里有请求方法和请求目标，响应头里有状态码和原因短语，今天要说的就是请求头里的请求方法。</p><h2>标准请求方法</h2><p>HTTP协议里为什么要有“请求方法”这个东西呢？</p><p>这就要从HTTP协议设计时的定位说起了。还记得吗？蒂姆·伯纳斯-李最初设想的是要用HTTP协议构建一个超链接文档系统，使用URI来定位这些文档，也就是资源。那么，该怎么在协议里操作这些资源呢？</p><p>很显然，需要有某种“动作的指示”，告诉操作这些资源的方式。所以，就这么出现了“请求方法”。它的实际含义就是客户端发出了一个“动作指令”，要求服务器端对URI定位的资源执行这个动作。</p><p>目前HTTP/1.1规定了八种方法，单词<strong>都必须是大写的形式</strong>，我先简单地列把它们列出来，后面再详细讲解。</p><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>GET：获取资源，可以理解为读取或者下载数据；</li>
 <li>HEAD：获取资源的元信息；</li>
 <li>POST：向资源提交数据，相当于写入或上传数据；</li>

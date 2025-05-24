@@ -1,242 +1,714 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-<title>Index of Folders</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>极客时间课程索引</title>
+    <link rel="stylesheet" href="assets/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-<h1>Index of Folders</h1>
-<div><h1>语言</h1>
-<ul>
-    <li><a href='./geek/%E9%87%8D%E5%AD%A6%E5%89%8D%E7%AB%AF' target='_blank'>重学前端</a></li>
-    <li><a href='./geek/Go%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E5%AE%9E%E6%88%98%E8%AF%BE' target='_blank'>Go并发编程实战课</a></li>
-    <li><a href='./geek/%E7%BD%97%E5%89%91%E9%94%8B%E7%9A%84C%2B%2B%E5%AE%9E%E6%88%98%E7%AC%94%E8%AE%B0' target='_blank'>罗剑锋的C++实战笔记</a></li>
-    <li><a href='./geek/%E5%85%A8%E6%A0%88%E5%B7%A5%E7%A8%8B%E5%B8%88%E4%BF%AE%E7%82%BC%E6%8C%87%E5%8D%97' target='_blank'>全栈工程师修炼指南</a></li>
-    <li><a href='./geek/TonyBai%C2%B7Go%E8%AF%AD%E8%A8%80%E7%AC%AC%E4%B8%80%E8%AF%BE' target='_blank'>TonyBai·Go语言第一课</a></li>
-    <li><a href='./geek/Go%E8%AF%AD%E8%A8%80%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98' target='_blank'>Go语言项目开发实战</a></li>
-    <li><a href='./geek/Go%E8%AF%AD%E8%A8%80%E6%A0%B8%E5%BF%8336%E8%AE%B2' target='_blank'>Go语言核心36讲</a></li>
-    <li><a href='./geek/%E7%8E%B0%E4%BB%A3C%2B%2B%E5%AE%9E%E6%88%9830%E8%AE%B2' target='_blank'>现代C++实战30讲</a></li>
-    <li><a href='./geek/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%85%A5%E9%97%A8%E8%AF%BE' target='_blank'>正则表达式入门课</a></li>
-    <li><a href='./geek/WebAssembly%E5%85%A5%E9%97%A8%E8%AF%BE' target='_blank'>WebAssembly入门课</a></li>
-    <li><a href='./geek/Android%E5%BC%80%E5%8F%91%E9%AB%98%E6%89%8B%E8%AF%BE' target='_blank'>Android开发高手课</a></li>
-    <li><a href='./geek/Python%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98' target='_blank'>Python核心技术与实战</a></li>
-    <li><a href='./geek/%E9%99%88%E5%A4%A9%C2%B7Rust%E7%BC%96%E7%A8%8B%E7%AC%AC%E4%B8%80%E8%AF%BE' target='_blank'>陈天·Rust编程第一课</a></li>
-    <li><a href='./geek/%E6%9C%B1%E6%B6%9B%C2%B7Kotlin%E7%BC%96%E7%A8%8B%E7%AC%AC%E4%B8%80%E8%AF%BE' target='_blank'>朱涛·Kotlin编程第一课</a></li>
-    <li><a href='./geek/iOS%E5%BC%80%E5%8F%91%E9%AB%98%E6%89%8B%E8%AF%BE' target='_blank'>iOS开发高手课</a></li>
-    <li><a href='./geek/Python%E8%87%AA%E5%8A%A8%E5%8C%96%E5%8A%9E%E5%85%AC%E5%AE%9E%E6%88%98%E8%AF%BE' target='_blank'>Python自动化办公实战课</a></li>
-</ul>
+    <header>
+        <div class="header-content">
+            <h1>极客时间课程索引</h1>
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="搜索课程...">
+                <button id="search-button"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </header>
 
-</div>
-<div><h1>产品</h1>
-    <ul>
+    <div class="container">
+        <!-- 编程语言 -->
+        <section class="category-section category-programming" id="programming">
+            <div class="category-header">
+                <i class="fas fa-code"></i>
+                <h2>编程语言</h2>
+            </div>
+            <div class="category-content">
+                <div class="course-grid">
+                    <div class="course-card">
+                        <a href='./geek/重学前端' target='_blank'>重学前端</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/Go并发编程实战课' target='_blank'>Go并发编程实战课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/罗剑锋的C++实战笔记' target='_blank'>罗剑锋的C++实战笔记</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/全栈工程师修炼指南' target='_blank'>全栈工程师修炼指南</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/TonyBai·Go语言第一课' target='_blank'>TonyBai·Go语言第一课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/Go语言项目开发实战' target='_blank'>Go语言项目开发实战</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/Go语言核心36讲' target='_blank'>Go语言核心36讲</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/现代C++实战30讲' target='_blank'>现代C++实战30讲</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/正则表达式入门课' target='_blank'>正则表达式入门课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/WebAssembly入门课' target='_blank'>WebAssembly入门课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/Android开发高手课' target='_blank'>Android开发高手课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/Python核心技术与实战' target='_blank'>Python核心技术与实战</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/陈天·Rust编程第一课' target='_blank'>陈天·Rust编程第一课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/朱涛·Kotlin编程第一课' target='_blank'>朱涛·Kotlin编程第一课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/iOS开发高手课' target='_blank'>iOS开发高手课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/Python自动化办公实战课' target='_blank'>Python自动化办公实战课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/JavaScript核心原理解析' target='_blank'>JavaScript核心原理解析</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/图解GoogleV8' target='_blank'>图解GoogleV8</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/玩转Vue3全家桶' target='_blank'>玩转Vue3全家桶</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/深入C语言和程序运行原理' target='_blank'>深入C语言和程序运行原理</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/深入剖析Java新特性' target='_blank'>深入剖析Java新特性</a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <li><a href='./geek/%E9%82%B1%E5%B2%B3%E7%9A%84%E4%BA%A7%E5%93%81%E6%89%8B%E8%AE%B0' target='_blank'>邱岳的产品手记</a></li>
-        <li><a href='./geek/%E9%82%B1%E5%B2%B3%E7%9A%84%E4%BA%A7%E5%93%81%E5%AE%9E%E6%88%98' target='_blank'>邱岳的产品实战</a></li>
-        <li><a href='./geek/%E8%8B%8F%E6%9D%B0%E7%9A%84%E4%BA%A7%E5%93%81%E5%88%9B%E6%96%B0%E8%AF%BE' target='_blank'>苏杰的产品创新课</a></li>
-        <li><a href='./geek/%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%95%86%E4%B8%9A%E6%A1%88%E4%BE%8B%E8%A7%A3%E8%AF%BB' target='_blank'>技术与商业案例解读</a></li>
-        <li><a href='./geek/%E7%A1%85%E8%B0%B7%E4%BA%A7%E5%93%81%E5%AE%9E%E6%88%9836%E8%AE%B2' target='_blank'>硅谷产品实战36讲</a></li>
-        <li><a href='./geek/%E6%88%90%E4%B8%BAAI%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86' target='_blank'>成为AI产品经理</a></li>
-        <li><a href='./geek/%E5%A4%A7%E5%8E%82%E5%B9%BF%E5%91%8A%E4%BA%A7%E5%93%81%E5%BF%83%E6%B3%95' target='_blank'>大厂广告产品心法</a></li>
-        <li><a href='./geek/%E9%9B%B7%E8%93%93%E8%93%93%E7%9A%84%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E5%AE%9E%E6%88%98%E8%AF%BE' target='_blank'>雷蓓蓓的项目管理实战课</a></li>
-        <li><a href='./geek/%E7%BC%96%E8%BE%91%E8%AE%AD%E7%BB%83%E8%90%A5' target='_blank'>编辑训练营</a></li>
-        <li><a href='./geek/ToB%E5%B8%82%E5%9C%BA%E5%93%81%E7%89%8C%E5%AE%9E%E6%88%98%E8%AF%BE' target='_blank'>ToB市场品牌实战课</a></li>
-    </ul>
-</div>
-<div><h1>音视频</h1>
-<ul>
-    <li><a href='./geek/%E6%90%9E%E5%AE%9A%E9%9F%B3%E9%A2%91%E6%8A%80%E6%9C%AF' target='_blank'>搞定音频技术</a></li>
-    <li><a href='./geek/%E6%94%BB%E5%85%8B%E8%A7%86%E9%A2%91%E6%8A%80%E6%9C%AF' target='_blank'>攻克视频技术</a></li>
-    <li><a href='./geek/%E4%BB%8E0%E6%89%93%E9%80%A0%E9%9F%B3%E8%A7%86%E9%A2%91%E7%9B%B4%E6%92%AD%E7%B3%BB%E7%BB%9F' target='_blank' style="color:green">从0打造音视频直播系统</a></li>
-    <li><a href='./geek/%E6%91%84%E5%BD%B1%E5%85%A5%E9%97%A8%E8%AF%BE' target='_blank'>摄影入门课</a></li>
-    <li><a href='./geek/%E8%A7%86%E8%A7%89%E7%AC%94%E8%AE%B0%E5%85%A5%E9%97%A8%E8%AF%BE' target='_blank'>视觉笔记入门课</a></li>
-    <li><a href='./geek/%E8%B7%9F%E6%9C%88%E5%BD%B1%E5%AD%A6%E5%8F%AF%E8%A7%86%E5%8C%96' target='_blank'>跟月影学可视化</a></li>
-    <li><a href='./geek/%E6%89%93%E9%80%A0%E7%88%86%E6%AC%BE%E7%9F%AD%E8%A7%86%E9%A2%91' target='_blank'>打造爆款短视频</a></li>
-    <li><a href='./geek/%E6%89%8B%E6%9C%BA%E6%91%84%E5%BD%B1' target='_blank'>手机摄影</a></li>
-    <li><a href='./geek/%E6%89%8B%E6%8A%8A%E6%89%8B%E6%95%99%E4%BD%A0%E7%8E%A9%E9%9F%B3%E4%B9%90' target='_blank'>手把手教你玩音乐</a></li>
-</ul>
-</div>
+        <!-- 架构与设计 -->
+        <section class="category-section category-architecture" id="architecture">
+            <div class="category-header">
+                <i class="fas fa-sitemap"></i>
+                <h2>架构与设计</h2>
+            </div>
+            <div class="category-content">
+                <div class="course-grid">
+                    <div class="course-card">
+                        <a href='./geek/DDD实战课' target='_blank'>DDD实战课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/许式伟的架构课' target='_blank'>许式伟的架构课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/从0开始学架构' target='_blank'>从0开始学架构</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/架构实战案例解析' target='_blank'>架构实战案例解析</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/郭东白的架构课' target='_blank'>郭东白的架构课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/高并发系统设计40问' target='_blank'>高并发系统设计40问</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/软件设计之美' target='_blank'>软件设计之美</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/设计模式之美' target='_blank'>设计模式之美</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/如何设计一个秒杀系统' target='_blank'>如何设计一个秒杀系统</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/手把手带你搭建秒杀系统' target='_blank'>手把手带你搭建秒杀系统</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/手把手带你写一个Web框架' target='_blank'>手把手带你写一个Web框架</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/手把手带你写一门编程语言' target='_blank'>手把手带你写一门编程语言</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/深入浅出分布式技术原理' target='_blank'>深入浅出分布式技术原理</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/分布式技术原理与算法解析' target='_blank'>分布式技术原理与算法解析</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/RPC实战与核心原理' target='_blank'>RPC实战与核心原理</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/SpringCloud微服务项目实战' target='_blank'>SpringCloud微服务项目实战</a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<div><h1>大数据&AI</h1>
-<ul>
-    <li><a href='./geek/%E5%A4%A7%E8%A7%84%E6%A8%A1%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E5%AE%9E%E6%88%98' target='_blank'>大规模数据处理实战</a></li>
-    <li><a href='./geek/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%AE%9E%E6%88%9845%E8%AE%B2' target='_blank'>数据分析实战45讲</a></li>
-    <li><a href='./geek/%E4%BB%8E0%E5%BC%80%E5%A7%8B%E5%AD%A6%E5%A4%A7%E6%95%B0%E6%8D%AE' target='_blank'>从0开始学大数据</a></li>
-    <li><a href='./geek/%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8Spark' target='_blank'>零基础入门Spark</a></li>
-    <li><a href='./geek/Spark%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98%E5%AE%9E%E6%88%98' target='_blank'>Spark性能调优实战</a></li>
-    <li><a href='./geek/%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%AE%9E%E6%88%98%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0' target='_blank'>零基础实战机器学习</a></li>
-    <li><a href='./geek/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E5%AE%9E%E6%88%98' target='_blank'>深度学习推荐系统实战</a></li>
-    <li><a href='./geek/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B8%89%E5%8D%81%E5%85%AD%E5%BC%8F' target='_blank'>推荐系统三十六式</a></li>
-    <li><a href='./geek/%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%8F%E5%85%B8%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB' target='_blank'>大数据经典论文解读</a></li>
-    <li><a href='./geek/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A040%E8%AE%B2' target='_blank'>机器学习40讲</a></li>
-    <li><a href='./geek/PyTorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98' target='_blank'>PyTorch深度学习实战</a></li>
-    <li><a href='./geek/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%9F%BA%E7%A1%80%E8%AF%BE' target='_blank'>人工智能基础课</a></li>
-    <li><a href='./geek/AI%E6%8A%80%E6%9C%AF%E5%86%85%E5%8F%82' target='_blank'>AI技术内参</a></li>
-</ul>
-</div>
+        <!-- 数据库与中间件 -->
+        <section class="category-section category-technology" id="database">
+            <div class="category-header">
+                <i class="fas fa-database"></i>
+                <h2>数据库与中间件</h2>
+            </div>
+            <div class="category-content">
+                <div class="course-grid">
+                    <div class="course-card">
+                        <a href='./geek/MySQL实战45讲' target='_blank'>MySQL实战45讲</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/MySQL必知必会' target='_blank'>MySQL必知必会</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/SQL必知必会' target='_blank'>SQL必知必会</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/Redis核心技术与实战' target='_blank'>Redis核心技术与实战</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/Redis源码剖析与实战' target='_blank'>Redis源码剖析与实战</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/Kafka核心技术与实战' target='_blank'>Kafka核心技术与实战</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/Kafka核心源码解读' target='_blank'>Kafka核心源码解读</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/etcd实战课' target='_blank'>etcd实战课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/消息队列高手课' target='_blank'>消息队列高手课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/分布式数据库30讲' target='_blank'>分布式数据库30讲</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/深入拆解Tomcat&Jetty' target='_blank'>深入拆解Tomcat&Jetty</a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<div><h1>运维&安全</h1>
-<ul>
-    <li><a href='./geek/etcd%E5%AE%9E%E6%88%98%E8%AF%BE' target='_blank'>etcd实战课</a></li>
-    <li><a href='./geek/%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%8A%80%E8%83%BD30%E8%AE%B2' target='_blank'>安全攻防技能30讲</a></li>
-    <li><a href='./geek/Web%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98%E5%AE%9E%E6%88%98' target='_blank'>Web漏洞挖掘实战</a></li>
-    <li><a href='./geek/%E4%BB%8E0%E5%BC%80%E5%A7%8B%E5%AD%A6%E5%BE%AE%E6%9C%8D%E5%8A%A1' target='_blank'>从0开始学微服务</a></li>
-    <li><a href='./geek/MySQL%E5%AE%9E%E6%88%9845%E8%AE%B2' target='_blank'>MySQL实战45讲</a></li>
-    <li><a href='./geek/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A' target='_blank'>MySQL必知必会</a></li>
-    <li><a href='./geek/SQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A' target='_blank'>SQL必知必会</a></li>
-    <li><a href='./geek/%E5%8F%8D%E7%88%AC%E8%99%AB%E5%85%B5%E6%B3%95%E6%BC%94%E7%BB%8E20%E8%AE%B2' target='_blank'>反爬虫兵法演绎20讲</a></li>
-    <li><a href='./geek/DevOps%E5%AE%9E%E6%88%98%E7%AC%94%E8%AE%B0' target='_blank'>DevOps实战笔记</a></li>
-    <li><a href='./geek/%E6%A3%80%E7%B4%A2%E6%8A%80%E6%9C%AF%E6%A0%B8%E5%BF%8320%E8%AE%B2' target='_blank'>检索技术核心20讲</a></li>
-    <li><a href='./geek/%E8%B5%B5%E6%88%90%E7%9A%84%E8%BF%90%E7%BB%B4%E4%BD%93%E7%B3%BB%E7%AE%A1%E7%90%86%E8%AF%BE' target='_blank'>赵成的运维体系管理课</a></li>
-    <li><a href='./geek/Redis%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98' target='_blank'>Redis核心技术与实战</a></li>
+        <!-- 大数据与AI -->
+        <section class="category-section category-data-ai" id="data-ai">
+            <div class="category-header">
+                <i class="fas fa-brain"></i>
+                <h2>大数据与AI</h2>
+            </div>
+            <div class="category-content">
+                <div class="course-grid">
+                    <div class="course-card">
+                        <a href='./geek/大规模数据处理实战' target='_blank'>大规模数据处理实战</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/数据分析实战45讲' target='_blank'>数据分析实战45讲</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/从0开始学大数据' target='_blank'>从0开始学大数据</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/零基础入门Spark' target='_blank'>零基础入门Spark</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/Spark性能调优实战' target='_blank'>Spark性能调优实战</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/零基础实战机器学习' target='_blank'>零基础实战机器学习</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/深度学习推荐系统实战' target='_blank'>深度学习推荐系统实战</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/推荐系统三十六式' target='_blank'>推荐系统三十六式</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/大数据经典论文解读' target='_blank'>大数据经典论文解读</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/机器学习40讲' target='_blank'>机器学习40讲</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/PyTorch深度学习实战' target='_blank'>PyTorch深度学习实战</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/人工智能基础课' target='_blank'>人工智能基础课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/AI技术内参' target='_blank'>AI技术内参</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/数据中台实战课' target='_blank'>数据中台实战课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/数据分析思维课' target='_blank'>数据分析思维课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/检索技术核心20讲' target='_blank'>检索技术核心20讲</a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
+        <!-- 运维与安全 -->
+        <section class="category-section category-devops" id="devops">
+            <div class="category-header">
+                <i class="fas fa-server"></i>
+                <h2>运维与安全</h2>
+            </div>
+            <div class="category-content">
+                <div class="course-grid">
+                    <div class="course-card">
+                        <a href='./geek/安全攻防技能30讲' target='_blank'>安全攻防技能30讲</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/Web漏洞挖掘实战' target='_blank'>Web漏洞挖掘实战</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/从0开始学微服务' target='_blank'>从0开始学微服务</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/反爬虫兵法演绎20讲' target='_blank'>反爬虫兵法演绎20讲</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/DevOps实战笔记' target='_blank'>DevOps实战笔记</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/赵成的运维体系管理课' target='_blank'>赵成的运维体系管理课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/深入剖析Kubernetes' target='_blank'>深入剖析Kubernetes</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/Linux内核技术实战课' target='_blank'>Linux内核技术实战课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/Linux性能优化实战' target='_blank'>Linux性能优化实战</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/趣谈Linux操作系统' target='_blank'>趣谈Linux操作系统</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/操作系统实战45讲' target='_blank'>操作系统实战45讲</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/网络排查案例课' target='_blank'>网络排查案例课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/网络编程实战' target='_blank'>网络编程实战</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/趣谈网络协议' target='_blank'>趣谈网络协议</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/透视HTTP协议' target='_blank'>透视HTTP协议</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/OAuth2.0实战课' target='_blank'>OAuth2.0实战课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/实用密码学' target='_blank'>实用密码学</a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-</ul>
-</div>
-<div><h1>深入</h1>
-    <ul>
-        <li><a href='./geek/DDD%E5%AE%9E%E6%88%98%E8%AF%BE' target='_blank'>DDD实战课</a></li>
-        <li><a href='./geek/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E4%B9%8B%E7%BE%8E' target='_blank'>编译原理之美</a></li>
-        <li><a href='./geek/%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Tomcat%26Jetty' target='_blank'>深入拆解Tomcat&Jetty</a></li>
-        <li><a href='./geek/%E7%A8%8B%E5%BA%8F%E5%91%98%E8%BF%9B%E9%98%B6%E6%94%BB%E7%95%A5' target='_blank'>程序员进阶攻略</a></li>
-        <li><a href='./geek/Spring%E7%BC%96%E7%A8%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF50%E4%BE%8B' target='_blank'>Spring编程常见错误50例</a></li>
-        <li><a href='./geek/Redis%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90%E4%B8%8E%E5%AE%9E%E6%88%98' target='_blank'>Redis源码剖析与实战</a></li>
-        <li><a href='./geek/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E5%AE%9E%E6%88%98' target='_blank'>Java并发编程实战</a></li>
-        <li><a href='./geek/JavaScript%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90' target='_blank'>JavaScript核心原理解析</a></li>
-        <li><a href='./geek/%E5%9B%BE%E8%A7%A3GoogleV8' target='_blank'>图解GoogleV8</a></li>
-        <li><a href='./geek/%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA' target='_blank'>深入拆解Java虚拟机</a></li>
-        <li><a href='./geek/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E6%88%98%E8%AF%BE' target='_blank'>编译原理实战课</a></li>
-        <li><a href='./geek/Kafka%E6%A0%B8%E5%BF%83%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB' target='_blank'>Kafka核心源码解读</a></li>
-        <li><a href='./geek/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E5%88%86%E5%B8%83%E5%BC%8F%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86' target='_blank'>深入浅出分布式技术原理</a></li>
-    </ul>
-</div>
-<div><h1>生活</h1>
-    <ul>
-        <li><a href='./geek/%E7%88%B1%E4%B8%8A%E8%B7%91%E6%AD%A5' target='_blank' style="color:green">爱上跑步</a></li>
-        <li><a href='./geek/%E5%A6%82%E4%BD%95%E7%9C%8B%E6%87%82%E4%B8%80%E5%B9%85%E7%94%BB' target='_blank' style="color:green">如何看懂一幅画</a></li>
-        <li><a href='./geek/%E5%A6%82%E4%BD%95%E8%AF%BB%E6%87%82%E4%B8%80%E9%A6%96%E8%AF%97' target='_blank'>如何读懂一首诗</a></li>
-        <li><a href='./geek/%E4%BA%BA%E4%BA%BA%E9%83%BD%E7%94%A8%E5%BE%97%E4%B8%8A%E7%9A%84%E5%86%99%E4%BD%9C%E8%AF%BE' target='_blank'>人人都用得上的写作课</a></li>
-        <li><a href='./geek/%E5%A6%82%E4%BD%95%E6%88%90%E4%B8%BA%E5%AD%A6%E4%B9%A0%E9%AB%98%E6%89%8B' target='_blank'>如何成为学习高手</a></li>
-        <li><a href='./geek/%E8%AE%B2%E5%A5%BD%E6%95%85%E4%BA%8B' target='_blank'>讲好故事</a></li>
-        <li><a href='./geek/%E6%81%8B%E7%88%B1%E5%BF%85%E4%BF%AE%E8%AF%BE' target='_blank'>恋爱必修课</a></li>
-        <li><a href='./geek/%E7%99%BD%E8%AF%9D%E6%B3%95%E5%BE%8B42%E8%AE%B2' target='_blank'>白话法律42讲</a></li>
+        <!-- 产品与设计 -->
+        <section class="category-section category-product" id="product">
+            <div class="category-header">
+                <i class="fas fa-lightbulb"></i>
+                <h2>产品与设计</h2>
+            </div>
+            <div class="category-content">
+                <div class="course-grid">
+                    <div class="course-card">
+                        <a href='./geek/邱岳的产品手记' target='_blank'>邱岳的产品手记</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/邱岳的产品实战' target='_blank'>邱岳的产品实战</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/苏杰的产品创新课' target='_blank'>苏杰的产品创新课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/技术与商业案例解读' target='_blank'>技术与商业案例解读</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/硅谷产品实战36讲' target='_blank'>硅谷产品实战36讲</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/成为AI产品经理' target='_blank'>成为AI产品经理</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/大厂广告产品心法' target='_blank'>大厂广告产品心法</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/用户体验设计实战课' target='_blank'>用户体验设计实战课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/基于人因的用户体验设计课' target='_blank'>基于人因的用户体验设计课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/体验设计案例课' target='_blank'>体验设计案例课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/从0开始做增长' target='_blank'>从0开始做增长</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/A-B测试从0到1' target='_blank'>A-B测试从0到1</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/ToB市场品牌实战课' target='_blank'>ToB市场品牌实战课</a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    </ul>
-</div>
+        <!-- 测试与质量 -->
+        <section class="category-section category-technology" id="testing">
+            <div class="category-header">
+                <i class="fas fa-check-circle"></i>
+                <h2>测试与质量</h2>
+            </div>
+            <div class="category-content">
+                <div class="course-grid">
+                    <div class="course-card">
+                        <a href='./geek/软件测试52讲' target='_blank'>软件测试52讲</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/自动化测试高手课' target='_blank'>自动化测试高手课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/接口测试入门课' target='_blank'>接口测试入门课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/徐昊·TDD项目实战70讲' target='_blank'>徐昊·TDD项目实战70讲</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/Spring编程常见错误50例' target='_blank'>Spring编程常见错误50例</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/代码之丑' target='_blank'>代码之丑</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/全链路压测实战30讲' target='_blank'>全链路压测实战30讲</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/容量保障核心技术与实战' target='_blank'>容量保障核心技术与实战</a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<div><h1>未分类</h1>
-    <ul>
-        <li><a href='./geek/%E7%89%A9%E8%81%94%E7%BD%91%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98' target='_blank'>物联网开发实战</a></li>
-        <li><a href='./geek/%E8%B6%85%E7%BA%A7%E8%AE%BF%E8%B0%88%EF%BC%9A%E5%AF%B9%E8%AF%9D%E5%BC%A0%E9%9B%AA%E5%B3%B0' target='_blank'>超级访谈：对话张雪峰</a></li>
-        <li><a href='./geek/%E4%B9%94%E6%96%B0%E4%BA%AE%E7%9A%84CTO%E6%88%90%E9%95%BF%E5%A4%8D%E7%9B%98' target='_blank'>乔新亮的CTO成长复盘</a></li>
-        <li><a href='./geek/10x%E7%A8%8B%E5%BA%8F%E5%91%98%E5%B7%A5%E4%BD%9C%E6%B3%95' target='_blank'>10x程序员工作法</a></li>
-        <li><a href='./geek/%E5%A4%A7%E5%8E%82%E6%99%8B%E5%8D%87%E6%8C%87%E5%8D%97' target='_blank'>大厂晋升指南</a></li>
-        <li><a href='./geek/OAuth2.0%E5%AE%9E%E6%88%98%E8%AF%BE' target='_blank'>OAuth2.0实战课</a></li>
-        <li><a href='./geek/%E8%AF%B4%E9%80%8F%E4%BD%8E%E4%BB%A3%E7%A0%81' target='_blank'>说透低代码</a></li>
-        <li><a href='./geek/%E8%AE%B8%E5%BC%8F%E4%BC%9F%E7%9A%84%E6%9E%B6%E6%9E%84%E8%AF%BE' target='_blank'>许式伟的架构课</a></li>
-        <li><a href='./geek/%E8%B7%9F%E7%9D%80%E9%AB%98%E6%89%8B%E5%AD%A6%E5%A4%8D%E7%9B%98' target='_blank'>跟着高手学复盘</a></li>
-        <li><a href='./geek/%E6%8A%80%E6%9C%AF%E9%A2%86%E5%AF%BC%E5%8A%9B%E5%AE%9E%E6%88%98%E7%AC%94%E8%AE%B0' target='_blank'>技术领导力实战笔记</a></li>
-        <li><a href='./geek/A-B%E6%B5%8B%E8%AF%95%E4%BB%8E0%E5%88%B01' target='_blank'>A-B测试从0到1</a></li>
-        <li><a href='./geek/%E5%AE%9E%E7%94%A8%E5%AF%86%E7%A0%81%E5%AD%A6' target='_blank'>实用密码学</a></li>
-        <li><a href='./geek/Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A' target='_blank'>Vim实用技巧必知必会</a></li>
-        <li><a href='./geek/%E9%BB%84%E5%8B%87%E7%9A%84OKR%E5%AE%9E%E6%88%98%E7%AC%94%E8%AE%B0' target='_blank'>黄勇的OKR实战笔记</a></li>
-        <li><a href='./geek/%E6%9C%B1%E8%B5%9F%E7%9A%84%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86%E8%AF%BE' target='_blank'>朱赟的技术管理课</a></li>
-        <li><a href='./geek/%E9%9D%A2%E8%AF%95%E7%8E%B0%E5%9C%BA' target='_blank'>面试现场</a></li>
-        <li><a href='./geek/%E6%B5%81%E7%A8%8B%E5%9E%8B%E7%BB%84%E7%BB%8715%E8%AE%B2' target='_blank'>流程型组织15讲</a></li>
-        <li><a href='./geek/%E8%B6%85%E7%BA%A7%E8%AE%BF%E8%B0%88%EF%BC%9A%E5%AF%B9%E8%AF%9D%E6%B1%A4%E5%B3%A5%E5%B5%98' target='_blank'>超级访谈：对话汤峥嵘</a></li>
-        
-        <li><a href='./geek/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E9%9D%A2%E8%AF%9538%E8%AE%B2' target='_blank'>后端技术面试38讲</a></li>
-        <li><a href='./geek/%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86%E5%AE%9E%E6%88%9836%E8%AE%B2' target='_blank'>技术管理实战36讲</a></li>
-        <li><a href='./geek/%E5%A6%82%E4%BD%95%E8%90%BD%E5%9C%B0%E4%B8%9A%E5%8A%A1%E5%BB%BA%E6%A8%A1' target='_blank'>如何落地业务建模</a></li>
-        <li><a href='./geek/RPC%E5%AE%9E%E6%88%98%E4%B8%8E%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86' target='_blank'>RPC实战与核心原理</a></li>
-        <li><a href='./geek/SpringCloud%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98' target='_blank'>SpringCloud微服务项目实战</a></li>
-        <li><a href='./geek/Linux%E5%86%85%E6%A0%B8%E6%8A%80%E6%9C%AF%E5%AE%9E%E6%88%98%E8%AF%BE' target='_blank'>Linux内核技术实战课</a></li>
-        <li><a href='./geek/ReactNative%E6%96%B0%E6%9E%B6%E6%9E%84%E5%AE%9E%E6%88%98%E8%AF%BE' target='_blank'>ReactNative新架构实战课</a></li>
-        <li><a href='./geek/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F' target='_blank'>如何设计一个秒杀系统</a></li>
-        <li><a href='./geek/%E4%BB%A3%E7%A0%81%E4%B9%8B%E4%B8%91' target='_blank'>代码之丑</a></li>
-        <li><a href='./geek/%E5%BE%90%E6%98%8A%C2%B7TDD%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%9870%E8%AE%B2' target='_blank'>徐昊·TDD项目实战70讲</a></li>
-        <li><a href='./geek/%E4%BB%8E0%E5%BC%80%E5%A7%8B%E5%AD%A6%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91' target='_blank'>从0开始学游戏开发</a></li>
-        <li><a href='./geek/%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C%E8%AE%BE%E8%AE%A1%E5%AE%9E%E6%88%98%E8%AF%BE' target='_blank'>用户体验设计实战课</a></li>
-        <li><a href='./geek/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E9%AB%98%E6%89%8B%E8%AF%BE' target='_blank'>性能优化高手课</a></li>
-        <li><a href='./geek/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E9%9D%A2%E8%AF%95%E7%B2%BE%E8%AE%B2' target='_blank'>Java核心技术面试精讲</a></li>
-        <li><a href='./geek/%E5%88%86%E5%B8%83%E5%BC%8F%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86%E4%B8%8E%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90' target='_blank'>分布式技术原理与算法解析</a></li>
-        <li><a href='./geek/Linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%AE%9E%E6%88%98' target='_blank'>Linux性能优化实战</a></li>
-        
-        <li><a href='./geek/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A140%E9%97%AE' target='_blank'>高并发系统设计40问</a></li>
-        <li><a href='./geek/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E4%B9%8B%E7%BE%8E' target='_blank'>软件工程之美</a></li>
-        <li><a href='./geek/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%80%9D%E7%BB%B4%E8%AF%BE' target='_blank'>数据分析思维课</a></li>
-        <li><a href='./geek/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E8%B7%B5' target='_blank'>浏览器工作原理与实践</a></li>
-        <li><a href='./geek/Java%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98%E5%AE%9E%E6%88%98' target='_blank'>Java性能调优实战</a></li>
-        <li><a href='./geek/%E7%8E%A9%E8%BD%ACVue3%E5%85%A8%E5%AE%B6%E6%A1%B6' target='_blank'>玩转Vue3全家桶</a></li>
-        <li><a href='./geek/%E8%AF%B4%E9%80%8F%E8%8A%AF%E7%89%87' target='_blank'>说透芯片</a></li>
-        <li><a href='./geek/%E4%BB%8E0%E5%BC%80%E5%A7%8B%E5%81%9A%E5%A2%9E%E9%95%BF' target='_blank'>从0开始做增长</a></li>
-        <li><a href='./geek/%E9%87%8D%E5%AD%A6%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0' target='_blank'>重学线性代数</a></li>
-        <li><a href='./geek/%E5%8E%BB%E6%97%A0%E6%96%B9%E5%90%91%E7%9A%84%E4%BF%A1' target='_blank'>去无方向的信</a></li>
-        <li><a href='./geek/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86' target='_blank'>深入浅出计算机组成原理</a></li>
-        <li><a href='./geek/%E8%AF%B4%E9%80%8F%E6%95%8F%E6%8D%B7' target='_blank'>说透敏捷</a></li>
-        <li><a href='./geek/%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86%E6%A1%88%E4%BE%8B%E8%AF%BE' target='_blank'>技术管理案例课</a></li>
-        <li><a href='./geek/%E8%81%8C%E5%9C%BA%E6%B1%82%E7%94%9F%E6%94%BB%E7%95%A5' target='_blank'>职场求生攻略</a></li>
-        <li><a href='./geek/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%AB%98%E6%89%8B%E8%AF%BE' target='_blank'>消息队列高手课</a></li>
-        <li><a href='./geek/%E5%AE%B9%E9%87%8F%E4%BF%9D%E9%9A%9C%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98' target='_blank'>容量保障核心技术与实战</a></li>
-        <li><a href='./geek/%E5%9F%BA%E4%BA%8E%E4%BA%BA%E5%9B%A0%E7%9A%84%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C%E8%AE%BE%E8%AE%A1%E8%AF%BE' target='_blank'>基于人因的用户体验设计课</a></li>
-        <li><a href='./geek/%E4%BB%8E0%E5%BC%80%E5%A7%8B%E5%AD%A6%E6%9E%B6%E6%9E%84' target='_blank'>从0开始学架构</a></li>
-        <li><a href='./geek/%E6%80%A7%E8%83%BD%E5%B7%A5%E7%A8%8B%E9%AB%98%E6%89%8B%E8%AF%BE' target='_blank'>性能工程高手课</a></li>
-        <li><a href='./geek/%E4%BD%93%E9%AA%8C%E8%AE%BE%E8%AE%A1%E6%A1%88%E4%BE%8B%E8%AF%BE' target='_blank'>体验设计案例课</a></li>
-        <li><a href='./geek/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E4%B9%8B%E7%BE%8E' target='_blank'>数据结构与算法之美</a></li>
-        <li><a href='./geek/%E8%AF%B4%E9%80%8F%E4%B8%AD%E5%8F%B0' target='_blank'>说透中台</a></li>
-        <li><a href='./geek/%E6%89%8B%E6%8A%8A%E6%89%8B%E5%B8%A6%E4%BD%A0%E5%86%99%E4%B8%80%E4%B8%AAWeb%E6%A1%86%E6%9E%B6' target='_blank'>手把手带你写一个Web框架</a></li>
-        <li><a href='./geek/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E4%B9%8B%E7%BE%8E' target='_blank'>软件设计之美</a></li>
-        <li><a href='./geek/%E6%9E%B6%E6%9E%84%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B%E8%A7%A3%E6%9E%90' target='_blank'>架构实战案例解析</a></li>
-        <li><a href='./geek/%E5%85%A8%E9%93%BE%E8%B7%AF%E5%8E%8B%E6%B5%8B%E5%AE%9E%E6%88%9830%E8%AE%B2' target='_blank'>全链路压测实战30讲</a></li>
-        <li><a href='./geek/%E9%AB%98%E6%A5%BC%E7%9A%84%E6%80%A7%E8%83%BD%E5%B7%A5%E7%A8%8B%E5%AE%9E%E6%88%98%E8%AF%BE' target='_blank'>高楼的性能工程实战课</a></li>
-        <li><a href='./geek/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E5%8C%BA%E5%9D%97%E9%93%BE' target='_blank' style="color:green">深入浅出区块链</a></li>
-        <li><a href='./geek/%E4%BA%92%E8%81%94%E7%BD%91%E4%BA%BA%E7%9A%84%E8%8B%B1%E8%AF%AD%E7%A7%81%E6%95%99%E8%AF%BE' target='_blank'>互联网人的英语私教课</a></li>
-        <li><a href='./geek/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E4%B8%AA%E4%BA%BA%E8%B4%A2%E5%AF%8C%E8%AF%BE' target='_blank'>程序员的个人财富课</a></li>
-        <li><a href='./geek/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E9%AB%98%E6%89%8B%E8%AF%BE' target='_blank'>自动化测试高手课</a></li>
-        <li><a href='./geek/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8%E8%AF%BE' target='_blank'>接口测试入门课</a></li>
-        <li><a href='./geek/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%9552%E8%AE%B2' target='_blank'>软件测试52讲</a></li>
-        <li><a href='./geek/%E7%AE%97%E6%B3%95%E5%AE%9E%E6%88%98%E9%AB%98%E6%89%8B%E8%AF%BE' target='_blank'>算法实战高手课</a></li>
-        <li><a href='./geek/%E8%B6%A3%E8%B0%88Linux%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F' target='_blank'>趣谈Linux操作系统</a></li>
-        <li><a href='./geek/Kafka%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98' target='_blank'>Kafka核心技术与实战</a></li>
-        <li><a href='./geek/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%9330%E8%AE%B2' target='_blank'>分布式数据库30讲</a></li>
-        <li><a href='./geek/%E7%BC%96%E7%A8%8B%E9%AB%98%E6%89%8B%E5%BF%85%E5%AD%A6%E7%9A%84%E5%86%85%E5%AD%98%E7%9F%A5%E8%AF%86' target='_blank'>编程高手必学的内存知识</a></li>
-        <li><a href='./geek/%E8%B6%A3%E8%B0%88%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE' target='_blank'>趣谈网络协议</a></li>
-        <li><a href='./geek/%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%8F%E8%AE%AE%E4%B8%8E%E7%AE%97%E6%B3%95%E5%AE%9E%E6%88%98' target='_blank'>分布式协议与算法实战</a></li>
-        <li><a href='./geek/%E6%89%8B%E6%8A%8A%E6%89%8B%E5%B8%A6%E4%BD%A0%E5%86%99%E4%B8%80%E9%97%A8%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80' target='_blank'>手把手带你写一门编程语言</a></li>
-        <li><a href='./geek/%E5%90%8E%E7%AB%AF%E5%AD%98%E5%82%A8%E5%AE%9E%E6%88%98%E8%AF%BE' target='_blank'>后端存储实战课</a></li>
-        <li><a href='./geek/%E6%B7%B1%E5%85%A5%E5%89%96%E6%9E%90Java%E6%96%B0%E7%89%B9%E6%80%A7' target='_blank'>深入剖析Java新特性</a></li>
-        
-        <li><a href='./geek/%E7%BD%91%E7%BB%9C%E6%8E%92%E6%9F%A5%E6%A1%88%E4%BE%8B%E8%AF%BE' target='_blank'>网络排查案例课</a></li>
-        <li><a href='./geek/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%9830%E8%AE%B2' target='_blank'>性能测试实战30讲</a></li>
-        <li><a href='./geek/%E8%AF%B4%E9%80%8F5G' target='_blank'>说透5G</a></li>
-        <li><a href='./geek/%E6%8C%81%E7%BB%AD%E4%BA%A4%E4%BB%9836%E8%AE%B2' target='_blank'>持续交付36讲</a></li>
-        <li><a href='./geek/%E6%9D%8E%E6%99%BA%E6%85%A7%C2%B7%E9%AB%98%E5%B9%B6%E5%8F%91%E6%9E%B6%E6%9E%84%E5%AE%9E%E6%88%98%E8%AF%BE' target='_blank'>李智慧·高并发架构实战课</a></li>
-        <li><a href='./geek/%E6%B7%B1%E5%85%A5%E5%89%96%E6%9E%90Kubernetes' target='_blank'>深入剖析Kubernetes</a></li>
-        <li><a href='./geek/%E9%80%8F%E8%A7%86HTTP%E5%8D%8F%E8%AE%AE' target='_blank'>透视HTTP协议</a></li>
-        <li><a href='./geek/%E4%BB%A3%E7%A0%81%E7%B2%BE%E8%BF%9B%E4%B9%8B%E8%B7%AF' target='_blank'>代码精进之路</a></li>
-        <li><a href='./geek/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E' target='_blank'>设计模式之美</a></li>
-        <li><a href='./geek/Flutter%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98' target='_blank'>Flutter核心技术与实战</a></li>
-        <li><a href='./geek/%E8%AF%B4%E9%80%8F%E6%95%B0%E5%AD%97%E5%8C%96%E8%BD%AC%E5%9E%8B' target='_blank'>说透数字化转型</a></li>
-        <li><a href='./geek/%E5%88%86%E5%B8%83%E5%BC%8F%E9%87%91%E8%9E%8D%E6%9E%B6%E6%9E%84%E8%AF%BE' target='_blank'>分布式金融架构课</a></li>
-        <li><a href='./geek/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E4%BA%91%E8%AE%A1%E7%AE%97' target='_blank'>深入浅出云计算</a></li>
-        <li><a href='./geek/%E8%AF%B4%E9%80%8F%E5%8C%BA%E5%9D%97%E9%93%BE' target='_blank' style="color:green">说透区块链</a></li>
-        <li><a href='./geek/%E6%8A%80%E6%9C%AF%E9%9D%A2%E8%AF%95%E5%AE%98%E8%AF%86%E4%BA%BA%E6%89%8B%E5%86%8C' target='_blank'>技术面试官识人手册</a></li>
-        <li><a href='./geek/%E6%B7%B1%E5%85%A5C%E8%AF%AD%E8%A8%80%E5%92%8C%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86' target='_blank'>深入C语言和程序运行原理</a></li>
-        <li><a href='./geek/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%9E%E6%88%9845%E8%AE%B2' target='_blank'>操作系统实战45讲</a></li>
-        <li><a href='./geek/%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%8F%B0%E5%AE%9E%E6%88%98%E8%AF%BE' target='_blank'>数据中台实战课</a></li>
-        <li><a href='./geek/Serverless%E5%85%A5%E9%97%A8%E8%AF%BE' target='_blank'>Serverless入门课</a></li>
-        <li><a href='./geek/%E5%AE%B9%E5%99%A8%E5%AE%9E%E6%88%98%E9%AB%98%E6%89%8B%E8%AF%BE' target='_blank'>容器实战高手课</a></li>
-        <li><a href='./geek/%E5%8D%B3%E6%97%B6%E6%B6%88%E6%81%AF%E6%8A%80%E6%9C%AF%E5%89%96%E6%9E%90%E4%B8%8E%E5%AE%9E%E6%88%98' target='_blank'>即时消息技术剖析与实战</a></li>
-        <li><a href='./geek/Java%E4%B8%9A%E5%8A%A1%E5%BC%80%E5%8F%91%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF100%E4%BE%8B' target='_blank'>Java业务开发常见错误100例</a></li>
-        <li><a href='./geek/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AE%9E%E6%88%98' target='_blank'>网络编程实战</a></li>
-        <li><a href='./geek/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E9%9D%A2%E8%AF%95%E5%AE%9D%E5%85%B8' target='_blank'>动态规划面试宝典</a></li>
-        <li><a href='./geek/SRE%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C' target='_blank'>SRE实战手册</a></li>
-        <li><a href='./geek/eBPF%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98' target='_blank'>eBPF核心技术与实战</a></li>
-        <li><a href='./geek/%E6%89%8B%E6%8A%8A%E6%89%8B%E5%B8%A6%E4%BD%A0%E6%90%AD%E5%BB%BA%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F' target='_blank'>手把手带你搭建秒杀系统</a></li>
-        <li><a href='./geek/%E5%B7%A6%E8%80%B3%E5%90%AC%E9%A3%8E' target='_blank'>左耳听风</a></li>
-        <li><a href='./geek/%E9%83%AD%E4%B8%9C%E7%99%BD%E7%9A%84%E6%9E%B6%E6%9E%84%E8%AF%BE' target='_blank'>郭东白的架构课</a></li>
-        <li><a href='./geek/%E4%BA%BA%E4%BA%BA%E9%83%BD%E8%83%BD%E5%AD%A6%E4%BC%9A%E7%9A%84%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8%E8%AF%BE' target='_blank'>人人都能学会的编程入门课</a></li>
-        <li><a href='./geek/ReactHooks%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E6%88%98' target='_blank'>ReactHooks核心原理与实战</a></li>
-        <li><a href='./geek/OpenResty%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%AE%9E%E6%88%98' target='_blank'>OpenResty从入门到实战</a></li>
-        <li><a href='./geek/%E7%A0%94%E5%8F%91%E6%95%88%E7%8E%87%E7%A0%B4%E5%B1%80%E4%B9%8B%E9%81%93' target='_blank'>研发效率破局之道</a></li>
-</ul>
+        <!-- 音视频与多媒体 -->
+        <section class="category-section category-media" id="media">
+            <div class="category-header">
+                <i class="fas fa-photo-video"></i>
+                <h2>音视频与多媒体</h2>
+            </div>
+            <div class="category-content">
+                <div class="course-grid">
+                    <div class="course-card">
+                        <a href='./geek/搞定音频技术' target='_blank'>搞定音频技术</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/攻克视频技术' target='_blank'>攻克视频技术</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/从0打造音视频直播系统' target='_blank'>从0打造音视频直播系统</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/摄影入门课' target='_blank'>摄影入门课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/视觉笔记入门课' target='_blank'>视觉笔记入门课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/跟月影学可视化' target='_blank'>跟月影学可视化</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/打造爆款短视频' target='_blank'>打造爆款短视频</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/手机摄影' target='_blank'>手机摄影</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/手把手教你玩音乐' target='_blank'>手把手教你玩音乐</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/从0开始学游戏开发' target='_blank'>从0开始学游戏开发</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 计算机基础 -->
+        <section class="category-section category-technology" id="cs-basics">
+            <div class="category-header">
+                <i class="fas fa-microchip"></i>
+                <h2>计算机基础</h2>
+            </div>
+            <div class="category-content">
+                <div class="course-grid">
+                    <div class="course-card">
+                        <a href='./geek/编译原理之美' target='_blank'>编译原理之美</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/编译原理实战课' target='_blank'>编译原理实战课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/深入浅出计算机组成原理' target='_blank'>深入浅出计算机组成原理</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/深入拆解Java虚拟机' target='_blank'>深入拆解Java虚拟机</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/数据结构与算法之美' target='_blank'>数据结构与算法之美</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/算法实战高手课' target='_blank'>算法实战高手课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/编程高手必学的内存知识' target='_blank'>编程高手必学的内存知识</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/重学线性代数' target='_blank'>重学线性代数</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/浏览器工作原理与实践' target='_blank'>浏览器工作原理与实践</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/Vim实用技巧必知必会' target='_blank'>Vim实用技巧必知必会</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 性能优化 -->
+        <section class="category-section category-technology" id="performance">
+            <div class="category-header">
+                <i class="fas fa-tachometer-alt"></i>
+                <h2>性能优化</h2>
+            </div>
+            <div class="category-content">
+                <div class="course-grid">
+                    <div class="course-card">
+                        <a href='./geek/性能优化高手课' target='_blank'>性能优化高手课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/Java性能调优实战' target='_blank'>Java性能调优实战</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/性能工程高手课' target='_blank'>性能工程高手课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/高楼的性能工程实战课' target='_blank'>高楼的性能工程实战课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/Java并发编程实战' target='_blank'>Java并发编程实战</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/李智慧·高并发架构实战课' target='_blank'>李智慧·高并发架构实战课</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 技术管理 -->
+        <section class="category-section category-management" id="tech-management">
+            <div class="category-header">
+                <i class="fas fa-users-cog"></i>
+                <h2>技术管理</h2>
+            </div>
+            <div class="category-content">
+                <div class="course-grid">
+                    <div class="course-card">
+                        <a href='./geek/技术管理实战36讲' target='_blank'>技术管理实战36讲</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/技术管理案例课' target='_blank'>技术管理案例课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/技术领导力实战笔记' target='_blank'>技术领导力实战笔记</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/朱赟的技术管理课' target='_blank'>朱赟的技术管理课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/研发效率破局之道' target='_blank'>研发效率破局之道</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/持续交付36讲' target='_blank'>持续交付36讲</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/10x程序员工作法' target='_blank'>10x程序员工作法</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/乔新亮的CTO成长复盘' target='_blank'>乔新亮的CTO成长复盘</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/黄勇的OKR实战笔记' target='_blank'>黄勇的OKR实战笔记</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/流程型组织15讲' target='_blank'>流程型组织15讲</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/雷蓓蓓的项目管理实战课' target='_blank'>雷蓓蓓的项目管理实战课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/说透敏捷' target='_blank'>说透敏捷</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 前沿技术 -->
+        <section class="category-section category-technology" id="emerging-tech">
+            <div class="category-header">
+                <i class="fas fa-rocket"></i>
+                <h2>前沿技术</h2>
+            </div>
+            <div class="category-content">
+                <div class="course-grid">
+                    <div class="course-card">
+                        <a href='./geek/深入浅出区块链' target='_blank'>深入浅出区块链</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/说透区块链' target='_blank'>说透区块链</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/深入浅出云计算' target='_blank'>深入浅出云计算</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/物联网开发实战' target='_blank'>物联网开发实战</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/说透5G' target='_blank'>说透5G</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/说透芯片' target='_blank'>说透芯片</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/说透低代码' target='_blank'>说透低代码</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/说透中台' target='_blank'>说透中台</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/说透数字化转型' target='_blank'>说透数字化转型</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/ReactNative新架构实战课' target='_blank'>ReactNative新架构实战课</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 职场与成长 -->
+        <section class="category-section category-career" id="career">
+            <div class="category-header">
+                <i class="fas fa-briefcase"></i>
+                <h2>职场与成长</h2>
+            </div>
+            <div class="category-content">
+                <div class="course-grid">
+                    <div class="course-card">
+                        <a href='./geek/面试现场' target='_blank'>面试现场</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/技术面试官识人手册' target='_blank'>技术面试官识人手册</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/后端技术面试38讲' target='_blank'>后端技术面试38讲</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/Java核心技术面试精讲' target='_blank'>Java核心技术面试精讲</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/大厂晋升指南' target='_blank'>大厂晋升指南</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/职场求生攻略' target='_blank'>职场求生攻略</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/程序员的个人财富课' target='_blank'>程序员的个人财富课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/互联网人的英语私教课' target='_blank'>互联网人的英语私教课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/超级访谈：对话张雪峰' target='_blank'>超级访谈：对话张雪峰</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/超级访谈：对话汤峥嵘' target='_blank'>超级访谈：对话汤峥嵘</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/跟着高手学复盘' target='_blank'>跟着高手学复盘</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 生活与学习 -->
+        <section class="category-section category-lifestyle" id="lifestyle">
+            <div class="category-header">
+                <i class="fas fa-book-reader"></i>
+                <h2>生活与学习</h2>
+            </div>
+            <div class="category-content">
+                <div class="course-grid">
+                    <div class="course-card">
+                        <a href='./geek/爱上跑步' target='_blank'>爱上跑步</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/如何看懂一幅画' target='_blank'>如何看懂一幅画</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/如何读懂一首诗' target='_blank'>如何读懂一首诗</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/人人都用得上的写作课' target='_blank'>人人都用得上的写作课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/如何成为学习高手' target='_blank'>如何成为学习高手</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/讲好故事' target='_blank'>讲好故事</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/恋爱必修课' target='_blank'>恋爱必修课</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/白话法律42讲' target='_blank'>白话法律42讲</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/编辑训练营' target='_blank'>编辑训练营</a>
+                    </div>
+                    <div class="course-card">
+                        <a href='./geek/去无方向的信' target='_blank'>去无方向的信</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <footer>
+        <p>© 2025 极客时间课程索引 | 现代简约风格设计</p>
+    </footer>
+
+    <script src="assets/index.js"></script>
 </body>
 </html>

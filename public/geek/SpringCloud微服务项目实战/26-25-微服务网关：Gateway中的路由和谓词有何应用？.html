@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是姚秋辰。</p><p>在上节课中，我们了解了Spring Cloud Gateway网关在微服务架构中的定位，我还介绍了Gateway的三大核心组件路由、谓词和过滤器的基本概念。今天，我们就来进一步认识Gateway的内置功能，了解在Gateway中如何声明一个路由，以及路由中的谓词判断逻辑有什么作用。</p><p>Spring Cloud Gateway（以下简称Gateway）提供了非常丰富的内置谓词，你可以通过内置谓词来构建复杂的路由条件，甚至连“整点秒杀”这个场景都能在网关层做控制。这些内置谓词就像乐高积木一样，你可以随意组合在自己的业务逻辑中，构建五花八门的网关层判断逻辑。如果这还不够，那么Gateway还提供了自定义的谓词工厂扩展点，让你构建自定义谓词。</p><p>由于这些个谓词都要附着于一个路由之上，所以在介绍谓词之前，我得先和你聊一下怎么声明一个路由。这一节不涉及微服务项目改造，只是让你能够用最直观的方式体验Gateway的功能特点。</p><h2>声明路由的几种方式</h2><p>在上一节中我们讲到，路由是Gateway中的一条基本转发规则。网关在启动的时候，必须将这些路由规则加载到上下文中，它才能正确处理服务转发请求。那么网关可以从哪些地方加载路由呢？</p><!-- [[[read_end]]] --><p>Gateway提供了三种方式来加载路由规则，分别是Java代码、yaml文件和动态路由。让我们先来一睹为快，近距离感受一下这三种风格迥异的加载方式。</p><p>第一种加载方式是Java代码声明路由，它是可读性和可维护性最好的方式，也是我比较喜欢使用的方式。你可以使用一种链式编程的Builder风格来构造一个route对象，比如在下面的例子里，相信就算我不解释，你也能看明白这段代码做的事情。它声明了两个路由，根据path的匹配规则将请求转发到不同的地址。</p><pre><code class="language-plain">@Bean
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 public RouteLocator declare(RouteLocatorBuilder builder) {
     return builder.routes()
             .route("id-001", route -&gt; route

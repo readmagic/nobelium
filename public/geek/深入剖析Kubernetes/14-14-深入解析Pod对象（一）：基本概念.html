@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是张磊。今天我和你分享的主题是：深入解析Pod对象之基本概念。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>在上一篇文章中，我详细介绍了Pod这个Kubernetes项目中最重要的概念。而在今天这篇文章中，我会和你分享Pod对象的更多细节。</p>
 <p>现在，你已经非常清楚：Pod，而不是容器，才是Kubernetes项目中的最小编排单位。将这个设计落实到API对象上，容器（Container）就成了Pod属性里的一个普通的字段。那么，一个很自然的问题就是：到底哪些属性属于Pod对象，而又有哪些属性属于Container呢？</p>
 <p>要彻底理解这个问题，你就一定要牢记我在上一篇文章中提到的一个结论：Pod扮演的是传统部署环境里“虚拟机”的角色。这样的设计，是为了使用户从传统环境（虚拟机环境）向Kubernetes（容器环境）的迁移，更加平滑。</p>

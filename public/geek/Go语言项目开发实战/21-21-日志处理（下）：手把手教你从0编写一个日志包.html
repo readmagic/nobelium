@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是孔令飞。</p><p>上一讲我介绍了如何设计日志包，今天是实战环节，我会手把手教你从0编写一个日志包。</p><p>在实际开发中，我们可以选择一些优秀的开源日志包，不加修改直接拿来使用。但更多时候，是基于一个或某几个优秀的开源日志包进行二次开发。想要开发或者二次开发一个日志包，就要掌握日志包的实现方式。那么这一讲中，我来带你从0到1，实现一个具备基本功能的日志包，让你从中一窥日志包的实现原理和实现方法。</p><p>在开始实战之前，我们先来看下目前业界有哪些优秀的开源日志包。</p><h2>有哪些优秀的开源日志包？</h2><p>在Go项目开发中，我们可以通过修改一些优秀的开源日志包，来实现项目的日志包。Go生态中有很多优秀的开源日志包，例如标准库log包、glog、logrus、zap、seelog、zerolog、log15、apex/log、go-logging等。其中，用得比较多的是标准库log包、glog、logrus和zap。</p><p>为了使你了解开源日志包的现状，接下来我会简单介绍下这几个常用的日志包。至于它们的具体使用方法，你可以参考我整理的一篇文章：<a href="https://github.com/marmotedu/geekbang-go/blob/master/%E4%BC%98%E7%A7%80%E5%BC%80%E6%BA%90%E6%97%A5%E5%BF%97%E5%8C%85%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.md">优秀开源日志包使用教程</a>。</p><h3>标准库log包</h3><p>标准库log包的功能非常简单，只提供了Print、Panic和Fatal三类函数用于日志输出。因为是标准库自带的，所以不需要我们下载安装，使用起来非常方便。</p><!-- [[[read_end]]] --><p>标准库log包只有不到400行的代码量，如果你想研究如何实现一个日志包，阅读标准库log包是一个不错的开始。Go的标准库大量使用了log包，例如<code>net/http</code> 、 <code>net/rpc</code> 等。</p><h3>glog</h3><p><a href="https://github.com/golang/glog">glog</a>是Google推出的日志包，跟标准库log包一样，它是一个轻量级的日志包，使用起来简单方便。但glog比标准库log包提供了更多的功能，它具有如下特性：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>支持4种日志级别：Info、Warning、Error、Fatal。</li>
 <li>支持命令行选项，例如<code>-alsologtostderr</code>、<code>-log_backtrace_at</code>、<code>-log_dir</code>、<code>-logtostderr</code>、<code>-v</code>等，每个参数实现某种功能。</li>
 <li>支持根据文件大小切割日志文件。</li>

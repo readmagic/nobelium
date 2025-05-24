@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是傅健，这节课我们聊聊Spring事件上的常见错误。</p><p>前面的几讲中，我们介绍了Spring依赖注入、AOP等核心功能点上的常见错误。而作为Spring 的关键功能支撑，Spring事件是一个相对独立的点。或许你从没有在自己的项目中使用过Spring事件，但是你一定见过它的相关日志。而且在未来的编程实践中，你会发现，一旦你用上了Spring事件，往往完成的都是一些有趣的、强大的功能，例如动态配置。那么接下来我就来讲讲Spring事件上都有哪些常见的错误。</p><h2>案例1：试图处理并不会抛出的事件</h2><p>Spring事件的设计比较简单。说白了，就是监听器设计模式在Spring中的一种实现，参考下图：</p><p><img src="https://static001.geekbang.org/resource/image/34/c6/349f79e396276ab3744c04b0a29eccc6.jpg" alt=""></p><p>从图中我们可以看出，Spring事件包含以下三大组件。</p><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>事件（Event）：用来区分和定义不同的事件，在Spring中，常见的如ApplicationEvent和AutoConfigurationImportEvent，它们都继承于java.util.EventObject。</li>
 <li>事件广播器（Multicaster）：负责发布上述定义的事件。例如，负责发布ApplicationEvent 的ApplicationEventMulticaster就是Spring中一种常见的广播器。</li>
 <li>事件监听器（Listener）：负责监听和处理广播器发出的事件，例如ApplicationListener就是用来处理ApplicationEventMulticaster发布的ApplicationEvent，它继承于JDK的 EventListener，我们可以看下它的定义来验证这个结论：</li>

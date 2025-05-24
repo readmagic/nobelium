@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是蒋德钧。</p><p>今天的加餐，我们来聊一个轻松点儿的话题，我来给你介绍一下Redis的使用规范，包括键值对使用、业务数据保存和命令使用规范。</p><p>毕竟，高性能和节省内存，是我们的两个目标，只有规范地使用Redis，才能真正实现这两个目标。如果说之前的内容教会了你怎么用，那么今天的内容，就是帮助你用好Redis，尽量不出错。</p><p>好了，话不多说，我们来看下键值对的使用规范。</p><h2>键值对使用规范</h2><p>关于键值对的使用规范，我主要想和你说两个方面：</p><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>key的命名规范，只有命名规范，才能提供可读性强、可维护性好的key，方便日常管理；</li>
 <li>value的设计规范，包括避免bigkey、选择高效序列化方法和压缩方法、使用整数对象共享池、数据类型选择。</li>
 </ol><h3>规范一：key的命名规范</h3><p>一个Redis实例默认可以支持16个数据库，我们可以把不同的业务数据分散保存到不同的数据库中。</p><p>但是，在使用不同数据库时，客户端需要使用SELECT命令进行数据库切换，相当于增加了一个额外的操作。</p><p>其实，我们可以通过合理命名key，减少这个操作。具体的做法是，把业务名作为前缀，然后用冒号分隔，再加上具体的业务数据名。这样一来，我们可以通过key的前缀区分不同的业务数据，就不用在多个数据库间来回切换了。</p><!-- [[[read_end]]] --><p>我给你举个简单的小例子，看看具体怎么命名key。</p><p>比如说，如果我们要统计网页的独立访客量，就可以用下面的代码设置key，这就表示，这个数据对应的业务是统计unique visitor（独立访客量），而且对应的页面编号是1024。</p><pre><code>uv:page:1024

@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>本周我们已经分别讨论了最基本的单点法排序学习（Pointwise Learning to Rank）和配对法排序学习（Pairwise Learning to Rank）两种思路。单点法排序学习思路简单实用，目的就是把经典的信息检索问题转化成机器学习问题。配对法排序学习则是把排序的问题转化成针对某个查询关键字每两个文档之间的相对相关性的建模问题。不过，这两种思路也都有很明显的问题，需要进一步对算法进行优化，以实现我们需要的最终目标。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>今天我就来讲直接优化排序问题的“终极方法”：列表法排序学习（Listwise Learning to Rank）  。相对于尝试学习每一个样本是否相关或者两个文档的相对比较关系，列表法排序学习的基本思路是尝试直接优化像NDCG（Normalized Discounted Cumulative Gain）这样的指标，从而能够学习到最佳排序结果。</p>
 <h2>列表法排序学习的历史</h2>
 <p>2000年后，学术界和工业界都开始研究如何用机器学习来解决最优排序问题，五六年之后，研究者们才开始尝试直接优化整个排序列表。</p>

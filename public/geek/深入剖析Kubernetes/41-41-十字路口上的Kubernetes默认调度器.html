@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是张磊。今天我和你分享的主题是：十字路口上的Kubernetes默认调度器。</p><p>在上一篇文章中，我主要为你介绍了Kubernetes里关于资源模型和资源管理的设计方法。而在今天这篇文章中，我就来为你介绍一下Kubernetes的默认调度器（default scheduler）。</p><p><strong>在Kubernetes项目中，默认调度器的主要职责，就是为一个新创建出来的Pod，寻找一个最合适的节点（Node）。</strong></p><p>而这里“最合适”的含义，包括两层：</p><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>
 <p>从集群所有的节点中，根据调度算法挑选出所有可以运行该Pod的节点；</p>
 </li>

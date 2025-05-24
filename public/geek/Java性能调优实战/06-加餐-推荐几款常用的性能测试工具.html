@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是刘超。很多同学给我留言想让我讲讲工具，所以我的第一篇加餐就光速来了～</p><p>熟练掌握一款性能测试工具，是我们必备的一项技能。他不仅可以帮助我们模拟测试场景（包括并发、复杂的组合场景），还能将测试结果转化成数据或图形，帮助我们更直观地了解系统性能。</p><h2>常用的性能测试工具</h2><p>常用的性能测试工具有很多，在这里我将列举几个比较实用的。</p><p>对于开发人员来说，首选是一些开源免费的性能（压力）测试软件，例如ab（ApacheBench）、JMeter等；对于专业的测试团队来说，付费版的LoadRunner是首选。当然，也有很多公司是自行开发了一套量身定做的性能测试软件，优点是定制化强，缺点则是通用性差。</p><p>接下来，我会为你重点介绍ab和JMeter两款测试工具的特点以及常规的使用方法。</p><h3>1.ab</h3><p>ab测试工具是Apache提供的一款测试工具，具有简单易上手的特点，在测试Web服务时非常实用。</p><p>ab可以在Windows系统中使用，也可以在Linux系统中使用。这里我说下在Linux系统中的安装方法，非常简单，只需要在Linux系统中输入yum-y install httpd-tools命令，就可以了。</p><p>安装成功后，输入ab命令，可以看到以下提示：</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/ac/0a/ac58706f86ebd1d7349561ae501fca0a.png" alt=""></p><p>ab工具用来测试post get接口请求非常便捷，可以通过参数指定请求数、并发数、请求参数等。例如，一个测试并发用户数为10、请求数量为100的的post请求输入如下：</p><pre><code>ab -n 100  -c 10 -p 'post.txt' -T 'application/x-www-form-urlencoded' 'http://test.api.com/test/register'
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 </code></pre><p>post.txt为存放post参数的文档，存储格式如下：</p><pre><code>usernanme=test&amp;password=test&amp;sex=1
 </code></pre><p><strong>附上几个常用参数的含义：</strong></p><ul>
 <li>-n：总请求次数（最小默认为1）；</li>

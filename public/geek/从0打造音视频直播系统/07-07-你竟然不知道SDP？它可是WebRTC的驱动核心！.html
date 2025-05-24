@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>在前面<a href="https://time.geekbang.org/column/article/107948">《01 | 原来通过浏览器访问摄像头这么容易》</a><a href="https://time.geekbang.org/column/article/109105">《04 | 可以把采集到的音视频数据录制下来吗？》</a>等文章中，我向你讲解了 WebRTC 如何采集音视频数据，以及如何将它们录制成文件等相关内容。但那些知识不过是个“<strong>开胃菜</strong>”，WebRTC 真正核心的知识将从本文开始陆续向你展开。不过从本文开始，知识的难度会越来越高，你一定要做好心理准备。</p><p>说到 WebRTC 运转的核心，不同的人可能有不同的理解：有的人认为 WebRTC 的核心是音视频引擎，有的人认为是网络传输，而我则认为WebRTC之所以能很好地运转起来，完全是由SDP驱动的，因此<strong>SDP才是WebRTC的核心</strong>。</p><p>掌握了这个核心，你就知道WebRTC都支持哪些编解码器、每次通话时都有哪些媒体（通话时有几路音频/视频）以及底层网络使用的是什么协议，也就是说你就相当于拿到了打开 WebRTC 大门的一把钥匙。</p><p>由此可见，SDP 在 WebRTC 中是何等重要。下面就让我们正式进入正题吧！</p><h2>SDP 是什么</h2><p>在正式讲解 SDP 之前，你首先要弄清楚SDP是什么？SDP（Session Description Protocal）说直白点就是用文本描述的各端（PC端、Mac端、Android端、iOS端等）的<strong>能力</strong>。这里的<strong>能力</strong>指的是各端所支持的音频编解码器是什么，这些编解码器设定的参数是什么，使用的传输协议是什么，以及包括的音视频媒体是什么等等。</p><!-- [[[read_end]]] --><p>下面让我们来看一个真实的 SDP 片段吧！</p><pre><code>v=0
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 o=- 3409821183230872764 2 IN IP4 127.0.0.1
 ...
 m=audio 9 UDP/TLS/RTP/SAVPF 111 103 104 9 0 8 106 105 13 110 112 113 126

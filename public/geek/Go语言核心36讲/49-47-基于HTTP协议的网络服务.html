@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>我们在上一篇文章中简单地讨论了网络编程和socket，并由此提及了Go语言标准库中的<code>syscall</code>代码包和<code>net</code>代码包。</p><p>我还重点讲述了<code>net.Dial</code>函数和<code>syscall.Socket</code>函数的参数含义。前者间接地调用了后者，所以正确理解后者，会对用好前者有很大裨益。</p><p>之后，我们把视线转移到了<code>net.DialTimeout</code>函数以及它对操作超时的处理上，这又涉及了<code>net.Dialer</code>类型。实际上，这个类型正是<code>net</code>包中这两个“拨号”函数的底层实现。</p><p>我们像上一篇文章的示例代码那样用<code>net.Dial</code>或<code>net.DialTimeout</code>函数来访问基于HTTP协议的网络服务是完全没有问题的。HTTP协议是基于TCP/IP协议栈的，并且它也是一个面向普通文本的协议。</p><p>原则上，我们使用任何一个文本编辑器，都可以轻易地写出一个完整的HTTP请求报文。只要你搞清楚了请求报文的头部（header）和主体（body）应该包含的内容，这样做就会很容易。所以，在这种情况下，即便直接使用<code>net.Dial</code>函数，你应该也不会感觉到困难。</p><p>不过，不困难并不意味着很方便。如果我们只是访问基于HTTP协议的网络服务的话，那么使用<code>net/http</code>代码包中的程序实体来做，显然会更加便捷。</p><!-- [[[read_end]]] --><p>其中，最便捷的是使用<code>http.Get</code>函数。我们在调用它的时候只需要传给它一个URL就可以了，比如像下面这样：</p><pre><code>url1 := &quot;http://google.cn&quot;
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 fmt.Printf(&quot;Send request to %q with method GET ...\n&quot;, url1)
 resp1, err := http.Get(url1)
 if err != nil {

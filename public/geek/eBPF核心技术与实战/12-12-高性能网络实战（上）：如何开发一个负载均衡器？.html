@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是倪朋飞。</p><p>上一讲，我带你一起梳理了 eBPF 的安全能力，并教你使用 eBPF 分析和阻止了容器进程的安全问题。在开篇词中我就提到，eBPF 的主要应用场景涵盖了故障诊断、性能监控、安全控制以及网络优化等。从<a href="https://time.geekbang.org/column/article/484207"> 07 讲</a> 进入实战进阶篇开始，我已经为你介绍了应用于前三个场景中的内核跟踪、用户态跟踪、网络跟踪以及安全控制等。那么，对于最后一个场景，网络性能优化，eBPF 是如何发挥作用的呢？</p><p>今天，我就以最常用的负载均衡器为例，带你一起来看看如何借助 eBPF 来优化网络的性能。</p><h2>Nginx 负载均衡器</h2><p>既然要优化负载均衡器的网络性能，那么首先就需要有一个优化的目标，即初始版的负载均衡器。在今天的案例中，我们使用最常用的反向代理和 Web 服务器 Nginx 作为初始版的负载均衡器，同时也使用自定义的 Nginx 作为后端的 Web 服务器。</p><p>为了方便环境的重现，负载均衡器、 Web 服务器以及客户端都运行在容器中，它们的 IP 和 MAC 等基本信息如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/e9/15/e923026f577f7b991be2610734f9e415.jpg?wh=1920x1706" alt="图片"></p><p>参考 Nginx 官方文档中 <a href="https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/">HTTP 负载均衡</a>的配置方法，你可以通过以下几步来搭建上述的案例环境。</p><p>1）执行下面的命令，创建上图中的4个容器：</p><pre><code class="language-bash"># Webserver (响应是hostname，如 http1 或 http2)
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 docker run -itd --name=http1 --hostname=http1 feisky/webserver
 docker run -itd --name=http2 --hostname=http2 feisky/webserver
 

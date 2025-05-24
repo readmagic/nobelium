@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是胡夕。</p><p>上节课，我们学习了分层时间轮在Kafka中的实现。既然是分层时间轮，那就说明，源码中构造的时间轮是有多个层次的。每一层所表示的总时长，等于该层Bucket数乘以每个Bucket涵盖的时间范围。另外，该总时长自动成为下一层单个Bucket所覆盖的时间范围。</p><p>举个例子，目前，Kafka第1层的时间轮固定时长是20毫秒（interval），即有20个Bucket（wheelSize），每个Bucket涵盖1毫秒（tickMs）的时间范围。第2层的总时长是400毫秒，同样有20个Bucket，每个Bucket 20毫秒。依次类推，那么第3层的时间轮时长就是8秒，因为这一层单个Bucket的时长是400毫秒，共有20个Bucket。</p><p>基于这种设计，每个延迟请求需要根据自己的超时时间，来决定它要被保存于哪一层时间轮上。我们假设在t=0时创建了第1层的时间轮，那么，该层第1个Bucket保存的延迟请求就是介于[0，1）之间，第2个Bucket保存的是介于[1，2)之间的请求。现在，如果有两个延迟请求，超时时刻分别在18.5毫秒和123毫秒，那么，第1个请求就应该被保存在第1层的第19个Bucket（序号从1开始）中，而第2个请求，则应该被保存在第2层时间轮的第6个Bucket中。</p><!-- [[[read_end]]] --><p>这基本上就是Kafka中分层时间轮的实现原理。Kafka不断向前推动各个层级的时间轮的时钟，按照时间轮的滴答时长，陆续接触到Bucket下的各个延迟任务，从而实现了对请求的延迟处理。</p><p>但是，如果你仔细查看的话，就会发现，到目前为止，这套分层时间轮代码和Kafka概念并无直接的关联，比如分层时间轮里并不涉及主题、分区、副本这样的概念，也没有和Controller、副本管理器等Kafka组件进行直接交互。但实际上，延迟处理请求是Kafka的重要功能之一。你可能会问，到底是Kafka的哪部分源码负责创建和维护这套分层时间轮，并将它集成到整体框架中去的呢？答案就是接下来要介绍的两个类：Timer和SystemTimer。</p><h2>Timer接口及SystemTimer</h2><p>这两个类的源码位于utils.timer包下的Timer.scala文件。其中，<strong>Timer接口定义了管理延迟操作的方法，而SystemTimer是实现延迟操作的关键代码</strong>。后续在学习延迟请求类DelayedOperation时，我们就会发现，调用分层时间轮上的各类操作，都是通过SystemTimer类完成的。</p><h3>Timer接口</h3><p>接下来，我们就看下它们的源码。首先是Time接口类，代码如下：</p><pre><code>trait Timer {
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
   // 将给定的定时任务插入到时间轮上，等待后续延迟执行
   def add(timerTask: TimerTask): Unit
   // 向前推进时钟，执行已达过期时间的延迟任务

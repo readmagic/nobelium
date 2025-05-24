@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>我在上两篇文章中，详细地讲述了Go语言中的错误处理，并从两个视角为你总结了错误类型、错误值的处理技巧和设计方式。</p><p>在本篇，我要给你展示Go语言的另外一种错误处理方式。不过，严格来说，它处理的不是错误，而是异常，并且是一种在我们意料之外的程序异常。</p><h2>前导知识：运行时恐慌panic</h2><p>这种程序异常被叫做panic，我把它翻译为运行时恐慌。其中的“恐慌”二字是由panic直译过来的，而之所以前面又加上了“运行时”三个字，是因为这种异常只会在程序运行的时候被抛出来。</p><p>我们举个具体的例子来看看。</p><p>比如说，一个Go程序里有一个切片，它的长度是5，也就是说该切片中的元素值的索引分别为<code>0</code>、<code>1</code>、<code>2</code>、<code>3</code>、<code>4</code>，但是，我在程序里却想通过索引<code>5</code>访问其中的元素值，显而易见，这样的访问是不正确的。</p><p>Go程序，确切地说是程序内嵌的Go语言运行时系统，会在执行到这行代码的时候抛出一个“index out of range”的panic，用以提示你索引越界了。</p><p>当然了，这不仅仅是个提示。当panic被抛出之后，如果我们没有在程序里添加任何保护措施的话，程序（或者说代表它的那个进程）就会在打印出panic的详细情况（以下简称panic详情）之后，终止运行。</p><!-- [[[read_end]]] --><p>现在，就让我们来看一下这样的panic详情中都有什么。</p><pre><code>panic: runtime error: index out of range
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 
 goroutine 1 [running]:
 main.main()

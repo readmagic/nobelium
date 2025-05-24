@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是程远。今天我们聊一聊磁盘读写不稳定的问题。</p><p>上一讲，我给你讲了如何通过XFS Quota来限制容器文件系统的大小，这是静态容量大小的一个限制。</p><p>你也许会马上想到，磁盘除了容量的划分，还有一个读写性能的问题。</p><p>具体来说，就是如果多个容器同时读写节点上的同一块磁盘，那么它们的磁盘读写相互之间影响吗？如果容器之间读写磁盘相互影响，我们有什么办法解决呢？</p><p>接下来，我们就带着问题一起学习今天的内容。</p><h2>场景再现</h2><p>我们先用这里的<a href="https://github.com/chengyli/training/tree/master/filesystem/blkio">代码</a>，运行一下 <code>make image</code> 来做一个带fio的容器镜像，fio在我们之前的课程里提到过，它是用来测试磁盘文件系统读写性能的工具。</p><p>有了这个带fio的镜像，我们可以用它启动一个容器，在容器中运行fio，就可以得到只有一个容器读写磁盘时的性能数据。</p><pre><code class="language-shell">mkdir -p /tmp/test1
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 docker stop fio_test1;docker rm fio_test1
 docker run --name fio_test1 --volume /tmp/test1:/tmp  registery/fio:v1 fio -direct=1 -rw=write -ioengine=libaio -bs=4k -size=1G -numjobs=1  -name=/tmp/fio_test1.log
 </code></pre><!-- [[[read_end]]] --><p>上面的这个Docker命令，我给你简单地解释一下：在这里我们第一次用到了"--volume"这个参数。之前我们讲过容器文件系统，比如OverlayFS。</p><p>不过容器文件系统并不适合频繁地读写。对于频繁读写的数据，容器需要把他们到放到"volume"中。这里的volume可以是一个本地的磁盘，也可以是一个网络磁盘。</p><p>在这个例子里我们就使用了宿主机本地磁盘，把磁盘上的/tmp/test1目录作为volume挂载到容器的/tmp目录下。</p><p>然后在启动容器之后，我们直接运行fio的命令，这里的参数和我们<a href="https://time.geekbang.org/column/article/318173">第11讲</a>最开始的例子差不多，只是这次我们运行的是write，也就是写磁盘的操作，而写的目标盘就是挂载到/tmp目录的volume。</p><p>可以看到，fio的运行结果如下图所示，IOPS是18K，带宽(BW)是70MB/s左右。</p><p><img src="https://static001.geekbang.org/resource/image/a8/54/a8a156d4a543bc02133751a14ba5a354.png" alt=""></p><p>好了，刚才我们模拟了一个容器写磁盘的性能。那么如果这时候有两个容器，都在往同一个磁盘上写数据又是什么情况呢？我们可以再用下面的这个脚本试一下：</p><pre><code class="language-shell">mkdir -p /tmp/test1

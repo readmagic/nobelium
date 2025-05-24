@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>今天我来带你进行SVM的学习，SVM的英文叫Support Vector Machine，中文名为支持向量机。它是常见的一种分类方法，在机器学习中，SVM是有监督的学习模型。</p><p>什么是有监督的学习模型呢？它指的是我们需要事先对数据打上分类标签，这样机器就知道这个数据属于哪个分类。同样无监督学习，就是数据没有被打上分类标签，这可能是因为我们不具备先验的知识，或者打标签的成本很高。所以我们需要机器代我们部分完成这个工作，比如将数据进行聚类，方便后续人工对每个类进行分析。SVM作为有监督的学习模型，通常可以帮我们模式识别、分类以及回归分析。</p><p>听起来，是不是很高大上。我先带你做个小练习。</p><p>练习1：桌子上我放了红色和蓝色两种球，请你用一根棍子将这两种颜色的球分开。</p><p><img src="https://static001.geekbang.org/resource/image/21/88/210bc20b5963d474d425ad1ca9ac6888.jpg" alt=""><br>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 你可以很快想到解决方案，在红色和蓝色球之间画条直线就好了，如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/ec/bb/ec657a6d274b5afb4d8169df9c248abb.jpg" alt=""><br>
 练习2：这次难度升级，桌子上依然放着红色、蓝色两种球，但是它们的摆放不规律，如下图所示。如何用一根棍子把这两种颜色分开呢？</p><p><img src="https://static001.geekbang.org/resource/image/b4/a3/b4b9793cdec47d0ea1528ff1922973a3.jpg" alt=""><br>
 你可能想了想，认为一根棍子是分不开的。除非把棍子弯曲，像下面这样：</p><p><img src="https://static001.geekbang.org/resource/image/14/eb/144d72013a808e955e78718f6df3d2eb.jpg" alt=""><br>

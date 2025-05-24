@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是蒋德钧。</p><p>Redis缓存淘汰算法的目的，其实是为了在Redis server内存使用量超过上限值的时候，筛选一些冷数据出来，把它们从Redis server中删除，以保证server的内存使用量不超出上限。我们在前两节课，已经分别学习了Redis源码对LRU算法和LFU算法的实现，这两种算法在最后淘汰数据的时候，都会删除被淘汰的数据。</p><p>不过，无论是LRU算法还是LFU算法，它们在删除淘汰数据时，实际上都会根据Redis server的<strong>lazyfree-lazy-eviction配置项</strong>，来决定是否使用Lazy Free，也就是惰性删除。</p><p>惰性删除是Redis 4.0版本后提供的功能，它会使用后台线程来执行删除数据的任务，从而避免了删除操作对主线程的阻塞。但是，<strong>后台线程异步删除数据能及时释放内存吗？它会影响到Redis缓存的正常使用吗？</strong></p><p>今天这节课，我就来给你介绍下惰性删除在缓存淘汰时的应用。了解这部分内容，你就可以掌握惰性删除启用后，会给Redis缓存淘汰和内存释放带来的可能影响。这样，当你在实际应用中，遇到Redis缓存内存容量的问题时，你就多了一条排查思路了。</p><p>好，那么接下来，我们就先来看下缓存淘汰时的数据删除的基本过程。不过在了解这个删除过程之前，我们需要先了解下Redis server启动惰性删除的配置。因为在Redis源码中，有不少地方都会根据server是否启动惰性删除，来执行不同的分支操作。</p><!-- [[[read_end]]] --><h2>惰性删除的设置</h2><p>首先，当Redis server希望启动惰性删除时，需要在redis.conf文件中设置和惰性删除相关的配置项。其中包括了四个配置项，分别对应了如下的四种场景。</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li><strong>lazyfree-lazy-eviction</strong>：对应缓存淘汰时的数据删除场景。</li>
 <li><strong>lazyfree-lazy-expire</strong>：对应过期key的删除场景。</li>
 <li><strong>lazyfree-lazy-server-del</strong>：对应会隐式进行删除操作的server命令执行场景。</li>

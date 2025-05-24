@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>上一节，我们讲了一下虚拟化的基本原理，以及qemu、kvm之间的关系。这一节，我们就来看一下，用户态的qemu和内核态的kvm如何一起协作，来创建虚拟机，实现CPU和内存虚拟化。</p><p>这里是上一节我们讲的qemu启动时候的命令。</p><pre><code>qemu-system-x86_64 -enable-kvm -name ubuntutest  -m 2048 -hda ubuntutest.qcow2 -vnc :19 -net nic,model=virtio -nettap,ifname=tap0,script=no,downscript=no
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 </code></pre><p>接下来，我们在<a href="https://www.qemu.org/">这里下载</a>qemu的代码。qemu的main函数在vl.c下面。这是一个非常非常长的函数，我们来慢慢地解析它。</p><h2>1.初始化所有的Module</h2><p>第一步，初始化所有的Module，调用下面的函数。</p><pre><code>module_call_init(MODULE_INIT_QOM);
 </code></pre><p>上一节我们讲过，qemu作为中间人其实挺累的，对上面的虚拟机需要模拟各种各样的外部设备。当虚拟机真的要使用物理资源的时候，对下面的物理机上的资源要进行请求，所以它的工作模式有点儿类似操作系统对接驱动。驱动要符合一定的格式，才能算操作系统的一个模块。同理，qemu为了模拟各种各样的设备，也需要管理各种各样的模块，这些模块也需要符合一定的格式。</p><p>定义一个qemu模块会调用type_init。例如，kvm的模块要在accel/kvm/kvm-all.c文件里面实现。在这个文件里面，有一行下面的代码：</p><pre><code>type_init(kvm_type_init);
 

@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是徐文浩。</p><p>在上一讲里，我们已经了解了Bigtable的整体架构，知道作为一个分布式数据系统，里面“分布式”的部分是怎么设计的了。那么，今天我就带你一起来详细深入到Bigtable的“数据”部分里，去看看它是怎么回事儿。而且今天的这一讲，我们会“超越”Bigtable的论文，深入到MemTable和SSTable的具体实现。搞清楚这些问题，不仅对你学懂Bigtable不可或缺，也对你深入理解计算机底层原理有所帮助。</p><p>在学习完这一讲之后，我希望你能掌握好这两个知识点：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>首先，自然是Bigtable本身的单个Tablet是如何提供服务的。</li>
 <li>其次，是我们如何利用好硬件特性，以及合理的算法和数据结构，让单个Tablet提供足够强劲的性能。</li>
 </ul><p>当你把这两个知识点掌握清楚了，你就能很容易学会怎么实现一个单机存储引擎，并且能够对硬件性能、算法与数据结构的实际应用有一些心得。</p><h2>Bigtable的读写操作</h2><p>在讲解Bigtable底层是怎么读写数据之前，我们先来看一看，Bigtable读写数据的API长什么样子。下面是论文里面提供的一段代码：</p><pre><code class="language-c++">// Open the table

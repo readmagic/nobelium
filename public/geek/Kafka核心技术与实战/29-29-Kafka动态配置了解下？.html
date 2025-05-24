@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是胡夕。今天我要和你讨论的主题是：Kafka的动态Broker参数配置。</p><h2>什么是动态Broker参数配置？</h2><p>在开始今天的分享之前，我们先来复习一下设置Kafka参数，特别是Broker端参数的方法。</p><p>在Kafka安装目录的config路径下，有个server.properties文件。通常情况下，我们会指定这个文件的路径来启动Broker。如果要设置Broker端的任何参数，我们必须在这个文件中显式地增加一行对应的配置，之后启动Broker进程，令参数生效。我们常见的做法是，一次性设置好所有参数之后，再启动Broker。当后面需要变更任何参数时，我们必须重启Broker。但生产环境中的服务器，怎么能随意重启呢？所以，目前修改Broker端参数是非常痛苦的过程。</p><p>基于这个痛点，社区于1.1.0版本中正式引入了动态Broker参数（Dynamic Broker Configs）。所谓动态，就是指修改参数值后，无需重启Broker就能立即生效，而之前在server.properties中配置的参数则称为静态参数（Static Configs）。显然，动态调整参数值而无需重启服务，是非常实用的功能。如果你想体验动态Broker参数的话，那就赶快升级到1.1版本吧。</p><!-- [[[read_end]]] --><p>当然了，当前最新的2.3版本中的Broker端参数有200多个，社区并没有将每个参数都升级成动态参数，它仅仅是把一部分参数变成了可动态调整。那么，我们应该如何分辨哪些参数是动态参数呢？</p><p>如果你打开1.1版本之后（含1.1）的Kafka官网，你会发现<a href="https://kafka.apache.org/documentation/#brokerconfigs">Broker Configs</a>表中增加了Dynamic Update Mode列。该列有3类值，分别是read-only、per-broker和cluster-wide。我来解释一下它们的含义。</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>read-only。被标记为read-only的参数和原来的参数行为一样，只有重启Broker，才能令修改生效。</li>
 <li>per-broker。被标记为per-broker的参数属于动态参数，修改它之后，只会在对应的Broker上生效。</li>
 <li>cluster-wide。被标记为cluster-wide的参数也属于动态参数，修改它之后，会在整个集群范围内生效，也就是说，对所有Broker都生效。你也可以为具体的Broker修改cluster-wide参数。</li>

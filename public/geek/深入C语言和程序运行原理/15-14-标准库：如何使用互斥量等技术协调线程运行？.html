@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是于航。</p><p>在上一讲中，我主要介绍了有关并发编程的一些基础知识，并通过一个简单的例子展示了如何在 C 语言中进行线程创建等基本操作。同时我也向你介绍了，数据竞争、竞态条件，以及指令重排等因素，都在如何影响着多线程应用的执行正确性。那么，有哪些方法可以辅助我们解决这些问题呢？</p><p>今天我们就来看看 C 语言为并发编程提供的几大利器：互斥量、原子操作、条件变量，以及线程本地变量。</p><h2>使用互斥量</h2><p>从本质上来看，互斥量（Mutex）其实就是一把锁。一个线程在访问某个共享资源前，需要先对互斥量进行加锁操作。此时，其他任何想要再对互斥量进行加锁的线程都会被阻塞，直至当前线程释放该锁。而当锁被释放后，所有之前被阻塞的线程都开始继续运行，并再次重复之前的步骤，开始“争夺”可以对互斥量进行加锁的名额。通过这种方式，我们便可以保证每次在对多线程共享的资源进行操作时，都仅只有一个线程。</p><p>在 C 语言中，我们可以通过头文件 threads.h 提供的，以 “mtx_” 为前缀的相关接口来使用互斥量的能力。你应该还记得我在<a href="https://time.geekbang.org/column/article/477358">上一讲</a>中提到的，那段存在数据竞争的 C 示例代码。这里我对它进行了改写，如下所示：</p><pre><code class="language-c++">#include &lt;threads.h&gt;
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 #include &lt;stdio.h&gt;
 #define THREAD_COUNT 10
 #define THREAD_LOOP 100000000

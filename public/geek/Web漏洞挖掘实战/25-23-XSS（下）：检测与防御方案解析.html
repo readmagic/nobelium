@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是王昊天。</p><p>在上一节课程中，我们学习了XSS攻击的利用方式，从攻击者的角度来说这是非常友好的，因为我们可以用BeEF实现多种有趣的攻击行为，并且它的利用方式还非常简单。</p><p>但是另一方面，这对于Web应用开发者来说，却是非常害怕看到的，毕竟没有人想自己的Web应用受到别人的攻击。<strong>所以应用的安全维护人员会进行一些安全措施来抵御XSS攻击。</strong></p><p>所以这节课，我们首先会学习XSS攻击的检测方法，了解如何判断一个页面是否存在XSS攻击。学习完XSS的检测方法后，我们会继续了解XSS的防御技术和缓解方法，看看Web应用是如何抵御这个简单却很有威力的攻击方式。最后，我会介绍JavaScript混淆技术，它可以将一个JavaScript字符转化为极其复杂的乱码，并且可以保留原代码的功能。</p><p>下面，就让我们进入到对XSS攻击的检测学习中。</p><h2>XSS攻击的检测</h2><p>在对XSS攻击的检测中，我们需要借助工具的帮忙。现在已经有了很多的XSS检测工具，这给我们带来了极大的便利，不再需要我们手动注入尝试了。</p><p>下面我会介绍一款好用的XSS检测工具——XSStrike，它的大多数payload都是由作者精心构造出的，<strong>具有极低的误报率</strong>。XSStrike会根据我们的输入，智能地生成合适的payload进行探测。这里，让我们一起看一个XSStrike的使用示例，来加深对它的理解。</p><!-- [[[read_end]]] --><p>首先，我们来看看它的用法。</p><p><img src="https://static001.geekbang.org/resource/image/21/3b/2157baf6cfe748d183634b2ed2f9923b.png?wh=1856x534" alt="图片"></p><p>其中比较重要的配置项，我将它们列举如下：</p><pre><code class="language-python">-h                #提示信息
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 -u                 #目标地址
 -data             #通过post方式上传数据
 --headers          #配置请求头信息，包括cookie等

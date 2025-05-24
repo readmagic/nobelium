@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>上一节，我给你介绍了游戏引擎的概念及其在游戏开发中所起的作用。同时，我也提到了游戏引擎背后的工作方式。在代码层面，游戏引擎是一套对底层绘图、音频、操作系统接口的封装实现。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>在此基础上，我还举了一个在游戏屏幕上画线条的例子。在这个例子中，<strong><span class="orange">画线的接口函数在背后分解、组合、计算，并将绘制工作交给底层绘图接口。</span></strong>这个绘图接口，就是今天要讲的内容。</p>
 <h2 id="-">几种常见的绘图接口</h2>
 <p>前面我已经说过，我会针对2D游戏来讲解游戏开发的流程和细节，所以，这里我先介绍几种2D<strong>绘图接口</strong>（即<strong>API，</strong>全称<strong>Application Programming Interface</strong>）。我选择了5种Windows下最流行的绘图接口，分别讲解。</p>

@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是winter。</p><p>在前面的课程中，我已经讲解了JavaScript对象的一些基础知识。但是，我们所讲解的对象，只是特定的一部分，并不能涵盖全部的JavaScript对象。</p><p>比如说，我们不论怎样编写代码，都没法绕开Array，实现一个跟原生的数组行为一模一样的对象，这是由于原生数组的底层实现了一个自动随着下标变化的length属性。</p><p>并且，在浏览器环境中，我们也无法单纯依靠JavaScript代码实现div对象，只能靠document.createElement来创建。这也说明了JavaScript的对象机制并非简单的属性集合+原型。</p><p>我们日常工作中，接触到的主要API，几乎都是由今天所讲解的这些对象提供的。理解这些对象的性质，我们才能真正理解我们使用的API的一些特性。</p><h2>JavaScript中的对象分类</h2><p>我们可以把对象分成几类。</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>
 <p>宿主对象（host Objects）：由JavaScript宿主环境提供的对象，它们的行为完全由宿主环境决定。</p>
 </li>

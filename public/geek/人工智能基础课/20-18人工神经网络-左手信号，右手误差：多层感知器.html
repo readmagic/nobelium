@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>虽然异或问题成为感知器和早期神经网络的阿喀琉斯之踵，但它并非无解的问题。<strong>恰恰相反，解决它的思路相当简单，就是将单层感知器变成多层感知器</strong>。下图就是一个多层感知器的实例，这个包含单个隐藏层的神经网络能够完美地解决异或问题。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p><img src="https://static001.geekbang.org/resource/image/ca/43/ca2dac3a4fd898ca87ff59b2be01aa43.png" alt="">
 （图片来自<em>Machine Learning: An Algorithmic Perspective</em>, 2nd Edition, Figure 4.2）</p>
 <p>假定两个输入节点A和B的二进制输入分别为1和0，则根据图中的权重系数可以计算出神经元C的输入为0.5，而神经元D的输入为0。在由C和D构成的隐藏层中，由于C的输入大于0，因而符号函数使其输出为1；由于D的输入等于0，符号函数则使其输出为0。在输出节点的神经元E上，各路输入线性组合的结果为0.5，因而E的输出，也是神经网络整体的输出，为1，与两个输入的异或相等。在此基础上可以进一步证明，这个神经网络的运算规则就是异或操作的运算规则。</p>

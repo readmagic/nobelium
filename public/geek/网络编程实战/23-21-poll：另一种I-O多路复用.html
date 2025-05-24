@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是盛延敏，这是网络编程实战第21讲，欢迎回来。</p><p>上一讲我们讲到了I/O多路复用技术，并以select为核心，展示了I/O多路复用技术的能力。select方法是多个UNIX平台支持的非常常见的I/O多路复用技术，它通过描述符集合来表示检测的I/O对象，通过三个不同的描述符集合来描述I/O事件 ：可读、可写和异常。但是select有一个缺点，那就是所支持的文件描述符的个数是有限的。在Linux系统中，select的默认最大值为1024。</p><p>那么有没有别的I/O多路复用技术可以突破文件描述符个数限制呢？当然有，这就是poll函数。这一讲，我们就来学习一下另一种I/O多路复用的技术：poll。</p><h2>poll函数介绍</h2><p>poll是除了select之外，另一种普遍使用的I/O多路复用技术，和select相比，它和内核交互的数据结构有所变化，另外，也突破了文件描述符的个数限制。</p><p>下面是poll函数的原型：</p><pre><code>int poll(struct pollfd *fds, unsigned long nfds, int timeout); 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 　　　
 返回值：若有就绪描述符则为其数目，若超时则为0，若出错则为-1
 </code></pre><p>这个函数里面输入了三个参数，第一个参数是一个pollfd的数组。其中pollfd的结构如下：</p><pre><code>struct pollfd {

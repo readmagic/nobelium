@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是方远。</p><p>前面我们花了不少时间，既学习了数据部分的知识，还研究了模型的优化方法、损失函数以及卷积计算。你可能感觉这些知识还有些零零散散，但其实我们不知不觉中，已经拿下了模型训练的必学内容。</p><p>今天这节课，也是一个中期小练习，是我们检验自己学习效果的好时机。我会带你使用PyTorch构建和训练一个自己的模型。</p><p>具体我是这么安排的，首先讲解搭建网络必备的基础模块——nn.Module模块，也就是如何自己构建一个网络，并且训练它，换句话说，就是搞清楚VGG、Inception那些网络是怎么训练出来的。然后我们再看看如何借助Torchvision的模型作为预训练模型，来训练我们自己的模型。</p><h2>构建自己的模型</h2><p>让我们直接切入主题，使用PyTorch，自己构建并训练一个线性回归模型，来拟合出训练集中的走势分布。</p><p>我们先随机生成训练集X与对应的标签Y，具体代码如下：</p><pre><code class="language-python">import numpy as np
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 import random
 from matplotlib import pyplot as plt
 

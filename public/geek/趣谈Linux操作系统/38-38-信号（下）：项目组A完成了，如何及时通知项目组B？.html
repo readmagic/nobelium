@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>信号处理最常见的流程主要是两步，第一步是注册信号处理函数，第二步是发送信号和处理信号。上一节，我们讲了注册信号处理函数，那一般什么情况下会产生信号呢？我们这一节就来看一看。</p><h2>信号的发送</h2><p>有时候，我们在终端输入某些组合键的时候，会给进程发送信号，例如，Ctrl+C产生SIGINT信号，Ctrl+Z产生SIGTSTP信号。</p><p>有的时候，硬件异常也会产生信号。比如，执行了除以0的指令，CPU就会产生异常，然后把SIGFPE信号发送给进程。再如，进程访问了非法内存，内存管理模块就会产生异常，然后把信号SIGSEGV发送给进程。</p><p>这里同样是硬件产生的，对于中断和信号还是要加以区别。咱们前面讲过，中断要注册中断处理函数，但是中断处理函数是在内核驱动里面的，信号也要注册信号处理函数，信号处理函数是在用户态进程里面的。</p><p>对于硬件触发的，无论是中断，还是信号，肯定是先到内核的，然后内核对于中断和信号处理方式不同。一个是完全在内核里面处理完毕，一个是将信号放在对应的进程task_struct里信号相关的数据结构里面，然后等待进程在用户态去处理。当然有些严重的信号，内核会把进程干掉。但是，这也能看出来，中断和信号的严重程度不一样，信号影响的往往是某一个进程，处理慢了，甚至错了，也不过这个进程被干掉，而中断影响的是整个系统。一旦中断处理中有了bug，可能整个Linux都挂了。</p><!-- [[[read_end]]] --><p>有时候，内核在某些情况下，也会给进程发送信号。例如，向读端已关闭的管道写数据时产生SIGPIPE信号，当子进程退出时，我们要给父进程发送SIG_CHLD信号等。</p><p>最直接的发送信号的方法就是，通过命令kill来发送信号了。例如，我们都知道的kill -9 pid可以发送信号给一个进程，杀死它。</p><p>另外，我们还可以通过kill或者sigqueue系统调用，发送信号给某个进程，也可以通过tkill或者tgkill发送信号给某个线程。虽然方式多种多样，但是最终都是调用了do_send_sig_info函数，将信号放在相应的task_struct的信号数据结构中。</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>kill-&gt;kill_something_info-&gt;kill_pid_info-&gt;group_send_sig_info-&gt;do_send_sig_info</li>
 <li>tkill-&gt;do_tkill-&gt;do_send_specific-&gt;do_send_sig_info</li>
 <li>tgkill-&gt;do_tkill-&gt;do_send_specific-&gt;do_send_sig_info</li>

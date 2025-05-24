@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是唐扬。</p><p>在<a href="https://time.geekbang.org/column/article/164025">21讲</a>和<a href="https://time.geekbang.org/column/article/164710">22讲</a>中，你的团队已经决定对垂直电商系统做服务化拆分，以便解决扩展性和研发成本高的问题。与此同时，你们在不断学习的过程中还发现系统做了服务化拆分之后会引入一些新的问题，这些问题我在上节课提到过，归纳起来主要是两点：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>服务拆分单独部署后，引入的服务跨网络通信的问题；</li>
 <li>在拆分成多个小服务之后，服务如何治理的问题。</li>
 </ul><p>如果想要解决这两方面问题，你需要了解微服务化所需要的中间件的基本原理和使用技巧，那么本节课，我会带你掌握解决第一个问题的核心组件：<strong>RPC框架。</strong></p><p><strong>来思考这样一个场景：</strong>你的垂直电商系统的QPS已经达到了每秒2万次，在做了服务化拆分之后，由于我们把业务逻辑都拆分到了单独部署的服务中，那么假设你在完成一次完整的请求时需要调用4～5次服务，计算下来，RPC服务需要承载大概每秒10万次的请求。而你该如何设计RPC框架承载如此大的请求量呢？我建议你：</p><ul>

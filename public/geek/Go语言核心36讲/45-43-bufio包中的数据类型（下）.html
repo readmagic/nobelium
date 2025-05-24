@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是郝林，我今天继续分享bufio包中的数据类型。</p><p>在上一篇文章中，我提到了<code>bufio</code>包中的数据类型主要有<code>Reader</code>、<code>Scanner</code>、<code>Writer</code>和<code>ReadWriter</code>。并着重讲到了<code>bufio.Reader</code>类型与<code>bufio.Writer</code>类型，今天，我们继续专注<code>bufio.Reader</code>的内容来进行学习。</p><h2>知识扩展</h2><h3>问题 ：<code>bufio.Reader</code>类型读取方法有哪些不同？</h3><p><code>bufio.Reader</code>类型拥有很多用于读取数据的指针方法，<strong>这里面有4个方法可以作为不同读取流程的代表，它们是：<code>Peek</code>、<code>Read</code>、<code>ReadSlice</code>和<code>ReadBytes</code>。</strong></p><p><strong><code>Reader</code>值的<code>Peek</code>方法</strong>的功能是：读取并返回其缓冲区中的<code>n</code>个未读字节，并且它会从已读计数代表的索引位置开始读。</p><p>在缓冲区未被填满，并且其中的未读字节的数量小于<code>n</code>的时候，该方法就会调用<code>fill</code>方法，以启动缓冲区填充流程。但是，如果它发现上次填充缓冲区的时候有错误，那就不会再次填充。</p><p>如果调用方给定的<code>n</code>比缓冲区的长度还要大，或者缓冲区中未读字节的数量小于<code>n</code>，那么<code>Peek</code>方法就会把“所有未读字节组成的序列”作为第一个结果值返回。</p><p>同时，它通常还把“<code>bufio.ErrBufferFull</code>变量的值（以下简称缓冲区已满的错误）”<br>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 作为第二个结果值返回，用来表示：虽然缓冲区被压缩和填满了，但是仍然满足不了要求。</p><!-- [[[read_end]]] --><p>只有在上述的情况都没有出现时，<code>Peek</code>方法才能返回：“以已读计数为起始的<code>n</code>个字节”和“表示未发生任何错误的<code>nil</code>”。</p><p><strong><code>bufio.Reader</code>类型的Peek方法有一个鲜明的特点，那就是：即使它读取了缓冲区中的数据，也不会更改已读计数的值。</strong></p><p>这个类型的其他读取方法并不是这样。就拿<strong>该类型的<code>Read</code>方法来说</strong>，它有时会把缓冲区中的未读字节，依次拷贝到其参数<code>p</code>代表的字节切片中，并立即根据实际拷贝的字节数增加已读计数的值。</p><ul>
 <li>
 <p>在缓冲区中还有未读字节的情况下，该方法的做法就是如此。不过，在另一些时候，其所属值的已读计数会等于已写计数，这表明：此时的缓冲区中已经没有任何未读的字节了。</p>

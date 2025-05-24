@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是大圣，上一讲我们学完vue-router源码，Vue全家桶的生态就基本介绍完了，包括Vue的响应式、运行时、编译器，以及全家桶的vuex和vue-router。</p><p>今天我来给你介绍Vue中优化的一个进阶知识点：SSR（Server Side Rendering），也就是服务端渲染。</p><h2>SSR是什么</h2><p>要想搞清楚SSR是什么？我们需要先理解这个方案是为解决什么问题而产生的。</p><p>在现在MVVM盛行的时代，无论是Vue还是React的全家桶，都有路由框架的身影，所以，页面的渲染流程也全部都是浏览器加载完JavaScript文件后，由JavaScript获取当前的路由地址，再决定渲染哪个页面。</p><p>这种架构下，<strong>所有的路由和页面都是在客户端进行解析和渲染的，我们称之为Client Side Rendering，简写为CSR，也就是客户端渲染</strong>。</p><p>交互体验确实提升了，但同时也带来了两个小问题。</p><p>首先，如果采用CSR，我们在ailemente项目中执行<code>npm run build</code>命令后，可以在项目根目录下看到多了一个dist文件夹，打开其中的index.html文件，看到下面的代码：</p><pre><code class="language-xml">&lt;!DOCTYPE html&gt;
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 &lt;html lang="en"&gt;
   &lt;head&gt;
     &lt;meta charset="UTF-8" /&gt;

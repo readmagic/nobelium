@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是韩健。</p><p>很多同学可能都有这样的感觉，每次要开发分布式系统的时候，就会遇到一个非常棘手的问题，那就是如何根据业务特点，为系统设计合适的分区容错一致性模型，以实现集群能力。这个问题棘手在当发生分区错误时，应该如何保障系统稳定运行，不影响业务。</p><p>这和我之前经历的一件事比较像，当时，我负责自研InfluxDB系统的项目，接手这个项目后，<strong>我遇到的第一个问题就是，如何为单机开源版的InfluxDB设计分区容错一致性模型。</strong>因为InfluxDB有META和DATA两个节点，它们的功能和数据特点不同，所以我还需要考虑这两个逻辑单元的特点，然后分别设计分区容错一致性模型。</p><p>那个时候，我想到了CAP理论，并且在CAP理论的帮助下，成功地解决了问题。讲到这儿，你可能会问了：为什么CAP理论可以解决这个问题呢？</p><p>因为在我看来，CAP理论是一个很好的思考框架，它对分布式系统的特性做了高度抽象，比如抽象成了一致性、可用性和分区容错性，并对特性间的冲突（也就是CAP不可能三角）做了总结。一旦掌握它，你就像拥有了引路人，自然而然就能根据业务场景的特点进行权衡，设计出适合的分区容错一致性模型。</p><p>那么问题来了：我说的一致性、可用性和分区容错性是什么呢？它们之间有什么关系？你又该如何使用CAP理论来思考和设计分区容错一致性模型呢？这些问题就是我们本节课所要讲的重点了。我建议你集中注意力，认真学习内容，并学以致用，把CAP理论应用到日常工作中。</p><!-- [[[read_end]]] --><h2>CAP三指标</h2><p>我刚刚提到，CAP理论对分布式系统的特性做了高度抽象，形成了三个指标：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>一致性（Consistency）</li>
 <li>可用性（Availability）</li>
 <li>分区容错性（Partition Tolerance）</li>

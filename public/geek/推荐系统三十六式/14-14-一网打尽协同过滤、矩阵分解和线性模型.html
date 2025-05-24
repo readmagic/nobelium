@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>在上一篇文章中，我讲到了使用逻辑回归和梯度提升决策树组合的模型融合办法，用于CTR预估，我还满怀爱意地给这对组合起了个名字，叫做辑度组合，因为这对组合的确可以在很多地方帮到我们。</p><p>这对组合中，梯度提升决策树，也就是人们常说的GBDT，所起的作用就是对原始的特征做各种有效的组合，一棵树一个叶子节点就是一种特征组合。</p><p>这大概就是逻辑回归的宿命吧，作为一个广义线性模型，在这个由非线性组成的世界里，唯有与各种特征组合办法精诚合作，才能活下去。</p><h2>从特征组合说起</h2><p>对逻辑回归最朴素的特征组合就是二阶笛卡尔乘积，但是你有没有想过这样暴力组合的问题所在。</p><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>两两组合导致特征维度灾难；</li>
 <li>组合后的特征不见得都有效，事实上大部分可能无效；</li>
 <li>组合后的特征样本非常稀疏，意思就是组合容易，但是并不能在样本中找到对应的组合出现，也就没办法在训练时更新参数。</li>

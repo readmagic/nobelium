@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是郑晔。</p><p>讲写代码的书通常都会从命名开始讲，《<a href="https://book.douban.com/subject/1173548/">程序设计实践</a>》如此，《<a href="https://book.douban.com/subject/4199741/">代码整洁之道</a>》亦然。所以，我们这个讲代码坏味道的专栏，也遵循传统，从命名开始讲。</p><p>不过，也许你会说：“我知道，命名不就是不能用 abcxyz 命名，名字要有意义嘛，这有什么好讲的。”然而，即便懂得了名字要有意义这个道理，很多程序员依然无法从命名的泥潭中挣脱出来。</p><h2>不精准的命名</h2><p>我们先来看一段代码：</p><pre><code>public void processChapter(long chapterId) {
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
   Chapter chapter = this.repository.findByChapterId(chapterId);
   if (chapter == null) {
     throw new IllegalArgumentException(&quot;Unknown chapter [&quot; + chapterId + &quot;]&quot;);  

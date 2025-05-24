@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是于航。</p><p>在上一节课中，我们介绍了本次实践项目在代码层面的大体组成结构，着重给你讲解了需要了解的一些基础性知识，比如“滤镜的基本原理及实现方法”以及“Emscripten 的基本用法”等等。而在这节课中，我们将继续构建这个基于 Wasm 实现的多媒体 Web 应用。</p><h2>HTML</h2><p>首先，我们来构建这个 Web 应用所对应的 HTML 部分。这部分代码如下所示：</p><pre><code>&lt;!DOCTYPE html&gt;
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
   &lt;html lang=&quot;en&quot;&gt;
   &lt;head&gt;
     &lt;meta charset=&quot;UTF-8&quot;&gt;

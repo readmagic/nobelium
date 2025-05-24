@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>在开篇词里，我分享了一些使用编译技术的场景。其中有的场景，你只要掌握编译器的前端技术就能解决。比如文本分析场景，软件需要用户自定义功能的场景以及前端编程语言的翻译场景等。而且咱们大学讲的编译原理，也是侧重讲解前端技术，可见编译器的前端技术有多么重要。</p><p>当然了，<strong>这里的“前端（Front End）”指的是编译器对程序代码的分析和理解过程。</strong>它通常只跟语言的语法有关，跟目标机器无关。<strong>而与之对应的“后端（Back End）”则是生成目标代码的过程，跟目标机器有关。</strong>为了方便你理解，我用一张图直观地展现了编译器的整个编译过程。</p><p><img src="https://static001.geekbang.org/resource/image/06/93/06b80f8484f4d88c6510213eb27f2093.jpg" alt="图片: https://uploader.shimo.im/f/4IzHpTLFaDwwTfio.png"></p><p>你可以看到，编译器的“前端”技术分为<strong>词法分析、语法分析</strong>和<strong>语义分析</strong>三个部分。而它主要涉及自动机和形式语言方面的基础的计算理论。</p><p>这些抽象的理论也许会让你“撞墙”，不过不用担心，我今天会把难懂的理论放到一边，用你听得懂的大白话，联系实际使用的场景，带你直观地理解它们，<strong>让你学完本节课之后，实现以下目标：</strong></p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>对编译过程以及其中的技术点有个宏观、概要的了解。</li>
 <li>能够在大脑里绘制一张清晰的知识地图，以应对工作需要。比如分析一个日志文件时，你能知道所对应的技术点，从而针对性地解决问题。</li>
 </ul><p>好了，接下来让我们正式进入今天的课程吧！</p><!-- [[[read_end]]] --><h2>词法分析（Lexical Analysis）</h2><p>通常，编译器的第一项工作叫做词法分析。就像阅读文章一样，文章是由一个个的中文单词组成的。程序处理也一样，只不过这里不叫单词，而是叫做“词法记号”，英文叫Token。我嫌“词法记号”这个词太长，后面直接将它称作Token吧。</p><p>举个例子，看看下面这段代码，如果我们要读懂它，首先要怎么做呢？</p><pre><code>#include &lt;stdio.h&gt;

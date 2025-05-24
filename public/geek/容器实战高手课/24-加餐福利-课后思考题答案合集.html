@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是程远，好久不见。</p><p>距离我们的专栏更新结束，已经过去了不少时间。我仍然会在工作之余，到这门课的留言区转一转，回答同学的问题。大部分的疑问，我都通过留言做了回复。</p><p>除了紧跟更新的第一批同学，也很开心有更多新朋友加入到这个专栏的学习中。那课程的思考题呢，为了给你留足思考和研究的时间，我选择用加餐的方式，给你提供参考答案。</p><p>这里我想和你说明的是，我这里给你提供的参考答案，都是我能够直接给你特定答案的问题。至于操作类的题目，有的我引用了同学回复的答案。</p><p>另外一类操作题，是为了帮你巩固课程内容知识的，相信你可以从课程正文里找到答案。我还是建议你自己动手实战，这样你的收获会更大。</p><h2>必学部分思考题</h2><p><a href="https://time.geekbang.org/column/article/309423">第2讲</a></p><p>Q：对于这一讲的最开始，有这样一个C语言的init进程，它没有注册任何信号的handler。如果我们从Host Namespace向它发送SIGTERM，会发生什么情况呢？</p><p>A：即使在宿主机上向容器1号进程发送SIGTERM，在1号进程没有注册handler的情况下，这个进程也不能被杀死。</p><p>这个问题的原因是这样的：开始要看内核里的那段代码，“ !(force &amp;&amp; sig_kernel_only(sig))”，</p><p>虽然由不同的namespace发送信号， 虽然force是1了，但是sig_kernel_only(sig)对于SIGTERM来说还是0，这里是个&amp;&amp;, 那么 !(1 &amp;&amp; 0) = 1。</p><!-- [[[read_end]]] --><pre><code class="language-shell">#define sig_kernel_only(sig) siginmask(sig, SIG_KERNEL_ONLY_MASK)
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 #define SIG_KERNEL_ONLY_MASK (\
         rt_sigmask(SIGKILL) | rt_sigmask(SIGSTOP))
 </code></pre><p><a href="https://time.geekbang.org/column/article/310060">第3讲</a></p><p>Q：如果容器的init进程创建了子进程B，B又创建了自己的子进程C。如果C运行完之后，退出成了僵尸进程，B进程还在运行，而容器的init进程还在不断地调用waitpid()，那C这个僵尸进程可以被回收吗？</p><p>A：这道题可以参考下面两位同学的回答。</p><p>Geek2014用户的回答：</p><blockquote>

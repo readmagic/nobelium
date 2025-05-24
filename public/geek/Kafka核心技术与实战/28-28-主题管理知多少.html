@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是胡夕。今天我想和你讨论一下Kafka中的主题管理，包括日常的主题管理、特殊主题的管理与运维以及常见的主题错误处理。</p><h2>主题日常管理</h2><p>所谓的日常管理，无非就是主题的增删改查。你可能会觉得，这有什么好讨论的，官网上不都有命令吗？这部分内容的确比较简单，但它是我们讨论后面内容的基础。而且，在讨论的过程中，我还会向你分享一些小技巧。另外，我们今天讨论的管理手段都是借助于Kafka自带的命令。事实上，在专栏后面，我们还会专门讨论如何使用Java API的方式来运维Kafka集群。</p><p>我们先来学习一下如何使用命令创建Kafka主题。<strong>Kafka提供了自带的kafka-topics脚本，用于帮助用户创建主题</strong>。该脚本文件位于Kafka安装目录的bin子目录下。如果你是在Windows上使用Kafka，那么该脚本位于bin路径的windows子目录下。一个典型的创建命令如下：</p><pre><code>bin/kafka-topics.sh --bootstrap-server broker_host:port --create --topic my_topic_name  --partitions 1 --replication-factor 1
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 </code></pre><p>create表明我们要创建主题，而partitions和replication factor分别设置了主题的分区数以及每个分区下的副本数。如果你之前使用过这个命令，你可能会感到奇怪：难道不是指定 --zookeeper参数吗？为什么现在变成 --bootstrap-server了呢？我来给出答案：从Kafka 2.2版本开始，社区推荐用 --bootstrap-server参数替换 --zookeeper参数，并且显式地将后者标记为“已过期”，因此，如果你已经在使用2.2版本了，那么创建主题请指定 --bootstrap-server参数。</p><!-- [[[read_end]]] --><p>社区推荐使用 --bootstrap-server而非 --zookeeper的原因主要有两个。</p><ol>
 <li>使用 --zookeeper会绕过Kafka的安全体系。这就是说，即使你为Kafka集群设置了安全认证，限制了主题的创建，如果你使用 --zookeeper的命令，依然能成功创建任意主题，不受认证体系的约束。这显然是Kafka集群的运维人员不希望看到的。</li>
 <li>使用 --bootstrap-server与集群进行交互，越来越成为使用Kafka的标准姿势。换句话说，以后会有越来越少的命令和API需要与ZooKeeper进行连接。这样，我们只需要一套连接信息，就能与Kafka进行全方位的交互，不用像以前一样，必须同时维护ZooKeeper和Broker的连接信息。</li>

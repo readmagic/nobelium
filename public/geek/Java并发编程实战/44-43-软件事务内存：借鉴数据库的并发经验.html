@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>很多同学反馈说，工作了挺长时间但是没有机会接触并发编程，实际上我们天天都在写并发程序，只不过并发相关的问题都被类似Tomcat这样的Web服务器以及MySQL这样的数据库解决了。尤其是数据库，在解决并发问题方面，可谓成绩斐然，它的<strong>事务机制非常简单易用</strong>，能甩Java里面的锁、原子类十条街。技术无边界，很显然要借鉴一下。</p><p>其实很多编程语言都有从数据库的事务管理中获得灵感，并且总结出了一个新的并发解决方案：<strong>软件事务内存（Software Transactional Memory，简称STM）</strong>。传统的数据库事务，支持4个特性：原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）和持久性（Durability），也就是大家常说的ACID，STM由于不涉及到持久化，所以只支持ACI。</p><p>STM的使用很简单，下面我们以经典的转账操作为例，看看用STM该如何实现。</p><h2>用STM实现转账</h2><p>我们曾经在<a href="https://time.geekbang.org/column/article/85001">《05 | 一不小心就死锁了，怎么办？》</a>这篇文章中，讲到了并发转账的例子，示例代码如下。简单地使用 synchronized 将 transfer() 方法变成同步方法并不能解决并发问题，因为还存在死锁问题。</p><!-- [[[read_end]]] --><pre><code>class UnsafeAccount {
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
   //余额
   private long balance;
   //构造函数

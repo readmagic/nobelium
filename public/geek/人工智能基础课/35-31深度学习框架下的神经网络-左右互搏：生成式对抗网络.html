@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>2016年10月，谷歌大脑的研究者们做了一个有趣的实验：使用三个并不复杂的神经网络执行保密通信的任务，两个合法通信方共享的只有保密的密钥，而没有商定的加解密算法，第三个神经网络则作为窃听者出现。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>这种配置显然颠覆了密码学的常识：无论是公钥体制还是私钥体制，加解密的算法都是已知的。如果合法通信双方不能统一加解密的方法，实现保密通信就是“巧妇难为无米之炊”。可谷歌偏偏不信这个邪，他们就是要让神经网络实现双盲的加密与解密。</p>
 <p>实验的结果同样令人惊讶：经过不断的试错与调整，接收方可以精确恢复出发送方的明文，而窃听者的错误率稳定在50%左右，意味着她的破译只是随机的猜测。<strong>这个实验的意义在于展示出神经网络的潜能</strong>：它们不仅能够在欠缺先验规则的条件下，通过对大量数据的无监督学习完成目标，甚至还能够在学习过程中根据实际条件的变化对完成目标的方式进行动态调整。</p>
 <p>这个实验的环境，就是在最近两年名声大噪的<strong><span class="orange">生成式对抗网络</span></strong>。生成式对抗网络（generative adversarial network）由《深度学习》的第一作者伊安·古德菲洛提出，<strong>这是一类在无监督学习中使用的人工智能算法，由两个在零和游戏框架下相互竞争的神经网络实现</strong>。“零和游戏”（zero-sum game）这个术语来自于博弈论，意思是博弈双方的利益之和为零。由于一方的收益必然意味着另一方的损失，因而双方不可能实现合作，属于非合作博弈。</p>

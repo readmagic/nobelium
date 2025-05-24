@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是宫文学。</p><p>今天这一讲，我继续带你来总结前面解析的7种真实的编译器中，<strong>中端部分</strong>的特征和编译技术。</p><p>在课程的<a href="https://time.geekbang.org/column/article/242479">第1讲</a>，我也给你总结过编译器的中端的主要作用，就是实现各种优化。并且在中端实现的优化，基本上都是机器无关的。而优化是在IR上进行的。</p><p>所以，今天这一讲，我们主要来总结以下这两方面的问题：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li><strong>第一，是对IR的总结。</strong>我在<a href="https://time.geekbang.org/column/article/247700">第6讲</a>中曾经讲过，IR分为HIR、MIR和LIR三个层次，可以采用线性结构、图、树等多种数据结构。那么基于我们对实际编译器的研究，再一起来总结一下它们的IR的特点。</li>
 <li><strong>第二，是对优化算法的总结。</strong>在<a href="https://time.geekbang.org/column/article/248770">第7讲</a>，我们把各种优化算法做了一个总体的梳理。现在就是时候，来总结一下编译器中的实际实现了。</li>
 </ul><p>通过今天的总结，你能够对中端的两大主题IR和优化，形成更加深入的理解，从而更有利于你熟练运用编译技术。</p><p>好了，我们先来把前面学到的IR的相关知识，来系统地梳理和印证一下吧。</p><h2>对IR的总结</h2><p>通过对前面几个真实编译器的分析，我们会发现IR方面的几个重要特征：SSA已经成为主流；Sea of Nodes展现出令人瞩目的优势；另外，一个编译器中的IR，既要能表示抽象度比较高的操作，也要能表示抽象度比较低的、接近机器码的操作。</p><!-- [[[read_end]]] --><h3>SSA成为主流</h3><p>通过学习前面的课程，我们会发现，符合SSA格式的IR成为了主流。Java和JavaScript的Sea of Nodes，是符合SSA的；Golang是符合SSA的；Julia自己的IR，虽然最早不是SSA格式的，但后来也改成了SSA；而Julia所采用的LLVM工具，其IR也是SSA格式的。</p><p><strong>SSA意味着什么呢？<strong>源代码中的一个变量，会变成多个版本，每次赋值都形成一个新版本。在SSA中，它们都叫做一个</strong>值（Value）</strong>，对变量的赋值就是<strong>对值的定义（def）</strong>。这个值定义出来之后，就可以在定义其他值的时候<strong>被使用（use）</strong>，因此就形成了清晰的“使用-定义”链（use-def）。</p><p>这种清晰的use-def链会给优化算法提供很多的便利：</p><ul>

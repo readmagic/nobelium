@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>经过前面几期的讲解，你应该已经对微服务的架构有了初步的了解。简单回顾一下，微服务的架构主要包括服务描述、服务发现、服务调用、服务监控、服务追踪以及服务治理这几个基本组件。</p><p>那么每个基本组件从架构和代码设计上该如何实现？组件之间又是如何串联来实现一个完整的微服务架构呢？<span class="orange">今天我就以开源微服务框架Dubbo为例来给你具体讲解这些组件。</span></p><h2>服务发布与引用</h2><p>专栏前面我讲过服务发布与引用的三种常用方式：RESTful API、XML配置以及IDL文件，其中Dubbo框架主要是使用XML配置方式，接下来我通过具体实例，来给你讲讲Dubbo框架服务发布与引用是如何实现的。</p><p>首先来看服务发布的过程，下面这段代码是服务提供者的XML配置。</p><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 &lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
     xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
     xmlns:dubbo=&quot;http://dubbo.apache.org/schema/dubbo&quot;

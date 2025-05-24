@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是陈皓，网名左耳朵耗子。</p><p>这节课，我们来重点讨论一下，Kubernetes 的 <code>kubectl</code> 命令中的使用到的一个编程模式：Visitor（其实，<code>kubectl</code> 主要使用到了两个，一个是Builder，另一个是Visitor）。</p><p>本来，Visitor 是面向对象设计模式中一个很重要的设计模式（可以看下Wikipedia <a href="https://en.wikipedia.org/wiki/Visitor_pattern">Visitor Pattern词条</a>），这个模式是将算法与操作对象的结构分离的一种方法。这种分离的实际结果是能够在不修改结构的情况下向现有对象结构添加新操作，是遵循开放/封闭原则的一种方法。这节课，我们重点学习一下 <code>kubelet</code> 中是怎么使用函数式的方法来实现这个模式的。</p><h2>一个简单示例</h2><p>首先，我们来看一个简单设计模式的Visitor的示例。</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>我们的代码中有一个<code>Visitor</code>的函数定义，还有一个<code>Shape</code>接口，这需要使用 <code>Visitor</code>函数作为参数。</li>
 <li>我们的实例的对象 <code>Circle</code>和 <code>Rectangle</code>实现了 <code>Shape</code> 接口的 <code>accept()</code> 方法，这个方法就是等外面给我们传递一个Visitor。</li>
 </ul><pre><code>package main

@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是七牛云许式伟。</p><p>在上一章，我们实现了一个 mock 版本的服务端，代码如下：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li><a href="https://github.com/qiniu/qpaint/tree/v31/paintdom">https://github.com/qiniu/qpaint/tree/v31/paintdom</a></li>
 </ul><p>我们这一章实战的目标，是要把它改造成一个产品级的服务端程序。</p><p>前面两讲，我们一讲谈了 RESTful API 层，一讲谈了底层是业务逻辑的实现层。今天，我们要谈的是帐号（Account）与认证（Authorization）。</p><p>我们之前实现的 mock 版本服务端是匿名可访问的，不需要授权。在上一讲，我们开始引入了多租户，但为了简化，用的是一种 mock 的认证方式。</p><p>接下来我们就要动真格了。</p><p>但在此之前，我们仍然要先理解一下帐号和认证这两个概念。虽然这是两个大家非常耳熟能详的东西。</p><h2>帐号（Account）</h2><p>帐号，简单说就是某种表征用户身份的实体，它代表了一个“用户”。虽然一个物理的自然人用户可能会在同一个网站开多个帐号，但从业务角度，我们往往把这些帐号看作不同的用户。</p><p>互联网帐号的表征方式有很多，比较常见的有：</p><ul>
 <li>电子邮件；</li>

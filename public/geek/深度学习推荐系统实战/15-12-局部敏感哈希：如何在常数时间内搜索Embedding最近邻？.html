@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是王喆。</p><p>在深度学习推荐系统中，我们经常采用Embedding召回这一准确又便捷的方法。但是，在面对百万甚至更高量级的候选集时，线性地逐一计算Embedding间的相似度，往往会造成极大的服务延迟。</p><p>这个时候，我们要解决的问题就是，<strong>如何快速找到与一个Embedding最相似的Embedding？</strong>这直接决定了召回层的执行速度，进而会影响推荐服务器的响应延迟。</p><p>今天，我们就一起来学习一下业界解决近似Embedding搜索的主要方法，局部敏感哈希。</p><h2>推荐系统中的“快速”Embedding最近邻搜索问题</h2><p>在深度学习推荐系统中，我们经常会使用Embedding方法对物品和用户进行向量化。在训练物品和用户的Embedding向量时，如果二者的Embedding在同一个向量空间内（如图1），我们就可以通过内积、余弦、欧式距离等相似度计算方法，来计算它们之间的相似度，从而通过用户-物品相似度进行个性化推荐，或者通过物品-物品相似度进行相似物品查找。</p><p><img src="https://static001.geekbang.org/resource/image/7f/54/7f7f9647565848d0d530d27d96927654.jpeg" alt="" title="图1 用户和电影的Embedding向量空间"></p><p>假设，用户和物品的Embeding都在一个$k$维的Embedding空间中，物品总数为$n$，那么遍历计算一个用户和所有物品向量相似度的时间复杂度是多少呢？不难算出是$O(k×n)$。虽然这一复杂度是线性的，但物品总数$n$达到百万甚至千万量级时，线性的时间复杂度也是线上服务不能承受的。</p><!-- [[[read_end]]] --><p>换一个角度思考这个问题，由于用户和物品的Embedding同处一个向量空间内，因此<strong>召回与用户向量最相似的物品Embedding向量这一问题，其实就是在向量空间内搜索最近邻的过程</strong>。如果我们能够找到高维空间快速搜索最近邻点的方法，那么相似Embedding的快速搜索问题就迎刃而解了。</p><h2>使用“聚类”还是“索引”来搜索最近邻？</h2><p>遇到最近邻搜索的问题，我想大部分同学直觉上肯定会想到两种解决方案，<strong>一种是聚类</strong>，我们把相似的点聚类到一起，不就可以快速地找到彼此间的最近邻了吗？<strong>另一种是索引</strong>，比如，我们通过某种数据结构建立基于向量距离的索引，在查找最近邻的时候，通过索引快速缩小范围来降低复杂度。这两种想法可不可行呢？我们一一尝试一下。</p><p>对于聚类问题，我想最经典的算法当属K-means。它完成聚类的过程主要有以下几步：</p><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>随机指定k个中心点；</li>
 <li>每个中心点代表一个类，把所有的点按照距离的远近指定给距离最近的中心点代表的类；</li>
 <li>计算每个类包含点的平均值作为新的中心点位置；</li>

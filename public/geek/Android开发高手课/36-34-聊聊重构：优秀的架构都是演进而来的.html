@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>每个程序员心中都有一个成为架构师的梦想，那成为架构师这个目标是否“遥不可及”呢？从我的工作经历来看，我一共负责过搜狗输入法、微信等4款亿级产品的架构工作，可能有同学会好奇这些大型的App是如何做架构设计的。从我接手的这些应用的现实情况来看，看似光鲜的外表下都有一颗千疮百孔的心：各种日志随便输出、单例满天飞、生命周期混乱、线程乱创建、线程不安全这些问题随处可见。</p><p>所以你可以看到每个大型应用都背负着沉重的历史技术债务，架构师很重要的一项工作就是重构“老态龙钟”的陈旧架构。在接下来的“架构演进”模块中，我们一起学习架构该如何的重构和演进，帮助我们及时偿还这些“历史债务”。</p><p>虽然我们天天都在谈“架构”，那你有没有想过究竟什么是架构呢？</p><h2>什么是架构</h2><p>什么是架构，每个人都有自己的看法。在我看来，所谓的架构就是面对业务需求场景给出合适的解决方案，使业务能够快速迭代，从而达到“提质增效”的目标。</p><p>我先举个例子，告诉你什么是架构，以及架构的作用。我曾经为了解决UI渲染卡顿这个需求场景，我们设计了异步创建View、异步布局与主线程渲染这个架构。不过架构只是设计的抽象，对于具体的实现，我们可以称之为框架。好的框架可以隐藏大家不需要关心的部分，提升我们的效率。例如Facebook的Litho、微信的<a href="https://gryamy.gitbooks.io/vending-doc/content/">Vending</a>，它们通过框架约束和异步来解决Android应用UI线程卡顿问题。</p><!-- [[[read_end]]] --><p>如果说监控是为了发现问题，核心在于“防”，那好的架构可以直接避免出现问题，所以架构设计的目标在于“治”。为了帮助你更好地理解架构，我们先从Android的架构设计说起。</p><p><strong>1. Android的架构</strong></p><p>在官方文档<a href="https://developer.android.com/guide/platform?hl=zh-cn">《平台架构》</a>中，对Android的描述如下：</p><blockquote>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>Android是一种基于Linux的开放源代码软件栈，为广泛的设备和机型而创建。</p>
 </blockquote><p><img src="https://static001.geekbang.org/resource/image/90/df/90763fd9662c8a75553dc92a78112ddf.png" alt=""></p><p>在深入Android架构之前，我们先来思考一下Android需要满足的需求场景，也就是各方对它的诉求。</p><ul>
 <li>

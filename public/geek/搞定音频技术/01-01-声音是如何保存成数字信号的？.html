@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是建元。</p><p>作为专栏的第一节课，今天我们来聊聊音频信号中的一些基础知识，带你近距离地了解一下音频这个既熟悉又陌生的领域。这节课我们重点学习一下音频信号的关键指标和常见的音频封装格式，它们算是基础中的基础，希望你能够快速掌握。</p><h2>音频信号的关键指标</h2><p>声音我们每天都会听见，似乎早已习以为常。那么我们是怎么把声音信号转换成数字信号记录下来存储和传输的呢？</p><p>声音是听觉对声波产生的感知，而声波的本质是介质的振动，比如空气的振动。那么我们只需要把这个振动信号记录下来，并用一串数字来表达振动信号振动的快慢和振动的幅度，就可以实现声音的记录。</p><p>如图1所示，以前的留声机就是通过唱片上凹槽的深浅、长短来表征声音的振幅和持续时间。</p><p><img src="https://static001.geekbang.org/resource/image/98/b3/985486bec1b75d7a9db5989a789019b3.png?wh=1476x768" alt="图片" title="图1 留声机与唱片"></p><p>我们现在一般用麦克风来实现声音的采集。<strong>那如何通过麦克风来采集声音呢？</strong></p><p><img src="https://static001.geekbang.org/resource/image/44/6c/441bba7d52yy4bddfb678fe91812ee6c.jpg?wh=1121x239" alt="" title="图2 音频数字信号的生成"></p><p>使用麦克风的音频数字信号采集过程如图2所示：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>首先，声波通过空气传播到麦克风的振膜。</li>
 <li>然后，振膜随空气抖动的振幅大小产生相应的电学信号。<strong>我们把这种带有声学表征的电学信号叫做模拟信号（Analog Signal）</strong>。</li>
 <li>最后，<strong>通过A/DC（模数转换器）将模拟信号转换成数字信号（Digital Signal）</strong>。即通过PCM（Pulse Code Modulation）脉冲编码调制对连续变化的模拟信号进行抽样、量化和编码转换成离散的数字信号。</li>

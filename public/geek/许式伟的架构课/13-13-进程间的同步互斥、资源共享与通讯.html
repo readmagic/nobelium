@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是七牛云许式伟。</p><p>在上一讲，我们介绍了进程内执行体之间的协同机制。今天我们接着聊进程与进程之间的协同。</p><p>这些协同机制大体可分为：互斥、同步、资源共享以及通讯等原语。对于这些协同机制，我们对比了 Linux、Windows、iOS 这三大操作系统的支持情况，整理内容如下：</p><p><img src="https://static001.geekbang.org/resource/image/27/e5/276e3874bc64364c10c52371f6b11ce5.png" alt=""></p><p>在逐一详细分析它们之前，我们先讨论一个问题：从需求角度来讲，进程内协同与进程间协同有何不同？</p><p>在早期，操作系统还只有进程这个唯一的执行体。而今天，进程内的执行体（线程与协程）被发明出来并蓬勃发展，事情发生了怎样的变化？</p><p>请先思考一下这个问题。我们在这一讲最后总结的时候一起聊聊。</p><h2>启动进程</h2><p>在讨论进程间的协同前，我们先看下怎么在一个进程中启动另一个进程。这通常有两种方法：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>创建子进程；</li>
 <li>让Shell配合执行某个动作。</li>
 </ul><p>前面在 “<a href="https://time.geekbang.org/column/article/96324">11 | 多任务：进程、线程与协程</a>” 一讲中我们已经提到过，创建子进程 UNIX 系的操作系统都用了 fork API，它使用上很简洁，但是从架构角度来说是一个糟糕的设计。Windows 中我们用 CreateProcess，这个函数有很多的参数。</p><p>iOS 很有意思，它并不支持创建子进程。在进程启动这件事情上，它做了两个很重要的变化：</p><ul>

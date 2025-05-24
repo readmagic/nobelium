@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是Tony Bai。</p><p>在刚开始学习Go语言的时候，我们可能经常会遇到这样一个问题：一个Go项目中有数十个Go包，每个包中又有若干常量、变量、各种函数和方法，那Go代码究竟是从哪里开始执行的呢？后续的执行顺序又是什么样的呢？</p><p>事实上，了解这门语言编写应用的执行次序，对我们写出结构合理、逻辑清晰的程序大有裨益，无论你用的是归属为哪种编程范式（Paradigm）的编程语言，过程式的、面向对象的、函数式的，或是其他编程范式的，我都建议你深入了解一下。</p><p>所以今天这节课，我就带你来了解一下Go程序的执行次序，这样在后续阅读和理解Go代码的时候，你就好比拥有了“通往宝藏的地图”，可以直接沿着Go代码执行次序这张“地图”去阅读和理解Go代码了，不会在庞大的代码库中迷失了。</p><p>Go程序由一系列Go包组成，代码的执行也是在各个包之间跳转。和其他语言一样，Go也拥有自己的用户层入口：<strong>main函数</strong>。这节课我们就从main函数入手，逐步展开，最终带你掌握Go程序的执行次序。</p><p>那么下面，我们就先来看看Go应用的入口函数。</p><h3>main.main函数：Go应用的入口函数</h3><p>Go语言中有一个特殊的函数：main包中的main函数，也就是<strong>main.main</strong>，它是所有Go可执行程序的用户层执行逻辑的入口函数。Go程序在用户层面的执行逻辑，会在这个函数内按照它的调用顺序展开。</p><!-- [[[read_end]]] --><p>main函数的函数原型是这样的：</p><pre><code class="language-plain">package main
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 ​
 func main() {
  &nbsp;  // 用户层执行逻辑

@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是蒋德钧。</p><p>在<a href="https://time.geekbang.org/column/article/407901">第9讲</a>中，我给你介绍了Linux提供的三种IO多路复用机制，分别是select、poll和epoll，这是Redis实现事件驱动框架的操作系统层支撑技术。</p><p>紧接着在上节课，我带你学习了Redis事件驱动框架的基本工作机制，其中介绍了事件驱动框架基于的Reactor模型，并以IO事件中的客户端连接事件为例，给你介绍了<strong>框架运行的基本流程</strong>：从server初始化时调用aeCreateFileEvent函数注册监听事件，到server初始化完成后调用aeMain函数，而aeMain函数循环执行aeProceeEvent函数，来捕获和处理客户端请求触发的事件。</p><p>但是在上节课当中，我们主要关注的是框架基本流程，所以到这里，你或许仍然存有一些疑问，比如说：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>Redis事件驱动框架监听的IO事件，除了上节课介绍的客户端连接以外，还有没有其他事件？而除了IO事件以外，框架还会监听其他事件么？</li>
 <li>这些事件的创建和处理又分别对应了Redis源码中的哪些具体操作？</li>
 </ul><p>今天这节课，我就来给你介绍下Redis事件驱动框架中的两大类事件类型：<strong>IO事件和时间事件，以及它们相应的处理机制。</strong></p><p>事实上，了解和学习这部分内容，一方面可以帮助我们更加全面地掌握，Redis事件驱动框架是如何以事件形式，处理server运行过程中面临的请求操作和多种任务的。比如，正常的客户端读写请求是以什么事件、由哪个函数进行处理，以及后台快照任务又是如何及时启动的。</p><!-- [[[read_end]]] --><p>因为事件驱动框架是Redis server运行后的核心循环流程，了解它何时用什么函数处理哪种事件，对我们排查server运行过程中遇到的问题，是很有帮助的。</p><p>另一方面，我们还可以学习到如何在一个框架中，同时处理IO事件和时间事件。我们平时开发服务器端程序，经常需要处理周期性任务，而Redis关于两类事件的处理实现，就给了我们一个不错的参考。</p><p>好，为了对这两类事件有个相对全面的了解，接下来，我们先从事件驱动框架循环流程的数据结构及其初始化开始学起，因为这里面就包含了针对这两类事件的数据结构定义和初始化操作。</p><h2>aeEventLoop结构体与初始化</h2><p>首先，我们来看下Redis事件驱动框架循环流程对应的数据结构aeEventLoop。这个结构体是在事件驱动框架代码<a href="https://github.com/redis/redis/tree/5.0/src/ae.h">ae.h</a>中定义的，记录了框架循环运行过程中的信息，其中，就包含了记录两类事件的变量，分别是：</p><ul>

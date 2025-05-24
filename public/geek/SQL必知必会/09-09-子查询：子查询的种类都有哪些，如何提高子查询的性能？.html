@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>上节课我讲到了聚集函数，以及如何对数据进行分组统计，可以说我们之前讲的内容都是围绕单个表的SELECT查询展开的，实际上SQL还允许我们进行子查询，也就是嵌套在查询中的查询。这样做的好处是可以让我们进行更复杂的查询，同时更加容易理解查询的过程。因为很多时候，我们无法直接从数据表中得到查询结果，需要从查询结果集中再次进行查询，才能得到想要的结果。这个“查询结果集”就是今天我们要讲的子查询。</p><p>通过今天的文章，我希望你可以掌握以下的内容：</p><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>子查询可以分为关联子查询和非关联子查询。我会举一个NBA数据库查询的例子，告诉你什么是关联子查询，什么是非关联子查询；</li>
 <li>子查询中有一些关键词，可以方便我们对子查询的结果进行比较。比如存在性检测子查询，也就是EXISTS子查询，以及集合比较子查询，其中集合比较子查询关键词有IN、SOME、 ANY和ALL，这些关键词在子查询中的作用是什么；</li>
 <li>子查询也可以作为主查询的列，我们如何使用子查询作为计算字段出现在SELECT查询中呢？</li>

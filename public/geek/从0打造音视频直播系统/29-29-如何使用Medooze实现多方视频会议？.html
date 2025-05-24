@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>前面我们通过两篇文章详细介绍了 Medooze 的实现逻辑，我相信你现在已经对 Medooze 有了非常深刻的认知。通过对Medooze实现原理和架构的了解，我们可以知道Medooze支持的功能非常多，如录制回放、推流、SFU 等，其中最主要的功能是 SFU 的实现。</p><p>实际上，<strong>我们要实现的多方音视频会议就是由 SFU 来实现的，或者你可以认为Medooz实现的 SFU 就是一个最简单的音视频会议系统</strong>。Medooze 提供的 SFU Demo 的地址为：<a href="https://github.com/medooze/sfu">https://github.com/medooze/sfu</a> 。</p><p>由于 SFU 是一个 Node.js 项目，所以在环境部署、源码分析的时候，需要你有 JavaScript 基础，也需要掌握 NPM 和 Node 的常用命令，比如 npm install 等。接下来，我们主要从以下几方面向你介绍一下多方音视频会议（SFU）项目：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>搭建多方音视频会议系统，让你感受一下多方通信；</li>
 <li>分析多方音视频会议实现的架构；</li>
 <li>分析 Medooze API 的具体使用；</li>

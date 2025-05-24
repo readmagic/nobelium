@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>前面我们讲到了每个渲染进程都有一个主线程，并且主线程非常繁忙，既要处理DOM，又要计算样式，还要处理布局，同时还需要处理JavaScript任务以及各种输入事件。要让这么多不同类型的任务在主线程中有条不紊地执行，这就需要一个系统来统筹调度这些任务，这个统筹调度系统就是我们今天要讲的消息队列和事件循环系统。</p><p>在写这篇文章之前，我翻阅了大量的资料，却发现没有一篇文章能把消息循环系统给讲清楚的，所以我决定用一篇文章来专门介绍页面的事件循环系统。事件循环非常底层且非常重要，学会它能让你理解页面到底是如何运行的， 所以在本篇文章中，我们会将页面的事件循环给梳理清楚、讲透彻。</p><p>为了能让你更加深刻地理解事件循环机制，我们就从最简单的场景来分析，然后带你一步步了解浏览器页面主线程是如何运作的。</p><p>需要说明的是，文章中的代码我会采用C++来示范。如果你不熟悉C++，也没有关系，这里并没有涉及到任何复杂的知识点，只要你了解JavaScript或Python，你就会看懂。</p><h2>使用单线程处理安排好的任务</h2><p>我们先从最简单的场景讲起，比如有如下一系列的任务：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>任务1：1+2</li>
 <li>任务2：20/5</li>
 <li>任务3：7*8</li>

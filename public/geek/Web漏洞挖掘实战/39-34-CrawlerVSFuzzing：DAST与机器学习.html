@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是王昊天。</p><p>经过之前的学习，相信你已经对Web漏洞挖掘的基础知识有了一定的理解。其中，我们学习了多种Web漏洞攻击方式，例如SQL注入以及SSRF攻击。事实上，网络攻防与战争是类似的。攻击者就好像侵略者一样想要通过攻击行为去获取一些资源或者满足自己的目的，而Web应用开发者则像抵抗军一样去尽力守护自己的城市。</p><p>我对战争也有一定的研究，在八国联军侵略祖国时，我们对敌军飞机的进攻束手无策，只有在看到它之后使用手枪尝试发射子弹击落它们。这无论是对敌人的侦查以及攻击方式都是不够强力的。当我们祖国富强之后，有了雷达探测以及导弹系统，就能及时发现敌人的飞机并将它们击落。其实，在网络攻防中也存在类似于雷达、导弹一样的工具，它们为Crawler与Fuzzing，这一讲就让我们一起学习它吧！</p><h2>Crawler VS Fuzzing</h2><p>Crawler即网络爬虫，我们可以利用它来爬取一些自己想要的数据，例如豆瓣网的评分以及财经网的股市信息等。在网络攻防中它还具有另一个作用，我们可以用它来爬取待攻击页面的所有链接，这样就可以扩充我们的攻击目标，使我们不仅对当前页面发起攻击，还可以对其相关的页面进行攻击。所以，我们说 <strong>Crawler就像个雷达一样，它可以扫描当前页面的信息</strong>。这样，我们就能获取一些其它可供攻击的目标页面。</p><!-- [[[read_end]]] --><p>而Fuzzing即模糊测试，你可能对它较为陌生，不过请不用担心，事实上它就是一种软件测试技术，我们可以通过提供大量非预期的输入并监视异常结果来发现软件的故障，从而寻找Web应用的漏洞。可见 <strong>Fuzzing 则像一个导弹一样，可以对页面发起强有力的攻击行为</strong>。</p><p>接下来，我们将具体学习一下它们。首先，我们来学习Crawler的相关知识。</p><h2>Crawler网络爬虫</h2><p>Crawler网络爬虫是一种按照一定的规则，从Web应用中获取想要的信息的程序或脚本，我们常将它称为网页蜘蛛、网络机器人。</p><p>这么说可能有点抽象，为了让你更好地理解网络爬虫，下面我们一起看一个简单的示例。</p><pre><code class="language-python">from urllib import request
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 print(request.urlopen(request.Request("https://lev.zone/")).read().decode("utf-8"))
 </code></pre><p>上述是一段 Python 爬虫代码，利用它我们就可以获取到潮汐社区首页的内容。运行代码获取到的输出为：</p><pre><code class="language-plain">...
 &lt;p class="tlak_p"&gt;使用潮汐时，你无需进行工具的安装或环境的配置，即可一键开启使用，在线对安全资产进行检测，极速开启主动安全学习之旅。&lt;/p&gt;

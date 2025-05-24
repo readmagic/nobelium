@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是李兵。</p><p>在上节我们介绍了V8为什么要引入字节码，这节课我们来聊聊解释器是如何解释执行字节码的。学习字节码如何被执行，可以让我们理解解释器的工作机制，同时还能帮助我们搞懂JavaScript运行时的内存结构，特别是闭包的结构和非闭包数据的区别。</p><p>字节码的解释执行在编译流水线中的位置你可以参看下图：</p><p><img src="https://static001.geekbang.org/resource/image/e4/01/e4735f5bb848120b5fd931acae5eb101.jpg" alt=""></p><h2>如何生成字节码？</h2><p>我们知道当V8执行一段JavaScript代码时，会先对JavaScript代码进行解析(Parser)，并生成为AST和作用域信息，之后AST和作用域信息被输入到一个称为Ignition 的解释器中，并将其转化为字节码，之后字节码再由Ignition解释器来解释执行。</p><p>接下来，我们就结合一段代码来看看执行解释器是怎么解释执行字节码的。你可以参看下面这段代码：</p><pre><code>function add(x, y) {
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
   var z = x+y
   return z
 }

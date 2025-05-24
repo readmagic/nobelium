@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是温铭。</p><p>前面两节课我们说了，Lua 是一种嵌入式开发语言，核心保持了短小精悍，你可以在 Redis、NGINX 中嵌入 Lua，来帮助你更灵活地完成业务逻辑。同时，Lua 也可以调用已有的 C 函数和数据结构，避免重复造轮子。</p><p>在 Lua 中，你可以用 Lua C API 来调用 C 函数，而在 LuaJIT 中还可以使用 FFI。对 OpenResty 而言：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>在核心的 <code>lua-nginx-module</code> 中，调用 C 函数的 API，都是使用 Lua C API 来完成的；</li>
 <li>而在 <code>lua-resty-core</code> 中，则是把 <code>lua-nginx-module</code> 已有的部分 API，使用 FFI 的模式重新实现了一遍。</li>
 </ul><p>看到这里你估计纳闷了：为什么要用 FFI 重新实现一遍？</p><p>别着急，让我们以 <a href="https://github.com/openresty/lua-nginx-module#ngxdecode_base64">ngx.base64_decode</a> 这个很简单的 API 为例，一起看下 Lua C API 和 FFI 的实现有何不同之处，这样你也可以对它们的性能有个直观的认识。</p><h2>Lua CFunction</h2><p>我们先来看下， <code>lua-nginx-module</code> 中用 Lua C API 是如何实现的。我们在项目的代码中搜索 <code>decode_base64</code>，可以找到它的代码实现在 <code>ngx_http_lua_string.c</code> 中：</p><pre><code>lua_pushcfunction(L, ngx_http_lua_ngx_decode_base64);

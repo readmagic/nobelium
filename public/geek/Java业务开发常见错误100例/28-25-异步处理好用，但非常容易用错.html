@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是朱晔。今天，我来和你聊聊好用但容易出错的异步处理。</p><p>异步处理是互联网应用不可或缺的一种架构模式，大多数业务项目都是由同步处理、异步处理和定时任务处理三种模式相辅相成实现的。</p><p>区别于同步处理，异步处理无需同步等待流程处理完毕，因此适用场景主要包括：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>服务于主流程的分支流程。比如，在注册流程中，把数据写入数据库的操作是主流程，但注册后给用户发优惠券或欢迎短信的操作是分支流程，时效性不那么强，可以进行异步处理。</li>
 <li>用户不需要实时看到结果的流程。比如，下单后的配货、送货流程完全可以进行异步处理，每个阶段处理完成后，再给用户发推送或短信让用户知晓即可。</li>
 </ul><p>同时，异步处理因为可以有MQ中间件的介入用于任务的缓冲的分发，所以相比于同步处理，在应对流量洪峰、实现模块解耦和消息广播方面有功能优势。</p><p>不过，异步处理虽然好用，但在实现的时候却有三个最容易犯的错，分别是异步处理流程的可靠性问题、消息发送模式的区分问题，以及大量死信消息堵塞队列的问题。今天，我就用三个代码案例结合目前常用的MQ系统RabbitMQ，来和你具体聊聊。</p><p>今天这一讲的演示，我都会使用Spring AMQP来操作RabbitMQ，所以你需要先引入amqp依赖：</p><!-- [[[read_end]]] --><pre><code>&lt;dependency&gt;

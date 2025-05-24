@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>上一节，我们解析了网络包接收的上半部分，从硬件网卡到IP层。这一节，我们接着来解析TCP层和Socket层都做了哪些事情。</p><h2>网络协议栈的TCP层</h2><p>从tcp_v4_rcv函数开始，我们的处理逻辑就从IP层到了TCP层。</p><pre><code>int tcp_v4_rcv(struct sk_buff *skb)
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 {
 	struct net *net = dev_net(skb-&gt;dev);
 	const struct iphdr *iph;

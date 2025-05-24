@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p><span class="orange">今天我要与你分享如何识别服务节点是否存活</span>，这在服务治理中是十分重要的。在进入正题之前，你可以先复习一下<a href="http://time.geekbang.org/column/article/14603">专栏第5期</a>，我在讲解注册中心原理的时候，以开源注册中心ZooKeeper为例，描述了它是如何管理注册到注册中心的节点的存活的。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>其实ZooKeeper判断注册中心节点存活的机制其实就是注册中心摘除机制，服务消费者以注册中心中的数据为准，当服务端节点有变更时，注册中心就会把变更通知给服务消费者，服务消费者就会调用注册中心来拉取最新的节点信息。</p>
 <p>这种机制在大部分情况下都可以工作得很好，但是在网络频繁抖动时，服务提供者向注册中心汇报心跳信息可能会失败，如果在规定的时间内，注册中心都没有收到服务提供者的心跳信息，就会把这个节点从可用节点列表中移除。更糟糕的是，在服务池拥有上百个节点的的时候，每个节点都可能会被移除，导致注册中心可用节点的状态一直在变化，这个时候应该如何处理呢？</p>
 <p>下面就结合我在实践中的经验，给你讲解几种解决方案。</p>

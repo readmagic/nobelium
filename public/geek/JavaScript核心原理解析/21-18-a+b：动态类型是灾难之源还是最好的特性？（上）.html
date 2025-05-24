@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是周爱民，欢迎回到我的专栏。今天我们讲的主题是JavaScript的动态类型系统。</p><p><strong>动态类型</strong>是JavaScript的动态语言特性中最有代表性的一种。</p><p>动态执行与动态类型是天生根植于JavaScript语言核心设计中的基础组件，它们相辅相成，导致了JavaScript在学习上是易学难精，在使用中是易用易错。成兹败兹，难以得失论。</p><h2>类型系统的简化</h2><p>从根底上来说，JavaScript有着两套类型系统，如果仅以此论，那么还算不上复杂。</p><p>但是ECMAScript对语言类型的约定，又与JavaScript原生的、最初的语言设计不同，这导致了各种解释纷至沓来，很难统一成一个说法。而且，ECMAScript又为规范书写而订立了一套类型系统，并不停地演进它。这就如同雪上加霜，导致JavaScript的类型系统越发地说不清楚了。</p><p>在讨论动态类型的时候，可以将JavaScript类型系统做一些简化，从根底里来说，JavaScript也就是typeof()所支持的7种类型，其中的“<strong>对象</strong>（object）”与“<strong>函数</strong>（function）”算一大类，合称为<strong>引用类型</strong>，而其他类型作为<strong>值类型</strong>。</p><p>无论如何，我们就先以这种简单的类型划分为基础，来讨论JavaScript中的动态类型。因为这样一来，JavaScript中的类型转换变得很简单、很干净，也很易懂，可以用两条规则概括如下：</p><!-- [[[read_end]]] --><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>从值x到引用，调用Object(x)函数。</li>
 <li>从引用x到值，调用x.valueOf()方法；或调用4种值类型的包装类函数，例如Number(x)，或者String(x)等等。</li>
 </ol><p>简单吧？当然不会这么简单。</p><h2>先搞定一半</h2><p>在<strong>类型转换</strong>这件事中，有“半件”是比较容易搞定的。</p><p>这个一半，就是“<strong>从值x到引用</strong>”。因为主要的值类型都有对应的引用类型，因此JavaScript可以用简单方法一一对应地将它们转换过去。</p><p>使用<code>Object(x)</code>来转换是很安全的方法，在用户代码中不需要特别关心其中的<code>x</code>是什么样的数据——它们可以是特殊值（例如null、undefined等），或是一般的值类型数据，又或者也可以是一个对象。所有使用<code>Object(x)</code>的转换结果，都将是一个尽可能接近你的预期的<strong>对象</strong>。例如，将数字值转换成数字对象：</p><pre><code>&gt; x = 1234;

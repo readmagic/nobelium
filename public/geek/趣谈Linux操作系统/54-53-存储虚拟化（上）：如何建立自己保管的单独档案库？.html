@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>前面几节，我们讲了CPU和内存的虚拟化。我们知道，完全虚拟化是很慢的，而通过内核的KVM技术和EPT技术，加速虚拟机对于物理CPU和内存的使用，我们称为硬件辅助虚拟化。</p><p>对于一台虚拟机而言，除了要虚拟化CPU和内存，存储和网络也需要虚拟化，存储和网络都属于外部设备，这些外部设备应该如何虚拟化呢？</p><p>当然一种方式还是完全虚拟化。比如，有什么样的硬盘设备或者网卡设备，我们就用qemu模拟一个一模一样的软件的硬盘和网卡设备，这样在虚拟机里面的操作系统看来，使用这些设备和使用物理设备是一样的。当然缺点就是，qemu模拟的设备又是一个翻译官的角色。虽然这个时候虚拟机里面的操作系统，意识不到自己是运行在虚拟机里面的，但是这种每个指令都翻译的方式，实在是太慢了。</p><p>另外一种方式就是，虚拟机里面的操作系统不是一个通用的操作系统，它知道自己是运行在虚拟机里面的，使用的硬盘设备和网络设备都是虚拟的，应该加载特殊的驱动才能运行。这些特殊的驱动往往要通过虚拟机里面和外面配合工作的模式，来加速对于物理存储和网络设备的使用。</p><h2>virtio的基本原理</h2><p>在虚拟化技术的早期，不同的虚拟化技术会针对不同硬盘设备和网络设备实现不同的驱动，虚拟机里面的操作系统也要根据不同的虚拟化技术和物理存储和网络设备，选择加载不同的驱动。但是，由于硬盘设备和网络设备太多了，驱动纷繁复杂。</p><!-- [[[read_end]]] --><p>后来慢慢就形成了一定的标准，这就是<strong>virtio</strong>，就是<strong>虚拟化I/O设备</strong>的意思。virtio负责对于虚拟机提供统一的接口。也就是说，在虚拟机里面的操作系统加载的驱动，以后都统一加载virtio就可以了。</p><p><img src="https://static001.geekbang.org/resource/image/1e/33/1e13ffd5ac846c52739291cb489d0233.png" alt=""></p><p>在虚拟机外，我们可以实现不同的virtio的后端，来适配不同的物理硬件设备。那virtio到底长什么样子呢？我们一起来看一看。</p><p>virtio的架构可以分为四层。</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>首先，在虚拟机里面的virtio前端，针对不同类型的设备有不同的<strong>驱动程序</strong>，但是接口都是统一的。例如，硬盘就是virtio_blk，网络就是virtio_net。</li>
 <li>其次，在宿主机的qemu里面，实现virtio后端的逻辑，主要就是<strong>操作硬件的设备</strong>。例如通过写一个物理机硬盘上的文件来完成虚拟机写入硬盘的操作。再如向内核协议栈发送一个网络包完成虚拟机对于网络的操作。</li>
 <li>在virtio的前端和后端之间，有一个通信层，里面包含<strong>virtio层</strong>和<strong>virtio-ring层</strong>。virtio这一层实现的是虚拟队列接口，算是前后端通信的桥梁。而virtio-ring则是该桥梁的具体实现。</li>

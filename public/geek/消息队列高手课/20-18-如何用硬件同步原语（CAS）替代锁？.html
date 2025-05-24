@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是李玥。上节课，我们一起学习了如何使用锁来保护共享资源，你也了解到，使用锁是有一定性能损失的，并且，如果发生了过多的锁等待，将会非常影响程序的性能。</p><p>在一些特定的情况下，我们可以使用硬件同步原语来替代锁，可以保证和锁一样的数据安全性，同时具有更好的性能。</p><p>在今年的NSDI（NSDI是USENIX组织开办的关于网络系统设计的著名学术会议）上，伯克利大学发表了一篇论文《<a href="http://www.usenix.org/conference/nsdi19/presentation/khandelwal">Confluo: Distributed Monitoring and Diagnosis Stack for High-speed Networks</a>》，这个论文中提到的Confluo，也是一个类似于消息队列的流数据存储，它的吞吐量号称是Kafka的4～10倍。对于这个实验结论我个人不是很认同，因为它设计的实验条件对Kafka来说不太公平。但不可否认的是，Confluo它的这个设计思路是一个创新，并且实际上它的性能也非常好。</p><p>Confluo是如何做到这么高的吞吐量的呢？这里面非常重要的一个创新的设计就是，它使用硬件同步原语来代替锁，在一个日志上（你可以理解为消息队列中的一个队列或者分区），保证严格顺序的前提下，实现了多线程并发写入。</p><p>今天，我们就来学习一下，如何用硬件同步原语（CAS）替代锁？</p><!-- [[[read_end]]] --><h2>什么是硬件同步原语？</h2><p>为什么硬件同步原语可以替代锁呢？要理解这个问题，你要首先知道硬件同步原语是什么。</p><p>硬件同步原语（Atomic Hardware Primitives）是由计算机硬件提供的一组原子操作，我们比较常用的原语主要是CAS和FAA这两种。</p><p>CAS（Compare and Swap），它的字面意思是：先比较，再交换。我们看一下CAS实现的伪代码：</p><pre><code>&lt;&lt; atomic &gt;&gt;
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 function cas(p : pointer to int, old : int, new : int) returns bool {
     if *p ≠ old {
         return false

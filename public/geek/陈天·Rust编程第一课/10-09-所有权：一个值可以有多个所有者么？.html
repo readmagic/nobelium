@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是陈天。</p><p>之前介绍的单一所有权规则，能满足我们大部分场景中分配和使用内存的需求，而且在编译时，通过 Rust 借用检查器就能完成静态检查，不会影响运行时效率。</p><p>但是，规则总会有例外，在日常工作中有些特殊情况该怎么处理呢？</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>一个有向无环图（DAG）中，某个节点可能有两个以上的节点指向它，这个按照所有权模型怎么表述？</li>
 <li>多个线程要访问同一块共享内存，怎么办？</li>
 </ul><p>我们知道，这些问题在程序运行过程中才会遇到，在编译期，所有权的静态检查无法处理它们，所以为了更好的灵活性，Rust 提供了<strong>运行时的动态检查</strong>，来满足特殊场景下的需求。</p><p>这也是 Rust 处理很多问题的思路：编译时，处理大部分使用场景，保证安全性和效率；运行时，处理无法在编译时处理的场景，会牺牲一部分效率，提高灵活性。后续讲到静态分发和动态分发也会有体现，这个思路很值得我们借鉴。</p><p>那具体如何在运行时做动态检查呢？运行时的动态检查又如何与编译时的静态检查自洽呢？</p><p>Rust 的答案是使用引用计数的智能指针：<strong>Rc（Reference counter） 和 Arc（Atomic reference counter）</strong>。这里要特别说明一下，Arc 和 ObjC/Swift 里的 ARC（Automatic Reference Counting）不是一个意思，不过它们解决问题的手段类似，都是通过引用计数完成的。</p><!-- [[[read_end]]] --><h2>Rc</h2><p>我们先看 Rc。对某个数据结构 T，我们可以创建引用计数 Rc，使其有多个所有者。Rc 会把对应的数据结构创建在堆上，我们在第二讲谈到过，堆是唯一可以让动态创建的数据被到处使用的内存。</p><pre><code class="language-rust">use std::rc::Rc;

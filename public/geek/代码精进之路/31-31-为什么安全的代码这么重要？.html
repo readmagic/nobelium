@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>从今天开始，我们进入本专栏的“安全模块”。首先，我们通过一个具体的安全漏洞的案例，来感受下计算机代码是多么的脆弱，以及编写安全的代码为什么如此重要。</p><h2>评审案例</h2><p>在Web开发中，“multipart/form-data“类型经常被用来上传文件。比如下面这段描述表单的代码，就是使用multipart/form-data上传文件的一段HTML代码。</p><pre><code> &lt;FORM action=&quot;http://upload.example.com/&quot;
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
        enctype=&quot;multipart/form-data&quot;
        method=&quot;post&quot;&gt;
    &lt;P&gt;

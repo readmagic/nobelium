@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是高楼。</p><p>这节课我要带你来看一个完整的性能分析案例的第一部分，用打开首页接口做压力场景，来分析下性能问题。通过这个案例，你将看到各种基础硬件设施层面的性能问题，比如由虚机超分导致的性能问题、CPU运行模式下的性能问题、IO高、硬件资源耗尽但TPS很低的问题等等。</p><p>如果你是从零开始做一个完整的项目，那么这些问题很可能是你首先要去面对的。并且，把它们解决好，是性能分析人员必备的一种能力。同时，你还会看到针对不同计数器采集的数据，我们的分析链路是不同的，而这个分析链路就是我一直强调的证据链，如果你不清楚可以再回顾一下<a href="https://time.geekbang.org/column/article/355982">第3讲</a>。</p><p>通过这节课，我希望你能明白，有些性能问题其实并没有那么单一，而且不管性能问题出在哪里，我们都必须去处理。</p><p>好，不啰嗦了，下面我们就把打开首页接口的性能瓶颈仔细扒一扒。</p><h2>看架构图</h2><p>在每次分析性能瓶颈之前，我都会画这样一张图，看看这个接口会涉及到哪些服务和技术组件，这对我们后续的性能分析会有很大的帮助。</p><p><img src="https://static001.geekbang.org/resource/image/69/8d/6913fb342aa32fae5b46c6f1ecddc58d.png" alt=""></p><p>如果你有工具可以直接展示，那就更好了。如果没有，那我建议你不要自信地认为自己可以记住一个简单的架构。相信我，哪怕是在纸上简单画一画，都会对你后面的分析思路有很大的帮助。</p><p>回到上面这张图，我们可以清楚地看到这个打开首页的逻辑是：User - Gateway(Redis)- Portal - (Redis,MySQL)。</p><!-- [[[read_end]]] --><h2>顺便看下代码逻辑</h2><p>在做打开首页的基准场景之前，我建议你先看一眼这个接口的代码实现逻辑，从代码中可以看到这个接口在做哪些动作。根据这些动作，我们可以分析它们的后续链路。</p><p>这个代码的逻辑很简单，就是列出首页上的各种信息，然后返回一个JSON。</p><pre><code>public HomeContentResult contentnew() {
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
         HomeContentResult result = new HomeContentResult();
         if (redisService.get(&quot;HomeContent&quot;) == null) {
             //首页广告

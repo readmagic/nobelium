@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是景霄。</p><p>上节课，我们一起学习了Python并发编程的一种实现——多线程。今天这节课，我们继续学习Python并发编程的另一种实现方式——Asyncio。不同于协程那章，这节课我们更注重原理的理解。</p><p>通过上节课的学习，我们知道，在处理I/O操作时，使用多线程与普通的单线程相比，效率得到了极大的提高。你可能会想，既然这样，为什么还需要Asyncio？</p><p>诚然，多线程有诸多优点且应用广泛，但也存在一定的局限性：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>比如，多线程运行过程容易被打断，因此有可能出现race condition的情况；</li>
 <li>再如，线程切换本身存在一定的损耗，线程数不能无限增加，因此，如果你的 I/O操作非常heavy，多线程很有可能满足不了高效率、高质量的需求。</li>
 </ul><p>正是为了解决这些问题，Asyncio应运而生。</p><h2>什么是Asyncio</h2><h3>Sync VS Async</h3><p>我们首先来区分一下Sync（同步）和Async（异步）的概念。</p><ul>

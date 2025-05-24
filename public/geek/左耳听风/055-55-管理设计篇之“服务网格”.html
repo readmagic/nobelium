@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>前面，我讨论了Sidecar边车模式，这是一个非常不错的分布式架构的设计模式。因为这个模式可以有效地分离系统控制和业务逻辑，并且可以让整个系统架构在控制面上可以集中管理，可以显著地提高分布式系统的整体控制和管理效率，并且可以让业务开发更快速。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>那么，我们不妨在上面这个模式下think big一下。假如，我们在一个分布式系统中，已经把一些标准的Sidecar给部署好了。比如前面文章说过的熔断、限流、重试、幂等、路由、监视等这些东西。我们在每个计算结点上都部署好了这些东西，那么真实的业务服务只需要往这个集群中放，就可以和本地的Sidecar通信，然后由Sidecar委托代理与其它系统的交互和控制。这样一来，我们的业务开发和运维岂不是简单之极了？</p>
 <p>是啊，试想一下，如果某云服务提供商，提供了一个带着前面我们说过的那些各式各样的分布式设计模式的Sidecar集群，那么我们的用户真的就只用写业务逻辑相关的service了。写好一个就往这个集群中部署，开发和运维工作量都会得到巨大的降低和减少。</p>
 <h1>什么是Service Mesh</h1>

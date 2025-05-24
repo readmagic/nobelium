@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是葛俊。今天，我们来聊一聊Git吧。</p><p>毫无疑问，Git是当前最流行的代码仓管理系统，可以说是开发者的必备技能。它非常强大，使用得当的话可以大幅助力个人效能的提升。一个最直接的应用就是，可以帮助我们提升代码提交的原子性。如果一个团队的成员都能熟练使用Git的话，可以大大提高团队代码的模块化、可读性、可维护性，从而提高团队的研发效能。但可惜的是，现实情况中，由于Git比较复杂，用得好的人并不多。</p><p>所以接下来，我会通过两篇文章，与你详细讲述如何使用Git助力实现代码原子性。今天这篇文章，我先与你分享Git支持原子性的5种基础操作；下一篇文章，则会给你介绍Facebook开发人员是怎样具体应用这些基础操作去实现代码原子性的。</p><p>通过这两篇文章，我希望你能够：</p><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>了解在分布式代码仓管理系统中，如何通过对代码提交的灵活处理，实现提交的原子性；</li>
 <li>帮你学习到Git的实用技巧，提高开发效率。</li>
 </ol><p>我在<a href="https://time.geekbang.org/column/article/148170">第21篇文章</a>中提到，代码提交的原子性指的是，一个提交包含一个不可分割的特性、修复或者优化。如果用一个提交完成一个功能，这个提交还是会比较大的话，我们需要把这个功能再拆分为子功能。</p><p>为什么要强调代码提交的原子性呢？这是因为它有以下3大好处：</p><!-- [[[read_end]]] --><ul>

@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是温铭。</p><p>在 OpenResty 中，除了字符串经常出现性能问题外，table 也是性能的拦路虎。在之前的章节中，我们零零散散地介绍过 table 相关的函数，但并没有专门提到它对性能方面的提升。今天，我就带你专门来聊聊，table 操作对性能的影响。</p><p>不同于对字符串的熟悉，开发者对于 table 相关的性能优化知之甚少，这主要有两个方面的原因。</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>其一，OpenResty 中使用的是 Lua ，是自己的 LuaJIT 分支，不是标准的 LuaJIT，也不是标准的 Lua。而大部分开发者并不知道它们之间的区别，倾向于使用标准 Lua 的 table 库来写 OpenResty 代码。</li>
 <li>其二，在标准 LuaJIT 和 OpenResty 自己的 LuaJIT 分支中，table 操作相关的文档都藏得非常深，开发者很难找到；而且文档中也没有示例代码，需要开发者自己去开源项目中寻找示例。</li>
 </ul><p>这就形成了比较高的认知壁垒，导致了两极分化的结果——资深的 OpenResty 开发者能够写出很高性能的代码，而刚入门的则会怀疑 OpenResty 的高性能是不是一个泡沫。当然，等你学习完这节课的内容，你就可以轻松地戳破这层窗户纸，让性能提升 10 倍不是梦。</p><p>在详细介绍 table 优化之前，我想先强调的一点是，table 相关的优化，有一个自己的简单原则：</p><!-- [[[read_end]]] --><p><strong>尽量复用，避免不必要的 table 创建。</strong></p><p>你先记住这一点，下面，我们就从 table 的创建、元素的插入、清空、循环使用等方面，分别来介绍相关的优化。</p><h2>预先生成数组</h2><p>第一步，自然是创建数组。在 Lua 中，我们创建数组的方式很简单：</p><pre><code>local t = {}

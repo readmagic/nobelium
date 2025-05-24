@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>由上一篇文章你应该已经知道，在<strong>破坏占用且等待条件</strong>的时候，如果转出账本和转入账本不满足同时在文件架上这个条件，就用死循环的方式来循环等待，核心代码如下：</p><pre><code>// 一次性申请转出账户和转入账户，直到成功
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 while(!actr.apply(this, target))
   ；
 </code></pre><p>如果apply()操作耗时非常短，而且并发冲突量也不大时，这个方案还挺不错的，因为这种场景下，循环上几次或者几十次就能一次性获取转出账户和转入账户了。但是如果apply()操作耗时长，或者并发冲突量大的时候，循环等待这种方案就不适用了，因为在这种场景下，可能要循环上万次才能获取到锁，太消耗CPU了。</p><p>其实在这种场景下，最好的方案应该是：如果线程要求的条件（转出账本和转入账本同在文件架上）不满足，则线程阻塞自己，进入<strong>等待</strong>状态；当线程要求的条件（转出账本和转入账本同在文件架上）满足后，<strong>通知</strong>等待的线程重新执行。其中，使用线程阻塞的方式就能避免循环等待消耗CPU的问题。</p><p>那Java语言是否支持这种<strong>等待-通知机制</strong>呢？答案是：一定支持（毕竟占据排行榜第一那么久）。下面我们就来看看Java语言是如何支持<strong>等待-通知机制</strong>的。</p><h2>完美的就医流程</h2><p>在介绍Java语言如何支持等待-通知机制之前，我们先看一个现实世界里面的就医流程，因为它有着完善的等待-通知机制，所以对比就医流程，我们就能更好地理解和应用并发编程中的等待-通知机制。</p><!-- [[[read_end]]] --><p>就医流程基本上是这样：</p><ol>

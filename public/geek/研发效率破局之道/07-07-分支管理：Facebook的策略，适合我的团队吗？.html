@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是葛俊。今天，我来跟你聊聊研发过程中的Git代码分支管理和发布策略。</p><p>在前面两篇文章中，我们讨论了持续开发、持续集成和持续部署的整个上线流程。这条流水线针对的是分支，因此代码的分支管理便是基础。能否找到适合自己团队的分支管理策略，就是决定代码质量，以及发布顺畅的一个重要因素。</p><p>Facebook有几千名开发人员同时工作在一个大代码仓，每天会有一两千个代码提交入仓 ，但仍能顺利地进行开发，并发布高质量的产品。平心而论，Facebook的工程水平的确很高，与他们的分支管理息息相关。</p><p>所以在今天这篇文章中，我会先与你详细介绍Facebook的分支管理策略，以及背后的原因；然后，与你介绍其他的常见分支管理策略；最后，向你推荐如何选择适合自己的分支策略。</p><h2>Facebook的分支管理和发布策略</h2><p>Facebook的分支管理策略，是一种基于主干的开发方式，也叫作Trunk-based。在这种方式中，用于开发的长期分支只有一个，而用于发布的分支可以有多个。</p><p>首先，我们先看看这个长期存在的开发分支。</p><h3>开发分支</h3><p>这个长期存在的开发分支，一般被叫作trunk或者master。为方便讨论，我们统一称它为master。也就是说，所有的开发人员基于master分支进行开发，提交也直接push到这个分支上。</p><!-- [[[read_end]]] --><p>在主干开发方式下，根据是否允许存在短期的功能分支（Feature Branch)，又分为两个子类别：主干开发有功能分支和主干开发无功能分支。Facebook做得比较纯粹，在主代码仓中，基本上禁止功能分支。</p><p>另外，在代码合并回master的时候，又有rebase和merge两种选择。Facebook选择的是rebase（关于这样选择的原因，我会在后面与你详细介绍）。所以，Facebook的整个开发模式非常简单，步骤大概如下。</p><p>第一步，获取最新代码。</p><pre><code>git checkout master
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 git fetch
 git rebase origin/master
 </code></pre><p>第二步，本地开发，然后执行</p><pre><code>git add 

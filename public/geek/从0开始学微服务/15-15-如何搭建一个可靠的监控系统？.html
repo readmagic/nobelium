@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p><a href="http://time.geekbang.org/column/article/15109">专栏第7期</a>我给你讲解了监控系统的实现原理，先来简单回顾一下，一个监控系统的组成主要涉及四个环节：数据收集、数据传输、数据处理和数据展示。不同的监控系统实现方案，在这四个环节所使用的技术方案不同，适合的业务场景也不一样。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>目前，比较流行的开源监控系统实现方案主要有两种：以<a href="https://www.elastic.co/cn/">ELK</a>为代表的集中式日志解决方案，以及<a href="http://graphite.readthedocs.io/en/latest/index.html">Graphite</a>、<a href="https://www.influxdata.com/time-series-platform/">TICK</a>和<a href="https://prometheus.io/">Prometheus</a>等为代表的时序数据库解决方案。接下来<span class="orange">我就以这几个常见的监控系统实现方案，谈谈它们的实现原理，分别适用于什么场景，以及具体该如何做技术选型。</span></p>
 <h2>ELK</h2>
 <p>ELK是Elasticsearch、Logstash、Kibana三个开源软件产品首字母的缩写，它们三个通常配合使用，所以被称为ELK Stack，它的架构可以用下面的图片来描述。</p>

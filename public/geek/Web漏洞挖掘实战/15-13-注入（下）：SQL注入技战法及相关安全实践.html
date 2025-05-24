@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是王昊天。</p><p>上节课我们学习了SQL注入的基本原理和基础动作，但想要完成SQL注入攻击，仅凭借基础知识是不够的。这节课我们就来深入分析不同场景下的SQL注入，来了解这些场景下都有哪些攻击方式。</p><p>事实上，即使同为SQL注入漏洞，由于攻击过程中可利用的条件和限制不同，所能够采取的攻击方式也是有差异的。比如在篮球比赛中，同样是上篮，由于防守队员的不同，甚至是防守人数的不同，都会有不同的动作。</p><h2>注入技巧</h2><p><img src="https://static001.geekbang.org/resource/image/ec/a6/ece15f4c0fc0a854686fce1757ebcba6.png?wh=1034x543" alt=""></p><h3>联合注入（UNION注入）</h3><p>当SELECT语句中存在可以使用的SQL注入漏洞时，就可以用联合注入方法进行SQL注入，将两个查询合并为一个结果或结果集。</p><p>联合注入是在SQL注入中加入一个新的查询，在完成原始数据查询后，再进行一次查询，并将新的结果加入到原始查询的结果中，攻击者可以通过这种方式来获得目标数据。比如如下查询语句：</p><pre><code class="language-sql">SELECT Name, Phone, Address FROM Users WHERE Id=$id
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 # http://www.example.com/product.php?id=10
 </code></pre><p>这是一个简单的查询语句，目标是从<code>Users</code>表中查询指定<code>id</code>值的用户的姓名、密码以及地址信息。</p><!-- [[[read_end]]] --><p>这里我们可以对<code>id</code>的值进行设置，如果将<code>id</code>的值设为：</p><pre><code class="language-sql">1 UNION ALL SELECT creditCardNumber,1,1 FROM CreditCardTable
 </code></pre><p>那么整条查询语句将会变为：</p><pre><code class="language-sql">SELECT Name, Phone, Address FROM Users WHERE Id=1 UNION ALL SELECT creditCardNumber,1,1 FROM CreditCardTable

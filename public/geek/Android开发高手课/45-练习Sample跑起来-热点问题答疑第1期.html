@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是专栏的“学习委员”孙鹏飞。</p><p>专栏上线以来很多同学反馈，说在运行练习Sample的时候遇到问题。由于这些Sample多是采用C/C++来完成的，所以在编译运行上会比传统的纯Java项目稍微复杂一些。今天我就针对第1期～第4期中，同学们集中遇到的问题做一期答疑。设置练习的目的，也是希望你在学习完专栏的内容后，可以快速上手试验一下专栏所讲的工具或方法，帮你加快掌握技术的精髓。所以希望各位同学可以多参与进来，有任何问题也可以在留言区给我们反馈，后面我还会不定期针对练习再做答疑。</p><h2>编译环境配置</h2><p>首先是同学们问得比较多的运行环境问题。</p><p>前几期的练习Sample大多是使用C/C++开发的，所以要运行起来需要先配置好SDK和NDK，SDK我们一般都是配置好的，NDK环境的配置有一些特殊的地方，一般我们的Sample都会使用最新的NDK版本，代码可能会使用C++11/14的语法进行编写，并且使用CMake进行编译，我这里给出NDK环境的配置项。</p><p>首先需要去NDK官网下载<a href="http://developer.android.com/ndk/downloads/">最新版本</a>，下载后可以解压到合适的地方，一般macOS可以存放在 ANDROID_SDK_HOME/ndk_bundle目录下，Android  Studio可以默认找到该目录。如果放到别的目录，可能需要自己指定一下。</p><!-- [[[read_end]]] --><p>指定NDK目录的方法一般有下面两种。</p><p>1.在练习Sample根目录下都会有一个local.properties文件，修改其中的ndk.dir路径即可。</p><pre><code>ndk.dir=/Users/sample/Library/Android/sdk/ndk-bundle
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
  sdk.dir=/Users/sample/Library/Android/sdk
 </code></pre><p>2.可以在Android  Studio里进行配置，打开File -&gt; Project Structure -&gt; SDK Location进行修改。</p><p><img src="https://static001.geekbang.org/resource/image/fb/18/fbbd0e4051c08b39891ab3483251f618.png" alt=""></p><p>上面两种修改方法效果是一致的。</p><p>有些Sample需要降级NDK编译使用，可能需要下载旧版本的NDK，可以从<a href="http://developer.android.com/ndk/downloads/revision_history">官网下载</a>。</p><p>之后需要安装CMake和LLDB。</p><ul>
 <li>

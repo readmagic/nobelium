@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>专栏结束后，有不少同学留言希望我能讲一些微博基础架构的知识。所以接下来的微博技术解密系列，我将分享微博在信息流架构、存储中间件等方面的经验，希望能给你带来启发和帮助。</p><p><span class="orange">今天我们先来看微博信息流架构，也就是微博的Feed是如何构建的。</span>首先什么是Feed呢？根据我的理解，Feed是互联网2.0时代的产物，它与互联网1.0时代的产物——门户网站最大的不同之处就是Feed不需要用户在各个板块之间来回跳转获取信息，而是把不同的信息都聚合在一起，可以供用户源源不断地访问。这里就涉及了两个问题，一个是信息如何保存，另一个是信息如何聚合。这也是今天我要分享的主要内容，我会从存储架构的角度阐述微博Feed是如何存储的，然后会从业务架构的角度阐述微博Feed是如何聚合的。</p><h2>微博Feed存储架构</h2><p>我们知道，微博Feed是由关注人的微博聚合在一起组成的，所以要存储每个人发的微博，那么在设计存储架构时主要需要注意三个问题：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>
 <p>每秒数据写入量，也就是每秒发博量是多大。</p>
 </li>

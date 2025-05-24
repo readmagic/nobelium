@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是郑晔。</p><p>前面在讨论 TDD 的时候，我们说任务分解是 TDD 的关键。但这依然是一种感性上的认识。今天，我们就来用一个更加具体的例子，让你看看任务分解到底可以做到什么程度。</p><p>这个例子就是最简单的用户登录。需求很简单，用户通过用户名密码登录。</p><p>我相信，实现这个功能对大家来说并不困难，估计在我给出这个题目的时候，很多人脑子里已经开始写代码了。今天主要就是为了带着大家体验一下任务分解的过程，看看怎样将一个待实现的需求一步步拆细，变成一个个具体可执行的任务。</p><p>要完成这个需求，最基本的任务是用户通过输入用户名和密码登录。</p><p><img src="https://static001.geekbang.org/resource/image/df/1b/df3bcd76b68787145c5d6e16804a191b.jpg" alt=""></p><p>用户名和密码登录这个任务很简单，但我们在第一部分讲过沙盘推演，只要推演一下便不难发现，这不是一个完整的需求。</p><p>用户名和密码是哪来的呢？它们可能是用户设置的，也可能是由系统管理员设置的。这里我们就把它们简单设定成由用户设定。另外，有用户登录，一般情况下，还会有一个退出的功能。好了，这才是一个简单而完整的需求。我们就不做进一步的需求扩展。</p><p>所以，我们要完成的需求列表是下面这样的。</p><p><img src="https://static001.geekbang.org/resource/image/a0/6f/a01d61a6ebfe1ccb1ff38eaec4f4c96f.jpg" alt=""><br>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 假设我们就是拿到这个需求列表的程序员，要进行开发。我们先要分析一下要做的事情有哪些，也就是任务分解。到这里，你可以先暂停一会，尝试自己分解任务，之后，再来对比我后面给出的分解结果，看看差异有多少。</p><!-- [[[read_end]]] --><p>好，我们继续。</p><p>我们先来决定一下技术方案，就用最简单的方式实现，在数据库里建一张表保存用户信息。一旦牵扯到数据库表，就会涉及到数据库迁移，所以，有了下面的任务。</p><p><img src="https://static001.geekbang.org/resource/image/5d/2e/5d88a1849a51d566e8702142b16e112e.jpg" alt=""><br>
 这时，需要确定这两个任务自己是否知道怎么做。设计表，一般熟悉 SQL 的人都知道怎么做。数据库迁移，可能要牵扯到技术选型，不同的数据库迁移工具，写法上略有差别，我们就把还不完全明确的内容加到任务清单里。</p><p><img src="https://static001.geekbang.org/resource/image/23/a3/23d543d679448bd5250081168ba12da3.jpg" alt=""><br>
 数据库的内容准备好了，接下来，就轮到编写代码的准备上了。我们准备用常见的 REST 服务对外提供访问。这里就采用最常规的三层技术架构，所以，一般要编写下面几项内容。</p><ul>

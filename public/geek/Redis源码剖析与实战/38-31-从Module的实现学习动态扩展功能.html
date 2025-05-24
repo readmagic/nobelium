@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是蒋德钧。</p><p></p><p>Redis本身已经给我们提供了丰富的数据类型和数据读写功能，而且，Redis实现了基于IO复用的网络框架、数据主从复制和故障恢复机制，以及数据切片集群，这些功能通常都是后端系统所需的核心功能。</p><p></p><p>那么，当我们在实际应用中，既希望能用上Redis已经实现的核心功能，又需要新增一些额外的命令或是数据类型时，该怎么办呢？</p><p>其实，Redis从4.0版本开始，就提供了扩展模块（Module）的功能。这些扩展模块以动态链接库（so文件）的形式加载到Redis中，我们可以基于Redis来新增功能模块。这些模块通常包括了新增的命令和数据类型，与此同时，这些数据类型对应的数据会保存在Redis数据库中，从而保证了应用程序对这些数据的高性能访问。</p><p></p><p>新增功能模块是后端系统开发过程中经常会遇到的问题，那么今天这节课，我就带你学习Redis是如何实现新增一个功能模块的。掌握了今天的课程内容，你就可以参考Redis的实现方案，给自己的系统添加相应的功能模块扩展框架，从而增加系统的灵活性。</p><p></p><p>下面，我们就先来了解下Redis的扩展模块框架的初始化操作。因为和Redis扩展模块框架相关的功能主要是在<a href="https://github.com/redis/redis/tree/5.0/src/redismodule.h">redismodule.h</a>和<a href="https://github.com/redis/redis/tree/5.0/src/module.c">module.c</a>文件中定义和实现的，你可以在这两个文件中查找接下来要介绍的数据结构或函数。</p><!-- [[[read_end]]] --><p></p><h2>模块框架的初始化</h2><p>在Redis的入口main函数的执行流程中，会<strong>调用moduleInitModulesSystem函数</strong>（在module.c文件中）初始化扩展模块框架，如下所示：</p><pre><code class="language-plain">int main(int argc, char **argv) {
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 &nbsp;&nbsp; …
 &nbsp;&nbsp; moduleInitModulesSystem();
 …}

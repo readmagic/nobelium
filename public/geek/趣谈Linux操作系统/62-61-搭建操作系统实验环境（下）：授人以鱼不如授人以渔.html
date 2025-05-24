@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>上一节我们做了一个实验，添加了一个系统调用，并且编译了内核。这一节，我们来尝试调试内核。这样，我们就可以一步一步来看，内核的代码逻辑执行到哪一步了，对应的变量值是什么。</p><h2>了解gdb</h2><p>在Linux下面，调试程序使用一个叫作gdb的工具。通过这个工具，我们可以逐行运行程序。</p><p>例如，上一节我们写的syscall.c这个程序，我们就可以通过下面的命令编译。</p><pre><code>gcc -g syscall.c
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 </code></pre><p>其中，参数-g的意思就是在编译好的二进制程序中，加入debug所需的信息。</p><p>接下来，我们安装一下gdb。</p><pre><code>apt-get install gdb
 </code></pre><p>然后，我们就可以来调试这个程序了。</p><pre><code>~/syscall# gdb ./a.out        
 GNU gdb (Ubuntu 8.1-0ubuntu3.1) 8.1.0.20180409-git

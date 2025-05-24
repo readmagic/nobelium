@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是温铭。</p><p>到目前为止，和 OpenResty 性能相关的内容，我就差不多快要介绍完了。我相信，掌握并灵活运用好这些优化技巧，一定可以让你的代码性能提升一个数量级。今天，在性能优化的最后一个部分，我来讲一讲 OpenResty 中被普遍低估的一种能力：动态。</p><p>让我们先来看下什么是动态，以及它和性能之间有什么样的关系。</p><p>这里的动态，指的是程序可以在运行时、在不重新加载的情况下，去修改参数、配置，乃至修改自身的代码。具体到 Nginx 和 OpenResty 领域，你去修改上游、SSL 证书、限流限速阈值，而不用重启服务，就属于实现了动态。至于动态和性能之间的关系，很显然，如果这几类操作不能动态地完成，那么频繁的 reload Nginx 服务，自然就会带来性能的损耗。</p><p>不过，我们知道，开源版本的 Nginx 并不支持动态特性，所以，你要对上游、SSL 证书做变更，就必须通过修改配置文件、重启服务的方式才能生效。而商业版本的 Nginx Plus 提供了部分动态的能力，你可以用 REST API 来完成更新，但这最多算是一个不够彻底的改良。</p><p>但是，在 OpenResty 中，这些桎梏都是不存在的，动态可以说就是 OpenResty 的杀手锏。你可能纳闷儿，为什么基于 Nginx 的 OpenResty 却可以支持动态呢？原因也很简单，Nginx 的逻辑是通过 C 模块来完成的，而 OpenResty 是通过脚本语言 Lua 来完成的——脚本语言的一大优势，便是运行时可以去做动态地改变。</p><!-- [[[read_end]]] --><h2>动态加载代码</h2><p>下面我们就来看看，如何在 OpenResty 中动态地加载 Lua 代码：</p><pre><code>resty -e 'local s = [[ngx.say(&quot;hello world&quot;)]]
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 local func, err = loadstring(s)
 func()'
 </code></pre><p>你没有看错，只要短短的两三行代码，就可以把一个字符串变为一个 Lua 函数，并运行起来。我们进一步仔细看下这几行代码，我来简单解读一下：</p><ul>

@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是于航。</p><p>在上一节课中，我们已经完成了本次实践项目的其中一个核心部分，也就是由 JavaScript 实现的滤镜函数。并且还同时完成了整个 Web 应用与用户的 UI 交互控制部分、视频图像的渲染和绘制逻辑，以及帧率计算逻辑及显示逻辑。</p><p>在这节课里，我们将一起来完成整个应用的另外一个核心部分，同时也是整个实践的主角。让我们来看看，相较于 JavaScript 滤镜函数，由 Wasm 实现的同版本滤镜函数会带来怎样的性能提升呢？</p><h2>编写 C/C++ 函数源码</h2><p>首先，为了能够得到对应 Wasm 字节码格式的函数实现，我们需要首先准备由 C/C++ 等高级语言编写的源代码，然后再通过 Emscripten 将其编译到 Wasm 格式。这部分代码的主要逻辑，与上一篇中的 JavaScript 版本滤镜函数其实现逻辑基本相同。代码如下所示：</p><pre><code>// dip.cc
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 // 引入必要的头文件；
 #include &lt;emscripten.h&gt;
 #include &lt;cmath&gt;

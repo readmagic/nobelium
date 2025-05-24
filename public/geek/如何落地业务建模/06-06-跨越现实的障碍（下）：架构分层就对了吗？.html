@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是徐昊。今天我们来聊聊如何有效地基于领域模型构造合理的架构。</p><p>到目前为止，我们学会了通过关联对象解决聚合/关联关系；利用角色对象分离不同上下文中的交互；并使用上下文对象完成实体对象到角色对象的扮演。这些模式通过结构上的优化，更好地组织了对核心数据的访问逻辑，使得我们可以在兼顾架构约束的同时，将领域概念与逻辑有效地转化为领域模型。</p><p>然而当我们把眼光从构造领域模型，扩展到利用领域模型构建整个应用或系统时，就会遇到新的问题：<strong>如何组织领域逻辑与非领域逻辑，才能避免非领域逻辑对模型的污染</strong>？</p><p>通常我们会使用分层架构（Layered Architecture）区分不同的逻辑以解决这个问题。然而由于领域层被人为赋予了最稳定的特性，破坏了分层架构间的依赖关系。所以我们需要<strong>修正分层，才能有效地围绕领域模型来构造软件架构</strong>。</p><p>那么今天这节课我们就看看分层架构的问题在哪儿，以及如何通过能力供应商（Capability Provider）模式获得一个更好的架构愿景。</p><h2>领域层的“不正当关系”</h2><p><strong>分层架构</strong>是运用最为广泛的架构模式，它<strong>将不同关注点的逻辑封装到不同的层中</strong>，以便扩展维护，同时也能有效地控制变化的传播。</p><p>在使用领域驱动设计时，我们通常会将系统分成四层：</p><!-- [[[read_end]]] --><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li><strong>展现层</strong>（Representation Layer）：负责给最终用户展现信息，并接受用户的输入作为功能的触发点。如果不是人机交互系统，用户也可以是其他软件系统。</li>
 <li><strong>应用层</strong>（Application Layer）：负责支撑具体的业务或者交互流程，将业务逻辑组织为软件的功能。</li>
 <li><strong>领域层</strong>（Domain Layer）：核心的领域概念、信息与规则。它不随应用层的流程、展现层的界面以及基础设施层的能力改变而改变。</li>

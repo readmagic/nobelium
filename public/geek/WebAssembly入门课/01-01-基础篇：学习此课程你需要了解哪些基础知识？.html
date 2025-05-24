@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是于航。</p><p>在我们正式进入到 WebAssembly 的学习之前，为了帮助你更好地理解课程内容，我为你准备了一节基础课。</p><p>在这一节基础课中，我将与编程语言及计算机基础相关的一些概念，按照其各自所属的领域进行了分类，供你进行本课程的预习与巩固。</p><p>这些概念大多都相互独立，因此你可以根据自己的实际情况选择性学习。在后面的课程中，我将会直接使用这些概念或术语，不再过多介绍。当然，如果你对这些知识足够熟悉，可以直接跳过这节课。</p><h2>JavaScript</h2><p>接下来，我将介绍有关 JavaScript 的一些概念。其中包括 ECMAScript 语言规范中提及的一些特性，以及一些经常在 Web 应用开发中使用到的 JavaScript Web API。</p><h3>window.requestAnimationFrame</h3><p>window.requestAnimationFrame 这个 Web API ，主要用来替代曾经的 window.setInterval 和 window.setTimeout 函数，以专门用于处理需要进行“动画绘制”的场景。</p><p>该方法接受一个回调函数作为参数，该回调函数将会在下一次浏览器尝试重新绘制当前帧动画时被调用。因此，我们便需要在回调函数里再次调用 window.requestAnimationFrame 函数，以确保浏览器能够正确地绘制下一帧动画。</p><!-- [[[read_end]]] --><p>这个 API 一个简单的用法如下所示。</p><pre><code>&lt;html&gt;
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
   &lt;head&gt;
     &lt;style&gt;
       div {

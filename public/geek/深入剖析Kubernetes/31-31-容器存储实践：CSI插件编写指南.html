@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是张磊。今天我和你分享的主题是：容器存储实践之CSI插件编写指南。</p><p>在上一篇文章中，我已经为你详细讲解了CSI插件机制的设计原理。今天我将继续和你一起实践一个CSI插件的编写过程。</p><p>为了能够覆盖到CSI插件的所有功能，我这一次选择了DigitalOcean的块存储（Block Storage）服务，来作为实践对象。</p><p>DigitalOcean是业界知名的“最简”公有云服务，即：它只提供虚拟机、存储、网络等为数不多的几个基础功能，其他功能一概不管。而这，恰恰就使得DigitalOcean成了我们在公有云上实践Kubernetes的最佳选择。</p><p><span class="orange">我们这次编写的CSI插件的功能，就是：让我们运行在DigitalOcean上的Kubernetes集群能够使用它的块存储服务，作为容器的持久化存储。</span></p><blockquote>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>备注：在DigitalOcean上部署一个Kubernetes集群的过程，也很简单。你只需要先在DigitalOcean上创建几个虚拟机，然后按照我们在第11篇文章<a href="https://time.geekbang.org/column/article/39724">《从0到1：搭建一个完整的Kubernetes集群》</a>中从0到1的步骤直接部署即可。</p>
 </blockquote><p>而有了CSI插件之后，持久化存储的用法就非常简单了，你只需要创建一个如下所示的StorageClass对象即可：</p><!-- [[[read_end]]] --><pre><code>kind: StorageClass
 apiVersion: storage.k8s.io/v1

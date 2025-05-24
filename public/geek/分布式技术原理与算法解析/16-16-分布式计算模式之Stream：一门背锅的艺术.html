@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是聂鹏程。今天，我来继续带你打卡分布式核心技术。</p><p>在上一篇文章中，我与你介绍了分布式计算模式中的MapReduce模式。这种模式的核心思想是，将大任务拆分成多个小任务，针对这些小任务分别计算后，再合并各小任务的结果以得到大任务的计算结果。</p><p>这种模式下任务运行完成之后，整个任务进程就结束了，属于短任务模式。但，任务进程的启动和停止是一件很耗时的事儿，因此MapReduce对处理实时性的任务就不太合适了。</p><p>实时性任务主要是针对流数据的处理，对处理时延要求很高，通常需要有常驻服务进程，等待数据的随时到来随时处理，以保证低时延。处理流数据任务的计算模式，在分布式领域中叫作Stream。</p><p>今天，我将针对流数据的处理展开分享，和你一起打卡Stream这种计算模式。</p><h2>什么是Stream？</h2><p>近年来，由于网络监控、传感监测、AR/VR等实时性应用的兴起，一类需要处理流数据的业务发展了起来。比如各种直播平台中，我们需要处理直播产生的音视频数据流等。这种如流水般持续涌现，且需要实时处理的数据，我们称之为<strong>流数据</strong>。</p><p>总结来讲，流数据的特征主要包括以下4点：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>数据如流水般持续、快速地到达；</li>
 <li>海量数据规模，数据量可达到TB级甚至PB级；</li>
 <li>对实时性要求高，随着时间流逝，数据的价值会大幅降低；</li>

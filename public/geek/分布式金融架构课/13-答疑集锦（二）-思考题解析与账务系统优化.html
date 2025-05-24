@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是任杰。</p><p>到今天为止，第二模块的系统正确性保障的内容就告一段落了。在专栏更新的过程中，也很开心看到同学们的留言，我要为你们认真学习、主动思考的精神点赞。</p><p>今天我为你准备了这篇加餐，把第二模块的思考题做一个系统梳理。我还是建议你先看完前面每一讲的内容，自己独立思考之后，再来看我这份参考答案。</p><h2>思考题答案</h2><p><a href="https://time.geekbang.org/column/article/328625"><strong>第6节课</strong></a></p><p>Q：双时序数据库里的一种存储方式是将坐标空间切割成尽量多的矩形，然后将这些矩形存储在数据系统内。数据库的索引建立在矩形的左下角和右上角这两个坐标点。</p><p>具体的切割做法是当坐标系内新增一个数据节点时，以这个点为中心，将整个坐标系进行水平和垂直切分。下图展示了系统中有3个数据点时的一个切割方式，3个数据点将坐标系切割成了16个矩形：</p><p><img src="https://static001.geekbang.org/resource/image/a1/a0/a1bc85864e72888e9025efbcd96cd1a0.jpg" alt=""></p><p>每个插入操作都会对已有的矩形进行切割。每次查询都会遍历相关的矩形。那么你能算一算这个方案的<strong>存储空间复杂度</strong>和<strong>查询时间复杂度吗</strong>？</p><p>A：存储的空间复杂度是O(n^2)，查询的时间复杂度是O(log n)或者O(1)。你可以沿着这个思路，继续想想，这样的复杂度对双时序数据库的使用有怎样的影响，换句话说，就是双时序数据库适用的业务有什么特点？这个问题，你可以在第10节课找到答案。</p><!-- [[[read_end]]] --><p><a href="https://time.geekbang.org/column/article/326583"><strong>第7节课</strong></a></p><p>Q：我们在存储事件队列的时候需要存储两个文件。一个存储事件，另一个存储事件的索引。在现实中会出现各种异常的情况，比如机器可能会中途死机，这样有可能文件只写了一部分。</p><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>
 <p>这时你应该如何检测文件是否完整？</p>
 </li>

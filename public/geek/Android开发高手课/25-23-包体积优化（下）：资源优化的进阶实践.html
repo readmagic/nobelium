@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>上一期我们聊了Dex与Native Library的优化，是不是还有点意犹未尽的感觉呢？那安装包还有哪些可以优化的地方呢？</p><p><img src="https://static001.geekbang.org/resource/image/30/46/30d73f5021ac8b4333db3e49a31c8a46.png" alt=""></p><p>请看上面这张图，Assets、Resource以及签名metadata都是安装包中的“资源”部分，今天我们就一起来看看如何进一步优化资源的体积。</p><h2>AndResGuard工具</h2><p>在美团的一篇文章<a href="https://tech.meituan.com/2017/04/07/android-shrink-overall-solution.html">《Android App包瘦身优化实践》</a>中，也讲到了很多资源优化相关的方法，例如WebP和SVG、R文件、无用资源、资源混淆以及语言压缩等。</p><p>在我们的安装包中，资源相关的文件具体有下面这几个，它们都是我们需要优化的目标文件。</p><p><img src="https://static001.geekbang.org/resource/image/dd/b7/dd5c7efb6074ff0f2bd18296f9ecf1b7.png" alt=""></p><p>想使用好<a href="https://github.com/shwenzhang/AndResGuard">AndResGuard</a>工具，需要对安装包格式以及Android资源编译的原理有很深地理解，它主要有两个功能，一个是资源混淆，一个是资源的极限压缩。</p><p>接下来我们先来复习一下这个工具的核心实现，然后再进一步思考还有哪些地方需要继续优化。</p><p><strong>1. 资源混淆</strong></p><p>ProGuard的核心优化主要有三个：Shrink、Optimize和Obfuscate，也就是裁剪、优化和混淆。当初我在写AndResGuard的时候，希望实现的就是ProGuard中的混淆功能。</p><p>资源混淆的思路其实非常简单，就是把资源和文件的名字混淆成短路径：</p><!-- [[[read_end]]] --><pre><code>Proguard          -&gt; Resource Proguard
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 R.string.name     -&gt; R.string.a   
 res/drawable/icon -&gt; res/s/a
 </code></pre><p>那么这样的实现究竟对哪些资源文件有优化作用呢？</p><ul>

@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是海纳。</p><p>我们前面几节课主要是以Java为例，介绍了JVM中垃圾回收算法的演进过程。实际上，除了JVM之外，用于运行JavaScript的V8虚拟机、Lua虚拟机、Python虚拟机和Go的虚拟机都采用了自动内存管理技术。这节课，我们就一起来分析一下它们的实现。</p><p>通过这节课，你将会看到垃圾回收算法的设计是十分灵活而且多种多样的，这会为你以后改进应用中自动或半自动的内存管理，提供很好的参考。你要注意的是，学习自动内存管理，一定要抓住核心原理，不要陷入到细节里去。另外，你可以通过查看虚拟机源代码来验证自己的猜想，但不要把源代码教条化。</p><p>接下来，我先解释一下为什么选择Python和GO这两种语言做为例子。</p><h2>静态语言和动态语言</h2><p>我先介绍两个基本概念：<strong>动态语言和静态语言</strong>。动态语言的特征是可以在运行时，为对象甚至是类添加新的属性和方法，而静态语言不能在运行期间做这样的修改。</p><p>动态语言的代表是Python和JavaScript，静态语言的代表是C++。Java本质上是一门静态语言，但它又提供了反射（reflection）的能力为动态性开了一个小口子。</p><p>从实现的层面讲，静态语言往往在编译时就能确定各个属性的偏移值，所以编译器能确定某一种类型的对象，它的大小是多少。这就方便了在分配和运行时快速定位对象属性。关于静态语言的对象内存布局，我们在<a href="https://time.geekbang.org/column/article/431373">导学（三）</a>和<a href="https://time.geekbang.org/column/article/465516">第19节课</a>都做了介绍，你可以去看看。</p><!-- [[[read_end]]] --><p>而动态语言往往会将对象组织成一个字典结构，例如下面这个Python的例子：</p><pre><code>&gt;&gt;&gt; class A(object):
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 ...  pass
 ...
 &gt;&gt;&gt; a = A()

@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是吴咏炜。</p><p>从上一讲智能指针开始，我们已经或多或少接触了移动语义。本讲我们就完整地讨论一下移动语义和相关的概念。移动语义是 C++11 里引入的一个重要概念；理解这个概念，是理解很多现代 C++ 里的优化的基础。</p><h2>值分左右</h2><p>我们常常会说，C++ 里有左值和右值。这话不完全对。标准里的定义实际更复杂，规定了下面这些值类别（value categories）：</p><p><img src="https://static001.geekbang.org/resource/image/18/3c/18b692072537d4ce179d3857a8a0133c.png" alt=""></p><p>我们先理解一下这些名词的字面含义：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>一个 lvalue 是通常可以放在等号左边的表达式，左值</li>
 <li>一个 rvalue 是通常只能放在等号右边的表达式，右值</li>
 <li>一个 glvalue 是 generalized lvalue，广义左值</li>

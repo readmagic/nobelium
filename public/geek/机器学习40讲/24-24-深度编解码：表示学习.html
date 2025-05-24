@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>在上一讲中我提到，深度学习既可以用于解释也可以用于预测。在实际中，这两个功能通常被组合使用，解释功能可以看作编码器，对高维信息进行低维重构；预测功能则可以看作解码器，将低维重构恢复成高维信息。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>这样的两个深度网络级连起来，就形成了<strong>编码-解码结构</strong>（encoder-decoder model）。这种结构在诸如语音、文本、图像等高维数据的处理中应用广泛，取得了良好的效果。</p>
 <p>编解码的思想来源于信息论，是信息传输与处理的基础理论之一。但在通信中，编解码的对象是底层的语法结构，也就是对携带信息的符号进行编码，通过数据压缩实现信息的高效传输，但输出的符号本身与其所表达的含义并无关联。</p>
 <p>在深度学习中，编解码的操作更多在语义层面完成，无论是文本还是图像，<strong>编解码的目的都是重新构造数据的表示方式，简化学习任务的难度</strong>。</p>

@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>上一节qemu初始化的main函数，我们解析了一个开头，得到了表示体系结构的MachineClass以及MachineState。</p><h2>4.初始化块设备</h2><p>我们接着回到main函数，接下来初始化的是块设备，调用的是configure_blockdev。这里我们需要重点关注上面参数中的硬盘，不过我们放在存储虚拟化那一节再解析。</p><pre><code>configure_blockdev(&amp;bdo_queue, machine_class, snapshot);
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 </code></pre><h2>5.初始化计算虚拟化的加速模式</h2><p>接下来初始化的是计算虚拟化的加速模式，也即要不要使用KVM。根据参数中的配置是启用KVM。这里调用的是configure_accelerator。</p><pre><code>configure_accelerator(current_machine, argv[0]);
 
 void configure_accelerator(MachineState *ms, const char *progname)

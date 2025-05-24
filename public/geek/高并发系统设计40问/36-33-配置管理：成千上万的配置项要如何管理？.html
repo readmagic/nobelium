@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是唐扬。</p><p>相信在实际工作中，提及性能优化你会想到代码优化，但是实际上有些性能优化可能只需要调整一些配置参数就可以搞定了。为什么这么说呢？我给你举几个例子：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>你可以调整配置的超时时间让请求快速失败，防止系统的雪崩，提升系统的可用性；</li>
 <li>你还可以调整HTTP客户端连接池的大小，来提升调用第三方HTTP服务的并行处理能力，从而提升系统的性能。</li>
 </ul><p>你可以认为配置是管理你系统的工具，在你的垂直电商系统中，一定会有非常多的配置项，比如数据库的地址、请求HTTP服务的域名、本地内存最大缓存数量等等。</p><p>那么，你要如何对这些配置项做管理呢？管理的过程中要注意哪些事情呢？</p><h2>如何对配置进行管理</h2><p>配置管理由来已久，在Linux系统中就提供了大量的配置项，你可以根据自身业务的实际情况，动态地对系统功能做调整。比如，你可以通过修改dirty_writeback_centisecs参数的数值，调整Page Cache中脏数据刷新到磁盘上的频率；你也可以通过修改tcp_max_syn_backlog参数的值，来调整未建立连接队列的长度。而你既可以通过修改配置文件并且重启服务器来让配置生效，也可以通过sysctl命令来动态地调整，让配置即时生效。</p><!-- [[[read_end]]] --><p>那么在开发应用的时候，都有哪些管理配置的方式呢？我觉得主要有两种：</p><ul>

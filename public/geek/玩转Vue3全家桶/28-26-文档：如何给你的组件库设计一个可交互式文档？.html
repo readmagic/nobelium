@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是大圣。</p><p>在我们实现了组件库核心的组件内容之后，我们就需要提供一个可交互的组件文档给用户使用和学习了。这个文档页面主要包含组件的描述，组件Demo示例的展示、描述和代码，并且每个组件都应该有详细的参数文档。</p><p>现在，我们从上述文档页包含的信息来梳理一下我们的需求。我们需要用最简洁的语法来写页面，还需要用最简洁的语法来展示 Demo + 源代码 + 示例描述。那么从语法上来说，首选就是 Markdown 无疑了，因为它既简洁又强大。</p><p>那在我们正式开始设计文档之前，我们还需要对齐一下。如果要展示 Demo 和源码的话，为了能更高效且低成本的维护，我们会把一个示例的 Demo + 源码 + 示例描述放到一个文件里，尽量多的去复用，这样可以减少需要维护的代码。而做示例展示的话，本质上可以说是跟 Markdown 的转译一致，都是 Markdown -&gt; HTML，只是转译的规则我们需要拓展一下。接下来我们就正式开始了。</p><h2>VuePress</h2><p>首先我们需要一个能基于Markdown构建文档的工具，我推荐VuePress。它是Vue官网团队维护的在线技术文档工具，样式和Vue的官方文档保持一致。</p><p>VuePress内置了Markdown的扩展，写文档的时候就是用Markdown语法进行渲染的。最让人省心的是，它可以直接在Markdown里面使用Vue组件，这就意味着我们可以直接在Markdown中写上一个个的组件库的使用代码，就可以直接展示运行效果了。</p><!-- [[[read_end]]] --><p>我们可以在项目中执行下面的代码安装VuePress的最新版本：</p><pre><code class="language-bash">yarn add -D vuepress@next
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 </code></pre><p>然后我们新建docs目录作为文档目录，新建docs/README.md文件作为文档的首页。除了Markdown之外，我们可以直接使用VuePress的语法扩展对组件进行渲染。</p><pre><code class="language-yaml">
 ---
 home: true

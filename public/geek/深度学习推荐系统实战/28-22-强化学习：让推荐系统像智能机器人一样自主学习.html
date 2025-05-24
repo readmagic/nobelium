@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是王喆。这节课我们继续来讲深度推荐模型发展的前沿趋势，来学习强化学习（Reinforcement Learning）与深度推荐模型的结合。</p><p>强化学习也被称为增强学习，它在模型实时更新、用户行为快速反馈等方向上拥有巨大的优势。自从2018年开始，它就被大量应用在了推荐系统中，短短几年时间内，<a href="http://www.personal.psu.edu/~gjz5038/paper/www2018_reinforceRec/www2018_reinforceRec.pdf">微软</a>、<a href="https://tech.meituan.com/2018/11/15/reinforcement-learning-in-mt-recommend-system.html">美团</a>、<a href="https://arxiv.org/abs/1803.00710">阿里</a>等多家一线公司都已经有了强化学习的成功应用案例。</p><p>虽然，强化学习在推荐系统中的应用是一个很复杂的工程问题，我们自己很难在单机环境下模拟，但理解它在推荐系统中的应用方法，是我们进一步改进推荐系统的关键点之一，也是推荐系统发展的趋势之一。</p><p>所以这节课，我会带你重点学习这三点内容：一是强化学习的基本概念；二是，我会以微软的DRN模型为例，帮你厘清强化学习在推荐系统的应用细节；三是帮助你搞清楚深度学习和强化学习的结合点究竟在哪。</p><h2>强化学习的基本概念</h2><p>强化学习的基本原理，简单来说，就是<strong>一个智能体通过与环境进行交互，不断学习强化自己的智力，来指导自己的下一步行动，以取得最大化的预期利益</strong>。</p><p>事实上，任何一个有智力的个体，它的学习过程都遵循强化学习所描述的原理。比如说，婴儿学走路就是通过与环境交互，不断从失败中学习，来改进自己的下一步的动作才最终成功的。再比如说，在机器人领域，一个智能机器人控制机械臂来完成一个指定的任务，或者协调全身的动作来学习跑步，本质上都符合强化学习的过程。</p><!-- [[[read_end]]] --><p>为了把强化学习技术落地，只清楚它的基本原理显然是不够的，我们需要清晰地定义出强化学习中的每个关键变量，形成一套通用的技术框架。对于一个通用的强化学习框架来说，有这么六个元素是必须要有的：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li><strong>智能体（Agent）</strong>：强化学习的主体也就是作出决定的“大脑”；</li>
 <li><strong>环境（Environment）</strong>：智能体所在的环境，智能体交互的对象；</li>
 <li><strong>行动（Action）</strong>：由智能体做出的行动；</li>

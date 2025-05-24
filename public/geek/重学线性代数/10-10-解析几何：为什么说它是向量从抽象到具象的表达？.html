@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是朱维刚。欢迎你继续跟我学习线性代数，今天我们要讲的内容是“解析几何”。</p><p>前面所有章节我们都是围绕向量、矩阵，以及向量空间来展开的。但这一节课有点不一样，我要讲的是解析几何，它使得向量从抽象走向了具象，让向量具有了几何的含义。比如，计算向量的长度、向量之间的距离和角度，这在机器学习的主成分分析PCA中是非常有用的。</p><h2>范数</h2><p>讲解析几何我们得从“范数”开始讲起。</p><p>因为很多人看到几何向量的第一反应就是，它是从原点开始的有向线段，并且向量的长度是这个有向线段的终端和起始端之间的距离。而范数，就是被用来度量某个向量空间或矩阵中的每个向量的长度或大小的。</p><p>现在，我们先来看一下范数的数学定义：一个向量空间$V$上的一个范数就是一个函数，它计算$V$中的每一个向量$x$的长度，用符号来表示的话就是：$\|x\| \in R$，它满足三种性质：</p><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>正齐次性：  如果输入参数扩大正$λ$倍，其对应的函数也扩正大倍。设$λ \in R$，$x \in V$，$\|\lambda x\|=|\lambda|\|x\|$；</li>
 <li>次可加性：类似三角不等式，两边之和大于第三边。设$x,y \in V$，$\|x+y\| \leq\|x\|+\|y\|$；</li>
 <li>正定性：向量$x$的长度一定大于等于零。$\|x\| \geq 0$。</li>

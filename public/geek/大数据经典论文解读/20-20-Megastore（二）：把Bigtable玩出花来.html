@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是徐文浩。这节课，我们继续来解读Megastore的论文。</p><p>在上一讲里，我们了解了Megastore的设计目标和整体架构。Megastore虽然定了一个雄心勃勃的设计目标，但是当我们深入它的整体架构的时候，发现它还是根据实际的应用场景做了种种的妥协。</p><p>Megastore把数据按照分区划分成了很多“小数据库”，来解决Paxos算法的单节点性能瓶颈问题。而针对数据库事务，Megastore支持的是<strong>单个实体组内的一阶段事务</strong>。一旦要跨实体组，要么就要选择两阶段事务，要么就要采用并非事务性的异步消息机制。所以，Megastore虽然支持了SQL形式的接口，但是实际在应用中，仍然需要我们针对自己的数据模型进行精心的设计。</p><p>那么，这一讲，我们就看看Megastore的数据模型是怎么样的，它在底层又是如何使用Bigtable来存储数据的，它实现的实体组层面的事务又是怎么一回事儿。</p><p>在学完这一讲之后，希望你能够发现，其实Megastore并不神秘。通过有效利用Bigtable本身的各个特性，Megastore就已经能够实现很多，原先我们觉得在分布式环境下相对复杂的特性了。当然，这些特性也作出了种种妥协，使得Megastore并不能成为分布式数据库的终极方案。</p><!-- [[[read_end]]] --><p>事实上，与其说Megastore是一个独立的分布式数据库方案，不如说它更像一个Bigtable上的应用层的封装。那么在深入了解了Megastore的数据模型之后，相信你能够学会善用现有的系统，利用好现有系统的各种特性，就能有效组合出各类原先觉得难以做到的数据库高级特性。</p><h2>实体组到底是什么？</h2><p>实体组这个名字，我们在上一讲里，就已经反复提过很多次了。我们给出了一个抽象的概念，说它是一系列会经常共同访问的数据，也给出了一些像是用户和他的订单这样的例子。那么这一讲，我们就深入来看看，实体组到底是个什么东西。</p><pre><code class="language-scala">CREATE SCHEMA PhotoApp
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 
 CREATE TABLE User {
   required int64 user_id;

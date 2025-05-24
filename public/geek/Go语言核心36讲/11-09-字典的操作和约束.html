@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>至今为止，我们讲过的集合类的高级数据类型都属于针对单一元素的容器。</p><p>它们或用连续存储，或用互存指针的方式收纳元素，这里的每个元素都代表了一个从属某一类型的独立值。</p><p>我们今天要讲的字典（map）却不同，它能存储的不是单一值的集合，而是键值对的集合。</p><blockquote>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p><span class="reference">什么是键值对？它是从英文key-value pair直译过来的一个词。顾名思义，一个键值对就代表了一对键和值。</span></p>
 <p><span class="reference">注意，一个“键”和一个“值”分别代表了一个从属于某一类型的独立值，把它们两个捆绑在一起就是一个键值对了。</span></p>
 </blockquote><p>在Go语言规范中，应该是为了避免歧义，他们将键值对换了一种称呼，叫做：“键-元素对”。我们也沿用这个看起来更加清晰的词来讲解。</p><h2>知识前导：为什么字典的键类型会受到约束？</h2><p>Go语言的字典类型其实是一个哈希表（hash table）的特定实现，在这个实现中，键和元素的最大不同在于，键的类型是受限的，而元素却可以是任意类型的。</p><p>如果要探究限制的原因，我们就先要了解哈希表中最重要的一个过程：映射。</p><p>你可以把键理解为元素的一个索引，我们可以在哈希表中通过键查找与它成对的那个元素。</p><p>键和元素的这种对应关系，在数学里就被称为“映射”，这也是“map”这个词的本意，哈希表的映射过程就存在于对键-元素对的增、删、改、查的操作之中。</p><!-- [[[read_end]]] --><pre><code>aMap := map[string]int{

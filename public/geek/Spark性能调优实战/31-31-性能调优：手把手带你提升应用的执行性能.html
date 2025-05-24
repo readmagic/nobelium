@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是吴磊。</p><p>在上一讲，我们一起完成了小汽车摇号趋势分析的应用开发，解决了5个案例。今天这一讲，我们逐一对这5个案例做性能调优，一起把专栏中学过的知识和技巧应用到实战中去。</p><p>由于趋势分析应用中的案例较多，为了方便对比每一个案例调优前后的性能效果，我们先来对齐并统一性能对比测试的方法论。</p><p>首先，我们的性能对比测试是以案例为粒度的，也就是常说的Case By Case。然后，在每一个案例中，我们都有对比基准（Baseline）。<strong>对比基准的含义是，在不采取任何调优方法的情况下，直接把代码交付执行得到的运行时间。</strong>之后，对于每一个案例，我们会采取一种或多种调优方法做性能优化，每一种调优方法都有与之对应的运行时间。最终，我们将不同调优方法的运行时间与对比基准做横向比较，来观察调优前后的性能差异，并分析性能提升/下降的背后原因。</p><p>话不多说，我们直接开始今天的课程吧！</p><h2>运行环境</h2><p>既然调优效果主要由执行时间来体现，那在开始调优之前，我们有必要先来交代一下性能测试采用的硬件资源和配置项设置。硬件资源如下表所示。</p><p><img src="https://static001.geekbang.org/resource/image/ef/07/efa374437bb4df18b80145133a1cd807.jpeg" alt="" title="硬件资源配置"></p><p>为了避免因为实验本身而等待太长的时间，我使用了比较强悍的机器资源。实际上，为了跑通应用，完成性能对比测试，你使用笔记本也可以。而且为了给后续调优留出足够空间，除了必需的运行资源设置以外，其他配置项全部保留了默认值，具体的资源配置如下表所示。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/9a/f2/9a98c20b0d391910fa88a6df4a2641f2.jpeg" alt="" title="资源配置项设置"></p><p>另外，由于调优方法中涉及AQE和DPP这些Spark 3.0新特性，因此，我建议你使用3.0及以上的Spark版本来部署运行环境，我这边采用的版本号是Spark 3.1.1。</p><p>接下来，我们就Case By Case地去回顾代码实现，分别分析5个案例的优化空间、可能的调优方法、方法的效果，以及它们与对比基准的性能差异。</p><h2>案例1的性能调优：人数统计</h2><p>首先，我们先来回顾案例1。案例1的意图是统计摇号总人次、中签者人数，以及去掉倍率影响之后的摇号总人次，代码如下所示。</p><pre><code>val rootPath: String = _
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
  
 // 申请者数据（因为倍率的原因，每一期，同一个人，可能有多个号码）
 val hdfs_path_apply = s&quot;${rootPath}/apply&quot;

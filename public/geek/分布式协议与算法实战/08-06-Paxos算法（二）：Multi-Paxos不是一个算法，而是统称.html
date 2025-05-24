@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是韩健。</p><p>经过上节课的学习，你应该知道，Basic Paxos只能就单个值（Value）达成共识，一旦遇到为一系列的值实现共识的时候，它就不管用了。虽然兰伯特提到可以通过多次执行Basic Paxos实例（比如每接收到一个值时，就执行一次Basic Paxos算法）实现一系列值的共识。但是，很多同学读完论文后，应该还是两眼摸黑，虽然每个英文单词都能读懂，但还是不理解兰伯特提到的Multi-Paxos，为什么Multi-Paxos这么难理解呢？</p><p>在我看来，兰伯特并没有把Multi-Paxos讲清楚，只是介绍了大概的思想，缺少算法过程的细节和编程所必须的细节（比如缺少选举领导者的细节）。这也就导致每个人实现的Multi-Paxos都不一样。不过从本质上看，大家都是在兰伯特提到的Multi-Paxos思想上补充细节，设计自己的Multi-Paxos算法，然后实现它（比如Chubby的Multi-Paxos实现、Raft算法等）。</p><p>所以在这里，我补充一下：<strong>兰伯特提到的Multi-Paxos是一种思想，不是算法。而Multi-Paxos算法是一个统称，它是指基于Multi-Paxos思想，通过多个Basic Paxos实例实现一系列值的共识的算法（比如Chubby的Multi-Paxos实现、Raft算法等）。</strong> 这一点尤其需要你注意。</p><!-- [[[read_end]]] --><p>为了帮你掌握Multi-Paxos思想，我会先带你了解，对于Multi-Paxos兰伯特是如何思考的，也就是说，如何解决Basic Paxos的痛点问题；然后我再以Chubby的Multi-Paxos实现为例，具体讲解一下。为啥选它呢？因为Chubby的Multi-Paxos实现，代表了Multi-Paxos思想在生产环境中的真正落地，它将一种思想变成了代码实现。</p><h2>兰伯特关于Multi-Paxos的思考</h2><p>熟悉Basic Paxos的同学（可以回顾一下<a href="https://time.geekbang.org/column/article/201700?utm_source=geektimeweb&amp;utm_medium=pc&amp;utm_term=pc_interstitial_143">05讲</a>）可能还记得，Basic Paxos是通过二阶段提交来达成共识的。在第一阶段，也就是准备阶段，接收到大多数准备响应的提议者，才能发起接受请求进入第二阶段（也就是接受阶段）：</p><p><img src="https://static001.geekbang.org/resource/image/aa/e0/aafabff1fe2a26523e9815805ccca6e0.jpg" alt=""></p><p>而如果我们直接通过多次执行Basic Paxos实例，来实现一系列值的共识，就会存在这样几个问题：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>
 <p>如果多个提议者同时提交提案，可能出现因为提案编号冲突，在准备阶段没有提议者接收到大多数准备响应，协商失败，需要重新协商。你想象一下，一个5节点的集群，如果3个节点作为提议者同时提案，就可能发生因为没有提议者接收大多数响应（比如1个提议者接收到1个准备响应，另外2个提议者分别接收到2个准备响应）而准备失败，需要重新协商。</p>
 </li>

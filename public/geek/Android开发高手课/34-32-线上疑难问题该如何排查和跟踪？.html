@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>“95%以上的崩溃都能解决或者规避，大部分的系统崩溃也是如此”，这是我在专栏“崩溃优化”中曾经夸下的海口。</p><p>虽然收集了尽可能丰富的崩溃现场，但总会有一些情况是事先没有预料到的，我们无法直接从崩溃日志里找到原因。事实上我们面临的难题远远不止崩溃，比如说用户投诉文件下载到99%之后无法继续，那如何确定是用户手机网络不好，是后台服务器出错，还是客户端代码的Bug？</p><p>我们的业务逻辑越来越复杂，应用运行的环境也变得越来越复杂，因此在实际工作中总会遇到大大小小的线上疑难问题。对于这些问题，如何将它们“抽丝剥茧”，有哪些武器可以帮助我们更好地排查和跟踪呢？</p><h2>用户日志</h2><p>对于疑难问题，我们可以把它们分为崩溃和非崩溃两类。一般有哪些传统的排查手段呢？</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>
 <p><strong>本地尝试复现</strong>。无论是崩溃还是功能性的问题，只要有稳定的复现路径，我们都可以在本地采用各种各样的手段或工具进行反复分析。但是真正的疑难问题往往都很难复现，它们可能跟用户机型、本地存储数据等环境有关。</p>
 </li>

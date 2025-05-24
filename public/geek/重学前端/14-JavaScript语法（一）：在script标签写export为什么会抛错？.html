@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是winter，今天我们进入到语法部分的学习。在讲解具体的语法结构之前，这一堂课我首先要给你介绍一下JavaScript语法的一些基本规则。</p><h2>脚本和模块</h2><p>首先，JavaScript有两种源文件，一种叫做脚本，一种叫做模块。这个区分是在ES6引入了模块机制开始的，在ES5和之前的版本中，就只有一种源文件类型（就只有脚本）。</p><p>脚本是可以由浏览器或者node环境引入执行的，而模块只能由JavaScript代码用import引入执行。</p><p>从概念上，我们可以认为脚本具有主动性的JavaScript代码段，是控制宿主完成一定任务的代码；而模块是被动性的JavaScript代码段，是等待被调用的库。</p><p>我们对标准中的语法产生式做一些对比，不难发现，实际上模块和脚本之间的区别仅仅在于是否包含import 和 export。</p><p>脚本是一种兼容之前的版本的定义，在这个模式下，没有import就不需要处理加载“.js”文件问题。</p><p>现代浏览器可以支持用script标签引入模块或者脚本，如果要引入模块，必须给script标签添加type=“module”。如果引入脚本，则不需要type。</p><pre><code class="language-HTML">&lt;script type="module" src="xxxxx.js"&gt;&lt;/script&gt;
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 </code></pre><!-- [[[read_end]]] --><p>这样，就回答了我们标题中的问题，script标签如果不加<code>type=“module”</code>，默认认为我们加载的文件是脚本而非模块，如果我们在脚本中写了export，当然会抛错。</p><p>脚本中可以包含语句。模块中可以包含三种内容：import声明，export声明和语句。普通语句我们会在下一课专门给你讲解，下面我们就来讲讲import声明和export声明。</p><p><img src="https://static001.geekbang.org/resource/image/43/44/43fdb35c0300e73bb19c143431f50a44.jpg" alt=""></p><h3>import声明</h3><p>我们首先来介绍一下import声明，import声明有两种用法，一个是直接import一个模块，另一个是带from的import，它能引入模块里的一些信息。</p><pre><code class="language-JavaScript">import "mod"; //引入一个模块
 import v from "mod";  //把模块默认的导出值放入变量v
 </code></pre><p>直接import一个模块，只是保证了这个模块代码被执行，引用它的模块是无法获得它的任何信息的。</p><p>带from的import意思是引入模块中的一部分信息，可以把它们变成本地的变量。</p><p>带from的import细分又有三种用法，我们可以分别看下例子：</p><ul>

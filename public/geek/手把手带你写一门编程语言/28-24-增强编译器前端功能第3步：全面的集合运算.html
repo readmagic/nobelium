@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是宫文学。</p><p>在上一节课，我们扩展了我们语言的类型体系，还测试了几个简单的例子。从中，我们已经能体会出一些TypeScript类型体系的特点了。</p><p>不过，TypeScript的类型体系其实比我们前面测试的还要强大得多，能够在多种场景下进行复杂的类型处理。</p><p>今天这节课，我们会通过多个实际的例子，来探索TypeScript的类型处理能力。并且，在这个过程中，你还会进一步印证我们上一节课的一个知识点，就是<strong>类型计算实际上就是集合运算</strong>。在我们今天的这些例子中，你会见到多种集合运算，包括子集判断、重叠判断，以及交集、并集和补集的计算。</p><p>首先，让我们看几个例子，来理解一下类型计算的使用场景。</p><h2>类型计算的场景</h2><p>我们先看第一个例子：</p><pre><code class="language-plain">function foo1(age : number|null){
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
     let age1 : string|number;
     age1 = age;   //编译器在这里会检查出错误。
     console.log(age1);

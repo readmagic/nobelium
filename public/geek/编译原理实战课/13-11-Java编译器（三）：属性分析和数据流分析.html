@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是宫文学。</p><p>在上一讲，我们主要讨论了语义分析中的ENTER和PROCESS阶段。今天我们继续往下探索，看看ATTR和FLOW两个阶段。</p><p><strong>ATTR的字面意思是做属性计算。</strong>在<a href="https://time.geekbang.org/column/article/245754">第4讲</a>中，我已经讲过了属性计算的概念，你应该还记得什么是S属性，什么是I属性。那么，Java编译器会计算哪些属性，又会如何计算呢？</p><p><strong>FLOW的字面意思是做数据流分析。</strong>通过<a href="https://time.geekbang.org/column/article/248770">第7讲</a>，你已经初步了解了数据流分析的算法。但那个时候是把数据流分析用于编译期后端的优化算法，包括删除公共子表达式、变量传播、死代码删除等。而这里说的数据流分析，属于编译器前端的工作。那么，前端的数据流分析会做什么工作呢？</p><p>这些问题的答案，我今天都会为你一一揭晓。好了，我们进入正题，首先来看看ATTR阶段的工作：属性分析。</p><h2>ATTR：属性分析</h2><p>现在，你可以打开<strong>com.sun.tools.javac.comp.Attr类</strong>的代码。在这个类的头注释里，你会发现原来ATTR做了四件事，分别在4个辅助类里实现：</p><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>Check：做类型检查。</li>
 <li>Resolve：做名称的消解，也就是对于程序中出现的变量和方法，关联到其定义。</li>
 <li>ConstFold：常量折叠，比如对于“2+3”这种在编译期就可以计算出结果的表达式，就直接计算出来。</li>

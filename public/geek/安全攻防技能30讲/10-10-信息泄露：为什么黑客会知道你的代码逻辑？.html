@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是何为舟。</p><p>你平时在Debug的时候，一定首先会去查看错误信息。根据错误信息，你能够了解究竟是什么情况引发了什么样的错误。同样地，黑客也能够通过错误信息，推断出你的后台代码逻辑。那么，黑客究竟是怎么做的呢？接下来，我们就一起看一下这个过程。</p><h2>为什么错误信息会泄露代码逻辑？</h2><p>当黑客在登录某个页面时，在用户名位置输入一个单引号，在密码位置输入一个“g”之后，就会出现如下的错误信息。</p><pre><code>An Error Has Occurred.
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
     Error Message:
    System.Data.OleDb.OleDbException: Syntax error (missing operator) in query expression 'username = ''' and password = 'g''. at
   System.Data.OleDb.OleDbCommand.ExecuteCommandTextErrorHandling ( Int32 hr) at

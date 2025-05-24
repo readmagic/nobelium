@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是朱晔。</p><p>今天，我们继续一起分析这门课第13~20讲的课后思考题。这些题目涉及了日志、文件IO、序列化、Java 8日期时间类、OOM、Java高级特性（反射、注解和泛型）和Spring框架的16道问题。</p><p>接下来，我们就一一具体分析吧。</p><h3><a href="https://time.geekbang.org/column/article/220307">13 | 日志：日志记录真没你想象的那么简单</a></h3><p><strong>问题1：</strong>在讲“为什么我的日志会重复记录？”的案例时，我们把INFO级别的日志存放到_info.log中，把WARN和ERROR级别的日志存放到_error.log中。如果现在要把INFO和WARN级别的日志存放到_info.log中，把ERROR日志存放到_error.log中，应该如何配置Logback呢？</p><p>答：要实现这个配置有两种方式，分别是：直接使用EvaluatorFilter和自定义一个Filter。我们分别看一下。</p><p>第一种方式是，直接使用logback自带的EvaluatorFilter：</p><pre><code>&lt;filter class=&quot;ch.qos.logback.core.filter.EvaluatorFilter&quot;&gt;
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
     &lt;evaluator class=&quot;ch.qos.logback.classic.boolex.GEventEvaluator&quot;&gt;
         &lt;expression&gt;
             e.level.toInt() == WARN.toInt() || e.level.toInt() == INFO.toInt()

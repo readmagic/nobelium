@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是程远。</p><p>前面两讲，我们分别学习了perf和ftrace这两个最重要 Linux tracing工具。在学习过程中，我们把重点放在了这两个工具最基本的功能点上。</p><p>不过你学习完这些之后，我们内核调试版图的知识点还没有全部点亮。</p><p>如果你再去查看一些perf、ftrace或者其他Linux tracing相关资料，你可能会常常看到两个单词，“tracepoint”和“kprobe”。你有没有好奇过，这两个名词到底是什么意思，它们和perf、ftrace这些工具又是什么关系呢？</p><p>这一讲，我们就来学习这两个在Linux tracing系统中非常重要的概念，它们就是<strong>tracepoint</strong>和<strong>kprobe</strong>。</p><h2>tracepoint和kprobe的应用举例</h2><p>如果你深入地去看一些perf或者ftrace的功能，这时候你会发现它们都有跟tracepoint、kprobe相关的命令。我们先来看几个例子，通过这几个例子，你可以大概先了解一下tracepoint和kprobe的应用，这样我们后面做详细的原理介绍时，你也会更容易理解。</p><p>首先看看tracepoint，tracepoint其实就是在Linux内核的一些关键函数中埋下的hook点，这样在tracing的时候，我们就可以在这些固定的点上挂载调试的函数，然后查看内核的信息。</p><!-- [[[read_end]]] --><p>我们通过下面的这个 <code>perf list</code> 命令，就可以看到所有的tracepoints：</p><pre><code class="language-shell"># perf list | grep Tracepoint
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
   alarmtimer:alarmtimer_cancel                       [Tracepoint event]
   alarmtimer:alarmtimer_fired                        [Tracepoint event]
   alarmtimer:alarmtimer_start                        [Tracepoint event]

@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>什么是幂等（Idempotency）呢？简单来说，一个操作如果多次任意执行所产生的影响，均与一次执行的影响相同，我们就称其为幂等。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>这样说来，似乎很容易理解；但要知道这样的定义，其实是一个语义范畴对行为结果的定义。</p>
 <p>如何用语法和规则去确保行为能达到这个结果，往往需要很谨慎地设计和实现。实际系统中，幂等是一个极为重要的概念，无论是在大型互联网应用还是企业级架构中，都能见到 REST API 被越来越多地采用，而正确实现幂等，往往是 API 中最难的技术点之一。</p>
 <p><strong>先说说为什么重要，我来举一个简单易懂的例子。</strong></p>

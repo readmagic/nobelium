@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好！我是郑晔。</p><p>上一讲，我们讲了一个最基础的设计原则：单一职责原则，从这个原则中，你知道了一个模块只应该包含来自同一个变化来源的内容。这一讲，我们来看下一个设计原则：开放封闭原则。</p><p>作为一名程序员，来了一个需求就要改一次代码，这种方式我们已经见怪不怪了，甚至已经变成了一种下意识的反应。修改也很容易，只要我们按照之前的惯例如法炮制就好了。</p><p>这是一种不费脑子的做法，却伴随着长期的伤害。每人每次都只改了一点点，但是，经过长期积累，再来一个新的需求，改动量就要很大了。而在这个过程中，每个人都很无辜，因为每个人都只是遵照惯例在修改。但结果是，所有人都受到了伤害，代码越来越难以维护。</p><p>既然“修改”会带来这么多问题，那我们可以不修改吗？开放封闭原则就提供了这样的一个新方向。</p><h2>不修改代码</h2><p>开放封闭原则是这样表述的：</p><blockquote>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>软件实体（类、模块、函数）应该对扩展开放，对修改封闭。</p>
 </blockquote><p>这个说法是Bertrand Meyer在其著作《面向对象软件构造》（Object-Oriented Software Construction）中提出来的，它给软件设计提出了一个极高的要求：不修改代码。</p><p>或许你想问，不修改代码，那我怎么实现新的需求呢？答案就是<strong>靠扩展</strong>。用更通俗的话来解释，就是新需求应该用新代码实现。</p><!-- [[[read_end]]] --><p>开放封闭原则向我们描述的是一个结果，就是我们可以不修改代码而仅凭扩展就完成新功能。但是，这个结果的前提是要在软件内部留好扩展点，而这正是需要我们去设计的地方。因为<strong>每一个扩展点都是一个需要设计的模型。</strong></p><p>举个例子，假如我们正在开发一个酒店预订系统，针对不同的用户，我们需要计算出不同的房价。比如，普通用户是全价，金卡是8折，银卡是9折，代码写出来可能是这样的：</p><pre><code>class HotelService {
   public double getRoomPrice(final User user, final Room room) {

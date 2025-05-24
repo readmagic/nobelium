@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是蔡元楠。</p><p>今天我要与你分享的主题是“横看成岭侧成峰：再战Streaming WordCount”。</p><p>在上一讲中，我们学习了Beam窗口（Window）的概念。当时，我们提到窗口技术的产生是因为我们想要根据时间戳去分组处理一个PCollection中的元素。</p><p>我们也提到了在“统计莎士比亚文集词频”这个例子中，如果莎士比亚穿越到了现代，成了一名极客时间的专栏作家，我们就可能需要根据他文章的写作时间来统计词频了。</p><p>举个具体的例子的话，就是我们能不能灵活地得到莎士比亚在2017年9月使用的高频词汇？或者是他在2018年第7个周五偏爱使用的高频词汇呢？</p><p>时效性是数据处理很重要的一部分，类似上面这样的问题还有很多。</p><p>比如，能不能根据实时交通数据，得到最近24小时之内拥堵的道路？能不能根据所有微信分享文章的点击数据，得到过去一周最热门的文章？这些问题都是可以用窗口技术来解决。</p><p>所以今天这一讲，我们就来看看怎样在WordCount这个例子中使用窗口技术。我会介绍怎样在Beam中实现以下六个问题：</p><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>怎样区分有界数据还是无界数据？</li>
 <li>怎样读取无边界数据？</li>
 <li>怎样给PCollection数据添加时间戳？</li>

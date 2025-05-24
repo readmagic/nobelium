@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是张磊。</p><p>虽然《深入剖析 Kubernetes》专栏已经完结了一段时间了，但是在留言中，很多同学依然在不时地推敲与消化专栏里的知识和案例。对此我非常开心，同时也看到大家在实践 Kubernetes的过程中存在的很多问题。所以在接下来的一段时间里，我会以 Kubernetes 最为重要的一个主线能力作为专题，对专栏内容从广度和深度两个方向上进行一系列延伸与拓展。希望这些内容，能够帮助你在探索这个全世界最受欢迎的开源生态的过程中，更加深刻地理解到 Kubernetes 项目的内涵与本质。</p><p>随着 Kubernetes 项目的日趋成熟与稳定，越来越多的人都在问我这样一个问题：现在的 Kubernetes 项目里，最有价值的部分到底是哪些呢？</p><p>为了回答这个问题，我们不妨一起回到第13篇文章<a href="https://time.geekbang.org/column/article/40092">《为什么我</a><a href="https://time.geekbang.org/column/article/40092">们需要P</a><a href="https://time.geekbang.org/column/article/40092">od？》</a>中，来看一下几个非常典型的用户提问。</p><blockquote>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>用户一：关于升级War和Tomcat那块，也是先修改yaml，然后Kubenertes执行升级命令，pod会重新启动，生产也是按照这种方式吗？所以这种情况下，如果只是升级个War包，或者加一个新的War包，Tomcat也要重新启动？这就不是完全松耦合了？</p>
 </blockquote><blockquote>
 <p>用户二：WAR包的例子并没有解决频发打包的问题吧? WAR包变动后, geektime/sample:v2包仍然需要重新打包。这和东西一股脑装在tomcat中后, 重新打tomcat 并没有差太多吧?</p>

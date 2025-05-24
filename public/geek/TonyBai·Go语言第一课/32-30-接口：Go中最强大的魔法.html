@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是Tony Bai。</p><p>在前面的两讲中，我们学习了接口的基础知识、接口类型定义的惯例以及接口在运行时的表示。掌握了这些内容后，可以说，在语法层面的有关接口的问题，对我们来说都不是什么阻碍了。在弄清楚接口是什么这个问题之后，摆在我们面前的就是<strong>怎么用接口</strong>的问题了。</p><p>不过，这里的“怎么用”，可不是要告诉你怎么使用Go标准库中的接口或第三方包中定义好的接口，而是让你学习如何利用接口进行应用的设计，以及改善已有应用的设计，换句话说就是<strong>Go接口的应用模式或惯例</strong>。</p><p>不过在讲解接口应用模式之前，我们还先要了解一个前置原则，那就是<strong>在实际真正需要的时候才对程序进行抽象</strong>。再通俗一些来讲，就是<strong>不要为了抽象而抽象</strong>。上一讲中我们说过，接口本质上是一种抽象，它的功能是解耦，所以这条原则也在告诉我们：<strong>不要为了使用接口而使用接口</strong>。举一个简单的例子，如果我们要给一个计算器添加一个整数加法的功能特性，本来一个函数就可以实现：</p><pre><code class="language-plain">func Add(a int64, b int64) int64 {
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 	return a+b
 }
 </code></pre><p>但如果你非要引入一个接口，结果代码可能就变成了这样：</p><pre><code class="language-plain">type Adder interface {

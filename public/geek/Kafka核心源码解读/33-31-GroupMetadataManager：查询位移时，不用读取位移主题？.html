@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是胡夕。</p><p>上节课，我们学习了位移主题中的两类消息：<strong>消费者组注册消息</strong>和<strong>消费者组已提交位移消息</strong>。今天，我们接着学习位移主题，重点是掌握写入位移主题和读取位移主题。</p><p>我们总说，位移主题是个神秘的主题，除了它并非我们亲自创建之外，它的神秘之处还体现在，它的读写也不由我们控制。默认情况下，我们没法向这个主题写入消息，而且直接读取该主题的消息时，看到的更是一堆乱码。因此，今天我们学习一下读写位移主题，这正是去除它神秘感的重要一步。</p><h2>写入位移主题</h2><p>我们先来学习一下位移主题的写入。在<a href="https://time.geekbang.org/column/article/257053">第29讲</a>学习storeOffsets方法时，我们已经学过了appendForGroup方法。Kafka定义的两类消息类型都是由它写入的。在源码中，storeGroup方法调用它写入消费者组注册消息，storeOffsets方法调用它写入已提交位移消息。</p><p>首先，我们需要知道storeGroup方法，它的作用是<strong>向Coordinator注册消费者组</strong>。我们看下它的代码实现：</p><pre><code>def storeGroup(group: GroupMetadata,
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
                groupAssignment: Map[String, Array[Byte]],
                responseCallback: Errors =&gt; Unit): Unit = {
   // 判断当前Broker是否是该消费者组的Coordinator

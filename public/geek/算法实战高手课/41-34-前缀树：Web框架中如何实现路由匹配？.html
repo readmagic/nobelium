@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是微扰君。</p><p>不知不觉，已经到工程实战篇的最后一讲了，在这个章节中，我们一起学习了很多工程中常用的算法，如果你从事后端开发，应该或多或少有些接触，比如在Redis、Kafka、ZooKeeper等常用中间件里就经常出现，理解它们的核心思想，能给你的工作带来很大的帮助。</p><p>今天，我们最后来聊一聊大部分Web开发工程师都会用到的后端Web框架中的算法。</p><h3>路由匹配</h3><p>Web框架的作用，我们都知道，主要就是封装Web服务，整合网络相关的通用逻辑，一般来说也就是帮助HTTP服务建立网络连接、解析HTTP头、错误恢复等等；另外，大部分框架可能也会提供一些拦截器或者middleware，帮助我们处理一些每个请求可能都需要进行的操作，比如鉴权、获取用户信息。</p><p>但是所有Web框架，无论设计得多么不同，必不可少的能力就是路由匹配。</p><p>因为我们的Web服务通常会对外暴露许多不同的API，而区分这些API的标识，主要就是用户请求 API的URL。所以，<strong>一个好用的Web框架，要能尽可能快地解析请求URL并映射到不同API 的处理逻辑，也就是我们常说的“路由匹配”</strong>。</p><p>以Golang中常用的Web框架Gin为例，如果用户想注册一套遵循RESTful风格的接口，只需要像这样，写一下注册每个路由所对应的handler方法就完成了：</p><!-- [[[read_end]]] --><pre><code class="language-go">    userRouter := router.Group("/users")
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
     {
         userRouter.POST("", user.CreateUser)
         userRouter.DELETE("/:userID", user.DeleteUserByUserID)

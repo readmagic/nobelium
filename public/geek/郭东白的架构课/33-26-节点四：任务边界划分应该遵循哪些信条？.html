@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是郭东白。上节课我们讲了统一语义和需求确认，这是架构规划的前两个环节。至此，你多数的问题域都应该有且仅有一个执行域了。那么接下来，我们就来讲更细粒度的任务边界划分，这也是架构规划的第三个环节。</p><p>上节课我们讲到了从问题域到执行域的映射，是个粗粒度的映射关系。不过有些任务无法在粗粒度的划分下完成需求到执行的映射，比如我们上节课提到的边界冲突的情况。</p><p>总的来说，这种粗粒度的映射会面临三方面的挑战。如下：</p><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>粒度划分是基于现有执行域的，这种划分导致我们的架构设计会受到执行团队组织结构的约束。也就是康威定律对架构设计的干扰。</li>
 <li>无论我们怎么努力，依然会在架构活动中碰到执行域划分没有执行团队，或者有多个执行团队的情况。</li>
 <li>执行域是非常粗粒度的任务划分，但部分有边界冲突的跨领域任务，需要在更细粒度的任务层面上做执行边界的划分。</li>

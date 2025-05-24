@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>在上一篇的实践环节中，我给你留了一个题目：如何进一步优化下面这段代码。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <pre><code>void foo(byte[] dst, byte[] src) {
   for (int i = 0; i &lt; dst.length - 4; i += 4) {
     dst[i] = src[i];

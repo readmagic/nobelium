@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是孔令飞，我们又见面了。结课并不意味着结束，我非常高兴能持续把好的内容分享给你，也希望你能继续在留言区与我保持交流，分享你的学习心得和实践经验。</p><p>今天这一讲，我们来聊聊如何设计分布式作业系统。在实际的Go项目开发中，我们经常会遇到下面这两个功能需求：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>想定时执行某个任务，例如在每天上午10:00清理数据库中的无用数据。</li>
 <li>轮训数据库表的某个字段，根据字段的状态，进行一些异步的业务逻辑处理。比如，监听到 <code>table_xxx.status = 'pending'</code> 时，执行异步的初始化流程，完成之后设置 <code>table_xxx.status='normal'</code> 。</li>
 </ul><p>这两个在Go项目开发中非常常见、基础的功能需求，通常可以通过作业系统来实现。IAM为了解决这种常见的功能需求，也开发了自己的作业系统。今天这一讲，我们就来看下IAM是如何实现作业系统的。</p><h2>任务分类</h2><p>在介绍作业系统之前，这里先来看下任务的分类。理解任务的分类，有助于我们理解作业系统执行的任务类型，进而有助于我们设计作业系统。</p><p>在我看来，任务可以分为下面3类。</p><ul>

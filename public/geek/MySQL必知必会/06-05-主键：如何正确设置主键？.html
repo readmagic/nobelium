@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是朱晓峰，今天我们来聊一聊如何用好MySQL的主键。</p><p>前面在讲存储的时候，我提到过主键，它可以唯一标识表中的某一条记录，对数据表来说非常重要。当我们需要查询和引用表中的一条记录的时候，最好的办法就是通过主键。只有合理地设置主键，才能确保我们准确、快速地找到所需要的数据记录。今天我就借助咱们的超市项目的实际需求，来给你讲一讲怎么正确设置主键。</p><p>在我们的项目中，客户要进行会员营销，相应的，我们就需要处理会员信息。会员信息表（demo.membermaster）的设计大体如下：</p><p><img src="https://static001.geekbang.org/resource/image/87/c0/87977152197dbaa92d6a86cc9911c1c0.jpg?wh=3657*825" alt=""></p><p>为了能够唯一地标识一个会员的信息，我们需要为会员信息表设置一个主键。那么，怎么为这个表设置主键，才能达到我们理想的目标呢？</p><p>今天，我就带你在解决这个实际问题的过程中，学习下三种设置主键的思路：<strong>业务字段做主键</strong>、<strong>自增字段做主键</strong>和<strong>手动赋值字段做主键</strong>。</p><h2>业务字段做主键</h2><p>针对这个需求，我们最容易想到的，是选择表中已有的字段，也就是跟业务相关的字段做主键。那么，在这个表里，哪个字段比较合适呢？我们来分析一下。</p><p>会员卡号（cardno）看起来比较合适，因为会员卡号不能为空，而且有唯一性，可以用来标识一条会员记录。我们来尝试一下用会员卡号做主键。</p><!-- [[[read_end]]] --><p>我们可以用下面的代码，在创建表的时候，设置字段cardno为主键：</p><pre><code>mysql&gt; CREATE TABLE demo.membermaster
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 -&gt; (
 -&gt; cardno CHAR(8) PRIMARY KEY, -- 会员卡号为主键
 -&gt; membername TEXT,

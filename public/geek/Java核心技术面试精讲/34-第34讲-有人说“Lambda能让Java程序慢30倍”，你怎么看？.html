@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>在上一讲中，我介绍了Java性能问题分析的一些基本思路。但在实际工作中，我们不能仅仅等待性能出现问题再去试图解决，而是需要定量的、可对比的方法，去评估Java应用性能，来判断其是否能够符合业务支撑目标。今天这一讲，我会介绍从Java开发者角度，如何从代码级别判断应用的性能表现，重点理解最广泛使用的基准测试（Benchmark）。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>今天我要问你的问题是，<span class="orange">有人说“Lambda能让Java程序慢30倍”，你怎么看？</span></p>
 <p>为了让你清楚地了解这个背景，请参考下面的代码片段。在实际运行中，基于Lambda/Stream的版本（lambdaMaxInteger），比传统的for-each版本（forEachLoopMaxInteger）慢很多。</p>
 <pre><code>// 一个大的ArrayList，内部是随机的整形数据

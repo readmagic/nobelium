@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是范学雷。今天，我们讨论Java的矢量运算。</p><p>Java的矢量运算，我写这篇文章的时候还在孵化期，还没有发布预览版。我们之所以选取了这样一个还处于孵化期的技术，主要是因为这个技术代表了Java语言发展的一个重要方向，在未来一定会有着重要的影响。早一点了解这样的技术，除了扩展视野之外，还能够帮助我们制定未来几年要学习或者要使用的技术路线。</p><p>我们从阅读案例开始，看一看没有矢量运算的时候，Java是怎么支持科学计算的；然后，我们再看看矢量运算能够带来什么样的变化。</p><h2>阅读案例</h2><p>我想，你对线性方程（或者说一次方程）一定不陌生。一般情况下，我们可以把线性方程表述成下面的形式。</p><p><img src="https://static001.geekbang.org/resource/image/ed/c8/edf1d437a318f298ef09769f76c37fc8.png?wh=1186x100" alt=""></p><p>其中$a_{0}$，$a_{1}$，$a_{n-1}$表示的是常数，$x_{0}$，$x_{1}$，$x_{n-1}$表示的是变量，而$y$就表示$a_{i}$和$x_{i}$的组合结果。$n$表示未知变量的数目，通常，我们也把它称为方程的维度。</p><!-- [[[read_end]]] --><p>如果给定方程式右边的常数和变量，我们就能计算出方程式左边的$y$数值了。那么，该怎么用代码表示这个方程式呢？我们可以把$a_{0}$，$a_{1}$，$a_{n-1}$表示的常数放到一个数组里，把$x_{0}$，$x_{1}$，$x_{n-1}$表示的变量放到另外一个数组里。下面的代码里，变量a和x就可以用来表示一个有四个维度的一次方程组。</p><pre><code class="language-java">static final float[] a = new float[] {0.6F, 0.7F, 0.8F, 0.9F};
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 static final float[] x = new float[] {1.0F, 2.0F, 3.0F, 4.0F};
 </code></pre><p>能用Java的变量来表示一次方程，我们也就能够计算线性方程的结果了。下面的代码，就是一个实现的办法。</p><pre><code class="language-java">private static Returned&lt;Float&gt; sumInScalar(float[] a, float[] x) {
     if (a == null || x == null || a.length != x.length) {

@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是吴咏炜。</p><p>上几讲我们学习了 C++ 的资源管理和值类别。今天我们换一个话题，来看一下 C++ 里的容器。</p><p>关于容器，已经存在不少的学习资料了。在 cppreference 上有很完备的参考资料（<span class="orange">[1]</span>）。今天我们采取一种非正规的讲解方式，尽量不重复已有的参考资料，而是让你加深对于重要容器的理解。</p><p>对于容器，学习上的一个麻烦点是你无法直接输出容器的内容——如果你定义了一个 <code>vector&lt;int&gt; v</code>，你是没法简单输出 <code>v</code> 的内容的。有人也许会说用 <code>copy(v.begin(), v.end(), ostream_iterator(…))</code>，可那既啰嗦，又对像 <code>map</code> 或 <code>vector&lt;vector&lt;…&gt;&gt;</code> 这样的复杂类型无效。因此，我们需要一个更好用的工具。在此，我向你大力推荐 xeus-cling <span class="orange">[2]</span>。它的便利性无与伦比——你可以直接在浏览器里以交互的方式运行代码，不需要本机安装任何编译器（点击“Trying it online”下面的 binder 链接）。下面是在线运行的一个截图：</p><p><img src="https://static001.geekbang.org/resource/image/71/ca/7199bb5b1394fe1aa9f91b850c309eca.png" alt=""></p><p>xeus-cling 也可以在本地安装。对于使用 Linux 的同学，安装应当是相当便捷的。有兴趣的话，使用其他平台的同学也可以尝试一下。</p><p>如果你既没有本地运行的条件，也不方便远程使用互联网来运行代码，我个人还为本专栏写了一个小小的工具 <span class="orange">[3]</span>。在你的代码中包含这个头文件，也可以方便地得到类似于上面的输出。示例代码如下所示：</p><!-- [[[read_end]]] --><pre><code class="language-c++">#include &lt;iostream&gt;
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 #include &lt;map&gt;
 #include &lt;vector&gt;
 #include "output_container.h"

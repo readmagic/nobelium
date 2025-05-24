@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>线性模型最初被用来解决回归问题（regression），可在实际应用中，更加普遍的是分类问题（classification）。要用线性模型解决分类问题的话，就需要将线性模型原始的连续输出转换成不同的类别。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>在分类问题中，一种特殊的情况是类别非黑即白，只有两种，这样的问题就是二分类问题，它可以看成是多分类问题的一个特例，也是今天讨论的对象。</p>
 <p>将回归结果转化为分类结果，其实就是将属性的线性组合转化成分类的标准，具体的操作方式有两种：一种是<strong>直接用阈值区分回归结果</strong>，根据回归值与阈值的关系直接输出样本类别的标签；另一种是<strong>用似然度区分回归结果</strong>，根据回归值和似然性的关系输出样本属于某个类别的概率。</p>
 <p>这两类输出可以分别被视为<strong>硬输出</strong>和<strong>软输出</strong>，它们代表了解决分类问题不同的思路。</p>

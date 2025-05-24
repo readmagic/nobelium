@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>之前在我们讲的幂等设计中，为了过滤掉已经处理过的请求，其中需要保存处理过的状态，为了把服务做成无状态的，我们引入了第三方的存储。而这一篇中，我们来聊聊服务的状态这个话题。我认为，只有清楚地了解了状态这个事，我们才有可能设计出更好或是更有弹力的系统架构。</p>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>所谓“状态”，就是为了保留程序的一些数据或是上下文。比如之前幂等性设计中所说的需要保留每一次请求的状态，或是像用户登录时的Session，我们需要这个Session来判断这个请求的合法性，还有一个业务流程中需要让多个服务组合起来形成一个业务逻辑的运行上下文Context。这些都是所谓的状态。</p>
 <p>我们的代码中基本上到处都是这样的状态。</p>
 <h1>无状态的服务 Stateless</h1>

@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是胡夕。今天我要跟你分享的主题是：消费者组消费进度监控如何实现。</p><p>对于Kafka消费者来说，最重要的事情就是监控它们的消费进度了，或者说是监控它们消费的滞后程度。这个滞后程度有个专门的名称：消费者Lag或Consumer Lag。</p><p><strong>所谓滞后程度，就是指消费者当前落后于生产者的程度</strong>。比方说，Kafka生产者向某主题成功生产了100万条消息，你的消费者当前消费了80万条消息，那么我们就说你的消费者滞后了20万条消息，即Lag等于20万。</p><p>通常来说，Lag的单位是消息数，而且我们一般是在主题这个级别上讨论Lag的，但实际上，Kafka监控Lag的层级是在分区上的。如果要计算主题级别的，你需要手动汇总所有主题分区的Lag，将它们累加起来，合并成最终的Lag值。</p><p>我们刚刚说过，对消费者而言，Lag应该算是最最重要的监控指标了。它直接反映了一个消费者的运行情况。一个正常工作的消费者，它的Lag值应该很小，甚至是接近于0的，这表示该消费者能够及时地消费生产者生产出来的消息，滞后程度很小。反之，如果一个消费者Lag值很大，通常就表明它无法跟上生产者的速度，最终Lag会越来越大，从而拖慢下游消息的处理速度。</p><!-- [[[read_end]]] --><p>更可怕的是，由于消费者的速度无法匹及生产者的速度，极有可能导致它消费的数据已经不在操作系统的页缓存中了。这样的话，消费者就不得不从磁盘上读取它们，这就进一步拉大了与生产者的差距，进而出现马太效应，即那些Lag原本就很大的消费者会越来越慢，Lag也会越来越大。</p><p>鉴于这些原因，<strong>你在实际业务场景中必须时刻关注消费者的消费进度</strong>。一旦出现Lag逐步增加的趋势，一定要定位问题，及时处理，避免造成业务损失。</p><p>既然消费进度这么重要，我们应该怎么监控它呢？简单来说，有3种方法。</p><ol>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>使用Kafka自带的命令行工具kafka-consumer-groups脚本。</li>
 <li>使用Kafka Java Consumer API编程。</li>
 <li>使用Kafka自带的JMX监控指标。</li>

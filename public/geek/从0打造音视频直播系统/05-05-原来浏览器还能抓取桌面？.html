@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>无论是做音视频会议，还是做远程教育，<strong>共享桌面</strong>都是一个必备功能。如果说在 PC 或 Mac 端写个共享桌面程序你不会有太多感受，但通过浏览器也可以共享桌面是不是觉得就有些神奇了呢？</p><p>WebRTC的愿景就是要让这些看似神奇的事情，不知不觉地发生在我们身边。</p><p>你可以想象一下，假如浏览器有了共享桌面功能，这会使得浏览器有更广阔的应用空间，一个最直接的例子就是我们可以直接通过浏览器进行远程办公、远程协助等工作，而不用再下载共享桌面的应用了，这大大提高了我们的工作效率。</p><h2>在WebRTC 处理过程中的位置</h2><p>在正式进行主题之前，我们还是来看看本文在整个 WebRTC 处理过程中的位置，如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/c5/a0/c536a1dd0ed50008d2ada594e052d6a0.png" alt=""></p><center><span class="reference">WebRTC处理过程图</span></center><p>没错，它仍然属于音视频采集的范畴，但是这次采集的不是音视频数据而是桌面。不过这也没什么关系，<strong>桌面也可以当作一种特殊的视频数据来看待</strong>。</p><h2>共享桌面的基本原理</h2><p>共享桌面的基本原理其实非常简单，我们可以分“两头”来说明：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>对于<strong>共享者</strong>，每秒钟抓取多次屏幕（可以是3次、5次等），每次抓取的屏幕都与上一次抓取的屏幕做比较，取它们的差值，然后对差值进行压缩；如果是第一次抓屏或切幕的情况，即本次抓取的屏幕与上一次抓取屏幕的变化率超过80%时，就做全屏的帧内压缩，其过程与JPEG图像压缩类似（有兴趣的可以自行学习）。最后再将压缩后的数据通过传输模块传送到观看端；数据到达观看端后，再进行解码，这样即可还原出整幅图片并显示出来。</li>
 <li>对于<strong>远程控制端</strong>，当用户通过鼠标点击共享桌面的某个位置时，会首先计算出鼠标实际点击的位置，然后将其作为参数，通过信令发送给共享端。共享端收到信令后，会模拟本地鼠标，即调用相关的 API，完成最终的操作。一般情况下，当操作完成后，共享端桌面也发生了一些变化，此时就又回到上面共享者的流程了，我就不再赘述了。</li>
 </ul><!-- [[[read_end]]] --><p>通过上面的描述，可以总结出共享桌面的处理过程为：<strong>抓屏、压缩编码、传输、解码、显示、控制</strong>这几步，你应该可以看出它与音视频的处理过程几乎是一模一样的。</p><p>对于共享桌面，很多人比较熟悉的可能是<strong>RDP（Remote Desktop Protocal）协议</strong>，它是 Windows 系统下的共享桌面协议；还有一种更通用的远程桌面控制协议——<strong>VNC（Virtual Network Console）</strong>，它可以实现在不同的操作系统上共享远程桌面，像TeamViewer、RealVNC都是使用的该协议。</p><p>以上的远程桌面协议一般分为桌面数据处理与信令控制两部分。</p><ul>

@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是四火。</p><p>在上一讲中我们着重讲了持久层的一致性，其实，它是分布式系统的一个基础理论。你可能会问，学习基于 Web 的全栈技能，也需要学习一些分布式系统的技术吗？是的！特别是我们在学习其持久层的时候，我们还真得学习一些分布式系统的基础理论，从而正确理解和使用我们熟悉的这些持久层技术。</p><p>CAP 理论就是分布式系统技术中一个必须要掌握的内容，也是在项目早期和设计阶段实实在在地影响我们技术选型、技术决策的内容。</p><h2>理解概念</h2><p>我想，你已经很熟悉一致性了。今天，在一致性之后，我们也要涉及到 CAP 的另外的两个方面——可用性和分区容忍性。</p><h3>1. CAP 的概念</h3><p>CAP 理论，又叫做布鲁尔理论（Brewer’s Theorem），指的是在一个共享数据的分布式存储系统中，下面三者最多只能同时保证二者，对这三者简单描述如下：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>一致性（Consistency）：读操作得到最近一次写入的数据（其实就是上一讲我们讲的强一致性）；</li>
 <li>可用性（Availability）：请求在限定时间内从非失败的节点得到非失败的响应；</li>
 <li>分区容忍性（Partition Tolerance）：系统允许节点间网络消息的丢失或延迟（出现分区）。</li>

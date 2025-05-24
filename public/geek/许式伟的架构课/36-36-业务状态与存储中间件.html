@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是七牛云许式伟。</p><p>相比桌面程序而言，服务端程序依赖的基础软件不只是操作系统和编程语言，还多了两类：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>负载均衡（Load Balance）；</li>
 <li>数据库或其他形式的存储（DB/Storage）。</li>
 </ul><p>存储在服务端开发中是什么样的一个地位？今天我们就聊一下有关于存储中间件的那些事情。</p><p><img src="https://static001.geekbang.org/resource/image/89/82/895dbf7e39fb562215e0176ca4aad382.png" alt=""></p><h2>业务状态</h2><p>让我们从头开始。</p><p>首先我们思考一个问题：桌面程序和服务端程序的相似之处在哪里，不同之处又在哪里？对于这样一个开放性的问题，我们不同人可能有非常不同的答案。</p><p>今天让我们从数据的视角来看这个问题。</p><p>我们知道，一个桌面程序基本上是由一系列的 “用户交互事件” 所驱动。你可以把它理解为一个状态机：假设在<strong> i </strong> 时刻，该桌面程序的状态为<strong>业务状态<sub>i</sub></strong> ，它收到<strong>用户交互事件<sub>i</sub> <strong>后，状态变化为</strong>业务状态<sub>i+1</sub></strong> 。这个过程示意如下：</p><blockquote>

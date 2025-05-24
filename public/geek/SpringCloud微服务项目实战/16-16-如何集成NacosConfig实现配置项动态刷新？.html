@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是姚秋辰。</p><p>在上一节课，你已经了解了配置中心在微服务架构中的作用和应用场景。今天我们就来学习如何让应用程序从Nacos分布式配置中心获取配置项。通过这节课的学习，你可以掌握微服务架构下的配置管理方式，知道如何通过动态配置推送来实现业务场景。</p><p>今天课程里将要介绍的动态推送是互联网公司应用非常广泛的一个玩法。我们都知道互联网行业比较卷，卷就意味着业务更新迭代特别频繁。</p><p>就拿我以前参与的新零售业务为例，运营团队三天两头就要对线上业务进行调整，为了降低需求变动带来的代码改动成本，很多时候我们会将一些业务抽离成可动态配置的模式，也就是<strong>通过动态配置改变线上业务的表现方式</strong>。比如手机APP上的商品资源位的布局和背景等，这些参数都可以通过线上的配置更新进行推送，不需要代码改动也不需要重启服务器。</p><p>接下来，我先来带你将应用程序接入到Nacos获取配置项，然后再来实现动态配置项刷新。本节课我选择coupon-customer-serv作为改造目标，因为customer服务的业务场景比较丰富，便于我们来演示各个不同的场景和用法。</p><p>接入Nacos配置中心的第一步，就是要添加Nacos Config和Bootstrap依赖项。</p><!-- [[[read_end]]] --><h2>添加依赖项</h2><p>我们打开coupon-customer-serv的pom文件，在pom中添加以下两个依赖项。</p><pre><code>&lt;!-- 添加Nacos Config配置项 --&gt;
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 &lt;dependency&gt;
     &lt;groupId&gt;com.alibaba.cloud&lt;/groupId&gt;
     &lt;artifactId&gt;spring-cloud-starter-alibaba-nacos-config&lt;/artifactId&gt;

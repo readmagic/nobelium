@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是葛俊。今天，我们来聊一聊工具的组合和环境。</p><p>在前面几篇文章，我与你介绍了很多工具，有开发工具，也有跟开发不直接相关的工具。毫无疑问，这些工具都很好用。但，如何配置这些工具，才能真正发挥它们的价值，提高我们的研发效能呢？</p><p>我们都很清楚，工具的使用离不开具体的工作环境。如果我们在环境中使用的各个工具是割裂开的话，不仅会提高我们的学习成本、记忆成本，还会有工具间交互的衔接问题。所以，用好这些工具，我们还需要做两件事：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>尽量把工具无缝集成，解决工具切换不顺畅的问题；</li>
 <li>减少并优化常用的工作入口，从而提高工具一致性，降低使用多个工具时的心智负担。</li>
 </ul><p>只有这样，我们才能把工具配置成一套好的环境，真正聚焦在产生价值的工作上，发挥工具提升研发效能的作用，实现1+1&gt;2的效果。</p><p>所以接下来，我会从工具集成和提高工具一致性两个方面，与你介绍如何把多个工具组合成为高效的工具环境。</p><h2>工具的集成</h2><p>工具的集成，最值得优化的情况包括两种：一是，使用管道（Pipe）对命令行工具进行集成；二是，对集成开发工具环境（IDE）进行配置，让IDE和周边工具集成。</p><h3>使用管道（Pipe）对命令行工具进行集成</h3><p>其实，我在前面的文章中已经使用过管道很多次了，只是使用场景比较简单而已。</p><!-- [[[read_end]]] --><p>比如，在<a href="https://time.geekbang.org/column/article/150779">第24篇文章</a>中，我使用命令curl -s &lt;github_url&gt; | vim -，来查看GitHub上某个用户的代码仓情况，通过管道把curl命令的输出传给VIM，以方便我在VIM中查看较长的输出。</p><pre><code>&gt; curl -s https://api.github.com/users/jungejason/repos | vim -

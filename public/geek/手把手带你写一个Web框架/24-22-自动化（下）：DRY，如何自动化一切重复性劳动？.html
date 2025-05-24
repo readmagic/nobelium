@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是轩脉刃。</p><p>上一节课我们增加了自动化创建服务工具、命令行工具，以及中间件迁移工具。你会发现，这些工具实现起来并不复杂，但是在实际工作中却非常有用。今天我们继续思考还能做点什么。</p><p>我们的框架是定义了业务的目录结构的，每次创建一个新的应用，都需要将AppService中定义的目录结构创建好，如果这个行为能自动化，实现<strong>一个命令就能创建一个定义好所有目录结构，甚至有demo示例的新应用</strong>呢？是不是有点心动，这就是我们今天要实现的工具了，听起来功能有点庞大，所以我们还是慢慢来，先设计再实现。</p><h2>初始化脚手架设计</h2><p>这个功能倒不是什么新想法，有用过Vue的同学就知道，Vue官网有介绍一个 <code>vue create</code> <a href="https://cli.vuejs.org/zh/guide/creating-a-project.html">命令</a>，可以从零开始创建一个包含基本Vue结构的目录，这个目录可以直接编译运行。</p><p>在初始化一个Vue项目的时候，大多数刚接触Vue的同学对框架的若干文件还不熟悉，很容易建立错误vue的目录结构，而这个工具能帮Vue新手们有效规避这种错误。</p><p>同理，我们的框架也有基本的hade结构的目录，初学者在创建hade应用的时候，也大概率容易建立错误目录。所以参考这一点，让自己的框架也有这么一个命令，能直接创建一个新的包含hade框架业务脚手架目录的命令。这样，能很大程度方便使用者就在这个脚手架目录上不断开发，完成所需的业务功能。</p><!-- [[[read_end]]] --><p>我们要设计的命令是一个一级命令<code>./hade new</code> 。一般来说，新建命令创建一个脚手架，要做的事情就是：</p><ul>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <li>确定目标目录，如果没有就创建目录</li>
 <li>创建业务模块目录</li>
 <li>初始化go module 模块，补充模块名称、框架版本号</li>

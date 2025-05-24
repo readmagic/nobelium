@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是LMOS。</p><p>我们在前面已经设计了我们的OS架构，你也许正在考虑怎么写代码实现它。恕我直言，现在我们还有很多东西没搞清楚。</p><p>由于OS内核直接运行在硬件之上，所以我们要对运行我们代码的硬件平台有一定的了解。接下来，我会通过三节课，带你搞懂硬件平台的关键内容。</p><p>今天我们先来学习CPU的工作模式，硬件中最重要的就是CPU，它就是执行程序的核心部件。而我们常用的电脑就是x86平台，所以我们要对x86 CPU有一些基本的了解。</p><p>按照CPU功能升级迭代的顺序，CPU的工作模式有<strong>实模式</strong>、<strong>保护模式</strong>、<strong>长模式</strong>，这几种工作模式下CPU执行程序的方式截然不同，下面我们一起来探讨这几种工作模式。</p><h2>从一段死循环的代码说起</h2><p>请思考一下，如果下面这段应用程序代码能够成功运行，会有什么后果？</p><pre><code>int main()
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 {
     int* addr = (int*)0;
     cli(); //关中断

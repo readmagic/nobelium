@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是程远。这一讲，我们来聊一下容器中发包乱序的问题。</p><p>这个问题也同样来自于工作实践，我们的用户把他们的应用程序从物理机迁移到容器之后，从网络监控中发现，容器中数据包的重传的数量要比在物理机里高了不少。</p><p>在网络的前面几讲里，我们已经知道了容器网络缺省的接口是veth，veth接口都是成对使用的。容器通过veth接口向外发送数据，首先需要从veth的一个接口发送给跟它成对的另一个接口。</p><p>那么这种接口会不会引起更多的网络重传呢？如果会引起重传，原因是什么，我们又要如何解决呢？接下来我们就带着这三个问题开始今天的学习。</p><h2>问题重现</h2><p>我们可以在容器里运行一下 <code>iperf3</code> 命令，向容器外部发送一下数据，从iperf3的输出"Retr"列里，我们可以看到有多少重传的数据包。</p><p>比如下面的例子里，我们可以看到有162个重传的数据包。</p><pre><code class="language-shell"># iperf3 -c 192.168.147.51
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 Connecting to host 192.168.147.51, port 5201
 [  5] local 192.168.225.12 port 51700 connected to 192.168.147.51 port 5201
 [ ID] Interval           Transfer     Bitrate                        Retr    Cwnd

@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是王新栋。</p><p>在上一讲，我们讲到了授权服务的核心就是<strong>颁发访问令牌</strong>，而OAuth 2.0规范并没有约束访问令牌内容的生成规则，只要符合唯一性、不连续性、不可猜性就够了。这就意味着，我们可以灵活选择令牌的形式，既可以是没有内部结构且不包含任何信息含义的随机字符串，也可以是具有内部结构且包含有信息含义的字符串。</p><p>随机字符串这样的方式我就不再介绍了，之前课程中我们生成令牌的方式都是默认一个随机字符串。而在结构化令牌这方面，目前用得最多的就是JWT令牌了。</p><p>接下来，我就要和你详细讲讲，JWT是什么、原理是怎样的、优势是什么，以及怎么使用，同时我还会讲到令牌生命周期的问题。</p><h2>JWT结构化令牌</h2><p>关于什么是JWT，官方定义是这样描述的：</p><blockquote>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 <p>JSON Web Token（JWT）是一个开放标准（RFC 7519），它定义了一种紧凑的、自包含的方式，用于作为JSON对象在各方之间安全地传输信息。</p>
 </blockquote><p>这个定义是不是很费解？我们简单理解下，JWT就是用一种结构化封装的方式来生成token的技术。结构化后的token可以被赋予非常丰富的含义，这也是它与原先毫无意义的、随机的字符串形式token的最大区别。</p><p>结构化之后，令牌本身就可以被“塞进”一些有用的信息，比如小明为小兔软件进行了授权的信息、授权的范围信息等。或者，你可以形象地将其理解为这是一种“自编码”的能力，而这些恰恰是无结构化令牌所不具备的。</p><!-- [[[read_end]]] --><p>JWT这种结构化体可以分为HEADER（头部）、PAYLOAD（数据体）和SIGNATURE（签名）三部分。经过签名之后的JWT的整体结构，是被<strong>句点符号</strong>分割的三段内容，结构为 header.payload.signature 。比如下面这个示例：</p><pre><code>eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.
 eyJzdWIiOiJVU0VSVEVTVCIsImV4cCI6MTU4NDEwNTc5MDcwMywiaWF0IjoxNTg0MTA1OTQ4MzcyfQ.

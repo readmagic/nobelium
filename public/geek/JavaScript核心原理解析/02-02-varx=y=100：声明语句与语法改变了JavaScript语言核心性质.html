@@ -1,4 +1,8 @@
 <meta name="referrer" content="no-referrer" /><p>你好，我是周爱民。</p><p>如果你听过上一讲的内容，心里应该会有一个问题，那就是——在规范中存在的“引用”到底有什么用？它对我们的编程有什么实际的影响呢？</p><p>当然，除了已经提及过的<code>delete 0</code>和<code>obj.x</code>之外，在今后的课程中，我还会与你讨论这个“引用”的其它应用场景。而今天的内容，就从标题来看，若是我要说与这个“引用”有关，你说不定得跳起来说我无知；但若说是跟“引用”无关的话呢，我觉得又不能把标题中的这一行代码解释清楚。</p><p>为什么这行代码看起来与规范类型中的“引用”无关呢？因为这行代码出现的时候，连ECMAScript这个规范都不存在。</p><p>我大概是在JavaScript 1.2左右的时代就接触到这门语言，在我写的最早的一些代码中就使用过它，并且——没错，你一定知道的：它能执行！</p><p>有很多的原因会促使你在JavaScript写出表达式连等这样的代码。从C/C++走过来的程序员对这样的一行代码是不会陌生的。它能用，而且结果也与你的预期会一致，例如：</p><pre><code>var x = y = 100;
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../assets/responsive.css">
+<link rel="stylesheet" href="../assets/beautify.css">
+<script src="../assets/responsive.js" defer></script>
 console.log(x); // 100
 console.log(y); // 100
 </code></pre><p>它既没错、又好用，还很酷，你说我们为什么不用它呢？然而很不幸，<span class="orange">这行代码可能是JavaScript中最复杂和最容易错用的表达式了。</span></p><p>所以今天我要和你一起好好地盘盘它。</p><!-- [[[read_end]]] --><h2>声明</h2><p>至今为止，除标签声明之外，JavaScript中一共只有六条声明用的语句。注意，所有真正被定义“声明”的语法结构都一定是“语句”，并且都用于声明一个或多个标识符。这里的标识符包括变量、常量等。</p><p>严格意义上讲，JavaScript只有变量和常量两种标识符，六条声明语句中：</p><ul>
