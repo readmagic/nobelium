@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是蒋德钧。</p><p>有序集合（Sorted Set）是Redis中一种重要的数据类型，它本身是集合类型，同时也可以支持集合中的元素带有权重，并按权重排序。</p><p>而曾经就有一位从事Redis开发的同学问我：为什么Sorted Set能同时提供以下两种操作接口，以及它们的复杂度分别是O(logN)+M和O(1)呢？</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是蒋德钧。</p><p>有序集合（Sorted Set）是Redis中一种重要的数据类型，它本身是集合类型，同时也可以支持集合中的元素带有权重，并按权重排序。</p><p>而曾经就有一位从事Redis开发的同学问我：为什么Sorted Set能同时提供以下两种操作接口，以及它们的复杂度分别是O(logN)+M和O(1)呢？</p><ul>
+
 <li>ZRANGEBYSCORE：按照元素权重返回一个范围内的元素。</li>
 <li>ZSCORE：返回某个元素的权重值。</li>
 </ul><p>实际上，这个问题背后的本质是：<strong>为什么Sorted Set既能支持高效的范围查询，同时还能以O(1)复杂度获取元素权重值？</strong></p><p>这其实就和Sorted Set底层的设计实现有关了。Sorted Set能支持范围查询，这是因为它的核心数据结构设计采用了跳表，而它又能以常数复杂度获取元素权重，这是因为它同时采用了哈希表进行索引。</p><p>那么，你是不是很好奇，Sorted Set是如何把这两种数据结构结合在一起的？它们又是如何进行协作的呢？今天这节课，我就来给你介绍下Sorted Set采用的双索引的设计思想和实现。理解和掌握这种双索引的设计思想，对于我们实现数据库系统是具有非常重要的参考价值的。</p><p>好，接下来，我们就先来看看Sorted Set的基本结构。</p><!-- [[[read_end]]] --><h2>Sorted Set基本结构</h2><p>要想了解Sorted Set的结构，就需要阅读它的代码文件。这里你需要注意的是，在Redis源码中，Sorted Set的代码文件和其他数据类型不太一样，它并不像哈希表的dict.c/dict.h，或是压缩列表的ziplist.c/ziplist.h，具有专门的数据结构实现和定义文件。</p><p>Sorted Set的<strong>实现代码在</strong><a href="https://github.com/redis/redis/blob/5.0/src/t_zset.c"><strong>t_zset.c</strong></a><strong>文件中</strong>，包括Sorted Set的各种操作实现，同时Sorted Set相关的<strong>结构定义在</strong><a href="https://github.com/redis/redis/blob/5.0/src/server.h"><strong>server.h</strong></a><strong>文件中</strong>。如果你想要了解学习Sorted Set的模块和操作，注意要从t_zset.c和server.h这两个文件中查找。</p><p>好，在知道了Sorted Set所在的代码文件之后，我们可以先来看下它的结构定义。Sorted Set结构体的名称为zset，其中包含了两个成员，分别是哈希表dict和跳表zsl，如下所示。</p><pre><code>typedef struct zset {

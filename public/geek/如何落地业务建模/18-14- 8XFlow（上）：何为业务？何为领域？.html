@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是徐昊。今天我们开始进入8X Flow的学习。</p><p>8X Flow是继四色建模法之后，由我发明的另一种建模方法。其实以前四色建模法也叫8X Flow。</p><p>从之前的学习中你会发现，四色法是一种数据流方法——Flow有了；而我姓徐名昊字八叉，以我的名字命名而得；但后来为了向Peter Coad致敬，表示灵感来自他的彩色建模法，就叫了四色建模法。于是今天要介绍的方法，我们内部之前叫8X Flow 2.0，现在直接叫8X Flow就行了。</p><p>8X Flow方法是四色法的一种演进。虽然<strong>权责追溯</strong>仍然是8X Flow的核心理念，但比起四色法，8X Flow更注重通过权责关系，提取业务模式；并通过引入变化点构建可复用的业务模型。所以对于业务平台或业务中台这类系统来说，8X Flow可谓是量身定制。此外，由于充分考虑了云时代的架构约束，得到的模型也能很容易地映射到微服务架构上。</p><p>那么接下来，我会用三节课来介绍8X Flow的具体内容。今天我们先来讲一讲业务系统与领域系统的区别，因为这二者之间有着明显的弹性边界，而根据弹性优先原则，我们首先要对它们加以区分。</p><h2>模型真的是稳定的吗？</h2><p>正如我们在“云时代的挑战”这两讲中提到的，进入云时代后，出于更有效地利用云平台的目的，我们引入了新的架构约束：弹性优先原则。也就是说，<strong>在云时代架构系统中，弹性是最需要优先考虑的因素。</strong></p><!-- [[[read_end]]] --><p>在具体讨论如何在业务模型中体现弹性优先原则之前，我想你可能会有这么一连串的问题。</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是徐昊。今天我们开始进入8X Flow的学习。</p><p>8X Flow是继四色建模法之后，由我发明的另一种建模方法。其实以前四色建模法也叫8X Flow。</p><p>从之前的学习中你会发现，四色法是一种数据流方法——Flow有了；而我姓徐名昊字八叉，以我的名字命名而得；但后来为了向Peter Coad致敬，表示灵感来自他的彩色建模法，就叫了四色建模法。于是今天要介绍的方法，我们内部之前叫8X Flow 2.0，现在直接叫8X Flow就行了。</p><p>8X Flow方法是四色法的一种演进。虽然<strong>权责追溯</strong>仍然是8X Flow的核心理念，但比起四色法，8X Flow更注重通过权责关系，提取业务模式；并通过引入变化点构建可复用的业务模型。所以对于业务平台或业务中台这类系统来说，8X Flow可谓是量身定制。此外，由于充分考虑了云时代的架构约束，得到的模型也能很容易地映射到微服务架构上。</p><p>那么接下来，我会用三节课来介绍8X Flow的具体内容。今天我们先来讲一讲业务系统与领域系统的区别，因为这二者之间有着明显的弹性边界，而根据弹性优先原则，我们首先要对它们加以区分。</p><h2>模型真的是稳定的吗？</h2><p>正如我们在“云时代的挑战”这两讲中提到的，进入云时代后，出于更有效地利用云平台的目的，我们引入了新的架构约束：弹性优先原则。也就是说，<strong>在云时代架构系统中，弹性是最需要优先考虑的因素。</strong></p><!-- [[[read_end]]] --><p>在具体讨论如何在业务模型中体现弹性优先原则之前，我想你可能会有这么一连串的问题。</p><ul>
+
 <li>对于业务建模而言，我们需要考虑弹性吗？</li>
 <li>业务不应该是独立于技术的吗？难道我们从前云时代过渡到云时代，连模型也要改变吗？那么我们怎么还能相信，建模的稳定性？</li>
 <li>我们在<a href="https://time.geekbang.org/column/article/389095">第6讲</a>也说过：“一旦领域层出现重大改变，就意味着重大的业务调整，整个系统都可以推倒重来了。因而在软件系统有限的生命周期内，我们可以认为领域层应该是不变的。”难道说，云会让系统推倒重来吗？</li>

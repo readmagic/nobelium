@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是吴咏炜。</p><p>语法加亮这个功能，我们都非常熟悉。和 vi 刚出现的时代不同，它现在已经成为编程的基本功能了。在我们使用的各种代码编辑器中，都有语法加亮的功能。我们甚至可以拿一句俗语反过来说：没见过猪跑，还能没吃过猪肉么？</p><p>但是，你有没有想过，语法加亮到底是怎么实现的呢？今天，我们就不仅要尝尝不同“风味”的猪肉，还要进一步看看猪到底是怎么跑的——这样，我们才能选择，然后调整出，最符合自己口味的大菜。</p><h2>语法加亮</h2><p>在<a href="https://time.geekbang.org/column/article/271208">第 8 讲</a>里，我们已经提到，Vim 的语法加亮依靠的是在 syntax 目录下的运行支持文件。今天，我就通过例子给你解说一下，Vim 里如何实现语法加亮，然后语法加亮又如何映射到屏幕上的颜色和字体。</p><p>我们先来看一个比较简单的例子，xxd。</p><p>xxd 这个名字看起来，是不是有点陌生又有点熟悉？其实，我们在第 11 讲还刚讲过 xxd：它是一个把二进制文件转换成地址加十六进制数值再加可读 ASCII 文本的工具，它的输出格式在 Vim 里也被称作 xxd。不过，在用菜单项或 <code>:%!xxd</code> 命令转换之后，Vim 并不会自动使用 xxd 格式。要应用 xxd 格式的语法加亮，我们需要使用自动命令（可以参考 <a href="https://yianwillis.github.io/vimcdoc/doc/tips.html#using-xxd"><code>:help using-xxd</code></a>），或者手工使用命令 <code>:setf xxd</code>。下图是对上次的二进制文件使用了 xxd 语法加亮的效果：</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/9c/25/9c4d080fd180c560757305d4a1645225.png" alt="Fig13.1" title="使用了 xxd 语法加亮的效果"></p><p>这个格式的语法加亮足够简单，我们就拿它来分析一下。不过，我有个小建议，你在看具体的语法加亮代码前，先花几秒钟的时间看一下图，自己分析一下里面有几种不同的语法加亮效果。</p><p>下面我们就来逐步看一下 syntax/xxd.vim 的内容。首先是开头和结尾部分：</p><pre><code class="language-vim">" quit when a syntax file was already loaded
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是吴咏炜。</p><p>语法加亮这个功能，我们都非常熟悉。和 vi 刚出现的时代不同，它现在已经成为编程的基本功能了。在我们使用的各种代码编辑器中，都有语法加亮的功能。我们甚至可以拿一句俗语反过来说：没见过猪跑，还能没吃过猪肉么？</p><p>但是，你有没有想过，语法加亮到底是怎么实现的呢？今天，我们就不仅要尝尝不同“风味”的猪肉，还要进一步看看猪到底是怎么跑的——这样，我们才能选择，然后调整出，最符合自己口味的大菜。</p><h2>语法加亮</h2><p>在<a href="https://time.geekbang.org/column/article/271208">第 8 讲</a>里，我们已经提到，Vim 的语法加亮依靠的是在 syntax 目录下的运行支持文件。今天，我就通过例子给你解说一下，Vim 里如何实现语法加亮，然后语法加亮又如何映射到屏幕上的颜色和字体。</p><p>我们先来看一个比较简单的例子，xxd。</p><p>xxd 这个名字看起来，是不是有点陌生又有点熟悉？其实，我们在第 11 讲还刚讲过 xxd：它是一个把二进制文件转换成地址加十六进制数值再加可读 ASCII 文本的工具，它的输出格式在 Vim 里也被称作 xxd。不过，在用菜单项或 <code>:%!xxd</code> 命令转换之后，Vim 并不会自动使用 xxd 格式。要应用 xxd 格式的语法加亮，我们需要使用自动命令（可以参考 <a href="https://yianwillis.github.io/vimcdoc/doc/tips.html#using-xxd"><code>:help using-xxd</code></a>），或者手工使用命令 <code>:setf xxd</code>。下图是对上次的二进制文件使用了 xxd 语法加亮的效果：</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/9c/25/9c4d080fd180c560757305d4a1645225.png" alt="Fig13.1" title="使用了 xxd 语法加亮的效果"></p><p>这个格式的语法加亮足够简单，我们就拿它来分析一下。不过，我有个小建议，你在看具体的语法加亮代码前，先花几秒钟的时间看一下图，自己分析一下里面有几种不同的语法加亮效果。</p><p>下面我们就来逐步看一下 syntax/xxd.vim 的内容。首先是开头和结尾部分：</p><pre><code class="language-vim">" quit when a syntax file was already loaded
+
 if exists("b:current_syntax")
   finish
 endif

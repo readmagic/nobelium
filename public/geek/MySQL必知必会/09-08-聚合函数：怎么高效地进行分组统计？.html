@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是朱晓峰。今天，我来和你聊一聊聚合函数。</p><p>MySQL中有5种聚合函数较为常用，分别是求和函数SUM()、求平均函数AVG()、最大值函数MAX()、最小值函数MIN()和计数函数COUNT()。接下来，我就结合超市项目的真实需求，来带你掌握聚合函数的用法，帮你实现高效的分组统计。</p><p>咱们的项目需求是这样的：超市经营者提出，他们需要统计某个门店，每天、每个单品的销售情况，包括销售数量和销售金额等。这里涉及3个数据表，具体信息如下所示：</p><p>销售明细表（demo.transactiondetails)：</p><p><img src="https://static001.geekbang.org/resource/image/ba/4e/ba86b64760c96caf85872f362790534e.jpeg" alt=""></p><p>销售单头表（demo.transactionhead)：</p><p><img src="https://static001.geekbang.org/resource/image/32/50/3242decd05814f16479f2e6edb5fd050.jpeg" alt=""></p><p>商品信息表（demo.goodsmaster）：</p><p><img src="https://static001.geekbang.org/resource/image/d7/1a/d72f0fb930280cb611d8f31aed98bf1a.jpeg" alt=""></p><p>要统计销售，就要用到数据求和，那么我们就先来学习下求和函数SUM()。</p><h2>SUM（）</h2><p>SUM（）函数可以返回指定字段值的和。我们可以用它来获得用户某个门店，每天，每种商品的销售总计数据：</p><pre><code>mysql&gt;  SELECT
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是朱晓峰。今天，我来和你聊一聊聚合函数。</p><p>MySQL中有5种聚合函数较为常用，分别是求和函数SUM()、求平均函数AVG()、最大值函数MAX()、最小值函数MIN()和计数函数COUNT()。接下来，我就结合超市项目的真实需求，来带你掌握聚合函数的用法，帮你实现高效的分组统计。</p><p>咱们的项目需求是这样的：超市经营者提出，他们需要统计某个门店，每天、每个单品的销售情况，包括销售数量和销售金额等。这里涉及3个数据表，具体信息如下所示：</p><p>销售明细表（demo.transactiondetails)：</p><p><img src="https://static001.geekbang.org/resource/image/ba/4e/ba86b64760c96caf85872f362790534e.jpeg" alt=""></p><p>销售单头表（demo.transactionhead)：</p><p><img src="https://static001.geekbang.org/resource/image/32/50/3242decd05814f16479f2e6edb5fd050.jpeg" alt=""></p><p>商品信息表（demo.goodsmaster）：</p><p><img src="https://static001.geekbang.org/resource/image/d7/1a/d72f0fb930280cb611d8f31aed98bf1a.jpeg" alt=""></p><p>要统计销售，就要用到数据求和，那么我们就先来学习下求和函数SUM()。</p><h2>SUM（）</h2><p>SUM（）函数可以返回指定字段值的和。我们可以用它来获得用户某个门店，每天，每种商品的销售总计数据：</p><pre><code>mysql&gt;  SELECT
+
     -&gt;     LEFT(b.transdate, 10), -- 从关联表获取交易时间，并且通过LEFT函数，获取交易时间字符串的左边10个字符，得到年月日的数据
     -&gt;     c.goodsname,           -- 从关联表获取商品名称
     -&gt;     SUM(a.quantity),       -- 数量求和

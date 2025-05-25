@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是朱涛。今天，我们来分析Kotlin协程当中的Dispatchers。</p><p>上节课里，我们分析了launch的源代码，从中我们知道，Kotlin的launch会调用startCoroutineCancellable()，接着又会调用createCoroutineUnintercepted()，最终会调用编译器帮我们生成SuspendLambda实现类当中的create()方法。这样，协程就创建出来了。不过，协程是创建出来了，可它是如何运行的呢？</p><p>另外我们也都知道，协程无法脱离线程运行，Kotlin当中所有的协程，最终都是运行在线程之上的。<strong>那么，协程创建出来以后，它又是如何跟线程产生关联的？</strong>这节课，我们将进一步分析launch的启动流程，去发掘上节课我们忽略掉的代码分支。</p><p>我相信，经过这节课的学习，你会对协程与线程之间的关系有一个更加透彻的认识。</p><h2>Dispatchers</h2><p>在上节课里我们学习过，launch{}本质上是调用了startCoroutineCancellable()当中的createCoroutineUnintercepted()方法创建了协程。</p><pre><code class="language-plain">// 代码段1
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是朱涛。今天，我们来分析Kotlin协程当中的Dispatchers。</p><p>上节课里，我们分析了launch的源代码，从中我们知道，Kotlin的launch会调用startCoroutineCancellable()，接着又会调用createCoroutineUnintercepted()，最终会调用编译器帮我们生成SuspendLambda实现类当中的create()方法。这样，协程就创建出来了。不过，协程是创建出来了，可它是如何运行的呢？</p><p>另外我们也都知道，协程无法脱离线程运行，Kotlin当中所有的协程，最终都是运行在线程之上的。<strong>那么，协程创建出来以后，它又是如何跟线程产生关联的？</strong>这节课，我们将进一步分析launch的启动流程，去发掘上节课我们忽略掉的代码分支。</p><p>我相信，经过这节课的学习，你会对协程与线程之间的关系有一个更加透彻的认识。</p><h2>Dispatchers</h2><p>在上节课里我们学习过，launch{}本质上是调用了startCoroutineCancellable()当中的createCoroutineUnintercepted()方法创建了协程。</p><pre><code class="language-plain">// 代码段1
+
 
 public fun &lt;T&gt; (suspend () -&gt; T).startCoroutineCancellable(completion: Continuation&lt;T&gt;): Unit = runSafely(completion) {
     //                                        注意这里

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是葛俊。今天，我要与你分享的主题是，命令行下的高效工作技巧。</p><p>我先和你讲一个有意思的话题吧。命令行工具常常会给人一种黑客的感觉，好莱坞的电影里面常常出现命令行窗口的使用。不知道你听说过没有，很多好莱坞电影在拍摄时使用的其实是一个叫作<a href="https://nmap.org">nmap</a>的工具。这个工具是做安全扫描的，只不过因为它的显示特别花哨，所以被很多电影采用。在nmap官方网站上，还专门列出来了这些电影的名单。</p><p>类似这种可以让自己看起来很忙的工具还有很多，比如<a href="https://github.com/svenstaro/genact">Genact</a>。下面是一个使用Genact的录屏，当然这里的命令并没有真正运行。这可能是整个专栏中，唯一一个让你看起来效率很高，实际上却是降低效率的工具，但说不定对你有用，你懂的。</p><p><img src="https://static001.geekbang.org/resource/image/2d/97/2dba0dfdd5f0260ad3b3082a7d3d2697.gif" alt=""></p><p>讲完这个娱乐性的话题，我们进入正题吧。</p><h2>为什么要使用命令行？</h2><p>GUI图形界面的出现是计算机技术的变革，极大方便了用户。但在这么多年后的今天，命令行工具为什么仍然有如此强大的生命力呢？</p><p>在我看来，对软件工程师来说，想要高效开发就必须掌握命令行，主要原因包括：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是葛俊。今天，我要与你分享的主题是，命令行下的高效工作技巧。</p><p>我先和你讲一个有意思的话题吧。命令行工具常常会给人一种黑客的感觉，好莱坞的电影里面常常出现命令行窗口的使用。不知道你听说过没有，很多好莱坞电影在拍摄时使用的其实是一个叫作<a href="https://nmap.org">nmap</a>的工具。这个工具是做安全扫描的，只不过因为它的显示特别花哨，所以被很多电影采用。在nmap官方网站上，还专门列出来了这些电影的名单。</p><p>类似这种可以让自己看起来很忙的工具还有很多，比如<a href="https://github.com/svenstaro/genact">Genact</a>。下面是一个使用Genact的录屏，当然这里的命令并没有真正运行。这可能是整个专栏中，唯一一个让你看起来效率很高，实际上却是降低效率的工具，但说不定对你有用，你懂的。</p><p><img src="https://static001.geekbang.org/resource/image/2d/97/2dba0dfdd5f0260ad3b3082a7d3d2697.gif" alt=""></p><p>讲完这个娱乐性的话题，我们进入正题吧。</p><h2>为什么要使用命令行？</h2><p>GUI图形界面的出现是计算机技术的变革，极大方便了用户。但在这么多年后的今天，命令行工具为什么仍然有如此强大的生命力呢？</p><p>在我看来，对软件工程师来说，想要高效开发就必须掌握命令行，主要原因包括：</p><ul>
+
 <li>虽然鼠标的移动和点击比较直观，但要完成重复性的工作，使用键盘会快捷得多。这一点从超市的结算人员就可以看出来，使用键盘系统的收银员总是噼里啪啦地很快就可以完成结算，而使用鼠标点击的话明显慢很多。</li>
 <li>作为开发人员，可以比较容易地使用命令行的脚本，对自己的工作进行自动化，以及和其他系统工具联动。但使用GUI的话，就会困难得多。</li>
 <li>命令行通常可以暴露更完整的功能，让使用者对整个系统有更透彻的理解。Git就是一个典型的例子，再好的GUI Git系统都只能封装一部分Git命令行功能，要想真正了解Git，我们必须要使用命令行。</li>

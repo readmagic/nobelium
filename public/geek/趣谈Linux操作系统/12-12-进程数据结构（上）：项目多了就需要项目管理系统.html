@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>前面两节，我们讲了如何使用系统调用，创建进程和线程。你是不是觉得进程和线程管理，还挺复杂的呢？如此复杂的体系，在内核里面应该如何管理呢？</p><p>有的进程只有一个线程，有的进程有多个线程，它们都需要由内核分配CPU来干活。可是CPU总共就这么几个，应该怎么管理，怎么调度呢？你是老板，这个事儿得你来操心。</p><p>首先，我们得明确，公司的项目售前售后人员，接来了这么多的项目，这是个好事儿。这些项目都通过办事大厅立了项的，有的需要整个项目组一起开发，有的是一个项目组分成多个小组并行开发。无论哪种模式，到你这个老板这里，都需要有一个项目管理体系，进行统一排期、统一管理和统一协调。这样，你才能对公司的业务了如指掌。</p><p>那具体应该怎么做呢？还记得咱们平时开发的时候，用的项目管理软件Jira吧？它的办法对我们来讲，就很有参考意义。</p><p>我们这么来看，其实，无论是一个大的项目组一起完成一个大的功能（单体应用模式），还是把一个大的功能拆成小的功能并行开发（微服务模式），这些都是开发组根据客户的需求来定的，项目经理没办法决定，但是从项目经理的角度来看，这些都是任务，需要同样关注进度、协调资源等等。</p><p>同样在Linux里面，无论是进程，还是线程，到了内核里面，我们统一都叫任务（Task），由一个统一的结构<strong>task_struct</strong>进行管理。这个结构非常复杂，但你也不用怕，我们慢慢来解析。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/75/2d/75c4d28a9d2daa4acc1107832be84e2d.jpeg" alt=""></p><p>接下来，我们沿着建立项目管理体系的思路，设想一下，<strong>Linux的任务管理都应该干些啥？</strong></p><p>首先，所有执行的项目应该有个项目列表吧，所以Linux内核也应该先弄一个<strong>链表</strong>，将所有的task_struct串起来。</p><pre><code>struct list_head		tasks;
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>前面两节，我们讲了如何使用系统调用，创建进程和线程。你是不是觉得进程和线程管理，还挺复杂的呢？如此复杂的体系，在内核里面应该如何管理呢？</p><p>有的进程只有一个线程，有的进程有多个线程，它们都需要由内核分配CPU来干活。可是CPU总共就这么几个，应该怎么管理，怎么调度呢？你是老板，这个事儿得你来操心。</p><p>首先，我们得明确，公司的项目售前售后人员，接来了这么多的项目，这是个好事儿。这些项目都通过办事大厅立了项的，有的需要整个项目组一起开发，有的是一个项目组分成多个小组并行开发。无论哪种模式，到你这个老板这里，都需要有一个项目管理体系，进行统一排期、统一管理和统一协调。这样，你才能对公司的业务了如指掌。</p><p>那具体应该怎么做呢？还记得咱们平时开发的时候，用的项目管理软件Jira吧？它的办法对我们来讲，就很有参考意义。</p><p>我们这么来看，其实，无论是一个大的项目组一起完成一个大的功能（单体应用模式），还是把一个大的功能拆成小的功能并行开发（微服务模式），这些都是开发组根据客户的需求来定的，项目经理没办法决定，但是从项目经理的角度来看，这些都是任务，需要同样关注进度、协调资源等等。</p><p>同样在Linux里面，无论是进程，还是线程，到了内核里面，我们统一都叫任务（Task），由一个统一的结构<strong>task_struct</strong>进行管理。这个结构非常复杂，但你也不用怕，我们慢慢来解析。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/75/2d/75c4d28a9d2daa4acc1107832be84e2d.jpeg" alt=""></p><p>接下来，我们沿着建立项目管理体系的思路，设想一下，<strong>Linux的任务管理都应该干些啥？</strong></p><p>首先，所有执行的项目应该有个项目列表吧，所以Linux内核也应该先弄一个<strong>链表</strong>，将所有的task_struct串起来。</p><pre><code>struct list_head		tasks;
+
 </code></pre><p>接下来，我们来看每一个任务都应该包含哪些字段。</p><h2>任务ID</h2><p>每一个任务都应该有一个ID，作为这个任务的唯一标识。到时候排期啊、下发任务啊等等，都按ID来，就不会产生歧义。</p><p>task_struct里面涉及任务ID的，有下面几个：</p><pre><code>pid_t pid;
 pid_t tgid;
 struct task_struct *group_leader; 

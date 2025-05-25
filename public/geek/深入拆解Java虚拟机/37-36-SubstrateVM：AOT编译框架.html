@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>今天我们来聊聊GraalVM中的Ahead-Of-Time（AOT）编译框架SubstrateVM。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>今天我们来聊聊GraalVM中的Ahead-Of-Time（AOT）编译框架SubstrateVM。</p>
+
 <p>先来介绍一下AOT编译，所谓AOT编译，是与即时编译相对立的一个概念。我们知道，即时编译指的是在程序的运行过程中，将字节码转换为可在硬件上直接运行的机器码，并部署至托管环境中的过程。</p>
 <p>而AOT编译指的则是，在<strong>程序运行之前</strong>，便将字节码转换为机器码的过程。它的成果可以是需要链接至托管环境中的动态共享库，也可以是独立运行的可执行文件。</p>
 <p>狭义的AOT编译针对的目标代码需要与即时编译的一致，也就是针对那些原本可以被即时编译的代码。不过，我们也可以简单地将AOT编译理解为类似于GCC的静态编译器。</p>

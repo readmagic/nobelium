@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是王磊，你也可以叫我Ivan。</p><p>今天，我想和你聊聊时间的话题。</p><p>“时光一去永不回，往事只能回味”，这种咏叹时光飞逝的歌曲，你一定听过很多。但是，在计算机的世界里，时间真的是一去不回吗？还真不一定。</p><p>还记得我在<a href="https://time.geekbang.org/column/article/272104">第2讲</a>提到的TrueTime吗？作为全局时钟的一种实现形式，它是Google通过 GPS和原子钟两种方式混合提供的授时机制，误差可以控制在7毫秒以内。正是在这7毫秒内，时光是可能倒流的。</p><p>为什么我们这么关注时间呢？是穿越剧看多了吗？其实，这是因为分布式数据库的很多设计都和时间有关，更确切地说是和全局时钟有关。比如，我们在第2讲提到的线性一致性，它的基础就是全局时钟，还有后面会讲到的多版本并发控制（MVCC）、快照、乐观协议与悲观协议，都和时间有关。</p><h2>常见授时方案</h2><p>那既然有这么多分布式数据库，授时机制是不是也很多，很复杂呢？其实，要区分授时机制也很简单，抓住三个要素就可以了。</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是王磊，你也可以叫我Ivan。</p><p>今天，我想和你聊聊时间的话题。</p><p>“时光一去永不回，往事只能回味”，这种咏叹时光飞逝的歌曲，你一定听过很多。但是，在计算机的世界里，时间真的是一去不回吗？还真不一定。</p><p>还记得我在<a href="https://time.geekbang.org/column/article/272104">第2讲</a>提到的TrueTime吗？作为全局时钟的一种实现形式，它是Google通过 GPS和原子钟两种方式混合提供的授时机制，误差可以控制在7毫秒以内。正是在这7毫秒内，时光是可能倒流的。</p><p>为什么我们这么关注时间呢？是穿越剧看多了吗？其实，这是因为分布式数据库的很多设计都和时间有关，更确切地说是和全局时钟有关。比如，我们在第2讲提到的线性一致性，它的基础就是全局时钟，还有后面会讲到的多版本并发控制（MVCC）、快照、乐观协议与悲观协议，都和时间有关。</p><h2>常见授时方案</h2><p>那既然有这么多分布式数据库，授时机制是不是也很多，很复杂呢？其实，要区分授时机制也很简单，抓住三个要素就可以了。</p><ol>
+
 <li>时间源：单个还是多个</li>
 <li>使用的时钟类型：物理时钟还是混合逻辑时钟</li>
 <li>授时点：一个还是多个</li>

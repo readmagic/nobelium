@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>我们在前面讨论了该怎么取一个好名字。在编程语言里，我们使用标识符来表示不同的逻辑和对象。声明就是用来定义这些标识符的。标识符声明的地方，就是取名字和第一次使用名字的地方。这一次，我们聊一聊该怎么声明一个标识符。</p><p>“声明”是我们和标识符初次见面的地方，第一印象就显得特别重要。如果我们忘记了，回头能够清晰地找到它，也很重要。如果我们印象模糊了，回头能够重新认识它，对于我们阅读程序也有很大的帮助。</p><p>一个标识符，不仅仅只是一个名字。 像人分男女、高矮胖瘦一样，标识符也可以有附加信息，用来增强人们对它的认识。</p><p>一个声明，一般至少包含两个部分，一个是标识符的名字，一个是标识符的类型。 比如：</p><pre><code>int size;
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>我们在前面讨论了该怎么取一个好名字。在编程语言里，我们使用标识符来表示不同的逻辑和对象。声明就是用来定义这些标识符的。标识符声明的地方，就是取名字和第一次使用名字的地方。这一次，我们聊一聊该怎么声明一个标识符。</p><p>“声明”是我们和标识符初次见面的地方，第一印象就显得特别重要。如果我们忘记了，回头能够清晰地找到它，也很重要。如果我们印象模糊了，回头能够重新认识它，对于我们阅读程序也有很大的帮助。</p><p>一个标识符，不仅仅只是一个名字。 像人分男女、高矮胖瘦一样，标识符也可以有附加信息，用来增强人们对它的认识。</p><p>一个声明，一般至少包含两个部分，一个是标识符的名字，一个是标识符的类型。 比如：</p><pre><code>int size;
+
 </code></pre><p>有的声明，还有修饰和限定部分，比如Java的访问控制修饰符（private，public等）：</p><pre><code>private int size;
 </code></pre><p>或者C语言的存储类别限定符（auto，extern等）：</p><pre><code>auto int size;
 </code></pre><p>写声明很简单，但写好声明也并非易事。我们以Java语言为例来讨论声明的编码风格。在Java语言里，声明可以用来定义类、方法、类变量、局部变量和常量。不同声明的语法有着巨大的差别，但是也有很多共通的地方，你可以把这些思路用在自己熟悉的语言上。</p><!-- [[[read_end]]] --><p>接下来，我会带你一起来学写好声明的“八项纪律”。</p><h2>取一个好名字</h2><p>既然是标识符，就涉及到取名字的问题。我们前面已经讨论过“怎么取好名字”这个话题了，你可以复习一下。</p><h2>一行一个声明</h2><p>我们在前面讨论过“一行一个行为”的代码整理规则。这一规则，同样适用于标识符的声明。不推荐在同一行里声明多个变量，即使这一行很短。</p><p><img src="https://static001.geekbang.org/resource/image/42/7c/4228bf7f045d5962b6047035eea1247c.png" alt=""><br>

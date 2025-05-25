@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是袁武林。</p><p>前面几节课里，我讲到在即时消息场景下，我们会依赖服务端推送技术来提升消息到达的实时性，以及通过各种手段来保证消息收发通道的可用性，从而让消息能尽量实时、稳定地给到接收人。</p><p>但在实际情况中，出于各种原因，App与服务端的长连接会经常断开。比如，用户彻底关闭了App，或者App切换到后台一段时间后，手机操作系统为了节省资源，会杀掉进程或者禁止进程的网络功能。在这些情况下，消息接收方就没有办法通过App和IM服务端的长连接来进行消息接收了。</p><p>那有没有办法，能让消息在App被关闭或者网络功能被限制的情况下，也能发送到接收人的设备呢？答案是：有。</p><p>现在手机常用的iOS和Android系统，都提供了标准的系统级下发通道，这个通道是系统提供商维护的与设备的公共长连接，可以保证在App关闭的情况下，也能通过手机的通知栏来下发消息给对应的接收人设备。而且，当用户点击这些通知时，还能重新唤醒我们的App，不仅能提升消息的到达率，还增加了用户的活跃度。</p><h2>第三方系统下发通道</h2><p>常见的第三方系统下发通道，有iOS端的APNs，以及Android端的GCM和厂商系统通道。</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是袁武林。</p><p>前面几节课里，我讲到在即时消息场景下，我们会依赖服务端推送技术来提升消息到达的实时性，以及通过各种手段来保证消息收发通道的可用性，从而让消息能尽量实时、稳定地给到接收人。</p><p>但在实际情况中，出于各种原因，App与服务端的长连接会经常断开。比如，用户彻底关闭了App，或者App切换到后台一段时间后，手机操作系统为了节省资源，会杀掉进程或者禁止进程的网络功能。在这些情况下，消息接收方就没有办法通过App和IM服务端的长连接来进行消息接收了。</p><p>那有没有办法，能让消息在App被关闭或者网络功能被限制的情况下，也能发送到接收人的设备呢？答案是：有。</p><p>现在手机常用的iOS和Android系统，都提供了标准的系统级下发通道，这个通道是系统提供商维护的与设备的公共长连接，可以保证在App关闭的情况下，也能通过手机的通知栏来下发消息给对应的接收人设备。而且，当用户点击这些通知时，还能重新唤醒我们的App，不仅能提升消息的到达率，还增加了用户的活跃度。</p><h2>第三方系统下发通道</h2><p>常见的第三方系统下发通道，有iOS端的APNs，以及Android端的GCM和厂商系统通道。</p><ul>
+
 <li>iOS端的APNs（Apple Push Notification service，苹果推送通知服务），是独立于应用之外，依托系统常驻进程来维护和苹果服务器的公共长连接，负责全局的系统推送服务。</li>
 <li>在Android端上，有Google的GCM（Google Cloud Message，Google云消息传递）。但GCM由于某些技术原因（如NAT超时太长、暴露的5228端口连通性差等）和某些非技术原因（需要和Google服务器建立连接），Android端的GCM在国内被大部分手机厂商定制化后直接去掉，并替换成了各自的系统通道。目前国内Android的系统级下发通道基本都是厂商通道，目前已知的有5家：小米、华为、vivo、OPPO、魅族。</li>
 </ul><!-- [[[read_end]]] --><h3>APNs</h3><p>接下来我们就来了解一下iOS端的系统推送服务APNs。</p><p>下面借用苹果官网的一张图来简单说明一下，当App在没有打开的情况下，<a href="https://developer.apple.com/library/archive/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/APNSOverview.html#//apple_ref/doc/uid/TP40008194-CH8-SW1">消息通过APNs下发到设备</a>的过程：<br>

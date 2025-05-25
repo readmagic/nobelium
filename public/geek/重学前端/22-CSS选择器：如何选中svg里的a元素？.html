@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是winter。</p><p>我们在之前CSS语法课程中，已经介绍了关于选择器的一部分基础知识。在今天的这一课里，我们来系统学习一下CSS选择器。</p><p>在CSS语法课程中，我们已经见过一些选择器了，但在进入到具体的选择器介绍之前，我们首先要对选择器有一个整体的认识。</p><p>我先来讲讲选择器是什么，选择器是由CSS最先引入的一个机制（但随着document.querySelector等API的加入，选择器已经不仅仅是CSS的一部分了）。我们今天这一课，就重点讲讲CSS选择器的一些机制。</p><p><strong>选择器的基本意义是：根据一些特征，选中元素树上的一批元素。</strong></p><p>我们把选择器的结构分一下类，那么由简单到复杂可以分成以下几种。</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是winter。</p><p>我们在之前CSS语法课程中，已经介绍了关于选择器的一部分基础知识。在今天的这一课里，我们来系统学习一下CSS选择器。</p><p>在CSS语法课程中，我们已经见过一些选择器了，但在进入到具体的选择器介绍之前，我们首先要对选择器有一个整体的认识。</p><p>我先来讲讲选择器是什么，选择器是由CSS最先引入的一个机制（但随着document.querySelector等API的加入，选择器已经不仅仅是CSS的一部分了）。我们今天这一课，就重点讲讲CSS选择器的一些机制。</p><p><strong>选择器的基本意义是：根据一些特征，选中元素树上的一批元素。</strong></p><p>我们把选择器的结构分一下类，那么由简单到复杂可以分成以下几种。</p><ul>
+
 <li>简单选择器：针对某一特征判断是否选中元素。</li>
 <li>复合选择器：连续写在一起的简单选择器，针对元素自身特征选择单个元素。</li>
 <li>复杂选择器：由“（空格）”“ &gt;”“ ~”“ +”“ ||”等符号连接的复合选择器，根据父元素或者前序元素检查单个元素。</li>

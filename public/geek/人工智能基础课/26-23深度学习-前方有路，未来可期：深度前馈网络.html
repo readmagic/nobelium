@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>深度前馈网络（Deep Feedforward Network）是具有深度结构的前馈神经网络，可以看成是进化版的多层感知器。与只有一个或两个隐藏层的浅层网络相比，深度前馈网络具有更多的隐藏层数目，从而具备了更强的特征提取能力。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>深度前馈网络（Deep Feedforward Network）是具有深度结构的前馈神经网络，可以看成是进化版的多层感知器。与只有一个或两个隐藏层的浅层网络相比，深度前馈网络具有更多的隐藏层数目，从而具备了更强的特征提取能力。</p>
+
 <p>深度前馈网络不考虑输入数据可能具备的任何特定结构，也就是不使用关于数据的先验信息。但特征提取能力增强的代价是运算复杂度的提升。因而，<strong>网络架构的建立、损失函数的选择、输出单元和隐藏单元的设计、训练误差的处理等问题就成为深度前馈网络设计中的一系列核心问题</strong>。</p>
 <p><strong>在深度前馈网络的设计中，确定架构是首要考虑的关键问题</strong>。架构决定着网络中包含多少基本单元，以及这些基本单元之间如何相互连接。几乎所有前馈网络采用的都是链式架构，即前一层的输出是后一层的输入。在这样的链式架构中，层的数目和每一层中神经元的数目就是网络的主要变量。</p>
 <p>介绍多层感知器时我曾提到了通用逼近的性质，这个性质的严格形式是通用逼近定理。<strong>通用逼近定理的内容是如果一个前馈网络具有单个隐藏层，这个隐藏层又有足够但是有限数目的神经元，这个神经网络就可以以任意精度逼近任意连续函数</strong>。虽然在这个定理的初始证明中，隐藏神经元的传递函数是具有“挤压”性质的非线性函数，但定理的成立性实际上并不取决于传递函数的性质，而是由网络的前馈架构所决定的。</p>

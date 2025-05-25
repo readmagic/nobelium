@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>在前文中，我解释过代码块的含义。Go语言的代码块是一层套一层的，就像大圆套小圆。</p><p>一个代码块可以有若干个子代码块；但对于每个代码块，最多只会有一个直接包含它的代码块（后者可以简称为前者的外层代码块）。</p><p>这种代码块的划分，也间接地决定了程序实体的作用域。我们今天就来看看它们之间的关系。</p><p>我先说说作用域是什么？大家都知道，一个程序实体被创造出来，是为了让别的代码引用的。那么，哪里的代码可以引用它呢，这就涉及了它的作用域。</p><p>我在前面说过，程序实体的访问权限有三种：包级私有的、模块级私有的和公开的。这其实就是Go语言在语言层面，依据代码块对程序实体作用域进行的定义。</p><p>包级私有和模块级私有访问权限对应的都是代码包代码块，公开的访问权限对应的是全域代码块。然而，这个颗粒度是比较粗的，我们往往需要利用代码块再细化程序实体的作用域。</p><p>比如，我在一个函数中声明了一个变量，那么在通常情况下，这个变量是无法被这个函数以外的代码引用的。这里的函数就是一个代码块，而变量的作用域被限制在了该代码块中。当然了，还有例外的情况，这部分内容，我留到讲函数的时候再说。</p><p>总之，请记住，<strong>一个程序实体的作用域总是会被限制在某个代码块中，而这个作用域最大的用处，就是对程序实体的访问权限的控制。</strong>对“高内聚，低耦合”这种程序设计思想的实践，恰恰可以从这里开始。</p><!-- [[[read_end]]] --><p>你应该可以通过下面的问题进一步感受代码块和作用域的魅力。</p><p><strong>今天的问题是：如果一个变量与其外层代码块中的变量重名会出现什么状况？</strong></p><p>我把此题的代码存到了demo10.go文件中了。你可以在“Golang_Puzzlers”项目的<code>puzzlers/article5/q1</code>包中找到它。</p><pre><code>package main
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>在前文中，我解释过代码块的含义。Go语言的代码块是一层套一层的，就像大圆套小圆。</p><p>一个代码块可以有若干个子代码块；但对于每个代码块，最多只会有一个直接包含它的代码块（后者可以简称为前者的外层代码块）。</p><p>这种代码块的划分，也间接地决定了程序实体的作用域。我们今天就来看看它们之间的关系。</p><p>我先说说作用域是什么？大家都知道，一个程序实体被创造出来，是为了让别的代码引用的。那么，哪里的代码可以引用它呢，这就涉及了它的作用域。</p><p>我在前面说过，程序实体的访问权限有三种：包级私有的、模块级私有的和公开的。这其实就是Go语言在语言层面，依据代码块对程序实体作用域进行的定义。</p><p>包级私有和模块级私有访问权限对应的都是代码包代码块，公开的访问权限对应的是全域代码块。然而，这个颗粒度是比较粗的，我们往往需要利用代码块再细化程序实体的作用域。</p><p>比如，我在一个函数中声明了一个变量，那么在通常情况下，这个变量是无法被这个函数以外的代码引用的。这里的函数就是一个代码块，而变量的作用域被限制在了该代码块中。当然了，还有例外的情况，这部分内容，我留到讲函数的时候再说。</p><p>总之，请记住，<strong>一个程序实体的作用域总是会被限制在某个代码块中，而这个作用域最大的用处，就是对程序实体的访问权限的控制。</strong>对“高内聚，低耦合”这种程序设计思想的实践，恰恰可以从这里开始。</p><!-- [[[read_end]]] --><p>你应该可以通过下面的问题进一步感受代码块和作用域的魅力。</p><p><strong>今天的问题是：如果一个变量与其外层代码块中的变量重名会出现什么状况？</strong></p><p>我把此题的代码存到了demo10.go文件中了。你可以在“Golang_Puzzlers”项目的<code>puzzlers/article5/q1</code>包中找到它。</p><pre><code>package main
+
 
 import &quot;fmt&quot;
 

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是吴咏炜。</p><p>上一讲我介绍了最重要的一些插件。今天这讲拓展，我们就算是查漏补缺，再分享一些我个人这些年压箱底的收藏。这些插件和技巧有新有旧，都非常好用，欢迎你挑选感兴趣的内容，纳入自己的个人收藏箱。</p><h2>插件</h2><h3>Syntastic 和 ALE</h3><p>说到代码检查插件，我最早是从 <a href="https://github.com/vim-syntastic/syntastic">Syntastic</a> 开始用的，然后慢慢转向了 <a href="https://github.com/dense-analysis/ale">ALE</a>。不过，我因为主要写 C++ 和 Python，所以慢慢放弃了使用这两个插件，转而使用对这两种语言支持较好的 YCM（第 13 讲）和 Python-mode（拓展 3）。</p><p>虽然 YCM 和 Python-mode 集成的工具比较有限，比如 YCM 对 C++ 的代码检查仅限于 Clang 系列工具提供的支持，而不像 Syntastic/ALE 还可以选择很多其他的工具，但是，它们对我来讲还是够用了——何况对于 C 和 C++，要让 Syntastic 或 ALE 干活的话，大部分情况下需要配置头文件包含路径和编译选项，也是件麻烦事。</p><p>不过，对于其他语言的开发者，Syntastic/ALE 可能还是非常有用的。</p><p>先说 Syntastic。这是一个老牌的代码检查插件，其 1.0 版本发布在 2009 年。这些年下来，这个插件里积累了好几十种语言的代码检查支持，既有常见的 C、C++、Python、Java、JavaScript 等语言，也有冷门一点的 ACPI、AppleScript、Julia、VHDL、z80 汇编等语言。对于每种语言，它能自动识别已经安装的代码检查器，并在你文件存盘时自动检查代码（也可以手工使用 <code>:SyntasticCheck</code> 命令来检查）。要检查当前文件 Syntastic 识别到了哪些代码检查器，可以使用 <code>:SyntasticInfo</code> 命令；而在 ALE 中没有等价的好用命令。</p><!-- [[[read_end]]] --><p>Syntastic 的主要问题是它的检查是同步的，代码检查时你不能同时进行编辑工作：不但不能即输即查，而且耗时长的检查还会中断正常的编辑流程。后起之秀 ALE 恰恰解决了这个问题，它会异步地检查你的代码，在编辑时即输即查，完全不会影响正常的编辑流程。从支持的语言上来说，ALE 虽然不及 Syntastic，但也已经覆盖到了大量的冷门语言。并且，它仍然处于积极开发之中：2020 年 7 月，Syntastic 一共有 3 次提交，而 ALE 有 48 次非合并提交和 13 次合并提交！</p><p>这两个插件的配置都略显复杂，通常需要你针对每种代码检查器进行配置。因此，总体来说，我对代码检查的推荐顺序是：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是吴咏炜。</p><p>上一讲我介绍了最重要的一些插件。今天这讲拓展，我们就算是查漏补缺，再分享一些我个人这些年压箱底的收藏。这些插件和技巧有新有旧，都非常好用，欢迎你挑选感兴趣的内容，纳入自己的个人收藏箱。</p><h2>插件</h2><h3>Syntastic 和 ALE</h3><p>说到代码检查插件，我最早是从 <a href="https://github.com/vim-syntastic/syntastic">Syntastic</a> 开始用的，然后慢慢转向了 <a href="https://github.com/dense-analysis/ale">ALE</a>。不过，我因为主要写 C++ 和 Python，所以慢慢放弃了使用这两个插件，转而使用对这两种语言支持较好的 YCM（第 13 讲）和 Python-mode（拓展 3）。</p><p>虽然 YCM 和 Python-mode 集成的工具比较有限，比如 YCM 对 C++ 的代码检查仅限于 Clang 系列工具提供的支持，而不像 Syntastic/ALE 还可以选择很多其他的工具，但是，它们对我来讲还是够用了——何况对于 C 和 C++，要让 Syntastic 或 ALE 干活的话，大部分情况下需要配置头文件包含路径和编译选项，也是件麻烦事。</p><p>不过，对于其他语言的开发者，Syntastic/ALE 可能还是非常有用的。</p><p>先说 Syntastic。这是一个老牌的代码检查插件，其 1.0 版本发布在 2009 年。这些年下来，这个插件里积累了好几十种语言的代码检查支持，既有常见的 C、C++、Python、Java、JavaScript 等语言，也有冷门一点的 ACPI、AppleScript、Julia、VHDL、z80 汇编等语言。对于每种语言，它能自动识别已经安装的代码检查器，并在你文件存盘时自动检查代码（也可以手工使用 <code>:SyntasticCheck</code> 命令来检查）。要检查当前文件 Syntastic 识别到了哪些代码检查器，可以使用 <code>:SyntasticInfo</code> 命令；而在 ALE 中没有等价的好用命令。</p><!-- [[[read_end]]] --><p>Syntastic 的主要问题是它的检查是同步的，代码检查时你不能同时进行编辑工作：不但不能即输即查，而且耗时长的检查还会中断正常的编辑流程。后起之秀 ALE 恰恰解决了这个问题，它会异步地检查你的代码，在编辑时即输即查，完全不会影响正常的编辑流程。从支持的语言上来说，ALE 虽然不及 Syntastic，但也已经覆盖到了大量的冷门语言。并且，它仍然处于积极开发之中：2020 年 7 月，Syntastic 一共有 3 次提交，而 ALE 有 48 次非合并提交和 13 次合并提交！</p><p>这两个插件的配置都略显复杂，通常需要你针对每种代码检查器进行配置。因此，总体来说，我对代码检查的推荐顺序是：</p><ol>
+
 <li>使用 YCM、Python-mode、Vim-go 等有语言针对性的插件，如果你用的语言被支持，并且插件集成的代码检查功能够用的话</li>
 <li>使用 ALE，如果你的语言和代码检查插件它能够支持的话</li>
 <li>使用 Syntastic，如果其他选项不适用，或者你需要的检查执行够快的话</li>

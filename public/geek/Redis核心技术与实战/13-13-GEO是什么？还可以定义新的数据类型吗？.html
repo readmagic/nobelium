@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是蒋德钧。</p><p>在<a href="https://time.geekbang.org/column/article/268253">第2讲</a>中，我们学习了Redis的5大基本数据类型：String、List、Hash、Set和Sorted Set，它们可以满足大多数的数据存储需求，但是在面对海量数据统计时，它们的内存开销很大，而且对于一些特殊的场景，它们是无法支持的。所以，Redis还提供了3种扩展数据类型，分别是Bitmap、HyperLogLog和GEO。前两种我在上节课已经重点介绍过了，今天，我再具体讲一讲GEO。</p><p>另外，我还会给你介绍开发自定义的新数据类型的基本步骤。掌握了自定义数据类型的开发方法，当你面临一些复杂的场景时，就不用受基本数据类型的限制，可以直接在Redis中增加定制化的数据类型，来满足你的特殊需求。</p><p>接下来，我们就先来了解下扩展数据类型GEO的实现原理和使用方法。</p><h2>面向LBS应用的GEO数据类型</h2><p>在日常生活中，我们越来越依赖搜索“附近的餐馆”、在打车软件上叫车，这些都离不开基于位置信息服务（Location-Based Service，LBS）的应用。LBS应用访问的数据是和人或物关联的一组经纬度信息，而且要能查询相邻的经纬度范围，GEO就非常适合应用在LBS服务的场景中，我们来看一下它的底层结构。</p><!-- [[[read_end]]] --><h3>GEO的底层结构</h3><p><strong>一般来说，在设计一个数据类型的底层结构时，我们首先需要知道，要处理的数据有什么访问特点</strong>。所以，我们需要先搞清楚位置信息到底是怎么被存取的。</p><p>我以叫车服务为例，来分析下LBS应用中经纬度的存取特点。</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是蒋德钧。</p><p>在<a href="https://time.geekbang.org/column/article/268253">第2讲</a>中，我们学习了Redis的5大基本数据类型：String、List、Hash、Set和Sorted Set，它们可以满足大多数的数据存储需求，但是在面对海量数据统计时，它们的内存开销很大，而且对于一些特殊的场景，它们是无法支持的。所以，Redis还提供了3种扩展数据类型，分别是Bitmap、HyperLogLog和GEO。前两种我在上节课已经重点介绍过了，今天，我再具体讲一讲GEO。</p><p>另外，我还会给你介绍开发自定义的新数据类型的基本步骤。掌握了自定义数据类型的开发方法，当你面临一些复杂的场景时，就不用受基本数据类型的限制，可以直接在Redis中增加定制化的数据类型，来满足你的特殊需求。</p><p>接下来，我们就先来了解下扩展数据类型GEO的实现原理和使用方法。</p><h2>面向LBS应用的GEO数据类型</h2><p>在日常生活中，我们越来越依赖搜索“附近的餐馆”、在打车软件上叫车，这些都离不开基于位置信息服务（Location-Based Service，LBS）的应用。LBS应用访问的数据是和人或物关联的一组经纬度信息，而且要能查询相邻的经纬度范围，GEO就非常适合应用在LBS服务的场景中，我们来看一下它的底层结构。</p><!-- [[[read_end]]] --><h3>GEO的底层结构</h3><p><strong>一般来说，在设计一个数据类型的底层结构时，我们首先需要知道，要处理的数据有什么访问特点</strong>。所以，我们需要先搞清楚位置信息到底是怎么被存取的。</p><p>我以叫车服务为例，来分析下LBS应用中经纬度的存取特点。</p><ol>
+
 <li>每一辆网约车都有一个编号（例如33），网约车需要将自己的经度信息（例如116.034579）和纬度信息（例如39.000452 ）发给叫车应用。</li>
 <li>用户在叫车的时候，叫车应用会根据用户的经纬度位置（例如经度116.054579，纬度39.030452），查找用户的附近车辆，并进行匹配。</li>
 <li>等把位置相近的用户和车辆匹配上以后，叫车应用就会根据车辆的编号，获取车辆的信息，并返回给用户。</li>

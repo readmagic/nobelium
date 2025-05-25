@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是winter。</p><p>与其它的语言相比，JavaScript中的“对象”总是显得不那么合群。</p><p>一些新人在学习JavaScript面向对象时，往往也会有疑惑：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是winter。</p><p>与其它的语言相比，JavaScript中的“对象”总是显得不那么合群。</p><p>一些新人在学习JavaScript面向对象时，往往也会有疑惑：</p><ul>
+
 <li>为什么JavaScript（直到ES6）有对象的概念，但是却没有像其他的语言那样，有类的概念呢；</li>
 <li>为什么在JavaScript对象里可以自由添加属性，而其他的语言却不能呢？</li>
 </ul><p>甚至，在一些争论中，有人强调：JavaScript并非“面向对象的语言”，而是“基于对象的语言”。这个说法一度流传甚广，而事实上，我至今遇到的持有这一说法的人中，无一能够回答“如何定义面向对象和基于对象”这个问题。</p><p>实际上，基于对象和面向对象两个形容词都出现在了JavaScript标准的各个版本当中。</p><p>我们可以先看看JavaScript标准对基于对象的定义，这个定义的具体内容是：“语言和宿主的基础设施由对象来提供，并且JavaScript程序即是一系列互相通讯的对象集合”。</p><p>这里的意思根本不是表达弱化的面向对象的意思，反而是表达对象对于语言的重要性。</p><p>那么，在本篇文章中，我会尝试让你去理解面向对象和JavaScript中的面向对象究竟是什么。</p><h2>什么是面向对象？</h2><p>我们先来说说什么是对象，因为翻译的原因，中文语境下我们很难理解“对象”的真正含义。事实上，Object（对象）在英文中，是一切事物的总称，这和面向对象编程的抽象思维有互通之处。</p><!-- [[[read_end]]] --><p>中文的“对象”却没有这样的普适性，我们在学习编程的过程中，更多是把它当作一个专业名词来理解。</p><p>但不论如何，我们应该认识到，对象并不是计算机领域凭空造出来的概念，它是顺着人类思维模式产生的一种抽象（于是面向对象编程也被认为是：更接近人类思维模式的一种编程范式）。</p><p>那么，我们先来看看在人类思维模式下，对象究竟是什么。</p><blockquote>

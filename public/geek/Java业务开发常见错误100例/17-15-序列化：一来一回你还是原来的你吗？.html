@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是朱晔。今天，我来和你聊聊序列化相关的坑和最佳实践。</p><p>序列化是把对象转换为字节流的过程，以方便传输或存储。反序列化，则是反过来把字节流转换为对象的过程。在介绍<a href="https://time.geekbang.org/column/article/223051">文件IO</a>的时候，我提到字符编码是把字符转换为二进制的过程，至于怎么转换需要由字符集制定规则。同样地，对象的序列化和反序列化，也需要由序列化算法制定规则。</p><p>关于序列化算法，几年前常用的有JDK（Java）序列化、XML序列化等，但前者不能跨语言，后者性能较差（时间空间开销大）；现在RESTful应用最常用的是JSON序列化，追求性能的RPC框架（比如gRPC）使用protobuf序列化，这2种方法都是跨语言的，而且性能不错，应用广泛。</p><p>在架构设计阶段，我们可能会重点关注算法选型，在性能、易用性和跨平台性等中权衡，不过这里的坑比较少。通常情况下，序列化问题常见的坑会集中在业务场景中，比如Redis、参数和响应序列化反序列化。</p><p>今天，我们就一起聊聊开发中序列化常见的一些坑吧。</p><h2>序列化和反序列化需要确保算法一致</h2><p>业务代码中涉及序列化时，很重要的一点是要确保序列化和反序列化的算法一致性。有一次我要排查缓存命中率问题，需要运维同学帮忙拉取Redis中的Key，结果他反馈Redis中存的都是乱码，怀疑Redis被攻击了。其实呢，这个问题就是序列化算法导致的，我们来看下吧。</p><!-- [[[read_end]]] --><p>在这个案例中，开发同学使用RedisTemplate来操作Redis进行数据缓存。因为相比于Jedis，使用Spring提供的RedisTemplate操作Redis，除了无需考虑连接池、更方便外，还可以与Spring Cache等其他组件无缝整合。如果使用Spring Boot的话，无需任何配置就可以直接使用。</p><p>数据（包含Key和Value）要保存到Redis，需要经过序列化算法来序列化成字符串。虽然Redis支持多种数据结构，比如Hash，但其每一个field的Value还是字符串。如果Value本身也是字符串的话，能否有便捷的方式来使用RedisTemplate，而无需考虑序列化呢？</p><p>其实是有的，那就是StringRedisTemplate。</p><p>那StringRedisTemplate和RedisTemplate的区别是什么呢？开头提到的乱码又是怎么回事呢？带着这些问题让我们来研究一下吧。</p><p>写一段测试代码，在应用初始化完成后向Redis设置两组数据，第一次使用RedisTemplate设置Key为redisTemplate、Value为User对象，第二次使用StringRedisTemplate设置Key为stringRedisTemplate、Value为JSON序列化后的User对象：</p><pre><code>@Autowired
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是朱晔。今天，我来和你聊聊序列化相关的坑和最佳实践。</p><p>序列化是把对象转换为字节流的过程，以方便传输或存储。反序列化，则是反过来把字节流转换为对象的过程。在介绍<a href="https://time.geekbang.org/column/article/223051">文件IO</a>的时候，我提到字符编码是把字符转换为二进制的过程，至于怎么转换需要由字符集制定规则。同样地，对象的序列化和反序列化，也需要由序列化算法制定规则。</p><p>关于序列化算法，几年前常用的有JDK（Java）序列化、XML序列化等，但前者不能跨语言，后者性能较差（时间空间开销大）；现在RESTful应用最常用的是JSON序列化，追求性能的RPC框架（比如gRPC）使用protobuf序列化，这2种方法都是跨语言的，而且性能不错，应用广泛。</p><p>在架构设计阶段，我们可能会重点关注算法选型，在性能、易用性和跨平台性等中权衡，不过这里的坑比较少。通常情况下，序列化问题常见的坑会集中在业务场景中，比如Redis、参数和响应序列化反序列化。</p><p>今天，我们就一起聊聊开发中序列化常见的一些坑吧。</p><h2>序列化和反序列化需要确保算法一致</h2><p>业务代码中涉及序列化时，很重要的一点是要确保序列化和反序列化的算法一致性。有一次我要排查缓存命中率问题，需要运维同学帮忙拉取Redis中的Key，结果他反馈Redis中存的都是乱码，怀疑Redis被攻击了。其实呢，这个问题就是序列化算法导致的，我们来看下吧。</p><!-- [[[read_end]]] --><p>在这个案例中，开发同学使用RedisTemplate来操作Redis进行数据缓存。因为相比于Jedis，使用Spring提供的RedisTemplate操作Redis，除了无需考虑连接池、更方便外，还可以与Spring Cache等其他组件无缝整合。如果使用Spring Boot的话，无需任何配置就可以直接使用。</p><p>数据（包含Key和Value）要保存到Redis，需要经过序列化算法来序列化成字符串。虽然Redis支持多种数据结构，比如Hash，但其每一个field的Value还是字符串。如果Value本身也是字符串的话，能否有便捷的方式来使用RedisTemplate，而无需考虑序列化呢？</p><p>其实是有的，那就是StringRedisTemplate。</p><p>那StringRedisTemplate和RedisTemplate的区别是什么呢？开头提到的乱码又是怎么回事呢？带着这些问题让我们来研究一下吧。</p><p>写一段测试代码，在应用初始化完成后向Redis设置两组数据，第一次使用RedisTemplate设置Key为redisTemplate、Value为User对象，第二次使用StringRedisTemplate设置Key为stringRedisTemplate、Value为JSON序列化后的User对象：</p><pre><code>@Autowired
+
 private RedisTemplate redisTemplate;
 @Autowired
 private StringRedisTemplate stringRedisTemplate;

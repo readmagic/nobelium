@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是宫文学。</p><p>不知道你还记不记得，我们在<a href="https://time.geekbang.org/column/article/406179">第一节课</a>就支持了函数功能。不过那个版本的函数功能是被高度简化了的，比如，它不支持声明函数的参数，也不支持函数的返回值。</p><p>在上一节课实现了对变量的支持以后，我们终于可以进一步升级我们的函数功能了。为什么要等到这个时候呢？因为其实函数的参数的实现机制跟变量是很类似的。</p><p>为了升级我们的函数功能，我们需要完成几项任务：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是宫文学。</p><p>不知道你还记不记得，我们在<a href="https://time.geekbang.org/column/article/406179">第一节课</a>就支持了函数功能。不过那个版本的函数功能是被高度简化了的，比如，它不支持声明函数的参数，也不支持函数的返回值。</p><p>在上一节课实现了对变量的支持以后，我们终于可以进一步升级我们的函数功能了。为什么要等到这个时候呢？因为其实函数的参数的实现机制跟变量是很类似的。</p><p>为了升级我们的函数功能，我们需要完成几项任务：</p><ol>
+
 <li><strong>参考变量的机制实现函数的参数机制</strong>；</li>
 <li><strong>支持在函数内部声明和使用本地变量</strong>，这个时候，我们需要能够区分函数作用域和全局作用域，还要能够在退出函数的时候，让本地变量的生命期随之结束；</li>
 <li><strong>要支持函数的返回值</strong>。</li>

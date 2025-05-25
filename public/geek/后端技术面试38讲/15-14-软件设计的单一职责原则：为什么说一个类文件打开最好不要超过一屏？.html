@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>我在Intel工作期间，曾经接手过一个大数据SQL引擎的开发工作（<a href="https://time.geekbang.org/column/article/71634">如何自己开发一个大数据SQL引擎？</a>）。我接手的时候，这个项目已经完成了早期的技术验证和架构设计，能够处理较为简单的标准SQL语句。后续公司打算成立一个专门的小组，开发支持完整的标准SQL语法的大数据引擎，然后进一步将这个产品商业化。</p><p>我接手后打开项目一看，吓出一身冷汗，这个项目只有几个类组成，其中最大的一个类，负责SQL语法的处理，有近万行代码。代码中充斥着大量的switch/case，if/else代码，而且方法之间互相调用，各种全局变量传递。</p><p>只有输入测试SQL语句的时候，在debug状态下才能理解每一行代码的意思。而这样的代码有1万行，现在只实现了不到10%的SQL语法特性。如果将SQL的全部语法特性都实现了，那么这个类该有多么大！逻辑有多么复杂！维护有多么困难！而且还要准备一个团队来合作开发！想想看，几个人在这样一个大文件里提交代码，想想都酸爽。</p><p>这是当时这个SQL语法处理类中的一个方法，而这样的方法有上百个。</p><pre><code>  /**
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>我在Intel工作期间，曾经接手过一个大数据SQL引擎的开发工作（<a href="https://time.geekbang.org/column/article/71634">如何自己开发一个大数据SQL引擎？</a>）。我接手的时候，这个项目已经完成了早期的技术验证和架构设计，能够处理较为简单的标准SQL语句。后续公司打算成立一个专门的小组，开发支持完整的标准SQL语法的大数据引擎，然后进一步将这个产品商业化。</p><p>我接手后打开项目一看，吓出一身冷汗，这个项目只有几个类组成，其中最大的一个类，负责SQL语法的处理，有近万行代码。代码中充斥着大量的switch/case，if/else代码，而且方法之间互相调用，各种全局变量传递。</p><p>只有输入测试SQL语句的时候，在debug状态下才能理解每一行代码的意思。而这样的代码有1万行，现在只实现了不到10%的SQL语法特性。如果将SQL的全部语法特性都实现了，那么这个类该有多么大！逻辑有多么复杂！维护有多么困难！而且还要准备一个团队来合作开发！想想看，几个人在这样一个大文件里提交代码，想想都酸爽。</p><p>这是当时这个SQL语法处理类中的一个方法，而这样的方法有上百个。</p><pre><code>  /**
+
    * Digest all Not Op and merge into subq or normal filter semantics
    * After this process there should not be any NOT FB in the FB tree.
    */

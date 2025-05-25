@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>对每一个性能测试工具来说，关联和断言都是应该具备的基本功能。</p><p>但是有很多新手对关联的逻辑并不是十分理解，甚至有人觉得关联和参数化是一样的，因为它们用的都是动态的数据，并且关联过来的数据也可以用到参数化中，但不一样的点是，关联的数据后续脚本中会用到，参数化则不会。断言倒是比较容易理解，就是做判断。</p><p>那么到底该怎样理解关联和断言呢？下面我们通过两个例子来思考一下。</p><h2>关联</h2><p>现在做性能测试的，有很多都是单纯的接口级测试，这样一来，关联就用得更少了。因为接口级的测试是一发一收就结束了，不需要将数据保存下来再发送出去。</p><p>那么什么样的数据需要关联呢？满足如下条件的数据都是需要关联的：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>对每一个性能测试工具来说，关联和断言都是应该具备的基本功能。</p><p>但是有很多新手对关联的逻辑并不是十分理解，甚至有人觉得关联和参数化是一样的，因为它们用的都是动态的数据，并且关联过来的数据也可以用到参数化中，但不一样的点是，关联的数据后续脚本中会用到，参数化则不会。断言倒是比较容易理解，就是做判断。</p><p>那么到底该怎样理解关联和断言呢？下面我们通过两个例子来思考一下。</p><h2>关联</h2><p>现在做性能测试的，有很多都是单纯的接口级测试，这样一来，关联就用得更少了。因为接口级的测试是一发一收就结束了，不需要将数据保存下来再发送出去。</p><p>那么什么样的数据需要关联呢？满足如下条件的数据都是需要关联的：</p><ol>
+
 <li>数据是由服务器端生成的；</li>
 <li>数据在每一次请求时都是动态变化的；</li>
 <li>数据在后续的请求中需要再发送出去。</li>

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是黄佳。恭喜你连闯４关，成功来到最后一关“裂变关”。</p><p>回忆一下这一路的旅程，在获客关中，我们给用户分组画像；在变现关中，我们关注用户的生命周期价值；在激活关中，我们预测了App的激活数字；在留存关中，我们分析了与用户流失相关的因素。</p><p><img src="https://static001.geekbang.org/resource/image/8c/95/8ce98a4187cc752f3ab9d7ebb988da95.jpg?wh=2000x1000" alt=""></p><p>那么在裂变关中，我们将从数据中寻找蛛丝马迹，发现“易速鲜花”运营中最佳的“裂变方案”。不过，除了介绍运营中的裂变方案外，今天，我们还要好好讲一讲集成学习。</p><p>为什么要专门拿出一讲来谈集成学习呢？我们在<a href="https://time.geekbang.org/column/article/419218">第9讲</a>说过，我们用机器学习建模的过程，就是和过拟合现象持续作斗争的过程。而集成学习在机器学习中是很特别的一类方法，能够处理回归和分类问题，而且它对于避免模型中的过拟合问题，具有天然的优势。那么，集成学习的优势是怎么形成的？学习了今天的课程后你就会找到答案。</p><h2>定义问题</h2><p>老规矩，我们先来定义今天要解决的问题。</p><p>说起裂变，你可能并不会感到陌生。裂变是让产品自循环、自传播的重要工具。像邀请新人得红包、分享App领优惠券、友情助力拿赠品、朋友圈打卡退学费等等，都是裂变的玩法。</p><p>最近，“易速鲜花”运营部门提出了两个裂变思路。方案一是选择一批热销商品，让老用户邀请朋友扫码下载App并成功注册，朋友越多，折扣越大。我们把这个方案命名为“疯狂打折”，它走的是友情牌。方案二是找到一个朋友一起购买，第二件商品就可以免费赠送，这叫“买一送一”。</p><!-- [[[read_end]]] --><p>提出两个裂变方案之后，运营部门收集了<a href="https://github.com/huangjia2019/geektime/tree/main/%E8%A3%82%E5%8F%98%E5%85%B317">转化数据</a>。那么，我们今天的目标就是<strong>根据这个数据集，来判断一个特定用户在特定的裂变促销之下，是否会转化。</strong></p><p><img src="https://static001.geekbang.org/resource/image/b9/5a/b9fa22305a417d65f9704360ecc5825a.png?wh=797x182" alt=""></p><p>这个问题和我们之前预测用户是否会流失非常相似，也是一个二元分类问题。</p><p>下面我们就导入相关的包，并读入数据：</p><pre><code>import pandas as pd #导入Pandas
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是黄佳。恭喜你连闯４关，成功来到最后一关“裂变关”。</p><p>回忆一下这一路的旅程，在获客关中，我们给用户分组画像；在变现关中，我们关注用户的生命周期价值；在激活关中，我们预测了App的激活数字；在留存关中，我们分析了与用户流失相关的因素。</p><p><img src="https://static001.geekbang.org/resource/image/8c/95/8ce98a4187cc752f3ab9d7ebb988da95.jpg?wh=2000x1000" alt=""></p><p>那么在裂变关中，我们将从数据中寻找蛛丝马迹，发现“易速鲜花”运营中最佳的“裂变方案”。不过，除了介绍运营中的裂变方案外，今天，我们还要好好讲一讲集成学习。</p><p>为什么要专门拿出一讲来谈集成学习呢？我们在<a href="https://time.geekbang.org/column/article/419218">第9讲</a>说过，我们用机器学习建模的过程，就是和过拟合现象持续作斗争的过程。而集成学习在机器学习中是很特别的一类方法，能够处理回归和分类问题，而且它对于避免模型中的过拟合问题，具有天然的优势。那么，集成学习的优势是怎么形成的？学习了今天的课程后你就会找到答案。</p><h2>定义问题</h2><p>老规矩，我们先来定义今天要解决的问题。</p><p>说起裂变，你可能并不会感到陌生。裂变是让产品自循环、自传播的重要工具。像邀请新人得红包、分享App领优惠券、友情助力拿赠品、朋友圈打卡退学费等等，都是裂变的玩法。</p><p>最近，“易速鲜花”运营部门提出了两个裂变思路。方案一是选择一批热销商品，让老用户邀请朋友扫码下载App并成功注册，朋友越多，折扣越大。我们把这个方案命名为“疯狂打折”，它走的是友情牌。方案二是找到一个朋友一起购买，第二件商品就可以免费赠送，这叫“买一送一”。</p><!-- [[[read_end]]] --><p>提出两个裂变方案之后，运营部门收集了<a href="https://github.com/huangjia2019/geektime/tree/main/%E8%A3%82%E5%8F%98%E5%85%B317">转化数据</a>。那么，我们今天的目标就是<strong>根据这个数据集，来判断一个特定用户在特定的裂变促销之下，是否会转化。</strong></p><p><img src="https://static001.geekbang.org/resource/image/b9/5a/b9fa22305a417d65f9704360ecc5825a.png?wh=797x182" alt=""></p><p>这个问题和我们之前预测用户是否会流失非常相似，也是一个二元分类问题。</p><p>下面我们就导入相关的包，并读入数据：</p><pre><code>import pandas as pd #导入Pandas
+
 import numpy as np #导入NumPy
 df_fission = pd.read_csv('易速鲜花裂变转化.csv') #载入数据
 df_fission.head() #显示数据

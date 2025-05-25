@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>上一篇文章我说到，Bandit算法用的是一种走一步看一步的思路，这一点看上去非常佛系，似乎一点都不如机器学习深度学习那样厚德载物，但是且慢下结论，先看看我在前面介绍的那几个Bandit算法。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>上一篇文章我说到，Bandit算法用的是一种走一步看一步的思路，这一点看上去非常佛系，似乎一点都不如机器学习深度学习那样厚德载物，但是且慢下结论，先看看我在前面介绍的那几个Bandit算法。</p>
+
 <h2>UCB回顾</h2>
 <p>这些Bandit算法，都有一个特点：完全没有使用候选臂的特征信息。特征可是机器学习的核心要素，也是机器学习泛化推广的依赖要素。</p>
 <p>没有使用特征信息的Bandit算法，问题就在于只能对当前已有的这些候选臂进行选择，对于新加入的候选只能从0开始积累数据，而不能借助已有的候选泛化作用。</p>

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是景霄。</p><p>不知不觉中，我们又一起完成了第三大章规范篇的学习。我非常高兴看到很多同学一直在坚持积极地学习，并且留下了很多高质量的留言，值得我们互相思考交流。也有一些同学反复推敲，指出了文章中一些表达不严谨或是不当的地方，我也表示十分感谢。</p><p>大部分留言，我都在相对应的文章中回复过了。而一些手机上不方便回复，或是很有价值很典型的问题，我专门摘录了出来，作为今天的答疑内容，集中回复。</p><h2>问题一：应该使用哪种异常处理方式？</h2><p><img src="https://static001.geekbang.org/resource/image/c7/42/c766890764672c7c924092d9dfd0c942.png" alt=""></p><p>第一个问题是code2同学的疑惑。下面这两种处理的风格，哪一种风格更有效、更优雅？</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是景霄。</p><p>不知不觉中，我们又一起完成了第三大章规范篇的学习。我非常高兴看到很多同学一直在坚持积极地学习，并且留下了很多高质量的留言，值得我们互相思考交流。也有一些同学反复推敲，指出了文章中一些表达不严谨或是不当的地方，我也表示十分感谢。</p><p>大部分留言，我都在相对应的文章中回复过了。而一些手机上不方便回复，或是很有价值很典型的问题，我专门摘录了出来，作为今天的答疑内容，集中回复。</p><h2>问题一：应该使用哪种异常处理方式？</h2><p><img src="https://static001.geekbang.org/resource/image/c7/42/c766890764672c7c924092d9dfd0c942.png" alt=""></p><p>第一个问题是code2同学的疑惑。下面这两种处理的风格，哪一种风格更有效、更优雅？</p><ul>
+
 <li>第一种，在代码中对数据进行检测，并直接处理与抛出异常。</li>
 <li>第二种，在异常处理代码中进行处理。</li>
 </ul><p>其实，第一种方法，可以翻译成下面的“if…elif…”语句：</p><pre><code>if [condition1]:

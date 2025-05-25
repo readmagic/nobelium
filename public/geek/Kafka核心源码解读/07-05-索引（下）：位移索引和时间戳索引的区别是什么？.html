@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是胡夕。今天，我们继续说索引那些事儿。</p><p>在上节课，我带你重点学习了Kafka源码中索引的抽象父类AbstractIndex。我分析了AbstractIndex类的大体对象结构，还介绍了社区改进版的二分查找算法在Kafka索引上的应用。</p><p>前面说过，Kafka索引类型有三大类：位移索引、时间戳索引和已中止事务索引。相比于最后一类索引，前两类索引的出镜率更高一些。在Kafka的数据路径下，你肯定看到过很多.index和.timeindex后缀的文件。不知你是否有过这样的疑问：“这些文件是用来做什么的呢？” 现在我可以明确告诉你：.index文件就是Kafka中的位移索引文件，而.timeindex文件则是时间戳索引文件。</p><p>那么，位移索引和时间戳索引到底是做什么用的呢？它们之间的区别是什么？今天，我就为你揭晓这些问题的答案。</p><h2>位移索引</h2><p>在学习Kafka的任何一类索引的时候，我们都要关注两个问题：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是胡夕。今天，我们继续说索引那些事儿。</p><p>在上节课，我带你重点学习了Kafka源码中索引的抽象父类AbstractIndex。我分析了AbstractIndex类的大体对象结构，还介绍了社区改进版的二分查找算法在Kafka索引上的应用。</p><p>前面说过，Kafka索引类型有三大类：位移索引、时间戳索引和已中止事务索引。相比于最后一类索引，前两类索引的出镜率更高一些。在Kafka的数据路径下，你肯定看到过很多.index和.timeindex后缀的文件。不知你是否有过这样的疑问：“这些文件是用来做什么的呢？” 现在我可以明确告诉你：.index文件就是Kafka中的位移索引文件，而.timeindex文件则是时间戳索引文件。</p><p>那么，位移索引和时间戳索引到底是做什么用的呢？它们之间的区别是什么？今天，我就为你揭晓这些问题的答案。</p><h2>位移索引</h2><p>在学习Kafka的任何一类索引的时候，我们都要关注两个问题：</p><ol>
+
 <li>索引中的索引项是如何定义的？</li>
 <li>如何向索引写入新的索引项？</li>
 </ol><p>看到这里，你可能会很疑惑：“等等，难道我们不需要关心如何查询索引吗？” 当然需要啦！上节课我们不是讲过二分查找算法在索引中的应用了吗？如果你觉得有点生疏了，那就赶快先去复习一下吧。</p><!-- [[[read_end]]] --><p>现在，我们先来看下索引项的定义。</p><h3>索引项的定义</h3><p>位移索引也就是所谓的OffsetIndex，它可是一个老资历的组件了。如果我没记错的话，国内大面积使用Kafka应该是在0.8时代。从那个时候开始，OffsetIndex就已经存在了。每当Consumer需要从主题分区的某个位置开始读取消息时，Kafka就会用到OffsetIndex直接定位物理文件位置，从而避免了因为从头读取消息而引入的昂贵的I/O操作。</p><p>在上节课，我提到过，不同索引类型保存不同的&lt;Key, Value&gt;对。就OffsetIndex而言，Key就是消息的相对位移，Value是保存该消息的日志段文件中该消息第一个字节的物理文件位置。</p><p>这里我来具体解释一下相对位移的含义。还记得AbstractIndex类中的抽象方法entrySize吗？它定义了单个&lt;Key, Value&gt;对所用的字节数。对于OffsetIndex来说，entrySize就是8，如OffsetIndex.scala中定义的那样：</p><pre><code>    override def entrySize = 8

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>前面我曾介绍过隐马尔可夫和线性动态系统这类隐变量模型。所谓的隐变量表示的其实是数据的不完整性，也就是训练数据并不能给出关于模型结果的全部信息，因此只能对模型中未知的状态做出概率性的推测。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>前面我曾介绍过隐马尔可夫和线性动态系统这类隐变量模型。所谓的隐变量表示的其实是数据的不完整性，也就是训练数据并不能给出关于模型结果的全部信息，因此只能对模型中未知的状态做出概率性的推测。</p>
+
 <p>在今天这一讲中，我将和你分享一种在隐变量模型的参数学习中发挥重要作用的方法：期望最大化算法。</p>
 <p><strong>期望最大化算法</strong>（expectation-maximization algorithm, EM）是用于计算最大似然估计的迭代方法，其中的期望步骤（expectation step）利用当前的参数来生成关于隐变量概率的期望函数，最大化步骤（maximization step）则寻找让期望函数最大的一组参数，并将这组参数应用到下一轮的期望步骤中。如此循环往复，算法就可以估计出隐变量的概率分布。</p>
 <p><strong>EM算法虽然可以在不能直接求解方程时找到统计模型的最大似然参数，但它并不能保证收敛到全局最优</strong>。一般来说，似然函数的最大化会涉及对所有未知参量求导，这在隐变量模型中是无法实现的。</p>

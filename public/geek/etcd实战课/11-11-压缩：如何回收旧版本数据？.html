@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是唐聪。</p><p>今天是大年初一，你过年都有什么安排？今年过年对我来说，其实是比较特别的。除了家庭团聚走亲访友外，我多了一份陪伴。感谢你和我在这个专栏里一块精进，我衷心祝你在新的一年里平安喜乐，万事胜意。</p><p>这节课是我们基础篇里的最后一节，正巧这节课的内容也是最轻松的。新年新气象，我们就带着轻松的心情开始吧！</p><p>在<a href="https://time.geekbang.org/column/article/340226">07</a>里，我们知道etcd中的每一次更新、删除key操作，treeIndex的keyIndex索引中都会追加一个版本号，在boltdb中会生成一个新版本boltdb key和value。也就是随着你不停更新、删除，你的etcd进程内存占用和db文件就会越来越大。很显然，这会导致etcd OOM和db大小增长到最大db配额，最终不可写。</p><p>那么etcd是通过什么机制来回收历史版本数据，控制索引内存占用和db大小的呢？</p><p>这就是我今天要和你分享的etcd压缩机制。希望通过今天的这节课，能帮助你理解etcd压缩原理，在使用etcd过程中能根据自己的业务场景，选择适合的压缩策略，避免db大小增长失控而不可写入，帮助你构建稳定的etcd服务。</p><h2>整体架构</h2><p><img src="https://static001.geekbang.org/resource/image/7c/21/7c5d5212fa14yy6aaf843ae3dfc5f721.png" alt=""></p><p>在了解etcd压缩模块实现细节前，我先给你画了一幅压缩模块的整体架构图。从图中可知，你可以通过client API发起人工的压缩(Compact)操作，也可以配置自动压缩策略。在自动压缩策略中，你可以根据你的业务场景选择合适的压缩模式。目前etcd支持两种压缩模式，分别是时间周期性压缩和版本号压缩。</p><!-- [[[read_end]]] --><p>当你通过API发起一个Compact请求后，KV Server收到Compact请求提交到Raft模块处理，在Raft模块中提交后，Apply模块就会通过MVCC模块的Compact接口执行此压缩任务。</p><p>Compact接口首先会更新当前server已压缩的版本号，并将耗时昂贵的压缩任务保存到FIFO队列中异步执行。压缩任务执行时，它首先会压缩treeIndex模块中的keyIndex索引，其次会遍历boltdb中的key，删除已废弃的key。</p><p>以上就是压缩模块的一个工作流程。接下来我会首先和你介绍如何人工发起一个Compact操作，然后详细介绍周期性压缩模式、版本号压缩模式的工作原理，最后再给你介绍Compact操作核心的原理。</p><h2>压缩特性初体验</h2><p>在使用etcd过程中，当你遇到"etcdserver: mvcc: database space exceeded"错误时，若是你未开启压缩策略导致db大小达到配额，这时你可以使用etcdctl compact命令，主动触发压缩操作，回收历史版本。</p><p>如下所示，你可以先通过endpoint status命令获取etcd当前版本号，然后再通过etcdctl compact命令发起压缩操作即可。</p><pre><code># 获取etcd当前版本号
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是唐聪。</p><p>今天是大年初一，你过年都有什么安排？今年过年对我来说，其实是比较特别的。除了家庭团聚走亲访友外，我多了一份陪伴。感谢你和我在这个专栏里一块精进，我衷心祝你在新的一年里平安喜乐，万事胜意。</p><p>这节课是我们基础篇里的最后一节，正巧这节课的内容也是最轻松的。新年新气象，我们就带着轻松的心情开始吧！</p><p>在<a href="https://time.geekbang.org/column/article/340226">07</a>里，我们知道etcd中的每一次更新、删除key操作，treeIndex的keyIndex索引中都会追加一个版本号，在boltdb中会生成一个新版本boltdb key和value。也就是随着你不停更新、删除，你的etcd进程内存占用和db文件就会越来越大。很显然，这会导致etcd OOM和db大小增长到最大db配额，最终不可写。</p><p>那么etcd是通过什么机制来回收历史版本数据，控制索引内存占用和db大小的呢？</p><p>这就是我今天要和你分享的etcd压缩机制。希望通过今天的这节课，能帮助你理解etcd压缩原理，在使用etcd过程中能根据自己的业务场景，选择适合的压缩策略，避免db大小增长失控而不可写入，帮助你构建稳定的etcd服务。</p><h2>整体架构</h2><p><img src="https://static001.geekbang.org/resource/image/7c/21/7c5d5212fa14yy6aaf843ae3dfc5f721.png" alt=""></p><p>在了解etcd压缩模块实现细节前，我先给你画了一幅压缩模块的整体架构图。从图中可知，你可以通过client API发起人工的压缩(Compact)操作，也可以配置自动压缩策略。在自动压缩策略中，你可以根据你的业务场景选择合适的压缩模式。目前etcd支持两种压缩模式，分别是时间周期性压缩和版本号压缩。</p><!-- [[[read_end]]] --><p>当你通过API发起一个Compact请求后，KV Server收到Compact请求提交到Raft模块处理，在Raft模块中提交后，Apply模块就会通过MVCC模块的Compact接口执行此压缩任务。</p><p>Compact接口首先会更新当前server已压缩的版本号，并将耗时昂贵的压缩任务保存到FIFO队列中异步执行。压缩任务执行时，它首先会压缩treeIndex模块中的keyIndex索引，其次会遍历boltdb中的key，删除已废弃的key。</p><p>以上就是压缩模块的一个工作流程。接下来我会首先和你介绍如何人工发起一个Compact操作，然后详细介绍周期性压缩模式、版本号压缩模式的工作原理，最后再给你介绍Compact操作核心的原理。</p><h2>压缩特性初体验</h2><p>在使用etcd过程中，当你遇到"etcdserver: mvcc: database space exceeded"错误时，若是你未开启压缩策略导致db大小达到配额，这时你可以使用etcdctl compact命令，主动触发压缩操作，回收历史版本。</p><p>如下所示，你可以先通过endpoint status命令获取etcd当前版本号，然后再通过etcdctl compact命令发起压缩操作即可。</p><pre><code># 获取etcd当前版本号
+
 $ rev=$(etcdctl endpoint status --write-out=&quot;json&quot; | egrep -o '&quot;revision&quot;:[0-9]*' | egrep -o '[0-9].*')
 $ echo $rev
 9

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><h1>读写分离 CQRS</h1>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><h1>读写分离 CQRS</h1>
+
 <p>读写分离是数据库扩展最简单实用的玩法了，这种方法针对读多写少的业务场景还是很管用的，而且还可以有效地把业务做相应的隔离。</p>
 <p>如下图所示，数据库只有一个写库，有两个读库，所有的服务都写一个数据库。对于读操作来说，服务A和服务B走从库A，服务D和服务E走从库B，服务C在从库A和从库B间做轮询。</p>
 <p><img src="https://static001.geekbang.org/resource/image/27/a7/27ece98f96d18b6197f2184eb2c9c9a7.jpg?wh=1740x936" alt="" /></p>

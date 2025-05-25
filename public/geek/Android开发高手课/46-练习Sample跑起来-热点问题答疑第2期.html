@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是孙鹏飞。今天我们基于<a href="http://time.geekbang.org/column/article/71982">专栏第5期</a>的练习Sample以及热点问题，我来给你做答疑。有关上一期答疑，你可以点击<a href="http://time.geekbang.org/column/article/73068">这里</a>查看。</p><p>为了让同学们可以进行更多的实践，专栏第5期Sample采用了让你自己实现部分功能的形式，希望可以让你把专栏里讲的原理可以真正用起来。</p><p>前面几期已经有同学通过Pull request提交了练习作业，这里要给每位参与练习、提交作业的同学点个赞。</p><p>第5期的作业是根据系统源码来完成一个CPU数据的采集工具，并且在结尾我们提供了一个案例让你进行分析。我已经将例子的实现提交到了<a href="http://github.com/AndroidAdvanceWithGeektime/Chapter05">GitHub</a>上，你可以参考一下。</p><p>在文中提到，“当发生ANR的时候，Android系统会打印CPU相关的信息到日志中，使用的是<a href="http://androidxref.com/9.0.0_r3/xref/frameworks/base/core/java/com/android/internal/os/ProcessCpuTracker.java">ProcessCpuTracker.java</a>”。ProcessCpuTracker的实现主要依赖于Linux里的/proc伪文件系统（in-memory pseudo-file system），主要使用到了/proc/stat、/proc/loadavg、/proc/[pid]/stat、/proc/[pid]/task相关的文件来读取数据。在Linux中有很多程序都依赖/proc下的数据，比如top、netstat、ifconfig等，Android里常用的procrank、librank、procmem等也都以此作为数据来源。关于/proc目录的结构在Linux Man Pages里有很详细的说明，在《Linux/Unix系统编程手册》这本书里，也有相关的中文说明。</p><!-- [[[read_end]]] --><p>关于proc有一些需要说明的地方，在不同的Linux内核中，该目录下的内容可能会有所不同，所以如果要使用该目录下的数据，可能需要做一些版本上的兼容处理。并且由于Linux内核更新速度较快，文档的更新可能还没有跟上，这就会导致一些数据和文档中说明的不一致，尤其是大量的以空格隔开的数字数据。这些文件其实并不是真正的文件，你用ls查看会发现它们的大小都是0，这些文件都是系统虚拟出来的，读取这些文件并不会涉及文件系统的一系列操作，只有很小的性能开销，而现阶段并没有类似文件系统监听文件修改的回调，所以需要采用轮询的方式来进行数据采集。</p><p>下面我们来看一下专栏文章结尾的案例分析。下面是这个示例的日志数据，我会通过分析数据来猜测一下是什么原因引起，并用代码还原这个情景。</p><pre><code>usage: CPU usage 5000ms(from 23:23:33.000 to 23:23:38.000):
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是孙鹏飞。今天我们基于<a href="http://time.geekbang.org/column/article/71982">专栏第5期</a>的练习Sample以及热点问题，我来给你做答疑。有关上一期答疑，你可以点击<a href="http://time.geekbang.org/column/article/73068">这里</a>查看。</p><p>为了让同学们可以进行更多的实践，专栏第5期Sample采用了让你自己实现部分功能的形式，希望可以让你把专栏里讲的原理可以真正用起来。</p><p>前面几期已经有同学通过Pull request提交了练习作业，这里要给每位参与练习、提交作业的同学点个赞。</p><p>第5期的作业是根据系统源码来完成一个CPU数据的采集工具，并且在结尾我们提供了一个案例让你进行分析。我已经将例子的实现提交到了<a href="http://github.com/AndroidAdvanceWithGeektime/Chapter05">GitHub</a>上，你可以参考一下。</p><p>在文中提到，“当发生ANR的时候，Android系统会打印CPU相关的信息到日志中，使用的是<a href="http://androidxref.com/9.0.0_r3/xref/frameworks/base/core/java/com/android/internal/os/ProcessCpuTracker.java">ProcessCpuTracker.java</a>”。ProcessCpuTracker的实现主要依赖于Linux里的/proc伪文件系统（in-memory pseudo-file system），主要使用到了/proc/stat、/proc/loadavg、/proc/[pid]/stat、/proc/[pid]/task相关的文件来读取数据。在Linux中有很多程序都依赖/proc下的数据，比如top、netstat、ifconfig等，Android里常用的procrank、librank、procmem等也都以此作为数据来源。关于/proc目录的结构在Linux Man Pages里有很详细的说明，在《Linux/Unix系统编程手册》这本书里，也有相关的中文说明。</p><!-- [[[read_end]]] --><p>关于proc有一些需要说明的地方，在不同的Linux内核中，该目录下的内容可能会有所不同，所以如果要使用该目录下的数据，可能需要做一些版本上的兼容处理。并且由于Linux内核更新速度较快，文档的更新可能还没有跟上，这就会导致一些数据和文档中说明的不一致，尤其是大量的以空格隔开的数字数据。这些文件其实并不是真正的文件，你用ls查看会发现它们的大小都是0，这些文件都是系统虚拟出来的，读取这些文件并不会涉及文件系统的一系列操作，只有很小的性能开销，而现阶段并没有类似文件系统监听文件修改的回调，所以需要采用轮询的方式来进行数据采集。</p><p>下面我们来看一下专栏文章结尾的案例分析。下面是这个示例的日志数据，我会通过分析数据来猜测一下是什么原因引起，并用代码还原这个情景。</p><pre><code>usage: CPU usage 5000ms(from 23:23:33.000 to 23:23:38.000):
+
 System TOTAL: 2.1% user + 16% kernel + 9.2% iowait + 0.2% irq + 0.1% softirq + 72% idle
 CPU Core: 8
 Load Average: 8.74 / 7.74 / 7.36

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>在咱们专栏的第一模块，我向你介绍了如何使用 WebRTC 进行实现音视频互动。随着 Google 对 WebRTC 的大力推广，目前主流的浏览器都支持了 WebRTC。WebRTC 最主要的功能就是提供端对端的音视频通信，其可以借助 STUN/TURN 服务器完成 NAT 穿越，实现两个端点之间的直接通信。</p><p>1对1的实时通信无疑是 WebRTC 最主要的应用场景，但你是否想过 WebRTC 可以通过浏览器实现多人音视频会议呢？更进一步，你是否想过 WebRTC 可以实现一些直播平台中上万人甚至几十万人同时在线的场景呢？</p><p>如果你对上面的问题感兴趣，那本文将让你对上面问题有个全面的了解，接下来就让我们一起开启本次神秘之旅吧！</p><h2>流媒体服务器Medooze</h2><p>正如我们在<a href="https://time.geekbang.org/column/article/134284">《25 | 那些常见的流媒体服务器，你该选择谁？》</a>一文中介绍的，要实现多个浏览器之间的实时音视频通信（比如音视频会议），那么就一定需要一个支持 WebRTC 协议的流媒体服务器。目前，有很多开源的项目支持 WebRTC 协议， Medooze 就是其中之一。</p><p>Medooze的功能十分强大，通过它你既可以实现 SFU 类型的流媒体服务器，也可以实现MCU类型的流媒体服务器。而且，它还支持多种媒体流接入，也就是说，你除了可以通过浏览器（WebRTC）向Medooze分享音视频流之外，还可以使用 FFmpeg/VLC 等工具将 RTMP 协议的音视频流推送给 Meoodze。更加神奇的是，无论是 WebRTC 分享的音视频流还是 RTMP 格式的音视频流通过Medooze转发后，浏览器就可以将 FFmpeg/VLC推的流显示出来，而VLC也可以将 WebRTC 分享的音视频显示出来，这就是 Medooze 的强大之处。</p><!-- [[[read_end]]] --><p>接下来，我们将从Medooze的 SFU 模型、录制回放模型和推流模型这三个方面向你全面、详细地介绍 Medooze。</p><h3>1. Medooze的 SFU 模型</h3><p>SFU 模型的概念我们已经在<a href="https://time.geekbang.org/column/article/132863">《24 | 多人音视频实时通讯是怎样的架构？》</a>一文中做过介绍了，这里就不再赘述了！下面这张图是 Medooze 实现 SFU 服务器的大体结构图：</p><p><img src="https://static001.geekbang.org/resource/image/f9/94/f9d36818221629f67f06a49eb4003294.png" alt=""></p><center><span class="reference">Medooze SFU 模型结构图</span></center><p>图的最外层标有 Browser 的模块表示浏览器，在本图中就是表示基于浏览器的 WebRTC 终端。</p><p>图的中间标有 Medooze 的模块是服务器，实现了 SFU 功能。其中 DTLSICETransport 既是传输层（控制socket收发包），也是一个容器，在该容器中可以放IncomingStream 和 OutgoingStream。</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>在咱们专栏的第一模块，我向你介绍了如何使用 WebRTC 进行实现音视频互动。随着 Google 对 WebRTC 的大力推广，目前主流的浏览器都支持了 WebRTC。WebRTC 最主要的功能就是提供端对端的音视频通信，其可以借助 STUN/TURN 服务器完成 NAT 穿越，实现两个端点之间的直接通信。</p><p>1对1的实时通信无疑是 WebRTC 最主要的应用场景，但你是否想过 WebRTC 可以通过浏览器实现多人音视频会议呢？更进一步，你是否想过 WebRTC 可以实现一些直播平台中上万人甚至几十万人同时在线的场景呢？</p><p>如果你对上面的问题感兴趣，那本文将让你对上面问题有个全面的了解，接下来就让我们一起开启本次神秘之旅吧！</p><h2>流媒体服务器Medooze</h2><p>正如我们在<a href="https://time.geekbang.org/column/article/134284">《25 | 那些常见的流媒体服务器，你该选择谁？》</a>一文中介绍的，要实现多个浏览器之间的实时音视频通信（比如音视频会议），那么就一定需要一个支持 WebRTC 协议的流媒体服务器。目前，有很多开源的项目支持 WebRTC 协议， Medooze 就是其中之一。</p><p>Medooze的功能十分强大，通过它你既可以实现 SFU 类型的流媒体服务器，也可以实现MCU类型的流媒体服务器。而且，它还支持多种媒体流接入，也就是说，你除了可以通过浏览器（WebRTC）向Medooze分享音视频流之外，还可以使用 FFmpeg/VLC 等工具将 RTMP 协议的音视频流推送给 Meoodze。更加神奇的是，无论是 WebRTC 分享的音视频流还是 RTMP 格式的音视频流通过Medooze转发后，浏览器就可以将 FFmpeg/VLC推的流显示出来，而VLC也可以将 WebRTC 分享的音视频显示出来，这就是 Medooze 的强大之处。</p><!-- [[[read_end]]] --><p>接下来，我们将从Medooze的 SFU 模型、录制回放模型和推流模型这三个方面向你全面、详细地介绍 Medooze。</p><h3>1. Medooze的 SFU 模型</h3><p>SFU 模型的概念我们已经在<a href="https://time.geekbang.org/column/article/132863">《24 | 多人音视频实时通讯是怎样的架构？》</a>一文中做过介绍了，这里就不再赘述了！下面这张图是 Medooze 实现 SFU 服务器的大体结构图：</p><p><img src="https://static001.geekbang.org/resource/image/f9/94/f9d36818221629f67f06a49eb4003294.png" alt=""></p><center><span class="reference">Medooze SFU 模型结构图</span></center><p>图的最外层标有 Browser 的模块表示浏览器，在本图中就是表示基于浏览器的 WebRTC 终端。</p><p>图的中间标有 Medooze 的模块是服务器，实现了 SFU 功能。其中 DTLSICETransport 既是传输层（控制socket收发包），也是一个容器，在该容器中可以放IncomingStream 和 OutgoingStream。</p><ul>
+
 <li>IncomingStream，代表某客户端共享的音视频流。</li>
 <li>OutgoingStream，代表某个客户端需要观看的音视频流。</li>
 </ul><p>你也可以把它们直接当作是两个队列，IncomingStream 是输入队列，OutgoingStream是输出队列。</p><p>有了上面这些概念，那我们来看看在Medooze中从一端进来的音视频流是怎么中转给其他人的。</p><ul>

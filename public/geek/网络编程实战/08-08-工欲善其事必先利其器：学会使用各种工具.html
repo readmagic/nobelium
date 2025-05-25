@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是盛延敏，这里是网络编程实战第8讲，欢迎回来。</p><p>上一讲我们讲到了本地套接字，加上前面介绍的TCP、UDP套接字，你会发现我们已经比较全面地接触了套接字。</p><p>其实在平常使用套接字开发和测试过程中，我们总会碰到这样或那样的问题。学会对这些问题进行诊断和分析，其实需要不断地积累经验。而Linux平台下提供的各种网络工具，则为我们进行诊断分析提供了很好的帮助。在这一讲里，我将会选择几个重点的工具逐一介绍。</p><h2>必备工具: ping</h2><p>这个命令我想大家都不陌生，“ping”这个命名来自于声呐探测，在网络上用来完成对网络连通性的探测，这个命名可以说是恰如其分了。</p><pre><code>$ ping www.sina.com.cn
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是盛延敏，这里是网络编程实战第8讲，欢迎回来。</p><p>上一讲我们讲到了本地套接字，加上前面介绍的TCP、UDP套接字，你会发现我们已经比较全面地接触了套接字。</p><p>其实在平常使用套接字开发和测试过程中，我们总会碰到这样或那样的问题。学会对这些问题进行诊断和分析，其实需要不断地积累经验。而Linux平台下提供的各种网络工具，则为我们进行诊断分析提供了很好的帮助。在这一讲里，我将会选择几个重点的工具逐一介绍。</p><h2>必备工具: ping</h2><p>这个命令我想大家都不陌生，“ping”这个命名来自于声呐探测，在网络上用来完成对网络连通性的探测，这个命名可以说是恰如其分了。</p><pre><code>$ ping www.sina.com.cn
+
 PING www.sina.com.cn (202.102.94.124) 56(84) bytes of data.
 64 bytes from www.sina.com.cn (202.102.94.124): icmp_seq=1 ttl=63 time=8.64 ms
 64 bytes from www.sina.com.cn (202.102.94.124): icmp_seq=2 ttl=63 time=11.3 ms

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><blockquote>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><blockquote>
+
 <p>编者按：东白老师于1月16日在极客时间开设了一场直播。这场直播持续了一个半小时，不仅直播间的讨论、互动氛围很热烈，还有很多同学反馈直播内容优质，希望可以看到逻辑更为严谨的文字版。所以，在恢复更新的今天，我们先更新这场直播的文字整理版。完整直播回放，可以<a href="https://www.bilibili.com/video/BV1KP4y1N7rW?spm_id_from=333.999.0.0">点击链接</a>观看。那么下周，我们将开始更新正文的第二个模块。</p>
 </blockquote><p>你好，我是郭东白。今天我要讲的话题是“从技术战略到架构选型——谈谈架构师能为企业带来哪些增量价值”。从内容上，我会分为三大部分。首先是我对技术战略的定义和理解，其次是架构师该如何为企业注入外部适应性，从而为企业带来竞争力。最后，我会用一个来自阿里速卖通的跨境电商的真实案例，来帮助你理解和应用。</p><p>这场直播的内容，最初是为CTO与决策者们制定技术战略而推出的。不过我认为作为一线架构师，如果能理解决策者们在战略制定过程中的思考和取舍，那么你的执行将会变得更为高效，决策能力也会大幅提升。所以今天我就再来分享一下。</p><p>在直播过程中，有些口语表达可能不太准确。如果视频与文字稿有出入，请以文字稿为准。另外，视频与文字稿中的PPT，均来自过去已经公开分享过的一些数据与架构图，并未涉及企业隐私。那么接下来，我们正式开始。</p><!-- [[[read_end]]] --><h2>什么是技术战略？</h2><p>技术战略的英文定义，在牛津字典中是这么描述的：“the art of planning and directing overall military operations and movements in a war or battle（在战争中，如何计划和指挥整个军事行动和军事运作）”。</p><p>从这个定义中我们可以推导出企业的战略，指的就是一个企业为赢得市场竞争而制定的企业管理与经营规划。那么再结合我多年的架构实践，我认为技术战略的定义是这样的：<strong>针对企业愿景、团队特性和竞争环境所制定的长期技术规划，是企业战略的一个重要组成部分。</strong></p><p>从我为技术战略下定义的视角来看，战略制定者需要把更多的思考放在如下三组问题上。</p><p>第一组是关于取舍的问题：我们的战略重心要放在哪里，重点要做什么，要主动放弃什么。目的是明确目标，并对正确目标形成精准打击。</p><p>只要谈战略，就必须有取有舍。背后的原因很简单，只要我们追逐的目标足够大，必然会有大量公司涌入到竞争中。因此企业能投入的资源以及面临的竞争，都要求我们必须在规划上有所取舍，这样才能在一个精准的正确目标上赢得决定性的胜利。</p><p>我们模块一的第一条法则，讲的就是架构师做架构时必须要有一个正确的目标。所谓有正确的目标，就是将那些对企业战略价值贡献不大的目标舍弃。这就是“舍”的过程。同时，将对企业战略价值贡献最大的部分，也就是对正确目标做最大化投入的精准打击。这就是“取”的过程。如果不懂得取舍，那么技术战略根本无从谈起。</p><p>第二组是关于攻防的问题。<strong>技术战略是攻防</strong>，需要扬长避短、攻守兼备。</p><p>企业战略肯定会面临竞争，与别人对打。这是一个有攻有守的过程。而且最终肯定是要定输赢的，并不是什么多赢或双赢，因此我们都希望自己是胜出的那一方。那么技术战略在这一点上必须给予企业战略最大的助力，帮助企业最终在竞争中胜出。</p><p>这里需要着重说一下扬长避短，它与我们在第五条法则里强调的业务理解是相呼应的。要做到扬长避短，首先要理解企业的竞争优势在哪儿，竞争劣势在哪儿，应该重构什么技术能力。这样才能放大企业的优势，同时也能保护好企业的劣势，避免在竞争中受到致命性的攻击。</p><p>第三组是关于终局的问题。技术战略是终局，需要走长期主义路线，才能成为最后的赢家。</p><p>企业战略是面向终局的，最终要赢得整个商业战争，而不仅仅是赢得地区性的、或者单次大促上的战斗。是否要坚持长期主义，其实就是战略与战术的区别。讲战略，就必须要坚持长期主义，而战术则不需要。</p><p>理解了战略制定的三组重要问题，那么接下来的问题就是：<strong>在布局技术战略的过程中，架构师需要做些什么呢？</strong>在我看来，架构师就是要通过技术帮助企业实现战略意图。</p><p>在企业层面，我们很少听到战略意图。多数时候我们都是在讲Mission、Vision and Values，也就是企业的使命、愿景和价值观。从本质上看，使命指导愿景的制定，愿景是对当下战略意图的具象表达，价值观则对实现愿景的手段做了一定程度的约束。</p><p>如下所示，是目前几家互联网头部企业的愿景描述（Vision Statement）：</p><blockquote>
 <p>Microsoft:There will be a personal computer on every desk running Microsoft software.</p>

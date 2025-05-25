@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>在文本挖掘中，有一项重要的工作就是分析和挖掘出文本中隐含的结构信息，而不依赖任何提前标注的信息。今天我要介绍的是一个叫做<strong>LDA</strong>（Latent Dirichlet Allocation）的模型，它在过去十年里开启了一个领域叫<strong>主题模型</strong>。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>在文本挖掘中，有一项重要的工作就是分析和挖掘出文本中隐含的结构信息，而不依赖任何提前标注的信息。今天我要介绍的是一个叫做<strong>LDA</strong>（Latent Dirichlet Allocation）的模型，它在过去十年里开启了一个领域叫<strong>主题模型</strong>。</p>
+
 <p>从LDA提出后，不少学者都利用它来分析各式各样的文档数据，从新闻数据到医药文档，从考古文献到政府公文。一段时间内，LDA成了分析文本信息的标准工具。从最原始的LDA发展出来的各类模型变种，则被应用到了多种数据类型上，包括图像、音频、混合信息、推荐系统、文档检索等等，各类主题模型变种层出不穷。下面我来简单剖析一下LDA这个模型，聊聊它的模型描述以及训练方法等基础知识。</p>
 <h2>LDA的背景介绍</h2>
 <p>LDA的论文作者是戴维·布雷（David Blei）、吴恩达和迈克尔·乔丹（Michael Jordan）。这三位都是今天机器学习界炙手可热的人物。论文最早发表在2002年的神经信息处理系统大会（Neural Information Processing Systems，简称NIPS）上，然后长文章（Long Paper）于2003年在机器学习顶级期刊《机器学习研究杂志》（Journal of Machine Learning Research）上发表。迄今为止，这篇论文已经有超过1万9千次的引用数，也成了机器学习史上的重要文献之一。</p>

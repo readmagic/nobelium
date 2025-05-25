@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是朱涛。这节加餐，我们来聊聊空安全思维。</p><p>空（null），是很多编程语言中都有的设计，不同的语言中名字也都不太一样，比如Java和Kotlin里叫null，在Swift里叫做nil，而Objective-C当中，根据情况的不同还细分了NULL、nil、Nil等等。</p><p>如果你有Java的经验，那你一定不会对NullPointerException（NPE，代码中常见的逻辑错误）感到陌生。null会引起NPE，但是在很多场景下，你却不得不使用它。因为null用起来实在是太方便了。比如说，前面<a href="https://time.geekbang.org/column/article/473656">第4讲</a>里，我提到的计算器程序当中的calculate()方法，它的返回值就是可为空的，当我们的输入不合法的时候，calculate()就会返回null。</p><p>一般来说，我们会习惯性地用null来解决以下这些场景的问题：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是朱涛。这节加餐，我们来聊聊空安全思维。</p><p>空（null），是很多编程语言中都有的设计，不同的语言中名字也都不太一样，比如Java和Kotlin里叫null，在Swift里叫做nil，而Objective-C当中，根据情况的不同还细分了NULL、nil、Nil等等。</p><p>如果你有Java的经验，那你一定不会对NullPointerException（NPE，代码中常见的逻辑错误）感到陌生。null会引起NPE，但是在很多场景下，你却不得不使用它。因为null用起来实在是太方便了。比如说，前面<a href="https://time.geekbang.org/column/article/473656">第4讲</a>里，我提到的计算器程序当中的calculate()方法，它的返回值就是可为空的，当我们的输入不合法的时候，calculate()就会返回null。</p><p>一般来说，我们会习惯性地用null来解决以下这些场景的问题：</p><ul>
+
 <li>当变量还没初始化的时候，用null赋值；</li>
 <li>当变量的值不合法的时候，用null赋值；</li>
 <li>当变量的值计算错误的时候，用null赋值。</li>

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是Rocky。</p><p>今天我们继续来谈一谈智能交互。在<a href="https://time.geekbang.org/column/article/355099">15</a>课的时候我们谈了语音交互，今天我们来谈谈更广义的智能交互。</p><p>以前提到智慧交互的时候，人们第一时间会想到的是语音交互、智能音箱。现如今随着计算机视觉兴起，智能系统可以更加准确地去理解人的体态、表情、情绪。</p><p>而未来可以预见的是脑机接口，让智能系统更加精准地去理解人的意图。在这种背景下，智能可能无处不在，比如智能家居、安防、金融、零售、交通、教育、医疗、健康、制造、交通等等。但从交互上来看，不管是什么场景，交互无非还是那么几种。所以这节课我尝试从人因的角度，透过现象看本质，带你探寻一个智能系统和人交互的基本特点。</p><h2>AI系统设计的挑战</h2><p>首先我们来看看我们在AI系统设计中，究竟会面对哪些挑战。</p><p>作为一个智能交互系统，有三个特点我们是必须要面对的：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是Rocky。</p><p>今天我们继续来谈一谈智能交互。在<a href="https://time.geekbang.org/column/article/355099">15</a>课的时候我们谈了语音交互，今天我们来谈谈更广义的智能交互。</p><p>以前提到智慧交互的时候，人们第一时间会想到的是语音交互、智能音箱。现如今随着计算机视觉兴起，智能系统可以更加准确地去理解人的体态、表情、情绪。</p><p>而未来可以预见的是脑机接口，让智能系统更加精准地去理解人的意图。在这种背景下，智能可能无处不在，比如智能家居、安防、金融、零售、交通、教育、医疗、健康、制造、交通等等。但从交互上来看，不管是什么场景，交互无非还是那么几种。所以这节课我尝试从人因的角度，透过现象看本质，带你探寻一个智能系统和人交互的基本特点。</p><h2>AI系统设计的挑战</h2><p>首先我们来看看我们在AI系统设计中，究竟会面对哪些挑战。</p><p>作为一个智能交互系统，有三个特点我们是必须要面对的：</p><ul>
+
 <li>智能系统会根据获取的信息自行作出一些判断和回应，而且这些回应很多时候是不完美的；</li>
 <li>智能系统是一个进化系统，它在不停学习，进步或者退步完全取决于训练的数据（和教育一个孩子类似）；</li>
 <li>由于它会学习并能主动回应，因此未来演进的状况是未知的，并不能简单预测（和一个孩子的成长类似）。</li>

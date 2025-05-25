@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>上两节，我们解读了task_struct的大部分的成员变量。这样一个任务执行的方方面面，都可以很好地管理起来，但是其中有一个问题我们没有谈。在程序执行过程中，一旦调用到系统调用，就需要进入内核继续执行。那如何将用户态的执行和内核态的执行串起来呢？</p><p>这就需要以下两个重要的成员变量：</p><pre><code>struct thread_info		thread_info;
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>上两节，我们解读了task_struct的大部分的成员变量。这样一个任务执行的方方面面，都可以很好地管理起来，但是其中有一个问题我们没有谈。在程序执行过程中，一旦调用到系统调用，就需要进入内核继续执行。那如何将用户态的执行和内核态的执行串起来呢？</p><p>这就需要以下两个重要的成员变量：</p><pre><code>struct thread_info		thread_info;
+
 void  *stack;
 </code></pre><h2>用户态函数栈</h2><p>在用户态中，程序的执行往往是一个函数调用另一个函数。函数调用都是通过栈来进行的。我们前面大致讲过函数栈的原理，今天我们仔细分析一下。</p><p>函数调用其实也很简单。如果你去看汇编语言的代码，其实就是指令跳转，从代码的一个地方跳到另外一个地方。这里比较棘手的问题是，参数和返回地址应该怎么传递过去呢？</p><p>我们看函数的调用过程，A调用B、调用C、调用D，然后返回C、返回B、返回A，这是一个后进先出的过程。有没有觉得这个过程很熟悉？没错，咱们数据结构里学的栈，也是后进先出的，所以用栈保存这些最合适。</p><p>在进程的内存空间里面，栈是一个从高地址到低地址，往下增长的结构，也就是上面是栈底，下面是栈顶，入栈和出栈的操作都是从下面的栈顶开始的。</p><p><img src="https://static001.geekbang.org/resource/image/ae/2e/aec865abccf0308155f4138cc905972e.jpg?wh=1846*1619" alt=""></p><p>我们先来看32位操作系统的情况。在CPU里，<strong>ESP</strong>（Extended Stack Pointer）是栈顶指针寄存器，入栈操作Push和出栈操作Pop指令，会自动调整ESP的值。另外有一个寄存器<strong>EBP</strong>（Extended Base Pointer），是栈基地址指针寄存器，指向当前栈帧的最底部。</p><!-- [[[read_end]]] --><p>例如，A调用B，A的栈里面包含A函数的局部变量，然后是调用B的时候要传给它的参数，然后返回A的地址，这个地址也应该入栈，这就形成了A的栈帧。接下来就是B的栈帧部分了，先保存的是A栈帧的栈底位置，也就是EBP。因为在B函数里面获取A传进来的参数，就是通过这个指针获取的，接下来保存的是B的局部变量等等。</p><p>当B返回的时候，返回值会保存在EAX寄存器中，从栈中弹出返回地址，将指令跳转回去，参数也从栈中弹出，然后继续执行A。</p><p>对于64位操作系统，模式多少有些不一样。因为64位操作系统的寄存器数目比较多。rax用于保存函数调用的返回结果。栈顶指针寄存器变成了rsp，指向栈顶位置。堆栈的Pop和Push操作会自动调整rsp，栈基指针寄存器变成了rbp，指向当前栈帧的起始位置。</p><p>改变比较多的是参数传递。rdi、rsi、rdx、rcx、r8、r9这6个寄存器，用于传递存储函数调用时的6个参数。如果超过6的时候，还是需要放到栈里面。</p><p>然而，前6个参数有时候需要进行寻址，但是如果在寄存器里面，是没有地址的，因而还是会放到栈里面，只不过放到栈里面的操作是被调用函数做的。</p><p><img src="https://static001.geekbang.org/resource/image/77/c0/770b0036a8b2695463cd95869f5adec0.jpg?wh=1840*1973" alt=""></p><p>以上的栈操作，都是在进程的内存空间里面进行的。</p><h2>内核态函数栈</h2><p>接下来，我们通过系统调用，从进程的内存空间到内核中了。内核中也有各种各样的函数调用来调用去的，也需要这样一个机制，这该怎么办呢？</p><p>这时候，上面的成员变量stack，也就是内核栈，就派上了用场。</p><p>Linux给每个task都分配了内核栈。在32位系统上arch/x86/include/asm/page_32_types.h，是这样定义的：一个PAGE_SIZE是4K，左移一位就是乘以2，也就是8K。</p><pre><code>#define THREAD_SIZE_ORDER	1
 #define THREAD_SIZE		(PAGE_SIZE &lt;&lt; THREAD_SIZE_ORDER)

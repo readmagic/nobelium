@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是LMOS。</p><p>在前面的课程中，我们已经实现了Cosmos下的文件系统rfs，相信你已经感受到了一个文件系统是如何管理文件的。今天我们一起来瞧一瞧Linux是如何管理文件，也验证一下Linux那句口号：一切皆为文件。</p><p>为此，我们需要首先搞清楚什么是VFS，接着理清为了实现VFS所用到的数据结构，然后看看一个文件的打开、读写、关闭的过程，最后我们还要亲自动手实践，在VFS下实现一个“小”且“能跑”的文件系统。</p><p>下面让我们开始吧！这节课的配套代码，你可以从<a href="https://gitee.com/lmos/cosmos/tree/master/lesson35">这里</a>下载。</p><h2>什么是VFS</h2><p>VFS（Virtual Filesystem）就像伙伴系统、SLAB内存管理算法一样，也是SUN公司最早在Sloaris上实现的虚拟文件系统，也可以理解为通用文件系统抽象层。Linux又一次“白嫖”了Sun公司的技术。</p><p>在Linux中，支持EXT、XFS、JFS、BTRFS、FAT、NTFS等多达十几种不同的文件系统，但不管在什么储存设备上使用什么文件系统，也不管访问什么文件，都可以统一地使用一套open(), read()、write()、close()这样的接口。</p><p>这些接口看上去都很简单，但要基于不同的存储设备设计，还要适应不同的文件系统，这并不容易。这就得靠优秀的VFS了，它提供了一个抽象层，让不同的文件系统表现出一致的行为。</p><!-- [[[read_end]]] --><p>对于用户空间和内核空间的其他部分，这些文件系统看起来都是一样的：文件都有目录，都支持建立、打开，读写、关闭和删除操作，不用关注不同文件系统的细节。</p><p>我来给你画张图，你一看就明白了。<br>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是LMOS。</p><p>在前面的课程中，我们已经实现了Cosmos下的文件系统rfs，相信你已经感受到了一个文件系统是如何管理文件的。今天我们一起来瞧一瞧Linux是如何管理文件，也验证一下Linux那句口号：一切皆为文件。</p><p>为此，我们需要首先搞清楚什么是VFS，接着理清为了实现VFS所用到的数据结构，然后看看一个文件的打开、读写、关闭的过程，最后我们还要亲自动手实践，在VFS下实现一个“小”且“能跑”的文件系统。</p><p>下面让我们开始吧！这节课的配套代码，你可以从<a href="https://gitee.com/lmos/cosmos/tree/master/lesson35">这里</a>下载。</p><h2>什么是VFS</h2><p>VFS（Virtual Filesystem）就像伙伴系统、SLAB内存管理算法一样，也是SUN公司最早在Sloaris上实现的虚拟文件系统，也可以理解为通用文件系统抽象层。Linux又一次“白嫖”了Sun公司的技术。</p><p>在Linux中，支持EXT、XFS、JFS、BTRFS、FAT、NTFS等多达十几种不同的文件系统，但不管在什么储存设备上使用什么文件系统，也不管访问什么文件，都可以统一地使用一套open(), read()、write()、close()这样的接口。</p><p>这些接口看上去都很简单，但要基于不同的存储设备设计，还要适应不同的文件系统，这并不容易。这就得靠优秀的VFS了，它提供了一个抽象层，让不同的文件系统表现出一致的行为。</p><!-- [[[read_end]]] --><p>对于用户空间和内核空间的其他部分，这些文件系统看起来都是一样的：文件都有目录，都支持建立、打开，读写、关闭和删除操作，不用关注不同文件系统的细节。</p><p>我来给你画张图，你一看就明白了。<br>
+
 <img src="https://static001.geekbang.org/resource/image/2d/cb/2d9b81aaf77f91958c8de723f95bfccb.jpg?wh=3276x3504" alt="" title="VFS架构图"></p><p>你有没有发现，在计算机科学领域的很多问题，都可以通过<strong>增加一个中间的抽象层</strong>来解决，上图中Linux的VFS层就是应用和许多文件系统之间的抽象层。VFS向上对应用提供了操作文件的标准接口，向下规范了一个文件系统要接入VFS必需要实现的机制。</p><p>后面我们就会看到，VFS提供一系列数据结构和具体文件系统应该实现的回调函数。这样，一个文件系统就可以被安装到VFS中了。操作具体文件时，VFS会根据需要调用具体文件系统的函数。从此文件系统的细节就被VFS屏蔽了，应用程序只需要调用标准的接口就行了。</p><h2>VFS数据结构</h2><p>VFS为了屏蔽各个文件系统的差异，就必须要定义一组通用的数据结构，规范各个文件系统的实现，<strong>每种结构都对应一套回调函数集合</strong>，这是典型的<strong>面向对象的设计方法</strong>。</p><p>这些数据结构包含描述文件系统信息的超级块、表示文件名称的目录结构、描述文件自身信息的索引节点结构、表示打开一个文件的实例结构。下面我们依次探讨这些结构。</p><h3>超级块结构</h3><p>首先我们来看一看超级块结构，这个结构用于一个具体文件系统的相关信息，其中包含了VFS规定的标准信息，也有具体文件系统的特有信息，Linux系统中的超级块结构是一个文件系统安装在VFS中的标识。我们来看看代码，如下所示。</p><pre><code>struct super_block {
     struct list_head    s_list; //超级块链表
     dev_t           s_dev;     //设备标识

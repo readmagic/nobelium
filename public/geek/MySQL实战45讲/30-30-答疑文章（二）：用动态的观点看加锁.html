@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>在第<a href="https://time.geekbang.org/column/article/75173">20</a>和<a href="https://time.geekbang.org/column/article/75659">21</a>篇文章中，我和你介绍了InnoDB的间隙锁、next-key lock，以及加锁规则。在这两篇文章的评论区，出现了很多高质量的留言。我觉得通过分析这些问题，可以帮助你加深对加锁规则的理解。</p><p>所以，我就从中挑选了几个有代表性的问题，构成了今天这篇答疑文章的主题，即：用动态的观点看加锁。</p><p><strong>为了方便你理解，我们再一起复习一下加锁规则。这个规则中，包含了两个“原则”、两个“优化”和一个“bug”：</strong></p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>在第<a href="https://time.geekbang.org/column/article/75173">20</a>和<a href="https://time.geekbang.org/column/article/75659">21</a>篇文章中，我和你介绍了InnoDB的间隙锁、next-key lock，以及加锁规则。在这两篇文章的评论区，出现了很多高质量的留言。我觉得通过分析这些问题，可以帮助你加深对加锁规则的理解。</p><p>所以，我就从中挑选了几个有代表性的问题，构成了今天这篇答疑文章的主题，即：用动态的观点看加锁。</p><p><strong>为了方便你理解，我们再一起复习一下加锁规则。这个规则中，包含了两个“原则”、两个“优化”和一个“bug”：</strong></p><ul>
+
 <li>原则1：加锁的基本单位是next-key lock。希望你还记得，next-key lock是前开后闭区间。</li>
 <li>原则2：查找过程中访问到的对象才会加锁。</li>
 <li>优化1：索引上的等值查询，给唯一索引加锁的时候，next-key lock退化为行锁。</li>

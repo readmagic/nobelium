@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是朱晔。</p><p>今天，我们继续一起分析这门课“安全篇”模块的第27~30讲的课后思考题。这些题目涉及了数据源头、安全兜底、数据和代码、敏感数据相关的4大知识点。</p><p>接下来，我们就一一具体分析吧。</p><h3><a href="https://time.geekbang.org/column/article/235700">27 | 数据源头：任何客户端的东西都不可信任</a></h3><p><strong>问题1：</strong>在讲述用户标识不能从客户端获取这个要点的时候，我提到开发同学可能会因为用户信息未打通而通过前端来传用户ID。那我们有什么好办法，来打通不同的系统甚至不同网站的用户标识吗？</p><p>答：打通用户在不同系统之间的登录，大致有以下三种方案。</p><p>第一种，把用户身份放在统一的服务端，每一个系统都需要到这个服务端来做登录状态的确认，确认后在自己网站的Cookie中保存会话，这就是单点登录的做法。这种方案要求所有关联系统都对接一套中央认证服务器（中央保存用户会话），在未登录的时候跳转到中央认证服务器进行登录或登录状态确认。因此，这种方案适合一个公司内部的不同域名下的网站。</p><p>第二种，把用户身份信息直接放在Token中，在客户端任意传递，Token由服务端进行校验（如果共享密钥话，甚至不需要同一个服务端进行校验），无需采用中央认证服务器，相对比较松耦合，典型的标准是JWT。这种方案适合异构系统的跨系统用户认证打通，而且相比单点登录的方案，用户体验会更好一些。</p><!-- [[[read_end]]] --><p>第三种，如果需要打通不同公司系统的用户登录状态，那么一般都会采用OAuth 2.0的标准中的授权码模式，基本流程如下：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是朱晔。</p><p>今天，我们继续一起分析这门课“安全篇”模块的第27~30讲的课后思考题。这些题目涉及了数据源头、安全兜底、数据和代码、敏感数据相关的4大知识点。</p><p>接下来，我们就一一具体分析吧。</p><h3><a href="https://time.geekbang.org/column/article/235700">27 | 数据源头：任何客户端的东西都不可信任</a></h3><p><strong>问题1：</strong>在讲述用户标识不能从客户端获取这个要点的时候，我提到开发同学可能会因为用户信息未打通而通过前端来传用户ID。那我们有什么好办法，来打通不同的系统甚至不同网站的用户标识吗？</p><p>答：打通用户在不同系统之间的登录，大致有以下三种方案。</p><p>第一种，把用户身份放在统一的服务端，每一个系统都需要到这个服务端来做登录状态的确认，确认后在自己网站的Cookie中保存会话，这就是单点登录的做法。这种方案要求所有关联系统都对接一套中央认证服务器（中央保存用户会话），在未登录的时候跳转到中央认证服务器进行登录或登录状态确认。因此，这种方案适合一个公司内部的不同域名下的网站。</p><p>第二种，把用户身份信息直接放在Token中，在客户端任意传递，Token由服务端进行校验（如果共享密钥话，甚至不需要同一个服务端进行校验），无需采用中央认证服务器，相对比较松耦合，典型的标准是JWT。这种方案适合异构系统的跨系统用户认证打通，而且相比单点登录的方案，用户体验会更好一些。</p><!-- [[[read_end]]] --><p>第三种，如果需要打通不同公司系统的用户登录状态，那么一般都会采用OAuth 2.0的标准中的授权码模式，基本流程如下：</p><ol>
+
 <li>第三方网站客户端转到授权服务器，上送ClientID、重定向地址RedirectUri等信息。</li>
 <li>用户在授权服务器进行登录并且进行授权批准（授权批准这步可以配置为自动完成）。</li>
 <li>授权完成后，重定向回到之前客户端提供的重定向地址，附上授权码。</li>

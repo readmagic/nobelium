@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是王昊天。</p><p>想象你是个青春阳光的精神小伙，和女神小美青梅竹马，培养了十几年的感情。眼看着就要抱得美人归时，半路杀出了个男二号，成了你的竞争对手。有一天你们恰好在一起聚会，男二号趁你上厕所，用你的手机给小美发了微信。</p><p>“小美，你闺蜜真好看，可以介绍给我吗？”</p><p>你回来时，小美大骂了你一通，然后生气地摔门而去。</p><p>在这个故事里，男二就通过他的行为完成了一次CSRF。</p><h2>CSRF</h2><p>CSRF的全名是Cross-Site Request Forgery，中文名称是跨站点请求伪造，简单来说，<strong>就是让Web应用程序不能有效地分辨一个外部的请求，是否真正来自发起请求的用户</strong>，虽然这个请求可能是构造完整、并且输入合法的。</p><p>和前几节课程中学习过的漏洞相比，CSRF有自己的漏洞名称，明显是一个更为细分的漏洞类型，而非一个漏洞类别。它作为一个独立的细分漏洞类型，值得我们单独进行探讨，说明影响力是足够大的。</p><p>扩展开讲一讲，当一个Web应用在设计过程中没有充分考虑来自客户端请求的验证机制时，就可能会遇到CSRF问题。站在攻击者的视角来看，他可以通过一个URL、图片加载或者XMLHttpRequest等方式，让用户触发一个自动化请求发送行为，这个请求在Web Server接受时会被认为是合法的。</p><!-- [[[read_end]]] --><p><strong>接下来我们看一个典型的攻击场景。</strong></p><p>如下HTML目的是让用户更新自己的信息：</p><pre><code class="language-plain">&lt;form action = "/url/profile.php" method = "post"&gt;
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是王昊天。</p><p>想象你是个青春阳光的精神小伙，和女神小美青梅竹马，培养了十几年的感情。眼看着就要抱得美人归时，半路杀出了个男二号，成了你的竞争对手。有一天你们恰好在一起聚会，男二号趁你上厕所，用你的手机给小美发了微信。</p><p>“小美，你闺蜜真好看，可以介绍给我吗？”</p><p>你回来时，小美大骂了你一通，然后生气地摔门而去。</p><p>在这个故事里，男二就通过他的行为完成了一次CSRF。</p><h2>CSRF</h2><p>CSRF的全名是Cross-Site Request Forgery，中文名称是跨站点请求伪造，简单来说，<strong>就是让Web应用程序不能有效地分辨一个外部的请求，是否真正来自发起请求的用户</strong>，虽然这个请求可能是构造完整、并且输入合法的。</p><p>和前几节课程中学习过的漏洞相比，CSRF有自己的漏洞名称，明显是一个更为细分的漏洞类型，而非一个漏洞类别。它作为一个独立的细分漏洞类型，值得我们单独进行探讨，说明影响力是足够大的。</p><p>扩展开讲一讲，当一个Web应用在设计过程中没有充分考虑来自客户端请求的验证机制时，就可能会遇到CSRF问题。站在攻击者的视角来看，他可以通过一个URL、图片加载或者XMLHttpRequest等方式，让用户触发一个自动化请求发送行为，这个请求在Web Server接受时会被认为是合法的。</p><!-- [[[read_end]]] --><p><strong>接下来我们看一个典型的攻击场景。</strong></p><p>如下HTML目的是让用户更新自己的信息：</p><pre><code class="language-plain">&lt;form action = "/url/profile.php" method = "post"&gt;
+
     &lt;input type = "text" name = "firstname" /&gt;
     &lt;input type = "text" name = "lastname" /&gt;
     &lt;br/&gt;

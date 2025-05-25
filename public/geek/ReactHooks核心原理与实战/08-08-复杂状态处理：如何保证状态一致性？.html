@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是王沛。今天我们聊聊 React 中的状态管理。</p><p>从这节课开始，我们就进入到了实战篇的训练。React Hooks 中其实有一些通用原则和常见设计模式，所以我设计了几个典型的业务场景，这样你就可以对这些原则和模式有一个具体的印象，之后在遇到类似场景时，也能从容应对。</p><p>今天我们先从状态一致性这个需求开始讲起。我在基础篇就反复提到过，React 中 UI 完全是通过状态驱动的。所以在任何时刻，整个应用程序的状态数据就完全决定了当前 UI 上的展现。毫不夸张地说，React 的开发其实就是复杂应用程序状态的管理和开发。因此，这就需要你去仔细思考，<strong>该怎么去用最优、最合理的方式，去管理你的应用程序的状态。</strong></p><p>所以今天这节课我会带你围绕状态一致性这个需求，介绍两个基本原则，它们能帮助我们避免很多复杂的状态管理逻辑，简化应用程序的开发。</p><h1>原则一：保证状态最小化</h1><p>新接触 React 的同学经常会有一个错误的习惯，就是把 State 当变量用，很容易把过多的数据放到 State 里，可以说这是对 State 的一种滥用。</p><p>那到底该怎么使用 State 呢？我们需要遵循一个原则，即：<strong>在保证 State 完整性的同时，也要保证它的最小化。</strong>什么意思呢？</p><p>就是说，某些数据如果能从已有的 State 中计算得到，那么我们就应该始终在用的时候去计算，而不要把计算的结果存到某个 State 中。这样的话，才能简化我们的状态处理逻辑。</p><!-- [[[read_end]]] --><p>举个例子。你要做一个功能，需要对一个列表的结果进行关键字搜索，我们假设是一个显示电影标题的列表，需要能够对标题进行搜索。最终的效果如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/80/10/80eb70a42a50b47a131f5af57130d210.png" alt=""></p><p>可以看到，这个功能包括一个搜索框和一个电影标题的列表。那么，在考虑怎么实现这个功能的时候，应该从哪里着手呢？</p><p>按照 React 的状态驱动 UI 的思想，第一步就是<strong>要考虑整个功能有哪几个状态</strong>。直观上来说，页面可能包含三个状态：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是王沛。今天我们聊聊 React 中的状态管理。</p><p>从这节课开始，我们就进入到了实战篇的训练。React Hooks 中其实有一些通用原则和常见设计模式，所以我设计了几个典型的业务场景，这样你就可以对这些原则和模式有一个具体的印象，之后在遇到类似场景时，也能从容应对。</p><p>今天我们先从状态一致性这个需求开始讲起。我在基础篇就反复提到过，React 中 UI 完全是通过状态驱动的。所以在任何时刻，整个应用程序的状态数据就完全决定了当前 UI 上的展现。毫不夸张地说，React 的开发其实就是复杂应用程序状态的管理和开发。因此，这就需要你去仔细思考，<strong>该怎么去用最优、最合理的方式，去管理你的应用程序的状态。</strong></p><p>所以今天这节课我会带你围绕状态一致性这个需求，介绍两个基本原则，它们能帮助我们避免很多复杂的状态管理逻辑，简化应用程序的开发。</p><h1>原则一：保证状态最小化</h1><p>新接触 React 的同学经常会有一个错误的习惯，就是把 State 当变量用，很容易把过多的数据放到 State 里，可以说这是对 State 的一种滥用。</p><p>那到底该怎么使用 State 呢？我们需要遵循一个原则，即：<strong>在保证 State 完整性的同时，也要保证它的最小化。</strong>什么意思呢？</p><p>就是说，某些数据如果能从已有的 State 中计算得到，那么我们就应该始终在用的时候去计算，而不要把计算的结果存到某个 State 中。这样的话，才能简化我们的状态处理逻辑。</p><!-- [[[read_end]]] --><p>举个例子。你要做一个功能，需要对一个列表的结果进行关键字搜索，我们假设是一个显示电影标题的列表，需要能够对标题进行搜索。最终的效果如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/80/10/80eb70a42a50b47a131f5af57130d210.png" alt=""></p><p>可以看到，这个功能包括一个搜索框和一个电影标题的列表。那么，在考虑怎么实现这个功能的时候，应该从哪里着手呢？</p><p>按照 React 的状态驱动 UI 的思想，第一步就是<strong>要考虑整个功能有哪几个状态</strong>。直观上来说，页面可能包含三个状态：</p><ol>
+
 <li>电影列表的数据：可能来自某个 API 请求；</li>
 <li>用户输入的关键字：来自用户的输入；</li>
 <li>搜索的结果数据：来自原始数据结合关键字的过滤结果。</li>

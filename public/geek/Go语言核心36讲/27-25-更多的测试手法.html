@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>在前面的文章中，我们一起学习了Go程序测试的基础知识和基本测试手法。这主要包括了Go程序测试的基本规则和主要流程、<code>testing.T</code>类型和<code>testing.B</code>类型的常用方法、<code>go test</code>命令的基本使用方式、常规测试结果的解读等等。</p><p>在本篇文章，我会继续为你讲解更多更高级的测试方法。这会涉及<code>testing</code>包中更多的API、<code>go test</code>命令支持的，更多标记更加复杂的测试结果，以及测试覆盖度分析等等。</p><h2>前导内容：-cpu的功能</h2><p>续接前文。我在前面提到了<code>go test</code>命令的标记<code>-cpu</code>，它是用来设置测试执行最大P数量的列表的。</p><blockquote>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>在前面的文章中，我们一起学习了Go程序测试的基础知识和基本测试手法。这主要包括了Go程序测试的基本规则和主要流程、<code>testing.T</code>类型和<code>testing.B</code>类型的常用方法、<code>go test</code>命令的基本使用方式、常规测试结果的解读等等。</p><p>在本篇文章，我会继续为你讲解更多更高级的测试方法。这会涉及<code>testing</code>包中更多的API、<code>go test</code>命令支持的，更多标记更加复杂的测试结果，以及测试覆盖度分析等等。</p><h2>前导内容：-cpu的功能</h2><p>续接前文。我在前面提到了<code>go test</code>命令的标记<code>-cpu</code>，它是用来设置测试执行最大P数量的列表的。</p><blockquote>
+
 <p><span class="reference">复习一下，我在讲go语句的时候说过，这里的P是processor的缩写，每个processor都是一个可以承载若干个G，且能够使这些G适时地与M进行对接并得到真正运行的中介。</span></p>
 <p><span class="reference">正是由于P的存在，G和M才可以呈现出多对多的关系，并能够及时、灵活地进行组合和分离。</span></p>
 <p><span class="reference">这里的G就是goroutine的缩写，可以被理解为Go语言自己实现的用户级线程。M即为machine的缩写，代表着系统级线程，或者说操作系统内核级别的线程。</span></p>

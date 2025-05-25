@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是课程编辑叶芊。</p><p>为了帮助你在新的一年更好地学习Rust和学习这个专栏，特地邀请了几位课代表来分享一下他们学习专栏、学习Rust语言的个人经验和方法，希望能给你一些参考和启发。</p><p>今天是特邀课代表分享个人学习经验的第三辑。话不多说，我们直接看分享。</p><hr><h2>@Milittle</h2><p>你好，我是Milittle。</p><p>2020年硕士毕业，研究生期间一直是用C++做项目，目前我在做IaaS开发，主力语言是Python和Go。我今年的目标就是拿下Rust这门硬通货。非常开心收到编辑的邀请来分享我自己的学习心得。每一个人的经历不同，也有属于自己的人生，这里我就自己目前的一些感悟聊一聊。</p><h3>为什么想到来学Rust</h3><p>第一次了解Rust，是在左耳朵耗子的CoolShell中看到对这门语言的描述：</p><blockquote>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是课程编辑叶芊。</p><p>为了帮助你在新的一年更好地学习Rust和学习这个专栏，特地邀请了几位课代表来分享一下他们学习专栏、学习Rust语言的个人经验和方法，希望能给你一些参考和启发。</p><p>今天是特邀课代表分享个人学习经验的第三辑。话不多说，我们直接看分享。</p><hr><h2>@Milittle</h2><p>你好，我是Milittle。</p><p>2020年硕士毕业，研究生期间一直是用C++做项目，目前我在做IaaS开发，主力语言是Python和Go。我今年的目标就是拿下Rust这门硬通货。非常开心收到编辑的邀请来分享我自己的学习心得。每一个人的经历不同，也有属于自己的人生，这里我就自己目前的一些感悟聊一聊。</p><h3>为什么想到来学Rust</h3><p>第一次了解Rust，是在左耳朵耗子的CoolShell中看到对这门语言的描述：</p><blockquote>
+
 <p>如果你对Rust的概念认识的不完整，你完全写不出程序，哪怕就是很简单的一段代码。这逼着程序员必须了解所有的概念才能编码。但是，另一方面也表明了这门语言并不适合初学者……</p>
 </blockquote><p>我看到这句话的时候，非常好奇<strong>这是一门什么样的语言，为什么会逼着程序员必须了解所有的概念才能编码？我们的编程语言不是为了解放程序员而发明的么</strong>？就去大致浏览了一些Rust Book的内容，不过当时刚工作也没有太深入地了解和学习。</p><!-- [[[read_end]]] --><p>因为我常年混迹在极客时间上学习，后来看到有陈天Rust第一课这门课程，刚好工作上每天也可以稍微抽出一些时间，就决定入手学一下。每次打开一讲，都是新知识涌现的过程。碰到了不熟悉的知识，我都会先自己借助Google一通操作，把能捕捉到的知识都先吃到自己的大脑里面，然后再回过头来看老师的专栏，这样能让我的知识叠的厚一点。</p><p>新知识确实很多，也很容易丧失学习的兴趣，被难题困住一阵就放弃了。我自己是用了两个方法：<strong>持续学习、重复练习</strong>。</p><h3>持续学习</h3><p>在生活中，我自己是一个涉猎比较广的选手，自己学摄影，喜欢看电影，偶尔看看经济学的书籍，我觉得未来一定是留给持续学习、持续做准备的人。</p><p>所以相信自己，如果持续学习到今天，不能让你从Rust的难题中解脱出来，那就是你不够持续，还得再坚持下去不要放弃，说不定明天你就成功战胜了Rust难关。</p><p>而且持续学习，还可以用在那些不会立马给你回报的知识上，这样才能持续刺激自己学习的兴趣。</p><p>我在研究生期间有一个研究方向是借助机器学习视觉技术做一个基本的步态识别，虽然后来由于种种原因没有做下去，自己还是做了个小Demo，感兴趣可以到我的GitHub上瞧一瞧（<a href="https://github.com/Milittle/GaitSystem">步态识别案例</a>）。因为一直做视觉，对计算机视觉中的一些inference的技术感兴趣，我自己结合Nvidia官网的TensorRT，业余时间自己持续学习也做了一些Demo（<a href="https://github.com/Milittle/TensorRT_test">TensorRT的案例</a>）。</p><p>因为有这个习惯，学习Rust的时候，我每天都在思考怎么用它做点事情。正好20211202这一天是回文日，就想到可以搞一个算法题，输出所有已经过去的回文日，第二天立马上手用Rust试了一下，就写了这一段代码：</p><pre><code class="language-rust">use std::collections::HashMap;
 

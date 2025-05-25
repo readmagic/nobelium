@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是邵亚方。我们在前一节课讲了Page Cache难以回收导致的load飙高问题，这类问题是很直观的，相信很多人都遭遇过。这节课，我们则是来讲相反的一些问题，即Page Cache太容易回收而引起的一些问题。</p><p>这类问题因为不直观所以陷阱会很多，应用开发者和运维人员会更容易踩坑，也正因为这类问题不直观，所以他们往往是一而再再而三地中招之后，才搞清楚问题到底是怎么回事。</p><p>我把大家经常遇到的这类问题做个总结，大致可以分为两方面：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是邵亚方。我们在前一节课讲了Page Cache难以回收导致的load飙高问题，这类问题是很直观的，相信很多人都遭遇过。这节课，我们则是来讲相反的一些问题，即Page Cache太容易回收而引起的一些问题。</p><p>这类问题因为不直观所以陷阱会很多，应用开发者和运维人员会更容易踩坑，也正因为这类问题不直观，所以他们往往是一而再再而三地中招之后，才搞清楚问题到底是怎么回事。</p><p>我把大家经常遇到的这类问题做个总结，大致可以分为两方面：</p><ul>
+
 <li>误操作而导致Page Cache被回收掉，进而导致业务性能下降明显；</li>
 <li>内核的一些机制导致业务Page Cache被回收，从而引起性能下降。</li>
 </ul><p>如果你的业务对Page Cache比较敏感，比如说你的业务数据对延迟很敏感，或者再具体一点，你的业务指标对TP99（99分位）要求较高，那你对于这类性能问题应该多多少少有所接触。当然，这并不意味着业务对延迟不敏感，你就不需要关注这些问题了，关注这类问题会让你对业务行为理解更深刻。</p><p>言归正传，我们来看下发生在生产环境中的案例。</p><h2>对Page Cache操作不当产生的业务性能下降</h2><p>我们先从一个相对简单的案例说起，一起分析下误操作导致Page Cache被回收掉的情况，它具体是怎样发生的。</p><!-- [[[read_end]]] --><p>我们知道，对于Page Cache而言，是可以通过drop_cache来清掉的，很多人在看到系统中存在非常多的Page Cache时会习惯使用drop_cache来清理它们，但是这样做是会有一些负面影响的，比如说这些Page Cache被清理掉后可能会引起系统性能下降。为什么？</p><p>其实这和inode有关，那inode是什么意思呢？inode是内存中对磁盘文件的索引，进程在查找或者读取文件时就是通过inode来进行操作的，我们用下面这张图来表示一下这种关系：</p><p><img src="https://static001.geekbang.org/resource/image/7e/99/7ef7747f71ef236e8cf5f9378d80da99.jpg" alt=""></p><p>如上图所示，进程会通过inode来找到文件的地址空间（address_space），然后结合文件偏移（会转换成page index）来找具体的Page。如果该Page存在，那就说明文件内容已经被读取到了内存；如果该Page不存在那就说明不在内存中，需要到磁盘中去读取。你可以理解为inode是Pagecache Page（页缓存的页）的宿主（host），如果inode不存在了，那么PageCache Page也就不存在了。</p><p>如果你使用过drop_cache来释放inode的话，应该会清楚它有几个控制选项，我们可以通过写入不同的数值来释放不同类型的cache（用户数据Page Cache，内核数据Slab，或者二者都释放），这些选项你可以去看<a href="https://www.kernel.org/doc/Documentation/sysctl/vm.txt">Kernel Documentation的描述</a>。</p><p><img src="https://static001.geekbang.org/resource/image/ab/7d/ab748f14be603df45c2570fe8e24707d.jpg" alt=""></p><p>于是这样就引入了一个容易被我们忽略的问题：<strong>当我们执行echo 2来drop slab的时候</strong><strong>，</strong><strong>它也会把Page Cache给drop掉</strong>，很多运维人员都会忽视掉这一点。</p><p>在系统内存紧张的时候，运维人员或者开发人员会想要通过drop_caches的方式来释放一些内存，但是由于他们清楚Page Cache被释放掉会影响业务性能，所以就期望只去drop slab而不去drop pagecache。于是很多人这个时候就运行 echo 2 &gt; /proc/sys/vm/drop_caches，但是结果却出乎了他们的意料：Page Cache也被释放掉了，业务性能产生了明显的下降。</p><p>很多人都遇到过这个场景：系统正在运行着，忽然Page Cache被释放掉了，由于不清楚释放的原因，所以很多人就会怀疑，是不是由其他人/程序执行了drop_caches导致的。那有没有办法来观察这个inode释放引起Page Cache被释放的行为呢？答案是有的。关于这一点，我们在下一节课会讲到。我们先来分析下如何观察是否有人或者有程序执行过drop_caches。</p><p>由于drop_caches是一种内存事件，内核会在/proc/vmstat中来记录这一事件，所以我们可以通过/proc/vmstat来判断是否有执行过drop_caches。</p><pre><code>$ grep drop /proc/vmstat

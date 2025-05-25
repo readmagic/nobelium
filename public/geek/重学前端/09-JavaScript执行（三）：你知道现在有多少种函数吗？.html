@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>在前一篇文章中，我们大致了解了执行上下文是什么，也知道了任何语句的执行都会依赖特定的上下文。</p><p>一旦上下文被切换，整个语句的效果可能都会发生改变。那么，切换上下文的时机就显得非常重要了。</p><p>在JavaScript，切换上下文最主要的场景是函数调用。在这一课，我们就来讲讲函数调用切换上下文的事情。我们在讲函数调用之前，首先来认识一下函数家族。</p><h2>函数</h2><p>在ES2018中，函数已经是一个很复杂的体系了，我在这里整理了一下。</p><p><strong>第一种，普通函数：用function关键字定义的函数。</strong></p><p>示例：</p><pre><code>function foo(){
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>在前一篇文章中，我们大致了解了执行上下文是什么，也知道了任何语句的执行都会依赖特定的上下文。</p><p>一旦上下文被切换，整个语句的效果可能都会发生改变。那么，切换上下文的时机就显得非常重要了。</p><p>在JavaScript，切换上下文最主要的场景是函数调用。在这一课，我们就来讲讲函数调用切换上下文的事情。我们在讲函数调用之前，首先来认识一下函数家族。</p><h2>函数</h2><p>在ES2018中，函数已经是一个很复杂的体系了，我在这里整理了一下。</p><p><strong>第一种，普通函数：用function关键字定义的函数。</strong></p><p>示例：</p><pre><code>function foo(){
+
     // code
 }
 </code></pre><p><strong>第二种，箭头函数：用 =&gt; 运算符定义的函数。</strong></p><p>示例:</p><pre><code>const foo = () =&gt; {

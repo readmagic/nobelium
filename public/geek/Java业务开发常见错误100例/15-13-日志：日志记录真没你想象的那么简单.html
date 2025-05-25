@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是朱晔。今天，我和你分享的是，记录日志可能会踩的坑。</p><p>一些同学可能要说了，记录日志还不简单，无非是几个常用的API方法，比如debug、info、warn、error；但我就见过不少坑都是记录日志引起的，容易出错主要在于三个方面：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是朱晔。今天，我和你分享的是，记录日志可能会踩的坑。</p><p>一些同学可能要说了，记录日志还不简单，无非是几个常用的API方法，比如debug、info、warn、error；但我就见过不少坑都是记录日志引起的，容易出错主要在于三个方面：</p><ul>
+
 <li>日志框架众多，不同的类库可能会使用不同的日志框架，如何兼容是一个问题。</li>
 <li>配置复杂且容易出错。日志配置文件通常很复杂，因此有些开发同学会从其他项目或者网络上复制一份配置文件，但却不知道如何修改，甚至是胡乱修改，造成很多问题。比如，重复记录日志的问题、同步日志的性能问题、异步记录的错误配置问题。</li>
 <li>日志记录本身就有些误区，比如没考虑到日志内容获取的代价、胡乱使用日志级别等。</li>

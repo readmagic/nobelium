@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是温铭。</p><p>专栏更新到现在，OpenResty第一版块入门篇，我们就已经学完了。恭喜你没有掉队，仍然在积极学习和实践操作，并且热情地留下了你的思考。</p><p>很多留言提出的问题很有价值，大部分我都已经在app里回复过，一些手机上不方便回复的或者比较典型、有趣的问题，我专门摘了出来，作为今天的答疑内容，集中回复。另一方面，也是为了保证所有人都能不漏掉任何一个重点。</p><p>下面我们来看今天的这5个问题。</p><h2>第一问，OpenResty的名字和语言</h2><p><span class="orange">Q：看到现在，我还没看懂 OpenResty 这个名字的来历。另外，OpenResty 借助 Lua 语言，插上翅膀，那么为什么不借助其他脚本语言呢？比如 Shell 等。</span></p><p>A：事实上，OpenResty 最早是雅虎中国的一个公司项目，起步于 2007 年 10 月。当时兴起了 OpenAPI 的热潮，于是春哥想做一个类似的东西，可以支持各种 Web Service 的需求。Open 这个名字取自 OpenAPI， Resty 则是取自 rest API。最初 OpenResty 的目的，并非是做 web 服务器和开发平台，而是做类似网站这样的应用。</p><p>OpenResty 在十几年前开源的时候，支持同步非阻塞的语言凤毛麟角。即使是到了现在，后端语言可以达到 OpenResty 这种性能级别的也不多。当前，更多的开发者把 OpenResty 用在 API 网关和软 WAF 领域，这也算是开发者的自然选择了。</p><!-- [[[read_end]]] --><p>至于语言方面，OpenResty 并不是唯一一个把其他开发语言嵌入NGINX 的项目。比如，NGINX 官方就把 JS 嵌入了进来；同时也有一些开源项目，把 PHP 嵌入 NGINX。</p><p>通常来说，选择借助哪一门语言，会综合考虑协程、JIT和语言普及度等多种因素。对于OpenResty，在 2007 年时，Lua 确实是最佳的选择。实际上，OpenResty 在最早的版本中选择了 perl 而不是 Lua，也可以说是走了一段弯路。</p><h2>第二问，配置文件的规则优先级</h2><p><span class="orange">Q：当 OpenResty 中的 Lua 规则和 NGINX 配置文件产生冲突时，比如NGINX配置了rewrite规则，又同时引用了rewrite_by_lua_file，那么这两条规则的优先级是什么？</span></p><p>A：其实，这个具体要看 NGINX 配置的 rewrite 规则是怎么写的了，是 break 还是 last。这一点，在 OpenResty 的官方文档中有注明，并且配了一个示例代码：</p><pre><code> location /foo {
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是温铭。</p><p>专栏更新到现在，OpenResty第一版块入门篇，我们就已经学完了。恭喜你没有掉队，仍然在积极学习和实践操作，并且热情地留下了你的思考。</p><p>很多留言提出的问题很有价值，大部分我都已经在app里回复过，一些手机上不方便回复的或者比较典型、有趣的问题，我专门摘了出来，作为今天的答疑内容，集中回复。另一方面，也是为了保证所有人都能不漏掉任何一个重点。</p><p>下面我们来看今天的这5个问题。</p><h2>第一问，OpenResty的名字和语言</h2><p><span class="orange">Q：看到现在，我还没看懂 OpenResty 这个名字的来历。另外，OpenResty 借助 Lua 语言，插上翅膀，那么为什么不借助其他脚本语言呢？比如 Shell 等。</span></p><p>A：事实上，OpenResty 最早是雅虎中国的一个公司项目，起步于 2007 年 10 月。当时兴起了 OpenAPI 的热潮，于是春哥想做一个类似的东西，可以支持各种 Web Service 的需求。Open 这个名字取自 OpenAPI， Resty 则是取自 rest API。最初 OpenResty 的目的，并非是做 web 服务器和开发平台，而是做类似网站这样的应用。</p><p>OpenResty 在十几年前开源的时候，支持同步非阻塞的语言凤毛麟角。即使是到了现在，后端语言可以达到 OpenResty 这种性能级别的也不多。当前，更多的开发者把 OpenResty 用在 API 网关和软 WAF 领域，这也算是开发者的自然选择了。</p><!-- [[[read_end]]] --><p>至于语言方面，OpenResty 并不是唯一一个把其他开发语言嵌入NGINX 的项目。比如，NGINX 官方就把 JS 嵌入了进来；同时也有一些开源项目，把 PHP 嵌入 NGINX。</p><p>通常来说，选择借助哪一门语言，会综合考虑协程、JIT和语言普及度等多种因素。对于OpenResty，在 2007 年时，Lua 确实是最佳的选择。实际上，OpenResty 在最早的版本中选择了 perl 而不是 Lua，也可以说是走了一段弯路。</p><h2>第二问，配置文件的规则优先级</h2><p><span class="orange">Q：当 OpenResty 中的 Lua 规则和 NGINX 配置文件产生冲突时，比如NGINX配置了rewrite规则，又同时引用了rewrite_by_lua_file，那么这两条规则的优先级是什么？</span></p><p>A：其实，这个具体要看 NGINX 配置的 rewrite 规则是怎么写的了，是 break 还是 last。这一点，在 OpenResty 的官方文档中有注明，并且配了一个示例代码：</p><pre><code> location /foo {
+
      rewrite ^ /bar;
      rewrite_by_lua 'ngx.exit(503)';
  }

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是李玥。</p><p>订单系统是整个电商系统中最重要的一个子系统，订单数据也就是电商企业最重要的数据资产。今天这节课，我来和你说一下，在设计和实现一个订单系统的存储过程中，有哪些问题是要特别考虑的。</p><p>一个合格的订单系统，最基本的要求是什么？<strong>数据不能错。</strong></p><p>一个购物流程，从下单开始、支付、发货，直到收货，这么长的一个流程中，每一个环节，都少不了更新订单数据，每一次更新操作又需要同时更新好几张表。这些操作可能被随机分布到很多台服务器上执行，服务器有可能故障，网络有可能出问题。</p><p>在这么复杂的情况下，保证订单数据一笔都不能错，是不是很难？实际上，只要掌握了方法，其实并不难。</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是李玥。</p><p>订单系统是整个电商系统中最重要的一个子系统，订单数据也就是电商企业最重要的数据资产。今天这节课，我来和你说一下，在设计和实现一个订单系统的存储过程中，有哪些问题是要特别考虑的。</p><p>一个合格的订单系统，最基本的要求是什么？<strong>数据不能错。</strong></p><p>一个购物流程，从下单开始、支付、发货，直到收货，这么长的一个流程中，每一个环节，都少不了更新订单数据，每一次更新操作又需要同时更新好几张表。这些操作可能被随机分布到很多台服务器上执行，服务器有可能故障，网络有可能出问题。</p><p>在这么复杂的情况下，保证订单数据一笔都不能错，是不是很难？实际上，只要掌握了方法，其实并不难。</p><ul>
+
 <li>首先，你的代码必须是正确没Bug的，如果说是因为代码Bug导致的数据错误，那谁也救不了你。</li>
 <li>然后，你要会正确地使用数据库的事务。比如，你在创建订单的时候，同时要在订单表和订单商品表中插入数据，那这些插入数据的INSERT必须在一个数据库事务中执行，数据库的事务可以确保：执行这些INSERT语句，要么一起都成功，要么一起都失败。</li>
 </ul><p>我相信这些“基本操作”对于你来说，应该不是问题。</p><p>但是，还有一些情况下会引起数据错误，我们一起来看一下。不过在此之前，我们要明白，对于一个订单系统而言，它的核心功能和数据结构是怎样的。</p><!-- [[[read_end]]] --><p>因为，任何一个电商，它的订单系统的功能都是独一无二的，基于它的业务，有非常多的功能，并且都很复杂。我们在讨论订单系统的存储问题时，必须得化繁为简，只聚焦那些最核心的、共通的业务和功能上，并且以这个为基础来讨论存储技术问题。</p><h2>订单系统的核心功能和数据</h2><p>我先和你简单梳理一下一个订单系统必备的功能，它包含但远远不限于：</p><ol>

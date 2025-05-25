@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是高楼。</p><p>学到这里，我们可以小小地庆祝一下了。因为在前面的28讲里，我已经把全链路压测所需要的前提条件全部都梳理了一遍。从这节课开始，我们就正式进入场景执行阶段了。</p><p>在我的RESAR性能工程理念中，我一直强调只有四种性能场景类型。分别是：基准场景、容量场景、稳定性场景和异常场景。这四种场景是递进的关系，每一类场景都是有清晰的目标的。这一节课，我们就是要先整体地了解一下这四种性能场景的目标，然后进行具体的演示。</p><h2>一个场景设计的问题</h2><p>在说每个场景的目标之前，我要先说一个问题，这是一个同行问我的。我觉得这是性能行业中非常典型的疑问，也是现在性能行业中经常有人做错的一个地方。</p><blockquote>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是高楼。</p><p>学到这里，我们可以小小地庆祝一下了。因为在前面的28讲里，我已经把全链路压测所需要的前提条件全部都梳理了一遍。从这节课开始，我们就正式进入场景执行阶段了。</p><p>在我的RESAR性能工程理念中，我一直强调只有四种性能场景类型。分别是：基准场景、容量场景、稳定性场景和异常场景。这四种场景是递进的关系，每一类场景都是有清晰的目标的。这一节课，我们就是要先整体地了解一下这四种性能场景的目标，然后进行具体的演示。</p><h2>一个场景设计的问题</h2><p>在说每个场景的目标之前，我要先说一个问题，这是一个同行问我的。我觉得这是性能行业中非常典型的疑问，也是现在性能行业中经常有人做错的一个地方。</p><blockquote>
+
 <p>你好，我想请教一个关于TPS压测指标的问题。我们的生产环境，一个场景的系统TPS在高峰期达到了4000/s，但是就持续了几秒，按小时统计最大也不到30w业务量。业务人员给我们的业务指标是75w/h，那在实际压测的时候，如何兼顾两者的指标呢？如果全部按峰值TPS去跑一个小时，感觉太高了，不切实际。这种情况该如何评估压测呢？</p>
 </blockquote><p>我们可以来分析一下这几句话中的关键词：</p><ol>
 <li>4000TPS持续了几秒（这里我把问题中的4000直接当成业务级的事务来看了，因为他并没有描述清楚这个4000是哪一级的事务）；</li>

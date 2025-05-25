@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是刘超。</p><p>前两讲我们讨论了Synchronized和Lock实现的同步锁机制，这两种同步锁都属于悲观锁，是保护线程安全最直观的方式。</p><p>我们知道悲观锁在高并发的场景下，激烈的锁竞争会造成线程阻塞，大量阻塞线程会导致系统的上下文切换，增加系统的性能开销。那有没有可能实现一种非阻塞型的锁机制来保证线程的安全呢？答案是肯定的。今天我就带你学习下乐观锁的优化方法，看看怎么使用才能发挥它最大的价值。</p><h2>什么是乐观锁</h2><p>开始优化前，我们先来简单回顾下乐观锁的定义。</p><p>乐观锁，顾名思义，就是说在操作共享资源时，它总是抱着乐观的态度进行，它认为自己可以成功地完成操作。但实际上，当多个线程同时操作一个共享资源时，只有一个线程会成功，那么失败的线程呢？它们不会像悲观锁一样在操作系统中挂起，而仅仅是返回，并且系统允许失败的线程重试，也允许自动放弃退出操作。</p><p>所以，乐观锁相比悲观锁来说，不会带来死锁、饥饿等活性故障问题，线程间的相互影响也远远比悲观锁要小。更为重要的是，<span class="orange">乐观锁没有因竞争造成的系统开销，所以在性能上也是更胜一筹。</span></p><h2>乐观锁的实现原理</h2><p>相信你对上面的内容是有一定的了解的，下面我们来看看乐观锁的实现原理，有助于我们从根本上总结优化方法。</p><!-- [[[read_end]]] --><p>CAS是实现乐观锁的核心算法，它包含了3个参数：V（需要更新的变量）、E（预期值）和N（最新值）。</p><p>只有当需要更新的变量等于预期值时，需要更新的变量才会被设置为最新值，如果更新值和预期值不同，则说明已经有其它线程更新了需要更新的变量，此时当前线程不做操作，返回V的真实值。</p><h3>1.CAS如何实现原子操作</h3><p>在JDK中的concurrent包中，atomic路径下的类都是基于CAS实现的。AtomicInteger就是基于CAS实现的一个线程安全的整型类。下面我们通过源码来了解下如何使用CAS实现原子操作。</p><p>我们可以看到AtomicInteger的自增方法getAndIncrement是用了Unsafe的getAndAddInt方法，显然AtomicInteger依赖于本地方法Unsafe类，Unsafe类中的操作方法会调用CPU底层指令实现原子操作。</p><pre><code>  //基于CAS操作更新值
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是刘超。</p><p>前两讲我们讨论了Synchronized和Lock实现的同步锁机制，这两种同步锁都属于悲观锁，是保护线程安全最直观的方式。</p><p>我们知道悲观锁在高并发的场景下，激烈的锁竞争会造成线程阻塞，大量阻塞线程会导致系统的上下文切换，增加系统的性能开销。那有没有可能实现一种非阻塞型的锁机制来保证线程的安全呢？答案是肯定的。今天我就带你学习下乐观锁的优化方法，看看怎么使用才能发挥它最大的价值。</p><h2>什么是乐观锁</h2><p>开始优化前，我们先来简单回顾下乐观锁的定义。</p><p>乐观锁，顾名思义，就是说在操作共享资源时，它总是抱着乐观的态度进行，它认为自己可以成功地完成操作。但实际上，当多个线程同时操作一个共享资源时，只有一个线程会成功，那么失败的线程呢？它们不会像悲观锁一样在操作系统中挂起，而仅仅是返回，并且系统允许失败的线程重试，也允许自动放弃退出操作。</p><p>所以，乐观锁相比悲观锁来说，不会带来死锁、饥饿等活性故障问题，线程间的相互影响也远远比悲观锁要小。更为重要的是，<span class="orange">乐观锁没有因竞争造成的系统开销，所以在性能上也是更胜一筹。</span></p><h2>乐观锁的实现原理</h2><p>相信你对上面的内容是有一定的了解的，下面我们来看看乐观锁的实现原理，有助于我们从根本上总结优化方法。</p><!-- [[[read_end]]] --><p>CAS是实现乐观锁的核心算法，它包含了3个参数：V（需要更新的变量）、E（预期值）和N（最新值）。</p><p>只有当需要更新的变量等于预期值时，需要更新的变量才会被设置为最新值，如果更新值和预期值不同，则说明已经有其它线程更新了需要更新的变量，此时当前线程不做操作，返回V的真实值。</p><h3>1.CAS如何实现原子操作</h3><p>在JDK中的concurrent包中，atomic路径下的类都是基于CAS实现的。AtomicInteger就是基于CAS实现的一个线程安全的整型类。下面我们通过源码来了解下如何使用CAS实现原子操作。</p><p>我们可以看到AtomicInteger的自增方法getAndIncrement是用了Unsafe的getAndAddInt方法，显然AtomicInteger依赖于本地方法Unsafe类，Unsafe类中的操作方法会调用CPU底层指令实现原子操作。</p><pre><code>  //基于CAS操作更新值
+
     public final boolean compareAndSet(int expect, int update) {
         return unsafe.compareAndSwapInt(this, valueOffset, expect, update);
     }

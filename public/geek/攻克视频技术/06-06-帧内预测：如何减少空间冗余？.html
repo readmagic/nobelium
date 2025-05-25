@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是李江。</p><p>前面几节课我们一起讨论了视频编码的原理以及编码码流结构，从今天开始我们一起来聊一聊具体的编码模式。</p><p>我们知道在视频编码时主要需要减少4个冗余，包括：空间冗余、时间冗余、视觉冗余和信息熵冗余。其中空间冗余就是通过帧内预测的方式来实现的。那帧内预测到底是怎么做到减少空间冗余的呢？</p><p>其实一般来说，<strong>一幅图像中相邻像素的亮度和色度信息是比较接近的，<strong><strong>并且</strong></strong>亮度和色度信息也是逐渐变化的，不太会出现突变</strong>。也就是说，<strong>图像具有空间相关性</strong>。帧内预测就是利用这个特点来进行的。即<strong>帧内预测通过利用已经编码的相邻像素的值来预测待编码的像素值，最后达到减少空间冗余的目的</strong>。</p><p>这里需要注意的一个点就是，我们是通过已经编码了的像素值去预测待编码的像素值。你可能会问，已经编码了的像素值变成码流了，不再是一个个像素了，怎么去预测待编码的像素呢？其实已经编码了的像素是会重建成重建像素，用来做之后待编码块的参考像素的。你可以认为是<strong>已经编码的块会解码成像素用来做参考像素</strong>。</p><p>好了，我们已经知道了帧内预测是怎么减少空间冗余的，那我们还有一个最重要的问题要解答。既然帧内预测是通过相邻像素来预测待编码像素的，那它到底是怎么预测的呢？下面我们就以H264标准来讲解每种帧内预测模式是怎么做预测的。</p><!-- [[[read_end]]] --><h2>不同块大小的帧内预测模式</h2><p>我们在视频编码原理的那节课里面讲过，视频编码是以块为单位进行的。<strong>在H264标准里面，块分为宏块和子块。宏块的大小是16 x 16（YUV 4:2:0图像亮度块为16 x 16，色度<strong><strong>块</strong></strong>为8 x 8）</strong>。在帧内预测中，亮度宏块可以继续划分成16个4 x 4的子块。因为图像中有的地方细节很多，我们需要划分成更小的块来做预测会更精细，所以会将宏块再划分成4 x 4的子块。如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/5c/5b/5c0a24c3d52e8yy2de20fb07b58c625b.jpg?wh=1280x446" alt=""></p><p>帧内预测是根据块的大小分为不同的预测模式的。还有一个点就是亮度块和色度块的预测是分开进行的。这里我给你总结一下，主要有以下3点规则：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是李江。</p><p>前面几节课我们一起讨论了视频编码的原理以及编码码流结构，从今天开始我们一起来聊一聊具体的编码模式。</p><p>我们知道在视频编码时主要需要减少4个冗余，包括：空间冗余、时间冗余、视觉冗余和信息熵冗余。其中空间冗余就是通过帧内预测的方式来实现的。那帧内预测到底是怎么做到减少空间冗余的呢？</p><p>其实一般来说，<strong>一幅图像中相邻像素的亮度和色度信息是比较接近的，<strong><strong>并且</strong></strong>亮度和色度信息也是逐渐变化的，不太会出现突变</strong>。也就是说，<strong>图像具有空间相关性</strong>。帧内预测就是利用这个特点来进行的。即<strong>帧内预测通过利用已经编码的相邻像素的值来预测待编码的像素值，最后达到减少空间冗余的目的</strong>。</p><p>这里需要注意的一个点就是，我们是通过已经编码了的像素值去预测待编码的像素值。你可能会问，已经编码了的像素值变成码流了，不再是一个个像素了，怎么去预测待编码的像素呢？其实已经编码了的像素是会重建成重建像素，用来做之后待编码块的参考像素的。你可以认为是<strong>已经编码的块会解码成像素用来做参考像素</strong>。</p><p>好了，我们已经知道了帧内预测是怎么减少空间冗余的，那我们还有一个最重要的问题要解答。既然帧内预测是通过相邻像素来预测待编码像素的，那它到底是怎么预测的呢？下面我们就以H264标准来讲解每种帧内预测模式是怎么做预测的。</p><!-- [[[read_end]]] --><h2>不同块大小的帧内预测模式</h2><p>我们在视频编码原理的那节课里面讲过，视频编码是以块为单位进行的。<strong>在H264标准里面，块分为宏块和子块。宏块的大小是16 x 16（YUV 4:2:0图像亮度块为16 x 16，色度<strong><strong>块</strong></strong>为8 x 8）</strong>。在帧内预测中，亮度宏块可以继续划分成16个4 x 4的子块。因为图像中有的地方细节很多，我们需要划分成更小的块来做预测会更精细，所以会将宏块再划分成4 x 4的子块。如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/5c/5b/5c0a24c3d52e8yy2de20fb07b58c625b.jpg?wh=1280x446" alt=""></p><p>帧内预测是根据块的大小分为不同的预测模式的。还有一个点就是亮度块和色度块的预测是分开进行的。这里我给你总结一下，主要有以下3点规则：</p><ol>
+
 <li>
 <p><strong>宏块大小是16 x 16，其中亮度块为16 x 16，色度块为8 x 8</strong>；</p>
 </li>

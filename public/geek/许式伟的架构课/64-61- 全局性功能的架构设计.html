@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是七牛云许式伟。</p><p>在上一讲 “<a href="https://time.geekbang.org/column/article/172004">加餐 | 实战：画图程序的整体架构</a>” 中，我们结合前面几章的实战案例画图程序来实际探讨我们架构思维的运用。这一篇虽然以加餐名义体现，但它对理解怎么开展和评估架构工作非常关键。</p><p>在架构设计中，我们会有一些难啃的骨头。其中最为典型的，就是全局性功能。全局性功能的特征是很难被剥离出来成为独立模块的。我们仍然以大家熟悉的 Office 软件作为例子：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是七牛云许式伟。</p><p>在上一讲 “<a href="https://time.geekbang.org/column/article/172004">加餐 | 实战：画图程序的整体架构</a>” 中，我们结合前面几章的实战案例画图程序来实际探讨我们架构思维的运用。这一篇虽然以加餐名义体现，但它对理解怎么开展和评估架构工作非常关键。</p><p>在架构设计中，我们会有一些难啃的骨头。其中最为典型的，就是全局性功能。全局性功能的特征是很难被剥离出来成为独立模块的。我们仍然以大家熟悉的 Office 软件作为例子：</p><ul>
+
 <li>读盘/存盘：每增加一个功能，都需要考虑这个功能的数据如何存储到磁盘，如何从磁盘中恢复。</li>
 <li>Undo/Redo：每增加一个功能，都需要考虑这个功能如何回滚/重做，很难剥离。</li>
 <li>宏录制：每增加一个功能，都需要考虑这个功能执行的结果如何用 API 表达，并且得支持将界面操作翻译成 API 语句。</li>

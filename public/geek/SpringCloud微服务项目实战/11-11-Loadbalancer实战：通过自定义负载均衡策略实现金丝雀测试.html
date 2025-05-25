@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是姚秋辰。</p><p>上一课我们学习了如何借助Nacos的服务发现机制获取可用服务节点列表，并发起远程服务调用。在服务调用的环节里，还有一处细节需要你思考一下：Nacos通过服务发现拿到了所有的可用服务节点列表，但服务请求只能发给一个节点，你知道服务调用是根据什么规则选择目标节点的吗？</p><p>“小孩子才做选择，大人全都要”，Nacos就是这个全都要的大人。服务列表都被它拿到了手里，但如果要完成一次完整的服务调用，它还需要一个小孩子帮忙做选择，这个做选择题的小孩就是客户端负载均衡组件Spring Cloud Loadbalancer，它根据负载均衡规则，从Nacos获取的服务列表中选取服务调用的目标地址。</p><p>那么，Loadbalancer背后是如何工作的呢？今天我就带你了解Spring Cloud御用负载均衡器Loadbalancer的原理。通过这节课，你可以收获以下内容。</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是姚秋辰。</p><p>上一课我们学习了如何借助Nacos的服务发现机制获取可用服务节点列表，并发起远程服务调用。在服务调用的环节里，还有一处细节需要你思考一下：Nacos通过服务发现拿到了所有的可用服务节点列表，但服务请求只能发给一个节点，你知道服务调用是根据什么规则选择目标节点的吗？</p><p>“小孩子才做选择，大人全都要”，Nacos就是这个全都要的大人。服务列表都被它拿到了手里，但如果要完成一次完整的服务调用，它还需要一个小孩子帮忙做选择，这个做选择题的小孩就是客户端负载均衡组件Spring Cloud Loadbalancer，它根据负载均衡规则，从Nacos获取的服务列表中选取服务调用的目标地址。</p><p>那么，Loadbalancer背后是如何工作的呢？今天我就带你了解Spring Cloud御用负载均衡器Loadbalancer的原理。通过这节课，你可以收获以下内容。</p><ol>
+
 <li><strong>负载均衡的作用</strong>：了解负载均衡的两大门派，它们分别是网关层负载均衡和客户端负载均衡。你还会理解客户端负载均衡在微服务架构中的优势；</li>
 <li><strong>Loadbalancer工作原理</strong>：了解Loadbalancer如何运用@Loadbalanced注解进行加载；</li>
 <li><strong>自定义负载均衡策略</strong>：了解Loadbalancer的自定义扩展点，在实战项目中实现金丝雀测试。</li>

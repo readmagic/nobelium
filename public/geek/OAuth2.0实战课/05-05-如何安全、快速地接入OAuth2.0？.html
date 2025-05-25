@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是王新栋。</p><p>在<a href="https://time.geekbang.org/column/article/257101">第3讲</a>，我已经讲了授权服务的流程，如果你还记得的话，当时我特意强调了一点，就是<strong>授权服务将OAuth 2.0的复杂性都揽在了自己身上</strong>，这也是授权服务为什么是OAuth 2.0体系的核心的原因之一。</p><p>虽然授权服务做了大部分工作，但是呢，在OAuth 2.0的体系里面，除了资源拥有者是作为用户参与，还有另外两个系统角色，也就是第三方软件和受保护资源服务。那么今天这一讲，我们就站在这两个角色的角度，看看它们应该做哪些工作，才能接入到OAuth 2.0的体系里面呢？</p><p>现在，就让我们来看看，作为第三方软件的小兔和京东的受保护资源服务，具体需要着重处理哪些工作吧。</p><blockquote>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是王新栋。</p><p>在<a href="https://time.geekbang.org/column/article/257101">第3讲</a>，我已经讲了授权服务的流程，如果你还记得的话，当时我特意强调了一点，就是<strong>授权服务将OAuth 2.0的复杂性都揽在了自己身上</strong>，这也是授权服务为什么是OAuth 2.0体系的核心的原因之一。</p><p>虽然授权服务做了大部分工作，但是呢，在OAuth 2.0的体系里面，除了资源拥有者是作为用户参与，还有另外两个系统角色，也就是第三方软件和受保护资源服务。那么今天这一讲，我们就站在这两个角色的角度，看看它们应该做哪些工作，才能接入到OAuth 2.0的体系里面呢？</p><p>现在，就让我们来看看，作为第三方软件的小兔和京东的受保护资源服务，具体需要着重处理哪些工作吧。</p><blockquote>
+
 <p>注：另外说明一点，为了脱敏的需要，在下面的讲述中，我只是把京东商家开放平台作为一个角色使用，以便有场景感，来帮助你理解。</p>
 </blockquote><h2>构建第三方软件应用</h2><p>我们先来思考一下：如果要基于京东商家开放平台构建一个小兔打单软件的应用，小兔软件的研发人员应该做哪些工作？</p><p>是不是要到京东商家开放平台申请注册为开发者，在成为开发者以后再创建一个应用，之后我们就开始开发了，对吧？没错，一定是这样的流程。那么，开发第三方软件应用的过程中，我们需要重点关注哪些内容呢？</p><p>我先来和你总结下，这些内容包括4部分，分别是：<strong>注册信息、引导授权、使用访问令牌、使用刷新令牌。</strong></p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/ee/78/ee18ea7aab4fbee26cf23d7613801078.png" alt="" title="图1 开发第三方软件应用，应该关注的内容"></p><p>第一点，注册信息。</p><p>首先，小兔软件只有先有了身份，才可以参与到OAuth 2.0的流程中去。也就是说，小兔软件需要先拥有自己的app_id和app_serect等信息，同时还要填写自己的回调地址redirect_uri、申请权限等信息。</p><p>这种方式的注册呢，我们有时候也称它为<strong>静态注册</strong>，也就是小兔软件的研发人员提前登录到京东商家开放平台进行手动注册，以便后续使用这些注册的相关信息来请求访问令牌。</p><p>第二点，引导授权。</p><p>当用户需要使用第三方软件，来操作其在受保护资源上的数据，就需要第三方软件来引导授权。比如，小明要使用小兔打单软件来对店铺里面的订单发货打印，那小明首先访问的一定是小兔软件（原则上是直接访问第三方软件，不过我们在后面讲到服务市场这种场景的时候，会有稍微不同），不会是授权服务，更不会是受保护资源服务。</p><p>但是呢，小兔软件需要小明的授权，只有授权服务才能允许小明这样做。所以呢，小兔软件需要 “配合” 小明做的第一件事儿，就是将小明引导至授权服务，如下面代码所示。</p><p>那去做什么呢？其实就是让用户为第三方软件授权，得到了授权之后，第三方软件才可以代表用户去访问数据。也就是说，小兔打单软件获得授权之后，才能够代表小明处理其在京东店铺上的订单数据。</p><pre><code>String oauthUrl = &quot;http://localhost:8081/OauthServlet-ch03?reqType=oauth&quot;;
 

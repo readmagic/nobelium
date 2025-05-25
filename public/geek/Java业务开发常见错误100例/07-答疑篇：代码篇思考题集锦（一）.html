@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是朱晔。</p><p>在回复《Java 业务开发常见错误100例》这门课留言的过程中，我看到有些同学特别想看一看咱们这个课程所有思考题的答案。因此呢，我特地将这个课程涉及的思考题进行了梳理，把其中的67个问题的答案或者说解题思路，详细地写了出来，并整理成了一个“答疑篇”模块。</p><p>我把这些问题拆分为了6篇分别更新，你可以根据自己的时间来学习，以保证学习效果。你可以通过这些回答，再来回顾下这些知识点，以求温故而知新；同时，你也可以对照着我的回答，对比下自己的解题思路，看看有没有什么不一样的地方，并留言给我。</p><p>今天是答疑篇的第一讲，我们一起来分析下咱们这门课前6讲的课后思考题。这些题目涉及了并发工具、代码加锁、线程池、连接池、HTTP调用和Spring声明式事务的12道思考题。</p><p>接下来，我们就一一具体分析吧。</p><h3><a href="https://time.geekbang.org/column/article/209494">01 | 使用了并发工具类库，线程安全就高枕无忧了吗？</a></h3><p><strong>问题1：</strong>ThreadLocalRandom是Java 7引入的一个生成随机数的类。你觉得可以把它的实例设置到静态变量中，在多线程情况下重用吗？</p><p>答：不能。</p><p><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadLocalRandom.html">ThreadLocalRandom文档</a>里有这么一条：</p><blockquote>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是朱晔。</p><p>在回复《Java 业务开发常见错误100例》这门课留言的过程中，我看到有些同学特别想看一看咱们这个课程所有思考题的答案。因此呢，我特地将这个课程涉及的思考题进行了梳理，把其中的67个问题的答案或者说解题思路，详细地写了出来，并整理成了一个“答疑篇”模块。</p><p>我把这些问题拆分为了6篇分别更新，你可以根据自己的时间来学习，以保证学习效果。你可以通过这些回答，再来回顾下这些知识点，以求温故而知新；同时，你也可以对照着我的回答，对比下自己的解题思路，看看有没有什么不一样的地方，并留言给我。</p><p>今天是答疑篇的第一讲，我们一起来分析下咱们这门课前6讲的课后思考题。这些题目涉及了并发工具、代码加锁、线程池、连接池、HTTP调用和Spring声明式事务的12道思考题。</p><p>接下来，我们就一一具体分析吧。</p><h3><a href="https://time.geekbang.org/column/article/209494">01 | 使用了并发工具类库，线程安全就高枕无忧了吗？</a></h3><p><strong>问题1：</strong>ThreadLocalRandom是Java 7引入的一个生成随机数的类。你觉得可以把它的实例设置到静态变量中，在多线程情况下重用吗？</p><p>答：不能。</p><p><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadLocalRandom.html">ThreadLocalRandom文档</a>里有这么一条：</p><blockquote>
+
 <p>Usages of this class should typically be of the form: ThreadLocalRandom.current().nextX(…) (where X is Int, Long, etc). When all usages are of this form, it is never possible to accidently share a ThreadLocalRandom across multiple threads.</p>
 </blockquote><!-- [[[read_end]]] --><p>那为什么规定要ThreadLocalRandom.current().nextX(…)这样来使用呢？我来分析下原因吧。</p><p>current()的时候初始化一个初始化种子到线程，每次nextseed再使用之前的种子生成新的种子：</p><pre><code>UNSAFE.putLong(t = Thread.currentThread(), SEED, r = UNSAFE.getLong(t, SEED) + GAMMA);
 </code></pre><p>如果你通过主线程调用一次current生成一个ThreadLocalRandom的实例保存起来，那么其它线程来获取种子的时候必然取不到初始种子，必须是每一个线程自己用的时候初始化一个种子到线程。你可以在nextSeed方法设置一个断点来测试：</p><pre><code>UNSAFE.getLong(Thread.currentThread(),SEED);

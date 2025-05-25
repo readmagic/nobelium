@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是胡夕。今天我要和你分享的主题是：那些主流的Kafka监控框架。</p><p>在上一讲中，我们重点讨论了如何监控Kafka集群，主要是侧重于讨论监控原理和监控方法。今天，我们来聊聊具体的监控工具或监控框架。</p><p>令人有些遗憾的是，Kafka社区似乎一直没有在监控框架方面投入太多的精力。目前，Kafka的新功能提议已超过500个，但没有一个提议是有关监控框架的。当然，Kafka的确提供了超多的JMX指标，只是，单独查看这些JMX指标往往不是很方便，我们还是要依赖于框架统一地提供性能监控。</p><p>也许，正是由于社区的这种“不作为”，很多公司和个人都自行着手开发Kafka监控框架，其中并不乏佼佼者。今天我们就来全面地梳理一下主流的监控框架。</p><h2>JMXTool工具</h2><p>首先，我向你推荐JMXTool工具。严格来说，它并不是一个框架，只是社区自带的一个工具罢了。JMXTool工具能够实时查看Kafka JMX指标。倘若你一时找不到合适的框架来做监控，JMXTool可以帮你“临时救急”一下。</p><p>Kafka官网没有JMXTool的任何介绍，你需要运行下面的命令，来获取它的使用方法的完整介绍。</p><pre><code>bin/kafka-run-class.sh kafka.tools.JmxTool
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是胡夕。今天我要和你分享的主题是：那些主流的Kafka监控框架。</p><p>在上一讲中，我们重点讨论了如何监控Kafka集群，主要是侧重于讨论监控原理和监控方法。今天，我们来聊聊具体的监控工具或监控框架。</p><p>令人有些遗憾的是，Kafka社区似乎一直没有在监控框架方面投入太多的精力。目前，Kafka的新功能提议已超过500个，但没有一个提议是有关监控框架的。当然，Kafka的确提供了超多的JMX指标，只是，单独查看这些JMX指标往往不是很方便，我们还是要依赖于框架统一地提供性能监控。</p><p>也许，正是由于社区的这种“不作为”，很多公司和个人都自行着手开发Kafka监控框架，其中并不乏佼佼者。今天我们就来全面地梳理一下主流的监控框架。</p><h2>JMXTool工具</h2><p>首先，我向你推荐JMXTool工具。严格来说，它并不是一个框架，只是社区自带的一个工具罢了。JMXTool工具能够实时查看Kafka JMX指标。倘若你一时找不到合适的框架来做监控，JMXTool可以帮你“临时救急”一下。</p><p>Kafka官网没有JMXTool的任何介绍，你需要运行下面的命令，来获取它的使用方法的完整介绍。</p><pre><code>bin/kafka-run-class.sh kafka.tools.JmxTool
+
 </code></pre><p>JMXTool工具提供了很多参数，但你不必完全了解所有的参数。我把主要的参数说明列在了下面的表格里，你至少要了解一下这些参数的含义。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/79/d3/795399a24e665c1bf744085b5344f5d3.jpg" alt=""></p><p>现在，我举一个实际的例子来说明一下如何运行这个命令。</p><p>假设你要查询Broker端每秒入站的流量，即所谓的JMX指标BytesInPerSec，这个JMX指标能帮助你查看Broker端的入站流量负载，如果你发现这个值已经接近了你的网络带宽，这就说明该Broker的入站负载过大。你需要降低该Broker的负载，或者将一部分负载转移到其他Broker上。</p><p>下面这条命令，表示每5秒查询一次过去1分钟的BytesInPerSec均值。</p><pre><code>bin/kafka-run-class.sh kafka.tools.JmxTool --object-name kafka.server:type=BrokerTopicMetrics,name=BytesInPerSec --jmx-url service:jmx:rmi:///jndi/rmi://:9997/jmxrmi --date-format &quot;YYYY-MM-dd HH:mm:ss&quot; --attributes OneMinuteRate --reporting-interval 1000
 </code></pre><p>在这条命令中，有几点需要你注意一下。</p><ul>
 <li>设置 --jmx-url参数的值时，需要指定JMX端口。在这个例子中，端口是9997，在实际操作中，你需要指定你的环境中的端口。</li>

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>这周我们讨论机器学习排序算法中几个经典的模型，周一分享了配对法排序中的一个经典算法，即排序支持向量机（RankSVM），这个算法的核心思想是把支持向量机应用到有序数据中，试图对数据间的顺序进行直接建模。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>这周我们讨论机器学习排序算法中几个经典的模型，周一分享了配对法排序中的一个经典算法，即排序支持向量机（RankSVM），这个算法的核心思想是把支持向量机应用到有序数据中，试图对数据间的顺序进行直接建模。</p>
+
 <p>今天，我们来聊一聊利用机器学习进行排序的一个重要算法：<strong>“梯度增强决策树”（Gradient Boosted Decision Tree）</strong>。长期以来，包括雅虎在内的很多商业搜索引擎都利用这种算法作为排序算法。</p>
 <h2>梯度增强决策树的历史</h2>
 <p>梯度回归决策树的思想来源于两个地方。首先是“<strong>增强算法</strong>”（Boosting），一种试图用弱学习器提升为强学习器的算法。这种算法中比较成熟的、有代表性的算法是由罗伯特⋅施派尔（Robert Schapire）和约阿夫⋅福伦德（Yoav Freund）所提出的<strong>AdaBoost算法</strong>[1]。因为这个算法两人于2003年获得理论计算机界的重要奖项“哥德尔奖”（Gödel Prize）。罗伯特之前在普林斯顿大学任计算机系教授，目前在微软研究院的纽约实验室工作。约阿夫一直在加州大学圣地亚哥分校任计算机系教授。</p>

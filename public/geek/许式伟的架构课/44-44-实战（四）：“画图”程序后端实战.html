@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是七牛云许式伟。</p><p>上一讲我们介绍了帐号与授权相关的基础体系，并重点介绍 OAuth 2.0 背后的逻辑。今天我们开始考虑如何让 QPaint 引入帐号与授权体系。</p><p>最常规的做法，当然是自己建立一个帐号数据库，做基于用户名+密码的登录授权并转为基于Cookie的会话（Session）。示例如下：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是七牛云许式伟。</p><p>上一讲我们介绍了帐号与授权相关的基础体系，并重点介绍 OAuth 2.0 背后的逻辑。今天我们开始考虑如何让 QPaint 引入帐号与授权体系。</p><p>最常规的做法，当然是自己建立一个帐号数据库，做基于用户名+密码的登录授权并转为基于Cookie的会话（Session）。示例如下：</p><ul>
+
 <li><a href="https://github.com/qiniu/qpaint/tree/v44-bear">https://github.com/qiniu/qpaint/tree/v44-bear</a></li>
 <li><a href="https://github.com/qiniu/qpaint/compare/v42...v44-bear">https://github.com/qiniu/qpaint/compare/v42...v44-bear</a></li>
 </ul><p>但我们考虑提供 Open API 的话，就需要考虑遵循 OAuth 2.0 的授权协议规范，以便第三方应用可以快速接入，而不是搞半天去研究我们自己发明的授权是怎么回事。</p><p>除此之外，我们也可以考虑基于微信、支付宝等 OpenID 来实现用户的快速登录，而不是让用户在注册环节折腾半天。</p><p>所以，比较理想的方式是我们基于<a href="https://openid.net/connect/"> OpenID Connect</a> 协议来提供帐号系统，基于 OAuth 2.0 协议来实现 <a href="https://oauth.net/2/">Open API </a>体系。</p><p>这个选择与业务无关。所以很自然地，我们决定评估一下，看看是否有开源项目和我们想得一样。</p><p>最后，我们发现 CoreOS 团队搞了一个叫 dex 的项目，如下：</p><!-- [[[read_end]]] --><ul>

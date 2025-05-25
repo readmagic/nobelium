@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是蒋德钧。</p><p>字符串在我们平时的应用开发中十分常见，比如我们要记录用户信息、商品信息、状态信息等等，这些都会用到字符串。</p><p>而对于Redis来说，键值对中的键是字符串，值有时也是字符串。我们在Redis中写入一条用户信息，记录了用户姓名、性别、所在城市等，这些都是字符串，如下所示：</p><pre><code>SET user:id:100 {“name”: “zhangsan”, “gender”: “M”,“city”:&quot;beijing&quot;}
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是蒋德钧。</p><p>字符串在我们平时的应用开发中十分常见，比如我们要记录用户信息、商品信息、状态信息等等，这些都会用到字符串。</p><p>而对于Redis来说，键值对中的键是字符串，值有时也是字符串。我们在Redis中写入一条用户信息，记录了用户姓名、性别、所在城市等，这些都是字符串，如下所示：</p><pre><code>SET user:id:100 {“name”: “zhangsan”, “gender”: “M”,“city”:&quot;beijing&quot;}
+
 </code></pre><p>此外，Redis实例和客户端交互的命令和数据，也都是用字符串表示的。</p><p>那么，既然字符串的使用如此广泛和关键，就使得我们在实现字符串时，需要尽量满足以下三个要求：</p><ul>
 <li>能支持丰富且高效的字符串操作，比如字符串追加、拷贝、比较、获取长度等；</li>
 <li>能保存任意的二进制数据，比如图片等；</li>

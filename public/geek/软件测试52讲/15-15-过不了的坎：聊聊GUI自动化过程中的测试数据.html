@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>在前面几篇文章中，我从页面操作的角度介绍了GUI自动化测试，讲解了页面对象模型和业务流程封装，今天我将从测试数据的角度再来谈谈GUI自动化测试。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>在前面几篇文章中，我从页面操作的角度介绍了GUI自动化测试，讲解了页面对象模型和业务流程封装，今天我将从测试数据的角度再来谈谈GUI自动化测试。</p>
+
 <p>为了顺利进行GUI测试，往往需要准备测试数据来配合测试的进行，如果不采用事先数据准备的方式，测试效率将会大打折扣，而且还会引入大量不必要的依赖关系。</p>
 <p>以“用户登录”功能的测试为例，如果你的目的仅仅是测试用户是否可以正常登录，比较理想的方式是这个用户已经存在于被测系统中了，或者你可以通过很方便的方式在测试用例中生成这个用户。否则，难道你要为了测试用户登录功能，而以GUI的方式当场注册一个新用户吗？显然，这是不可取的。</p>
 <p>其实从这里，你就可以看出测试数据准备是实现测试用例解耦的重要手段，你完全不必为了测试GUI用户登录功能而去执行用户注册，只要你能够有方法快速创建出这个登录用户就可以了。</p>

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好！我是郑晔。</p><p>上一讲，我们讨论了面向对象的第一个特点：封装。这一讲，我们继续来看面向对象的第二个特点：继承。首先，你对继承的第一印象是什么呢？</p><p>说到继承，很多讲面向对象的教材一般会这么讲，给你画一棵树，父类是根节点，而子类是叶子节点，显然，一个父类可以有许多个子类。</p><p>父类是干什么用的呢？就是把一些公共代码放进去，之后在实现其他子类时，可以少写一些代码。讲程序库的时候，我们说过，设计的职责之一就是消除重复，代码复用。所以，在很多人的印象中，继承就是一种代码复用的方式。</p><p>如果我们把继承理解成一种代码复用方式，更多地是站在子类的角度向上看。在客户端代码使用的时候，面对的是子类，这种继承叫实现继承：</p><pre><code>Child object = new Child();
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好！我是郑晔。</p><p>上一讲，我们讨论了面向对象的第一个特点：封装。这一讲，我们继续来看面向对象的第二个特点：继承。首先，你对继承的第一印象是什么呢？</p><p>说到继承，很多讲面向对象的教材一般会这么讲，给你画一棵树，父类是根节点，而子类是叶子节点，显然，一个父类可以有许多个子类。</p><p>父类是干什么用的呢？就是把一些公共代码放进去，之后在实现其他子类时，可以少写一些代码。讲程序库的时候，我们说过，设计的职责之一就是消除重复，代码复用。所以，在很多人的印象中，继承就是一种代码复用的方式。</p><p>如果我们把继承理解成一种代码复用方式，更多地是站在子类的角度向上看。在客户端代码使用的时候，面对的是子类，这种继承叫实现继承：</p><pre><code>Child object = new Child();
+
 </code></pre><p>其实，还有一种看待继承的角度，就是从父类的角度往下看，客户端使用的时候，面对的是父类，这种继承叫接口继承：</p><pre><code>Parent object = new Child();
 </code></pre><p>不过，接口继承更多是与多态相关，我们暂且放一放，留到下一讲再来讨论。这一讲，我们还是主要来说说实现继承。其实，实现继承并不是一种好的做法。</p><p>也就是说，<strong>把实现继承当作一种代码复用的方式，并不是一种值得鼓励的做法</strong>。一方面，继承是很宝贵的，尤其是Java这种单继承的程序设计语言。每个类只能有一个父类，一旦继承的位置被实现继承占据了，再想做接口继承就很难了。</p><!-- [[[read_end]]] --><p>另一方面，实现继承通常也是一种受程序设计语言局限的思维方式，有很多程序设计语言，即使不使用继承，也有自己的代码复用方式。</p><p>可能这么说你还不太理解，接下来，我就用一个例子来帮你更好地理解继承。</p><h2>代码复用</h2><p>假设，我要做一个产品报表服务，其中有个服务是要查询产品信息，这个查询过程是通用的，别的服务也可以用，所以，我把它放到父类里面。这就是代码复用的做法，代码用Java写出来是这样的：</p><pre><code>class BaseService {
   // 获取相应的产品信息

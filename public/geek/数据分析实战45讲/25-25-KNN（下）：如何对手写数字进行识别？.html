@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>今天我来带你进行KNN的实战。上节课，我讲了KNN实际上是计算待分类物体与其他物体之间的距离，然后通过统计最近的K个邻居的分类情况，来决定这个物体的分类情况。</p><p>这节课，我们先看下如何在sklearn中使用KNN算法，然后通过sklearn中自带的手写数字数据集来进行实战。</p><p>之前我还讲过SVM、朴素贝叶斯和决策树分类，我们还可以用这个数据集来做下训练，对比下这四个分类器的训练结果。</p><h2>如何在sklearn中使用KNN</h2><p>在Python的sklearn工具包中有KNN算法。KNN既可以做分类器，也可以做回归。如果是做分类，你需要引用：</p><pre><code>from sklearn.neighbors import KNeighborsClassifier
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>今天我来带你进行KNN的实战。上节课，我讲了KNN实际上是计算待分类物体与其他物体之间的距离，然后通过统计最近的K个邻居的分类情况，来决定这个物体的分类情况。</p><p>这节课，我们先看下如何在sklearn中使用KNN算法，然后通过sklearn中自带的手写数字数据集来进行实战。</p><p>之前我还讲过SVM、朴素贝叶斯和决策树分类，我们还可以用这个数据集来做下训练，对比下这四个分类器的训练结果。</p><h2>如何在sklearn中使用KNN</h2><p>在Python的sklearn工具包中有KNN算法。KNN既可以做分类器，也可以做回归。如果是做分类，你需要引用：</p><pre><code>from sklearn.neighbors import KNeighborsClassifier
+
 </code></pre><p>如果是做回归，你需要引用：</p><pre><code>from sklearn.neighbors import KNeighborsRegressor
 
 </code></pre><p>从名字上你也能看出来Classifier对应的是分类，Regressor对应的是回归。一般来说如果一个算法有Classifier类，都能找到相应的Regressor类。比如在决策树分类中，你可以使用DecisionTreeClassifier，也可以使用决策树来做回归DecisionTreeRegressor。</p><p>好了，我们看下如何在sklearn中创建KNN分类器。</p><p>这里，我们使用构造函数KNeighborsClassifier(n_neighbors=5, weights=‘uniform’, algorithm=‘auto’, leaf_size=30)，这里有几个比较主要的参数，我分别来讲解下：</p><!-- [[[read_end]]] --><p>1.n_neighbors：即KNN中的K值，代表的是邻居的数量。K值如果比较小，会造成过拟合。如果K值比较大，无法将未知物体分类出来。一般我们使用默认值5。</p><p>2.weights：是用来确定邻居的权重，有三种方式：</p><ul>

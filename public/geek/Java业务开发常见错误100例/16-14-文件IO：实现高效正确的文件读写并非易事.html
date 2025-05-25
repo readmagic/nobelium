@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是朱晔。今天，我们来聊聊如何实现高效、正确的文件操作。</p><p>随着数据库系统的成熟和普及，需要直接做文件IO操作的需求越来越少，这就导致我们对相关API不够熟悉，以至于遇到类似文件导出、三方文件对账等需求时，只能临时抱佛脚，随意搜索一些代码完成需求，出现性能问题或者Bug后不知从何处入手。</p><p>今天这篇文章，我就会从字符编码、缓冲区和文件句柄释放这3个常见问题出发，和你分享如何解决与文件操作相关的性能问题或者Bug。如果你对文件操作相关的API不够熟悉，可以查看<a href="https://docs.oracle.com/javase/tutorial/essential/io/">Oracle官网的介绍</a>。</p><h2>文件读写需要确保字符编码一致</h2><p>有一个项目需要读取三方的对账文件定时对账，原先一直是单机处理的，没什么问题。后来为了提升性能，使用双节点同时处理对账，每一个节点处理部分对账数据，但新增的节点在处理文件中中文的时候总是读取到乱码。</p><p>程序代码都是一致的，为什么老节点就不会有问题呢？我们知道，这很可能是写代码时没有注意编码问题导致的。接下来，我们就分析下这个问题吧。</p><p>为模拟这个场景，我们使用GBK编码把“你好hi”写入一个名为hello.txt的文本文件，然后直接以字节数组形式读取文件内容，转换为十六进制字符串输出到日志中：</p><!-- [[[read_end]]] --><pre><code>Files.deleteIfExists(Paths.get(&quot;hello.txt&quot;));
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是朱晔。今天，我们来聊聊如何实现高效、正确的文件操作。</p><p>随着数据库系统的成熟和普及，需要直接做文件IO操作的需求越来越少，这就导致我们对相关API不够熟悉，以至于遇到类似文件导出、三方文件对账等需求时，只能临时抱佛脚，随意搜索一些代码完成需求，出现性能问题或者Bug后不知从何处入手。</p><p>今天这篇文章，我就会从字符编码、缓冲区和文件句柄释放这3个常见问题出发，和你分享如何解决与文件操作相关的性能问题或者Bug。如果你对文件操作相关的API不够熟悉，可以查看<a href="https://docs.oracle.com/javase/tutorial/essential/io/">Oracle官网的介绍</a>。</p><h2>文件读写需要确保字符编码一致</h2><p>有一个项目需要读取三方的对账文件定时对账，原先一直是单机处理的，没什么问题。后来为了提升性能，使用双节点同时处理对账，每一个节点处理部分对账数据，但新增的节点在处理文件中中文的时候总是读取到乱码。</p><p>程序代码都是一致的，为什么老节点就不会有问题呢？我们知道，这很可能是写代码时没有注意编码问题导致的。接下来，我们就分析下这个问题吧。</p><p>为模拟这个场景，我们使用GBK编码把“你好hi”写入一个名为hello.txt的文本文件，然后直接以字节数组形式读取文件内容，转换为十六进制字符串输出到日志中：</p><!-- [[[read_end]]] --><pre><code>Files.deleteIfExists(Paths.get(&quot;hello.txt&quot;));
+
 Files.write(Paths.get(&quot;hello.txt&quot;), &quot;你好hi&quot;.getBytes(Charset.forName(&quot;GBK&quot;)));
 log.info(&quot;bytes:{}&quot;, Hex.encodeHexString(Files.readAllBytes(Paths.get(&quot;hello.txt&quot;))).toUpperCase());
 </code></pre><p>输出如下：</p><pre><code>13:06:28.955 [main] INFO org.geekbang.time.commonmistakes.io.demo3.FileBadEncodingIssueApplication - bytes:C4E3BAC36869

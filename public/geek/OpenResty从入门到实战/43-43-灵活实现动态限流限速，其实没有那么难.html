@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是温铭。</p><p>前面的课程中，我为你介绍了漏桶和令牌桶算法，它们都是应对突发流量的常用手段。同时，我们也学习了如何通过 Nginx 配置文件的方式，来实现对请求的限流限速。不过很显然，使用 Nginx 配置文件的方式，仅仅停留在可用的层面，距离好用还是有不小的距离的。</p><p>第一个问题便是，限速的 key 被限制在 Nginx 的变量范围内，不能灵活地设置。比如，根据不同的省份和不同的客户端渠道，来设置不同的限速阈值，这种常见的需求用 Nginx 就没有办法实现。</p><p>另外一个更大的问题是，不能动态地调整速率，每次修改都需要重载 Nginx 服务，这一点我们在上节课的最后也提到过。这样一来，根据不同的时间段限速这种需求，就只能通过外置的脚本来蹩脚地实现了。</p><p>要知道，技术是为业务服务的，同时，业务也在驱动着技术的进步。在 Nginx 诞生的时代，并没有什么动态调整配置的需求，更多的是反向代理、负载均衡、低内存占用等类似的需求，在驱动着 Nginx 的成长。在技术的架构和实现上，并没有人能够预料到，在移动互联网、IoT、微服务等场景下，对于动态和精细控制的需求会大量爆发。</p><p>而 OpenResty 使用 Lua 脚本的方式，恰好能够弥补 Nginx 在这方面的缺失，形成了有效的互补。这也是 OpenResty 被广泛地用于替换 Nginx 的根源所在。在后面几节课中，我会为你继续介绍更多 OpenResty 中动态的场景和示例。今天，就让我们先来看下，如何使用 OpenResty 来实现动态限流和限速。</p><!-- [[[read_end]]] --><p>在 OpenResty 中，我们推荐使用 <a href="https://github.com/openresty/lua-resty-limit-traffic">lua-resty-limit-traffic</a> 来做流量的限制。它里面包含了 <code>limit-req</code>（限制请求速率）、 <code>limit-count</code>（限制请求数） 和 <code>limit-conn</code> （限制并发连接数）这三种不同的限制方式；并且提供了<code>limit.traffic</code> ，可以把这三种方式进行聚合使用。</p><h2>限制请求速率</h2><p>让我们先来看下 <code>limit-req</code>，它使用的是漏桶算法来限制请求的速率。</p><p>在上一节中，我们已经简要介绍了这个 resty 库中漏桶算法的关键实现代码，现在我们就来学习如何使用这个库。我们来看下面这段示例代码：</p><pre><code>resty --shdict='my_limit_req_store 100m' -e 'local limit_req = require &quot;resty.limit.req&quot;
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是温铭。</p><p>前面的课程中，我为你介绍了漏桶和令牌桶算法，它们都是应对突发流量的常用手段。同时，我们也学习了如何通过 Nginx 配置文件的方式，来实现对请求的限流限速。不过很显然，使用 Nginx 配置文件的方式，仅仅停留在可用的层面，距离好用还是有不小的距离的。</p><p>第一个问题便是，限速的 key 被限制在 Nginx 的变量范围内，不能灵活地设置。比如，根据不同的省份和不同的客户端渠道，来设置不同的限速阈值，这种常见的需求用 Nginx 就没有办法实现。</p><p>另外一个更大的问题是，不能动态地调整速率，每次修改都需要重载 Nginx 服务，这一点我们在上节课的最后也提到过。这样一来，根据不同的时间段限速这种需求，就只能通过外置的脚本来蹩脚地实现了。</p><p>要知道，技术是为业务服务的，同时，业务也在驱动着技术的进步。在 Nginx 诞生的时代，并没有什么动态调整配置的需求，更多的是反向代理、负载均衡、低内存占用等类似的需求，在驱动着 Nginx 的成长。在技术的架构和实现上，并没有人能够预料到，在移动互联网、IoT、微服务等场景下，对于动态和精细控制的需求会大量爆发。</p><p>而 OpenResty 使用 Lua 脚本的方式，恰好能够弥补 Nginx 在这方面的缺失，形成了有效的互补。这也是 OpenResty 被广泛地用于替换 Nginx 的根源所在。在后面几节课中，我会为你继续介绍更多 OpenResty 中动态的场景和示例。今天，就让我们先来看下，如何使用 OpenResty 来实现动态限流和限速。</p><!-- [[[read_end]]] --><p>在 OpenResty 中，我们推荐使用 <a href="https://github.com/openresty/lua-resty-limit-traffic">lua-resty-limit-traffic</a> 来做流量的限制。它里面包含了 <code>limit-req</code>（限制请求速率）、 <code>limit-count</code>（限制请求数） 和 <code>limit-conn</code> （限制并发连接数）这三种不同的限制方式；并且提供了<code>limit.traffic</code> ，可以把这三种方式进行聚合使用。</p><h2>限制请求速率</h2><p>让我们先来看下 <code>limit-req</code>，它使用的是漏桶算法来限制请求的速率。</p><p>在上一节中，我们已经简要介绍了这个 resty 库中漏桶算法的关键实现代码，现在我们就来学习如何使用这个库。我们来看下面这段示例代码：</p><pre><code>resty --shdict='my_limit_req_store 100m' -e 'local limit_req = require &quot;resty.limit.req&quot;
+
 local lim, err = limit_req.new(&quot;my_limit_req_store&quot;, 200, 100)
 local delay, err = lim:incoming(&quot;key&quot;, true)
 if not delay then

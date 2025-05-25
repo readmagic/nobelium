@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>大家好，我是陆晓明，现在在一家互联网手机公司担任Android系统开发工程师。很高兴可以在极客时间Android开发高手课专栏里，分享一些我在手机行业9年的经验以及学习Android的方法。</p><p>今天我要跟你分享的是Framework的学习和调试的方法。</p><p>首先，Android是一种基于Linux的开放源代码软件栈，为广泛的设备和机型而创建。下图是Android平台的<a href="https://developer.android.google.cn/guide/platform">主要组件</a>。</p><p><img src="https://static001.geekbang.org/resource/image/90/df/90763fd9662c8a75553dc92a78112ddf.png" alt=""></p><p>从图中你可以看到主要有以下几部分组成：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>大家好，我是陆晓明，现在在一家互联网手机公司担任Android系统开发工程师。很高兴可以在极客时间Android开发高手课专栏里，分享一些我在手机行业9年的经验以及学习Android的方法。</p><p>今天我要跟你分享的是Framework的学习和调试的方法。</p><p>首先，Android是一种基于Linux的开放源代码软件栈，为广泛的设备和机型而创建。下图是Android平台的<a href="https://developer.android.google.cn/guide/platform">主要组件</a>。</p><p><img src="https://static001.geekbang.org/resource/image/90/df/90763fd9662c8a75553dc92a78112ddf.png" alt=""></p><p>从图中你可以看到主要有以下几部分组成：</p><ul>
+
 <li><strong>Linux内核</strong></li>
 <li><strong>Android Runtime</strong></li>
 <li><strong>原生C/C++库</strong></li>

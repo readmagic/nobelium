@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是陈东。</p><p>试想这样一个场景：假设你已经熟读唐诗300首了。这个时候，如果我给你一首诗的题目，你可以马上背出这首诗的内容吗？相信你一定可以的。但是如果我问你，有哪些诗中同时包含了“极”字和“客”字？你就不见得能立刻回答出来了。你需要在头脑中一首诗一首诗地回忆，并判断每一首诗的内容是否同时包含了“极”字和“客”字。很显然，第二个问题的难度比第一个问题大得多。</p><p>那从程序设计的角度来看，这两个问题对应的检索过程又有什么不同呢？今天，我们就一起来聊一聊，两个非常常见又非常重要的检索技术：正排索引和倒排索引。</p><h2>什么是倒排索引？</h2><p>我们先来看比较简单的那个问题：给出一首诗的题目，马上背出内容。这其实就是一个典型的键值查询场景。针对这个场景，我们可以给每首诗一个唯一的编号作为ID，然后使用哈希表将诗的ID作为键（Key），把诗的内容作为键对应的值（Value）。这样，我们就能在O(1)的时间代价内，完成对指定key的检索。这样一个以对象的唯一ID为key的哈希索引结构，叫作<strong>正排索引</strong>（Forward Index）。<br>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是陈东。</p><p>试想这样一个场景：假设你已经熟读唐诗300首了。这个时候，如果我给你一首诗的题目，你可以马上背出这首诗的内容吗？相信你一定可以的。但是如果我问你，有哪些诗中同时包含了“极”字和“客”字？你就不见得能立刻回答出来了。你需要在头脑中一首诗一首诗地回忆，并判断每一首诗的内容是否同时包含了“极”字和“客”字。很显然，第二个问题的难度比第一个问题大得多。</p><p>那从程序设计的角度来看，这两个问题对应的检索过程又有什么不同呢？今天，我们就一起来聊一聊，两个非常常见又非常重要的检索技术：正排索引和倒排索引。</p><h2>什么是倒排索引？</h2><p>我们先来看比较简单的那个问题：给出一首诗的题目，马上背出内容。这其实就是一个典型的键值查询场景。针对这个场景，我们可以给每首诗一个唯一的编号作为ID，然后使用哈希表将诗的ID作为键（Key），把诗的内容作为键对应的值（Value）。这样，我们就能在O(1)的时间代价内，完成对指定key的检索。这样一个以对象的唯一ID为key的哈希索引结构，叫作<strong>正排索引</strong>（Forward Index）。<br>
+
 <img src="https://static001.geekbang.org/resource/image/4b/f1/4b5e88addf89120aba176671c53d25f1.jpeg" alt=""></p><center><span class="reference">哈希表存储所有诗</span></center><p>一般来说，我们会遍历哈希表，遍历的时间代价是O(n)。在遍历过程中，对于遇到的每一个元素也就是每一首诗，我们需要遍历这首诗中的每一个字符，才能判断是否包含“极”字和“客”字。假设每首诗的平均长度是k，那遍历一首诗的时间代价就是O(k)。从这个分析中我们可以发现，这个检索过程全部都是遍历，因此时间代价非常高。对此，有什么优化方法吗？</p><!-- [[[read_end]]] --><p>我们先来分析一下这两个场景。我们会发现，“根据题目查找内容”和“根据关键字查找题目”，这两个问题其实是完全相反的。既然完全相反，那我们能否“反着”建立一个哈希表来帮助我们查找呢？也就是说，如果我们以关键字作为key建立哈希表，是不是问题就解决了呢？接下来，我们就试着操作一下。</p><p>我们将每个关键字当作key，将包含了这个关键字的诗的列表当作存储的内容。这样，我们就建立了一个哈希表，根据关键字来查询这个哈希表，在O(1)的时间内，我们就能得到包含该关键字的文档列表。这种根据具体内容或属性反过来索引文档标题的结构，我们就叫它<strong>倒排索引</strong>（Inverted Index）。在倒排索引中，key的集合叫作<strong>字典</strong>（Dictionary），一个key后面对应的记录集合叫作<strong>记录列表</strong>（Posting List）。<br>
 <img src="https://static001.geekbang.org/resource/image/8e/8b/8e602ab79d98380c8c258a30a1e2108b.jpg" alt=""></p><center><span class="reference">倒排索引</span></center><h2>如何创建倒排索索引？</h2><p>前面我们介绍了倒排索引的概念，那创建一个倒排索引的过程究竟是怎样的呢？我把这个过程总结成了以下步骤。</p><ol>
 <li>给每个文档编号，作为其唯一的标识，并且排好序，然后开始遍历文档（为什么要先排序，然后再遍历文档呢？你可以先想一下，后面我们会解释）。</li>

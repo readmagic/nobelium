@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是傅健。</p><p>上一章节我们学习了自动注入、AOP 等 Spring 核心知识运用上的常见错误案例。然而，我们<strong>使用 Spring 大多还是为了开发一个 Web 应用程序</strong>，所以从这节课开始，我们将学习Spring Web 的常见错误案例。</p><p>在这之前，我想有必要先给你简单介绍一下 Spring Web 最核心的流程，这可以让我们后面的学习进展更加顺利一些。</p><p>那什么是 Spring Web 最核心的流程呢？无非就是一个 HTTP 请求的处理过程。这里我以 Spring Boot 的使用为例，以尽量简单的方式带你梳理下。</p><p>首先，回顾下我们是怎么添加一个 HTTP 接口的，示例如下：</p><pre><code>@RestController
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是傅健。</p><p>上一章节我们学习了自动注入、AOP 等 Spring 核心知识运用上的常见错误案例。然而，我们<strong>使用 Spring 大多还是为了开发一个 Web 应用程序</strong>，所以从这节课开始，我们将学习Spring Web 的常见错误案例。</p><p>在这之前，我想有必要先给你简单介绍一下 Spring Web 最核心的流程，这可以让我们后面的学习进展更加顺利一些。</p><p>那什么是 Spring Web 最核心的流程呢？无非就是一个 HTTP 请求的处理过程。这里我以 Spring Boot 的使用为例，以尽量简单的方式带你梳理下。</p><p>首先，回顾下我们是怎么添加一个 HTTP 接口的，示例如下：</p><pre><code>@RestController
+
 public class HelloWorldController {
     @RequestMapping(path = &quot;hi&quot;, method = RequestMethod.GET)
     public String hi(){

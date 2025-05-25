@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>今天我来带你进行KNN的学习，KNN的英文叫K-Nearest Neighbor，应该算是数据挖掘算法中最简单的一种。</p><p>我们先用一个例子体会下。</p><p>假设，我们想对电影的类型进行分类，统计了电影中打斗次数、接吻次数，当然还有其他的指标也可以被统计到，如下表所示。</p><p><img src="https://static001.geekbang.org/resource/image/6d/87/6dac3a9961e69aa86d80de32bdc00987.png" alt=""><br>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>今天我来带你进行KNN的学习，KNN的英文叫K-Nearest Neighbor，应该算是数据挖掘算法中最简单的一种。</p><p>我们先用一个例子体会下。</p><p>假设，我们想对电影的类型进行分类，统计了电影中打斗次数、接吻次数，当然还有其他的指标也可以被统计到，如下表所示。</p><p><img src="https://static001.geekbang.org/resource/image/6d/87/6dac3a9961e69aa86d80de32bdc00987.png" alt=""><br>
+
 我们很容易理解《战狼》《红海行动》《碟中谍6》是动作片，《前任3》《春娇救志明》《泰坦尼克号》是爱情片，但是有没有一种方法让机器也可以掌握这个分类的规则，当有一部新电影的时候，也可以对它的类型自动分类呢？</p><p>我们可以把打斗次数看成X轴，接吻次数看成Y轴，然后在二维的坐标轴上，对这几部电影进行标记，如下图所示。对于未知的电影A，坐标为(x,y)，我们需要看下离电影A最近的都有哪些电影，这些电影中的大多数属于哪个分类，那么电影A就属于哪个分类。实际操作中，我们还需要确定一个K值，也就是我们要观察离电影A最近的电影有多少个。</p><p><img src="https://static001.geekbang.org/resource/image/fa/cc/fa0aa02dae219b21de5984371950c3cc.png" alt=""></p><h2>KNN的工作原理</h2><p>“近朱者赤，近墨者黑”可以说是KNN的工作原理。整个计算过程分为三步：</p><ol>
 <li>
 <p>计算待分类物体与其他物体之间的距离；</p>

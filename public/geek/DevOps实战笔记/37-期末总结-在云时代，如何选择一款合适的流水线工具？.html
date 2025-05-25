@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是石雪峰。今天是期末总结，我们来聊一聊，在云时代，如何选择一款合适的流水线工具。</p><p>在过去的几年里，我一直专注于软件持续交付的工程实践领域。我发现，越来越多的公司（无论规模大小）开始重视软件持续交付能力的建设了，基本上每家公司都有自己的流水线平台。</p><p>以前提到CI/CD工具，基本上就默认是Jenkins，也没什么其他太好的选项。但是最近两年，随着云容器技术的快速发展，在CI/CD流水线领域，新工具和解决方案出现了爆发式的增长。比如不甘寂寞的GitLab CI、轻量级的容器化解决方案Drone。最近一段时间，GitHub的Actions也火了一把。可见，作为软件交付主路径上的核心工具，<strong>流水线</strong>是每一家企业都不愿意错过的领域。</p><p>对于行业发展来说，这当然是好事情。老牌工具Jenkins自己都开始反省：“在云容器时代，是不是过于保守？十几年的老架构是否已经难以支撑云时代的快速发展了？”于是他们就另辟蹊径，孵化出了Jenkins X项目。</p><p>但是，对于用户来说，选择工具时就很为难：“这些工具看起来大同小异，要解决的也是类似的问题，到底应该选择哪个呢？”</p><p>今天，我就来给你梳理一下流行的CI/CD工具，并给你提供一些选择建议。我挑选了5个工具，分为3组介绍，分别是Jenkins系的Jenkins和Jenkins X、版本控制系统系的GitLab CI和GitHub Actions，以及新兴的、正在快速普及的云原生解决方案Drone。我会从5个方面入手，对它们进行对比和介绍，包括工具的易用性、流水线设计、插件生态、扩展性配置以及适用场景。</p><!-- [[[read_end]]] --><h2>Jenkins/Jenkins X</h2><p>关于Jenkins，我想已经不需要做太多介绍了。在过去的15年里面，Jenkins一直都在为无数的软件开发者默默服务。从一组数字中，我们就能看出来它的影响力：官方能统计到的集群数有26万多个、插件将近1700个、执行的任务数超过3000万次，这还不包括大量公司自建、本地电脑运行的节点信息。另外，一年两次的Jenkins全球大会往往能够吸引上千人参与，这对于国外的技术大会来说，已经是超大规模的盛会了。</p><p>当然，Jenkins的优缺点也很明显。</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是石雪峰。今天是期末总结，我们来聊一聊，在云时代，如何选择一款合适的流水线工具。</p><p>在过去的几年里，我一直专注于软件持续交付的工程实践领域。我发现，越来越多的公司（无论规模大小）开始重视软件持续交付能力的建设了，基本上每家公司都有自己的流水线平台。</p><p>以前提到CI/CD工具，基本上就默认是Jenkins，也没什么其他太好的选项。但是最近两年，随着云容器技术的快速发展，在CI/CD流水线领域，新工具和解决方案出现了爆发式的增长。比如不甘寂寞的GitLab CI、轻量级的容器化解决方案Drone。最近一段时间，GitHub的Actions也火了一把。可见，作为软件交付主路径上的核心工具，<strong>流水线</strong>是每一家企业都不愿意错过的领域。</p><p>对于行业发展来说，这当然是好事情。老牌工具Jenkins自己都开始反省：“在云容器时代，是不是过于保守？十几年的老架构是否已经难以支撑云时代的快速发展了？”于是他们就另辟蹊径，孵化出了Jenkins X项目。</p><p>但是，对于用户来说，选择工具时就很为难：“这些工具看起来大同小异，要解决的也是类似的问题，到底应该选择哪个呢？”</p><p>今天，我就来给你梳理一下流行的CI/CD工具，并给你提供一些选择建议。我挑选了5个工具，分为3组介绍，分别是Jenkins系的Jenkins和Jenkins X、版本控制系统系的GitLab CI和GitHub Actions，以及新兴的、正在快速普及的云原生解决方案Drone。我会从5个方面入手，对它们进行对比和介绍，包括工具的易用性、流水线设计、插件生态、扩展性配置以及适用场景。</p><!-- [[[read_end]]] --><h2>Jenkins/Jenkins X</h2><p>关于Jenkins，我想已经不需要做太多介绍了。在过去的15年里面，Jenkins一直都在为无数的软件开发者默默服务。从一组数字中，我们就能看出来它的影响力：官方能统计到的集群数有26万多个、插件将近1700个、执行的任务数超过3000万次，这还不包括大量公司自建、本地电脑运行的节点信息。另外，一年两次的Jenkins全球大会往往能够吸引上千人参与，这对于国外的技术大会来说，已经是超大规模的盛会了。</p><p>当然，Jenkins的优缺点也很明显。</p><ul>
+
 <li>优点：普及率高，搞过开发的基本应该都接触过；插件生态成熟且丰富，可以适用于任何场景。</li>
 <li>缺点：软件架构和UI设计风格有些过时，配置操作比较复杂；插件的安全性、通用性方面也存在很多问题，最重要的是，在云容器领域，多少有些格格不入。</li>
 </ul><p>我重点说说Jenkins X。很多人都不清楚Jenkins和Jenkins X是什么关系，这就好比刚开始我们很难说清楚Java和JavaScript的关系一样。实际上，JavaScript除了名字上带有“Java”字眼，蹭了个热度之外，本质上它们之间并没有什么关系。而对于Jenkins和Jenkins X来说，虽然并不能说二者一点关系没有，但其实它们面对的场景和要解决的问题是不同的。所以，并不能说Jenkins X就是下一代Jenkins，或者是Jenkins迟早会迁移到Jenkins X上面。</p><p>Jenkins X最开始的确是作为Jenkins的子项目存在的，但是发展到现在，它已经有了独立的品牌和Logo，并且和Jenkins一起作为CDF（持续交付基金会）的初始项目。Jenkins X想要解决的核心问题是<strong>Kubernetes上的原生CI/CD解决方案</strong>。所以，Jenkins X和Kubernetes是强绑定的关系，<strong>它致力于通过一系列的自动化工具和最佳实践，来降低云原生环境下的研发配置和使用CI/CD的成本，并尽可能地做成开箱即用的状态</strong>。</p><p>而Jenkins更像一个百宝箱，你可以通过插件扩展来解决各种各样的问题，并没有一定之规。</p><p>我给你举个例子，来形象地对比一下Jenkins和Jenkins X这两个项目。</p><p>Jenkins就好比你在开车，你知道目的地，但是走哪条路，开多快，中间要不要休息一下，什么时候加油，这些都是你自己来决定的。当然，灵活性带来的就是多变性，你并不知道是不是下一秒就封路了或者是汽车突然坏了。</p><p>而Jenkins X更像是一辆高速列车，你只要上对了车，列车会把你安全、快速地送往目的地，而你并不需要关心这个车是怎么设计的，时速应该是多少，甚至你在哪里能够下车，它都规定好了。</p><p>Jenkins X项目中内建了大量的开源工具和解决方案，可以说是开源工具的理想国和试验田，核心目的就是为了简单、快速、开箱即用。比如对Tekton的集成，就被视为对Jenkins自身的颠覆，因为这彻底改变了Jenkins流水线调度机制。因为在Jenkins X看来，Jenkins只不过是Jenkins X中的一个应用，是一个黑盒子，编排通过Tekton来实现，换句话说，即便你想用其他应用来取代Jenkins，也不是不可能的。</p><p>值得注意的是，Jenkins X中有很多约束，比如你必须使用GitOps的方案来完成应用的晋级和部署，没有其他的选择。<strong>如果你没有使用Helm管理应用，也不想使用GitOps，那就现阶段来说，Jenkins X对你就不是一个可选项</strong>。</p><p>我们来总结一下Jenkins X项目：</p><ul>

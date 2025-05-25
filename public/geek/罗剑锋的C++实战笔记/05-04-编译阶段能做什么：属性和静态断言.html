@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是Chrono。</p><p>前面我讲了C++程序生命周期里的“编码阶段”和“预处理阶段”，它们的工作主要还是“文本编辑”，生成的是<strong>人类可识别的源码</strong>（source code）。而“编译阶段”就不一样了，它的目标是<strong>生成计算机可识别的机器码</strong>（machine instruction code）。</p><p>今天，我就带你来看看在这个阶段能做些什么事情。</p><h2>编译阶段编程</h2><p>编译是预处理之后的阶段，它的输入是（经过预处理的）C++源码，输出是<strong>二进制可执行文件</strong>（也可能是汇编文件、动态库或者静态库）。这个处理动作就是由编译器来执行的。</p><p>和预处理阶段一样，在这里你也可以“面向编译器编程”，用一些指令或者关键字让编译器按照你的想法去做一些事情。只不过，这时你要面对的是庞大的C++语法，而不是简单的文本替换，难度可以说是高了好几个数量级。</p><p>编译阶段的特殊性在于，它看到的都是C++语法实体，比如typedef、using、template、struct/class这些关键字定义的类型，而不是运行阶段的变量。所以，这时的编程思维方式与平常大不相同。我们熟悉的是CPU、内存、Socket，但要去理解编译器的运行机制、知道怎么把源码翻译成机器码，这可能就有点“强人所难”了。</p><!-- [[[read_end]]] --><p>比如说，让编译器递归计算斐波那契数列，这已经算是一个比较容易理解的编译阶段数值计算用法了：</p><pre><code>template&lt;int N&gt;
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是Chrono。</p><p>前面我讲了C++程序生命周期里的“编码阶段”和“预处理阶段”，它们的工作主要还是“文本编辑”，生成的是<strong>人类可识别的源码</strong>（source code）。而“编译阶段”就不一样了，它的目标是<strong>生成计算机可识别的机器码</strong>（machine instruction code）。</p><p>今天，我就带你来看看在这个阶段能做些什么事情。</p><h2>编译阶段编程</h2><p>编译是预处理之后的阶段，它的输入是（经过预处理的）C++源码，输出是<strong>二进制可执行文件</strong>（也可能是汇编文件、动态库或者静态库）。这个处理动作就是由编译器来执行的。</p><p>和预处理阶段一样，在这里你也可以“面向编译器编程”，用一些指令或者关键字让编译器按照你的想法去做一些事情。只不过，这时你要面对的是庞大的C++语法，而不是简单的文本替换，难度可以说是高了好几个数量级。</p><p>编译阶段的特殊性在于，它看到的都是C++语法实体，比如typedef、using、template、struct/class这些关键字定义的类型，而不是运行阶段的变量。所以，这时的编程思维方式与平常大不相同。我们熟悉的是CPU、内存、Socket，但要去理解编译器的运行机制、知道怎么把源码翻译成机器码，这可能就有点“强人所难”了。</p><!-- [[[read_end]]] --><p>比如说，让编译器递归计算斐波那契数列，这已经算是一个比较容易理解的编译阶段数值计算用法了：</p><pre><code>template&lt;int N&gt;
+
 struct fib                   // 递归计算斐波那契数列
 {
     static const int value =

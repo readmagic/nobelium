@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是王庆友，今天我来和你聊一聊如何打造高性能和可伸缩的系统。</p><p>在课程的<a href="https://time.geekbang.org/column/article/212066">第11讲</a>，我和你介绍了，技术架构除了要保证系统的高可用，还要保证系统的高性能和可伸缩，并且能以低成本的方式落地。在实践中呢，高性能、可伸缩和低成本紧密相关，处理的手段也比较类似，这里我就放在一起来给你讲解。</p><p>在实际的工作当中，我们一般会比较关注业务功能的实现，而很少关注系统的性能，所以我们经常会面临以下这些挑战：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是王庆友，今天我来和你聊一聊如何打造高性能和可伸缩的系统。</p><p>在课程的<a href="https://time.geekbang.org/column/article/212066">第11讲</a>，我和你介绍了，技术架构除了要保证系统的高可用，还要保证系统的高性能和可伸缩，并且能以低成本的方式落地。在实践中呢，高性能、可伸缩和低成本紧密相关，处理的手段也比较类似，这里我就放在一起来给你讲解。</p><p>在实际的工作当中，我们一般会比较关注业务功能的实现，而很少关注系统的性能，所以我们经常会面临以下这些挑战：</p><ul>
+
 <li><strong>系统的TPS很低，只要流量一大，系统就挂，加机器也没用；</strong></li>
 <li><strong>机器的资源利用率很低，造成资源严重浪费。</strong></li>
 </ul><p>我曾经就统计过公司云服务器的资源利用率，结果让我非常意外，有相当比例的服务器，它们的CPU和内存平均利用率长期不到1%，但与此同时，这些系统整体的TPS只有个位数。这里，你可以发现，资源利用率低和系统性能低的现象同时并存，很显然，系统没有充分利用硬件资源，它的性能有很大的优化空间。</p><p>所以今天，我就先来给你介绍一下常用的性能数据，让你建立起对性能的基本概念；然后，我会和你具体讲解实现系统高性能和可伸缩的策略，让你能在实践中灵活运用。</p><h2>常用的性能数据</h2><p>对于服务器来说，1ms的时间其实不算短，它可以做很多事情，我在这里列了几个基础的性能数据，你可以把它们看做是系统性能的基线。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/7f/83/7fb77d02fc24085534617eab95e2e283.jpg" alt=""></p><p>你可以看到，内存的数据读取是SSD磁盘的10倍，SSD磁盘又是普通磁盘的10倍，一个远程调用的网络耗时是机房内部调用的1000倍，一个分布式缓存访问相对于数据库访问，性能也有数十倍的提升。</p><p>了解了这些常用的性能数据，你就能对性能建立一个直观的认识，有些时候，我们采取一些简单的手段就能提升系统的性能。比如说，如果磁盘的IO访问是瓶颈，我们只要用SSD磁盘来代替机械硬盘，就能够大幅度地提升系统的性能。</p><h2>高性能的策略和手段</h2><p>那么对于一个实际的业务系统来说，情况就会复杂很多。一个外部请求进来，需要经过内部很多的软硬件节点处理，用户请求的处理时间就等于所有节点的处理时间相加。只要某个节点性能有问题（比如数据库），或者某项资源不足（比如网络带宽），系统整体的TPS就上不去。这也是在实践中，很多系统TPS只有个位数的原因。</p><p>不同类型的节点，提升性能的方法是不一样的，概括起来，总体上可以分为三类。</p><h3>加快单个请求处理</h3><p>这个其实很好理解。简单来说，就是当一个外部请求进来，我们要让系统在最短的时间内完成请求的处理，这样在单位时间内，系统就可以处理更多的请求。具体的做法主要有两种：</p><ol>

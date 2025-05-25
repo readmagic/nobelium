@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好！我是郑晔。</p><p>上一讲，我们讲了ISP原则，知道了在设计接口的时候，我们应该设计小接口，不应该让使用者依赖于用不到的方法。但在结尾的时候，我留下了一个尾巴，说在那个例子里面还有一个根本性的问题：依赖方向搞反了。</p><p>依赖这个词，程序员们都好理解，意思就是，我这段代码用到了谁，我就依赖了谁。依赖容易有，但能不能把依赖弄对，就需要动点脑子了。如果依赖关系没有处理好，就会导致一个小改动影响一大片，而把依赖方向搞反，就是最典型的错误。</p><p>那什么叫依赖方向搞反呢？这一讲我们就来讨论关于依赖的设计原则：依赖倒置原则。</p><h2>谁依赖谁</h2><p>依赖倒置原则（Dependency inversion principle，简称DIP）是这样表述的：</p><blockquote>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好！我是郑晔。</p><p>上一讲，我们讲了ISP原则，知道了在设计接口的时候，我们应该设计小接口，不应该让使用者依赖于用不到的方法。但在结尾的时候，我留下了一个尾巴，说在那个例子里面还有一个根本性的问题：依赖方向搞反了。</p><p>依赖这个词，程序员们都好理解，意思就是，我这段代码用到了谁，我就依赖了谁。依赖容易有，但能不能把依赖弄对，就需要动点脑子了。如果依赖关系没有处理好，就会导致一个小改动影响一大片，而把依赖方向搞反，就是最典型的错误。</p><p>那什么叫依赖方向搞反呢？这一讲我们就来讨论关于依赖的设计原则：依赖倒置原则。</p><h2>谁依赖谁</h2><p>依赖倒置原则（Dependency inversion principle，简称DIP）是这样表述的：</p><blockquote>
+
 <p>高层模块不应依赖于低层模块，二者应依赖于抽象。<br>
 High-level modules should not depend on low-level modules. Both should depend on abstractions.</p>
 </blockquote><blockquote>

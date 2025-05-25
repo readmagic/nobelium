@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是吴咏炜。</p><p>从今天开始，我们会用连续 3 讲，深入讨论怎么为编程定制环境。如果你是 C 程序员，那么今天这一讲对你来说毫无疑问是必修课。如果你用的是类 C 语言，也能从这一讲中学到很多有用的内容，尤其是在语法加亮精调、tags 和 Clang-Format 部分。</p><h2>语法加亮精调</h2><p>在<a href="https://time.geekbang.org/column/article/267765">第 4 讲</a>中我们已经学到了，Vim 能根据文件类型对代码进行加亮。在<a href="https://time.geekbang.org/column/article/275752">第 12 讲</a>里，我们还进一步讨论了 Vim 实现语法加亮的细节，知道这些是如何通过代码来进行控制的。对于 C（含其他基于 C 的语言如 C++），语法加亮文件有一些精调选项，还挺有意思，能应对一些特殊场景的需求。我一般会设置以下几项：</p><pre><code class="language-vim">let g:c_space_errors = 1
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是吴咏炜。</p><p>从今天开始，我们会用连续 3 讲，深入讨论怎么为编程定制环境。如果你是 C 程序员，那么今天这一讲对你来说毫无疑问是必修课。如果你用的是类 C 语言，也能从这一讲中学到很多有用的内容，尤其是在语法加亮精调、tags 和 Clang-Format 部分。</p><h2>语法加亮精调</h2><p>在<a href="https://time.geekbang.org/column/article/267765">第 4 讲</a>中我们已经学到了，Vim 能根据文件类型对代码进行加亮。在<a href="https://time.geekbang.org/column/article/275752">第 12 讲</a>里，我们还进一步讨论了 Vim 实现语法加亮的细节，知道这些是如何通过代码来进行控制的。对于 C（含其他基于 C 的语言如 C++），语法加亮文件有一些精调选项，还挺有意思，能应对一些特殊场景的需求。我一般会设置以下几项：</p><pre><code class="language-vim">let g:c_space_errors = 1
+
 let g:c_gnu = 1
 let g:c_no_cformat = 1
 let g:c_no_curly_error = 1

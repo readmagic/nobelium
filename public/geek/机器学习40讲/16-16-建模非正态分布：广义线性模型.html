@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>直观来看，上一篇文章介绍的逻辑回归只是对普通线性回归的输出加以变换，以满足问题的需要。但在这简单的现象背后，以逻辑回归为代表的这类线性模型的推广具有更加深刻的数学内涵，因而被称为<strong>广义线性模型</strong>（generalized linear model）。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>直观来看，上一篇文章介绍的逻辑回归只是对普通线性回归的输出加以变换，以满足问题的需要。但在这简单的现象背后，以逻辑回归为代表的这类线性模型的推广具有更加深刻的数学内涵，因而被称为<strong>广义线性模型</strong>（generalized linear model）。</p>
+
 <p>线性模型的意义是建立了自变量和因变量的关联，当自变量变化时，因变量也会出现依照比例同等程度的变化。可是现实世界不是数学模型，如果硬要将线性模型套用在实际问题中，很可能会闹出笑话。</p>
 <p>如果线性回归告诉你气温每下降1度，海滩上的游客就会减少100人，那么这条规律适用于科帕卡巴纳或者芭堤雅的问题不大，因为这些著名的度假胜地的游客基数数以万计。可是对于一个最多只能接待80名游客的不知名小海滩来说，气温下降1度意味着游客数目变成了-20，难不成工作人员也被冻跑了吗？这和不能听相声是一个道理：“笑一笑十年少”也是个线性模型，要是这个模型属实的话，哪怕只听一分钟相声我都要回到娘胎里去了。</p>
 <p>物理学中有个概念叫<strong>半衰期</strong>，不严格地说，它指的是放射性元素的原子核半数发生衰变所需要的时间。元素的半衰期和原子的总量无关，100个原子中衰变50个的时间和剩下的50个原子中衰变25个的时间是一致的。和线性模型相比，以半衰期为代表的建模方式似乎更加符合真实世界的规律：因变量变化的绝对尺度通常是非线性的，但其变化比率却会和自变量呈现线性关系。</p><!-- [[[read_end]]] -->

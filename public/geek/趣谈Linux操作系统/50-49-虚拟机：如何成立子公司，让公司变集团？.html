@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>我们前面所有章节涉及的Linux操作系统原理，都是在一台Linux服务器上工作的。在前面的原理阐述中，我们一直把Linux当作一家外包公司的老板来看待。想要管理这么复杂、这么大的一个公司，需要配备咱们前面讲过的所有机制。</p><p>Linux很强大，Linux服务器也随之变得越来越强大了。无论是计算、网络、存储，都越来越牛。例如，内存动不动就是百G内存，网络设备一个端口的带宽就能有几十G甚至上百G，存储在数据中心至少是PB级别的（一个P是1024个T，一个T是1024个G）。</p><p>公司大有大的好处，自然也有大的毛病，也就是咱们常见的“大公司病”——<strong>不灵活</strong>。这里面的不灵活，有下面这几种，我列一下，你看看你是不是都见过。</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>我们前面所有章节涉及的Linux操作系统原理，都是在一台Linux服务器上工作的。在前面的原理阐述中，我们一直把Linux当作一家外包公司的老板来看待。想要管理这么复杂、这么大的一个公司，需要配备咱们前面讲过的所有机制。</p><p>Linux很强大，Linux服务器也随之变得越来越强大了。无论是计算、网络、存储，都越来越牛。例如，内存动不动就是百G内存，网络设备一个端口的带宽就能有几十G甚至上百G，存储在数据中心至少是PB级别的（一个P是1024个T，一个T是1024个G）。</p><p>公司大有大的好处，自然也有大的毛病，也就是咱们常见的“大公司病”——<strong>不灵活</strong>。这里面的不灵活，有下面这几种，我列一下，你看看你是不是都见过。</p><ul>
+
 <li><strong>资源大小不灵活</strong>：有时候我们不需要这么大规格的机器，可能只想尝试一下某些新业务，申请个4核8G的服务器试一下，但是不可能采购这么小规格的机器。无论每个项目需要多大规格的机器，公司统一采购就限制几种，全部是上面那种大规格的。</li>
 <li><strong>资源申请不灵活</strong>：规格定死就定死吧，可是每次申请机器都要重新采购，周期很长。</li>
 <li><strong>资源复用不灵活</strong>：反正我需要的资源不多，和别人共享一台机器吧，这样不同的进程可能会产生冲突，例如socket的端口冲突。另外就是别人用过的机器，不知道上面做过哪些操作，有很多的历史包袱，如果重新安装则代价太大。</li>

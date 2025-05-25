@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是吴咏炜。</p><p>在前几讲中，我们已经学了很多关于 Vim 的知识，现在需要好好消化一下。今天是基础篇的最后一讲，我们就基本上不学新的内容了，而是通过一个假想的代码重构实验，来复习、巩固已经学到的编辑技能。</p><h2>开始前的准备工作</h2><p>这是一堂实验课，你需要跟着我一步步地操作。跟只学习文字内容相比，实践操作能让你收获更多。所以，就请你现在把电脑准备好，跟我来吧。</p><p>今天我们将要做的是，签出我为极客时间写的 C++ 示例程序，并对其中的代码进行重构。别紧张，你不需要精通 C++，因为我会在必要的时候对代码进行解释。你学习的重点在于，我是如何进行编辑的，而不是我写的代码是什么意思。</p><p>首先，你需要先为工作代码找一个合适的父目录，然后用下面的命令签出代码（Windows 下面去掉“\”全部写一行，或者把“\”换成“^”））：</p><pre><code class="language-bash">git clone --recurse-submodules \
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是吴咏炜。</p><p>在前几讲中，我们已经学了很多关于 Vim 的知识，现在需要好好消化一下。今天是基础篇的最后一讲，我们就基本上不学新的内容了，而是通过一个假想的代码重构实验，来复习、巩固已经学到的编辑技能。</p><h2>开始前的准备工作</h2><p>这是一堂实验课，你需要跟着我一步步地操作。跟只学习文字内容相比，实践操作能让你收获更多。所以，就请你现在把电脑准备好，跟我来吧。</p><p>今天我们将要做的是，签出我为极客时间写的 C++ 示例程序，并对其中的代码进行重构。别紧张，你不需要精通 C++，因为我会在必要的时候对代码进行解释。你学习的重点在于，我是如何进行编辑的，而不是我写的代码是什么意思。</p><p>首先，你需要先为工作代码找一个合适的父目录，然后用下面的命令签出代码（Windows 下面去掉“\”全部写一行，或者把“\”换成“^”））：</p><pre><code class="language-bash">git clone --recurse-submodules \
+
           --shallow-submodules \
     https://github.com/adah1972/geek_time_cpp.git
 </code></pre><p>万一我以后更改代码的话，就有可能造成内容或路径发生变化。所以，请把我们今天编辑的 commit id 记下来：632b067。如果你用 <code>git log</code> 看到 HEAD 的 commit id 不是它，可使用 <code>git checkout 632b067</code> 这个命令来签出跟今天完全相同的版本。</p><!-- [[[read_end]]] --><p>下面，我们就开始了！</p><h2>类模板 smart_ptr 更名</h2><p>我们第一步要做的，是把示例的 <code>smart_ptr</code> 类模板更名为 <code>shared_ptr</code>。同时，为了避免跟标准的 <code>shared_ptr</code> 发生冲突，我们要把它放到名空间 <code>gt</code>里面去（当然，你可以用其他名字；这只是我们的示例）。</p><p>大体思路是，先需要找到 <code>shared_ptr</code> 定义所在的文件，对其进行修改；然后找到使用该文件的地方，也进行相应的修改。下面我们就来做一下。</p><h3>修改类定义</h3><p>首先，我们需要进入 <code>geek_time_cpp</code> 所在的目录。如果你前面的命令就是 <code>git clone</code> 的话，那现在使用 <code>cd geek_time_cpp</code> 就可以了。</p><p>然后，我们当然是启动 Vim 了。假设我们知道 <code>smart_ptr</code> 被定义在 smart_ptr.h 头文件里，那我们最快的打开方式就是使用 <code>:Files</code> 命令，然后输入“sm”，即可看到“common/smart_ptr.h”成了第一选择。我们此时按下回车键即可打开文件。</p><p><img src="https://static001.geekbang.org/resource/image/da/5e/daa9009fe8f7c74a2c14fb64da06155e.gif" alt="Fig10.1" title="使用 fzf.vim 插件打开文件的界面"></p><p>进入文件后，我们先来看一下文件的结构。根据目前的 Vim 配置，我们可以使用 <code>&lt;F9&gt;</code> 打开 tagbar 插件。注意，这个文件使用了 C++11，Exuberant Ctags 会有错误的识别。下面的截图是安装了 Universal Ctags 之后的结果：</p><p><img src="https://static001.geekbang.org/resource/image/bc/34/bc206cdd5b2094d6676a8ba283410c34.png" alt="Fig10.2" title="使用 tagbar 查看文件结构"></p><p>我们可以看到这个文件比较简单，里面主要就是两个类的定义和一些全局函数。不过，我们还是要确认一下，文件中没有任何会被错误匹配替换的内容。我们可以在右侧窗口里双击“smart_ptr”，这样左侧窗口就会跳转到 <code>smart_ptr</code> 的定义上，并且光标停留在类名上面。这样，我们只需使用 <code>*</code> 启动搜索和加亮即可。使用 <code>n</code> 继续搜索，我们很快就能确认文件中确实没有冲突的内容。</p><p>下面，我们进行替换操作，需要键入的是 <code>:%s/&lt;C-R&gt;//shared_ptr/g&lt;CR&gt;</code>（<code>&lt;C-R&gt;</code> 和 <code>&lt;CR&gt;</code> 都是按键，而非小于符号后面跟其他字符）。我们不需要手工输入 <code>\&lt;smart_ptr\&gt;</code>，因为搜索寄存器 <code>/</code> 中已经有我们要的内容了。</p><p><img src="https://static001.geekbang.org/resource/image/fb/98/fbcc22dd7a2424afbfac32045b3e1e98.gif" alt="Fig10.3" title="键入替换命令"></p><p>最后，我们在第一个类定义的前面加上 <code>namespace gt {</code>、在最后的 <code>#endif</code> 前面加上 <code>} /* namespace gt *／</code>，就完成了定义的修改。</p><p>不过，现在文件名还没有更改，文件里的包含保护（即宏 <code>SMART_PTR_H</code>）也没有更改。包含保护需要简单的重命名，就请你用我们目前介绍的任一方法自己完成了。随后，我们用命令 <code>:Rename shared_ptr.h</code> 即可完成更名和存盘操作。</p><h3>修改使用 smart_ptr 的地方</h3><p>我们先试着用下面的命令搜索一下：</p><pre><code class="language-vim">:grep -R --include="*.cpp" --include="*.h" "\&lt;smart_ptr\&gt;" .

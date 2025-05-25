@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是郑晔！我又回来了！</p><p>我在“极客时间”里已经写了两个专栏，分别是《<a href="https://time.geekbang.org/column/intro/100022301">10x 程序员工作法</a>》和《<a href="https://time.geekbang.org/column/intro/100052601">软件设计之美</a>》，从工作原则和设计原则两个方面对软件开发的各种知识进行了探讨，帮助你搭建了一个开启程序员精进之路的框架。</p><p>不过，无论懂得多少道理，程序员依然要回归到写代码的本职工作上。所以，这次我准备和你从代码的坏味道出发，一起探讨如何写代码。</p><h2>千里之堤毁于蚁穴</h2><p>为什么要讲这个话题，就让我们先从一次代码评审讲起。在一次代码评审中，我注意到了这样一段代码：</p><pre><code>public void approve(final long bookId) {
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是郑晔！我又回来了！</p><p>我在“极客时间”里已经写了两个专栏，分别是《<a href="https://time.geekbang.org/column/intro/100022301">10x 程序员工作法</a>》和《<a href="https://time.geekbang.org/column/intro/100052601">软件设计之美</a>》，从工作原则和设计原则两个方面对软件开发的各种知识进行了探讨，帮助你搭建了一个开启程序员精进之路的框架。</p><p>不过，无论懂得多少道理，程序员依然要回归到写代码的本职工作上。所以，这次我准备和你从代码的坏味道出发，一起探讨如何写代码。</p><h2>千里之堤毁于蚁穴</h2><p>为什么要讲这个话题，就让我们先从一次代码评审讲起。在一次代码评审中，我注意到了这样一段代码：</p><pre><code>public void approve(final long bookId) {
+
   ...
   book.setReviewStatus(ReviewStatus.APPROVED);
   ...

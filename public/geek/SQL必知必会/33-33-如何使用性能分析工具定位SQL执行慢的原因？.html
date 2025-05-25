@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>在上一篇文章中，我们了解了查询优化器，知道在查询优化器中会经历逻辑查询优化和物理查询优化。需要注意的是，查询优化器只能在已经确定的情况下（SQL语句、索引设计、缓冲池大小、查询优化器参数等已知的情况）决定最优的查询执行计划。</p><p>但实际上SQL执行起来可能还是很慢，那么到底从哪里定位SQL查询慢的问题呢？是索引设计的问题？服务器参数配置的问题？还是需要增加缓存的问题呢？今天我们就从性能分析来入手，定位导致SQL执行慢的原因。</p><p>今天的内容主要包括以下几个部分：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>在上一篇文章中，我们了解了查询优化器，知道在查询优化器中会经历逻辑查询优化和物理查询优化。需要注意的是，查询优化器只能在已经确定的情况下（SQL语句、索引设计、缓冲池大小、查询优化器参数等已知的情况）决定最优的查询执行计划。</p><p>但实际上SQL执行起来可能还是很慢，那么到底从哪里定位SQL查询慢的问题呢？是索引设计的问题？服务器参数配置的问题？还是需要增加缓存的问题呢？今天我们就从性能分析来入手，定位导致SQL执行慢的原因。</p><p>今天的内容主要包括以下几个部分：</p><ol>
+
 <li>数据库服务器的优化分析的步骤是怎样的？中间有哪些需要注意的地方？</li>
 <li>如何使用慢查询日志查找执行慢的SQL语句？</li>
 <li>如何使用EXPLAIN查看SQL执行计划？</li>

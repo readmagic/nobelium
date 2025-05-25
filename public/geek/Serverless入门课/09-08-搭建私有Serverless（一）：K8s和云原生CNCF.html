@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是秦粤。上节课我们只是用Docker部署了index.js，如果我们将所有拆解出来的微服务都用Docker独立部署，我们就要同时管理多个Docker容器，也就是Docker集群。如果是更复杂一些的业务，可能需要同时管理几十甚至上百个微服务，显然我们手动维护Docker集群的效率就太低了。而容器即服务CaaS，恰好也需要集群的管理工具。我们也知道FaaS的底层就是CaaS，那CaaS又是如何管理这么多函数实例的呢？怎么做才能提升效率？</p><p>我想你应该听过Kubernetes，它也叫K8s（后面统一简称K8s），用于自动部署、扩展和管理容器化应用程序的开源系统，是Docker集群的管理工具。为了解决上述问题，其实我们就可以考虑使用它。K8s的好处就在于，它具备跨环境统一部署的能力。</p><p>这节课，我们就试着在本地环境中搭建K8s来管理我们的Docker集群。但正常情况下，这个场景需要几台机器才能完成，而通过Docker，我们还是可以用一台机器就可以在本地搭建一个低配版的K8s。</p><p>下节课，我们还会在今天内容的基础上，用K8s的CaaS方式实现一套Serverless环境。通过这两节课的内容，你就可以完整地搭建出属于自己的Serverless了。</p><!-- [[[read_end]]] --><p>话不多说，我们现在就开始，希望你能跟着我一起多动手。</p><h2>PC上的K8s</h2><p>那在开始之前，我们先得把安装问题解决了，这部分可能会有点小困难，所以我也给你详细讲下。</p><p>首先我们需要安装<a href="https://kubernetes.io/zh/docs/tasks/tools/install-kubectl/">kubectl</a>，它是K8s的命令行工具。</p><p>你需要在你的PC上安装K8s，如果你的操作系统是MacOS或者Windows，那么就比较简单了，桌面版的Docker已经自带了<a href="https://www.docker.com/products/kubernetes">K8s</a>；其它操作系统的同学需要安装<a href="https://kubernetes.io/zh/docs/tasks/tools/install-minikube">minikube</a>。</p><p>不过，要顺利启动桌面版Docker自带的K8s，你还得解决国内Docker镜像下载不了的问题，这里请你先下载<a href="https://github.com/pusongyang/todolist-backend/tree/lesson08">第8课的代码</a>。接着，请你跟着我的步骤进行操作：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是秦粤。上节课我们只是用Docker部署了index.js，如果我们将所有拆解出来的微服务都用Docker独立部署，我们就要同时管理多个Docker容器，也就是Docker集群。如果是更复杂一些的业务，可能需要同时管理几十甚至上百个微服务，显然我们手动维护Docker集群的效率就太低了。而容器即服务CaaS，恰好也需要集群的管理工具。我们也知道FaaS的底层就是CaaS，那CaaS又是如何管理这么多函数实例的呢？怎么做才能提升效率？</p><p>我想你应该听过Kubernetes，它也叫K8s（后面统一简称K8s），用于自动部署、扩展和管理容器化应用程序的开源系统，是Docker集群的管理工具。为了解决上述问题，其实我们就可以考虑使用它。K8s的好处就在于，它具备跨环境统一部署的能力。</p><p>这节课，我们就试着在本地环境中搭建K8s来管理我们的Docker集群。但正常情况下，这个场景需要几台机器才能完成，而通过Docker，我们还是可以用一台机器就可以在本地搭建一个低配版的K8s。</p><p>下节课，我们还会在今天内容的基础上，用K8s的CaaS方式实现一套Serverless环境。通过这两节课的内容，你就可以完整地搭建出属于自己的Serverless了。</p><!-- [[[read_end]]] --><p>话不多说，我们现在就开始，希望你能跟着我一起多动手。</p><h2>PC上的K8s</h2><p>那在开始之前，我们先得把安装问题解决了，这部分可能会有点小困难，所以我也给你详细讲下。</p><p>首先我们需要安装<a href="https://kubernetes.io/zh/docs/tasks/tools/install-kubectl/">kubectl</a>，它是K8s的命令行工具。</p><p>你需要在你的PC上安装K8s，如果你的操作系统是MacOS或者Windows，那么就比较简单了，桌面版的Docker已经自带了<a href="https://www.docker.com/products/kubernetes">K8s</a>；其它操作系统的同学需要安装<a href="https://kubernetes.io/zh/docs/tasks/tools/install-minikube">minikube</a>。</p><p>不过，要顺利启动桌面版Docker自带的K8s，你还得解决国内Docker镜像下载不了的问题，这里请你先下载<a href="https://github.com/pusongyang/todolist-backend/tree/lesson08">第8课的代码</a>。接着，请你跟着我的步骤进行操作：</p><ol>
+
 <li>开通阿里云的<a href="https://cr.console.aliyun.com/">容器镜像仓库</a>；</li>
 <li>在阿里云的容器镜像服务里，找到镜像加速器，复制你的镜像加速器地址；</li>
 <li>打开桌面版Docker的控制台，找到Docker Engine。</li>

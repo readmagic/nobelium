@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>上一节，我们讲了qemu启动过程中的存储虚拟化。好了，现在qemu启动了，硬盘设备文件已经打开了。那如果我们要往虚拟机的一个进程写入一个文件，该怎么做呢？最终这个文件又是如何落到宿主机上的硬盘文件的呢？这一节，我们一起来看一看。</p><h2>前端设备驱动virtio_blk</h2><p>虚拟机里面的进程写入一个文件，当然要通过文件系统。整个过程和咱们在<a href="https://time.geekbang.org/column/article/97876">文件系统</a>那一节讲的过程没有区别。只是到了设备驱动层，我们看到的就不是普通的硬盘驱动了，而是virtio的驱动。</p><p>virtio的驱动程序代码在Linux操作系统的源代码里面，文件名叫drivers/block/virtio_blk.c。</p><pre><code>static int __init init(void)
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>上一节，我们讲了qemu启动过程中的存储虚拟化。好了，现在qemu启动了，硬盘设备文件已经打开了。那如果我们要往虚拟机的一个进程写入一个文件，该怎么做呢？最终这个文件又是如何落到宿主机上的硬盘文件的呢？这一节，我们一起来看一看。</p><h2>前端设备驱动virtio_blk</h2><p>虚拟机里面的进程写入一个文件，当然要通过文件系统。整个过程和咱们在<a href="https://time.geekbang.org/column/article/97876">文件系统</a>那一节讲的过程没有区别。只是到了设备驱动层，我们看到的就不是普通的硬盘驱动了，而是virtio的驱动。</p><p>virtio的驱动程序代码在Linux操作系统的源代码里面，文件名叫drivers/block/virtio_blk.c。</p><pre><code>static int __init init(void)
+
 {
 	int error;
 	virtblk_wq = alloc_workqueue(&quot;virtio-blk&quot;, 0, 0);

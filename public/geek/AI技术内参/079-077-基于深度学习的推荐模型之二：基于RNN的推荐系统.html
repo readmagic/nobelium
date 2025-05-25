@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>周一我们看了一篇经典的文章，那就是尝试使用受限波兹曼机（RBM）来对推荐系统建模。这应该是最早把深度学习应用到推荐建模的典范。当然，RBM虽然算是相对比较早的深度学习模型，但其本质上并没有很多后来提出的深度模型的特质，也没有真正发挥出深度学习模型的特有优势。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>周一我们看了一篇经典的文章，那就是尝试使用受限波兹曼机（RBM）来对推荐系统建模。这应该是最早把深度学习应用到推荐建模的典范。当然，RBM虽然算是相对比较早的深度学习模型，但其本质上并没有很多后来提出的深度模型的特质，也没有真正发挥出深度学习模型的特有优势。</p>
+
 <p>今天，我们结合几篇论文来看一类深度学习模型，那就是“<strong><span class="orange">递归神经网络</span></strong>”（Recurrent Neural Network），简称 <strong><span class="orange">RNN</span></strong>，在推荐系统中的应用。这类模型可以解决传统推荐模型中难以对时序信息进行建模的问题，扩宽了推荐系统的应用边界。</p>
 <h2>时序信息建模</h2>
 <p>要想说清楚RNN对于推荐系统的贡献，我们首先要来看一看为什么需要对时序信息进行建模。</p>

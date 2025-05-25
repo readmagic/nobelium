@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是微扰君。</p><p>grep命令，相信使用过Linux的同学都会非常熟悉，我们常常用它在Linux上进行文本搜索操作，具体来说就是从一段文本中查找某个字符串存在的行。下面一个典型的grep的使用例子，比如我可以用它来看看自己在LeetCode上用Java做了多少题：</p><p><img src="https://static001.geekbang.org/resource/image/9b/aa/9b96f1b08a964ba051681c05dc3f8faa.png?wh=866x268" alt="图片"></p><p>GNU Grep 则是 grep 命令的一个工业级实现，在项目官方 Readme 中作者是这样介绍它的：</p><blockquote>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是微扰君。</p><p>grep命令，相信使用过Linux的同学都会非常熟悉，我们常常用它在Linux上进行文本搜索操作，具体来说就是从一段文本中查找某个字符串存在的行。下面一个典型的grep的使用例子，比如我可以用它来看看自己在LeetCode上用Java做了多少题：</p><p><img src="https://static001.geekbang.org/resource/image/9b/aa/9b96f1b08a964ba051681c05dc3f8faa.png?wh=866x268" alt="图片"></p><p>GNU Grep 则是 grep 命令的一个工业级实现，在项目官方 Readme 中作者是这样介绍它的：</p><blockquote>
+
 <p>This is GNU grep, the “fastest grep in the west” (we hope).</p>
 </blockquote><p>其实就是在说这是世界上最快的grep程序。当然，这款从上世纪就诞生的软件，敢这么说自己也是因为它有着十足的底气。</p><p>GNU Grep 确实是将“文本搜索”这一简单的功能做到了极致。作者 Mike Haertel 自己写了<a href="https://lists.freebsd.org/pipermail/freebsd-current/2010-August/019310.html">一封邮件</a>解释 GNU Grep 为什么这么快，主要有两点：</p><ol>
 <li>它避免了检查每一个byte</li>

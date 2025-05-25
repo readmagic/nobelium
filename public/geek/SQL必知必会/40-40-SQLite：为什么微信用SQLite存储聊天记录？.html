@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>我在上一篇文章中讲了WebSQL，当我们在Chrome、Safari和Firefox等浏览器客户端中使用WebSQL时，会直接操作SQLite。实际上SQLite本身是一个嵌入式的开源数据库引擎，大小只有3M左右，可以将整个SQLite嵌入到应用中，而不用采用传统的客户端／服务器（Client/Server）的架构。这样做的好处就是非常轻便，在许多智能设备和应用中都可以使用SQLite，比如微信就采用了SQLite作为本地聊天记录的存储。</p><p>今天我们就来深入了解一下SQLite，今天的内容主要包括以下几方面：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>我在上一篇文章中讲了WebSQL，当我们在Chrome、Safari和Firefox等浏览器客户端中使用WebSQL时，会直接操作SQLite。实际上SQLite本身是一个嵌入式的开源数据库引擎，大小只有3M左右，可以将整个SQLite嵌入到应用中，而不用采用传统的客户端／服务器（Client/Server）的架构。这样做的好处就是非常轻便，在许多智能设备和应用中都可以使用SQLite，比如微信就采用了SQLite作为本地聊天记录的存储。</p><p>今天我们就来深入了解一下SQLite，今天的内容主要包括以下几方面：</p><ol>
+
 <li>SQLite是什么？它有哪些优点和不足？</li>
 <li>如何在Python中使用SQLite？</li>
 <li>如何编写SQL，通过SQLite查找微信的聊天记录？</li>

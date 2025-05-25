@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>还记得我们在持续交付设定的目标吗？我前面提到过，天猫的效能目标是“211”，也就是2周交付周期、1周开发周期以及1小时发布时长。对于一些更加敏捷的产品，我们可能还会加快到每周一个版本。在如此快的节奏下，我们该如何保证产品的质量？还有哪些手段可以进一步为发布“提速保质”？</p><p>更宽泛地说，广义的发布并不仅限于把应用提交到市场。灰度、A/B测试 、运营活动、资源配置…我们的发布类型越来越多，也越来越复杂。该如何建立稳健的发布质量保障体系，防止出现线上事故呢？</p><h2>APK的灰度发布</h2><p>我们在讨论版本发布速度，是需要兼顾效率和质量。如果不考虑交付质量，每天一个版本也很轻松。在严格保证交付质量的前提下，两周发布一个版本其实并不容易。特别是出现紧急安全或者稳定性问题的时候，我们还需要有1小时的发布能力。</p><p>正如我在专栏“<a href="https://time.geekbang.org/column/article/83417">如何高效地测试</a>”中说的，实现“高质高效”的发布需要强大的测试平台和数据验证平台的支撑。</p><p><img src="https://static001.geekbang.org/resource/image/a8/77/a850639f20e8802296a97dfa92e3bd77.png" alt=""></p><p>下面我们一起来看看影响版本发布效率的那些重要因素，以及我对于提升版本发布速度的实践经验。</p><p><strong>1. APK灰度</strong></p><p>测试平台负责对发布包做各种维度的诊断测试，通常会包括Monkey测试、性能测试（启动、内存、CPU、卡顿等）、竞品测试、UI测试、弱网络测试等。但是即使通过云测平台能够同时测试几十上百台机器，本地测试依然无法覆盖所有的机型和用户路径。</p><!-- [[[read_end]]] --><p>为了安全稳定地发布新版本，我们需要先圈定少量用户安装试用，这就是灰度发布。而数据验证平台则负责收集灰度和线上版本的应用数据，这里可能包括性能数据、业务数据、用户反馈以及外部舆情等。</p><p>所以说，灰度效率首先被下面两个因素所影响：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>还记得我们在持续交付设定的目标吗？我前面提到过，天猫的效能目标是“211”，也就是2周交付周期、1周开发周期以及1小时发布时长。对于一些更加敏捷的产品，我们可能还会加快到每周一个版本。在如此快的节奏下，我们该如何保证产品的质量？还有哪些手段可以进一步为发布“提速保质”？</p><p>更宽泛地说，广义的发布并不仅限于把应用提交到市场。灰度、A/B测试 、运营活动、资源配置…我们的发布类型越来越多，也越来越复杂。该如何建立稳健的发布质量保障体系，防止出现线上事故呢？</p><h2>APK的灰度发布</h2><p>我们在讨论版本发布速度，是需要兼顾效率和质量。如果不考虑交付质量，每天一个版本也很轻松。在严格保证交付质量的前提下，两周发布一个版本其实并不容易。特别是出现紧急安全或者稳定性问题的时候，我们还需要有1小时的发布能力。</p><p>正如我在专栏“<a href="https://time.geekbang.org/column/article/83417">如何高效地测试</a>”中说的，实现“高质高效”的发布需要强大的测试平台和数据验证平台的支撑。</p><p><img src="https://static001.geekbang.org/resource/image/a8/77/a850639f20e8802296a97dfa92e3bd77.png" alt=""></p><p>下面我们一起来看看影响版本发布效率的那些重要因素，以及我对于提升版本发布速度的实践经验。</p><p><strong>1. APK灰度</strong></p><p>测试平台负责对发布包做各种维度的诊断测试，通常会包括Monkey测试、性能测试（启动、内存、CPU、卡顿等）、竞品测试、UI测试、弱网络测试等。但是即使通过云测平台能够同时测试几十上百台机器，本地测试依然无法覆盖所有的机型和用户路径。</p><!-- [[[read_end]]] --><p>为了安全稳定地发布新版本，我们需要先圈定少量用户安装试用，这就是灰度发布。而数据验证平台则负责收集灰度和线上版本的应用数据，这里可能包括性能数据、业务数据、用户反馈以及外部舆情等。</p><p>所以说，灰度效率首先被下面两个因素所影响：</p><ul>
+
 <li>
 <p><strong>测试效率</strong>。虽然灰度发布只影响少部分用户，但是我们需要尽可能保障应用的质量，以免造成用户流失。测试平台的发布测试时间是影响发布效率的第一个因素，我们希望可以在1小时内明确待定的发布包是否达到上线标准。</p>
 </li>

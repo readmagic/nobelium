@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是蒋德钧。</p><p></p><p>我们知道，Redis的一个显著特征就是<strong>能提供低延迟的数据访问</strong>。而如果Redis在运行过程中变慢了，我们就需要有方法能监控到哪些命令执行变慢了。更进一步的需求，就是我们需要有方法监控到，是Redis运行过程中的哪些事件导致Redis变慢了。这样一来，我们就既可以检查这些慢命令，分析它们的操作类型和访问的数据量，进而提出应对方法，也可以检查监控记录的事件，分析事件发生的原因并提出应对方法。</p><p></p><p>那么，为了满足这些需求，我们就需要有一套监控框架，一方面能监测导致Redis变慢的事件，另一方面，能监控并记录变慢的命令。其实，这也是我们在开发后端系统时，经常会面临的一个运维开发需求，也就是<strong>如何监控后端系统的运行状态</strong>。</p><p></p><p>今天这节课，我就来带你了解Redis的延迟监控框架和慢命令日志的设计与实现。掌握今天的课程内容后，一方面，你可以把这套监控框架应用到实际的业务，而另一方面，你也可以参考Redis的实现，给自己的系统增加延迟监控功能。</p><p></p><p>下面，我们就先来看下Redis实现的延迟监控框架。</p><p></p><h2>延迟监控框架的实现</h2><p>实际上，Redis在运行过程中，以下表格中给出的几类事件都会导致Redis变慢，我们通常也把这些事件称为<strong>延迟事件</strong>。你可以参考表格中的这些事件类型，以及它们在源码中对应的事件名称。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/db/73/db2c320f4af71fdc2c941dd9c58fff73.jpg?wh=1920x908" alt="图片"></p><p>那么针对这些事件，Redis实现了延迟监控框架，通过采样的方式来记录它们的执行情况。当需要排查问题时，延迟监控框架提供了<strong>latency history命令</strong>，以便运维人员检查这些事件。</p><p></p><p>下面，我们就来看下记录事件执行情况的数据结构。因为延迟监控框架是在<a href="https://github.com/redis/redis/tree/5.0/src/latency.h">latency.h</a>和<a href="https://github.com/redis/redis/tree/5.0/src/latency.c">latency.c</a>文件中实现的，你也可以在这两个文件中找到相应的数据结构和函数。</p><p></p><h3>记录事件执行情况的数据结构</h3><p>首先，Redis是使用了<strong>latencySample结构体</strong>，来记录延迟事件的采样时间和事件的实际执行时长，这个结构体的代码如下所示：</p><pre><code class="language-plain">struct latencySample {
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是蒋德钧。</p><p></p><p>我们知道，Redis的一个显著特征就是<strong>能提供低延迟的数据访问</strong>。而如果Redis在运行过程中变慢了，我们就需要有方法能监控到哪些命令执行变慢了。更进一步的需求，就是我们需要有方法监控到，是Redis运行过程中的哪些事件导致Redis变慢了。这样一来，我们就既可以检查这些慢命令，分析它们的操作类型和访问的数据量，进而提出应对方法，也可以检查监控记录的事件，分析事件发生的原因并提出应对方法。</p><p></p><p>那么，为了满足这些需求，我们就需要有一套监控框架，一方面能监测导致Redis变慢的事件，另一方面，能监控并记录变慢的命令。其实，这也是我们在开发后端系统时，经常会面临的一个运维开发需求，也就是<strong>如何监控后端系统的运行状态</strong>。</p><p></p><p>今天这节课，我就来带你了解Redis的延迟监控框架和慢命令日志的设计与实现。掌握今天的课程内容后，一方面，你可以把这套监控框架应用到实际的业务，而另一方面，你也可以参考Redis的实现，给自己的系统增加延迟监控功能。</p><p></p><p>下面，我们就先来看下Redis实现的延迟监控框架。</p><p></p><h2>延迟监控框架的实现</h2><p>实际上，Redis在运行过程中，以下表格中给出的几类事件都会导致Redis变慢，我们通常也把这些事件称为<strong>延迟事件</strong>。你可以参考表格中的这些事件类型，以及它们在源码中对应的事件名称。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/db/73/db2c320f4af71fdc2c941dd9c58fff73.jpg?wh=1920x908" alt="图片"></p><p>那么针对这些事件，Redis实现了延迟监控框架，通过采样的方式来记录它们的执行情况。当需要排查问题时，延迟监控框架提供了<strong>latency history命令</strong>，以便运维人员检查这些事件。</p><p></p><p>下面，我们就来看下记录事件执行情况的数据结构。因为延迟监控框架是在<a href="https://github.com/redis/redis/tree/5.0/src/latency.h">latency.h</a>和<a href="https://github.com/redis/redis/tree/5.0/src/latency.c">latency.c</a>文件中实现的，你也可以在这两个文件中找到相应的数据结构和函数。</p><p></p><h3>记录事件执行情况的数据结构</h3><p>首先，Redis是使用了<strong>latencySample结构体</strong>，来记录延迟事件的采样时间和事件的实际执行时长，这个结构体的代码如下所示：</p><pre><code class="language-plain">struct latencySample {
+
 &nbsp;&nbsp;&nbsp; int32_t time; &nbsp;//事件的采样时间
 &nbsp;&nbsp;&nbsp; uint32_t latency;&nbsp; //事件的执行时长（以毫秒为单位）
 };

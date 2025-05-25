@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是胜辉。</p><p>咱们这门课最核心的内容，恐怕就是抓包分析了。在众多的排查技术中，抓包分析可以说是“皇冠上的明珠”，也是包括我自己在内的很多人一直努力的方向。所以，tcpdump和Wireshark这两个工具在工程师心目中的位置，自然不用我多提了。相信你能来上这门课，也很大程度上是想把这两个工具好好学一下的。</p><p>不过，你了解这两个工具的过去吗？它们最初是怎么出现的，又是什么样的机制使得它们如此强大呢？</p><p>这节课，我就带你走进抓包分析技术大家庭。你会从中了解到抓包分析技术的光荣历史和渊源，以及通过实际的例子，感受到它的精妙设计和强大能力。当你理解了tcpdump和Wireshark的初步用法之后，你对常见的抓包需求场景也就能心里有数，知道大概从哪里下手了。</p><h2>这些抓包技术名词，你分清楚了吗？</h2><p>首先，我帮你捋一下这些技术的来龙去脉甚至“八卦”，这样你在进入后面课程的具体技术学习时，就会多几分亲近感，也多几分底气了。</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是胜辉。</p><p>咱们这门课最核心的内容，恐怕就是抓包分析了。在众多的排查技术中，抓包分析可以说是“皇冠上的明珠”，也是包括我自己在内的很多人一直努力的方向。所以，tcpdump和Wireshark这两个工具在工程师心目中的位置，自然不用我多提了。相信你能来上这门课，也很大程度上是想把这两个工具好好学一下的。</p><p>不过，你了解这两个工具的过去吗？它们最初是怎么出现的，又是什么样的机制使得它们如此强大呢？</p><p>这节课，我就带你走进抓包分析技术大家庭。你会从中了解到抓包分析技术的光荣历史和渊源，以及通过实际的例子，感受到它的精妙设计和强大能力。当你理解了tcpdump和Wireshark的初步用法之后，你对常见的抓包需求场景也就能心里有数，知道大概从哪里下手了。</p><h2>这些抓包技术名词，你分清楚了吗？</h2><p>首先，我帮你捋一下这些技术的来龙去脉甚至“八卦”，这样你在进入后面课程的具体技术学习时，就会多几分亲近感，也多几分底气了。</p><ul>
+
 <li><strong>tcpdump</strong></li>
 </ul><p>我们先来认识大名鼎鼎的tcpdump。1988年，劳伦斯伯克利国家实验室的四位工程师编写出了tcpdump这个殿堂级的工具。这个实验室呢，也很值得我们尊敬。这里涌现过<a href="https://www.lbl.gov/nobelists">13位</a>诺贝尔奖获得者，其中包括1997年获得物理学奖的华人巨匠朱棣文，可见这是多么耀眼的一块科学圣地。</p><!-- [[[read_end]]] --><p>这个地方能做出开创性的技术，确实一点都不令人意外。tcpdump可以工作在各种Unix类的操作系统上，包括Linux、FreeBSD、macOS、Solaris等，也是目前使用最为广泛的抓包工具之一。</p><p>但是tcpdump要过滤报文的话，还要依赖一个底层能力：BPF。</p><ul>
 <li><strong>BPF</strong></li>

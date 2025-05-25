@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>从今天开始，我将分4期，结合复杂度来源和架构设计原则，通过一个模拟的设计场景“前浪微博”，和你一起看看在实践中究竟如何进行架构设计。今天先来看<span class="orange">架构设计流程第1步：识别复杂度。</span></p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>从今天开始，我将分4期，结合复杂度来源和架构设计原则，通过一个模拟的设计场景“前浪微博”，和你一起看看在实践中究竟如何进行架构设计。今天先来看<span class="orange">架构设计流程第1步：识别复杂度。</span></p>
+
 <h2 id="-1-">架构设计第1步：识别复杂度</h2>
 <p>我在前面讲过，架构设计的本质目的是为了解决软件系统的复杂性，所以在我们设计架构时，首先就要分析系统的复杂性。只有正确分析出了系统的复杂性，后续的架构设计方案才不会偏离方向；否则，如果对系统的复杂性判断错误，即使后续的架构设计方案再完美再先进，都是南辕北辙，做的越好，错的越多、越离谱。</p>
 <p>例如，如果一个系统的复杂度本来是业务逻辑太复杂，功能耦合严重，架构师却设计了一个TPS达到50000/秒的高性能架构，即使这个架构最终的性能再优秀也没有任何意义，因为架构没有解决正确的复杂性问题。</p>

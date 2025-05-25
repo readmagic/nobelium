@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是宫文学。</p><p>到目前为止，我们的语言已经简单支持了number类型、string类型和数组。现在，我们终于要来实现期待已久的面向对象功能了。</p><p>在我们的课程中，为了实现编译器的功能，我们使用了大量自定义的类。最典型的就是各种AST节点，它们都有共同的基类，然后各自又有自己属性或方法。这就是TypeScript面向对象特性最直观的体现。</p><p>面向对象特性是一个比较大的体系，涉及了很多知识点。我们会花两节课的时间，实现其中最关键的那些技术点，比如声明自定义类、创建对象、访问对象的属性和方法，以及对象的继承和多态，等等，让你理解面向对象的基础原理。</p><p>首先，我们仍然从编译器的前端部分改起，让它支持面向对象特性的语法和语义处理工作。</p><h2>修改编译器前端</h2><p><strong>首先是对语法的增强</strong>。我们还是先来看一个例子，通过这个例子看看，我们到底需要增加哪些语法特性：</p><pre><code class="language-plain">class Mammal{
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是宫文学。</p><p>到目前为止，我们的语言已经简单支持了number类型、string类型和数组。现在，我们终于要来实现期待已久的面向对象功能了。</p><p>在我们的课程中，为了实现编译器的功能，我们使用了大量自定义的类。最典型的就是各种AST节点，它们都有共同的基类，然后各自又有自己属性或方法。这就是TypeScript面向对象特性最直观的体现。</p><p>面向对象特性是一个比较大的体系，涉及了很多知识点。我们会花两节课的时间，实现其中最关键的那些技术点，比如声明自定义类、创建对象、访问对象的属性和方法，以及对象的继承和多态，等等，让你理解面向对象的基础原理。</p><p>首先，我们仍然从编译器的前端部分改起，让它支持面向对象特性的语法和语义处理工作。</p><h2>修改编译器前端</h2><p><strong>首先是对语法的增强</strong>。我们还是先来看一个例子，通过这个例子看看，我们到底需要增加哪些语法特性：</p><pre><code class="language-plain">class Mammal{
+
     weight:number;
     color:string;
     constructor(weight:number, color:string){

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是徐文浩。</p><p>在解读Hive论文的过程中，我们看到Hive已经通过分区（Partition）和分桶（Bucket）的方式，减少了MapReduce程序需要扫描的数据，但是这还远远不够。</p><p>的确，MapReduce有着非常强的伸缩性，架起一个1000个节点的服务器毫无压力。可MapReduce的缺陷也很明显，那就是<strong>它处理数据的方式太简单粗暴，直接就是把所有数据都扫描一遍。</strong></p><p>要知道，通常来说，我们的Hive表也好，或者以Thrift序列化后存放到HDFS上的日志也好，采用的都是“宽表”，也就是我们会把上百个字段都直接存放在一张表里。但是实际我们在分析这些日志的时候，往往又只需要用到其中的几个字段。</p><p>比如，我们之前的日志，有超过100个字段，但是如果我们想要通过IP段和IP地址，查看是否有人刻意刷单刷流量的话，我们可能只需要IP地址等有限的4~5个字段。而如果这些字段在Hive里并不是一个分区或者分桶的话，MapReduce程序就需要扫描所有的数据。这个比起我们实际需要访问的数据，多了数十倍。</p><p>但是，我们又不可能对太多字段进行分区和分桶，因为那样会导致文件数量呈几何级数地上升。就以上节课的例子来说，如果我们要在国家之后再加上“州”这个维度，并进行分区，那么目录的数量会增长50倍（以美国为例有50个州）。而如果我们再在时间维度上加上一个“小时”的数据维度，那么目录的数量还要再增长24倍。</p><!-- [[[read_end]]] --><p>这么一算，我们只是加入了两个维度进行分区，目录数就已经变成了原来的1200倍，这会使得我们在HDFS上的文件数量大增，而每个文件都变得很小。而在这种大量、小文件的场景下，是发挥不出MapReduce进行顺序文件读写的吞吐量的优势的。</p><p>所以，即使已经进行了分区，我们的很多数据分析任务，仍然浪费了大量的性能在访问不需要的数据上。</p><pre><code class="language-java">/wh/T/ds=20090101/ctry=US/state=CA/00/000000_0
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是徐文浩。</p><p>在解读Hive论文的过程中，我们看到Hive已经通过分区（Partition）和分桶（Bucket）的方式，减少了MapReduce程序需要扫描的数据，但是这还远远不够。</p><p>的确，MapReduce有着非常强的伸缩性，架起一个1000个节点的服务器毫无压力。可MapReduce的缺陷也很明显，那就是<strong>它处理数据的方式太简单粗暴，直接就是把所有数据都扫描一遍。</strong></p><p>要知道，通常来说，我们的Hive表也好，或者以Thrift序列化后存放到HDFS上的日志也好，采用的都是“宽表”，也就是我们会把上百个字段都直接存放在一张表里。但是实际我们在分析这些日志的时候，往往又只需要用到其中的几个字段。</p><p>比如，我们之前的日志，有超过100个字段，但是如果我们想要通过IP段和IP地址，查看是否有人刻意刷单刷流量的话，我们可能只需要IP地址等有限的4~5个字段。而如果这些字段在Hive里并不是一个分区或者分桶的话，MapReduce程序就需要扫描所有的数据。这个比起我们实际需要访问的数据，多了数十倍。</p><p>但是，我们又不可能对太多字段进行分区和分桶，因为那样会导致文件数量呈几何级数地上升。就以上节课的例子来说，如果我们要在国家之后再加上“州”这个维度，并进行分区，那么目录的数量会增长50倍（以美国为例有50个州）。而如果我们再在时间维度上加上一个“小时”的数据维度，那么目录的数量还要再增长24倍。</p><!-- [[[read_end]]] --><p>这么一算，我们只是加入了两个维度进行分区，目录数就已经变成了原来的1200倍，这会使得我们在HDFS上的文件数量大增，而每个文件都变得很小。而在这种大量、小文件的场景下，是发挥不出MapReduce进行顺序文件读写的吞吐量的优势的。</p><p>所以，即使已经进行了分区，我们的很多数据分析任务，仍然浪费了大量的性能在访问不需要的数据上。</p><pre><code class="language-java">/wh/T/ds=20090101/ctry=US/state=CA/00/000000_0
+
 /wh/T/ds=20090101/ctry=US/state=CA/00/000001_0
 /wh/T/ds=20090101/ctry=US/state=CA/00/000002_0
 ……

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是尉刚强。</p><p>一提起软件系统中的性能问题，可能你首先会想到的是CPU使用率过高，或是内存占用率太大，导致程序执行速度变慢，然后关注点只停留在软件实现层面的性能调优。</p><p>实际上，这种以最小化资源占用为导向的性能优化，它的核心目标是<strong>降低成本</strong>。但对于产品而言，最关键的其实是客户视角所关注的业务性能，比如用户的平均响应时延、99%的用户响应时延分布等，而<strong>这类性能优化的核心目标是提升用户体验，提升产品的行业竞争力</strong>。</p><p>可是问题在于，在互联网服务领域，从客户视角去定位分析业务的性能问题，会有一定的挑战，主要原因有两点：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是尉刚强。</p><p>一提起软件系统中的性能问题，可能你首先会想到的是CPU使用率过高，或是内存占用率太大，导致程序执行速度变慢，然后关注点只停留在软件实现层面的性能调优。</p><p>实际上，这种以最小化资源占用为导向的性能优化，它的核心目标是<strong>降低成本</strong>。但对于产品而言，最关键的其实是客户视角所关注的业务性能，比如用户的平均响应时延、99%的用户响应时延分布等，而<strong>这类性能优化的核心目标是提升用户体验，提升产品的行业竞争力</strong>。</p><p>可是问题在于，在互联网服务领域，从客户视角去定位分析业务的性能问题，会有一定的挑战，主要原因有两点：</p><ul>
+
 <li>首先，针对一些存在业务性能问题的场景，其系统内的服务或组件，并不一定处于饱和状态，所以你不能直接从系统资源级监控中识别出问题；</li>
 <li>其次，如果只是个别服务或组件处于饱和状态，往往也可以通过弹性扩展来更快地提升性能体验，所以这种也并不是最棘手的性能问题。</li>
 </ul><p>我们再来看看嵌入式领域，就拿无线通信领域来说，它也存在很多业务性能优化非常苛刻的场景，比如说FTP下载速率优化、速度平稳没有毛刺优化等。</p><p>那么在这类系统的实现过程中，导致出现业务性能问题的原因会更多更复杂，其问题可能发生在链路上任何一个网元设备内，或具体设备内的任何一个软件组件或硬件单元上。因此，定位分析业务层性能问题的挑战会更大。</p><!-- [[[read_end]]] --><p>而且事实上，定位分析业务的性能问题，也是很多程序员都很头疼的问题。它需要你具备很高的业务能力，包括对业务流程的熟悉度、对软件架构及软件内实现逻辑的理解程度，甚至是对OS和硬件原理都要有深入的理解。</p><p>不过就我的实践经验来看，即使是掌握了这些信息，如果没有系统的定位分析方法的指导，那你依旧很难定位出性能问题。</p><p>所以今天这节课，我会给你分享一套性能调优方法论，带你理解企业应用系统架构的整体逻辑和工作流程，然后在此基础上去了解都有哪些引起性能问题的潜在软硬件瓶颈点，最后会介绍系统分析定位的方法。基于这个方法，当你再碰到比较棘手的业务的性能问题时，就可以做到有的放矢，使用这套系统定位分析方法去解决真实的性能问题。</p><p>好了，下面我们就来了解下系统的整体架构。</p><h2>系统架构视图</h2><p>为了能更好地分析与定位复杂的性能问题，你首先需要理解整个系统架构视图，其核心主要包含这三层：产品业务模型、软件系统架构、组件或服务实现，如下图中所示：</p><p><img src="https://static001.geekbang.org/resource/image/cd/57/cdc6071b20aeb40ed4488cfeb6ayya57.jpg?wh=2000x1125" alt=""></p><p>下面我来介绍下不同层次模块的具体组成结构。</p><ul>

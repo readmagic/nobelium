@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是欧创新。好久不见，今天我带着你期待的案例来了。</p><p>还记得我们在 <a href="https://time.geekbang.org/column/article/169881">[第 18 讲]</a> 中用事件风暴完成的“在线请假考勤”项目的领域建模和微服务设计吗？今天我们就在这个项目的基础上看看，用DDD方法设计和开发出来的微服务代码到底是什么样的？点击 <a href="https://github.com/ouchuangxin/leave-sample">Github</a> 获取完整代码，接下来的内容是我对代码的一个详解，期待能帮助你更好地实践我们这个专栏所学到的知识。</p><h2>项目回顾</h2><p>“在线请假考勤”项目中，请假的核心业务流程是：请假人填写请假单提交审批；根据请假人身份、请假类型和请假天数进行校验并确定审批规则；根据审批规则确定审批人，逐级提交上级审批，逐级核批通过则完成审批，否则审批不通过则退回申请人。</p><p>在 <a href="https://time.geekbang.org/column/article/169881">[第 18 讲]</a> 的微服务设计中，我们已经拆分出了两个微服务：请假和考勤微服务。今天我们就围绕“请假微服务”来进行代码详解。微服务采用的开发语言和数据库分别是：Java、Spring boot 和 PostgreSQL。</p><h2>请假微服务采用的DDD设计思想</h2><p>请假微服务中用到了很多的DDD设计思想和方法，主要包括以下几个：</p><p><img src="https://static001.geekbang.org/resource/image/5f/92/5f22ed9bb3d5b6c63f21583469399892.jpg" alt=""></p><h2>聚合中的对象</h2><p>请假微服务包含请假（leave）、人员（person）和审批规则（rule）三个聚合。leave聚合完成请假申请和审核核心逻辑；person聚合管理人员信息和上下级关系；rule是一个单实体聚合，提供请假审批规则查询。</p><!-- [[[read_end]]] --><p>Leave是请假微服务的核心聚合，它有请假单聚合根leave、审批意见实体ApprovalInfo、请假申请人Applicant和审批人Approver值对象（它们的数据来源于person聚合），还有部分枚举类型，如请假类型LeaveType，请假单状态Status和审批状态类型ApprovalType等值对象。</p><p>下面我们通过代码来了解一下聚合根、实体以及值对象之间的关系。</p><h3>1. 聚合根</h3><p>聚合根leave中有属性、值对象、关联实体和自身的业务行为。Leave实体采用充血模型，有自己的业务行为，具体就是聚合根实体类的方法，如代码中的getDuration和addHistoryApprovalInfo等方法。</p><p>聚合根引用实体和值对象，它可以组合聚合内的多个实体，在聚合根实体类方法中完成复杂的业务行为，这种复杂的业务行为也可以在聚合领域服务里实现。但为了职责和边界清晰，我建议聚合要根据自身的业务行为在实体类方法中实现，而涉及多个实体组合才能实现的业务能力由领域服务完成。</p><p>下面是聚合根leave的实体类方法，它包含属性、对实体和值对象的引用以及自己的业务行为和方法。</p><pre><code>public class Leave {
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是欧创新。好久不见，今天我带着你期待的案例来了。</p><p>还记得我们在 <a href="https://time.geekbang.org/column/article/169881">[第 18 讲]</a> 中用事件风暴完成的“在线请假考勤”项目的领域建模和微服务设计吗？今天我们就在这个项目的基础上看看，用DDD方法设计和开发出来的微服务代码到底是什么样的？点击 <a href="https://github.com/ouchuangxin/leave-sample">Github</a> 获取完整代码，接下来的内容是我对代码的一个详解，期待能帮助你更好地实践我们这个专栏所学到的知识。</p><h2>项目回顾</h2><p>“在线请假考勤”项目中，请假的核心业务流程是：请假人填写请假单提交审批；根据请假人身份、请假类型和请假天数进行校验并确定审批规则；根据审批规则确定审批人，逐级提交上级审批，逐级核批通过则完成审批，否则审批不通过则退回申请人。</p><p>在 <a href="https://time.geekbang.org/column/article/169881">[第 18 讲]</a> 的微服务设计中，我们已经拆分出了两个微服务：请假和考勤微服务。今天我们就围绕“请假微服务”来进行代码详解。微服务采用的开发语言和数据库分别是：Java、Spring boot 和 PostgreSQL。</p><h2>请假微服务采用的DDD设计思想</h2><p>请假微服务中用到了很多的DDD设计思想和方法，主要包括以下几个：</p><p><img src="https://static001.geekbang.org/resource/image/5f/92/5f22ed9bb3d5b6c63f21583469399892.jpg" alt=""></p><h2>聚合中的对象</h2><p>请假微服务包含请假（leave）、人员（person）和审批规则（rule）三个聚合。leave聚合完成请假申请和审核核心逻辑；person聚合管理人员信息和上下级关系；rule是一个单实体聚合，提供请假审批规则查询。</p><!-- [[[read_end]]] --><p>Leave是请假微服务的核心聚合，它有请假单聚合根leave、审批意见实体ApprovalInfo、请假申请人Applicant和审批人Approver值对象（它们的数据来源于person聚合），还有部分枚举类型，如请假类型LeaveType，请假单状态Status和审批状态类型ApprovalType等值对象。</p><p>下面我们通过代码来了解一下聚合根、实体以及值对象之间的关系。</p><h3>1. 聚合根</h3><p>聚合根leave中有属性、值对象、关联实体和自身的业务行为。Leave实体采用充血模型，有自己的业务行为，具体就是聚合根实体类的方法，如代码中的getDuration和addHistoryApprovalInfo等方法。</p><p>聚合根引用实体和值对象，它可以组合聚合内的多个实体，在聚合根实体类方法中完成复杂的业务行为，这种复杂的业务行为也可以在聚合领域服务里实现。但为了职责和边界清晰，我建议聚合要根据自身的业务行为在实体类方法中实现，而涉及多个实体组合才能实现的业务能力由领域服务完成。</p><p>下面是聚合根leave的实体类方法，它包含属性、对实体和值对象的引用以及自己的业务行为和方法。</p><pre><code>public class Leave {
+
     String id;
     Applicant applicant;
     Approver approver;

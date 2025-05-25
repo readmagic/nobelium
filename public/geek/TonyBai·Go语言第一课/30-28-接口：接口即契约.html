@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是Tony Bai。</p><p>从这一讲开始，我们将进入我们这门课核心篇的学习。相对于前两个篇章而言，这篇的内容更加考验大家的理解力，不过只要你跟上节奏，多多思考，掌握核心篇也不是什么困难的事情。</p><p>我先花小小的篇幅介绍一下核心篇的内容。核心篇主要涵盖接口类型语法与Go原生提供的三个并发原语（Goroutine、channel与select），之所以将它们放在核心语法的位置，是因为它们不仅代表了Go语言在编程语言领域的创新，更是<strong>影响Go应用骨架（Application Skeleton）设计的重要元素</strong>。</p><p>所谓应用骨架，就是指将应用代码中的业务逻辑、算法实现逻辑、错误处理逻辑等“皮肉”逐一揭去后所呈现出的应用结构，这就好比下面这个可爱的Gopher（地鼠）通过X光机所看到的骨骼结构：</p><p><img src="https://static001.geekbang.org/resource/image/67/91/67f908cf08e78353bb1e705f244e4291.jpg?wh=1206x727" alt=""></p><p>通过这幅骨架结构图，你能看到哪些有用的信息呢？从静态角度去看，我们能清晰地看到应用程序的组成部分以及各个部分之间的连接；从动态角度去看，我们能看到这幅骨架上可独立运动的几大机构。</p><p>前者我们可以将其理解为Go应用内部的耦合设计，而后者我们可以理解为应用的并发设计。而接口类型与Go并发语法恰分别是耦合设计与并发设计的主要参与者，因此Go应用的骨架设计离不开它们。一个良好的骨架设计又决定了应用的健壮性、灵活性与扩展性，甚至是应用的运行效率。我们后面在讲解接口类型与并发原语的应用模式的时候，还会结合例子深入讲解。</p><!-- [[[read_end]]] --><p>所以，在接下的三讲中，我们将系统学习Go语言的接口类型，围绕接口类型的基础知识与接口定义的惯例、接口类型的内部表示以及接口的应用模式这三方面内容进行讲解。在这一讲中，我们先来学习一下接口类型的基础知识部分。</p><h2>认识接口类型</h2><p>在前面的学习中，我们曾不止一次接触过接口类型，对接口类型也有了一些粗浅的了解。我们知道，<strong>接口类型是由type和interface关键字定义的一组方法集合</strong>，其中，方法集合唯一确定了这个接口类型所表示的接口。下面是一个典型的接口类型MyInterface的定义：</p><pre><code class="language-plain">type MyInterface interface {
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是Tony Bai。</p><p>从这一讲开始，我们将进入我们这门课核心篇的学习。相对于前两个篇章而言，这篇的内容更加考验大家的理解力，不过只要你跟上节奏，多多思考，掌握核心篇也不是什么困难的事情。</p><p>我先花小小的篇幅介绍一下核心篇的内容。核心篇主要涵盖接口类型语法与Go原生提供的三个并发原语（Goroutine、channel与select），之所以将它们放在核心语法的位置，是因为它们不仅代表了Go语言在编程语言领域的创新，更是<strong>影响Go应用骨架（Application Skeleton）设计的重要元素</strong>。</p><p>所谓应用骨架，就是指将应用代码中的业务逻辑、算法实现逻辑、错误处理逻辑等“皮肉”逐一揭去后所呈现出的应用结构，这就好比下面这个可爱的Gopher（地鼠）通过X光机所看到的骨骼结构：</p><p><img src="https://static001.geekbang.org/resource/image/67/91/67f908cf08e78353bb1e705f244e4291.jpg?wh=1206x727" alt=""></p><p>通过这幅骨架结构图，你能看到哪些有用的信息呢？从静态角度去看，我们能清晰地看到应用程序的组成部分以及各个部分之间的连接；从动态角度去看，我们能看到这幅骨架上可独立运动的几大机构。</p><p>前者我们可以将其理解为Go应用内部的耦合设计，而后者我们可以理解为应用的并发设计。而接口类型与Go并发语法恰分别是耦合设计与并发设计的主要参与者，因此Go应用的骨架设计离不开它们。一个良好的骨架设计又决定了应用的健壮性、灵活性与扩展性，甚至是应用的运行效率。我们后面在讲解接口类型与并发原语的应用模式的时候，还会结合例子深入讲解。</p><!-- [[[read_end]]] --><p>所以，在接下的三讲中，我们将系统学习Go语言的接口类型，围绕接口类型的基础知识与接口定义的惯例、接口类型的内部表示以及接口的应用模式这三方面内容进行讲解。在这一讲中，我们先来学习一下接口类型的基础知识部分。</p><h2>认识接口类型</h2><p>在前面的学习中，我们曾不止一次接触过接口类型，对接口类型也有了一些粗浅的了解。我们知道，<strong>接口类型是由type和interface关键字定义的一组方法集合</strong>，其中，方法集合唯一确定了这个接口类型所表示的接口。下面是一个典型的接口类型MyInterface的定义：</p><pre><code class="language-plain">type MyInterface interface {
+
     M1(int) error
     M2(io.Writer, ...string)
 }

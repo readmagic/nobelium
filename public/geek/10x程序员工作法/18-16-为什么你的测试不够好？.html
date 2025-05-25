@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好！我是郑晔。今天是除夕，我在这里给大家拜年了，祝大家在新的一年里，开发越做越顺利！</p><p>关于测试，我们前面讲了很多，比如：开发者应该写测试；要写可测的代码；要想做好 TDD，先要做好任务分解，我还带你进行了实战操作，完整地分解了一个任务。</p><p>但有一个关于测试的重要话题，我们始终还没聊，那就是测试应该写成什么样。今天我就来说说怎么把测试写好。</p><p>你或许会说，这很简单啊，前面不都讲过了吗？不就是用测试框架写代码吗？其实，理论上来说，还真应该就是这么简单，但现实情况却往往相反。我看到过很多团队在测试上出现过各种各样的问题，比如：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好！我是郑晔。今天是除夕，我在这里给大家拜年了，祝大家在新的一年里，开发越做越顺利！</p><p>关于测试，我们前面讲了很多，比如：开发者应该写测试；要写可测的代码；要想做好 TDD，先要做好任务分解，我还带你进行了实战操作，完整地分解了一个任务。</p><p>但有一个关于测试的重要话题，我们始终还没聊，那就是测试应该写成什么样。今天我就来说说怎么把测试写好。</p><p>你或许会说，这很简单啊，前面不都讲过了吗？不就是用测试框架写代码吗？其实，理论上来说，还真应该就是这么简单，但现实情况却往往相反。我看到过很多团队在测试上出现过各种各样的问题，比如：</p><ul>
+
 <li>测试不稳定，这次能过，下次过不了；</li>
 <li>有时候是一个测试要测的东西很简单，测试周边的依赖很多，搭建环境就需要很长的时间；</li>
 <li>这个测试要运行，必须等到另外一个测试运行结束；</li>

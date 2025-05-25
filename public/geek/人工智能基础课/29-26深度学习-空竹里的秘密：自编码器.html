@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p><span class="orange">自编码器</span>（auto-encoder）是一类执行无监督学习任务的神经网络结构，它的目的是学习一组数据的重新表达，也就是编码。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p><span class="orange">自编码器</span>（auto-encoder）是一类执行无监督学习任务的神经网络结构，它的目的是学习一组数据的重新表达，也就是编码。</p>
+
 <p>在结构上，自编码器是包含若干隐藏层的深度前馈神经网络，其独特之处是输入层和输出层的单元数目相等；在功能上，自编码器的目的不是根据输入来预测输出，而是重建网络的输入，正是这样的功能将自编码器和其他神经网络区分开来。由于自编码器的图形表示像极了杂技中使用的道具空竹，因而也得了个“空竹网络”的雅号。</p>
 <p><strong>自编码器结构由编码映射和解码映射两部分组成</strong>。如果将编码映射记作$\phi$，解码映射记作$\psi$，自编码器的作用就是将输入$\mathbf{X}$改写为$(\psi \circ \phi) (\mathbf{X})$，这相当于将输入从一个表象下转换到另一个表象下来表示，就像量子力学中粒子不同表象之间的变化一样。<strong>如果以均方误差作为网络训练中的损失函数，自编码器的目的就是找到使均方误差最小的编解码映射的组合</strong>，即</p>
 <p>$$ \phi, \psi = \arg \min_{\phi, \psi} || \mathbf{X} - (\phi \circ \psi) (\mathbf{X}) || ^ 2$$</p>

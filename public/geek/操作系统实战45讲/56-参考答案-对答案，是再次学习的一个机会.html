@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是编辑宇新。</p><p>春节将至，先给你拜个早年：愿你2022年工期变长，需求变少，技术水平更加硬核。</p><p>距离我们专栏更新结束已经过去了不少时间，给坚持学习的你点个赞。学习操作系统是一个长期投资，需要持之以恒，才能见效。无论你是二刷、三刷的朋友，还是刚买课的新同学，都建议你充分利用留言区，给自己的学习加个增益buff。这种学习讨论的氛围，也会激励你持续学习。</p><p>今天这期加餐，我们整理了课程里的思考题答案，一次性发布出来，供你对照参考，查漏补缺。</p><p>建议你一定要先自己学习理解，动脑思考、动手训练，有余力还可以看看其他小伙伴的解题思路，之后再来对答案。</p><h3><a href="https://time.geekbang.org/column/article/369457">第1节课</a></h3><p>Q：为了实现C语言中函数的调用和返回功能，CPU实现了函数调用和返回指令，即上图汇编代码中的“call”，“ret”指令，请你思考一下：call和ret指令在逻辑上执行的操作是怎样的呢？</p><p>A：一般函数调用的情况下call和ret指令在逻辑上执行的操作如下：</p><p>1.将call指令的下一条指令的地址压入栈中；<br>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是编辑宇新。</p><p>春节将至，先给你拜个早年：愿你2022年工期变长，需求变少，技术水平更加硬核。</p><p>距离我们专栏更新结束已经过去了不少时间，给坚持学习的你点个赞。学习操作系统是一个长期投资，需要持之以恒，才能见效。无论你是二刷、三刷的朋友，还是刚买课的新同学，都建议你充分利用留言区，给自己的学习加个增益buff。这种学习讨论的氛围，也会激励你持续学习。</p><p>今天这期加餐，我们整理了课程里的思考题答案，一次性发布出来，供你对照参考，查漏补缺。</p><p>建议你一定要先自己学习理解，动脑思考、动手训练，有余力还可以看看其他小伙伴的解题思路，之后再来对答案。</p><h3><a href="https://time.geekbang.org/column/article/369457">第1节课</a></h3><p>Q：为了实现C语言中函数的调用和返回功能，CPU实现了函数调用和返回指令，即上图汇编代码中的“call”，“ret”指令，请你思考一下：call和ret指令在逻辑上执行的操作是怎样的呢？</p><p>A：一般函数调用的情况下call和ret指令在逻辑上执行的操作如下：</p><p>1.将call指令的下一条指令的地址压入栈中；<br>
+
 2.将call指令数据中的地址送入IP寄存器中（指令指针寄存器），该地址就是被调用函数的地址；<br>
 3.由于IP寄存器地址设置成为被调用函数的地址，CPU自然跳转到被调用函数处开始执行指令；<br>
 4.在被调用函数的最后都有一条ret指令，当CPU执行到ret指令时，就从栈中弹出一个数据到IP寄存器，而这个数据通常是先前执行call指令的下一条指令的地址，即实现了函数返回功能。</p><!-- [[[read_end]]] --><h3><a href="https://time.geekbang.org/column/article/369502">第2节课</a></h3><p>Q：以上printf函数定义，其中有个形式参数很奇怪，请你思考下：为什么是“…”形式参数，这个形式参数有什么作用？</p><h3></h3><p>A：在C语言中经常使用printf(“%s :%d”,“number is :”,20);printf(“%x :%d”,0x10,20);printf(“%x,%x :%d”,0xba,0xff,20);可以看出，这些printf函数参数个数都不同，因为C语言的特性支持变参函数。而“…”表示支持0个和多个参数，C语言是通过调用者传递参数的，刚好支持这种变参函数。</p><h3><a href="https://time.geekbang.org/column/article/372609">第3节课</a></h3><p>Q：其实我们的内核架构不是我们首创的，它是属于微内核、宏内核之外的第三种架构，请问这是什么架构？</p><p>A：我们的内核架构是混合内核架构，是介于微、宏架构之间的一种架构，这种架构保证了宏架构的高性能又兼顾了微架构的可移植、可扩展性。</p><h3><a href="https://time.geekbang.org/column/article/374474">第4节课</a></h3><p>Q：Windows NT内核属于哪种架构类型？</p><p>A：Windows NT内核架构其实既不属于传统的宏内核架构，也不是新的微内核架构，说NT是微内核架构是错误的，NT这种内核架构其实是宏内核的变种——混合内核。</p><h3><a href="https://time.geekbang.org/column/article/375278">第5节课</a></h3><p>Q：请问实模式下能寻址多大的内存空间？</p><p>A：由于实模式下访问内存的地址是这样产生的：16位段寄存器左移4位，加一个16位通用寄存器，最后形成了20位地址，所以只能访问1MB大的内存空间。</p><h3><a href="https://time.geekbang.org/column/article/376064">第6节课</a></h3><p>Q：分页模式下，操作系统是如何对应用程序的地址空间进行隔离的？</p><p>A：操作系统会给每个应用程序都配置独立的一套页表数据。应用程序运行时，就让CR3寄存器指向该应用程序的页表数据。运行下一个应用程序时，则会执行同样的操作。</p><h3><a href="https://time.geekbang.org/column/article/376711">第7节课</a></h3><p>Q：请你思考一下，如何写出让CPU跑得更快的代码？由于Cache比内存快几个数量级，所以这个问题也可以转换成：如何写出提高Cache命中率的代码？</p><p>A：第一，定义变量时，尽量让其地址与Cache行大小对齐。</p><pre><code class="language-plain">int a __attribute__((aligned (64)));&nbsp;

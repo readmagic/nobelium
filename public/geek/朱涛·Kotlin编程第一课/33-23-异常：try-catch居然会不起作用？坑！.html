@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是朱涛。这节课我们来学习Kotlin协程的异常处理。</p><p>其实到这里，我们就已经学完所有Kotlin协程的语法知识了。但在真正把Kotlin协程应用到生产环境之前，我们还需要掌握一个重要知识点，那就是异常处理。</p><p>比起Kotlin协程的语法知识点，协程的异常处理，其实更难掌握。在前面的课程中，我们已经了解到：<strong>协程就是互相协作的程序，协程是结构化的</strong>。正因为Kotlin协程有这两个特点，这就导致它的异常处理机制与我们普通的程序完全不一样。</p><p>换句话说：<strong>如果把Java里的那一套异常处理机制，照搬到Kotlin协程里来，你一定会四处碰壁</strong>。因为在普通的程序当中，你使用try-catch就能解决大部分的异常处理问题，但是在协程当中，根据不同的协程特性，它的异常处理策略是随之变化的。</p><p>我自己在工作中就踩过很多这方面的坑，遇到过各种匪夷所思的问题：协程无法取消、try-catch不起作用导致线上崩溃率突然大增、软件功能错乱却追踪不到任何异常信息，等等。说实话，Kotlin协程的普及率之所以不高，很大一部分原因也是因为它的异常处理机制太复杂了，稍有不慎就可能会掉坑里去。</p><p>那么今天这节课，我们就会来分析几个常见的协程代码模式，通过解决这些异常，我们可以总结出协程异常处理的6大准则。掌握了这些准则之后，你在以后遇到异常问题时，就能有所准备，也知道该怎么处理了。</p><!-- [[[read_end]]] --><h2>为什么cancel()不起作用？</h2><p>在Kotlin协程当中，我们通常把异常分为两大类，一类是<strong>取消异常</strong>（CancellationException），另一类是<strong>其他异常</strong>。之所以要这么分类，是因为在Kotlin协程当中，这两种异常的处理方式是不一样的。或者说，在Kotlin协程所有的异常当中，我们需要把CancellationException单独拎出来，特殊对待。</p><p>要知道，当协程任务被取消的时候，它的内部是会产生一个CancellationException的。而协程的结构化并发，最大的优势就在于：如果我们取消了父协程，子协程也会跟着被取消。但是我们也知道，很多初学者都会遇到一个问题，那就是协程无法被取消。</p><p>这里，主要涉及了三个场景，我们一个个来分析下。</p><h3>场景1：cancel()不被响应</h3><pre><code class="language-plain">// 代码段1
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是朱涛。这节课我们来学习Kotlin协程的异常处理。</p><p>其实到这里，我们就已经学完所有Kotlin协程的语法知识了。但在真正把Kotlin协程应用到生产环境之前，我们还需要掌握一个重要知识点，那就是异常处理。</p><p>比起Kotlin协程的语法知识点，协程的异常处理，其实更难掌握。在前面的课程中，我们已经了解到：<strong>协程就是互相协作的程序，协程是结构化的</strong>。正因为Kotlin协程有这两个特点，这就导致它的异常处理机制与我们普通的程序完全不一样。</p><p>换句话说：<strong>如果把Java里的那一套异常处理机制，照搬到Kotlin协程里来，你一定会四处碰壁</strong>。因为在普通的程序当中，你使用try-catch就能解决大部分的异常处理问题，但是在协程当中，根据不同的协程特性，它的异常处理策略是随之变化的。</p><p>我自己在工作中就踩过很多这方面的坑，遇到过各种匪夷所思的问题：协程无法取消、try-catch不起作用导致线上崩溃率突然大增、软件功能错乱却追踪不到任何异常信息，等等。说实话，Kotlin协程的普及率之所以不高，很大一部分原因也是因为它的异常处理机制太复杂了，稍有不慎就可能会掉坑里去。</p><p>那么今天这节课，我们就会来分析几个常见的协程代码模式，通过解决这些异常，我们可以总结出协程异常处理的6大准则。掌握了这些准则之后，你在以后遇到异常问题时，就能有所准备，也知道该怎么处理了。</p><!-- [[[read_end]]] --><h2>为什么cancel()不起作用？</h2><p>在Kotlin协程当中，我们通常把异常分为两大类，一类是<strong>取消异常</strong>（CancellationException），另一类是<strong>其他异常</strong>。之所以要这么分类，是因为在Kotlin协程当中，这两种异常的处理方式是不一样的。或者说，在Kotlin协程所有的异常当中，我们需要把CancellationException单独拎出来，特殊对待。</p><p>要知道，当协程任务被取消的时候，它的内部是会产生一个CancellationException的。而协程的结构化并发，最大的优势就在于：如果我们取消了父协程，子协程也会跟着被取消。但是我们也知道，很多初学者都会遇到一个问题，那就是协程无法被取消。</p><p>这里，主要涉及了三个场景，我们一个个来分析下。</p><h3>场景1：cancel()不被响应</h3><pre><code class="language-plain">// 代码段1
+
 
 fun main() = runBlocking {
     val job = launch(Dispatchers.Default) {

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是陈天。储备好前置知识之后，今天我们就正式开始 Rust 语言本身的学习。</p><p>学语言最好的捷径就是把自己置身于语言的环境中，而且我们程序员讲究 “get hands dirty”，直接从代码开始学能带来最直观的体验。所以从这一讲开始，你就要在电脑上设置好 Rust 环境了。</p><p>今天会讲到很多 Rust 的基础知识，我都精心构造了代码案例来帮你理解，<strong>非常推荐你自己一行行敲入这些代码，边写边思考为什么这么写，然后在运行时体会执行和输出的过程</strong>。如果遇到了问题，你也可以点击每个例子附带的代码链接，在<a href="https://play.rust-lang.org/"> Rust playground </a>中运行。</p><p>Rust 安装起来非常方便，你可以用 <a href="https://rustup.rs/">rustup.rs</a> 中给出的方法，根据你的操作系统进行安装。比如在 unix 系统下，可以直接运行：</p><pre><code class="language-shell">curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是陈天。储备好前置知识之后，今天我们就正式开始 Rust 语言本身的学习。</p><p>学语言最好的捷径就是把自己置身于语言的环境中，而且我们程序员讲究 “get hands dirty”，直接从代码开始学能带来最直观的体验。所以从这一讲开始，你就要在电脑上设置好 Rust 环境了。</p><p>今天会讲到很多 Rust 的基础知识，我都精心构造了代码案例来帮你理解，<strong>非常推荐你自己一行行敲入这些代码，边写边思考为什么这么写，然后在运行时体会执行和输出的过程</strong>。如果遇到了问题，你也可以点击每个例子附带的代码链接，在<a href="https://play.rust-lang.org/"> Rust playground </a>中运行。</p><p>Rust 安装起来非常方便，你可以用 <a href="https://rustup.rs/">rustup.rs</a> 中给出的方法，根据你的操作系统进行安装。比如在 unix 系统下，可以直接运行：</p><pre><code class="language-shell">curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
 </code></pre><p>这会在你的系统上安装 Rust 工具链，之后，你就可以在本地用  <code>cargo new</code> 新建 Rust 项目、尝试 Rust 功能。动起手来，试试用Rust写你的第一个 <a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2018&amp;gist=3d8814d1b868534a65ef79b3114d8cf5">hello world 程序</a>吧！</p><pre><code class="language-rust">fn main() {
 &nbsp; &nbsp; println!("Hello world!");
 }

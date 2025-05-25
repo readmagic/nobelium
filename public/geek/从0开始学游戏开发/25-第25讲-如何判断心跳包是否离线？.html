@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>在初学网络，编写过阻塞和非阻塞网络代码的时候，有一个问题，那就是在非阻塞的情况下，不知道对方的网络何时断开。</p><p>因为在非阻塞的情况下，如果没有接收到消息，recv的数值一直会是0。如果以这个来判断，显然是错误的。而在阻塞情况下，只要对方一断开，接收到0就说明断开了，那么我们怎么才能在非阻塞的情况下确定连接是断开还是没断开呢？</p><p>我们可以采用离线超时的方案来判断对方连接是否断开。那什么是离线超时呢？</p><p>我们都知道，人累了就要休息。你在休息的时候，有没有注意过这么一个现象，那就是你在快要睡着的时候，忽然脚会蹬一下，或者人会抽一下，这是为什么呢？</p><p>有一种说法流传很广，说，其实大脑是在不停地检测人有没有“死”，所以发送神经信号给手和腿。抽动一下，检验其是否死亡。这个就有点儿像我们检测超时，看看有没有反应。</p><p>现在我们先看一段Python代码，让它运行起来。</p><pre><code>import socket
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>在初学网络，编写过阻塞和非阻塞网络代码的时候，有一个问题，那就是在非阻塞的情况下，不知道对方的网络何时断开。</p><p>因为在非阻塞的情况下，如果没有接收到消息，recv的数值一直会是0。如果以这个来判断，显然是错误的。而在阻塞情况下，只要对方一断开，接收到0就说明断开了，那么我们怎么才能在非阻塞的情况下确定连接是断开还是没断开呢？</p><p>我们可以采用离线超时的方案来判断对方连接是否断开。那什么是离线超时呢？</p><p>我们都知道，人累了就要休息。你在休息的时候，有没有注意过这么一个现象，那就是你在快要睡着的时候，忽然脚会蹬一下，或者人会抽一下，这是为什么呢？</p><p>有一种说法流传很广，说，其实大脑是在不停地检测人有没有“死”，所以发送神经信号给手和腿。抽动一下，检验其是否死亡。这个就有点儿像我们检测超时，看看有没有反应。</p><p>现在我们先看一段Python代码，让它运行起来。</p><pre><code>import socket
+
 import time
 
 def server_run():

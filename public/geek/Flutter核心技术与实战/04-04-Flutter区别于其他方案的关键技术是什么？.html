@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是陈航。</p><p>Flutter是什么？它出现的动机是什么，解决了哪些痛点？相比其他跨平台技术，Flutter的优势在哪里？……相信很多人在第一眼看到Flutter时，都会有类似的疑问。</p><p>别急，在今天的这篇文章中，我会与你介绍Flutter的历史背景和运行机制，并以界面渲染过程为例与你讲述其实现原理，让你对Flutter能够有一个全方位的认知和感受。在对Flutter有了全面了解后，这些疑问自然也就迎刃而解了。</p><p>接下来，我们就从Flutter出现的历史背景开始谈起吧。</p><h2>Flutter出现的历史背景</h2><p>为不同的操作系统开发拥有相同功能的应用程序，开发人员只有两个选择：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是陈航。</p><p>Flutter是什么？它出现的动机是什么，解决了哪些痛点？相比其他跨平台技术，Flutter的优势在哪里？……相信很多人在第一眼看到Flutter时，都会有类似的疑问。</p><p>别急，在今天的这篇文章中，我会与你介绍Flutter的历史背景和运行机制，并以界面渲染过程为例与你讲述其实现原理，让你对Flutter能够有一个全方位的认知和感受。在对Flutter有了全面了解后，这些疑问自然也就迎刃而解了。</p><p>接下来，我们就从Flutter出现的历史背景开始谈起吧。</p><h2>Flutter出现的历史背景</h2><p>为不同的操作系统开发拥有相同功能的应用程序，开发人员只有两个选择：</p><ol>
+
 <li>使用原生开发语言（即Java和Objective-C），针对不同平台分别进行开发。</li>
 <li>使用跨平台解决方案，对不同平台进行统一开发。</li>
 </ol><p>原生开发方式的体验最好，但研发效率和研发成本相对较高；而跨平台开发方式研发虽然效率高，但为了抹平多端平台差异，各类解决方案暴露的组件和API较原生开发相比少很多，因此研发体验和产品功能并不完美。</p><p>所以，最成功的跨平台开发方案其实是依托于浏览器控件的Web。浏览器保证了99%的概率下Web的需求都是可以实现的，不需要业务将就“技术”。不过，Web最大的问题在于它的性能和体验与原生开发存在肉眼可感知的差异，因此并不适用于对体验要求较高的场景。</p><!-- [[[read_end]]] --><p>对于用户体验更接近于原生的React Native，对业务的支持能力却还不到浏览器的5%，仅适用于中低复杂度的低交互类页面。面对稍微复杂一点儿的交互和动画需求，开发者都需要case by case地去review，甚至还可能要通过原生代码去扩展才能实现。</p><p>这些因素，也就导致了虽然跨平台开发从移动端诞生之初就已经被多次提及，但到现在也没有被很好地解决。</p><p>带着这些问题，我们终于迎来了本次专栏的主角——Flutter。</p><p>Flutter是构建Google物联网操作系统Fuchsia的SDK，主打跨平台、高保真、高性能。开发者可以通过 Dart语言开发App，一套代码可以同时运行在 iOS 和 Android平台。 Flutter使用Native引擎渲染视图，并提供了丰富的组件和接口，这无疑为开发者和用户都提供了良好的体验。</p><p>从2017年5月，谷歌公司发布的了Alpha版本的Flutter，到2018年底Flutter Live发布的1.0版本，再到现在最新的1.5版本（截止至2019年7月1日），Flutter正在赢得越来越多的关注。</p><p>很多人开始感慨，跨平台技术似乎终于迎来了最佳解决方案。那么，接下来我们就从原理层面去看看，Flutter是如何解决既有跨平台开发方案问题的。</p><h2>Flutter是怎么运转的？</h2><p>与用于构建移动应用程序的其他大多数框架不同，Flutter是重写了一整套包括底层渲染逻辑和上层开发语言的完整解决方案。这样不仅可以保证视图渲染在Android和iOS上的高度一致性（即高保真），在代码执行效率和渲染性能上也可以媲美原生App的体验（即高性能）。</p><p>这，就是Flutter和其他跨平台方案的本质区别：</p><ul>

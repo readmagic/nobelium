@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是海纳。</p><p>随着这节课的开始，我们将进入到专栏的最后一个模块：<strong>自动内存管理篇</strong>。在这个模块，你将会了解到，以Java为代表的托管型语言是如何自动进行内存管理和回收整理的，这将提高你使用Java、Python、 Go等托管型语言的能力。</p><p>为什么我要把自动内存管理篇放到最后才讲呢？因为要理解这一篇的内容，需要软件篇和硬件篇的知识做铺垫。比如说，在面试时，有一个问题面试官问到的频率非常高，但几乎没有人能回答正确，因为它需要的前置知识太多。这个问题是：Java中的volatile有什么用？如何正确地使用它？</p><p>这个问题之所以会频繁出现在面试中，是因为Java并发库中大量使用了volatile变量，在JVM的研发历史上，它在各种不同的体系结构下产生了很多典型的问题。那么，在开发并发程序的时候，深刻地理解它的作用是非常有必要的。</p><p>幸运的是，前面硬件篇的知识已经帮我们打好了足够的基础，今天我们就可以深入讨论这个问题了。由于在这个问题中，volatile的语义是由Java内存模型定义的，我们就先从Java内存模型这个话题聊起。</p><h2>Java内存模型</h2><p>我们知道在不同的架构上，缓存一致性问题是不同的，例如x86采用了TSO模型，它的<strong>写后写（StoreStore）和读后读（LoadLoad）</strong>完全不需要软件程序员操心，但是Arm的弱内存模型就要求我们自己在合适的位置添加StoreStore barrier和LoadLoad barrier。例如下面这个例子：</p><!-- [[[read_end]]] --><pre><code>public class MemModel {
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是海纳。</p><p>随着这节课的开始，我们将进入到专栏的最后一个模块：<strong>自动内存管理篇</strong>。在这个模块，你将会了解到，以Java为代表的托管型语言是如何自动进行内存管理和回收整理的，这将提高你使用Java、Python、 Go等托管型语言的能力。</p><p>为什么我要把自动内存管理篇放到最后才讲呢？因为要理解这一篇的内容，需要软件篇和硬件篇的知识做铺垫。比如说，在面试时，有一个问题面试官问到的频率非常高，但几乎没有人能回答正确，因为它需要的前置知识太多。这个问题是：Java中的volatile有什么用？如何正确地使用它？</p><p>这个问题之所以会频繁出现在面试中，是因为Java并发库中大量使用了volatile变量，在JVM的研发历史上，它在各种不同的体系结构下产生了很多典型的问题。那么，在开发并发程序的时候，深刻地理解它的作用是非常有必要的。</p><p>幸运的是，前面硬件篇的知识已经帮我们打好了足够的基础，今天我们就可以深入讨论这个问题了。由于在这个问题中，volatile的语义是由Java内存模型定义的，我们就先从Java内存模型这个话题聊起。</p><h2>Java内存模型</h2><p>我们知道在不同的架构上，缓存一致性问题是不同的，例如x86采用了TSO模型，它的<strong>写后写（StoreStore）和读后读（LoadLoad）</strong>完全不需要软件程序员操心，但是Arm的弱内存模型就要求我们自己在合适的位置添加StoreStore barrier和LoadLoad barrier。例如下面这个例子：</p><!-- [[[read_end]]] --><pre><code>public class MemModel {
+
     static int x = 0;
     static int y = 0;
     public static void main(String[] args) {

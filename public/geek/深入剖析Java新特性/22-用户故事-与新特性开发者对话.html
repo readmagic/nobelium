@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是 Jxin。目前是一名供应链业务开发，坐标杭州。</p><p>其实，我算是范老师的“老学员”了。之前学习范老师的<a href="https://time.geekbang.org/column/intro/100019601?tab=catalog">《代码精进之路》</a>，我就有不小的收获。这次看到开设了新课程，便第一时间参与了学习。关于 9-17 的 Java 新特性，我也是第一次了解，算是再次跟着范老师长见识了。学习过程中我有一些心得，不成熟，分享给你，希望能给你一些参考。如果你也有一些见解或想法，欢迎讨论。</p><p>在联系课程之前，我想先说一说我对学习的理解。我认为，学习知识要经历三个阶段。第一个阶段，是学习最基础的确定性知识；第二个阶段，是发现确定性知识之上不确定的场景；第三个阶段是清楚在什么场景用什么知识，也就是能因地制宜，有自己的权衡心得。到了这个境界，就算是“苦心孤诣”，有点自己独到的东西了。</p><p>举个例子。 Java 里面我们遍历一个 List 可以用 For / Iterator / Stream 三种模式。这就是确定性的知识，也就是<strong>学习的第一阶段</strong>。但是，你问我遍历 List 该用哪种模式，我会说不一定。会说不一定就是知道要考虑不确定的场景，这就到了<strong>学习的第二阶段</strong>。为什么不一定？从性能角度看，如果 List 量级较小，For 和 Iterator 其实性能较优，加之常规编码习惯应当选择 For ；但如果量级较大，因为 Stream 支持 parallelStream 转换，可以提供便捷的并行转换，所以会选择 Stream 。另外，从可靠性、可读性角度来看，适用的模式又有所不同了。知道什么场景用什么遍历方式，这就算到了<strong>学习的第三阶段</strong>。</p><!-- [[[read_end]]] --><p>从这三个阶段出发，我又审视了一下自己学习《深入剖析Java新特性》的过程。</p><h2>学习确定性知识</h2><p>《深入剖析 Java 新特性》的行文有几分纪传体的味道。以每个特性为中心描述其发展史和应用，这样更贴合专栏零散时间学习的模式，有利于我们独立地学习每一种特性。行文提供的确定性知识主要是以下几点：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是 Jxin。目前是一名供应链业务开发，坐标杭州。</p><p>其实，我算是范老师的“老学员”了。之前学习范老师的<a href="https://time.geekbang.org/column/intro/100019601?tab=catalog">《代码精进之路》</a>，我就有不小的收获。这次看到开设了新课程，便第一时间参与了学习。关于 9-17 的 Java 新特性，我也是第一次了解，算是再次跟着范老师长见识了。学习过程中我有一些心得，不成熟，分享给你，希望能给你一些参考。如果你也有一些见解或想法，欢迎讨论。</p><p>在联系课程之前，我想先说一说我对学习的理解。我认为，学习知识要经历三个阶段。第一个阶段，是学习最基础的确定性知识；第二个阶段，是发现确定性知识之上不确定的场景；第三个阶段是清楚在什么场景用什么知识，也就是能因地制宜，有自己的权衡心得。到了这个境界，就算是“苦心孤诣”，有点自己独到的东西了。</p><p>举个例子。 Java 里面我们遍历一个 List 可以用 For / Iterator / Stream 三种模式。这就是确定性的知识，也就是<strong>学习的第一阶段</strong>。但是，你问我遍历 List 该用哪种模式，我会说不一定。会说不一定就是知道要考虑不确定的场景，这就到了<strong>学习的第二阶段</strong>。为什么不一定？从性能角度看，如果 List 量级较小，For 和 Iterator 其实性能较优，加之常规编码习惯应当选择 For ；但如果量级较大，因为 Stream 支持 parallelStream 转换，可以提供便捷的并行转换，所以会选择 Stream 。另外，从可靠性、可读性角度来看，适用的模式又有所不同了。知道什么场景用什么遍历方式，这就算到了<strong>学习的第三阶段</strong>。</p><!-- [[[read_end]]] --><p>从这三个阶段出发，我又审视了一下自己学习《深入剖析Java新特性》的过程。</p><h2>学习确定性知识</h2><p>《深入剖析 Java 新特性》的行文有几分纪传体的味道。以每个特性为中心描述其发展史和应用，这样更贴合专栏零散时间学习的模式，有利于我们独立地学习每一种特性。行文提供的确定性知识主要是以下几点：</p><ul>
+
 <li>该特性在 JDK 版本的发展史，啥时候预览，啥时候改进，啥时候发布；</li>
 <li>为什么要实现该特性；</li>
 <li>该特性是什么样的；</li>

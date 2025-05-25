@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>大概十年前，我在阿里巴巴工作的时候，曾经和另一个面试官一起进行一场技术面试，面试过程中我问了一个问题：<strong>Hash表的时间复杂度为什么是O(1)</strong>？候选人没有回答上来。面试结束后我和另一个面试官有了分歧，我觉得这个问题没有回答上来是不可接受的。而他则觉得，这个问题有一点难度，回答不上来不说明什么。</p><p>因为有了这次争执，后来这个问题成了我面试时的必考题。此后十年间，我用这个问题面试了大约上千人，这些面试经历让我更加坚定了一个想法：这个问题就是候选人技术水平的一个分水岭，是证明一个技术人员是否具有必备专业技能和技术悟性的一个门槛。这个槛过不去是不可接受的。</p><p>为什么呢？我很难相信，如果基本的数据结构没有掌握好，如何能开发好一个稍微复杂一点的程序？</p><p>要了解Hash表，需要先从数组说起。</p><h2>数组</h2><p>数组是最常用的数据结构，创建数组必须要内存中一块<strong>连续</strong>的空间，并且数组中必须存放<strong>相同</strong>的数据类型。比如我们创建一个长度为10，数据类型为整型的数组，在内存中的地址是从1000开始，那么它在内存中的存储格式如下。</p><p><img src="https://static001.geekbang.org/resource/image/c9/71/c98f1f08afacdb9754e6d18c1d7e0471.png" alt=""><br>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>大概十年前，我在阿里巴巴工作的时候，曾经和另一个面试官一起进行一场技术面试，面试过程中我问了一个问题：<strong>Hash表的时间复杂度为什么是O(1)</strong>？候选人没有回答上来。面试结束后我和另一个面试官有了分歧，我觉得这个问题没有回答上来是不可接受的。而他则觉得，这个问题有一点难度，回答不上来不说明什么。</p><p>因为有了这次争执，后来这个问题成了我面试时的必考题。此后十年间，我用这个问题面试了大约上千人，这些面试经历让我更加坚定了一个想法：这个问题就是候选人技术水平的一个分水岭，是证明一个技术人员是否具有必备专业技能和技术悟性的一个门槛。这个槛过不去是不可接受的。</p><p>为什么呢？我很难相信，如果基本的数据结构没有掌握好，如何能开发好一个稍微复杂一点的程序？</p><p>要了解Hash表，需要先从数组说起。</p><h2>数组</h2><p>数组是最常用的数据结构，创建数组必须要内存中一块<strong>连续</strong>的空间，并且数组中必须存放<strong>相同</strong>的数据类型。比如我们创建一个长度为10，数据类型为整型的数组，在内存中的地址是从1000开始，那么它在内存中的存储格式如下。</p><p><img src="https://static001.geekbang.org/resource/image/c9/71/c98f1f08afacdb9754e6d18c1d7e0471.png" alt=""><br>
+
 由于每个整型数据占据4个字节的内存空间，因此整个数组的内存空间地址是1000～1039，根据这个，我们就可以轻易算出数组中每个数据的内存下标地址。利用这个特性，我们只要知道了数组下标，也就是数据在数组中的位置，比如下标2，就可以计算得到这个数据在内存中的位置1008，从而对这个位置的数据241进行快速读写访问，时间复杂度为O(1)。</p><!-- [[[read_end]]] --><p>随机快速读写是数组的一个重要特性，但是要随机访问数据，必须知道数据在数组中的下标。如果我们只是知道数据的值，想要在数组中找到这个值，那么就只能遍历整个数组，时间复杂度为O(N)。</p><h2>链表</h2><p>不同于数组必须要连续的内存空间，链表可以使用零散的内存空间存储数据。不过，因为链表在内存中的数据不是连续的，所以链表中的每个数据元素都必须包含一个指向下一个数据元素的内存地址指针。如下图，链表的每个元素包含两部分，一部分是数据，一部分是指向下一个元素的地址指针。最后一个元素指向null，表示链表到此为止。</p><p><img src="https://static001.geekbang.org/resource/image/2f/e6/2f85f5f31b5985c46b02919aa4809fe6.png" alt=""><br>
 因为链表是不连续存储的，要想在链表中查找一个数据，只能遍历链表，所以链表的查找复杂度总是O(N)。</p><p>但是正因为链表是不连续存储的，所以在链表中插入或者删除一个数据是非常容易的，只要找到要插入（删除）的位置，修改链表指针就可以了。如图，想在b和c之间插入一个元素x，只需要将b指向c的指针修改为指向x，然后将x的指针指向c就可以了。</p><p><img src="https://static001.geekbang.org/resource/image/04/01/0460a5fc12d7d5227f436a608684ea01.png" alt=""><br>
 相比在链表中轻易插入、删除一个元素这种简单的操作，如果我们要想在数组中插入、删除一个数据，就会改变数组连续内存空间的大小，需要重新分配内存空间，这样要复杂得多。</p><h2>Hash表</h2><p>前面说过，对数组中的数据进行快速访问必须要通过数组的下标，时间复杂度为O(1)。如果只知道数据或者数据中的部分内容，想在数组中找到这个数据，还是需要遍历数组，时间复杂度为O(N)。</p><p>事实上，知道部分数据查找完整数据的需求在软件开发中会经常用到，比如知道了商品ID，想要查找完整的商品信息；知道了词条名称，想要查找百科词条中的详细信息等。</p><p>这类场景就需要用到Hash表这种数据结构。Hash表中数据以Key、Value的方式存储，上面例子中，商品ID和词条名称就是Key，商品信息和词条详细信息就是Value。存储的时候将Key、Value写入Hash表，读取的时候，只需要提供Key，就可以快速查找到Value。</p><p>Hash表的物理存储其实是一个数组，如果我们能够根据Key计算出数组下标，那么就可以快速在数组中查找到需要的Key和Value。许多编程语言支持获得任意对象的 HashCode，比如Java 语言中 HashCode 方法包含在根对象 Object 中，其返回值是一个 Int。我们可以利用这个Int类型的HashCode计算数组下标。最简单的方法就是余数法，使用 Hash 表的数组长度对 HashCode 求余， 余数即为 Hash 表数组的下标，使用这个下标就可以直接访问得到 Hash 表中存储的 Key、Value。</p><p><img src="https://static001.geekbang.org/resource/image/e2/cb/e2d3191b087d902980595aeb1be79dcb.png" alt=""><br>

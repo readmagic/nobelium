@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是周爱民。欢迎回到我的专栏。今天，是传说中的加餐时间，我将与你解说前11讲内容的整体体系和结论。</p><p>我们从一个问题讲起，那就是：<span class="orange">JavaScript到底是怎么运行起来的呢？</span></p><p>看起来这个问题最简单的答案是“解析→运行”。然而对于一门语言来说，“引擎解释与运行”都是最终结果的表象，真正处于原点的问题其实是：“<span class="orange">JavaScript运行的是什么？</span>”</p><p>在前11讲中，我是试图将JavaScript整个的运行机制摊开在你的面前，因此我们有两条线索可以抓：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是周爱民。欢迎回到我的专栏。今天，是传说中的加餐时间，我将与你解说前11讲内容的整体体系和结论。</p><p>我们从一个问题讲起，那就是：<span class="orange">JavaScript到底是怎么运行起来的呢？</span></p><p>看起来这个问题最简单的答案是“解析→运行”。然而对于一门语言来说，“引擎解释与运行”都是最终结果的表象，真正处于原点的问题其实是：“<span class="orange">JavaScript运行的是什么？</span>”</p><p>在前11讲中，我是试图将JavaScript整个的运行机制摊开在你的面前，因此我们有两条线索可以抓：</p><ol>
+
 <li>表面上，它是讲引用和执行过程；</li>
 <li>在底下，讲的是引擎对“JavaScript是什么”的理解。</li>
 </ol><h2>从文本到脚本</h2><p>我们先从第二条线索，也就是更基础层面的线索讲起。</p><p>JavaScript的所谓“脚本代码”，在引擎层面看来，首先就是一段文本。在性质上，装载<code>a.js</code>执行与<code>eval('...')</code>执行并没有区别，它们的执行对象都被理解为一个“字符串”，也就是字符串这一概念本身所表示的、所谓的“字符序列”。</p><p>在字符序列这个层面上，最简单和最经济的处理逻辑是<strong>正向遍历</strong>，这也是为什么“语句解析器”的开发者总是希望“语言的设计者”能让他们“一次性地、不需要回归地”解析代码的原因。</p><p>回归（也就是查看之前“被parser过的代码”）就意味着解析器需要暂存旧数据，无法将解析器做得足够简洁，进而无法将解析器放在小存储的环境中。根本上来说，JavaScript解析引擎是“逐字符”地处理代码文本的。</p><!-- [[[read_end]]] --><p>JavaScript从“逐字符处理”得到的引擎可以理解的对象，称为记号（Tokens）。这个概念，是从第一讲就开始提的，你回顾第一讲的内容，在提出<code>Tokens</code>这个概念的时候，有这样一句话：</p><blockquote>

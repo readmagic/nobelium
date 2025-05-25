@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是陈天。</p><p>现在 Rust 基础篇已经学完了，相信你已经有足够的信心去应对一些简单的开发任务。今天我们就来个期中测试，实际考察一下你对 Rust 语言的理解以及对所学知识的应用情况。</p><p>我们要做的小工具是 rgrep，它是一个类似 grep 的工具。如果你是一个 *nix 用户，那大概率使用过 grep 或者 ag 这样的文本查找工具。</p><p>grep 命令用于查找文件里符合条件的字符串。如果发现某个文件的内容符合所指定的字符串，grep 命令会把含有字符串的那一行显示出；若不指定任何文件名称，或是所给予的文件名为&nbsp;<strong>-</strong>，grep 命令会从标准输入设备读取数据。</p><p>我们的 rgrep 要稍微简单一些，它可以支持以下三种使用场景：</p><p>首先是最简单的，给定一个字符串以及一个文件，打印出文件中所有包含该字符串的行：</p><pre><code class="language-plain">$ rgrep Hello a.txt
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是陈天。</p><p>现在 Rust 基础篇已经学完了，相信你已经有足够的信心去应对一些简单的开发任务。今天我们就来个期中测试，实际考察一下你对 Rust 语言的理解以及对所学知识的应用情况。</p><p>我们要做的小工具是 rgrep，它是一个类似 grep 的工具。如果你是一个 *nix 用户，那大概率使用过 grep 或者 ag 这样的文本查找工具。</p><p>grep 命令用于查找文件里符合条件的字符串。如果发现某个文件的内容符合所指定的字符串，grep 命令会把含有字符串的那一行显示出；若不指定任何文件名称，或是所给予的文件名为&nbsp;<strong>-</strong>，grep 命令会从标准输入设备读取数据。</p><p>我们的 rgrep 要稍微简单一些，它可以支持以下三种使用场景：</p><p>首先是最简单的，给定一个字符串以及一个文件，打印出文件中所有包含该字符串的行：</p><pre><code class="language-plain">$ rgrep Hello a.txt
+
 55: Hello world. This is an exmaple text
 </code></pre><p>然后放宽限制，允许用户提供一个正则表达式，来查找文件中所有包含该字符串的行：</p><pre><code class="language-plain">$ rgrep Hel[^\\s]+ a.txt
 55: Hello world. This is an exmaple text

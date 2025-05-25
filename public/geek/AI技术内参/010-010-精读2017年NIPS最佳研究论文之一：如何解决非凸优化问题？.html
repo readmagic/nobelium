@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>机器学习与人工智能领域的顶级会议NIPS（Conference on Neural Information Processing Systems，神经信息处理系统大会）从1987年开始举办，已经有30多年的历史。NIPS 2017大会于2017年12月4日到9日在美国加利福尼亚州的长滩（Long Beach）举行。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>机器学习与人工智能领域的顶级会议NIPS（Conference on Neural Information Processing Systems，神经信息处理系统大会）从1987年开始举办，已经有30多年的历史。NIPS 2017大会于2017年12月4日到9日在美国加利福尼亚州的长滩（Long Beach）举行。</p>
+
 <p>每年大会都会在众多的学术论文中挑选出几篇最有新意和价值的论文作为最佳研究论文。在NIPS 2017上，一共有三篇论文获得了最佳论文的称号。今天，我就来带你认真剖析一下其中的一篇《具有凸目标的基于方差的正则化》（<a href="https://papers.nips.cc/paper/6890-variance-based-regularization-with-convex-objectives.pdf">Variance-based Regularization with Convex Objectives</a>）。这篇论文的两位作者都是来自斯坦福大学的学者。</p>
 <p>这篇文章理论性很强，主要研究的是一种“健壮的优化问题”（Robust Optimization），也就是说我们在优化一个“损失函数”（Loss Function）的时候，不仅要考虑损失函数的“均值”（Mean），还要考虑损失函数的“方差”（Variance）。然而，一个既要考虑均值又要考虑方差的综合的损失函数，往往是一个“非凸”（Non Convex）的问题。对于一般的非凸优化问题来说，我们往往不能找到一个全局的最优解，甚至是找到局部最优解也很困难。这篇文章就是要来解决这么一个问题。</p>
 <h2>作者群信息介绍</h2>

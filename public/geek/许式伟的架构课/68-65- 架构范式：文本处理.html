@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是七牛云许式伟。</p><p>上一讲 “<a href="https://time.geekbang.org/column/article/177746?utm_source=time_pcchaping&amp;utm_term=pc_interstitial_11">64 | 不断完善的架构范式</a>” 我们提到架构师的武器库是不断完善的架构范式。今天我们围绕一个具体的问题域，看看我们日常能够积累什么样的经验和成果，来完善作为一个架构师的知识体系。</p><p>我们选择的问题是 “文本处理”。</p><p>计算机之所以叫计算机，是因为计算机的能力基本上就是“计算+I/O”两部分。I/O 只是为了让计算机与物理世界打交道，它也是为计算服务的。所以数据是软件的灵魂，数据处理是软件的能力。</p><p>今天我们聊的文本处理，不是通用的数据处理能力，而是收敛在数据的 I/O 上。这里说的文本，是指写入到磁盘的非结构化数据。它可能真的是文本内容，比如 HTML 文档、CSS 文档；也可能是二进制内容，比如 Word 文档、Excel 文档。文本处理则是指对这类非结构化数据的处理过程，常见文本处理的需求场景有：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是七牛云许式伟。</p><p>上一讲 “<a href="https://time.geekbang.org/column/article/177746?utm_source=time_pcchaping&amp;utm_term=pc_interstitial_11">64 | 不断完善的架构范式</a>” 我们提到架构师的武器库是不断完善的架构范式。今天我们围绕一个具体的问题域，看看我们日常能够积累什么样的经验和成果，来完善作为一个架构师的知识体系。</p><p>我们选择的问题是 “文本处理”。</p><p>计算机之所以叫计算机，是因为计算机的能力基本上就是“计算+I/O”两部分。I/O 只是为了让计算机与物理世界打交道，它也是为计算服务的。所以数据是软件的灵魂，数据处理是软件的能力。</p><p>今天我们聊的文本处理，不是通用的数据处理能力，而是收敛在数据的 I/O 上。这里说的文本，是指写入到磁盘的非结构化数据。它可能真的是文本内容，比如 HTML 文档、CSS 文档；也可能是二进制内容，比如 Word 文档、Excel 文档。文本处理则是指对这类非结构化数据的处理过程，常见文本处理的需求场景有：</p><ul>
+
 <li>数据验证（Data Validation）。比如判断用户输入的文本是否合法，值的范围是否符合期望。</li>
 <li>数据抽取（Data Extraction）。比如从某 HTML 页面中抽取出结构化的机票信息（什么时间，从哪里出发，到哪里去，价格几何等等）。</li>
 <li>编译器（Compiler）。特殊地，在文本格式是某种语言的代码时，我们可以将文本编译成可执行的机器码，或虚拟机解释执行的字节码。当然我们也可以边解释文本的语义边执行。</li>

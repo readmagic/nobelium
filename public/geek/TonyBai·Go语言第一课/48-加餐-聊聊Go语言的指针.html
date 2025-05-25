@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是Tony Bai。</p><p>刚刚完成专栏结束语，我又马不停蹄地开始撰写这篇加餐，因为在结束语中我曾提到过对专栏没有介绍指针类型的不安，如果你是编程初学者，或者只有动态语言的经验，又或者只有像Java这类不支持指针的静态语言编程的经验，缺少指针的讲解就可能会给你的学习过程带来一些困惑。</p><p>因此，在这一篇加餐中，我就来补上指针类型这一课。<strong>不过，我建议你不要把这篇当作加餐，而是当作本专栏必学的一节课</strong>。</p><p>那么什么是指针呢？它和我们常见的Go类型，比如int、string、切片类型等有什么区别呢？下面我们就来一探究竟!</p><h2>什么是指针类型</h2><p>和我们学过的所有类型都不同，指针类型是依托某一个类型而存在的，比如：一个整型为int，那么它对应的整型指针就是*int，也就是在int的前面加上一个星号。没有int类型，就不会有*int类型。而int也被称为*int指针类型的<strong>基类型</strong>。</p><p>我们泛化一下指针类型的这个定义：<strong>如果我们拥有一个类型T，那么以T作为基类型的指针类型为*T</strong>。</p><p>声明一个指针类型变量的语法与非指针类型的普通变量是一样的，我们以声明一个*T指针类型的变量为例：</p><pre><code class="language-plain">var p *T
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是Tony Bai。</p><p>刚刚完成专栏结束语，我又马不停蹄地开始撰写这篇加餐，因为在结束语中我曾提到过对专栏没有介绍指针类型的不安，如果你是编程初学者，或者只有动态语言的经验，又或者只有像Java这类不支持指针的静态语言编程的经验，缺少指针的讲解就可能会给你的学习过程带来一些困惑。</p><p>因此，在这一篇加餐中，我就来补上指针类型这一课。<strong>不过，我建议你不要把这篇当作加餐，而是当作本专栏必学的一节课</strong>。</p><p>那么什么是指针呢？它和我们常见的Go类型，比如int、string、切片类型等有什么区别呢？下面我们就来一探究竟!</p><h2>什么是指针类型</h2><p>和我们学过的所有类型都不同，指针类型是依托某一个类型而存在的，比如：一个整型为int，那么它对应的整型指针就是*int，也就是在int的前面加上一个星号。没有int类型，就不会有*int类型。而int也被称为*int指针类型的<strong>基类型</strong>。</p><p>我们泛化一下指针类型的这个定义：<strong>如果我们拥有一个类型T，那么以T作为基类型的指针类型为*T</strong>。</p><p>声明一个指针类型变量的语法与非指针类型的普通变量是一样的，我们以声明一个*T指针类型的变量为例：</p><pre><code class="language-plain">var p *T
+
 </code></pre><p>不过Go中也有一种指针类型是例外，它不需要基类型，它就是<strong>unsafe.Pointer</strong>。unsafe.Pointer类似于C语言中的void*，用于表示一个通用指针类型，也就是<strong>任何指针类型都可以显式转换为一个unsafe.Pointer，而unsafe.Pointer也可以显式转换为任意指针类型</strong>，如下面代码所示：</p><!-- [[[read_end]]] --><pre><code class="language-plain">var p *T
 var p1 = unsafe.Pointer(p) // 任意指针类型显式转换为unsafe.Pointer
 p = (*T)(p1)               // unsafe.Pointer也可以显式转换为任意指针类型

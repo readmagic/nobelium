@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>在上一讲中，我们已经初步接触了Java安全，今天我们将一起探讨更多Java开发中可能影响到安全的场合。很多安全问题，在特定的上下文，存在着不同的定义，尽管本质是相似或一致的，这是由于Java平台自身的特性所带来特有的问题。今天这一讲我将侧重于Java开发者的角度谈代码安全，而不是讲广义的安全风险。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>在上一讲中，我们已经初步接触了Java安全，今天我们将一起探讨更多Java开发中可能影响到安全的场合。很多安全问题，在特定的上下文，存在着不同的定义，尽管本质是相似或一致的，这是由于Java平台自身的特性所带来特有的问题。今天这一讲我将侧重于Java开发者的角度谈代码安全，而不是讲广义的安全风险。</p>
+
 <p>今天我要问你的问题是，<span class="orange">如何写出安全的Java代码？</span></p>
 <h2>典型回答</h2>
 <p>这个问题可能有点宽泛，我们可以用特定类型的安全风险为例，如拒绝服务（DoS）攻击，分析Java开发者需要重点考虑的点。</p>

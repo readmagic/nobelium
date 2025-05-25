@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是七牛云许式伟。</p><p>我们前面介绍了服务的发布和监控，来保障线上业务的持续服务。但是，不管我们怎么小心谨慎，故障仍然会不可避免地发生。并不是所有的故障都会影响到用户，一些局部的故障如果处理得当，对用户并不产生可见的影响。</p><p>今天我们就聊聊故障产生的原因与对策。可以导致故障的因素非常多。在 “<a href="https://time.geekbang.org/column/article/144803">47 | 服务治理的宏观视角</a>” 一讲中，我们大体将故障类型分为以下几种。</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是七牛云许式伟。</p><p>我们前面介绍了服务的发布和监控，来保障线上业务的持续服务。但是，不管我们怎么小心谨慎，故障仍然会不可避免地发生。并不是所有的故障都会影响到用户，一些局部的故障如果处理得当，对用户并不产生可见的影响。</p><p>今天我们就聊聊故障产生的原因与对策。可以导致故障的因素非常多。在 “<a href="https://time.geekbang.org/column/article/144803">47 | 服务治理的宏观视角</a>” 一讲中，我们大体将故障类型分为以下几种。</p><ul>
+
 <li>软硬件升级与各类配置变更，即发布。</li>
 <li>软硬件环境的故障。</li>
 <li>终端用户的请求。比较典型的场景是秒杀类，短时间内大量的用户涌入，导致系统的承载能力超过规划，产生服务的过载。当然还有一些场景，比如有针对性的恶意攻击、特定类型的用户请求导致的服务端资源大量消耗等，都可能引发服务故障。</li>

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>上一节，我们为调度准备了这么多的数据结构，这一节我们来看调度是如何发生的。</p><p>所谓进程调度，其实就是一个人在做A项目，在某个时刻，换成做B项目去了。发生这种情况，主要有两种方式。</p><p><strong>方式一</strong>：A项目做着做着，发现里面有一条指令sleep，也就是要休息一下，或者在等待某个I/O事件。那没办法了，就要主动让出CPU，然后可以开始做B项目。</p><p><strong>方式二</strong>：A项目做着做着，旷日持久，实在受不了了。项目经理介入了，说这个项目A先停停，B项目也要做一下，要不然B项目该投诉了。</p><h2>主动调度</h2><p>我们这一节先来看方式一，主动调度。</p><p>这里我找了几个代码片段。<strong>第一个片段是Btrfs，等待一个写入</strong>。<a href="https://zh.wikipedia.org/wiki/Btrfs">B</a><a href="https://zh.wikipedia.org/wiki/Btrfs">trfs</a>（B-Tree）是一种文件系统，感兴趣你可以自己去了解一下。</p><p>这个片段可以看作写入块设备的一个典型场景。写入需要一段时间，这段时间用不上CPU，还不如主动让给其他进程。</p><pre><code>static void btrfs_wait_for_no_snapshoting_writes(struct btrfs_root *root)
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>上一节，我们为调度准备了这么多的数据结构，这一节我们来看调度是如何发生的。</p><p>所谓进程调度，其实就是一个人在做A项目，在某个时刻，换成做B项目去了。发生这种情况，主要有两种方式。</p><p><strong>方式一</strong>：A项目做着做着，发现里面有一条指令sleep，也就是要休息一下，或者在等待某个I/O事件。那没办法了，就要主动让出CPU，然后可以开始做B项目。</p><p><strong>方式二</strong>：A项目做着做着，旷日持久，实在受不了了。项目经理介入了，说这个项目A先停停，B项目也要做一下，要不然B项目该投诉了。</p><h2>主动调度</h2><p>我们这一节先来看方式一，主动调度。</p><p>这里我找了几个代码片段。<strong>第一个片段是Btrfs，等待一个写入</strong>。<a href="https://zh.wikipedia.org/wiki/Btrfs">B</a><a href="https://zh.wikipedia.org/wiki/Btrfs">trfs</a>（B-Tree）是一种文件系统，感兴趣你可以自己去了解一下。</p><p>这个片段可以看作写入块设备的一个典型场景。写入需要一段时间，这段时间用不上CPU，还不如主动让给其他进程。</p><pre><code>static void btrfs_wait_for_no_snapshoting_writes(struct btrfs_root *root)
+
 {
 ......
 	do {

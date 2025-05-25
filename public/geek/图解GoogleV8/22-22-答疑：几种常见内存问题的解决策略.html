@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是李兵。</p><p>这是我们“事件循环和垃圾回收”这个模块的最后一讲。在这个模块中，我们讲了消息循环系统和垃圾回收机制，这两块内容涉及到了比较底层的知识，但是这些知识对实际的项目有着非常重要的指导作用，很多同学也比较关注这两部分内容。</p><p>今天这节答疑课，我们来结合Node中的读文件操作，分析下消息循环系统是怎么影响到异步编程的，然后我们再来结合JavaScript中的几种常见的内存问题，来分析下内存问题出现的原因和解决方法。</p><h2>Node中的readFile API工作机制</h2><p>Node中很多API都提供了同步和异步两种形式，下面我们来看下《<a href="https://time.geekbang.org/column/article/227926">17 | 消息队列：V8是怎么实现回调函数的？</a>》这节课留的思考题。思考题中有两段代码，我们通过这两段代码来分析下同步和异步读文件API的区别。</p><pre><code>var fs = require('fs')
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是李兵。</p><p>这是我们“事件循环和垃圾回收”这个模块的最后一讲。在这个模块中，我们讲了消息循环系统和垃圾回收机制，这两块内容涉及到了比较底层的知识，但是这些知识对实际的项目有着非常重要的指导作用，很多同学也比较关注这两部分内容。</p><p>今天这节答疑课，我们来结合Node中的读文件操作，分析下消息循环系统是怎么影响到异步编程的，然后我们再来结合JavaScript中的几种常见的内存问题，来分析下内存问题出现的原因和解决方法。</p><h2>Node中的readFile API工作机制</h2><p>Node中很多API都提供了同步和异步两种形式，下面我们来看下《<a href="https://time.geekbang.org/column/article/227926">17 | 消息队列：V8是怎么实现回调函数的？</a>》这节课留的思考题。思考题中有两段代码，我们通过这两段代码来分析下同步和异步读文件API的区别。</p><pre><code>var fs = require('fs')
+
 
 var data = fs.readFileSync('test.js')
 </code></pre><pre><code>function fileHanlder(err, data){

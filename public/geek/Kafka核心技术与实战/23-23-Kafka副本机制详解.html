@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是胡夕。今天我要和你分享的主题是：Apache Kafka的副本机制。</p><p>所谓的副本机制（Replication），也可以称之为备份机制，通常是指分布式系统在多台网络互联的机器上保存有相同的数据拷贝。副本机制有什么好处呢？</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是胡夕。今天我要和你分享的主题是：Apache Kafka的副本机制。</p><p>所谓的副本机制（Replication），也可以称之为备份机制，通常是指分布式系统在多台网络互联的机器上保存有相同的数据拷贝。副本机制有什么好处呢？</p><ol>
+
 <li><strong>提供数据冗余</strong>。即使系统部分组件失效，系统依然能够继续运转，因而增加了整体可用性以及数据持久性。</li>
 <li><strong>提供高伸缩性</strong>。支持横向扩展，能够通过增加机器的方式来提升读性能，进而提高读操作吞吐量。</li>
 <li><strong>改善数据局部性</strong>。允许将数据放入与用户地理位置相近的地方，从而降低系统延时。</li>

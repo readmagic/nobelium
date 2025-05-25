@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是蒋德钧。今天这节课，我来和你聊聊Redis中的单元测试。</p><p>单元测试通常是用来测试一个系统的某个特定功能模块，通过单元测试，我们可以检测开发的功能模块是否正常。对于一个像Redis这样包含很多功能模块的系统来说，单元测试就显得更为重要了。否则，如果让整个系统开发完成后直接进行整体测试，一旦出现问题，就很难定位了。</p><p></p><p>那么，<strong>对于一个包含多功能模块的系统来说，我们该如何进行单元测试呢？</strong>Redis源码中针对其主要功能模块，比如不同数据类型操作、AOF和RDB持久化、主从复制、集群等模块，提供了单元测试的框架。</p><p></p><p>今天这节课，我就带你来学习了解下Redis实现的单元测试框架。通过学习今天的课程内容，你可以掌握如何使用Tcl语言开发一个单元测试框架，这些测试开发方法也可以用在你日常的开发测试工作中。</p><p></p><p>接下来，我们就先来看看Redis针对主要功能模块实现的单元测试框架。</p><p></p><h2>Tcl语言基础</h2><p>通过课程的<a href="https://time.geekbang.org/column/article/399866">第1讲</a>我们知道，在Redis源码目录中，专门有一个<a href="https://github.com/redis/redis/tree/5.0/tests">tests子目录</a>，这个tests目录就包含了Redis单元测试框架的实现代码。而在了解这个单元测试框架之前，你首先需要知道，这个框架是使用了Tcl语言来开发的。</p><p>Tcl的全称是Tool Command Language，它是一种功能丰富并且很容易上手的动态编程语言，经常会被应用在程序测试、运维管理等场景中。这里，我先给你介绍下Tcl语言的一些基础知识和基本操作，当然你也可以在Tcl语言的<a href="https://www.tcl.tk/">官网</a>上学习它更加全面的开发知识。</p><!-- [[[read_end]]] --><p></p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是蒋德钧。今天这节课，我来和你聊聊Redis中的单元测试。</p><p>单元测试通常是用来测试一个系统的某个特定功能模块，通过单元测试，我们可以检测开发的功能模块是否正常。对于一个像Redis这样包含很多功能模块的系统来说，单元测试就显得更为重要了。否则，如果让整个系统开发完成后直接进行整体测试，一旦出现问题，就很难定位了。</p><p></p><p>那么，<strong>对于一个包含多功能模块的系统来说，我们该如何进行单元测试呢？</strong>Redis源码中针对其主要功能模块，比如不同数据类型操作、AOF和RDB持久化、主从复制、集群等模块，提供了单元测试的框架。</p><p></p><p>今天这节课，我就带你来学习了解下Redis实现的单元测试框架。通过学习今天的课程内容，你可以掌握如何使用Tcl语言开发一个单元测试框架，这些测试开发方法也可以用在你日常的开发测试工作中。</p><p></p><p>接下来，我们就先来看看Redis针对主要功能模块实现的单元测试框架。</p><p></p><h2>Tcl语言基础</h2><p>通过课程的<a href="https://time.geekbang.org/column/article/399866">第1讲</a>我们知道，在Redis源码目录中，专门有一个<a href="https://github.com/redis/redis/tree/5.0/tests">tests子目录</a>，这个tests目录就包含了Redis单元测试框架的实现代码。而在了解这个单元测试框架之前，你首先需要知道，这个框架是使用了Tcl语言来开发的。</p><p>Tcl的全称是Tool Command Language，它是一种功能丰富并且很容易上手的动态编程语言，经常会被应用在程序测试、运维管理等场景中。这里，我先给你介绍下Tcl语言的一些基础知识和基本操作，当然你也可以在Tcl语言的<a href="https://www.tcl.tk/">官网</a>上学习它更加全面的开发知识。</p><!-- [[[read_end]]] --><p></p><ul>
+
 <li><strong>Tcl程序执行</strong></li>
 </ul><p>Tcl语言本身属于解释性编程语言，所以，我们使用Tcl开发的程序不用编译和链接，它会对每条语句解释执行。</p><p></p><ul>
 <li><strong>数据类型与基本操作</strong></li>

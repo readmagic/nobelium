@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是陈天。</p><p>我们开发者无论是从事服务端的开发，还是客户端的开发，和数据打交道是必不可少的。</p><p>对于客户端来说，从服务端读取到的数据，往往需要做缓存（内存缓存或者 SQLite 缓存），甚至需要本地存储（文件或者 SQLite）。</p><p>对于服务器来说，跟数据打交道的场景就更加丰富了。除了数据库和缓存外，还有大量文本数据的索引（比如搜索引擎）、实时的消息队列对数据做流式处理，或者非实时的批处理对数据仓库（data warehouse）中的海量数据进行 ETL（Extract、Transform and Load）。</p><p><img src="https://static001.geekbang.org/resource/image/1c/eb/1c42e693f0848b4a389870f848ffaeeb.png?wh=1482x807" alt="图片"></p><p>今天我们就来讲讲如何用 Rust 做数据处理，主要讲两部分，如何用 Rust 访问关系数据库，以及如何用 Rust 对半结构化数据进行分析和处理。希望通过学习这一讲的内容，尤其是后半部分的内容，能帮你打开眼界，对数据处理有更加深刻的认识。</p><h2>访问关系数据库</h2><p>作为互联网应用的最主要的数据存储和访问工具，关系数据库，是几乎每门编程语言都有良好支持的数据库类型。</p><p>在 Rust 下，有几乎所有主流关系数据库的驱动，比如 <a href="https://github.com/sfackler/rust-postgres">rust-postgres、rust-mysql-simple</a> 等，不过一般我们不太会直接使用数据库的驱动来访问数据库，因为那样会让应用过于耦合于某个数据库，所以我们会使用 ORM。</p><!-- [[[read_end]]] --><p>Rust 下有 <a href="https://diesel.rs/">diesel</a> 这个非常成熟的 ORM，还有 <a href="https://github.com/SeaQL/sea-orm">sea-orm</a> 这样的后起之秀。diesel 不支持异步，而 sea-orm 支持异步，所以，有理由相信，随着 sea-orm 的不断成熟，会有越来越多的应用在 sea-orm 上构建。</p><p>如果你觉得 ORM 太过笨重，繁文缛节太多，但又不想直接使用某个数据库的驱动来访问数据库，那么你还可以用 <a href="https://github.com/launchbadge/sqlx">sqlx</a>。sqlx 提供了对多种数据库（Postgres、MySQL、SQLite、MSSQL）的异步访问支持，并且不使用 DSL 就可以对 SQL query 做编译时检查，非常轻便；它可以从数据库中直接查询出来一行数据，也可以通过派生宏自动把行数据转换成对应的结构。</p><p>今天，我们就尝试使用 sqlx 处理用户注册和登录这两个非常常见的功能。</p><h3>sqlx</h3><p>构建下面的表结构来处理用户登录信息：</p><pre><code class="language-sql">CREATE TABLE IF NOT EXISTS users
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是陈天。</p><p>我们开发者无论是从事服务端的开发，还是客户端的开发，和数据打交道是必不可少的。</p><p>对于客户端来说，从服务端读取到的数据，往往需要做缓存（内存缓存或者 SQLite 缓存），甚至需要本地存储（文件或者 SQLite）。</p><p>对于服务器来说，跟数据打交道的场景就更加丰富了。除了数据库和缓存外，还有大量文本数据的索引（比如搜索引擎）、实时的消息队列对数据做流式处理，或者非实时的批处理对数据仓库（data warehouse）中的海量数据进行 ETL（Extract、Transform and Load）。</p><p><img src="https://static001.geekbang.org/resource/image/1c/eb/1c42e693f0848b4a389870f848ffaeeb.png?wh=1482x807" alt="图片"></p><p>今天我们就来讲讲如何用 Rust 做数据处理，主要讲两部分，如何用 Rust 访问关系数据库，以及如何用 Rust 对半结构化数据进行分析和处理。希望通过学习这一讲的内容，尤其是后半部分的内容，能帮你打开眼界，对数据处理有更加深刻的认识。</p><h2>访问关系数据库</h2><p>作为互联网应用的最主要的数据存储和访问工具，关系数据库，是几乎每门编程语言都有良好支持的数据库类型。</p><p>在 Rust 下，有几乎所有主流关系数据库的驱动，比如 <a href="https://github.com/sfackler/rust-postgres">rust-postgres、rust-mysql-simple</a> 等，不过一般我们不太会直接使用数据库的驱动来访问数据库，因为那样会让应用过于耦合于某个数据库，所以我们会使用 ORM。</p><!-- [[[read_end]]] --><p>Rust 下有 <a href="https://diesel.rs/">diesel</a> 这个非常成熟的 ORM，还有 <a href="https://github.com/SeaQL/sea-orm">sea-orm</a> 这样的后起之秀。diesel 不支持异步，而 sea-orm 支持异步，所以，有理由相信，随着 sea-orm 的不断成熟，会有越来越多的应用在 sea-orm 上构建。</p><p>如果你觉得 ORM 太过笨重，繁文缛节太多，但又不想直接使用某个数据库的驱动来访问数据库，那么你还可以用 <a href="https://github.com/launchbadge/sqlx">sqlx</a>。sqlx 提供了对多种数据库（Postgres、MySQL、SQLite、MSSQL）的异步访问支持，并且不使用 DSL 就可以对 SQL query 做编译时检查，非常轻便；它可以从数据库中直接查询出来一行数据，也可以通过派生宏自动把行数据转换成对应的结构。</p><p>今天，我们就尝试使用 sqlx 处理用户注册和登录这两个非常常见的功能。</p><h3>sqlx</h3><p>构建下面的表结构来处理用户登录信息：</p><pre><code class="language-sql">CREATE TABLE IF NOT EXISTS users
+
 (
     id              INTEGER PRIMARY KEY NOT NULL,
     email           VARCHAR UNIQUE      NOT NULL,

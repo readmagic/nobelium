@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是唐聪。</p><p>在上一讲中，我和你分享了etcd的前世今生，同时也为你重点介绍了etcd  v2的不足之处，以及我们现在广泛使用etcd v3的原因。</p><p>今天，我想跟你介绍一下etcd v3的基础架构，让你从整体上对etcd有一个初步的了解，心中能构筑起一幅etcd模块全景图。这样，在你遇到诸如“Kubernetes在执行kubectl get pod时，etcd如何获取到最新的数据返回给APIServer？”等流程架构问题时，就能知道各个模块由上至下是如何紧密协作的。</p><p>即便是遇到请求报错，你也能通过顶层的模块全景图，推测出请求流程究竟在什么模块出现了问题。</p><h2>基础架构</h2><p>下面是一张etcd的简要基础架构图，我们先从宏观上了解一下etcd都有哪些功能模块。</p><p><img src="https://static001.geekbang.org/resource/image/34/84/34486534722d2748d8cd1172bfe63084.png?wh=1920*1240" alt=""></p><p>你可以看到，按照分层模型，etcd可分为Client层、API网络层、Raft算法层、逻辑层和存储层。这些层的功能如下：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是唐聪。</p><p>在上一讲中，我和你分享了etcd的前世今生，同时也为你重点介绍了etcd  v2的不足之处，以及我们现在广泛使用etcd v3的原因。</p><p>今天，我想跟你介绍一下etcd v3的基础架构，让你从整体上对etcd有一个初步的了解，心中能构筑起一幅etcd模块全景图。这样，在你遇到诸如“Kubernetes在执行kubectl get pod时，etcd如何获取到最新的数据返回给APIServer？”等流程架构问题时，就能知道各个模块由上至下是如何紧密协作的。</p><p>即便是遇到请求报错，你也能通过顶层的模块全景图，推测出请求流程究竟在什么模块出现了问题。</p><h2>基础架构</h2><p>下面是一张etcd的简要基础架构图，我们先从宏观上了解一下etcd都有哪些功能模块。</p><p><img src="https://static001.geekbang.org/resource/image/34/84/34486534722d2748d8cd1172bfe63084.png?wh=1920*1240" alt=""></p><p>你可以看到，按照分层模型，etcd可分为Client层、API网络层、Raft算法层、逻辑层和存储层。这些层的功能如下：</p><ul>
+
 <li>
 <p><strong>Client层</strong>：Client层包括client v2和v3两个大版本API客户端库，提供了简洁易用的API，同时支持负载均衡、节点间故障自动转移，可极大降低业务使用etcd复杂度，提升开发效率、服务可用性。</p>
 </li>

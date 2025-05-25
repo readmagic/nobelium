@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是朱晔。今天，我来和你聊聊程序里的判等问题。</p><p>你可能会说，判等不就是一行代码的事情吗，有什么好说的。但，这一行代码如果处理不当，不仅会出现Bug，还可能会引起内存泄露等问题。涉及判等的Bug，即使是使用==这种错误的判等方式，也不是所有时候都会出问题。所以类似的判等问题不太容易发现，可能会被隐藏很久。</p><p>今天，我就equals、compareTo和Java的数值缓存、字符串驻留等问题展开讨论，希望你可以理解其原理，彻底消除业务代码中的相关Bug。</p><h2>注意equals和==的区别</h2><p>在业务代码中，我们通常使用equals或== 进行判等操作。equals是方法而==是操作符，它们的使用是有区别的：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是朱晔。今天，我来和你聊聊程序里的判等问题。</p><p>你可能会说，判等不就是一行代码的事情吗，有什么好说的。但，这一行代码如果处理不当，不仅会出现Bug，还可能会引起内存泄露等问题。涉及判等的Bug，即使是使用==这种错误的判等方式，也不是所有时候都会出问题。所以类似的判等问题不太容易发现，可能会被隐藏很久。</p><p>今天，我就equals、compareTo和Java的数值缓存、字符串驻留等问题展开讨论，希望你可以理解其原理，彻底消除业务代码中的相关Bug。</p><h2>注意equals和==的区别</h2><p>在业务代码中，我们通常使用equals或== 进行判等操作。equals是方法而==是操作符，它们的使用是有区别的：</p><ul>
+
 <li>对基本类型，比如int、long，进行判等，只能使用==，比较的是直接值。因为基本类型的值就是其数值。</li>
 <li>对引用类型，比如Integer、Long和String，进行判等，需要使用equals进行内容判等。因为引用类型的直接值是指针，使用==的话，比较的是指针，也就是两个对象在内存中的地址，即比较它们是不是同一个对象，而不是比较对象的内容。</li>
 </ul><p>这就引出了我们必须必须要知道的第一个结论：<strong>比较值的内容，除了基本类型只能使用==外，其他类型都需要使用equals</strong>。</p><!-- [[[read_end]]] --><p>在开篇我提到了，即使使用==对Integer或String进行判等，有些时候也能得到正确结果。这又是为什么呢？</p><p>我们用下面的测试用例深入研究下：</p><ul>

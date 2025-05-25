@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是李江。</p><p>在前面的课程中，我们详细地讲述了视频编码的原理以及预测编码和变换编码的知识。通过这些我们了解了视频编码的基本原理和步骤。同时，我们还用了一节课的时间深入探讨了H264的码流结构，相信你已经清楚了H264码流是什么样的，以及如何从码流中分离出一帧帧图像数据，并学会了如何判断这些帧的类型。</p><p>那么从这节课开始呢，我们就要进入视频传输和网络对抗部分了。我们会在视频编码码流的基础上，讲讲如何将码流打包成一个个数据包发送到网络上，并进一步讨论如何避免在发送的过程中引起网络拥塞，从而保证视频的流畅性。同时，我们会进一步在后面的课程中讲解如何在网络不断变化的时候做好视频码控算法，如何防止视频出现花屏，以及如何尽量减少视频卡顿等非常有难度的实际工程问题。</p><p>这些问题是视频开发过程中经常会遇到且迫切需要解决的重要问题。而解决这些问题的基础就是需要熟悉RTP和RTCP协议，也就是我们这节课的重点。</p><p>接下来我们会分别从RTP协议、RTCP协议和H264的RTP打包方法这三个方面来展开这节课。首先让我们一起来认识一下RTP协议。</p><h2>RTP协议</h2><p>RTP（Real-time Transport Protocol）协议，全称是实时传输协议。它主要用于音视频数据的传输。那它的作用是什么呢？</p><!-- [[[read_end]]] --><p>一般我们在实时通信的时候，需要传输音频和视频数据。我们通常是这样做的，先将原始数据经过编码压缩之后，再将编码码流传输到接收端。在传输的时候我们通常不会直接将编码码流进行传输，而是<strong>先将码流打包成一个个RTP包再进行发送</strong>。</p><p>那为什么需要打包成RTP包呢？这是<strong>因为我们<strong><strong>的</strong></strong>接收端要能够正确<strong><strong>地</strong></strong>使用这些音视频编码数据，不仅仅需要原始的编码码流，还需要一些额外的信息</strong>。比如说：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是李江。</p><p>在前面的课程中，我们详细地讲述了视频编码的原理以及预测编码和变换编码的知识。通过这些我们了解了视频编码的基本原理和步骤。同时，我们还用了一节课的时间深入探讨了H264的码流结构，相信你已经清楚了H264码流是什么样的，以及如何从码流中分离出一帧帧图像数据，并学会了如何判断这些帧的类型。</p><p>那么从这节课开始呢，我们就要进入视频传输和网络对抗部分了。我们会在视频编码码流的基础上，讲讲如何将码流打包成一个个数据包发送到网络上，并进一步讨论如何避免在发送的过程中引起网络拥塞，从而保证视频的流畅性。同时，我们会进一步在后面的课程中讲解如何在网络不断变化的时候做好视频码控算法，如何防止视频出现花屏，以及如何尽量减少视频卡顿等非常有难度的实际工程问题。</p><p>这些问题是视频开发过程中经常会遇到且迫切需要解决的重要问题。而解决这些问题的基础就是需要熟悉RTP和RTCP协议，也就是我们这节课的重点。</p><p>接下来我们会分别从RTP协议、RTCP协议和H264的RTP打包方法这三个方面来展开这节课。首先让我们一起来认识一下RTP协议。</p><h2>RTP协议</h2><p>RTP（Real-time Transport Protocol）协议，全称是实时传输协议。它主要用于音视频数据的传输。那它的作用是什么呢？</p><!-- [[[read_end]]] --><p>一般我们在实时通信的时候，需要传输音频和视频数据。我们通常是这样做的，先将原始数据经过编码压缩之后，再将编码码流传输到接收端。在传输的时候我们通常不会直接将编码码流进行传输，而是<strong>先将码流打包成一个个RTP包再进行发送</strong>。</p><p>那为什么需要打包成RTP包呢？这是<strong>因为我们<strong><strong>的</strong></strong>接收端要能够正确<strong><strong>地</strong></strong>使用这些音视频编码数据，不仅仅需要原始的编码码流，还需要一些额外的信息</strong>。比如说：</p><ul>
+
 <li><strong>当前视频码流是哪种视频编码标准</strong>，是H264、H265、VP8、VP9还是AV1呢？我们知道每种不同的编码标准，其码流解析的方式肯定也不一样。这个就需要通过RTP协议告知接收端。</li>
 <li>当我们知道编码标准了，我们就可以正确地解析码流，并解码出图像了。但是我们又会遇到一个新的问题，那就是<strong>按照什么速度播放视频呢？</strong>这个也需要RTP协议告知接收端。<br>
 这就是RTP协议的一个重要的作用，即告知接收端一些必要的信息。当然RTP协议的作用不止这些，它其实在网络带宽预测和拥塞控制的时候也发挥出了至关重要的作用。我们在之后的课程中会继续讨论，这里就先不讲了，你大体有个印象就可以。</li>

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是王庆友。</p><p>在上一讲中，我提到过，在架构设计中，要实现业务上的复用，一个比较可行的做法是，把各个基础业务封装成共享服务，供上层所有应用调用。所以今天，我就来和你聊一聊，如何从头开始，落地这样一个典型的共享服务。</p><p>我们知道，落地一个微服务其实并不困难，但要实现一个能够高度复用的共享服务并不容易，在落地过程中，经常会有一系列的问题困扰着我们。</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是王庆友。</p><p>在上一讲中，我提到过，在架构设计中，要实现业务上的复用，一个比较可行的做法是，把各个基础业务封装成共享服务，供上层所有应用调用。所以今天，我就来和你聊一聊，如何从头开始，落地这样一个典型的共享服务。</p><p>我们知道，落地一个微服务其实并不困难，但要实现一个能够高度复用的共享服务并不容易，在落地过程中，经常会有一系列的问题困扰着我们。</p><ul>
+
 <li>我们事先对服务的边界没有进行很好的划分，结果在落地的过程中，大家反复争论具体功能的归属。</li>
 <li>由于对业务的了解不够深入，我们要么设计不足，导致同一个服务有很多版本；要么服务过度设计，实现了一堆永远用不上的功能。</li>
 </ul><p><strong>对于落地一个共享服务来说，服务边界的划分和功能的抽象设计是核心。</strong>服务边界确定了这个服务应该“做什么”，抽象设计确定了这个服务应该“怎么做”。</p><p>接下来，我就以一个<strong>实际的订单服务例子</strong>，为你详细讲解一下要如何重点解决这两个问题。这样你可以通过具体的案例，去深入地理解如何落地共享服务，实现业务能力的复用。</p><h2>订单业务架构</h2><p>不同企业的订单业务是不一样的，所以这里我先介绍下这个订单的业务场景。</p><p>这是个O2O（Online To Offline，线上到线下）的交易业务，订单的来源有两个，一个是自有小程序或App过来的订单，还有一个是外卖平台过来的订单，然后这些线上的订单会同步到门店的收银系统进行接单和进一步处理。这里我放了一张订单的业务架构图，你可以到文稿中看下：</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/f6/f5/f60dec4aff0201e54f8a509046e0aef5.jpg" alt=""></p><p>在这里，订单服务是和4个应用直接打交道的：</p><ul>

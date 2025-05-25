@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>上一篇文章我们讲了整个计算广告领域最核心的一个问题：广告回馈预估。广告回馈预估，就是预测“用户与广告的交互以及达成交易这种行为”的概率，也就是点击率预估和转化率预估。广告回馈预估存在着数据稀疏等难点和挑战，目前在这个领域比较流行的模型有对数几率回归和数模型等。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>上一篇文章我们讲了整个计算广告领域最核心的一个问题：广告回馈预估。广告回馈预估，就是预测“用户与广告的交互以及达成交易这种行为”的概率，也就是点击率预估和转化率预估。广告回馈预估存在着数据稀疏等难点和挑战，目前在这个领域比较流行的模型有对数几率回归和数模型等。</p>
+
 <p>今天，我们就来看一个广告回馈预估的实例：<strong><span class="orange">Facebook的广告点击率预估</span></strong>。我们会结合2014年发表的一篇论文《Facebook的广告点击率预估实践经验》（Practical Lessons from Predicting Clicks on Ads at Facebook）来进行分析[1]。</p>
 <h2>Facebook广告预估</h2>
 <p>Facebook的广告不是我们之前介绍过的搜索广告或者展示广告的简单应用，而是<strong>社交广告</strong>。可以说，社交广告是最近10年慢慢崛起的一种新的广告类型。在论文发表的时候，也就是2014年，Facebook有7.5亿“日活跃用户”（Daily Active Users）和超过1百万的广告商，这个数字在当时是相当惊人的。而今天，在Facebook上活跃的大约有14.5亿用户和5百万广告商。因此，广告系统所需要应对的规模是成倍增加的。</p>

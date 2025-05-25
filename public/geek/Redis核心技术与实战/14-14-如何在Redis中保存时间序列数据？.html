@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是蒋德钧。</p><p>我们现在做互联网产品的时候，都有这么一个需求：记录用户在网站或者App上的点击行为数据，来分析用户行为。这里的数据一般包括用户ID、行为类型（例如浏览、登录、下单等）、行为发生的时间戳：</p><pre><code>UserID, Type, TimeStamp
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是蒋德钧。</p><p>我们现在做互联网产品的时候，都有这么一个需求：记录用户在网站或者App上的点击行为数据，来分析用户行为。这里的数据一般包括用户ID、行为类型（例如浏览、登录、下单等）、行为发生的时间戳：</p><pre><code>UserID, Type, TimeStamp
+
 </code></pre><p>我之前做过的一个物联网项目的数据存取需求，和这个很相似。我们需要周期性地统计近万台设备的实时状态，包括设备ID、压力、温度、湿度，以及对应的时间戳：</p><pre><code>DeviceID, Pressure, Temperature, Humidity, TimeStamp
 </code></pre><p>这些与发生时间相关的一组数据，就是时间序列数据。<strong>这些数据的特点是没有严格的关系模型，记录的信息可以表示成键和值的关系</strong>（例如，一个设备ID对应一条记录），所以，并不需要专门用关系型数据库（例如MySQL）来保存。而Redis的键值数据模型，正好可以满足这里的数据存取需求。Redis基于自身数据结构以及扩展模块，提供了两种解决方案。</p><p>这节课，我就以物联网场景中统计设备状态指标值为例，和你聊聊不同解决方案的做法和优缺点。</p><p>俗话说，“知己知彼，百战百胜”，我们就先从时间序列数据的读写特点开始，看看到底应该采用什么样的数据类型来保存吧。</p><h2>时间序列数据的读写特点</h2><p>在实际应用中，时间序列数据通常是持续高并发写入的，例如，需要连续记录数万个设备的实时状态值。同时，时间序列数据的写入主要就是插入新数据，而不是更新一个已存在的数据，也就是说，一个时间序列数据被记录后通常就不会变了，因为它就代表了一个设备在某个时刻的状态值（例如，一个设备在某个时刻的温度测量值，一旦记录下来，这个值本身就不会再变了）。</p><!-- [[[read_end]]] --><p>所以，<strong>这种数据的写入特点很简单，就是插入数据快，这就要求我们选择的数据类型，在进行数据插入时，复杂度要低，尽量不要阻塞</strong>。看到这儿，你可能第一时间会想到用Redis的String、Hash类型来保存，因为它们的插入复杂度都是O(1)，是个不错的选择。但是，我在<a href="https://time.geekbang.org/column/article/279649">第11讲</a>中说过，String类型在记录小数据时（例如刚才例子中的设备温度值），元数据的内存开销比较大，不太适合保存大量数据。</p><p>那我们再看看，时间序列数据的“读”操作有什么特点。</p><p>我们在查询时间序列数据时，既有对单条记录的查询（例如查询某个设备在某一个时刻的运行状态信息，对应的就是这个设备的一条记录），也有对某个时间范围内的数据的查询（例如每天早上8点到10点的所有设备的状态信息）。</p><p>除此之外，还有一些更复杂的查询，比如对某个时间范围内的数据做聚合计算。这里的聚合计算，就是对符合查询条件的所有数据做计算，包括计算均值、最大/最小值、求和等。例如，我们要计算某个时间段内的设备压力的最大值，来判断是否有故障发生。</p><p>那用一个词概括时间序列数据的“读”，就是查询模式多。</p><p>弄清楚了时间序列数据的读写特点，接下来我们就看看如何在Redis中保存这些数据。我们来分析下：针对时间序列数据的“写要快”，Redis的高性能写特性直接就可以满足了；而针对“查询模式多”，也就是要支持单点查询、范围查询和聚合计算，Redis提供了保存时间序列数据的两种方案，分别可以基于Hash和Sorted Set实现，以及基于RedisTimeSeries模块实现。</p><p>接下来，我们先学习下第一种方案。</p><h2>基于Hash和Sorted Set保存时间序列数据</h2><p>Hash和Sorted Set组合的方式有一个明显的好处：它们是Redis内在的数据类型，代码成熟和性能稳定。所以，基于这两个数据类型保存时间序列数据，系统稳定性是可以预期的。</p><p>不过，在前面学习的场景中，我们都是使用一个数据类型来存取数据，那么，<strong>为什么保存时间序列数据，要同时使用这两种类型？这是我们要回答的第一个问题。</strong></p><p>关于Hash类型，我们都知道，它有一个特点是，可以实现对单键的快速查询。这就满足了时间序列数据的单键查询需求。我们可以把时间戳作为Hash集合的key，把记录的设备状态值作为Hash集合的value。</p><p>可以看下用Hash集合记录设备的温度值的示意图：</p><p><img src="https://static001.geekbang.org/resource/image/f2/be/f2e7bc4586be59aa5e7e78a5599830be.jpg" alt=""></p><p>当我们想要查询某个时间点或者是多个时间点上的温度数据时，直接使用HGET命令或者HMGET命令，就可以分别获得Hash集合中的一个key和多个key的value值了。</p><p>举个例子。我们用HGET命令查询202008030905这个时刻的温度值，使用HMGET查询202008030905、202008030907、202008030908这三个时刻的温度值，如下所示：</p><pre><code>HGET device:temperature 202008030905
 &quot;25.1&quot;

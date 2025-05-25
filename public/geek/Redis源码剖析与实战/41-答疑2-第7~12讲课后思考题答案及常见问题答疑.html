@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是蒋德钧。</p><p>在今天的答疑中，我除了会解答课程之前的思考题以外，还会带你再进一步了解和数据结构设计、进程管理、高性能线程模型、IO复用、预定义宏等相关的开发知识。希望你能通过这节课的答疑，进一步扩展你的知识面。</p><p></p><h2><a href="https://time.geekbang.org/column/article/406284">第7讲</a></h2><p><strong>问题：作为有序索引，Radix Tree也能提供范围查询，那么与我们日常使用的B+树，以及</strong><a href="https://time.geekbang.org/column/article/404391">第5讲</a><strong>中介绍的跳表相比，你觉得Radix Tree有什么优势和不足吗？</strong></p><p></p><p>对于这道题，有不少同学比如@Kaito、@曾轼麟等同学，都对Radix Tree、B+树和跳表做了对比，这里我就来总结一下。</p><p><strong>Radix Tree的优势</strong></p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是蒋德钧。</p><p>在今天的答疑中，我除了会解答课程之前的思考题以外，还会带你再进一步了解和数据结构设计、进程管理、高性能线程模型、IO复用、预定义宏等相关的开发知识。希望你能通过这节课的答疑，进一步扩展你的知识面。</p><p></p><h2><a href="https://time.geekbang.org/column/article/406284">第7讲</a></h2><p><strong>问题：作为有序索引，Radix Tree也能提供范围查询，那么与我们日常使用的B+树，以及</strong><a href="https://time.geekbang.org/column/article/404391">第5讲</a><strong>中介绍的跳表相比，你觉得Radix Tree有什么优势和不足吗？</strong></p><p></p><p>对于这道题，有不少同学比如@Kaito、@曾轼麟等同学，都对Radix Tree、B+树和跳表做了对比，这里我就来总结一下。</p><p><strong>Radix Tree的优势</strong></p><ul>
+
 <li>因为Radix Tree是前缀树，所以，当保存数据的key具有相同前缀时，Radix Tree会在不同的key间共享这些前缀，这样一来，和B+树、跳表相比，就节省内存空间。</li>
 <li>Radix Tree在查询单个key时，其查询复杂度O(K)只和key的长度k有关，和现存的总数据量无关。而B+树、跳表的查询复杂度和数据规模有关，所以Radix Tree查询单个key的效率要高于B+树、跳表。</li>
 <li>Radix Tree适合保存大量具有相同前缀的数据。比如一个典型场景，就是Linux内核中的page cache，使用了Radix Tree保存文件内部偏移位置和缓存页的对应关系，其中树上的key就是文件中的偏移值。</li>

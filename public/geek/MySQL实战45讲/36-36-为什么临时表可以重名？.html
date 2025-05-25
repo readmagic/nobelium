@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p><span class="orange">今天是大年三十，在开始我们今天的学习之前，我要先和你道一声春节快乐！</span></p><p>在上一篇文章中，我们在优化join查询的时候使用到了临时表。当时，我们是这么用的：</p><pre><code>create temporary table temp_t like t1;
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p><span class="orange">今天是大年三十，在开始我们今天的学习之前，我要先和你道一声春节快乐！</span></p><p>在上一篇文章中，我们在优化join查询的时候使用到了临时表。当时，我们是这么用的：</p><pre><code>create temporary table temp_t like t1;
+
 alter table temp_t add index(b);
 insert into temp_t select * from t2 where b&gt;=1 and b&lt;=2000;
 select * from t1 join temp_t on (t1.b=temp_t.b);

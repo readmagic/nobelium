@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是蔡元楠。</p><p>今天我要与你分享的主题是“Amazon热销榜Beam Pipeline实战”。</p><p>两个月前，亚马逊（Amazon）宣布将关闭中国国内电商业务的消息你一定还记忆犹新。虽然亚马逊遗憾离场，但它依然是目前全球市值最高的电商公司。</p><p>作为美国最大的一家网络电子商务公司，亚马逊的总部位于华盛顿州的西雅图。类似于BAT在国内的地位，亚马逊也是北美互联网FAANG五大巨头之一，其他四个分别是Facebook、Apple、Netflix和Google。</p><p>亚马逊的热销商品系统就如下图所示。</p><p><img src="https://static001.geekbang.org/resource/image/df/b0/dff4faae3353f26d7e413a0c1f7983b0.png" alt=""></p><p>当我搜索“攀岩鞋”时，搜索结果的第三个被打上了“热销商品”的标签，这样能帮助消费者快速做出购买决策。</p><p>当我点击这个“Best Seller”的标签时，我可以浏览“攀岩鞋”这个商品分类中浏览销量最高的前100个商品。</p><p><img src="https://static001.geekbang.org/resource/image/a7/4c/a7a0b8187b1caf1b31fcda87720e494c.png" alt=""></p><p>这些贴心的功能都是由热销商品系统实现的。</p><p>这一讲我们就来看看在这样的热销商品系统中，怎样应用之前所学的Beam数据处理技术吧。今天，我们主要会解决一个热销商品系统数据处理架构中的这几个问题：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是蔡元楠。</p><p>今天我要与你分享的主题是“Amazon热销榜Beam Pipeline实战”。</p><p>两个月前，亚马逊（Amazon）宣布将关闭中国国内电商业务的消息你一定还记忆犹新。虽然亚马逊遗憾离场，但它依然是目前全球市值最高的电商公司。</p><p>作为美国最大的一家网络电子商务公司，亚马逊的总部位于华盛顿州的西雅图。类似于BAT在国内的地位，亚马逊也是北美互联网FAANG五大巨头之一，其他四个分别是Facebook、Apple、Netflix和Google。</p><p>亚马逊的热销商品系统就如下图所示。</p><p><img src="https://static001.geekbang.org/resource/image/df/b0/dff4faae3353f26d7e413a0c1f7983b0.png" alt=""></p><p>当我搜索“攀岩鞋”时，搜索结果的第三个被打上了“热销商品”的标签，这样能帮助消费者快速做出购买决策。</p><p>当我点击这个“Best Seller”的标签时，我可以浏览“攀岩鞋”这个商品分类中浏览销量最高的前100个商品。</p><p><img src="https://static001.geekbang.org/resource/image/a7/4c/a7a0b8187b1caf1b31fcda87720e494c.png" alt=""></p><p>这些贴心的功能都是由热销商品系统实现的。</p><p>这一讲我们就来看看在这样的热销商品系统中，怎样应用之前所学的Beam数据处理技术吧。今天，我们主要会解决一个热销商品系统数据处理架构中的这几个问题：</p><ol>
+
 <li>怎样用批处理计算基础的热销商品列表、热销商品的存储和serving设计？</li>
 <li>怎样设计每小时更新的热销榜单？</li>
 <li>怎样设计商品去重处理流水线和怎样根据商品在售状态过滤热销商品？</li>

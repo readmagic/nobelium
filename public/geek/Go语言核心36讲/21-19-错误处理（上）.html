@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>提到Go语言中的错误处理，我们其实已经在前面接触过几次了。</p><p>比如，我们声明过<code>error</code>类型的变量<code>err</code>，也调用过<code>errors</code>包中的<code>New</code>函数。今天，我会用这篇文章为你梳理Go语言错误处理的相关知识，同时提出一些关键问题并与你一起探讨。</p><p>我们说过<code>error</code>类型其实是一个接口类型，也是一个Go语言的内建类型。在这个接口类型的声明中只包含了一个方法<code>Error</code>。<code>Error</code>方法不接受任何参数，但是会返回一个<code>string</code>类型的结果。它的作用是返回错误信息的字符串表示形式。</p><p>我们使用<code>error</code>类型的方式通常是，在函数声明的结果列表的最后，声明一个该类型的结果，同时在调用这个函数之后，先判断它返回的最后一个结果值是否“不为<code>nil</code>”。</p><p>如果这个值“不为<code>nil</code>”，那么就进入错误处理流程，否则就继续进行正常的流程。下面是一个例子，代码在demo44.go文件中。</p><pre><code>package main
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>提到Go语言中的错误处理，我们其实已经在前面接触过几次了。</p><p>比如，我们声明过<code>error</code>类型的变量<code>err</code>，也调用过<code>errors</code>包中的<code>New</code>函数。今天，我会用这篇文章为你梳理Go语言错误处理的相关知识，同时提出一些关键问题并与你一起探讨。</p><p>我们说过<code>error</code>类型其实是一个接口类型，也是一个Go语言的内建类型。在这个接口类型的声明中只包含了一个方法<code>Error</code>。<code>Error</code>方法不接受任何参数，但是会返回一个<code>string</code>类型的结果。它的作用是返回错误信息的字符串表示形式。</p><p>我们使用<code>error</code>类型的方式通常是，在函数声明的结果列表的最后，声明一个该类型的结果，同时在调用这个函数之后，先判断它返回的最后一个结果值是否“不为<code>nil</code>”。</p><p>如果这个值“不为<code>nil</code>”，那么就进入错误处理流程，否则就继续进行正常的流程。下面是一个例子，代码在demo44.go文件中。</p><pre><code>package main
+
 
 import (
 	&quot;errors&quot;

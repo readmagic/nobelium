@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>上一讲中我讲了TLS1.2的握手过程，你是不是已经完全掌握了呢？</p><p>不过TLS1.2已经是10年前（2008年）的“老”协议了，虽然历经考验，但毕竟“岁月不饶人”，在安全、性能等方面已经跟不上如今的互联网了。</p><p>于是经过四年、近30个草案的反复打磨，TLS1.3终于在去年（2018年）“粉墨登场”，再次确立了信息安全领域的新标准。</p><p>在抓包分析握手之前，我们先来快速浏览一下TLS1.3的三个主要改进目标：<strong>兼容</strong>、<strong>安全与性能</strong>。</p><h2>最大化兼容性</h2><p>由于1.1、1.2等协议已经出现了很多年，很多应用软件、中间代理（官方称为“MiddleBox”）只认老的记录协议格式，更新改造很困难，甚至是不可行（设备僵化）。</p><p>在早期的试验中发现，一旦变更了记录头字段里的版本号，也就是由0x303（TLS1.2）改为0x304（TLS1.3）的话，大量的代理服务器、网关都无法正确处理，最终导致TLS握手失败。</p><p>为了保证这些被广泛部署的“老设备”能够继续使用，避免新协议带来的“冲击”，TLS1.3不得不做出妥协，保持现有的记录格式不变，通过“伪装”来实现兼容，使得TLS1.3看上去“像是”TLS1.2。</p><p>那么，该怎么区分1.2和1.3呢？</p><!-- [[[read_end]]] --><p>这要用到一个新的<strong>扩展协议</strong>（Extension Protocol），它有点“补充条款”的意思，通过在记录末尾添加一系列的“扩展字段”来增加新的功能，老版本的TLS不认识它可以直接忽略，这就实现了“后向兼容”。</p><p>在记录头的Version字段被兼容性“固定”的情况下，只要是TLS1.3协议，握手的“Hello”消息后面就必须有“<strong>supported_versions</strong>”扩展，它标记了TLS的版本号，使用它就能区分新旧协议。</p><p>其实上一讲Chrome在握手时发的就是TLS1.3协议，你可以看一下“Client Hello”消息后面的扩展，只是因为服务器不支持1.3，所以就“后向兼容”降级成了1.2。</p><pre><code>Handshake Protocol: Client Hello
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>上一讲中我讲了TLS1.2的握手过程，你是不是已经完全掌握了呢？</p><p>不过TLS1.2已经是10年前（2008年）的“老”协议了，虽然历经考验，但毕竟“岁月不饶人”，在安全、性能等方面已经跟不上如今的互联网了。</p><p>于是经过四年、近30个草案的反复打磨，TLS1.3终于在去年（2018年）“粉墨登场”，再次确立了信息安全领域的新标准。</p><p>在抓包分析握手之前，我们先来快速浏览一下TLS1.3的三个主要改进目标：<strong>兼容</strong>、<strong>安全与性能</strong>。</p><h2>最大化兼容性</h2><p>由于1.1、1.2等协议已经出现了很多年，很多应用软件、中间代理（官方称为“MiddleBox”）只认老的记录协议格式，更新改造很困难，甚至是不可行（设备僵化）。</p><p>在早期的试验中发现，一旦变更了记录头字段里的版本号，也就是由0x303（TLS1.2）改为0x304（TLS1.3）的话，大量的代理服务器、网关都无法正确处理，最终导致TLS握手失败。</p><p>为了保证这些被广泛部署的“老设备”能够继续使用，避免新协议带来的“冲击”，TLS1.3不得不做出妥协，保持现有的记录格式不变，通过“伪装”来实现兼容，使得TLS1.3看上去“像是”TLS1.2。</p><p>那么，该怎么区分1.2和1.3呢？</p><!-- [[[read_end]]] --><p>这要用到一个新的<strong>扩展协议</strong>（Extension Protocol），它有点“补充条款”的意思，通过在记录末尾添加一系列的“扩展字段”来增加新的功能，老版本的TLS不认识它可以直接忽略，这就实现了“后向兼容”。</p><p>在记录头的Version字段被兼容性“固定”的情况下，只要是TLS1.3协议，握手的“Hello”消息后面就必须有“<strong>supported_versions</strong>”扩展，它标记了TLS的版本号，使用它就能区分新旧协议。</p><p>其实上一讲Chrome在握手时发的就是TLS1.3协议，你可以看一下“Client Hello”消息后面的扩展，只是因为服务器不支持1.3，所以就“后向兼容”降级成了1.2。</p><pre><code>Handshake Protocol: Client Hello
+
     Version: TLS 1.2 (0x0303)
     Extension: supported_versions (len=11)
         Supported Version: TLS 1.3 (0x0304)

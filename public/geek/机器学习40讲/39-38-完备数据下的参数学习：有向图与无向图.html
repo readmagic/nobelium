@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>介绍完表示和推断之后，我们将进入概率图模型的最后一个任务，也就是学习问题。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>介绍完表示和推断之后，我们将进入概率图模型的最后一个任务，也就是学习问题。</p>
+
 <p>在推断任务中，我们会根据已知的模型来确定实例的特性，模型的结构和参数都作为输入的一部分出现。<strong>学习任务</strong>（model learning）则是将推断任务的过程颠倒过来，根据数据来构造出能够反映数据潜在规律的模型，也就是对概率图模型的训练。</p>
 <p>概率图模型的学习和其他的机器学习一样，都属于<strong>自动化的建模方式</strong>。构造概率图模型的依据是变量之间的依赖关系，这些依赖关系的建立则需要仰赖垂直领域的先验知识。如果用纯人工的方式来构建概率图模型，那么在网络的节点数目较多、规模较大时，其工作量将是惊人的。将学习任务引入概率图模型之中，就可以基于结构化的数据高效地计算出网络的结构与参数，从而大大简化训练的流程。</p>
 <p>根据学习对象的不同，学习任务可以大体分为<strong>参数学习</strong>和<strong>结构学习</strong>两类。</p>

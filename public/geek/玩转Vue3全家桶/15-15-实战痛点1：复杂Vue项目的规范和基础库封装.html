@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是大圣，欢迎进入课程的第15讲。</p><p>在全家桶实战篇的前几讲里，我们学习了Vue 3本身的进阶内容。从今天开始，我们尝试着把这些技能都用在实际项目中，聊一下实战中常见的痛点。不过，既然是实际项目，那还是有很多库需要引入的，比如网络请求时用到的axios、时间处理时用到的Dayjs等等。今天我要跟你聊的，则是复杂 Vue 项目的规范和基础库的封装。</p><h2>组件库</h2><p>在项目开发中，我们首先需要一个组件库帮助我们快速搭建项目，组件库提供了各式各样的封装完备的组件。现在社区可选择的组件库有element-plus、antd-vue，Naive-UI、Element3等，我们选择Element3来搭建项目，首先我们来到项目目录下，执行下面的代码安装Element3。</p><pre><code class="language-bash">npm install element3 --save
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是大圣，欢迎进入课程的第15讲。</p><p>在全家桶实战篇的前几讲里，我们学习了Vue 3本身的进阶内容。从今天开始，我们尝试着把这些技能都用在实际项目中，聊一下实战中常见的痛点。不过，既然是实际项目，那还是有很多库需要引入的，比如网络请求时用到的axios、时间处理时用到的Dayjs等等。今天我要跟你聊的，则是复杂 Vue 项目的规范和基础库的封装。</p><h2>组件库</h2><p>在项目开发中，我们首先需要一个组件库帮助我们快速搭建项目，组件库提供了各式各样的封装完备的组件。现在社区可选择的组件库有element-plus、antd-vue，Naive-UI、Element3等，我们选择Element3来搭建项目，首先我们来到项目目录下，执行下面的代码安装Element3。</p><pre><code class="language-bash">npm install element3 --save
+
 </code></pre><p>然后，我们在src/main.js中使用一下Element3。看下面的代码，我们在其中引入了Element3和主体对应的CSS，并使用use(Element3)加载组件库。</p><pre><code class="language-javascript">import { createApp } from 'vue'
 import Element3 from 'element3'
 import 'element3/lib/theme-chalk/index.css'

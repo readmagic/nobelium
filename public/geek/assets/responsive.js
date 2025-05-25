@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
   wrapContent();
   
   // 创建导航菜单按钮和结构
-  createMobileNav();
+  // createMobileNav();
   
   // 创建返回顶部按钮
   createBackToTopButton();

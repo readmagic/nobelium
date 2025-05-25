@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>“天下苦秦久矣”，不管是H5、React Native，还是过去两年火热的小程序，这些跨平台方案在性能和稳定性上总让我们诟病不已。最明显的例子是React Native已经发布几年了，却一直还处在Beta阶段。</p><p>Flutter作为今年最火热的移动开发新技术，从我们首次看到Beta测试版，到2018年12月的1.0正式版，总共才经过了9个多月。Flutter在保持原生性能的前提下实现了跨平台开发，而且更是成为Google下一代操作系统Fuchsia的UI框架，为移动技术的未来发展提供了非常大的想象空间。</p><p>高性能、跨平台，而且更是作为Google下一个操作系统的重要部分，Flutter已经有这么多光环加身，那我们是否应该立刻投身这个浪潮之中呢？新的技术、新的框架每一年都在不断涌现，我们又应该如何跟进呢？</p><h2>Flutter的前世今生</h2><p>大部分所谓的“新技术”最终都会被遗忘在历史的长河中，面对新技术，我们首先需要持怀疑态度，在决定是否跟进之前，你需要了解它的方方面面。下面我们就一起来看看Flutter的前世今生。</p><p>Flutter的早期开发者Eric Seidel曾经参加过一个访谈<a href="https://www.youtube.com/watch?v=h7HOt3Jb1Ts">What is Flutter</a>，在这个访谈中他谈到了当初为什么开发Flutter，以及Flutter的一些设计原则和方向。<br>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>“天下苦秦久矣”，不管是H5、React Native，还是过去两年火热的小程序，这些跨平台方案在性能和稳定性上总让我们诟病不已。最明显的例子是React Native已经发布几年了，却一直还处在Beta阶段。</p><p>Flutter作为今年最火热的移动开发新技术，从我们首次看到Beta测试版，到2018年12月的1.0正式版，总共才经过了9个多月。Flutter在保持原生性能的前提下实现了跨平台开发，而且更是成为Google下一代操作系统Fuchsia的UI框架，为移动技术的未来发展提供了非常大的想象空间。</p><p>高性能、跨平台，而且更是作为Google下一个操作系统的重要部分，Flutter已经有这么多光环加身，那我们是否应该立刻投身这个浪潮之中呢？新的技术、新的框架每一年都在不断涌现，我们又应该如何跟进呢？</p><h2>Flutter的前世今生</h2><p>大部分所谓的“新技术”最终都会被遗忘在历史的长河中，面对新技术，我们首先需要持怀疑态度，在决定是否跟进之前，你需要了解它的方方面面。下面我们就一起来看看Flutter的前世今生。</p><p>Flutter的早期开发者Eric Seidel曾经参加过一个访谈<a href="https://www.youtube.com/watch?v=h7HOt3Jb1Ts">What is Flutter</a>，在这个访谈中他谈到了当初为什么开发Flutter，以及Flutter的一些设计原则和方向。<br>
+
 ﻿﻿<br>
 <img src="https://static001.geekbang.org/resource/image/ac/5c/aca58328ba1b4f1463d1b2b806c5ad5c.png" alt=""></p><!-- [[[read_end]]] --><p>Eric Seidel和Flutter早期的几位开发人员都是来自Chrome团队，他们在排版和渲染方面具有非常丰富的经验。那为什么要去开发Flutter？一直以来他们都为浏览器的性能而感到沮丧，有一天他们决定跳出Web的范畴，在Chromium基础上通过删除大量的代码，抛弃Web的兼容性，竟然发现性能是之前的20倍。对此我也深有感触，最近半年也一直在做主App的Lite版本，安装包也从42MB降到8MB，通过删除大量的历史业务，性能比主包要好太多太多。</p><p>正如访谈中所说，Flutter是一个Google内部孵化多年的产品，从它开发之初到现在，一直秉承着两个最重要的设计原则：</p><ul>
 <li>

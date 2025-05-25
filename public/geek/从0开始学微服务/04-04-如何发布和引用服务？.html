@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>从这期开始，我将陆续给你讲解微服务各个基本组件的原理和实现方式。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>从这期开始，我将陆续给你讲解微服务各个基本组件的原理和实现方式。</p>
+
 <p>今天我要与你分享的第一个组件是<span class="orange">服务发布和引用</span>。我在前面说过，想要构建微服务，首先要解决的问题是，<strong>服务提供者如何发布一个服务，服务消费者如何引用这个服务</strong>。具体来说，就是这个服务的接口名是什么？调用这个服务需要传递哪些参数？接口的返回值是什么类型？以及一些其他接口描述信息。</p>
 <p>我前面说过，最常见的服务发布和引用的方式有三种：</p>
 <ul>

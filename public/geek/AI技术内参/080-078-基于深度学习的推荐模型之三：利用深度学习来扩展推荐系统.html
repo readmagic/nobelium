@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>这周，我们主要讨论如何利用深度学习来提升推荐系统的精度。我们分别介绍了使用RBM（Restricted Boltzmann Machines，受限波兹曼机）来对推荐系统建模，和RNN（Recurrent Neural Network，递归神经网络）在推荐系统中的应用。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>这周，我们主要讨论如何利用深度学习来提升推荐系统的精度。我们分别介绍了使用RBM（Restricted Boltzmann Machines，受限波兹曼机）来对推荐系统建模，和RNN（Recurrent Neural Network，递归神经网络）在推荐系统中的应用。</p>
+
 <p>今天，我们最后再来看一看，还有哪些深度学习的思潮在影响着推荐系统。这些思想都是一些值得关注和学习的方向，虽然这些方法能否在短时间内成为主流还有待检验。</p>
 <h2>多层神经网络</h2>
 <p>深度学习开始从计算机视觉这一人工智能子领域慢慢向其他领域扩展，在这个大背景下，很多学者和实践者总结出了深度学习获得成功的一大法宝，那就是<strong>能够从众多的信息中学习到高维度的特性</strong>（Feature）。比如，在计算机视觉里，通过多层神经网络建立的深度学习模型往往能够识别出类似“边”、“角”、“形状”等视觉概念。于是，大家就形成了这样一个普遍认识：<strong>多层神经网络是一种提取特性的利器</strong>。</p>

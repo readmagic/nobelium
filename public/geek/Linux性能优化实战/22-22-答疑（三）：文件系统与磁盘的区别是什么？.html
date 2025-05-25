@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是倪朋飞。</p><p>专栏更新至今，四大基础模块的第二个模块——内存性能篇，我们就已经学完了。很开心你还没有掉队，仍然在积极学习和实践操作，并且热情地留言与讨论。</p><p>这些留言中，我非常高兴看到，很多同学用学过的案例思路，解决了实际工作中的性能问题。我也非常感谢 espzest、大甜菜、Smile 等积极思考的同学，指出了文章中某些不当或者不严谨的地方。另外，还有我来也、JohnT3e、白华等同学，积极在留言区讨论学习和实践中的问题，也分享了宝贵的经验，在这里也非常感谢你们。</p><p>今天是性能优化的第三期。照例，我从内存模块的留言中摘出了一些典型问题，作为今天的答疑内容，集中回复。为了便于你学习理解，它们并不是严格按照文章顺序排列的。</p><p>每个问题，我都附上了留言区提问的截屏。如果你需要回顾内容原文，可以扫描每个问题右下方的二维码查看。</p><h2>问题1：内存回收与OOM</h2><p>虎虎的这个问题，实际上包括四个子问题，即，</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是倪朋飞。</p><p>专栏更新至今，四大基础模块的第二个模块——内存性能篇，我们就已经学完了。很开心你还没有掉队，仍然在积极学习和实践操作，并且热情地留言与讨论。</p><p>这些留言中，我非常高兴看到，很多同学用学过的案例思路，解决了实际工作中的性能问题。我也非常感谢 espzest、大甜菜、Smile 等积极思考的同学，指出了文章中某些不当或者不严谨的地方。另外，还有我来也、JohnT3e、白华等同学，积极在留言区讨论学习和实践中的问题，也分享了宝贵的经验，在这里也非常感谢你们。</p><p>今天是性能优化的第三期。照例，我从内存模块的留言中摘出了一些典型问题，作为今天的答疑内容，集中回复。为了便于你学习理解，它们并不是严格按照文章顺序排列的。</p><p>每个问题，我都附上了留言区提问的截屏。如果你需要回顾内容原文，可以扫描每个问题右下方的二维码查看。</p><h2>问题1：内存回收与OOM</h2><p>虎虎的这个问题，实际上包括四个子问题，即，</p><ul>
+
 <li>
 <p>怎么理解 LRU 内存回收？</p>
 </li>

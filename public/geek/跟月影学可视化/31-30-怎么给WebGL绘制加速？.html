@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是月影。这节课，我们一起来讨论WebGL的性能优化。</p><p>WebGL因为能够直接操作GPU，性能在各个图形系统中是最好的，尤其是当渲染的元素特别多的时候，WebGL的性能优势越明显。但是，WebGL整体性能好，并不意味着我们用WebGL就能写出高性能代码来。如果使用方式不当，也不能充分发挥WebGL在性能方面的优势。</p><p>这节课，我们就重点来说说，怎么充分发挥WebGL的优势，让它保持高性能。</p><h2>尽量发挥GPU的优势</h2><p>首先，我们来想一个问题，WebGL的优势是什么？没错，我强调过很多遍，就是直接操作GPU。因此，我们只有尽量发挥出GPU的优势，才能让WebGL保持高性能。但这一点是很多习惯用SVG、Canvas的WebGL初学者，最容易忽视的。</p><p>为了让你体会到发挥GPU优势的重要性，我们先来看一个没有进行任何优化的绘图例子，再对它进行优化。</p><h3>常规绘图方式的性能瓶颈</h3><p>假设，我们要在一个画布上渲染3000个不同颜色的、位置随机的三角形，并且让每个三角形的旋转角度也随机。</p><p>常规的实现方法当然是用JavaScript来创建随机三角形的顶点，然后依次渲染。我在创建随机三角形顶点的时候，是使用向量角度旋转的方法创建了正三角形，我想这个方法你应该也不会陌生。</p><!-- [[[read_end]]] --><pre><code>function randomTriangle(x = 0, y = 0, rotation = 0.0, radius = 0.1) {
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是月影。这节课，我们一起来讨论WebGL的性能优化。</p><p>WebGL因为能够直接操作GPU，性能在各个图形系统中是最好的，尤其是当渲染的元素特别多的时候，WebGL的性能优势越明显。但是，WebGL整体性能好，并不意味着我们用WebGL就能写出高性能代码来。如果使用方式不当，也不能充分发挥WebGL在性能方面的优势。</p><p>这节课，我们就重点来说说，怎么充分发挥WebGL的优势，让它保持高性能。</p><h2>尽量发挥GPU的优势</h2><p>首先，我们来想一个问题，WebGL的优势是什么？没错，我强调过很多遍，就是直接操作GPU。因此，我们只有尽量发挥出GPU的优势，才能让WebGL保持高性能。但这一点是很多习惯用SVG、Canvas的WebGL初学者，最容易忽视的。</p><p>为了让你体会到发挥GPU优势的重要性，我们先来看一个没有进行任何优化的绘图例子，再对它进行优化。</p><h3>常规绘图方式的性能瓶颈</h3><p>假设，我们要在一个画布上渲染3000个不同颜色的、位置随机的三角形，并且让每个三角形的旋转角度也随机。</p><p>常规的实现方法当然是用JavaScript来创建随机三角形的顶点，然后依次渲染。我在创建随机三角形顶点的时候，是使用向量角度旋转的方法创建了正三角形，我想这个方法你应该也不会陌生。</p><!-- [[[read_end]]] --><pre><code>function randomTriangle(x = 0, y = 0, rotation = 0.0, radius = 0.1) {
+
   const a = rotation,
     b = a + 2 * Math.PI / 3,
     c = a + 4 * Math.PI / 3;

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是高楼。</p><p>在性能项目中，性能数据是非常重要的输入资源。但是我经常看到有人拿着少得可怜的数据，来做比较大的压力，这显然不符合真实的场景，虽然拿到的结果很好看，但并不会得到什么有价值的结果。所以，今天我们就来讲一下性能场景中的数据到底应该做成什么样子。</p><p>在RESAR性能工程中，场景里使用的数据需要满足两个方面：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是高楼。</p><p>在性能项目中，性能数据是非常重要的输入资源。但是我经常看到有人拿着少得可怜的数据，来做比较大的压力，这显然不符合真实的场景，虽然拿到的结果很好看，但并不会得到什么有价值的结果。所以，今天我们就来讲一下性能场景中的数据到底应该做成什么样子。</p><p>在RESAR性能工程中，场景里使用的数据需要满足两个方面：</p><ul>
+
 <li>第一，数据要符合真实环境中的数据分布，因为只有这样，我们才能模拟出相应的IO操作；</li>
 <li>第二，要符合真实用户输入的数据，以真正模拟出真实环境中的用户操作。</li>
 </ul><p>而这两个方面分别对应着两类数据：铺底数据和参数化数据。我们先来看铺底数据。</p><h2>铺底数据</h2><p>在通常的线上系统架构中，系统中用到的数据分为两部分：静态数据（图中红色点）和动态数据（图中绿色点），这也是我们在性能场景中需要存入的铺底数据。<br>

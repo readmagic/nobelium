@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是陈皓，网名左耳朵耗子。</p><p>这节课，我们来学习一下函数式编程中非常重要的Map、Reduce、Filter这三种操作。这三种操作可以让我们轻松灵活地进行一些数据处理，毕竟，我们的程序大多数情况下都在倒腾数据。尤其是对于一些需要统计的业务场景来说，Map、Reduce、Filter是非常通用的玩法。</p><p>话不多说，我们先来看几个例子。</p><h2>基本示例</h2><h3>Map示例</h3><p>在下面的程序代码中，我写了两个Map函数，这两个函数需要两个参数：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是陈皓，网名左耳朵耗子。</p><p>这节课，我们来学习一下函数式编程中非常重要的Map、Reduce、Filter这三种操作。这三种操作可以让我们轻松灵活地进行一些数据处理，毕竟，我们的程序大多数情况下都在倒腾数据。尤其是对于一些需要统计的业务场景来说，Map、Reduce、Filter是非常通用的玩法。</p><p>话不多说，我们先来看几个例子。</p><h2>基本示例</h2><h3>Map示例</h3><p>在下面的程序代码中，我写了两个Map函数，这两个函数需要两个参数：</p><ul>
+
 <li>一个是字符串数组 <code>[]</code> <code>string</code>，说明需要处理的数据是一个字符串；</li>
 <li>另一个是一个函数func(s string) string 或 func(s string) int。</li>
 </ul><pre><code>func MapStrToStr(arr []string, fn func(s string) string) []string {

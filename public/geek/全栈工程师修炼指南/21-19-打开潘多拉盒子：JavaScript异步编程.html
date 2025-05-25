@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是四火。</p><p>我们在本章伊始的 <a href="https://time.geekbang.org/column/article/145875">[第 14 讲]</a> 中初步学习了 JavaScript 的事件驱动模型，体会到了思维模式的转变，也建立起了异步编程的初步概念。在本章最后一讲，我们将深入异步编程，继续探讨其中的关键技术。</p><p>异步编程就像是一个神秘的宝盒，看起来晶莹剔透，可一旦使用不当，就会是带来灾难的潘多拉盒子，状态混乱，难以维护。希望在这一讲之后，你可以了解更多的关于 JavaScript 在异步编程方面的高级特性，从而习惯并写出可靠的异步代码。</p><h2>1. 用 Promise 优化嵌套回调</h2><p>假如我们需要写这样一段代码，来模拟一只小狗向前奔跑，它一共跑了 3 次，奔跑的距离分别为 1、2、3，每次奔跑都要花费 1 秒钟时间：</p><pre><code>setTimeout(
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是四火。</p><p>我们在本章伊始的 <a href="https://time.geekbang.org/column/article/145875">[第 14 讲]</a> 中初步学习了 JavaScript 的事件驱动模型，体会到了思维模式的转变，也建立起了异步编程的初步概念。在本章最后一讲，我们将深入异步编程，继续探讨其中的关键技术。</p><p>异步编程就像是一个神秘的宝盒，看起来晶莹剔透，可一旦使用不当，就会是带来灾难的潘多拉盒子，状态混乱，难以维护。希望在这一讲之后，你可以了解更多的关于 JavaScript 在异步编程方面的高级特性，从而习惯并写出可靠的异步代码。</p><h2>1. 用 Promise 优化嵌套回调</h2><p>假如我们需要写这样一段代码，来模拟一只小狗向前奔跑，它一共跑了 3 次，奔跑的距离分别为 1、2、3，每次奔跑都要花费 1 秒钟时间：</p><pre><code>setTimeout(
+
   () =&gt; {
     console.log(1);
     setTimeout(

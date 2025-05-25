@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是程远。从这一讲开始，我们进入容器CPU这个模块。</p><p>我在第一讲中给你讲过，容器在Linux系统中最核心的两个概念是Namespace和Cgroups。我们可以通过Cgroups技术限制资源。这个资源可以分为很多类型，比如CPU，Memory，Storage，Network等等。而计算资源是最基本的一种资源，所有的容器都需要这种资源。</p><p>那么，今天我们就先聊一聊，怎么限制容器的CPU使用？</p><p>我们拿Kubernetes平台做例子，具体来看下面这个pod/container里的spec定义，在CPU资源相关的定义中有两项内容，分别是 <strong>Request CPU</strong> 和 <strong>Limit CPU</strong>。</p><pre><code>apiVersion: v1
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是程远。从这一讲开始，我们进入容器CPU这个模块。</p><p>我在第一讲中给你讲过，容器在Linux系统中最核心的两个概念是Namespace和Cgroups。我们可以通过Cgroups技术限制资源。这个资源可以分为很多类型，比如CPU，Memory，Storage，Network等等。而计算资源是最基本的一种资源，所有的容器都需要这种资源。</p><p>那么，今天我们就先聊一聊，怎么限制容器的CPU使用？</p><p>我们拿Kubernetes平台做例子，具体来看下面这个pod/container里的spec定义，在CPU资源相关的定义中有两项内容，分别是 <strong>Request CPU</strong> 和 <strong>Limit CPU</strong>。</p><pre><code>apiVersion: v1
+
 kind: Pod
 metadata:
   name: frontend

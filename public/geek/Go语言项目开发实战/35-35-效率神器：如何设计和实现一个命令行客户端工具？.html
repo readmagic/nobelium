@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是孔令飞。今天我们来聊聊，如何实现一个命令行客户端工具。</p><p>如果你用过Kubernetes、Istio、etcd，那你一定用过这些开源项目所提供的命令行工具：kubectl、istioctl、etcdctl。一个 <code>xxx</code> 项目，伴随着一个 <code>xxxctl</code> 命令行工具，这似乎已经成为一种趋势，在一些大型系统中更是常见。提供 <code>xxxctl</code> 命令行工具有这两个好处：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是孔令飞。今天我们来聊聊，如何实现一个命令行客户端工具。</p><p>如果你用过Kubernetes、Istio、etcd，那你一定用过这些开源项目所提供的命令行工具：kubectl、istioctl、etcdctl。一个 <code>xxx</code> 项目，伴随着一个 <code>xxxctl</code> 命令行工具，这似乎已经成为一种趋势，在一些大型系统中更是常见。提供 <code>xxxctl</code> 命令行工具有这两个好处：</p><ul>
+
 <li>实现自动化：可以通过在脚本中调用 <code>xxxctl</code> 工具，实现自动化。</li>
 <li>提高效率：通过将应用的功能封装成命令和参数，方便运维、开发人员在Linux服务器上调用。</li>
 </ul><p>其中，kubectl命令设计的功能最为复杂，也是非常优秀的命令行工具，IAM项目的iamctl客户端工具就是仿照kubectl来实现的。这一讲，我就通过剖析iamctl命令行工具的实现，来介绍下如何实现一个优秀的客户端工具。</p><h2>常见客户端介绍</h2><p>在介绍iamctl命令行工具的实现之前，我们先来看下常见的客户端。</p><p>客户端又叫用户端，与后端服务相对应，安装在客户机上，用户可以使用这些客户端访问后端服务。不同的客户端面向的人群不同，所能提供的访问能力也有差异。常见的客户端有下面这几种：</p><ul>

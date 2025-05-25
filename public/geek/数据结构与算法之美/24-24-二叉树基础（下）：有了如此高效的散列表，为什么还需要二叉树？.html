@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>上一节我们学习了树、二叉树以及二叉树的遍历，今天我们再来学习一种特殊的二叉树，二叉查找树。二叉查找树最大的特点就是，支持动态数据集合的快速插入、删除、查找操作。</p><p>我们之前说过，散列表也是支持这些操作的，并且散列表的这些操作比二叉查找树更高效，时间复杂度是O(1)。<strong><span class="orange">既然有了这么高效的散列表，使用二叉树的地方是不是都可以替换成散列表呢？有没有哪些地方是散列表做不了，必须要用二叉树来做的呢？</span></strong></p><p>带着这些问题，我们就来学习今天的内容，二叉查找树！</p><h2>二叉查找树（Binary Search Tree）</h2><p>二叉查找树是二叉树中最常用的一种类型，也叫二叉搜索树。顾名思义，二叉查找树是为了实现快速查找而生的。不过，它不仅仅支持快速查找一个数据，还支持快速插入、删除一个数据。它是怎么做到这些的呢？</p><p>这些都依赖于二叉查找树的特殊结构。<strong>二叉查找树要求，在树中的任意一个节点，其左子树中的每个节点的值，都要小于这个节点的值，而右子树节点的值都大于这个节点的值。</strong> 我画了几个二叉查找树的例子，你一看应该就清楚了。</p><p><img src="https://static001.geekbang.org/resource/image/f3/ae/f3bb11b6d4a18f95aa19e11f22b99bae.jpg" alt=""></p><p>前面我们讲到，二叉查找树支持快速查找、插入、删除操作，现在我们就依次来看下，这三个操作是如何实现的。</p><h3>1.二叉查找树的查找操作</h3><p>首先，我们看如何在二叉查找树中查找一个节点。我们先取根节点，如果它等于我们要查找的数据，那就返回。如果要查找的数据比根节点的值小，那就在左子树中递归查找；如果要查找的数据比根节点的值大，那就在右子树中递归查找。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/96/2a/96b3d86ed9b7c4f399e8357ceed0db2a.jpg" alt=""></p><p>这里我把查找的代码实现了一下，贴在下面了，结合代码，理解起来会更加容易。</p><pre><code>public class BinarySearchTree {
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>上一节我们学习了树、二叉树以及二叉树的遍历，今天我们再来学习一种特殊的二叉树，二叉查找树。二叉查找树最大的特点就是，支持动态数据集合的快速插入、删除、查找操作。</p><p>我们之前说过，散列表也是支持这些操作的，并且散列表的这些操作比二叉查找树更高效，时间复杂度是O(1)。<strong><span class="orange">既然有了这么高效的散列表，使用二叉树的地方是不是都可以替换成散列表呢？有没有哪些地方是散列表做不了，必须要用二叉树来做的呢？</span></strong></p><p>带着这些问题，我们就来学习今天的内容，二叉查找树！</p><h2>二叉查找树（Binary Search Tree）</h2><p>二叉查找树是二叉树中最常用的一种类型，也叫二叉搜索树。顾名思义，二叉查找树是为了实现快速查找而生的。不过，它不仅仅支持快速查找一个数据，还支持快速插入、删除一个数据。它是怎么做到这些的呢？</p><p>这些都依赖于二叉查找树的特殊结构。<strong>二叉查找树要求，在树中的任意一个节点，其左子树中的每个节点的值，都要小于这个节点的值，而右子树节点的值都大于这个节点的值。</strong> 我画了几个二叉查找树的例子，你一看应该就清楚了。</p><p><img src="https://static001.geekbang.org/resource/image/f3/ae/f3bb11b6d4a18f95aa19e11f22b99bae.jpg" alt=""></p><p>前面我们讲到，二叉查找树支持快速查找、插入、删除操作，现在我们就依次来看下，这三个操作是如何实现的。</p><h3>1.二叉查找树的查找操作</h3><p>首先，我们看如何在二叉查找树中查找一个节点。我们先取根节点，如果它等于我们要查找的数据，那就返回。如果要查找的数据比根节点的值小，那就在左子树中递归查找；如果要查找的数据比根节点的值大，那就在右子树中递归查找。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/96/2a/96b3d86ed9b7c4f399e8357ceed0db2a.jpg" alt=""></p><p>这里我把查找的代码实现了一下，贴在下面了，结合代码，理解起来会更加容易。</p><pre><code>public class BinarySearchTree {
+
   private Node tree;
 
   public Node find(int data) {

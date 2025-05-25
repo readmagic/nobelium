@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是盛延敏，这里是网络编程实战第4讲，欢迎回来。</p><p>在上一讲里我们介绍了IPv4、IPv6以及本地套接字格式，这一讲我们来讲一讲怎么使用这些套接字格式完成连接的建立，当然，经典的TCP三次握手理论也会贯穿其中。我希望经过这一讲的讲解，你会牢牢记住TCP三次握手和客户端、服务器模型。</p><p>让我们先从服务器端开始。</p><h2>服务端准备连接的过程</h2><h3>创建套接字</h3><p>要创建一个可用的套接字，需要使用下面的函数：</p><pre><code>int socket(int domain, int type, int protocol)
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是盛延敏，这里是网络编程实战第4讲，欢迎回来。</p><p>在上一讲里我们介绍了IPv4、IPv6以及本地套接字格式，这一讲我们来讲一讲怎么使用这些套接字格式完成连接的建立，当然，经典的TCP三次握手理论也会贯穿其中。我希望经过这一讲的讲解，你会牢牢记住TCP三次握手和客户端、服务器模型。</p><p>让我们先从服务器端开始。</p><h2>服务端准备连接的过程</h2><h3>创建套接字</h3><p>要创建一个可用的套接字，需要使用下面的函数：</p><pre><code>int socket(int domain, int type, int protocol)
+
 </code></pre><p>domain就是指PF_INET、PF_INET6以及PF_LOCAL等，表示什么样的套接字。</p><p>type可用的值是：</p><ul>
 <li><strong>SOCK_STREAM: 表示的是字节流，对应TCP；</strong></li>
 <li><strong>SOCK_DGRAM： 表示的是数据报，对应UDP；</strong></li>

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是陈天。今天我们打卡Rust学习的第一讲。</p><p>你是不是已经迫不及待想要了解Rust了，但是别着急，我们不会按常规直接开始介绍语法，<strong>而会先来回顾那些你平时认为非常基础的知识，比如说内存、函数</strong>。</p><p>提到基础知识，你是不是已经有点提不起兴趣了，这些东西我都知道，何必浪费时间再学一次呢？其实不然，这些年我接触过的资深工程师里，基础知识没学透，工作多年了，还得回来补课的大有人在。</p><p>以最基础的内存为例，很多人其实并没有搞懂什么时候数据应该放在栈上，什么时候应该在堆上，直到工作中实际出现问题了，才意识到数据的存放方式居然会严重影响并发安全，无奈回头重新补基础，时间精力的耗费都很大。</p><p>其实作为开发者，我们一辈子会经历很多工具、框架和语言，但是这些东西无论怎么变，底层逻辑都是不变的。</p><p>所以今天我们得<strong>回头重新思考，编程中那些耳熟能详却又似懂非懂的基础概念，搞清楚底层逻辑</strong>。而且这些概念，对我们后面学习和理解 Rust 中的知识点非常重要，之后，我们也会根据需要再穿插深入讲解。</p><p>代码中最基本的概念是变量和值，而存放它们的地方是内存，所以我们就从内存开始。</p><h2>内存</h2><p>我们的程序无时无刻不在跟内存打交道。在下面这个把 “hello world!” 赋值给 s 的简单语句中，就跟只读数据段（RODATA）、堆、栈分别有深度交互：</p><!-- [[[read_end]]] --><pre><code class="language-rust">let s = "hello world".to_string();
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是陈天。今天我们打卡Rust学习的第一讲。</p><p>你是不是已经迫不及待想要了解Rust了，但是别着急，我们不会按常规直接开始介绍语法，<strong>而会先来回顾那些你平时认为非常基础的知识，比如说内存、函数</strong>。</p><p>提到基础知识，你是不是已经有点提不起兴趣了，这些东西我都知道，何必浪费时间再学一次呢？其实不然，这些年我接触过的资深工程师里，基础知识没学透，工作多年了，还得回来补课的大有人在。</p><p>以最基础的内存为例，很多人其实并没有搞懂什么时候数据应该放在栈上，什么时候应该在堆上，直到工作中实际出现问题了，才意识到数据的存放方式居然会严重影响并发安全，无奈回头重新补基础，时间精力的耗费都很大。</p><p>其实作为开发者，我们一辈子会经历很多工具、框架和语言，但是这些东西无论怎么变，底层逻辑都是不变的。</p><p>所以今天我们得<strong>回头重新思考，编程中那些耳熟能详却又似懂非懂的基础概念，搞清楚底层逻辑</strong>。而且这些概念，对我们后面学习和理解 Rust 中的知识点非常重要，之后，我们也会根据需要再穿插深入讲解。</p><p>代码中最基本的概念是变量和值，而存放它们的地方是内存，所以我们就从内存开始。</p><h2>内存</h2><p>我们的程序无时无刻不在跟内存打交道。在下面这个把 “hello world!” 赋值给 s 的简单语句中，就跟只读数据段（RODATA）、堆、栈分别有深度交互：</p><!-- [[[read_end]]] --><pre><code class="language-rust">let s = "hello world".to_string();
+
 </code></pre><p>你可以使用 Rust playground 里这个<a href="https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=8f515709abd520d98a6ac7b854227652">代码片段</a> 感受一下字符串的内存使用情况。</p><p>首先，“hello world” 作为一个字符串常量（string literal），在编译时被存入可执行文件的 .RODATA 段（GCC）或者 .RDATA 段（VC++），然后在程序加载时，获得一个固定的内存地址。</p><p>当执行 “hello world”.to_string() 时，在堆上，一块新的内存被分配出来，并把 “hello world” 逐个字节拷贝过去。</p><p>当我们把堆上的数据赋值给 s 时，s 作为分配在栈上的一个变量，它需要知道堆上内存的地址，另外由于堆上的数据大小不确定且可以增长，我们还需要知道它的长度以及它现在有多大。</p><p>最终，<strong>为了表述这个字符串，我们使用了三个 word</strong>：第一个表示指针、第二个表示字符串的当前长度（11）、第三个表示这片内存的总容量（11）。在 64 位系统下，三个 word 是 24 个字节。</p><p>你也可以看下图，更直观一些：<img src="https://static001.geekbang.org/resource/image/a7/4c/a7e7f2334460f15f9afd04ebd710b54c.jpg?wh=2312x2043" alt=""></p><p>刚才提到字符串的内容在堆上，而指向字符串的指针等信息在栈上，现在就是检验你内存基础知识是否扎实的时候了：<strong>数据什么时候可以放在栈上，什么时候需要放在堆上呢</strong>？</p><p>这个问题，很多使用自动内存管理语言比如 Java/Python 的开发者，可能有一些模糊的印象或者规则：</p><ul>
 <li>基本类型（primitive type）存储在栈上，对象存储在堆上；</li>
 <li>少量数据存储在栈上，大量的数据存储在堆上。</li>

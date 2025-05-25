@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>在无线通信中，有一种广受欢迎的“MIMO”传输技术。MIMO的全称是多输入多输出（Multiple Input Multiple Output），其早期配置是在发送端和接收端同时布置多个发射机和多个接收机，每个发射机发送相同的信号副本，而每个接收机则接收到来自多个发射机的不同信号，这些信号经历的衰减是相互独立的。这样一来，在接收端多个信号同时被严重衰减的概率就会以指数形式减小，通过获得分集增益带来误码率的下降与信道容量的提升。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>在无线通信中，有一种广受欢迎的“MIMO”传输技术。MIMO的全称是多输入多输出（Multiple Input Multiple Output），其早期配置是在发送端和接收端同时布置多个发射机和多个接收机，每个发射机发送相同的信号副本，而每个接收机则接收到来自多个发射机的不同信号，这些信号经历的衰减是相互独立的。这样一来，在接收端多个信号同时被严重衰减的概率就会以指数形式减小，通过获得分集增益带来误码率的下降与信道容量的提升。</p>
+
 <p>无线通信中的分集思想在机器学习中的对应就是集成学习。<strong>集成学习正是使用多个个体学习器来获得比每个单独学习器更好的预测性能</strong>。</p>
 <p>监督学习的任务是通过假设空间搜索来找到能够对特定问题给出良好预测的假设。但问题是即使这样的假设存在，能否找到也在两可之间。因而集成学习的作用就是将多个可以得到假设整合为单个更好的假设，其一般结构是先产生一组个体学习器，再使用某种策略将它们加以整合。每个组中的个体学习器如果属于同一类型（比如都是线性回归或者都是决策树），形成的就是<strong>同质集成</strong>；相应地，由不同类型学习器得到的集成则称为<strong>异质集成</strong>。</p>
 <p>直观来看，性能优劣不一的个体学习器放在一块儿可能产生的是更加中庸的效果，即比最差的要好，也比最好的要差。那么集成学习如何实现“1 + 1 &gt; 2”呢？这其实是对个体学习器提出了一些要求。</p>

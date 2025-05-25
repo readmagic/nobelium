@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是温铭。</p><p>上一节中，我们一起了解了 LuaJIT 中 table 相关的库函数。除了这些常用的函数外，今天我再为你介绍一些Lua 独有的或不太常用的概念，以及 OpenResty 中常见的 Lua 的坑。</p><h2>弱表</h2><p>首先是 <code>弱表</code>（weak table），它是 Lua 中很独特的一个概念，和垃圾回收相关。和其他高级语言一样，Lua 是自动垃圾回收的，你不用关心具体的实现，也不用显式 GC。没有被引用到的空间，会被垃圾收集器自动完成回收。</p><p>但简单的引用计数还不太够用，有时候我们需要一种更灵活的机制。举个例子，我们把一个 Lua 的对象 <code>Foo</code>（table 或者函数）插入到 table <code>tb</code> 中，这就会产生对这个对象 <code>Foo</code> 的引用。即使没有其他地方引用 <code>Foo</code>，<code>tb</code> 对它的引用也还一直存在，那么 GC 就没有办法回收 <code>Foo</code> 所占用的内存。这时候，我们就只有两种选择：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是温铭。</p><p>上一节中，我们一起了解了 LuaJIT 中 table 相关的库函数。除了这些常用的函数外，今天我再为你介绍一些Lua 独有的或不太常用的概念，以及 OpenResty 中常见的 Lua 的坑。</p><h2>弱表</h2><p>首先是 <code>弱表</code>（weak table），它是 Lua 中很独特的一个概念，和垃圾回收相关。和其他高级语言一样，Lua 是自动垃圾回收的，你不用关心具体的实现，也不用显式 GC。没有被引用到的空间，会被垃圾收集器自动完成回收。</p><p>但简单的引用计数还不太够用，有时候我们需要一种更灵活的机制。举个例子，我们把一个 Lua 的对象 <code>Foo</code>（table 或者函数）插入到 table <code>tb</code> 中，这就会产生对这个对象 <code>Foo</code> 的引用。即使没有其他地方引用 <code>Foo</code>，<code>tb</code> 对它的引用也还一直存在，那么 GC 就没有办法回收 <code>Foo</code> 所占用的内存。这时候，我们就只有两种选择：</p><ul>
+
 <li>一是手工释放 <code>Foo</code>；</li>
 <li>二是让它常驻内存。</li>
 </ul><p>比如下面这段代码：</p><pre><code>$ resty -e 'local tb = {}

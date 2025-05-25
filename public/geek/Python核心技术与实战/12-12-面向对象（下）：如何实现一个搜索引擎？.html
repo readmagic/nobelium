@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是景霄。这节课，我们来实现一个 Python 的搜索引擎（search engine）。</p><p>承接上文，今天这节课的主要目的是，带你模拟敏捷开发过程中的迭代开发流程，巩固面向对象的程序设计思想。</p><p>我们将从最简单最直接的搜索做起，一步步优化，这其中，我不会涉及到过多的超纲算法，但不可避免会介绍一些现代搜索引擎中的基础概念，例如语料（corpus）、倒序索引（inverted index）等。</p><p>如果你对这方面本身有些了解，自然可以轻松理解；即使你之前完全没接触过搜索引擎，也不用过分担心，我会力求简洁清晰，降低学习难度。同时，我希望你把更多的精力放在面向对象的建模思路上。</p><h2>“高大上”的搜索引擎</h2><p>引擎一词尤如其名，听起来非常酷炫。搜索引擎，则是新世纪初期互联网发展最重要的入口之一，依托搜索引擎，中国和美国分别诞生了百度、谷歌等巨型公司。</p><p>搜索引擎极大地方便了互联网生活，也成为上网必不可少的刚需工具。依托搜索引擎发展起来的互联网广告，则成了硅谷和中国巨头的核心商业模式；而搜索本身，也在持续进步着， Facebook 和微信也一直有意向在自家社交产品架设搜索平台。</p><p>关于搜索引擎的价值我不必多说了，今天我们主要来看一下搜索引擎的核心构成。</p><!-- [[[read_end]]] --><p>听Google的朋友说，他们入职培训的时候，有一门课程叫做 The life of a query，内容是讲用户在浏览器中键入一串文字，按下回车后发生了什么。今天我也按照这个思路，来简单介绍下。</p><p>我们知道，<strong>一个搜索引擎由搜索器、索引器、检索器和用户接口四个部分组成</strong>。</p><p>搜索器，通俗来讲就是我们常提到的爬虫（scrawler），它能在互联网上大量爬取各类网站的内容，送给索引器。索引器拿到网页和内容后，会对内容进行处理，形成索引（index），存储于内部的数据库等待检索。</p><p>最后的用户接口很好理解，是指网页和 App 前端界面，例如百度和谷歌的搜索页面。用户通过用户接口，向搜索引擎发出询问（query），询问解析后送达检索器；检索器高效检索后，再将结果返回给用户。</p><p>爬虫知识不是我们今天学习的重点，这里我就不做深入介绍了。我们假设搜索样本存在于本地磁盘上。</p><p>为了方便，我们只提供五个文件的检索，内容我放在了下面这段代码中：</p><pre><code># 1.txt
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是景霄。这节课，我们来实现一个 Python 的搜索引擎（search engine）。</p><p>承接上文，今天这节课的主要目的是，带你模拟敏捷开发过程中的迭代开发流程，巩固面向对象的程序设计思想。</p><p>我们将从最简单最直接的搜索做起，一步步优化，这其中，我不会涉及到过多的超纲算法，但不可避免会介绍一些现代搜索引擎中的基础概念，例如语料（corpus）、倒序索引（inverted index）等。</p><p>如果你对这方面本身有些了解，自然可以轻松理解；即使你之前完全没接触过搜索引擎，也不用过分担心，我会力求简洁清晰，降低学习难度。同时，我希望你把更多的精力放在面向对象的建模思路上。</p><h2>“高大上”的搜索引擎</h2><p>引擎一词尤如其名，听起来非常酷炫。搜索引擎，则是新世纪初期互联网发展最重要的入口之一，依托搜索引擎，中国和美国分别诞生了百度、谷歌等巨型公司。</p><p>搜索引擎极大地方便了互联网生活，也成为上网必不可少的刚需工具。依托搜索引擎发展起来的互联网广告，则成了硅谷和中国巨头的核心商业模式；而搜索本身，也在持续进步着， Facebook 和微信也一直有意向在自家社交产品架设搜索平台。</p><p>关于搜索引擎的价值我不必多说了，今天我们主要来看一下搜索引擎的核心构成。</p><!-- [[[read_end]]] --><p>听Google的朋友说，他们入职培训的时候，有一门课程叫做 The life of a query，内容是讲用户在浏览器中键入一串文字，按下回车后发生了什么。今天我也按照这个思路，来简单介绍下。</p><p>我们知道，<strong>一个搜索引擎由搜索器、索引器、检索器和用户接口四个部分组成</strong>。</p><p>搜索器，通俗来讲就是我们常提到的爬虫（scrawler），它能在互联网上大量爬取各类网站的内容，送给索引器。索引器拿到网页和内容后，会对内容进行处理，形成索引（index），存储于内部的数据库等待检索。</p><p>最后的用户接口很好理解，是指网页和 App 前端界面，例如百度和谷歌的搜索页面。用户通过用户接口，向搜索引擎发出询问（query），询问解析后送达检索器；检索器高效检索后，再将结果返回给用户。</p><p>爬虫知识不是我们今天学习的重点，这里我就不做深入介绍了。我们假设搜索样本存在于本地磁盘上。</p><p>为了方便，我们只提供五个文件的检索，内容我放在了下面这段代码中：</p><pre><code># 1.txt
+
 I have a dream that my four little children will one day live in a nation where they will not be judged by the color of their skin but by the content of their character. I have a dream today.
 
 # 2.txt

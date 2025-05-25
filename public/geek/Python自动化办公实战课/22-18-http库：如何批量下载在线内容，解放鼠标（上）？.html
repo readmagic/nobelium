@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是尹会生。</p><p>我在前段时间遇到了下载大量图片的需求。具体来说，是在我训练AI识别猫时，必须要在电脑中存储大量猫的图片。但搜索到的图片都在网页中，我就需要先把它们一个个手动下载下来，再保存，然后才能进行后续的工作。</p><p>而且，随着我对AI训练工作的日益增多，这类需求会越来越丰富，我不仅要下载猫的图片，还要下载大量其他各种动物的图片。相信类似这种批量下载网页中的图片的需求，你在工作中会经常遇到。而这类需求，刚好能够使用Python的“requests-html”库实现批量下载，提高我们的工作效率。</p><p>因此呢，这节课我就以搜索到的猫的图片为例，给你讲解一下，我是怎么来批量下载图片的。</p><h2>批量下载图片的准备工作</h2><p>我把实现图片自动化批量下载的过程，拆分成四段难度逐渐递增的代码。这四段代码分别实现的是以下四个功能：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是尹会生。</p><p>我在前段时间遇到了下载大量图片的需求。具体来说，是在我训练AI识别猫时，必须要在电脑中存储大量猫的图片。但搜索到的图片都在网页中，我就需要先把它们一个个手动下载下来，再保存，然后才能进行后续的工作。</p><p>而且，随着我对AI训练工作的日益增多，这类需求会越来越丰富，我不仅要下载猫的图片，还要下载大量其他各种动物的图片。相信类似这种批量下载网页中的图片的需求，你在工作中会经常遇到。而这类需求，刚好能够使用Python的“requests-html”库实现批量下载，提高我们的工作效率。</p><p>因此呢，这节课我就以搜索到的猫的图片为例，给你讲解一下，我是怎么来批量下载图片的。</p><h2>批量下载图片的准备工作</h2><p>我把实现图片自动化批量下载的过程，拆分成四段难度逐渐递增的代码。这四段代码分别实现的是以下四个功能：</p><ol>
+
 <li>访问HTTP服务器，得到搜索结果的整个网页；</li>
 <li>在访问服务器之后下载一张图片；</li>
 <li>找到多张图片的相似地址；</li>

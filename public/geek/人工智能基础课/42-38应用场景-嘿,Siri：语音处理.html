@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>Siri是由苹果公司开发的智能语音助手。2011年10月，Siri以系统内置应用的方式随iPhone 4s一起发布，并被逐步集成到苹果的全线产品之中。Siri支持自然语言的输入与输出，可以通过与用户的语言交互实现朗读短信、介绍餐厅、询问天气、设置闹钟等简单功能，它还能不断学习新的声音和语调，并提供对话式的应答。今天，我就结合苹果公司关于Siri的介绍简单谈谈人工智能中的语音处理。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>Siri是由苹果公司开发的智能语音助手。2011年10月，Siri以系统内置应用的方式随iPhone 4s一起发布，并被逐步集成到苹果的全线产品之中。Siri支持自然语言的输入与输出，可以通过与用户的语言交互实现朗读短信、介绍餐厅、询问天气、设置闹钟等简单功能，它还能不断学习新的声音和语调，并提供对话式的应答。今天，我就结合苹果公司关于Siri的介绍简单谈谈人工智能中的语音处理。</p>
+
 <p>Siri的语音处理包括<strong>语音识别</strong>和<strong>语音合成</strong>两部分。<span class="orange">语音识别</span>（speech recognition）的作用是听懂用户的话，<span class="orange">语音合成</span>（speech synthesis）的作用则是生成Siri自己的回答。目前在苹果公司公开的技术博客Apple Machine Learning Journal上，主要给出的是语音合成的技术方案，但这些方案对语音识别也有启发。 </p>
 <p>在很多游戏和软件中，语音提示都是由声优提前录制而成，但以Siri为代表的实时语音助手们必须采用语音合成技术。<strong>业界主流的语音合成方法有两种：单元选择和参数合成</strong>。</p>
 <p>当具备足够数量的高品质录音时，单元选择方法能够合成出自然的高质量语音。相比之下，参数合成方法得到的结果虽然更加流利且容易识别，其整体质量却有所不及，因而适用于语料库较小的情景。</p>

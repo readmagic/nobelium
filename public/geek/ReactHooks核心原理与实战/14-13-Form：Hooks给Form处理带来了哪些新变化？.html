@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是王沛。今天我们来聊聊如何在 React 中使用表单。</p><p>表单作为用户交互最为常见的形式，但在 React 中实现起来却并没有那么容易。甚至可以说，使用表单，是 React 开发中最为困难的一部分。</p><p>主要有两方面的原因。一方面，React 都是状态驱动，而表单却是事件驱动，比如点击按钮、输入字符等，都是一个个离散的事件。因此，一般来说我们都需要将这些独立的事件转换成一定的应用程序状态，最终来完成表单的交互。</p><p>另一方面，表单元素一般都有自己的内在状态，比如原生的 input 节点就允许用户输入，这就需要我们在元素状态和表单状态之间做同步。</p><p>要能够很好地处理这些问题，我们首先需要对<strong>表单的机制</strong>有深入的理解，然后再从 <strong>React Hooks 的角度去思考问题的解决方案</strong>。</p><p>所以在今天这节课，我会从这三个方面来讲。</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是王沛。今天我们来聊聊如何在 React 中使用表单。</p><p>表单作为用户交互最为常见的形式，但在 React 中实现起来却并没有那么容易。甚至可以说，使用表单，是 React 开发中最为困难的一部分。</p><p>主要有两方面的原因。一方面，React 都是状态驱动，而表单却是事件驱动，比如点击按钮、输入字符等，都是一个个离散的事件。因此，一般来说我们都需要将这些独立的事件转换成一定的应用程序状态，最终来完成表单的交互。</p><p>另一方面，表单元素一般都有自己的内在状态，比如原生的 input 节点就允许用户输入，这就需要我们在元素状态和表单状态之间做同步。</p><p>要能够很好地处理这些问题，我们首先需要对<strong>表单的机制</strong>有深入的理解，然后再从 <strong>React Hooks 的角度去思考问题的解决方案</strong>。</p><p>所以在今天这节课，我会从这三个方面来讲。</p><ul>
+
 <li>首先，介绍 React 中使用表单的基本原理，帮助你理解受控组件和非受控组件的概念，以及各自的适用场景。</li>
 <li>然后看看 Hooks 出现后，给表单处理带来了哪些思路上的新变化。</li>
 <li>最后，我们会学习几个常见的开箱即用的 React 表单解决方案，让你在理解实现原理的基础上，可以选择最适合自己的开源方案。</li>

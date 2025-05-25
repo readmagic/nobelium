@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是朱晓峰。今天，我想跟你聊一聊MySQL是怎么存储数据的。</p><p>存储数据是处理数据的第一步。在咱们的超市项目中，每天都要处理大量的商品，比如说进货、卖货、盘点库存，商品的种类很多，而且数量也比较大。只有正确地把数据存储起来，我们才能进行有效的处理和分析，进而对经营情况进行科学的评估，超市负责人在做决策时，就能够拿到数据支持。否则，只能是一团乱麻，没有头绪，也无从着手。</p><p>那么，怎样才能把用户各种经营相关的、纷繁复杂的数据，有序和高效地存储起来呢？</p><p>在MySQL中，一个完整的<strong>数据存储过程总共有4步，分别是创建数据库、确认字段、创建数据表、插入数据。</strong></p><p><img src="https://static001.geekbang.org/resource/image/8b/b1/8b8b594631a175e3016686da88d569b1.jpg" alt=""></p><p>接下来，我就给你详细讲解一下这个过程的每一步，帮你掌握MySQL的数据存储机制。</p><p>先提醒你一句，这节课最后有一个视频，我在视频里演示了今天讲到的所有操作。我建议你学完文字以后，跟着视频实操一下。</p><p>好了，话不多说，我们现在开始。</p><h2>创建MySQL数据库</h2><p><strong>数据存储的第一步，就是创建数据库</strong>。</p><p>你可能会问，为啥我们要先创建一个数据库，而不是直接创建数据表呢？</p><p>这是个很好的问题。其实啊，这是因为，从系统架构的层次上看，MySQL数据库系统从大到小依次是数据库服务器、数据库、数据表、数据表的行与列。</p><!-- [[[read_end]]] --><p>安装程序已经帮我们安装了MySQL数据库服务器，所以，我们必须从创建数据库开始。</p><p><strong>数据库是MySQL里面最大的存储单元</strong>。数据表、数据表里的数据，以及我们以后会学到的表与表之间的关系，还有在它们的基础上衍生出来的各种工具，都存储在数据库里面。<strong>没有数据库，数据表就没有载体，也就无法存储数据。</strong></p><p>下面我就来给你具体介绍下，怎么在我们安装的MySQL服务器里面创建、删除和查看数据库。</p><h3>1.如何创建数据库？</h3><p>创建数据库，我们已经在上节课介绍过了，你可以在Workbench的工作区，通过下面的SQL语句创建数据库“demo”：</p><pre><code>CREATE DATABASE demo；
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是朱晓峰。今天，我想跟你聊一聊MySQL是怎么存储数据的。</p><p>存储数据是处理数据的第一步。在咱们的超市项目中，每天都要处理大量的商品，比如说进货、卖货、盘点库存，商品的种类很多，而且数量也比较大。只有正确地把数据存储起来，我们才能进行有效的处理和分析，进而对经营情况进行科学的评估，超市负责人在做决策时，就能够拿到数据支持。否则，只能是一团乱麻，没有头绪，也无从着手。</p><p>那么，怎样才能把用户各种经营相关的、纷繁复杂的数据，有序和高效地存储起来呢？</p><p>在MySQL中，一个完整的<strong>数据存储过程总共有4步，分别是创建数据库、确认字段、创建数据表、插入数据。</strong></p><p><img src="https://static001.geekbang.org/resource/image/8b/b1/8b8b594631a175e3016686da88d569b1.jpg" alt=""></p><p>接下来，我就给你详细讲解一下这个过程的每一步，帮你掌握MySQL的数据存储机制。</p><p>先提醒你一句，这节课最后有一个视频，我在视频里演示了今天讲到的所有操作。我建议你学完文字以后，跟着视频实操一下。</p><p>好了，话不多说，我们现在开始。</p><h2>创建MySQL数据库</h2><p><strong>数据存储的第一步，就是创建数据库</strong>。</p><p>你可能会问，为啥我们要先创建一个数据库，而不是直接创建数据表呢？</p><p>这是个很好的问题。其实啊，这是因为，从系统架构的层次上看，MySQL数据库系统从大到小依次是数据库服务器、数据库、数据表、数据表的行与列。</p><!-- [[[read_end]]] --><p>安装程序已经帮我们安装了MySQL数据库服务器，所以，我们必须从创建数据库开始。</p><p><strong>数据库是MySQL里面最大的存储单元</strong>。数据表、数据表里的数据，以及我们以后会学到的表与表之间的关系，还有在它们的基础上衍生出来的各种工具，都存储在数据库里面。<strong>没有数据库，数据表就没有载体，也就无法存储数据。</strong></p><p>下面我就来给你具体介绍下，怎么在我们安装的MySQL服务器里面创建、删除和查看数据库。</p><h3>1.如何创建数据库？</h3><p>创建数据库，我们已经在上节课介绍过了，你可以在Workbench的工作区，通过下面的SQL语句创建数据库“demo”：</p><pre><code>CREATE DATABASE demo；
+
 </code></pre><h3>2.如何查看数据库？</h3><p>下面我们来看一下，如何查看数据库。</p><p>在Workbench的导航栏，我们可以看到数据库服务器里的所有数据库，如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/da/9e/da02212629a3084da3ee3d67d982fa9e.png" alt=""></p><p>你也可以在Workbench右边的工作区，通过查询语句，查看所有的数据库：</p><pre><code>mysql&gt; SHOW DATABASES;
 +--------------------+
 | Database           |

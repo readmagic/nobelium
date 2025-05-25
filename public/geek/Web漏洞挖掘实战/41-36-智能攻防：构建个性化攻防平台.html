@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是王昊天。</p><p>在之前的课程中，我们多次用到了潮汐社区版这款Web应用，并且知道了我们不仅可以利用它去运行各种安全工具及编排，还可以自己编写一些编排进行上传供其他用户使用。</p><p>这一讲，我们将会一步一步地学习如何使用潮汐社区版，让你充分发挥这款安全Web应用的功能，进行各种智能化的网络攻防行为。</p><h2>潮汐开源社区版的使用</h2><p>对于用户而言，我们首先需要注册账号，在注册过程中需要一个邀请码，你使用VefMiMj7N37tHDL7即可（仅支持有限个用户使用），这样我们就能登录成功。潮汐开源社区版lev.zone具有三个功能，即对于工具或编排的使用、添加工具以及添加编排，它们操作的复杂度逐渐在上升，让我们首先来学习对于工具/编排的使用吧。</p><p><img src="https://static001.geekbang.org/resource/image/06/22/062342923ec379ae353490a2a1c23622.jpg?wh=1535x506" alt="图片"></p><h2>对于工具/编排的使用</h2><p>关于工具/编排的使用对应着使用说明文档的内容，你可以先对它进行浏览，这样在学习时会有一个大局观。</p><p><img src="https://static001.geekbang.org/resource/image/23/2c/23b17cd7b08b5ed767e2b07a29a4262c.png?wh=1163x573" alt="图片"></p><p>事实上，我们可以将准备过程分为三部分，它们分别是前置环境安装、凭证上传与获取以及本地运行。</p><h3>环境安装</h3><p>在环境安装部分，我们进入到下方链接，选择适合自己操作系统的Docker进行安装。</p><pre><code class="language-plain">https://docs.docker.com/get-docker/
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是王昊天。</p><p>在之前的课程中，我们多次用到了潮汐社区版这款Web应用，并且知道了我们不仅可以利用它去运行各种安全工具及编排，还可以自己编写一些编排进行上传供其他用户使用。</p><p>这一讲，我们将会一步一步地学习如何使用潮汐社区版，让你充分发挥这款安全Web应用的功能，进行各种智能化的网络攻防行为。</p><h2>潮汐开源社区版的使用</h2><p>对于用户而言，我们首先需要注册账号，在注册过程中需要一个邀请码，你使用VefMiMj7N37tHDL7即可（仅支持有限个用户使用），这样我们就能登录成功。潮汐开源社区版lev.zone具有三个功能，即对于工具或编排的使用、添加工具以及添加编排，它们操作的复杂度逐渐在上升，让我们首先来学习对于工具/编排的使用吧。</p><p><img src="https://static001.geekbang.org/resource/image/06/22/062342923ec379ae353490a2a1c23622.jpg?wh=1535x506" alt="图片"></p><h2>对于工具/编排的使用</h2><p>关于工具/编排的使用对应着使用说明文档的内容，你可以先对它进行浏览，这样在学习时会有一个大局观。</p><p><img src="https://static001.geekbang.org/resource/image/23/2c/23b17cd7b08b5ed767e2b07a29a4262c.png?wh=1163x573" alt="图片"></p><p>事实上，我们可以将准备过程分为三部分，它们分别是前置环境安装、凭证上传与获取以及本地运行。</p><h3>环境安装</h3><p>在环境安装部分，我们进入到下方链接，选择适合自己操作系统的Docker进行安装。</p><pre><code class="language-plain">https://docs.docker.com/get-docker/
+
 </code></pre><p>这一步中值得注意的是我们需要确保安装的Docker Engine版本为20.10.10以上，如果你直接点击页面上的默认安装是没有问题的，但是如果你电脑中原本就有Docker工具，我们可以在命令行输入 <code>docker info</code> 查看它的版本信息，如果低于20.10.10版本，那么就需要重新下载了。</p><!-- [[[read_end]]] --><p>完成Docker安装后，我们<strong>要确保每次使用潮汐社区版时，</strong><strong>Docker都处于启动状态</strong>。</p><p>接下来，我们就进入到了下一个环节——凭证上传与获取。</p><h3>凭证上传与获取</h3><p>每一个使用潮汐开源社区的用户，都需要将自己的设备与潮汐开源社区平台链接，以便工具包能够在本地运行。我们需要登录潮汐开源社区平台，在账户设置—我的设备中，选择添加设备，并生成随机Token，请注意，此Token只会展示一次，所以<strong>你最好把它记录在本地</strong>。</p><p><img src="https://static001.geekbang.org/resource/image/2e/e0/2e8d5687714190e32be252cfc4a7bde0.png?wh=1091x560" alt="图片"></p><p>下面，我们就开始进行本地运行相关配置。</p><p>首先是对于SSH的配置，我们需要运用如下命令进入到SSH公钥的文件目录，新建config文件，并写入配置信息。</p><pre><code class="language-bash"># 运行的命令
 $ cd ~/.ssh
 $ vim config

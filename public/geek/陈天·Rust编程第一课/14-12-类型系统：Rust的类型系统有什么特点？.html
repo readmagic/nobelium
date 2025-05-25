@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是陈天。今天我们就开始类型系统的学习。</p><p>如果你用 C/Golang 这样不支持泛型的静态语言，或者用 Python/Ruby/JavaScript 这样的动态语言，这个部分可能是个难点，希望你做好要转换思维的准备；如果你用 C++/Java/Swift 等支持泛型的静态语言，可以比较一下 Rust 和它们的异同。</p><p>其实在之前的课程中，我们已经写了不少 Rust 代码，使用了各种各样的数据结构，相信你对 Rust 的类型系统已经有了一个非常粗浅的印象。那类型系统到底是什么？能用来干什么？什么时候用呢？今天就来一探究竟。</p><p>作为一门语言的核心要素，类型系统很大程度上塑造了语言的用户体验以及程序的安全性。为什么这么说？因为，在机器码的世界中，没有类型而言，指令仅仅和立即数或者内存打交道，内存中存放的数据都是字节流。</p><p>所以，可以说<strong>类型系统完全是一种工具</strong>，编译器在编译时对数据做静态检查，或者语言在运行时对数据做动态检查的时候，来保证某个操作处理的数据是开发者期望的数据类型。</p><p>现在你是不是能理解，为什么Rust类型系统对类型问题的检查格外严格（总是报错）。</p><h2>类型系统基本概念与分类</h2><p>在具体讲 Rust 的类型系统之前，我们先来澄清一些类型系统的概念，在基本理解上达成一致。</p><!-- [[[read_end]]] --><p>在<a href="https://time.geekbang.org/column/article/410038">第二讲</a>提到过，类型，是对值的区分，它包含了值在内存中的长度、对齐以及值可以进行的操作等信息。</p><p>比如 u32 类型，它是一个无符号 32 位整数，长度是 4 个字节，对齐也是 4 个字节，取值范围在 0～4G 之间；u32 类型实现了加减乘除、大小比较等接口，所以可以做类似 1 + 2、i &lt;= 3 这样的操作。</p><p><strong>类型系统其实就是，对类型进行定义、检查和处理的系统</strong>。所以，按对类型的操作阶段不同，就有了不同的划分标准，也对应有不同分类，我们一个一个看。</p><p>按定义后类型是否可以隐式转换，可以分为强类型和弱类型。Rust 不同类型间不能自动转换，所以是强类型语言，而 C / C++ / JavaScript 会自动转换，是弱类型语言。</p><p>按类型检查的时机，在编译时检查还是运行时检查，可以分为静态类型系统和动态类型系统。对于静态类型系统，还可以进一步分为显式静态和隐式静态，Rust / Java / Swift 等语言都是显式静态语言，而 Haskell 是隐式静态语言。</p><p>在类型系统中，多态是一个非常重要的思想，它是指<strong>在使用相同的接口时，不同类型的对象，会采用不同的实现</strong>。</p><p>对于动态类型系统，多态通过<a href="https://en.wikipedia.org/wiki/Duck_typing">鸭子类型（duck typing）</a>实现；而对于静态类型系统，多态可以通过<a href="https://en.wikipedia.org/wiki/Parametric_polymorphism">参数多态（parametric polymorphism）</a>、<a href="https://en.wikipedia.org/wiki/Ad_hoc_polymorphism">特设多态（adhoc polymorphism）</a>和<a href="https://en.wikipedia.org/wiki/Subtyping">子类型多态（subtype polymorphism）</a>实现。</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是陈天。今天我们就开始类型系统的学习。</p><p>如果你用 C/Golang 这样不支持泛型的静态语言，或者用 Python/Ruby/JavaScript 这样的动态语言，这个部分可能是个难点，希望你做好要转换思维的准备；如果你用 C++/Java/Swift 等支持泛型的静态语言，可以比较一下 Rust 和它们的异同。</p><p>其实在之前的课程中，我们已经写了不少 Rust 代码，使用了各种各样的数据结构，相信你对 Rust 的类型系统已经有了一个非常粗浅的印象。那类型系统到底是什么？能用来干什么？什么时候用呢？今天就来一探究竟。</p><p>作为一门语言的核心要素，类型系统很大程度上塑造了语言的用户体验以及程序的安全性。为什么这么说？因为，在机器码的世界中，没有类型而言，指令仅仅和立即数或者内存打交道，内存中存放的数据都是字节流。</p><p>所以，可以说<strong>类型系统完全是一种工具</strong>，编译器在编译时对数据做静态检查，或者语言在运行时对数据做动态检查的时候，来保证某个操作处理的数据是开发者期望的数据类型。</p><p>现在你是不是能理解，为什么Rust类型系统对类型问题的检查格外严格（总是报错）。</p><h2>类型系统基本概念与分类</h2><p>在具体讲 Rust 的类型系统之前，我们先来澄清一些类型系统的概念，在基本理解上达成一致。</p><!-- [[[read_end]]] --><p>在<a href="https://time.geekbang.org/column/article/410038">第二讲</a>提到过，类型，是对值的区分，它包含了值在内存中的长度、对齐以及值可以进行的操作等信息。</p><p>比如 u32 类型，它是一个无符号 32 位整数，长度是 4 个字节，对齐也是 4 个字节，取值范围在 0～4G 之间；u32 类型实现了加减乘除、大小比较等接口，所以可以做类似 1 + 2、i &lt;= 3 这样的操作。</p><p><strong>类型系统其实就是，对类型进行定义、检查和处理的系统</strong>。所以，按对类型的操作阶段不同，就有了不同的划分标准，也对应有不同分类，我们一个一个看。</p><p>按定义后类型是否可以隐式转换，可以分为强类型和弱类型。Rust 不同类型间不能自动转换，所以是强类型语言，而 C / C++ / JavaScript 会自动转换，是弱类型语言。</p><p>按类型检查的时机，在编译时检查还是运行时检查，可以分为静态类型系统和动态类型系统。对于静态类型系统，还可以进一步分为显式静态和隐式静态，Rust / Java / Swift 等语言都是显式静态语言，而 Haskell 是隐式静态语言。</p><p>在类型系统中，多态是一个非常重要的思想，它是指<strong>在使用相同的接口时，不同类型的对象，会采用不同的实现</strong>。</p><p>对于动态类型系统，多态通过<a href="https://en.wikipedia.org/wiki/Duck_typing">鸭子类型（duck typing）</a>实现；而对于静态类型系统，多态可以通过<a href="https://en.wikipedia.org/wiki/Parametric_polymorphism">参数多态（parametric polymorphism）</a>、<a href="https://en.wikipedia.org/wiki/Ad_hoc_polymorphism">特设多态（adhoc polymorphism）</a>和<a href="https://en.wikipedia.org/wiki/Subtyping">子类型多态（subtype polymorphism）</a>实现。</p><ul>
+
 <li>参数多态是指，代码操作的类型是一个满足某些约束的参数，而非具体的类型。</li>
 <li>特设多态是指同一种行为有多个不同实现的多态。比如加法，可以 1+1，也可以是 “abc” + “cde”、matrix1 + matrix2、甚至 matrix1 + vector1。在面向对象编程语言中，特设多态一般指函数的重载。</li>
 <li>子类型多态是指，在运行时，子类型可以被当成父类型使用。</li>

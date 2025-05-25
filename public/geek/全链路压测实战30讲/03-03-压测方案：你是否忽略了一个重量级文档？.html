@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是高楼。</p><p>从这里开始，我们就进入全链路压测的第二部分了。我会基于一个完整的项目给你讲一讲全链路压测的核心需求。这一讲这是第二部分的开篇，非常重要，它是这个项目整体的全链路压测方案。这个方案是我基于上一个专栏<a href="https://time.geekbang.org/column/intro/100074001">《高楼的性能工程实战课》</a>中给出的性能方案撰写的。</p><p><img src="https://static001.geekbang.org/resource/image/4f/f6/4fc2226cb959209fce7cd9b1c6bbcbf6.jpg?wh=1920x1079" alt=""></p><p>它包括性能指标、系统架构图、场景设计、监控设计、系统改造等部分，为后面的环境准备、具体执行奠定了基础。压测方案虽然常常被人忽视，但实际上起着非常关键的指导性作用。下面是我认为真正完整并且有意义的全链路压测方案的样子，希望能给你一些启发。</p><h1>背景</h1><p>接下来的课程，我要呈现的是一个完整项目从 0 到 1 落地全链路压测的过程。在项目的选择上，我将沿用我上一个专栏中的<a href="https://github.com/xncssj/7d-mall-microservice">开源微服务电商项目</a>。我们这个系统采用的技术栈，是当前技术市场中流行的主流微服务技术栈，这样的环境具有很高的借鉴价值。而且，从我的 RESAR 全链路压测方案和逻辑来看，也足以支撑当前主流的微服务技术栈。</p><h1>压测目标</h1><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是高楼。</p><p>从这里开始，我们就进入全链路压测的第二部分了。我会基于一个完整的项目给你讲一讲全链路压测的核心需求。这一讲这是第二部分的开篇，非常重要，它是这个项目整体的全链路压测方案。这个方案是我基于上一个专栏<a href="https://time.geekbang.org/column/intro/100074001">《高楼的性能工程实战课》</a>中给出的性能方案撰写的。</p><p><img src="https://static001.geekbang.org/resource/image/4f/f6/4fc2226cb959209fce7cd9b1c6bbcbf6.jpg?wh=1920x1079" alt=""></p><p>它包括性能指标、系统架构图、场景设计、监控设计、系统改造等部分，为后面的环境准备、具体执行奠定了基础。压测方案虽然常常被人忽视，但实际上起着非常关键的指导性作用。下面是我认为真正完整并且有意义的全链路压测方案的样子，希望能给你一些启发。</p><h1>背景</h1><p>接下来的课程，我要呈现的是一个完整项目从 0 到 1 落地全链路压测的过程。在项目的选择上，我将沿用我上一个专栏中的<a href="https://github.com/xncssj/7d-mall-microservice">开源微服务电商项目</a>。我们这个系统采用的技术栈，是当前技术市场中流行的主流微服务技术栈，这样的环境具有很高的借鉴价值。而且，从我的 RESAR 全链路压测方案和逻辑来看，也足以支撑当前主流的微服务技术栈。</p><h1>压测目标</h1><ol>
+
 <li>根据经典的电商下单流程，测试当前系统的单接口最大容量。</li>
 <li>录制真实的线上流量，回放压测流量，充分利用当前服务器资源，找到当前系统的性能瓶颈并优化，最终达到最佳容量状态。</li>
 <li>结合稳定性场景，做到精准的容量规划，给服务做限流降级提供数据上的参考。</li>

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>数学中的线性模型可谓“简约而不简单”：它既能体现出重要的基本思想，又能构造出功能更加强大的非线性模型。在机器学习领域，线性回归就是这样一类基本的任务，它应用了一系列影响深远的数学工具。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>数学中的线性模型可谓“简约而不简单”：它既能体现出重要的基本思想，又能构造出功能更加强大的非线性模型。在机器学习领域，线性回归就是这样一类基本的任务，它应用了一系列影响深远的数学工具。</p>
+
 <p>在数理统计中，回归分析是确定多种变量间相互依赖的定量关系的方法。<strong>线性回归假设输出变量是若干输入变量的线性组合，并根据这一关系求解线性组合中的最优系数</strong>。在众多回归分析的方法里，线性回归模型最易于拟合，其估计结果的统计特性也更容易确定，因而得到广泛应用。而在机器学习中，回归问题隐含了输入变量和输出变量均可连续取值的前提，因而利用线性回归模型可以对任意输入给出对输出的估计。</p>
 <p>1875年，从事遗传问题研究的英国统计学家弗朗西斯·高尔顿正在寻找父代与子代身高之间的关系。在分析了1078对父子的身高数据后，他发现这些数据的散点图大致呈直线状态，即父亲的身高和儿子的身高呈正相关关系。而在正相关关系背后还隐藏着另外一个现象：矮个子父亲的儿子更可能比父亲高；而高个子父亲的儿子更可能比父亲矮。</p>
 <p>受表哥查尔斯·达尔文的影响，高尔顿将这种现象称为“<strong>回归效应</strong>”，即大自然将人类身高的分布约束在相对稳定而不产生两极分化的整体水平，并给出了历史上第一个线性回归的表达式：y = 0.516x + 33.73，式中的y和x分别代表以英寸为单位的子代和父代的身高。</p>

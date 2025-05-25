@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是盛延敏，这里是网络编程实战第23讲，欢迎回来。</p><p>性能篇的前三讲，非阻塞I/O加上I/O多路复用，已经渐渐帮助我们在高性能网络编程这个领域搭建了初步的基石。但是，离最终的目标还差那么一点，如果说I/O多路复用帮我们打开了高性能网络编程的窗口，那么今天的主题——epoll，将为我们增添足够的动力。</p><p>这里有放置了一张图，这张图来自The Linux Programming Interface(No Starch Press)。这张图直观地为我们展示了select、poll、epoll几种不同的I/O复用技术在面对不同文件描述符大小时的表现差异。</p><p><img src="https://static001.geekbang.org/resource/image/fd/60/fd2e25f72a5103ef78c05c7ad2dab060.png" alt=""><br>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是盛延敏，这里是网络编程实战第23讲，欢迎回来。</p><p>性能篇的前三讲，非阻塞I/O加上I/O多路复用，已经渐渐帮助我们在高性能网络编程这个领域搭建了初步的基石。但是，离最终的目标还差那么一点，如果说I/O多路复用帮我们打开了高性能网络编程的窗口，那么今天的主题——epoll，将为我们增添足够的动力。</p><p>这里有放置了一张图，这张图来自The Linux Programming Interface(No Starch Press)。这张图直观地为我们展示了select、poll、epoll几种不同的I/O复用技术在面对不同文件描述符大小时的表现差异。</p><p><img src="https://static001.geekbang.org/resource/image/fd/60/fd2e25f72a5103ef78c05c7ad2dab060.png" alt=""><br>
+
 从图中可以明显地看到，epoll的性能是最好的，即使在多达10000个文件描述的情况下，其性能的下降和有10个文件描述符的情况相比，差别也不是很大。而随着文件描述符的增大，常规的select和poll方法性能逐渐变得很差。</p><p>那么，epoll究竟使用了什么样的“魔法”，取得了如此令人惊讶的效果呢？接下来，我们就来一起分析一下。</p><h2>epoll的用法</h2><p>在分析对比epoll、poll和select几种技术之前，我们先看一下怎么使用epoll来完成一个服务器程序，具体的原理我将在29讲中进行讲解。</p><!-- [[[read_end]]] --><p>epoll可以说是和poll非常相似的一种I/O多路复用技术，有些朋友将epoll归为异步I/O，我觉得这是不正确的。本质上epoll还是一种I/O多路复用技术， epoll通过监控注册的多个描述字，来进行I/O事件的分发处理。不同于poll的是，epoll不仅提供了默认的level-triggered（条件触发）机制，还提供了性能更为强劲的edge-triggered（边缘触发）机制。至于这两种机制的区别，我会在后面详细展开。</p><p>使用epoll进行网络程序的编写，需要三个步骤，分别是epoll_create，epoll_ctl和epoll_wait。接下来我对这几个API详细展开讲一下。</p><h3>epoll_create</h3><pre><code>int epoll_create(int size);
 int epoll_create1(int flags);
         返回值: 若成功返回一个大于0的值，表示epoll实例；若返回-1表示出错

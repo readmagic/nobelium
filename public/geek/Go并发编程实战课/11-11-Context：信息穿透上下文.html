@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是鸟窝。</p><p>在这节课正式开始之前，我想先带你看一个工作中的场景。</p><p>假设有一天你进入办公室，突然同事们都围住你，然后大喊“小王小王你最帅”，此时你可能一头雾水，只能尴尬地笑笑。为啥呢？因为你缺少上下文的信息，不知道之前发生了什么。</p><p>但是，如果同事告诉你，由于你业绩突出，一天之内就把云服务化的主要架构写好了，因此被评为9月份的工作之星，总经理还特意给你发1万元的奖金，那么，你心里就很清楚了，原来同事恭喜你，是因为你的工作被表扬了，还获得了奖金。同事告诉你的这些前因后果，就是上下文信息，他把上下文传递给你，你接收后，就可以获取之前不了解的信息。</p><p>你看，上下文（Context）就是这么重要。在我们的开发场景中，上下文也是不可或缺的，缺少了它，我们就不能获取完整的程序信息。那到底啥是上下文呢？其实，这就是指，在API之间或者方法调用之间，所传递的除了业务参数之外的额外信息。</p><p>比如，服务端接收到客户端的HTTP请求之后，可以把客户端的IP地址和端口、客户端的身份信息、请求接收的时间、Trace ID等信息放入到上下文中，这个上下文可以在后端的方法调用中传递，后端的业务方法除了利用正常的参数做一些业务处理（如订单处理）之外，还可以从上下文读取到消息请求的时间、Trace  ID等信息，把服务处理的时间推送到Trace服务中。Trace服务可以把同一Trace ID的不同方法的调用顺序和调用时间展示成流程图，方便跟踪。</p><!-- [[[read_end]]] --><p>不过，Go标准库中的Context功能还不止于此，它还提供了超时（Timeout）和取消（Cancel）的机制，下面就让我一一道来。</p><h1>Context的来历</h1><p>在学习Context的功能之前呢，我先带你了解下它的来历。毕竟，知道了它的来龙去脉，我们才能应用得更加得心应手一些。</p><p>Go在1.7的版本中才正式把Context加入到标准库中。在这之前，很多Web框架在定义自己的handler时，都会传递一个自定义的Context，把客户端的信息和客户端的请求信息放入到Context中。Go最初提供了golang.org/x/net/context库用来提供上下文信息，最终还是在Go1.7中把此库提升到标准库context包中。</p><p>为啥呢？这是因为，在Go1.7之前，有很多库都依赖golang.org/x/net/context中的Context实现，这就导致Go 1.7发布之后，出现了标准库Context和golang.org/x/net/context并存的状况。新的代码使用标准库Context的时候，没有办法使用这个标准库的Context去调用旧有的使用x/net/context实现的方法。</p><p>所以，在Go1.9中，还专门实现了一个叫做type alias的新特性，然后把x/net/context中的Context定义成标准库Context的别名，以解决新旧Context类型冲突问题，你可以看一下下面这段代码：</p><pre><code>    // +build go1.9
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是鸟窝。</p><p>在这节课正式开始之前，我想先带你看一个工作中的场景。</p><p>假设有一天你进入办公室，突然同事们都围住你，然后大喊“小王小王你最帅”，此时你可能一头雾水，只能尴尬地笑笑。为啥呢？因为你缺少上下文的信息，不知道之前发生了什么。</p><p>但是，如果同事告诉你，由于你业绩突出，一天之内就把云服务化的主要架构写好了，因此被评为9月份的工作之星，总经理还特意给你发1万元的奖金，那么，你心里就很清楚了，原来同事恭喜你，是因为你的工作被表扬了，还获得了奖金。同事告诉你的这些前因后果，就是上下文信息，他把上下文传递给你，你接收后，就可以获取之前不了解的信息。</p><p>你看，上下文（Context）就是这么重要。在我们的开发场景中，上下文也是不可或缺的，缺少了它，我们就不能获取完整的程序信息。那到底啥是上下文呢？其实，这就是指，在API之间或者方法调用之间，所传递的除了业务参数之外的额外信息。</p><p>比如，服务端接收到客户端的HTTP请求之后，可以把客户端的IP地址和端口、客户端的身份信息、请求接收的时间、Trace ID等信息放入到上下文中，这个上下文可以在后端的方法调用中传递，后端的业务方法除了利用正常的参数做一些业务处理（如订单处理）之外，还可以从上下文读取到消息请求的时间、Trace  ID等信息，把服务处理的时间推送到Trace服务中。Trace服务可以把同一Trace ID的不同方法的调用顺序和调用时间展示成流程图，方便跟踪。</p><!-- [[[read_end]]] --><p>不过，Go标准库中的Context功能还不止于此，它还提供了超时（Timeout）和取消（Cancel）的机制，下面就让我一一道来。</p><h1>Context的来历</h1><p>在学习Context的功能之前呢，我先带你了解下它的来历。毕竟，知道了它的来龙去脉，我们才能应用得更加得心应手一些。</p><p>Go在1.7的版本中才正式把Context加入到标准库中。在这之前，很多Web框架在定义自己的handler时，都会传递一个自定义的Context，把客户端的信息和客户端的请求信息放入到Context中。Go最初提供了golang.org/x/net/context库用来提供上下文信息，最终还是在Go1.7中把此库提升到标准库context包中。</p><p>为啥呢？这是因为，在Go1.7之前，有很多库都依赖golang.org/x/net/context中的Context实现，这就导致Go 1.7发布之后，出现了标准库Context和golang.org/x/net/context并存的状况。新的代码使用标准库Context的时候，没有办法使用这个标准库的Context去调用旧有的使用x/net/context实现的方法。</p><p>所以，在Go1.9中，还专门实现了一个叫做type alias的新特性，然后把x/net/context中的Context定义成标准库Context的别名，以解决新旧Context类型冲突问题，你可以看一下下面这段代码：</p><pre><code>    // +build go1.9
+
 	package context
 	
 	import &quot;context&quot;

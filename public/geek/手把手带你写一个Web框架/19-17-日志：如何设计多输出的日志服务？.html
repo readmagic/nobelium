@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是轩脉刃。</p><p>上面两节课，我们将环境变量和配置服务作为一个服务注册到容器中了。这样，在业务中就能很方便获取环境变量和配置了。不知道你有没有逐渐体会到这种“一切皆服务”思想的好处。</p><p>就像堆积积木，只要想好了一个服务的接口，我们逐步实现服务之后，这一个服务就是一块积木，之后可以用相同的思路实现各种服务的积木块，用它们来拼出我们需要的业务逻辑。这节课，我们就来实现另一个框架最核心的积木：日志服务。</p><p>实现一个框架的服务，我们习惯了要创建三个文件：接口协议文件 framework/contract/log.go、服务提供者 framework/provider/log/provider.go、接口实例framework/provider/log/service.go。</p><h2>日志接口协议</h2><p>说到日志服务，最先冒出来的一定是三个问题：什么样的日志需要输出？日志输出哪些内容？日志输出到哪里？一个个来分析。</p><h3>日志级别</h3><p>什么样的日志需要输出，这是个关于日志级别的问题。我们想要把日志分为几个级别？每个级别代表什么？这个日志级别其实在不同系统中有不同划分，比如Linux的<a href="https://datatracker.ietf.org/doc/html/rfc5424">syslog</a>中将系统划分为以下八种日志级别：<br>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是轩脉刃。</p><p>上面两节课，我们将环境变量和配置服务作为一个服务注册到容器中了。这样，在业务中就能很方便获取环境变量和配置了。不知道你有没有逐渐体会到这种“一切皆服务”思想的好处。</p><p>就像堆积积木，只要想好了一个服务的接口，我们逐步实现服务之后，这一个服务就是一块积木，之后可以用相同的思路实现各种服务的积木块，用它们来拼出我们需要的业务逻辑。这节课，我们就来实现另一个框架最核心的积木：日志服务。</p><p>实现一个框架的服务，我们习惯了要创建三个文件：接口协议文件 framework/contract/log.go、服务提供者 framework/provider/log/provider.go、接口实例framework/provider/log/service.go。</p><h2>日志接口协议</h2><p>说到日志服务，最先冒出来的一定是三个问题：什么样的日志需要输出？日志输出哪些内容？日志输出到哪里？一个个来分析。</p><h3>日志级别</h3><p>什么样的日志需要输出，这是个关于日志级别的问题。我们想要把日志分为几个级别？每个级别代表什么？这个日志级别其实在不同系统中有不同划分，比如Linux的<a href="https://datatracker.ietf.org/doc/html/rfc5424">syslog</a>中将系统划分为以下八种日志级别：<br>
+
 <img src="https://static001.geekbang.org/resource/image/f5/ea/f5382bc685494efb2c024f31f25aa2ea.png?wh=912x438" alt=""><br>
 而Java的<a href="https://zh.wikipedia.org/wiki/Log4j">log4j</a>将日志分为以下七种日志级别：<br>
 <img src="https://static001.geekbang.org/resource/image/e0/78/e07a0aefb9039788d17921e192394f78.jpg?wh=1920x1080" alt=""></p><!-- [[[read_end]]] --><p>其实仔细看，它们的日志级别差别都不大。比如都同意用Error级别代表运行时的错误情况，而Warn级别代表运行时可以弥补的错误、Info级别代表运行时信息、debug代表调试的时候需要打印的信息。</p><p>不同点就在是否有trace级别以及Error级别往上的级别定义。syslog没有trace级别，而在Error级别往上分别定义了Emergency级别、Alert级别、Critical级别。而log4j在ERROR上定义了两个级别FATAL和OFF，也同时保留了Trace级别。</p><p>在我看来，syslog和log4j的日志区分主要是由于场景不同。syslog比较偏向于<strong>操作系统的使用场景</strong>，它的分级语义更多是告诉我们系统的情况，比如Alert这个级别表示“系统有问题，需要立即采取行动”；而log4j的日志级别定义是<strong>从一个应用出发的</strong>，它的影响范围理论上会小一些，所以它很难定义比如像“需要立即采取行动”这样的级别。</p><p>所以，这里我们主要参考log4j的日志级别方法，并做了一些小调整，归并为下列七种日志级别：</p><ul>

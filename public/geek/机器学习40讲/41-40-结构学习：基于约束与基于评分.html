@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>看完了参数学习，我们再来看看结构学习。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>看完了参数学习，我们再来看看结构学习。</p>
+
 <p><strong>结构学习</strong>（structure learning）的任务是找到与数据匹配度最高的网络结构，需要同时学习未知图模型的结构和参数。这也很容易理解：模型的结构都不知道，参数自然也是不知道的，所以需要一并来学习。<strong>结构学习的任务是根据训练数据集找到结构最恰当的模型</strong>，这无疑比参数学习要复杂得多，也有更多的不确定性。</p>
 <p>对图模型进行结构学习的目的有两个。一方面在于<strong>知识发现</strong>（knowledge discovery），根据因变量的结果来判定自变量之间的依赖关系；另一方面则在于<strong>密度估计</strong>（density estimation），估计出数据分布的特性，据此对新样本进行推断。</p>
 <p>对图模型进行结构学习有哪些方法呢？主要有三种，分别是<strong>基于约束的学习</strong>、<strong>基于评分的学习</strong>和<strong>基于回归的学习</strong>，这三种方法都可以应用在有向的贝叶斯网络和无向的马尔可夫随机场中，但在下面的介绍中我将以较为简单的贝叶斯网络为例。</p>

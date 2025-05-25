@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是陈天。</p><p>今天我们来看看 trait object 是如何在实战中使用的。</p><p>照例先来回顾一下 trait object。当我们在运行时想让某个具体类型，只表现出某个 trait 的行为，可以通过将其赋值给一个 dyn T，无论是 &amp;dyn T，还是 Box&lt;dyn T&gt;，还是 Arc&lt;dyn T&gt;，都可以，这里，T 是当前数据类型实现的某个 trait。此时，原有的类型被抹去，Rust 会创建一个 trait object，并为其分配满足该 trait 的 vtable。</p><p>你可以再阅读一下<a href="https://time.geekbang.org/column/article/420028">第 13 讲</a>的这个图，来回顾 trait object 是怎么回事：<br>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是陈天。</p><p>今天我们来看看 trait object 是如何在实战中使用的。</p><p>照例先来回顾一下 trait object。当我们在运行时想让某个具体类型，只表现出某个 trait 的行为，可以通过将其赋值给一个 dyn T，无论是 &amp;dyn T，还是 Box&lt;dyn T&gt;，还是 Arc&lt;dyn T&gt;，都可以，这里，T 是当前数据类型实现的某个 trait。此时，原有的类型被抹去，Rust 会创建一个 trait object，并为其分配满足该 trait 的 vtable。</p><p>你可以再阅读一下<a href="https://time.geekbang.org/column/article/420028">第 13 讲</a>的这个图，来回顾 trait object 是怎么回事：<br>
+
 <img src="https://static001.geekbang.org/resource/image/49/1d/4900097edab0yye11233e14ef857be1d.jpg?wh=2248x1370" alt=""></p><p>在编译 dyn T 时，Rust 会为使用了 trait object 类型的 trait 实现，生成相应的 vtable，放在可执行文件中（一般在 TEXT 或 RODATA 段）：<br>
 <img src="https://static001.geekbang.org/resource/image/9d/5e/9ddeafee9740e891f6bf9c1584e6905e.jpg?wh=2389x1738" alt=""></p><p>这样，当 trait object 调用 trait 的方法时，它会先从 vptr 中找到对应的 vtable，进而找到对应的方法来执行。</p><p>使用 trait object 的好处是，<strong>当在某个上下文中需要满足某个 trait 的类型，且这样的类型可能有很多，当前上下文无法确定会得到哪一个类型时，我们可以用 trait object 来统一处理行为</strong>。和泛型参数一样，trait object 也是一种延迟绑定，它让决策可以延迟到运行时，从而得到最大的灵活性。</p><!-- [[[read_end]]] --><p>当然，有得必有失。trait object 把决策延迟到运行时，带来的后果是执行效率的打折。在 Rust 里，函数或者方法的执行就是一次跳转指令，而 trait object 方法的执行还多一步，它涉及额外的内存访问，才能得到要跳转的位置再进行跳转，执行的效率要低一些。</p><p>此外，如果要把 trait object 作为返回值返回，或者要在线程间传递 trait object，都免不了使用 Box&lt;dyn T&gt; 或者 Arc&lt;dyn T&gt;，会带来额外的堆分配的开销。</p><p>好，对 trait object 的回顾就到这里，如果你对它还一知半解，请复习<a href="https://time.geekbang.org/column/article/420028"> 13 讲</a>，并且阅读 Rust book 里的：<a href="https://doc.rust-lang.org/book/ch17-02-trait-objects.html">Using Trait Objects that allow for values of different types</a>。接下来我们讲讲实战中 trait object 的主要使用场景。</p><h2>在函数中使用 trait object</h2><p>我们可以在函数的参数或者返回值中使用 trait object。</p><p>先来看在参数中使用 trait object。下面的代码构建了一个 Executor trait，并对比做静态分发的 impl Executor、做动态分发的 &amp;dyn Executor 和 Box&lt;dyn Executor&gt; 这几种不同的参数的使用：</p><pre><code class="language-rust">use std::{error::Error, process::Command};
 

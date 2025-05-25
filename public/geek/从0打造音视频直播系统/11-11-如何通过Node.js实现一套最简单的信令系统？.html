@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>通过前面几篇文章的讲解，我想现在你应该已经对 WebRTC 有了一个清楚的认知了。接下来的章节咱们就使用 WebRTC 逐步实现一套真实可用的 1 对 1 实时直播系统吧。</p><p>WebRTC 1.0 规范对 WebRTC 要实现的功能、API 等相关信息做了大量的约束，比如规范中定义了如何采集音视频数据、如何录制以及如何传输等。甚至更细的，还定义了都有哪些 API，以及这些API 的作用是什么。但这些约束只针对于客户端，并没有对服务端做任何限制。</p><p>那WebRTC规范中为什么不对服务器也做约束呢？其实，这样做有以下三点好处。</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>通过前面几篇文章的讲解，我想现在你应该已经对 WebRTC 有了一个清楚的认知了。接下来的章节咱们就使用 WebRTC 逐步实现一套真实可用的 1 对 1 实时直播系统吧。</p><p>WebRTC 1.0 规范对 WebRTC 要实现的功能、API 等相关信息做了大量的约束，比如规范中定义了如何采集音视频数据、如何录制以及如何传输等。甚至更细的，还定义了都有哪些 API，以及这些API 的作用是什么。但这些约束只针对于客户端，并没有对服务端做任何限制。</p><p>那WebRTC规范中为什么不对服务器也做约束呢？其实，这样做有以下三点好处。</p><ul>
+
 <li><strong>第一点，可以集中精力将 WebRTC 库做好</strong>。WebRTC的愿景是使浏览器能够方便地处理音视频相关的应用，规范中不限制服务端的事儿，可以使它更聚焦。</li>
 <li><strong>第二点，让用户更好地对接业务</strong>。你也清楚，信令服务器一般都与公司的业务有着密切的关系，每家公司的业务都各有特色，让它们按照自已的业务去实现信令服务器会更符合它们的要求。</li>
 <li><strong>第三点，能得到更多公司的支持</strong>。WebRTC扩展了浏览器的基础设施及能力，而不涉及到具体的业务或产品，这样会更容易得到像苹果、微软这种大公司的支持，否则这些大公司之间就会产生抗衡。</li>

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>Golang是一门号称从语言层面支持并发的编程语言，支持并发是Golang一个非常重要的特性。在上一篇文章<a href="https://time.geekbang.org/column/article/99787">《44 | 协程：更轻量级的线程》</a>中我们介绍过，Golang支持协程，协程可以类比Java中的线程，解决并发问题的难点就在于线程（协程）之间的协作。</p><p>那Golang是如何解决协作问题的呢？</p><p>总的来说，Golang提供了两种不同的方案：一种方案支持协程之间以共享内存的方式通信，Golang提供了管程和原子类来对协程进行同步控制，这个方案与Java语言类似；另一种方案支持协程之间以消息传递（Message-Passing）的方式通信，本质上是要避免共享，Golang的这个方案是基于<strong>CSP</strong>（Communicating Sequential Processes）模型实现的。Golang比较推荐的方案是后者。</p><h2>什么是CSP模型</h2><p>我们在<a href="https://time.geekbang.org/column/article/98903">《42 | Actor模型：面向对象原生的并发模型》</a>中介绍了Actor模型，Actor模型中Actor之间就是不能共享内存的，彼此之间通信只能依靠消息传递的方式。Golang实现的CSP模型和Actor模型看上去非常相似，Golang程序员中有句格言：“<strong>不要以共享内存方式通信，要以通信方式共享内存</strong>（Don’t communicate by sharing memory, share memory by communicating）。”虽然Golang中协程之间，也能够以共享内存的方式通信，但是并不推荐；而推荐的以通信的方式共享内存，实际上指的就是协程之间以消息传递方式来通信。</p><!-- [[[read_end]]] --><p>下面我们先结合一个简单的示例，看看Golang中协程之间是如何以消息传递的方式实现通信的。我们示例的目标是打印从1累加到100亿的结果，如果使用单个协程来计算，大概需要4秒多的时间。单个协程，只能用到CPU中的一个核，为了提高计算性能，我们可以用多个协程来并行计算，这样就能发挥多核的优势了。</p><p>在下面的示例代码中，我们用了4个子协程来并行执行，这4个子协程分别计算[1, 25亿]、(25亿,  50亿]、(50亿, 75亿]、(75亿, 100亿]，最后再在主协程中汇总4个子协程的计算结果。主协程要汇总4个子协程的计算结果，势必要和4个子协程之间通信，<strong>Golang中协程之间通信推荐的是使用channel</strong>，channel你可以形象地理解为现实世界里的管道。另外，calc()方法的返回值是一个只能接收数据的channel ch，它创建的子协程会把计算结果发送到这个ch中，而主协程也会将这个计算结果通过ch读取出来。</p><pre><code>import (
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>Golang是一门号称从语言层面支持并发的编程语言，支持并发是Golang一个非常重要的特性。在上一篇文章<a href="https://time.geekbang.org/column/article/99787">《44 | 协程：更轻量级的线程》</a>中我们介绍过，Golang支持协程，协程可以类比Java中的线程，解决并发问题的难点就在于线程（协程）之间的协作。</p><p>那Golang是如何解决协作问题的呢？</p><p>总的来说，Golang提供了两种不同的方案：一种方案支持协程之间以共享内存的方式通信，Golang提供了管程和原子类来对协程进行同步控制，这个方案与Java语言类似；另一种方案支持协程之间以消息传递（Message-Passing）的方式通信，本质上是要避免共享，Golang的这个方案是基于<strong>CSP</strong>（Communicating Sequential Processes）模型实现的。Golang比较推荐的方案是后者。</p><h2>什么是CSP模型</h2><p>我们在<a href="https://time.geekbang.org/column/article/98903">《42 | Actor模型：面向对象原生的并发模型》</a>中介绍了Actor模型，Actor模型中Actor之间就是不能共享内存的，彼此之间通信只能依靠消息传递的方式。Golang实现的CSP模型和Actor模型看上去非常相似，Golang程序员中有句格言：“<strong>不要以共享内存方式通信，要以通信方式共享内存</strong>（Don’t communicate by sharing memory, share memory by communicating）。”虽然Golang中协程之间，也能够以共享内存的方式通信，但是并不推荐；而推荐的以通信的方式共享内存，实际上指的就是协程之间以消息传递方式来通信。</p><!-- [[[read_end]]] --><p>下面我们先结合一个简单的示例，看看Golang中协程之间是如何以消息传递的方式实现通信的。我们示例的目标是打印从1累加到100亿的结果，如果使用单个协程来计算，大概需要4秒多的时间。单个协程，只能用到CPU中的一个核，为了提高计算性能，我们可以用多个协程来并行计算，这样就能发挥多核的优势了。</p><p>在下面的示例代码中，我们用了4个子协程来并行执行，这4个子协程分别计算[1, 25亿]、(25亿,  50亿]、(50亿, 75亿]、(75亿, 100亿]，最后再在主协程中汇总4个子协程的计算结果。主协程要汇总4个子协程的计算结果，势必要和4个子协程之间通信，<strong>Golang中协程之间通信推荐的是使用channel</strong>，channel你可以形象地理解为现实世界里的管道。另外，calc()方法的返回值是一个只能接收数据的channel ch，它创建的子协程会把计算结果发送到这个ch中，而主协程也会将这个计算结果通过ch读取出来。</p><pre><code>import (
+
 	&quot;fmt&quot;
 	&quot;time&quot;
 )

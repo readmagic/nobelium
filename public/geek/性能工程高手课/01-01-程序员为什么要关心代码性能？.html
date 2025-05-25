@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是庄振运。</p><p>感谢你加入这个专栏的学习，我也非常高兴能有机会和你一起探索这个领域。</p><p>我在计算机和互联网行业已经研究和工作近 20 年了，一直从事<span class="orange">性能优化和容量管理</span>相关的工作。从今天起，我就和你分享我这些年的经验和感悟。</p><p>提起计算机和互联网，多数人首先想到的职业是程序员。中国有多少程序员呢？很多人估计有600万左右。全球的人数就更多了，肯定超过2000万。</p><p>我虽然也在互联网领域，也做过几年写程序的工作，但是现在的工作，严格意义上不算程序员，而是性能工程师。不过我和很多程序员朋友一起工作过，也讨论过。谈到性能优化和系统容量管理的时候，一开始他们经常会问我一个问题，就是程序员为什么需要了解性能和容量这些东西？通俗点说，这个问题就是：<span class="orange">我就是一介程序员，性能和系统容量听起来很重要，但与我何干？</span></p><p>这个问题问得很好。我可以和你肯定地说，程序员应该关心，也必须关心代码性能和系统容量。今天这一讲，我们先说说程序员为什么需要关心性能。</p><h2>怎么定义“性能”和 “性能好”？</h2><p>说起代码性能，首先我们需要弄清楚什么样的代码算是性能好？怎么样算是性能不好？</p><p>代码性能表现在很多方面和指标，比较常见的几个指标有吞吐量（Throughput）、服务延迟（Service latency）、扩展性（Scalability）和资源使用效率（Resource Utilization）。</p><!-- [[[read_end]]] --><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是庄振运。</p><p>感谢你加入这个专栏的学习，我也非常高兴能有机会和你一起探索这个领域。</p><p>我在计算机和互联网行业已经研究和工作近 20 年了，一直从事<span class="orange">性能优化和容量管理</span>相关的工作。从今天起，我就和你分享我这些年的经验和感悟。</p><p>提起计算机和互联网，多数人首先想到的职业是程序员。中国有多少程序员呢？很多人估计有600万左右。全球的人数就更多了，肯定超过2000万。</p><p>我虽然也在互联网领域，也做过几年写程序的工作，但是现在的工作，严格意义上不算程序员，而是性能工程师。不过我和很多程序员朋友一起工作过，也讨论过。谈到性能优化和系统容量管理的时候，一开始他们经常会问我一个问题，就是程序员为什么需要了解性能和容量这些东西？通俗点说，这个问题就是：<span class="orange">我就是一介程序员，性能和系统容量听起来很重要，但与我何干？</span></p><p>这个问题问得很好。我可以和你肯定地说，程序员应该关心，也必须关心代码性能和系统容量。今天这一讲，我们先说说程序员为什么需要关心性能。</p><h2>怎么定义“性能”和 “性能好”？</h2><p>说起代码性能，首先我们需要弄清楚什么样的代码算是性能好？怎么样算是性能不好？</p><p>代码性能表现在很多方面和指标，比较常见的几个指标有吞吐量（Throughput）、服务延迟（Service latency）、扩展性（Scalability）和资源使用效率（Resource Utilization）。</p><!-- [[[read_end]]] --><ul>
+
 <li>吞吐量：单位时间处理请求的数量。</li>
 <li>服务延迟：客户请求的处理时间。</li>
 <li>扩展性：系统在高压的情况下能不能正常处理请求。</li>

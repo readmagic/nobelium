@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是winter。</p><p>我们都知道，HTML已经是一个完整的语义系统。在前面的课程中，我们围绕着HTML本身做了讲解，但是在实际应用中，我们还会用到一些它的扩展。今天我们要讲的ARIA就是其中重要的一部分。</p><p>ARIA全称为Accessible Rich Internet Applications，它表现为一组属性，是用于可访问性的一份标准。关于可访问性，它被提到最多的，就是它可以为视觉障碍用户服务，但是，这是一个误解。</p><p>实际上，可访问性其实是一个相当大的课题，它的定义包含了各种设备访问、各种环境、各种人群访问的友好性。不单单是永久性的残障人士需要用到可访问性，健康的人也可能在特定时刻处于需要可访问性的环境。</p><p>我们今天讲的ARIA，是以交互形式来标注各种元素的一类属性，所以，在ARIA属性中，你可以看到很多熟悉的面孔，交互形式往往跟我们直觉中的“控件”非常相似。</p><p>所以我们的课程，特意把ARIA加入还有一个原因：ARIA的角色对于我们UI系统的设计有重要的参考意义。</p><h2>综述</h2><p>我们先整体来看看，ARIA给HTML元素添加的一个核心属性就是role，我们来看一个例子：</p><pre><code class="language-HTML">&lt;span role="checkbox" aria-checked="false" tabindex="0" aria-labelledby="chk1-label"&gt;
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是winter。</p><p>我们都知道，HTML已经是一个完整的语义系统。在前面的课程中，我们围绕着HTML本身做了讲解，但是在实际应用中，我们还会用到一些它的扩展。今天我们要讲的ARIA就是其中重要的一部分。</p><p>ARIA全称为Accessible Rich Internet Applications，它表现为一组属性，是用于可访问性的一份标准。关于可访问性，它被提到最多的，就是它可以为视觉障碍用户服务，但是，这是一个误解。</p><p>实际上，可访问性其实是一个相当大的课题，它的定义包含了各种设备访问、各种环境、各种人群访问的友好性。不单单是永久性的残障人士需要用到可访问性，健康的人也可能在特定时刻处于需要可访问性的环境。</p><p>我们今天讲的ARIA，是以交互形式来标注各种元素的一类属性，所以，在ARIA属性中，你可以看到很多熟悉的面孔，交互形式往往跟我们直觉中的“控件”非常相似。</p><p>所以我们的课程，特意把ARIA加入还有一个原因：ARIA的角色对于我们UI系统的设计有重要的参考意义。</p><h2>综述</h2><p>我们先整体来看看，ARIA给HTML元素添加的一个核心属性就是role，我们来看一个例子：</p><pre><code class="language-HTML">&lt;span role="checkbox" aria-checked="false" tabindex="0" aria-labelledby="chk1-label"&gt;
+
 &lt;/span&gt; &lt;label id="chk1-label"&gt;Remember my preferences&lt;/label&gt;
 </code></pre><!-- [[[read_end]]] --><p>这里我们给一个span添加了checkbox角色，这样，表示我们这个span被用于checkbox，这意味着，我们可能已经用JS代码绑定了这个span的click事件，并且以checkbox的交互方式来处理用户操作。</p><p>同时，ARIA系统还提供了一系列ARIA属性给checkbox这个role，这意味着，<strong>我们可以通过HTML属性变化来理解这个JavaScript组件的状态</strong>，读屏软件等三方客户端，就可以理解我们的UI变化，这正是ARIA标准的意义。</p><p>role的定义是一个树形的继承关系，我们先来理解一下它的整体结构：</p><p><img src="https://static001.geekbang.org/resource/image/ae/69/aeccf64871b309735054912fbbb18a69.jpg" alt=""></p><p>其中，widget表示一些可交互的组件，structure表示文档中的结构，window则代表窗体。</p><p>接下来，让我们分类了解一下重要的ARIA角色。</p><h2>Widget角色</h2><p>我们刚刚已经讲过一个widget role，就是checkbox。</p><p>这一类角色跟我们桌面开发中的控件类似，它表示一个可交互的组件，它们有：</p><p><img src="https://static001.geekbang.org/resource/image/10/dd/10ea9eb62d60fb4bfb18c27da50836dd.jpg" alt=""></p><p>我们这里按照继承关系给出一份列表和简要说明：</p><p><img src="https://static001.geekbang.org/resource/image/03/f1/038e1152c9bddc7ed864d271691d17f1.jpeg" alt=""></p><p>ARIA role允许多继承，这里有些角色我没有重复写。</p><p>注意，这些role可以出现在任何一个HTML元素之上，同时要注意，这些ARIA属性，不会真实地改变任何一个元素的行为，比如，我们刚才讲的checkbox，即使我们给一个span添加了Checkbox角色，我们也需要用JavaScript编写相应的逻辑。</p><p>这些widget同时还会带来对应的ARIA属性，比如，我们的Checkbox角色，会带来两个属性：</p><ul>
 <li>aria-checked 表示复选框是否已经被选中；</li>

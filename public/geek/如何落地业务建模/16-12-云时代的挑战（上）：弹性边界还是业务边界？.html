@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是徐昊。今天我们来聊聊云原生架构中弹性边界对业务建模的影响。</p><p>通过前面旧约部分的学习，我想可能会给你留下这么一种印象，4-6节和7-9节分别给领域驱动设计打了两个大补丁：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是徐昊。今天我们来聊聊云原生架构中弹性边界对业务建模的影响。</p><p>通过前面旧约部分的学习，我想可能会给你留下这么一种印象，4-6节和7-9节分别给领域驱动设计打了两个大补丁：</p><ul>
+
 <li>通过不同的上下文对象，弥补原生对象模型从单体架构过渡到多层架构时的各种水土不服；</li>
 <li>通过不同的建模方法，从业务维度展开入手，以不同的角度寻找可以被建模成对象的领域概念。</li>
 </ul><p>最终经由我们打过补丁的业务建模方法，就是一种<strong>在领域驱动框架下，从业务角度出发，又兼顾了架构约束的特殊的面向对象建模法</strong>（Object Oriented Modeling）。</p><p>如果你希望达到如下的诉求：</p><ul>

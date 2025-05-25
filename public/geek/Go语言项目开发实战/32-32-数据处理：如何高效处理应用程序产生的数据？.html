@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是孔令飞。今天我们来聊聊，如何更好地进行异步数据处理。</p><p>一个大型应用为了后期的排障、运营等，会将一些请求数据保存在存储系统中，供日后使用。例如：应用将请求日志保存到 Elasticsearch 中，方便排障；网关将 API 请求次数、请求消息体等数据保存在数据库中，供控制台查询展示。</p><p>为了满足这些需求，我们需要进行数据采集，数据采集在大型应用中很常见，但我发现不少开发者设计的数据采集服务，通常会存在下面这些问题：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是孔令飞。今天我们来聊聊，如何更好地进行异步数据处理。</p><p>一个大型应用为了后期的排障、运营等，会将一些请求数据保存在存储系统中，供日后使用。例如：应用将请求日志保存到 Elasticsearch 中，方便排障；网关将 API 请求次数、请求消息体等数据保存在数据库中，供控制台查询展示。</p><p>为了满足这些需求，我们需要进行数据采集，数据采集在大型应用中很常见，但我发现不少开发者设计的数据采集服务，通常会存在下面这些问题：</p><ul>
+
 <li>采集服务只针对某个采集需求开发，如果采集需求有变，需要修改主代码逻辑，代码改动势必会带来潜在的 Bug，增加开发测试工作量。</li>
 <li>数据采集服务会导致已有的服务请求延时变高。</li>
 <li>采集数据性能差，需要较长时间才能采集完一批数据。</li>

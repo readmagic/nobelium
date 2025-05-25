@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>作为一个程序员，在这个技术快速发展的时代，我们唯有不断学习，才能保证自己不为时代所抛弃。那你是怎么跟上技术发展步伐的呢？</p><p>就个人经验而言，我会关注一些技术网站，最典型的就是 InfoQ。这样，我可以快速了解到技术发展的动向，比如，什么时候出了个新东西、哪个项目又有了重大的更新、某些技术有了哪些新的应用场景等等。</p><p>另外，我还有一种更系统地了解新知识的方式：ThoughtWorks 技术雷达。之所以我很喜欢这种方式，因为它是<strong>“可视化”</strong>的。</p><h2>什么是技术雷达？</h2><p><a href="http://www.thoughtworks.com/radar">ThoughtWorks 技术雷达</a>是由 ThoughtWorks 技术咨询委员会（Technology Advisory Board）编写的一份技术趋势报告，每6个月发布一次。ThoughtWorks 的项目多样性足够丰富，所以它能够发现诸多技术趋势。因此，相比于行业中其它的预测报告，技术雷达更加具体，更具可操作性。</p><p>ThoughtWorks 是我的老东家，所以，我在接触技术雷达的时间很早。我在2013年就已经开始与人讨论微服务，并在项目中尝试使用 Docker，而这一切信息的来源都是技术雷达。不过，我这里想和你讨论并不是技术雷达到底有多优秀，而是带你看看技术雷达这种组织知识的可视化形式。<br>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>作为一个程序员，在这个技术快速发展的时代，我们唯有不断学习，才能保证自己不为时代所抛弃。那你是怎么跟上技术发展步伐的呢？</p><p>就个人经验而言，我会关注一些技术网站，最典型的就是 InfoQ。这样，我可以快速了解到技术发展的动向，比如，什么时候出了个新东西、哪个项目又有了重大的更新、某些技术有了哪些新的应用场景等等。</p><p>另外，我还有一种更系统地了解新知识的方式：ThoughtWorks 技术雷达。之所以我很喜欢这种方式，因为它是<strong>“可视化”</strong>的。</p><h2>什么是技术雷达？</h2><p><a href="http://www.thoughtworks.com/radar">ThoughtWorks 技术雷达</a>是由 ThoughtWorks 技术咨询委员会（Technology Advisory Board）编写的一份技术趋势报告，每6个月发布一次。ThoughtWorks 的项目多样性足够丰富，所以它能够发现诸多技术趋势。因此，相比于行业中其它的预测报告，技术雷达更加具体，更具可操作性。</p><p>ThoughtWorks 是我的老东家，所以，我在接触技术雷达的时间很早。我在2013年就已经开始与人讨论微服务，并在项目中尝试使用 Docker，而这一切信息的来源都是技术雷达。不过，我这里想和你讨论并不是技术雷达到底有多优秀，而是带你看看技术雷达这种组织知识的可视化形式。<br>
+
 <img src="https://static001.geekbang.org/resource/image/85/40/856da8d06911c547f59c845aa1e94f40.jpg" alt=""></p><!-- [[[read_end]]] --><p>（图片来源：<a href="http://www.thoughtworks.com/radar">ThoughtWorks 技术雷达</a>）</p><p>技术雷达用来追踪技术，在雷达图的术语里，每一项技术表示为一个 blip，也就是雷达上的一个光点。</p><p>然后用两个分类元素组织这些 blip：象限（quadrant）和圆环（ring），其中，象限表示一个 blip 的种类，目前有四个种类：技术、平台、工具，还有语言与框架。</p><p>圆环表示一个 blip 在技术采纳生命周期中所处的阶段，目前这个生命周期包含四个阶段：采用（Adopt）、试验（Trial）、评估（Assess）和暂缓（Hold）。</p><p>每次技术雷达发布之后，我会特别关注一下<strong>“采用”</strong> 和 <strong>“暂缓”</strong>两项。</p><p>“采用”表示强烈推荐，我会去对比一下自己在实际应用中是否用到了，比如，在2018年11月的技术雷达中，事件风暴（Event Storming）放到了“采用”中，如果你还不了解 <a href="http://www.eventstorming.com">事件风暴</a> 是什么，强烈建议你点击链接了解一下。</p><p><strong>“暂缓”</strong> 则表示新项目别再用这项技术了，这会给我提个醒，这项技术可能已经有了更优秀的替代品，比如，Java世界中最常见的构建工具 Maven 很早就放到了<strong>“暂缓”</strong>项中，但时至今日，很多人启动新项目依然会选择 Maven，多半这些人并不了解技术趋势。</p><p>从这几年的发展趋势来看，技术雷达在“采用”和“暂缓”这两项上给出的推荐，大部分是靠谱的。</p><p>至于“试验”和“评估”两项，有时间的时候，我会慢慢看，因为它们多半属于新兴技术的试验区，主要的作用是用来让我开拓视野的。</p><p><strong>雷达图是一种很好的将知识分类组织的形式，它可以让你一目了然地看到并了解所有知识点，并根据自己的需要，决定是否深入了解。</strong></p><p>所以，我的前同事们借鉴了这个形式，做出了一个程序员的读书雷达，将程序员的应该阅读的书籍做了一个整理。<br>
 <img src="https://static001.geekbang.org/resource/image/a3/70/a3458d87858d50b0b638c8d5c1f3bd70.png" alt=""><br>
 （图片来源：<a href="http://insights.thoughtworkers.org/reading-radar-2016/">ThoughtWorks读书雷达</a>）</p><p>事实上，这种将内容通过可视化方式的组织起来的形式非常好用，ThoughtWorks 鼓励每个组织都建立自己的知识雷达，甚至提供了一个工具辅助你将雷达图构建出来。</p><p><strong>在我看来，雷达图不仅仅适用于组织，也可以适用于团队。</strong></p><p>我也曾经按照雷达图的方式将自己的团队用到的技术组织起来。把最需要了解的技术必须放在内环，比如：一个 Java 项目。我会要求程序员了解 Java，向外扩展的就是你在这个团队内工作会逐渐接触到的技术，比如，像 Docker 这种与部署相关的知识。至于最外面一层，就是被我们放弃掉的技术，比如，Maven。</p><p>这样一来，团队成员可以更清晰地了解到团队中所用的技术。当有新人加入团队时，这个雷达可以帮助新人迅速地抓住重点，他的学习路径就是从内环向外学习。所以，我也推荐你打造自己团队的技术雷达。</p><blockquote>

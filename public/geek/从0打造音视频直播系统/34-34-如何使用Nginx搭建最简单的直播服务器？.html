@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>在前面三篇文章中，我们介绍了传统直播系统架构、HLS协议、RTMP协议相关的知识，那今天我们就来具体实操一下，根据前面所学到的知识搭建出一套最简单的音视频直播系统。</p><p>今天我们要搭建的这套直播系统相较于<a href="https://time.geekbang.org/column/article/140181">《31 | 一对多直播系统RTMP/HLS，你该选哪个？》</a>一文中介绍的直播系统要简单得多。该系统不包括客户端、没有 CDN分发，只包括最基本的推流、转发及拉流功能。虽然它简单了一点，但麻雀虽小五脏俱全，通过这样一个实战操作，我们就可以将前面讲解的理论与实际结合到一起了。</p><p>当然，作为一个直播系统来说，客户端是必不可少的。但由于时间和篇幅的原因，我们只能借助一些现成的或者开源的客户端对我们的直播系统进行测试了，所以客户端的界面可能会简陋一些。也正因为如此，我才没有将它们算作咱们这个直播实验平台之中。</p><p>实际上，我们完全可以以这个直播系统实验平台为原型，逐步地将一些功能添加进去，这样很快就可以构建出一套商业可用的传统直播系统了。</p><h2>直播系统架构</h2><p>在正式开始实战之前，我们先来简要介绍一下这个直播系统的架构，如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/68/e3/68f233981343fca6aac7557baa79b1e3.png" alt=""></p><center><span class="reference">最简单的直播系统</span></center><p>这个直播架构非常简单，由两部分组成，即<strong>媒体服务器</strong>和<strong>客户端</strong>。</p><p>媒体服务器有两个功能：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>在前面三篇文章中，我们介绍了传统直播系统架构、HLS协议、RTMP协议相关的知识，那今天我们就来具体实操一下，根据前面所学到的知识搭建出一套最简单的音视频直播系统。</p><p>今天我们要搭建的这套直播系统相较于<a href="https://time.geekbang.org/column/article/140181">《31 | 一对多直播系统RTMP/HLS，你该选哪个？》</a>一文中介绍的直播系统要简单得多。该系统不包括客户端、没有 CDN分发，只包括最基本的推流、转发及拉流功能。虽然它简单了一点，但麻雀虽小五脏俱全，通过这样一个实战操作，我们就可以将前面讲解的理论与实际结合到一起了。</p><p>当然，作为一个直播系统来说，客户端是必不可少的。但由于时间和篇幅的原因，我们只能借助一些现成的或者开源的客户端对我们的直播系统进行测试了，所以客户端的界面可能会简陋一些。也正因为如此，我才没有将它们算作咱们这个直播实验平台之中。</p><p>实际上，我们完全可以以这个直播系统实验平台为原型，逐步地将一些功能添加进去，这样很快就可以构建出一套商业可用的传统直播系统了。</p><h2>直播系统架构</h2><p>在正式开始实战之前，我们先来简要介绍一下这个直播系统的架构，如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/68/e3/68f233981343fca6aac7557baa79b1e3.png" alt=""></p><center><span class="reference">最简单的直播系统</span></center><p>这个直播架构非常简单，由两部分组成，即<strong>媒体服务器</strong>和<strong>客户端</strong>。</p><p>媒体服务器有两个功能：</p><ul>
+
 <li>推流功能，可以让客户端通过 RTMP 协议将音视频流推送到媒体服务器上；</li>
 <li>拉流功能，可以让客户端从媒体服务器上拉取 RTMP/HLS 流。</li>
 </ul><!-- [[[read_end]]] --><p>实际上，这个架构与我们前面介绍的传统直播架构相比是有变化的，减少了信令服务器，同时将 CDN 网络变成了一台流媒体服务器。但理解了整个直播架构的原理后，我们就可以快速地将这个简单的直播架构恢复成一个正式的、可商用的直播系统。</p><p>那对于我们这个简化的直播系统来说，如何实现架构中的媒体服务器呢？</p><p>这里我们使用了目前最流行的 Nginx 来实现它。之所以选用 Nginx 主要出于以下两方面的原因：</p><ul>

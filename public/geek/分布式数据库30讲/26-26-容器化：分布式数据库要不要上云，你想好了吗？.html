@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是王磊，你也可以叫我Ivan。</p><p>今天，我想和你分享的话题是分布式数据库的容器化部署。当数据库遇到容器，我知道这一定是个很有争议的话题。但是，在容器化技术大规模落地的背景下，这也是一个无法回避的话题。</p><p>容器化技术可以将资源虚拟化，从而更灵活快速地调配。容器镜像为应用打包提供了完美的解决方案，也为DevOps理念的落地扫清了技术障碍。可以说，容器已经成为现代软件工程化的基础设施，容器化已经成为一个不可逆的发展趋势。</p><p>但是，具体谈到数据库的容器化，我们又有太多的纠结。常见的反对意见就是数据库因为有状态、高I/O消耗和稳定运行等要求，所以不适合容器化部署。</p><p>那么，随着技术的快速发展，这些理由是不是还成立呢？为了说清楚这个问题，我们先来介绍一些Kubernetes的基本概念。</p><h2>Kubernetes基本概念</h2><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是王磊，你也可以叫我Ivan。</p><p>今天，我想和你分享的话题是分布式数据库的容器化部署。当数据库遇到容器，我知道这一定是个很有争议的话题。但是，在容器化技术大规模落地的背景下，这也是一个无法回避的话题。</p><p>容器化技术可以将资源虚拟化，从而更灵活快速地调配。容器镜像为应用打包提供了完美的解决方案，也为DevOps理念的落地扫清了技术障碍。可以说，容器已经成为现代软件工程化的基础设施，容器化已经成为一个不可逆的发展趋势。</p><p>但是，具体谈到数据库的容器化，我们又有太多的纠结。常见的反对意见就是数据库因为有状态、高I/O消耗和稳定运行等要求，所以不适合容器化部署。</p><p>那么，随着技术的快速发展，这些理由是不是还成立呢？为了说清楚这个问题，我们先来介绍一些Kubernetes的基本概念。</p><h2>Kubernetes基本概念</h2><ol>
+
 <li>
 <h3>Container</h3>
 </li>

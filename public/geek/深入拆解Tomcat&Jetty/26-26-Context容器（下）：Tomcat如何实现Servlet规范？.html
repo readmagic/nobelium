@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>我们知道，Servlet容器最重要的任务就是创建Servlet的实例并且调用Servlet，在前面两期我谈到了Tomcat如何定义自己的类加载器来加载Servlet，但加载Servlet的类不等于创建Servlet的实例，类加载只是第一步，类加载好了才能创建类的实例，也就是说Tomcat先加载Servlet的类，然后在Java堆上创建了一个Servlet实例。</p><p>一个Web应用里往往有多个Servlet，而在Tomcat中一个Web应用对应一个Context容器，也就是说一个Context容器需要管理多个Servlet实例。但Context容器并不直接持有Servlet实例，而是通过子容器Wrapper来管理Servlet，你可以把Wrapper容器看作是Servlet的包装。</p><p>那为什么需要Wrapper呢？Context容器直接维护一个Servlet数组不就行了吗？这是因为Servlet不仅仅是一个类实例，它还有相关的配置信息，比如它的URL映射、它的初始化参数，因此设计出了一个包装器，把Servlet本身和它相关的数据包起来，没错，这就是面向对象的思想。</p><p>那管理好Servlet就完事大吉了吗？别忘了Servlet还有两个兄弟：Listener和Filter，它们也是Servlet规范中的重要成员，因此Tomcat也需要创建它们的实例，也需要在合适的时机去调用它们的方法。</p><!-- [[[read_end]]] --><p>说了那么多，下面我们就来聊一聊Tomcat是如何做到上面这些事的。</p><h2>Servlet管理</h2><p>前面提到，Tomcat是用Wrapper容器来管理Servlet的，那Wrapper容器具体长什么样子呢？我们先来看看它里面有哪些关键的成员变量：</p><pre><code>protected volatile Servlet instance = null;
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>我们知道，Servlet容器最重要的任务就是创建Servlet的实例并且调用Servlet，在前面两期我谈到了Tomcat如何定义自己的类加载器来加载Servlet，但加载Servlet的类不等于创建Servlet的实例，类加载只是第一步，类加载好了才能创建类的实例，也就是说Tomcat先加载Servlet的类，然后在Java堆上创建了一个Servlet实例。</p><p>一个Web应用里往往有多个Servlet，而在Tomcat中一个Web应用对应一个Context容器，也就是说一个Context容器需要管理多个Servlet实例。但Context容器并不直接持有Servlet实例，而是通过子容器Wrapper来管理Servlet，你可以把Wrapper容器看作是Servlet的包装。</p><p>那为什么需要Wrapper呢？Context容器直接维护一个Servlet数组不就行了吗？这是因为Servlet不仅仅是一个类实例，它还有相关的配置信息，比如它的URL映射、它的初始化参数，因此设计出了一个包装器，把Servlet本身和它相关的数据包起来，没错，这就是面向对象的思想。</p><p>那管理好Servlet就完事大吉了吗？别忘了Servlet还有两个兄弟：Listener和Filter，它们也是Servlet规范中的重要成员，因此Tomcat也需要创建它们的实例，也需要在合适的时机去调用它们的方法。</p><!-- [[[read_end]]] --><p>说了那么多，下面我们就来聊一聊Tomcat是如何做到上面这些事的。</p><h2>Servlet管理</h2><p>前面提到，Tomcat是用Wrapper容器来管理Servlet的，那Wrapper容器具体长什么样子呢？我们先来看看它里面有哪些关键的成员变量：</p><pre><code>protected volatile Servlet instance = null;
+
 </code></pre><p>毫无悬念，它拥有一个Servlet实例，并且Wrapper通过loadServlet方法来实例化Servlet。为了方便你阅读，我简化了代码：</p><pre><code>public synchronized Servlet loadServlet() throws ServletException {
     Servlet servlet;
   

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是胡夕。</p><p>上节课我们学习了ReplicaManager类源码中副本管理器是如何执行副本读写操作的。现在我们知道了，这个副本读写操作主要是通过appendRecords和fetchMessages这两个方法实现的，而这两个方法其实在底层分别调用了Log的append和read方法，也就是我们在<a href="https://time.geekbang.org/column/article/225993">第3节课</a>中学到的日志消息写入和日志消息读取方法。</p><p>今天，我们继续学习ReplicaManager类源码，看看副本管理器是如何管理副本的。这里的副本，涵盖了广义副本对象的方方面面，包括副本和分区对象、副本位移值和ISR管理等。因此，本节课我们结合着源码，具体学习下这几个方面。</p><h2>分区及副本管理</h2><p>除了对副本进行读写之外，副本管理器还有一个重要的功能，就是管理副本和对应的分区。ReplicaManager管理它们的方式，是通过字段allPartitions来实现的。</p><p>所以，我想先带你复习下<a href="https://time.geekbang.org/column/article/249682">第23节课</a>中的allPartitions的代码。不过，这次为了强调它作为容器的属性，我们要把注意力放在它是对象池这个特点上，即allPartitions把所有分区对象汇集在一起，统一放入到一个对象池进行管理。</p><pre><code>private val allPartitions = new Pool[TopicPartition, HostedPartition](
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是胡夕。</p><p>上节课我们学习了ReplicaManager类源码中副本管理器是如何执行副本读写操作的。现在我们知道了，这个副本读写操作主要是通过appendRecords和fetchMessages这两个方法实现的，而这两个方法其实在底层分别调用了Log的append和read方法，也就是我们在<a href="https://time.geekbang.org/column/article/225993">第3节课</a>中学到的日志消息写入和日志消息读取方法。</p><p>今天，我们继续学习ReplicaManager类源码，看看副本管理器是如何管理副本的。这里的副本，涵盖了广义副本对象的方方面面，包括副本和分区对象、副本位移值和ISR管理等。因此，本节课我们结合着源码，具体学习下这几个方面。</p><h2>分区及副本管理</h2><p>除了对副本进行读写之外，副本管理器还有一个重要的功能，就是管理副本和对应的分区。ReplicaManager管理它们的方式，是通过字段allPartitions来实现的。</p><p>所以，我想先带你复习下<a href="https://time.geekbang.org/column/article/249682">第23节课</a>中的allPartitions的代码。不过，这次为了强调它作为容器的属性，我们要把注意力放在它是对象池这个特点上，即allPartitions把所有分区对象汇集在一起，统一放入到一个对象池进行管理。</p><pre><code>private val allPartitions = new Pool[TopicPartition, HostedPartition](
+
   valueFactory = Some(tp =&gt; HostedPartition.Online(Partition(tp, time, this)))
 )
 </code></pre><!-- [[[read_end]]] --><p>从代码可以看到，每个ReplicaManager实例都维护了所在Broker上保存的所有分区对象，而每个分区对象Partition下面又定义了一组副本对象Replica。通过这样的层级关系，副本管理器实现了对于分区的直接管理和对副本对象的间接管理。应该这样说，<strong>ReplicaManager通过直接操作分区对象来间接管理下属的副本对象</strong>。</p><p>对于一个Broker而言，它管理下辖的分区和副本对象的主要方式，就是要确定在它保存的这些副本中，哪些是Leader副本、哪些是Follower副本。</p><p>这些划分可不是一成不变的，而是随着时间的推移不断变化的。比如说，这个时刻Broker是分区A的Leader副本、分区B的Follower副本，但在接下来的某个时刻，Broker很可能变成分区A的Follower副本、分区B的Leader副本。</p><p>而这些变更是通过Controller给Broker发送LeaderAndIsrRequest请求来实现的。当Broker端收到这类请求后，会调用副本管理器的becomeLeaderOrFollower方法来处理，并依次执行“成为Leader副本”和“成为Follower副本”的逻辑，令当前Broker互换分区A、B副本的角色。</p><h3>becomeLeaderOrFollower方法</h3><p>这里我们又提到了LeaderAndIsrRequest请求。其实，我们在学习Controller和控制类请求的时候就多次提到过它，在<a href="https://time.geekbang.org/column/article/235904">第12讲</a>中也详细学习过它的作用了。因为隔的时间比较长了，我怕你忘记了，所以这里我们再回顾下。</p><p>简单来说，它就是告诉接收该请求的Broker：在我传给你的这些分区中，哪些分区的Leader副本在你这里；哪些分区的Follower副本在你这里。</p><p>becomeLeaderOrFollower方法，就是具体处理LeaderAndIsrRequest请求的地方，同时也是副本管理器添加分区的地方。下面我们就完整地学习下这个方法的源码。由于这部分代码很长，我将会分为3个部分向你介绍，分别是处理Controller Epoch事宜、执行成为Leader和Follower的逻辑以及构造Response。</p><p>我们先看becomeLeaderOrFollower方法的第1大部分，<strong>处理Controller Epoch及其他相关准备工作</strong>的流程图：</p><p><img src="https://static001.geekbang.org/resource/image/20/96/20298371601540a21da0ec5b1a6b1896.jpg" alt=""></p><p>因为becomeLeaderOrFollower方法的开头是一段仅用于调试的日志输出，不是很重要，因此，我直接从if语句开始讲起。第一部分的主体代码如下：</p><pre><code>// 如果LeaderAndIsrRequest携带的Controller Epoch

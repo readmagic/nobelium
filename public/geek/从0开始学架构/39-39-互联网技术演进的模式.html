@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>由于各行业的业务发展轨迹并不完全相同，无法给出一个统一的模板让所有的架构师拿来就套用，因此我以互联网的业务发展为案例，谈谈<span class="orange">互联网技术演进的模式</span>，其他行业可以参考分析方法对自己的行业进行分析。</p><p>互联网业务千差万别，但由于它们具有“规模决定一切”的相同点，其发展路径也基本上是一致的。互联网业务发展一般分为几个时期：初创期、发展期、竞争期、成熟期。</p><p>不同时期的差别主要体现在两个方面：<strong>复杂性、用户规模</strong>。</p><h2>业务复杂性</h2><p>互联网业务发展第一个主要方向就是“业务越来越复杂”，我们来看看不同时期业务的复杂性的表现。</p><p>1.初创期</p><p>互联网业务刚开始一般都是一个创新的业务点，这个业务点的重点不在于“完善”，而在于“创新”，只有创新才能吸引用户；而且因为其“新”的特点，其实一开始是不可能很完善的。只有随着越来越多的用户的使用，通过快速迭代试错、用户的反馈等手段，不断地在实践中去完善，才能继续创新。</p><p>初创期的业务对技术就一个要求：“快”，但这个时候却又是创业团队最弱小的时期，可能就几个技术人员，所以这个时候十八般武艺都需要用上：能买就买，有开源的就用开源的。</p><p>我还以淘宝和QQ为例。</p><p>第一版的淘宝（<a href="https://blog.csdn.net/linlin_juejue/article/details/5959171">https://blog.csdn.net/linlin_juejue/article/details/5959171</a>）：<br>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>由于各行业的业务发展轨迹并不完全相同，无法给出一个统一的模板让所有的架构师拿来就套用，因此我以互联网的业务发展为案例，谈谈<span class="orange">互联网技术演进的模式</span>，其他行业可以参考分析方法对自己的行业进行分析。</p><p>互联网业务千差万别，但由于它们具有“规模决定一切”的相同点，其发展路径也基本上是一致的。互联网业务发展一般分为几个时期：初创期、发展期、竞争期、成熟期。</p><p>不同时期的差别主要体现在两个方面：<strong>复杂性、用户规模</strong>。</p><h2>业务复杂性</h2><p>互联网业务发展第一个主要方向就是“业务越来越复杂”，我们来看看不同时期业务的复杂性的表现。</p><p>1.初创期</p><p>互联网业务刚开始一般都是一个创新的业务点，这个业务点的重点不在于“完善”，而在于“创新”，只有创新才能吸引用户；而且因为其“新”的特点，其实一开始是不可能很完善的。只有随着越来越多的用户的使用，通过快速迭代试错、用户的反馈等手段，不断地在实践中去完善，才能继续创新。</p><p>初创期的业务对技术就一个要求：“快”，但这个时候却又是创业团队最弱小的时期，可能就几个技术人员，所以这个时候十八般武艺都需要用上：能买就买，有开源的就用开源的。</p><p>我还以淘宝和QQ为例。</p><p>第一版的淘宝（<a href="https://blog.csdn.net/linlin_juejue/article/details/5959171">https://blog.csdn.net/linlin_juejue/article/details/5959171</a>）：<br>
+
 <img src="https://static001.geekbang.org/resource/image/cf/fe/cf95fba48d9ca3fd85cec84d2c82affe.png" alt=""></p><!-- [[[read_end]]] --><p>第一版的QQ（<a href="http://www.yixieshi.com/20770.html">http://www.yixieshi.com/20770.html</a>）：<br>
 <img src="https://static001.geekbang.org/resource/image/a4/6c/a4bc774309e6000ccb19f69b586a8f6c.png" alt=""></p><p>可以看到最开始的淘宝和QQ与现在相比，几乎看不出是同一个业务了。</p><p>2.发展期</p><p>当业务推出后经过市场验证如果是可行的，则吸引的用户就会越来越多，此时原来不完善的业务就进入了一个快速发展的时期。业务快速发展时期的主要目的是将原来不完善的业务逐渐完善，因此会有越来越多的新功能不断地加入到系统中。对于绝大部分技术团队来说，这个阶段技术的核心工作是快速地实现各种需求，只有这样才能满足业务发展的需要。</p><p>如何做到“快”，一般会经历下面几个阶段。</p><ul>
 <li>堆功能期</li>

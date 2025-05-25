@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是朱涛。</p><p>高阶函数在Kotlin里有着举足轻重的地位。<strong>它是Kotlin函数式编程的基石，是各种框架的关键元素。</strong>高阶函数掌握好了，我们理解协程的launch、async函数就会轻松一些，阅读协程的源代码也会不那么吃力；高阶函数理解透彻了，我们学习Jetpack Compose也会得心应手，在特定业务场景下，我们甚至可以用它来实现自己的DSL（Domain Specific Language）。</p><p>不过，如果你没有函数式编程的相关经验，在初次接触高阶函数的时候，很可能会被绕晕。因为它是一个全新的概念，你很难从经典的C/Java里找到同等的概念迁移过来（Java从1.8开始才引入相关概念）。然而，对于高阶函数这么重要的概念，Kotlin官方文档又惜字如金。</p><p>文档里只是突兀地介绍了高阶函数、函数类型、Lambda表达式的简单用法，接着就丢出一段复杂的代码案例，然后丢出一个更复杂的概念，“带接收者的函数类型”（Function Types With Receiver），接着又丢出了一段更复杂的代码案例。说实话，这真的让人难以理解。</p><p>所以今天这节课，我会采用Java和Kotlin对照的方式，来给你讲解Kotlin高阶函数的核心概念。并且我会通过一个实际案例，来帮助你理解其中最晦涩难懂的“带接收者的函数类型”，为你今后的Kotlin学习之路打下坚实的基础。</p><!-- [[[read_end]]] --><h2>Kotlin为什么要引入高阶函数？</h2><p>想要掌握好高阶函数，我们首先要知道，Kotlin为什么要引入这一全新的概念。这个问题，Kotlin官方并没有给出解释，但是我们很容易在它的使用上找到蛛丝马迹。</p><p>我们来看个实际的例子，这是Android中的View定义，这里我省略了大部分代码，主要是想带你来看看Kotlin高阶函数的一个典型使用场景。</p><blockquote>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是朱涛。</p><p>高阶函数在Kotlin里有着举足轻重的地位。<strong>它是Kotlin函数式编程的基石，是各种框架的关键元素。</strong>高阶函数掌握好了，我们理解协程的launch、async函数就会轻松一些，阅读协程的源代码也会不那么吃力；高阶函数理解透彻了，我们学习Jetpack Compose也会得心应手，在特定业务场景下，我们甚至可以用它来实现自己的DSL（Domain Specific Language）。</p><p>不过，如果你没有函数式编程的相关经验，在初次接触高阶函数的时候，很可能会被绕晕。因为它是一个全新的概念，你很难从经典的C/Java里找到同等的概念迁移过来（Java从1.8开始才引入相关概念）。然而，对于高阶函数这么重要的概念，Kotlin官方文档又惜字如金。</p><p>文档里只是突兀地介绍了高阶函数、函数类型、Lambda表达式的简单用法，接着就丢出一段复杂的代码案例，然后丢出一个更复杂的概念，“带接收者的函数类型”（Function Types With Receiver），接着又丢出了一段更复杂的代码案例。说实话，这真的让人难以理解。</p><p>所以今天这节课，我会采用Java和Kotlin对照的方式，来给你讲解Kotlin高阶函数的核心概念。并且我会通过一个实际案例，来帮助你理解其中最晦涩难懂的“带接收者的函数类型”，为你今后的Kotlin学习之路打下坚实的基础。</p><!-- [[[read_end]]] --><h2>Kotlin为什么要引入高阶函数？</h2><p>想要掌握好高阶函数，我们首先要知道，Kotlin为什么要引入这一全新的概念。这个问题，Kotlin官方并没有给出解释，但是我们很容易在它的使用上找到蛛丝马迹。</p><p>我们来看个实际的例子，这是Android中的View定义，这里我省略了大部分代码，主要是想带你来看看Kotlin高阶函数的一个典型使用场景。</p><blockquote>
+
 <p>补充：如果你不了解Android开发也没关系，Java Swing中也有类似的代码模式。如果两者你都不熟悉，借助我提供的注释，也不难理解。</p>
 </blockquote><pre><code class="language-java">// View.java
 

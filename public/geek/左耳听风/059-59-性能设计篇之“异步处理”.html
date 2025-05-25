@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>在弹力设计篇中我们讲过，异步通讯的设计模式有助于提高系统的稳定性和容错能力。其实，异步通讯在分布式系统中还可以增加整个系统的吞吐量，从而可以面对更高的并发，并可以从容地利用好现有的系统资源。为什么这么说呢？</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>在弹力设计篇中我们讲过，异步通讯的设计模式有助于提高系统的稳定性和容错能力。其实，异步通讯在分布式系统中还可以增加整个系统的吞吐量，从而可以面对更高的并发，并可以从容地利用好现有的系统资源。为什么这么说呢？</p>
+
 <p>我们试想一下，在你的工作中，有很多人会来找你，让你帮着做事。如果你是这种请求响应式的工作方式，那么本质上来说，你是在被动工作，也就是被别人驱动的工作方式。</p>
 <p>当你在做一件事的时候，如果有别人来找你做其它事，你就会被打断而要去干别的事。而如果你可以统筹安排这些事情，本来五件事只需要2个小时，如果不能，或者老被别人打乱思路，那你可能就要花5个小时。异步处理任务可以让你更好地利用好时间和资源。利用好了时间和资源，性能自然就会提升上来。</p>
 <p>这就好像邮递业务一样，你寄东西的时候，邮递公司会把大量的去往同一个方向的订单合并处理，并统一地调配物流交通工具，从而在整体上更为节省资源和时间。</p>

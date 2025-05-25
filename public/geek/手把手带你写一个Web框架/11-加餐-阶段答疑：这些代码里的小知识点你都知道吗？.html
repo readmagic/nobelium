@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是轩脉刃。</p><p>上节课国庆特别放送，我们围绕业务架构和基础架构，聊了聊这两种方向在工作上以及在后续发展上的区别，也讲了做系统架构设计的一些术。今天就回归课程，特别整理了关于课程的五个共性问题来解答一下。</p><h2>Q1、GitHub分支代码跑不起来怎么办？</h2><p>GitHub 中的每个分支代码都是可以跑起来的，我本人亲测过了。出现这个问题，可能是因为有的同学只使用go run main.go。</p><p>go run main.go 只会运行编译运行的指定文件，而一旦当前目录下有其他文件，就不会运行到了，所以比如在geekbang/02 或者 geekbang/03 分支中，根目录下有其他文件，就不能运行了。<strong>你需要使用 go build 先编译，然后使用./coredemo来运行</strong>。</p><p>另外因为最近Go版本更新了，有同学问到这个问题：go mod 能指定 1.xx.x 版本么？比如想要把 go.mod 中指定 go 版本的go 1.17&nbsp;修改为go 1.17.1，希望我的项目最低要求 1.17.1。但是 Goland 老是把版本号修改回&nbsp;go 1.17，是不是我哪里设置有问题？</p><p>这是一个小知识点，不过估计不是每个人都知道。其实这里不是设置有问题，而是 go.mod 要求就是如此。</p><p>指定 go 版本的地方叫 go directive 。它的格式是：</p><!-- [[[read_end]]] --><pre><code class="language-go">GoDirective = "go" GoVersion newline .
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是轩脉刃。</p><p>上节课国庆特别放送，我们围绕业务架构和基础架构，聊了聊这两种方向在工作上以及在后续发展上的区别，也讲了做系统架构设计的一些术。今天就回归课程，特别整理了关于课程的五个共性问题来解答一下。</p><h2>Q1、GitHub分支代码跑不起来怎么办？</h2><p>GitHub 中的每个分支代码都是可以跑起来的，我本人亲测过了。出现这个问题，可能是因为有的同学只使用go run main.go。</p><p>go run main.go 只会运行编译运行的指定文件，而一旦当前目录下有其他文件，就不会运行到了，所以比如在geekbang/02 或者 geekbang/03 分支中，根目录下有其他文件，就不能运行了。<strong>你需要使用 go build 先编译，然后使用./coredemo来运行</strong>。</p><p>另外因为最近Go版本更新了，有同学问到这个问题：go mod 能指定 1.xx.x 版本么？比如想要把 go.mod 中指定 go 版本的go 1.17&nbsp;修改为go 1.17.1，希望我的项目最低要求 1.17.1。但是 Goland 老是把版本号修改回&nbsp;go 1.17，是不是我哪里设置有问题？</p><p>这是一个小知识点，不过估计不是每个人都知道。其实这里不是设置有问题，而是 go.mod 要求就是如此。</p><p>指定 go 版本的地方叫 go directive 。它的格式是：</p><!-- [[[read_end]]] --><pre><code class="language-go">GoDirective = "go" GoVersion newline .
+
 GoVersion = string | ident .  /* valid release version; see above */
 The version must be a valid Go release version: a positive integer followed by a dot and a non-negative integer (for example, 1.9, 1.14).
 </code></pre><p>其中所谓的 valid release version 为必须是像 1.17 这样，前面是一个点，前面是正整数（其实现在也只能是 1），后面是非负整数。<br>

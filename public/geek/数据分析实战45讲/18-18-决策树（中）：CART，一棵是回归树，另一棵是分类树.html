@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>上节课我们讲了决策树，基于信息度量的不同方式，我们可以把决策树分为ID3算法、C4.5算法和CART算法。今天我来带你学习CART算法。CART算法，英文全称叫做Classification And Regression Tree，中文叫做分类回归树。ID3和C4.5算法可以生成二叉树或多叉树，而CART只支持二叉树。同时CART决策树比较特殊，既可以作分类树，又可以作回归树。</p><p>那么你首先需要了解的是，什么是分类树，什么是回归树呢？</p><p>我用下面的训练数据举个例子，你能看到不同职业的人，他们的年龄不同，学习时间也不同。如果我构造了一棵决策树，想要基于数据判断这个人的职业身份，这个就属于分类树，因为是从几个分类中来做选择。如果是给定了数据，想要预测这个人的年龄，那就属于回归树。</p><p><img src="https://static001.geekbang.org/resource/image/af/cf/af89317aa55ac3b9f068b0f370fcb9cf.png" alt=""><br>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>上节课我们讲了决策树，基于信息度量的不同方式，我们可以把决策树分为ID3算法、C4.5算法和CART算法。今天我来带你学习CART算法。CART算法，英文全称叫做Classification And Regression Tree，中文叫做分类回归树。ID3和C4.5算法可以生成二叉树或多叉树，而CART只支持二叉树。同时CART决策树比较特殊，既可以作分类树，又可以作回归树。</p><p>那么你首先需要了解的是，什么是分类树，什么是回归树呢？</p><p>我用下面的训练数据举个例子，你能看到不同职业的人，他们的年龄不同，学习时间也不同。如果我构造了一棵决策树，想要基于数据判断这个人的职业身份，这个就属于分类树，因为是从几个分类中来做选择。如果是给定了数据，想要预测这个人的年龄，那就属于回归树。</p><p><img src="https://static001.geekbang.org/resource/image/af/cf/af89317aa55ac3b9f068b0f370fcb9cf.png" alt=""><br>
+
 分类树可以处理离散数据，也就是数据种类有限的数据，它输出的是样本的类别，而回归树可以对连续型的数值进行预测，也就是数据在某个区间内都有取值的可能，它输出的是一个数值。</p><h2>CART分类树的工作流程</h2><p>通过上一讲，我们知道决策树的核心就是寻找纯净的划分，因此引入了纯度的概念。在属性选择上，我们是通过统计“不纯度”来做判断的，ID3是基于信息增益做判断，C4.5在ID3的基础上做了改进，提出了信息增益率的概念。实际上CART分类树与C4.5算法类似，只是属性选择的指标采用的是基尼系数。</p><!-- [[[read_end]]] --><p>你可能在经济学中听过说基尼系数，它是用来衡量一个国家收入差距的常用指标。当基尼系数大于0.4的时候，说明财富差异悬殊。基尼系数在0.2-0.4之间说明分配合理，财富差距不大。</p><p>基尼系数本身反应了样本的不确定度。当基尼系数越小的时候，说明样本之间的差异性小，不确定程度低。分类的过程本身是一个不确定度降低的过程，即纯度的提升过程。所以CART算法在构造分类树的时候，会选择基尼系数最小的属性作为属性的划分。</p><p>我们接下来详解了解一下基尼系数。基尼系数不好懂，你最好跟着例子一起手动计算下。</p><p>假设t为节点，那么该节点的GINI系数的计算公式为：</p><p><img src="https://static001.geekbang.org/resource/image/f9/89/f9bb4cce5b895499cabc714eb372b089.png" alt=""><br>
 这里p(Ck|t)表示节点t属于类别Ck的概率，节点t的基尼系数为1减去各类别Ck概率平方和。</p><p>通过下面这个例子，我们计算一下两个集合的基尼系数分别为多少：</p><p>集合1：6个都去打篮球；</p><p>集合2：3个去打篮球，3个不去打篮球。</p><p>针对集合1，所有人都去打篮球，所以p(Ck|t)=1，因此GINI(t)=1-1=0。</p><p>针对集合2，有一半人去打篮球，而另一半不去打篮球，所以，p(C1|t)=0.5，p(C2|t)=0.5，GINI(t)=1-（0.5*0.5+0.5*0.5）=0.5。</p><p>通过两个基尼系数你可以看出，集合1的基尼系数最小，也证明样本最稳定，而集合2的样本不稳定性更大。</p><p>在CART算法中，基于基尼系数对特征属性进行二元分裂，假设属性A将节点D划分成了D1和D2，如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/69/9a/69a90a43146898150a0de0811c6fef9a.jpg" alt=""><br>
 节点D的基尼系数等于子节点D1和D2的归一化基尼系数之和，用公式表示为：</p><p><img src="https://static001.geekbang.org/resource/image/10/1e/107fed838cb75df62eb149499db20c1e.png" alt=""><br>

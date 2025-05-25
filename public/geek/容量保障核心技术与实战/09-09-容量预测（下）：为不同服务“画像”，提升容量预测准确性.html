@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是吴骏龙。</p><p>在容量预测的上篇中，我介绍了容量预测的基本过程和方法，在课后讨论环节也出了一道题目供你思考，你都学会了吗？掌握了这些基础知识后，在这一讲我们继续讨论容量预测中的一些进阶问题，这些问题都是我在实践中摸爬滚打提炼出来的，如果你想在工作中应用容量预测，那么这些问题也是绕不开的。</p><p>首先，虽然我们已经建立了理想化的模型，但现实情况是，这个模型可能针对某些服务的预测结果总是不那么准确，而且无论怎么调整模型的参数都收效甚微。这时候，我们应该回过头思考一下，当初选择的特征是否合适？</p><p>其次，服务是在不断迭代的，不断有新功能上线，这就意味着服务的容量始终处于变化的过程中，如果容量预测的模型也跟着高频变化，计算量就会非常大，怎么权衡好服务迭代和模型更新之间的关系呢？</p><p>最后，即便服务不变，业务场景的变化也会造成服务容量的变化，例如大促活动带来局部几个服务的流量突增，如果我们按照非大促期间业务场景的流量特征去建立模型，对容量进行预测，肯定是不准确的，那该如何应对呢？</p><p>别急，上面这三个问题，都是有解决方案的。我们赶紧来看一看这些问题都是如何解决的吧。</p><h2>相关度分析与服务画像</h2><p>在上一讲所提到的特征选取过程中，我比较“草率”地将服务的TPS和依赖服务的TPS作为输入，与CPU利用率建立模型。但实际情况下，<strong>CPU利用率可能不仅仅受TPS制约</strong>，如果我们忽略其他特征的话，有很大可能就会影响模型的准确性。</p><!-- [[[read_end]]] --><p>下图展示了TPS和CPU利用率的可视化映射关系，通过左图可以看到，两者的关联是非常紧密的，这说明除TPS以外，其他因素对CPU利用率几乎没有什么影响，这是比较理想的情况；而右图则出现了不紧密的映射关系，甚至一个TPS会对应多个CPU利用率，很明显还有我们没有考虑到的因素在影响着CPU利用率，这会导致模型拟合不佳，那么如何解决这个问题呢？</p><p><img src="https://static001.geekbang.org/resource/image/90/3f/900d1e5167c4f14ed25303878f72083f.png" alt=""></p><p><strong>首先，我们要能够对TPS和CPU利用率的相关度做定量分析，并根据相关度制定不同的应对策略，这是一切后续工作的基础。</strong></p><p>那怎么做相关度的定量分析呢？在统计学中，<strong>皮尔逊相关系数</strong>（Pearson product-moment correlation coefficient）就是用于度量两个变量X和Y之间的相关程度的，其值介于-1和1之间。</p><p><img src="https://static001.geekbang.org/resource/image/fe/e0/fe2db841779cf60ef01745bdb5ccb3e0.png" alt=""></p><p>我们可以对TPS和CPU利用率这两个变量计算皮尔逊相关系数，再进行分类：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是吴骏龙。</p><p>在容量预测的上篇中，我介绍了容量预测的基本过程和方法，在课后讨论环节也出了一道题目供你思考，你都学会了吗？掌握了这些基础知识后，在这一讲我们继续讨论容量预测中的一些进阶问题，这些问题都是我在实践中摸爬滚打提炼出来的，如果你想在工作中应用容量预测，那么这些问题也是绕不开的。</p><p>首先，虽然我们已经建立了理想化的模型，但现实情况是，这个模型可能针对某些服务的预测结果总是不那么准确，而且无论怎么调整模型的参数都收效甚微。这时候，我们应该回过头思考一下，当初选择的特征是否合适？</p><p>其次，服务是在不断迭代的，不断有新功能上线，这就意味着服务的容量始终处于变化的过程中，如果容量预测的模型也跟着高频变化，计算量就会非常大，怎么权衡好服务迭代和模型更新之间的关系呢？</p><p>最后，即便服务不变，业务场景的变化也会造成服务容量的变化，例如大促活动带来局部几个服务的流量突增，如果我们按照非大促期间业务场景的流量特征去建立模型，对容量进行预测，肯定是不准确的，那该如何应对呢？</p><p>别急，上面这三个问题，都是有解决方案的。我们赶紧来看一看这些问题都是如何解决的吧。</p><h2>相关度分析与服务画像</h2><p>在上一讲所提到的特征选取过程中，我比较“草率”地将服务的TPS和依赖服务的TPS作为输入，与CPU利用率建立模型。但实际情况下，<strong>CPU利用率可能不仅仅受TPS制约</strong>，如果我们忽略其他特征的话，有很大可能就会影响模型的准确性。</p><!-- [[[read_end]]] --><p>下图展示了TPS和CPU利用率的可视化映射关系，通过左图可以看到，两者的关联是非常紧密的，这说明除TPS以外，其他因素对CPU利用率几乎没有什么影响，这是比较理想的情况；而右图则出现了不紧密的映射关系，甚至一个TPS会对应多个CPU利用率，很明显还有我们没有考虑到的因素在影响着CPU利用率，这会导致模型拟合不佳，那么如何解决这个问题呢？</p><p><img src="https://static001.geekbang.org/resource/image/90/3f/900d1e5167c4f14ed25303878f72083f.png" alt=""></p><p><strong>首先，我们要能够对TPS和CPU利用率的相关度做定量分析，并根据相关度制定不同的应对策略，这是一切后续工作的基础。</strong></p><p>那怎么做相关度的定量分析呢？在统计学中，<strong>皮尔逊相关系数</strong>（Pearson product-moment correlation coefficient）就是用于度量两个变量X和Y之间的相关程度的，其值介于-1和1之间。</p><p><img src="https://static001.geekbang.org/resource/image/fe/e0/fe2db841779cf60ef01745bdb5ccb3e0.png" alt=""></p><p>我们可以对TPS和CPU利用率这两个变量计算皮尔逊相关系数，再进行分类：</p><ul>
+
 <li>皮尔逊相关系数的绝对值介于0.5 - 1之间，为强相关</li>
 <li>皮尔逊相关系数的绝对值介于0.1 - 0.5之间，为弱相关</li>
 <li>皮尔逊相关系数的绝对值介于0 - 0.1之间，为不相关</li>

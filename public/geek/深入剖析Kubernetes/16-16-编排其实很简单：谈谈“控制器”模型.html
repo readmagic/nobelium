@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是张磊。今天我和你分享的主题是：编排其实很简单之谈谈“控制器”模型。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是张磊。今天我和你分享的主题是：编排其实很简单之谈谈“控制器”模型。</p>
+
 <p>在上一篇文章中，我和你详细介绍了Pod的用法，讲解了Pod这个API对象的各个字段。而接下来，我们就一起来看看“编排”这个Kubernetes项目最核心的功能吧。</p>
 <p>实际上，你可能已经有所感悟：<strong>Pod这个看似复杂的API对象，实际上就是对容器的进一步抽象和封装而已。</strong></p>
 <p>说得更形象些，“容器”镜像虽然好用，但是容器这样一个“沙盒”的概念，对于描述应用来说，还是太过简单了。这就好比，集装箱固然好用，但是如果它四面都光秃秃的，吊车还怎么把这个集装箱吊起来并摆放好呢？</p>

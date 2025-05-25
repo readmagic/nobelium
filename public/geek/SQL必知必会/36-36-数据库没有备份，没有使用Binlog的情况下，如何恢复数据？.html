@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>我们上节课讲解了MySQL的复制技术，通过主从同步可以实现读写分离，热备份，让服务器更加高可用。MySQL的复制主要是通过Binlog来完成的，Binlog记录了数据库更新的事件，从库I/O线程会向主库发送Binlog更新的请求，同时主库二进制转储线程会发送Binlog给从库作为中继日志进行保存，然后从库会通过中继日志重放，完成数据库的同步更新。这种同步操作是近乎实时的同步，然而也有人为误操作情况的发生，比如DBA人员为了方便直接在生产环境中对数据进行操作，或者忘记了当前是在开发环境，还是在生产环境中，就直接对数据库进行操作，这样很有可能会造成数据的丢失，情况严重时，误操作还有可能同步给从库实时更新。不过我们依然有一些策略可以防止这种误操作，比如利用延迟备份的机制。延迟备份最大的作用就是避免这种“手抖”的情况，让我们在延迟从库进行误操作前停止下来，进行数据库的恢复。</p><p>当然如果我们对数据库做过时间点备份，也可以直接恢复到该时间点。不过我们今天要讨论的是一个特殊的情况，也就是在没做数据库备份，没有开启使用Binlog的情况下，尽可能地找回数据。</p><p>今天的内容主要包括以下几个部分：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>我们上节课讲解了MySQL的复制技术，通过主从同步可以实现读写分离，热备份，让服务器更加高可用。MySQL的复制主要是通过Binlog来完成的，Binlog记录了数据库更新的事件，从库I/O线程会向主库发送Binlog更新的请求，同时主库二进制转储线程会发送Binlog给从库作为中继日志进行保存，然后从库会通过中继日志重放，完成数据库的同步更新。这种同步操作是近乎实时的同步，然而也有人为误操作情况的发生，比如DBA人员为了方便直接在生产环境中对数据进行操作，或者忘记了当前是在开发环境，还是在生产环境中，就直接对数据库进行操作，这样很有可能会造成数据的丢失，情况严重时，误操作还有可能同步给从库实时更新。不过我们依然有一些策略可以防止这种误操作，比如利用延迟备份的机制。延迟备份最大的作用就是避免这种“手抖”的情况，让我们在延迟从库进行误操作前停止下来，进行数据库的恢复。</p><p>当然如果我们对数据库做过时间点备份，也可以直接恢复到该时间点。不过我们今天要讨论的是一个特殊的情况，也就是在没做数据库备份，没有开启使用Binlog的情况下，尽可能地找回数据。</p><p>今天的内容主要包括以下几个部分：</p><ol>
+
 <li>InnoDB存储引擎中的表空间是怎样的？两种表空间存储方式各有哪些优缺点？</li>
 <li>如果.ibd文件损坏了，数据该如何找回？</li>
 <li>如何模拟InnoDB文件的损坏与数据恢复？</li>

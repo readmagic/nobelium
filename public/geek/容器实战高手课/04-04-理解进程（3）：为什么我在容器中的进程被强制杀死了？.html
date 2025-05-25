@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是程远。</p><p>今天我们来讲容器中init进程的最后一讲，为什么容器中的进程被强制杀死了。理解了这个问题，能够帮助你更好地管理进程，让容器中的进程可以graceful shutdown。</p><p>我先给你说说，为什么进程管理中做到这点很重要。在实际生产环境中，我们有不少应用在退出的时候需要做一些清理工作，比如清理一些远端的链接，或者是清除一些本地的临时数据。</p><p>这样的清理工作，可以尽可能避免远端或者本地的错误发生，比如减少丢包等问题的出现。而这些退出清理的工作，通常是在SIGTERM这个信号用户注册的handler里进行的。</p><p>但是，如果我们的进程收到了SIGKILL，那应用程序就没机会执行这些清理工作了。这就意味着，一旦进程不能graceful shutdown，就会增加应用的出错率。</p><p>所以接下来，我们来重现一下，进程在容器退出时都发生了什么。</p><h2>场景再现</h2><p>在容器平台上，你想要停止一个容器，无论是在Kubernetes中去删除一个pod，或者用Docker停止一个容器，最后都会用到Containerd这个服务。</p><p>而Containerd在停止容器的时候，就会向容器的init进程发送一个SIGTERM信号。</p><p>我们会发现，在init进程退出之后，容器内的其他进程也都立刻退出了。不过不同的是，init进程收到的是SIGTERM信号，而其他进程收到的是SIGKILL信号。</p><!-- [[[read_end]]] --><p>在理解进程的<a href="https://time.geekbang.org/column/article/309423">第一讲</a>中，我们提到过SIGKILL信号是不能被捕获的（catch）的，也就是用户不能注册自己的handler，而SIGTERM信号却允许用户注册自己的handler，这样的话差别就很大了。</p><p>那么，我们就一起来看看当容器退出的时候，如何才能让容器中的进程都收到SIGTERM信号，而不是SIGKILL信号。</p><p>延续前面课程中处理问题的思路，我们同样可以运行一个简单的容器，来重现这个问题，用这里的<a href="https://github.com/chengyli/training/tree/master/init_proc/fwd_sig">代码</a>执行一下 <code>make image</code> ，然后用Docker启动这个容器镜像。</p><pre><code class="language-shell">docker run -d --name fwd_sig registry/fwd_sig:v1 /c-init-sig
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是程远。</p><p>今天我们来讲容器中init进程的最后一讲，为什么容器中的进程被强制杀死了。理解了这个问题，能够帮助你更好地管理进程，让容器中的进程可以graceful shutdown。</p><p>我先给你说说，为什么进程管理中做到这点很重要。在实际生产环境中，我们有不少应用在退出的时候需要做一些清理工作，比如清理一些远端的链接，或者是清除一些本地的临时数据。</p><p>这样的清理工作，可以尽可能避免远端或者本地的错误发生，比如减少丢包等问题的出现。而这些退出清理的工作，通常是在SIGTERM这个信号用户注册的handler里进行的。</p><p>但是，如果我们的进程收到了SIGKILL，那应用程序就没机会执行这些清理工作了。这就意味着，一旦进程不能graceful shutdown，就会增加应用的出错率。</p><p>所以接下来，我们来重现一下，进程在容器退出时都发生了什么。</p><h2>场景再现</h2><p>在容器平台上，你想要停止一个容器，无论是在Kubernetes中去删除一个pod，或者用Docker停止一个容器，最后都会用到Containerd这个服务。</p><p>而Containerd在停止容器的时候，就会向容器的init进程发送一个SIGTERM信号。</p><p>我们会发现，在init进程退出之后，容器内的其他进程也都立刻退出了。不过不同的是，init进程收到的是SIGTERM信号，而其他进程收到的是SIGKILL信号。</p><!-- [[[read_end]]] --><p>在理解进程的<a href="https://time.geekbang.org/column/article/309423">第一讲</a>中，我们提到过SIGKILL信号是不能被捕获的（catch）的，也就是用户不能注册自己的handler，而SIGTERM信号却允许用户注册自己的handler，这样的话差别就很大了。</p><p>那么，我们就一起来看看当容器退出的时候，如何才能让容器中的进程都收到SIGTERM信号，而不是SIGKILL信号。</p><p>延续前面课程中处理问题的思路，我们同样可以运行一个简单的容器，来重现这个问题，用这里的<a href="https://github.com/chengyli/training/tree/master/init_proc/fwd_sig">代码</a>执行一下 <code>make image</code> ，然后用Docker启动这个容器镜像。</p><pre><code class="language-shell">docker run -d --name fwd_sig registry/fwd_sig:v1 /c-init-sig
+
 </code></pre><p>你会发现，在我们用 <code>docker stop</code> 停止这个容器的时候，如果用strace工具来监控，就能看到容器里的init进程和另外一个进程收到的信号情况。</p><p>在下面的例子里，进程号为15909的就是容器里的init进程，而进程号为15959的是容器里另外一个进程。</p><p>在命令输出中我们可以看到，<strong>init进程（15909）收到的是SIGTERM信号，而另外一个进程（15959）收到的果然是SIGKILL信号。</strong></p><pre><code class="language-shell"># ps -ef | grep c-init-sig
 root     15857 14391  0 06:23 pts/0    00:00:00 docker run -it registry/fwd_sig:v1 /c-init-sig
 root     15909 15879  0 06:23 pts/0    00:00:00 /c-init-sig

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是孙鹏飞。</p><p>在专栏<a href="http://time.geekbang.org/column/article/73277">卡顿优化</a>的分析中，绍文提到可以利用JVM TI机制获得更加非常丰富的顿现场信息，包括内存申请、线程创建、类加载、GC信息等。</p><p>JVM TI机制究竟是什么？它为什么如此的强大？怎么样将它应用到我们的工作中？今天我们一起来解开它神秘的面纱。</p><h2>JVM  TI介绍</h2><p>JVM  TI全名是<a href="https://docs.oracle.com/javase/7/docs/platform/jvmti/jvmti.html#SpecificationIntro">Java Virtual Machine Tool Interface</a>，是开发虚拟机监控工具使用的编程接口，它可以监控JVM内部事件的执行，也可以控制JVM的某些行为，可以实现调试、监控、线程分析、覆盖率分析工具等。</p><p>JVM  TI属于<a href="https://docs.oracle.com/javase/7/docs/technotes/guides/jpda/architecture.html">Java Platform Debugger Architecture</a>中的一员，在Debugger Architecture上JVM  TI可以算作一个back-end，通过JDWP和front-end JDI去做交互。需要注意的是，Android内的JDWP并不是基于JVM  TI开发的。</p><p>从Java SE 5开始，Java平台调试体系就使用JVM TI替代了之前的JVMPI和JVMDI。如果你对这部分背景还不熟悉，强烈推荐先阅读下面这几篇文章：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是孙鹏飞。</p><p>在专栏<a href="http://time.geekbang.org/column/article/73277">卡顿优化</a>的分析中，绍文提到可以利用JVM TI机制获得更加非常丰富的顿现场信息，包括内存申请、线程创建、类加载、GC信息等。</p><p>JVM TI机制究竟是什么？它为什么如此的强大？怎么样将它应用到我们的工作中？今天我们一起来解开它神秘的面纱。</p><h2>JVM  TI介绍</h2><p>JVM  TI全名是<a href="https://docs.oracle.com/javase/7/docs/platform/jvmti/jvmti.html#SpecificationIntro">Java Virtual Machine Tool Interface</a>，是开发虚拟机监控工具使用的编程接口，它可以监控JVM内部事件的执行，也可以控制JVM的某些行为，可以实现调试、监控、线程分析、覆盖率分析工具等。</p><p>JVM  TI属于<a href="https://docs.oracle.com/javase/7/docs/technotes/guides/jpda/architecture.html">Java Platform Debugger Architecture</a>中的一员，在Debugger Architecture上JVM  TI可以算作一个back-end，通过JDWP和front-end JDI去做交互。需要注意的是，Android内的JDWP并不是基于JVM  TI开发的。</p><p>从Java SE 5开始，Java平台调试体系就使用JVM TI替代了之前的JVMPI和JVMDI。如果你对这部分背景还不熟悉，强烈推荐先阅读下面这几篇文章：</p><ul>
+
 <li>
 <p><a href="https://www.ibm.com/developerworks/cn/java/j-lo-jpda1/index.html">深入 Java 调试体系：第 1 部分，JPDA 体系概览</a></p>
 </li>

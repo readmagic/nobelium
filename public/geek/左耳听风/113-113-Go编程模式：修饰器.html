@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是陈皓，网名左耳朵耗子。</p><p>之前，我写过一篇文章《<a href="https://coolshell.cn/articles/11265.html">Python修饰器的函数式编程</a>》，这种模式可以很轻松地把一些函数装配到另外一些函数上，让你的代码更加简单，也可以让一些“小功能型”的代码复用性更高，让代码中的函数可以像乐高玩具那样自由地拼装。</p><p>所以，一直以来，我都对修饰器（Decoration）这种编程模式情有独钟，这节课，我们就来聊聊Go语言的修饰器编程模式。</p><p>如果你看过我刚说的文章，就一定知道，这是一种函数式编程的玩法——用一个高阶函数来包装一下。</p><p>多唠叨一句，关于函数式编程，我之前还写过一篇文章《<a href="https://coolshell.cn/articles/10822.html">函数式编程</a>》，这篇文章主要是想通过详细介绍从过程式编程的思维方式过渡到函数式编程的思维方式，带动更多的人玩函数式编程。所以，如果你想了解一下函数式编程，那么可以点击链接阅读一下这篇文章。其实，Go语言的修饰器编程模式，也就是函数式编程的模式。</p><p>不过，要提醒你注意的是，Go 语言的“糖”不多，而且又是强类型的静态无虚拟机的语言，所以，没有办法做到像 Java 和 Python 那样写出优雅的修饰器的代码。当然，也许是我才疏学浅，如果你知道更多的写法，请你一定告诉我。先谢过了。</p><h2>简单示例</h2><p>我们先来看一个示例：</p><!-- [[[read_end]]] --><pre><code>package main
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是陈皓，网名左耳朵耗子。</p><p>之前，我写过一篇文章《<a href="https://coolshell.cn/articles/11265.html">Python修饰器的函数式编程</a>》，这种模式可以很轻松地把一些函数装配到另外一些函数上，让你的代码更加简单，也可以让一些“小功能型”的代码复用性更高，让代码中的函数可以像乐高玩具那样自由地拼装。</p><p>所以，一直以来，我都对修饰器（Decoration）这种编程模式情有独钟，这节课，我们就来聊聊Go语言的修饰器编程模式。</p><p>如果你看过我刚说的文章，就一定知道，这是一种函数式编程的玩法——用一个高阶函数来包装一下。</p><p>多唠叨一句，关于函数式编程，我之前还写过一篇文章《<a href="https://coolshell.cn/articles/10822.html">函数式编程</a>》，这篇文章主要是想通过详细介绍从过程式编程的思维方式过渡到函数式编程的思维方式，带动更多的人玩函数式编程。所以，如果你想了解一下函数式编程，那么可以点击链接阅读一下这篇文章。其实，Go语言的修饰器编程模式，也就是函数式编程的模式。</p><p>不过，要提醒你注意的是，Go 语言的“糖”不多，而且又是强类型的静态无虚拟机的语言，所以，没有办法做到像 Java 和 Python 那样写出优雅的修饰器的代码。当然，也许是我才疏学浅，如果你知道更多的写法，请你一定告诉我。先谢过了。</p><h2>简单示例</h2><p>我们先来看一个示例：</p><!-- [[[read_end]]] --><pre><code>package main
+
 
 import &quot;fmt&quot;
 

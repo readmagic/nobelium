@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是轩脉刃。</p><p>上一节课，我们讨论了调试模式的整体设计思路和关键的技术难点-反向代理，最后定义了具体的命令设计，包括三个二级命令，能让我们调试前端/后端，或者同时调试。现在，大的框架都建立好了，但是其中的细节实现还没有讨论。成败在于细节，今天我们就撸起袖子开始实现它们。</p><h2>配置项的设计</h2><p>简单回顾一下调试模式的架构设计。所有外部请求进入反响代理服务后，会由反向代理服务进行分发，前端请求分发到前端进程，后端请求分发到后端进程。<br>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是轩脉刃。</p><p>上一节课，我们讨论了调试模式的整体设计思路和关键的技术难点-反向代理，最后定义了具体的命令设计，包括三个二级命令，能让我们调试前端/后端，或者同时调试。现在，大的框架都建立好了，但是其中的细节实现还没有讨论。成败在于细节，今天我们就撸起袖子开始实现它们。</p><h2>配置项的设计</h2><p>简单回顾一下调试模式的架构设计。所有外部请求进入反响代理服务后，会由反向代理服务进行分发，前端请求分发到前端进程，后端请求分发到后端进程。<br>
+
 <img src="https://static001.geekbang.org/resource/image/86/16/86d2c8a583a1dafa52ee79fb95f30616.jpg?wh=1920x1080" alt=""><br>
 在这个设计中，前端服务启动的时候占用哪个端口？后端服务启动的时候占用哪个端口？反向代理服务proxy启动的时候占用哪个端口呢？这些都属于配置项，需要在设计之初就规划好，所以我们先设计配置项的具体实现。</p><p>由于调试模式配置项比较多，在framework/command/dev.go 中，我们定义如下的配置结构devConfig来表示配置信息：</p><pre><code class="language-go">// devConfig 代表调试模式的配置信息
 type devConfig struct {

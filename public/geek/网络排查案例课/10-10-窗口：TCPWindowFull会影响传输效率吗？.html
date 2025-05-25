@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是胜辉。</p><p>有时候，不少知识点在过段时间重新回看的时候，又会有新的体会和发现。比如在<a href="https://time.geekbang.org/column/article/484667">第8讲</a>里，我们回顾了一个MTU造成传输失败的案例，虽然整个排查过程的步骤不算很多，但也算是TCP传输问题的一个缩影了。尤其是其中那个失败的TCP流中的一些现象，比如客户端发出的重复确认（DupAck），还有服务端启动的超时重传，都值得我们继续深挖，所以我会在后续的课程里继续这个话题。</p><p>然后在上节课里，我们还探讨了传输速度的相关知识，也初步学习了窗口的概念。最后，我们终于推导出了TCP传输的核心公式：速度=窗口/往返时间。这个公式，对于我们理解传输本质和排查传输问题，都有很强的指导意义。</p><p>然而，如果你足够细心的话，其实可能会对上节课里的细节有一些疑问，比如：既然接收窗口满了，那为什么当时没有看到TCP Window Full这种提示呢？</p><p>其实，我这边也有不少内容按住没有展开，包括核心公式的理解，我们在这节课里将有一个新的认识。另外，我也将带你继续挖掘窗口这个细分领域，这样你以后遇到跟窗口相关的问题，就知道如何破解了。</p><h2>案例：TCP Window Full是导致异地拷贝速度低的原因吗？</h2><p>也是在公有云服务的时候，有个客户有这么一个需求，就是要把文件从北京机房拷贝到上海机房。但是他们发现传输速度比较慢，就做了抓包。在查看抓包文件的时候，发现Wireshark有很多<strong>TCP Window Full</strong>这样的提示，不明白这些是否跟速度慢有关系，于是找我们来协助分析。</p><!-- [[[read_end]]] --><h3>解读Expert Information</h3><p>我们先要了解一下抓包文件的整体状况。怎么看呢？当然是看Expert Information了：</p><p><img src="https://static001.geekbang.org/resource/image/72/8c/7285f181c54e6f464836e8c44f43c88c.jpg?wh=1818x234" alt="图片"></p><p>它确实提醒我们，有69个Warning级别报文，它们的问题是TCP Window specified by the receiver is now completely Full。在展开进一步排查之前，我们先对这个信息做一下解读。</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是胜辉。</p><p>有时候，不少知识点在过段时间重新回看的时候，又会有新的体会和发现。比如在<a href="https://time.geekbang.org/column/article/484667">第8讲</a>里，我们回顾了一个MTU造成传输失败的案例，虽然整个排查过程的步骤不算很多，但也算是TCP传输问题的一个缩影了。尤其是其中那个失败的TCP流中的一些现象，比如客户端发出的重复确认（DupAck），还有服务端启动的超时重传，都值得我们继续深挖，所以我会在后续的课程里继续这个话题。</p><p>然后在上节课里，我们还探讨了传输速度的相关知识，也初步学习了窗口的概念。最后，我们终于推导出了TCP传输的核心公式：速度=窗口/往返时间。这个公式，对于我们理解传输本质和排查传输问题，都有很强的指导意义。</p><p>然而，如果你足够细心的话，其实可能会对上节课里的细节有一些疑问，比如：既然接收窗口满了，那为什么当时没有看到TCP Window Full这种提示呢？</p><p>其实，我这边也有不少内容按住没有展开，包括核心公式的理解，我们在这节课里将有一个新的认识。另外，我也将带你继续挖掘窗口这个细分领域，这样你以后遇到跟窗口相关的问题，就知道如何破解了。</p><h2>案例：TCP Window Full是导致异地拷贝速度低的原因吗？</h2><p>也是在公有云服务的时候，有个客户有这么一个需求，就是要把文件从北京机房拷贝到上海机房。但是他们发现传输速度比较慢，就做了抓包。在查看抓包文件的时候，发现Wireshark有很多<strong>TCP Window Full</strong>这样的提示，不明白这些是否跟速度慢有关系，于是找我们来协助分析。</p><!-- [[[read_end]]] --><h3>解读Expert Information</h3><p>我们先要了解一下抓包文件的整体状况。怎么看呢？当然是看Expert Information了：</p><p><img src="https://static001.geekbang.org/resource/image/72/8c/7285f181c54e6f464836e8c44f43c88c.jpg?wh=1818x234" alt="图片"></p><p>它确实提醒我们，有69个Warning级别报文，它们的问题是TCP Window specified by the receiver is now completely Full。在展开进一步排查之前，我们先对这个信息做一下解读。</p><ul>
+
 <li>TCP Window：在上节课里，我介绍了TCP的三种窗口，分别是发送窗口、接收窗口、拥塞窗口。那么这里说的是哪个窗口呢？一般说到TCP Window，<strong>如果没有特别指明，就是指接收窗口</strong>。</li>
 <li>specified by the receiver：这也很明确，这个窗口是接收方的，其实就是佐证了这个窗口就是接收窗口。</li>
 <li>is now completely Full：窗口满了，这又怎么理解呢？你还记得在上节课里学过的在途数据，也就是Bytes in flight吗？<strong>当在途数据的大小等于接收窗口的大小时，这个窗口就是“满了”</strong>。</li>

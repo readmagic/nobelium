@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是宫文学。</p><p>到目前为止，我们的语言已经能够处理语句，也能够处理表达式，并且都能够解释执行了。不过，我们目前程序能够处理的数据，还都只是字面量而已。接下来，我们要增加一个重要的能力：<strong>支持变量</strong>。</p><p>在程序中声明变量、对变量赋值、基于变量进行计算，是计算机语言的基本功能。只有支持了变量，我们才能实现那些更加强大的功能，比如，你可以用程序写一个计算物体下落的速度和位置，如何随时间变化的公式。这里的时间就是变量，通过给时间变量赋予不同的值，我们可以知道任意时间的物体速度和位置。</p><p>这一节，我就带你让我们手头上的语言能够支持变量。在这个过程中，你还会掌握语义分析的更多技能，比如类型处理等。</p><p>好了，我们已经知道了这一节的任务。那么第一步要做什么呢？你可以想到，我们首先要了解与处理变量声明和初始化有关的语法规则。</p><h2>与变量有关的语法分析功能</h2><p>在TypeScript中，我们在声明变量的时候，可以指定类型，这样有助于在编译期做类型检查：</p><pre><code class="language-plain">let myAge : number = 18;
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是宫文学。</p><p>到目前为止，我们的语言已经能够处理语句，也能够处理表达式，并且都能够解释执行了。不过，我们目前程序能够处理的数据，还都只是字面量而已。接下来，我们要增加一个重要的能力：<strong>支持变量</strong>。</p><p>在程序中声明变量、对变量赋值、基于变量进行计算，是计算机语言的基本功能。只有支持了变量，我们才能实现那些更加强大的功能，比如，你可以用程序写一个计算物体下落的速度和位置，如何随时间变化的公式。这里的时间就是变量，通过给时间变量赋予不同的值，我们可以知道任意时间的物体速度和位置。</p><p>这一节，我就带你让我们手头上的语言能够支持变量。在这个过程中，你还会掌握语义分析的更多技能，比如类型处理等。</p><p>好了，我们已经知道了这一节的任务。那么第一步要做什么呢？你可以想到，我们首先要了解与处理变量声明和初始化有关的语法规则。</p><h2>与变量有关的语法分析功能</h2><p>在TypeScript中，我们在声明变量的时候，可以指定类型，这样有助于在编译期做类型检查：</p><pre><code class="language-plain">let myAge : number = 18;
+
 </code></pre><p>如果编译成JavaScript，那么类型信息就会被抹掉：</p><pre><code class="language-plain">var myAge = 18;
 </code></pre><p>不过，因为我们的目标是教给你做类型分析的方法，以后还要静态编译成二进制的机器码，所以我们选择的是TypeScript的语法。</p><!-- [[[read_end]]] --><p>此外，在上面的例子中，变量在声明的时候就已经做了初始化。你还可以把这个过程拆成两步。第一步的时候，只是声明变量，之后再给它赋值：</p><pre><code class="language-plain">let myAge : number;
 myAge = 18;

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是朱涛。这节课，我们来学习Kotlin的面向对象编程：类、接口、继承、嵌套，以及Kotlin独有的数据类和密封类。</p><p>面向对象（Object Oriented）是软件开发方法，也是计算机界应用最广的一种编程范式。它是把程序的“数据”和“方法”作为一个整体来看待，将其抽象成了一个具体的模型，从而更贴近事物的自然运行模式。它的特点是简单易懂，符合人类的思维模式。</p><p>在“面向对象”的概念上，虽然Kotlin和Java之间有一定的语法差异，但底层的思想是没有变的。比如Java和Kotlin当中，都有类、接口、继承、嵌套、枚举的概念，唯一区别就在于这些概念在两种语言中的具体语法不同。<strong>我们需要做的，仅仅只是为我们脑海里已经熟知的概念，再增加一种语法规则而已。</strong></p><p>而如果你没有Java基础也没关系，今天这节课要学习的内容，几乎是所有编程语言都需要掌握的概念。在掌握了Kotlin面向对象的编程思想后，如果你再去学习其他编程语言，你也照样可以快速迁移这些知识点。</p><p>当然，Kotlin作为一门新的语言，它也创造了一些新的东西，比如数据类、密封类、密封接口等。这些Kotlin的新概念，会是我们需要着重学习的对象。<strong>实际上，也正是因为Kotlin的这些独有概念，使得它形成了一种独特的编程风格和编程思想。</strong></p><!-- [[[read_end]]] --><p>那么，在学习这节课的时候，我想请你注意一点，就是如果你已经有了Java、C的编程经验，一定要有意识地跳出从前的编程习惯，尝试去理解Kotlin的编程思想。只有这样，你才能写出地道的Kotlin代码，而不仅仅只是用Kotlin语法翻译Java/C代码。</p><h2>怎么写出有Kotlin特点的类？</h2><p>Kotlin当中的“类”，我们可以将其理解为对某种事物的“抽象模型”。比如说，我们可以在Kotlin当中定义一个类，它叫做Person。</p><pre><code class="language-plain">class Person(val name: String, var age: Int)
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是朱涛。这节课，我们来学习Kotlin的面向对象编程：类、接口、继承、嵌套，以及Kotlin独有的数据类和密封类。</p><p>面向对象（Object Oriented）是软件开发方法，也是计算机界应用最广的一种编程范式。它是把程序的“数据”和“方法”作为一个整体来看待，将其抽象成了一个具体的模型，从而更贴近事物的自然运行模式。它的特点是简单易懂，符合人类的思维模式。</p><p>在“面向对象”的概念上，虽然Kotlin和Java之间有一定的语法差异，但底层的思想是没有变的。比如Java和Kotlin当中，都有类、接口、继承、嵌套、枚举的概念，唯一区别就在于这些概念在两种语言中的具体语法不同。<strong>我们需要做的，仅仅只是为我们脑海里已经熟知的概念，再增加一种语法规则而已。</strong></p><p>而如果你没有Java基础也没关系，今天这节课要学习的内容，几乎是所有编程语言都需要掌握的概念。在掌握了Kotlin面向对象的编程思想后，如果你再去学习其他编程语言，你也照样可以快速迁移这些知识点。</p><p>当然，Kotlin作为一门新的语言，它也创造了一些新的东西，比如数据类、密封类、密封接口等。这些Kotlin的新概念，会是我们需要着重学习的对象。<strong>实际上，也正是因为Kotlin的这些独有概念，使得它形成了一种独特的编程风格和编程思想。</strong></p><!-- [[[read_end]]] --><p>那么，在学习这节课的时候，我想请你注意一点，就是如果你已经有了Java、C的编程经验，一定要有意识地跳出从前的编程习惯，尝试去理解Kotlin的编程思想。只有这样，你才能写出地道的Kotlin代码，而不仅仅只是用Kotlin语法翻译Java/C代码。</p><h2>怎么写出有Kotlin特点的类？</h2><p>Kotlin当中的“类”，我们可以将其理解为对某种事物的“抽象模型”。比如说，我们可以在Kotlin当中定义一个类，它叫做Person。</p><pre><code class="language-plain">class Person(val name: String, var age: Int)
+
 </code></pre><p>计算机的世界里当然没有“人”的概念，但是这并不妨碍我们在代码当中定义一个人的“抽象模型”。上面的Person类当中，有一个属性，叫做“name”，每个人都会有名字，而名字也是属于人的一部分。这也很好理解，对吧。</p><p>不过，如果你以Java的角度来分析上面的代码的话，会发现它并没有表面上那么简单。如果我们将其翻译成等价的Java代码，它会变成很多行代码：</p><pre><code class="language-java">public class Person {
     private String name;
     private int age;

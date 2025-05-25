@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是朱涛。又到了熟悉的实战环节，这一次我们接着来改造KtHttp，让它能够支持协程的Flow API。</p><p>有了前面两次实战的基础，这次我们应该就轻车熟路了。在之前的<a href="https://time.geekbang.org/column/article/488985">4.0版本</a>中，为了让KtHttp支持挂起函数，我们有两种思路，一种是<strong>改造内部</strong>，另一种是<strong>扩展外部</strong>。同理，为了让KtHttp支持Flow，这次的实战也是这两种思路。</p><p>因此，这节课我们仍然会分为两个版本。</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是朱涛。又到了熟悉的实战环节，这一次我们接着来改造KtHttp，让它能够支持协程的Flow API。</p><p>有了前面两次实战的基础，这次我们应该就轻车熟路了。在之前的<a href="https://time.geekbang.org/column/article/488985">4.0版本</a>中，为了让KtHttp支持挂起函数，我们有两种思路，一种是<strong>改造内部</strong>，另一种是<strong>扩展外部</strong>。同理，为了让KtHttp支持Flow，这次的实战也是这两种思路。</p><p>因此，这节课我们仍然会分为两个版本。</p><ul>
+
 <li>5.0版本，基于4.0版本的代码，从KtHttp的<strong>外部扩展</strong>出Flow的能力。</li>
 <li>6.0版本，<strong>修改KtHttp内部</strong>，让它支持Flow API。</li>
 </ul><p>其实在实际的工作中，我们往往没有权限修改第三方提供的SDK，那么这时候，如果想要让SDK获得Flow的能力，我们就只能借助Kotlin的扩展函数，为它<strong>扩展</strong>出Flow的能力。而对于工程内部的代码，我们希望某个功能模块获得Flow的能力，就可以<strong>直接修改它的源代码</strong>，让它直接支持Flow。</p><p>那么在这节课里，我会同时用这两种手段来扩展并改造KtHttp，为你演示其中的关键步骤。在这个过程中，我也会为你讲解其中的常见误区和陷阱，这样一来，你就可以放心地将Flow应用到你的实际工作中了。</p><p>OK，让我们正式开始吧！</p><h2>5.0版本：Callback转Flow</h2><!-- [[[read_end]]] --><p>在上次的实战课当中，我们在3.0版本里，实现了KtHttp的异步Callback请求。之后在4.0版本里，我们并没有改动KtHttp的源代码，而是直接在KtCall的基础上扩展了<strong>挂起函数</strong>的支持。让我们重新回顾一下之前的代码：</p><pre><code class="language-plain">// 代码段1

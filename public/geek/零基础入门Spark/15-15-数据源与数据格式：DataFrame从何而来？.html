@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是吴磊。</p><p>在上一讲，我们重点讲解了DataFrame与Spark SQL的渊源，并提到，DataFrame是Spark SQL的重要入口。换句话说，通过创建DataFrame并沿用DataFrame开发API，我们才能充分利用Spark SQL优化引擎提供种种“性能红利”。显然，对于初学者来说，第一步的创建DataFrame就变得至关重要。</p><p>之前 <a href="https://time.geekbang.org/column/article/424550">第13讲</a>，我们做小汽车摇号倍率分析时，用了SparkSession的read API从Parquet文件创建DataFrame，其实创建DataFrame的方法还有很多。毫不夸张地说，DataFrame的创建途径异常丰富，为什么这么说呢？</p><p>如下图所示，Spark支持多种数据源，按照数据来源进行划分，这些数据源可以分为如下几个大类：Driver端自定义的数据结构、（分布式）文件系统、关系型数据库RDBMS、关系型数据仓库、NoSQL数据库，以及其他的计算引擎。</p><p><img src="https://static001.geekbang.org/resource/image/f9/f6/f99dae173ba0268a8bd486ab200ecdf6.jpg?wh=1920x696" alt="图片" title="Spark支持的数据源"></p><p>显然，要深入地介绍Spark与每一种数据源的集成并不现实，也没必要，咱们只需要把注意力放在那些最常用、最常见的集成方式即可。</p><p>这一讲，我会从Driver、文件系统与RDBMS三个方面，为你讲解5种常见的DataFrame创建方式，然后带你了解不同方式的使用场景跟优劣分析。</p><!-- [[[read_end]]] --><h2>从Driver创建DataFrame</h2><p>在Driver端，Spark可以直接从数组、元组、映射等数据结构创建DataFrame。使用这种方式创建的DataFrame通常数据量有限，因此这样的DataFrame往往不直接参与分布式计算，而是用于辅助计算或是数据探索。尽管如此，学习这部分知识点还是非常必要的，因为它可以帮我们更直观地理解DataFrame与RDD的关系。</p><p>还记得吗？在数据表示（Data Representation）上，相比RDD，DataFrame仅仅是多了一个Schema。甚至可以说，DataFrame就是带Schema的RDD。因此，创建DataFrame的第一种方法，就是先创建RDD，然后再给它“扣上”一顶Schema的“帽子”。</p><p>从本地数据结构创建RDD，我们用的是SparkContext的parallelize方法，而给RDD“扣帽子”，我们要用到SparkSession的createDataFrame方法。</p><h3>createDataFrame方法</h3><p>为了创建RDD，我们先来定义列表数据seq。seq的每个元素都是二元元组，元组第一个元素的类型是String，第二个元素的类型是Int。有了列表数据结构，接下来我们创建RDD，如下所示。</p><pre><code class="language-scala">import org.apache.spark.rdd.RDD
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是吴磊。</p><p>在上一讲，我们重点讲解了DataFrame与Spark SQL的渊源，并提到，DataFrame是Spark SQL的重要入口。换句话说，通过创建DataFrame并沿用DataFrame开发API，我们才能充分利用Spark SQL优化引擎提供种种“性能红利”。显然，对于初学者来说，第一步的创建DataFrame就变得至关重要。</p><p>之前 <a href="https://time.geekbang.org/column/article/424550">第13讲</a>，我们做小汽车摇号倍率分析时，用了SparkSession的read API从Parquet文件创建DataFrame，其实创建DataFrame的方法还有很多。毫不夸张地说，DataFrame的创建途径异常丰富，为什么这么说呢？</p><p>如下图所示，Spark支持多种数据源，按照数据来源进行划分，这些数据源可以分为如下几个大类：Driver端自定义的数据结构、（分布式）文件系统、关系型数据库RDBMS、关系型数据仓库、NoSQL数据库，以及其他的计算引擎。</p><p><img src="https://static001.geekbang.org/resource/image/f9/f6/f99dae173ba0268a8bd486ab200ecdf6.jpg?wh=1920x696" alt="图片" title="Spark支持的数据源"></p><p>显然，要深入地介绍Spark与每一种数据源的集成并不现实，也没必要，咱们只需要把注意力放在那些最常用、最常见的集成方式即可。</p><p>这一讲，我会从Driver、文件系统与RDBMS三个方面，为你讲解5种常见的DataFrame创建方式，然后带你了解不同方式的使用场景跟优劣分析。</p><!-- [[[read_end]]] --><h2>从Driver创建DataFrame</h2><p>在Driver端，Spark可以直接从数组、元组、映射等数据结构创建DataFrame。使用这种方式创建的DataFrame通常数据量有限，因此这样的DataFrame往往不直接参与分布式计算，而是用于辅助计算或是数据探索。尽管如此，学习这部分知识点还是非常必要的，因为它可以帮我们更直观地理解DataFrame与RDD的关系。</p><p>还记得吗？在数据表示（Data Representation）上，相比RDD，DataFrame仅仅是多了一个Schema。甚至可以说，DataFrame就是带Schema的RDD。因此，创建DataFrame的第一种方法，就是先创建RDD，然后再给它“扣上”一顶Schema的“帽子”。</p><p>从本地数据结构创建RDD，我们用的是SparkContext的parallelize方法，而给RDD“扣帽子”，我们要用到SparkSession的createDataFrame方法。</p><h3>createDataFrame方法</h3><p>为了创建RDD，我们先来定义列表数据seq。seq的每个元素都是二元元组，元组第一个元素的类型是String，第二个元素的类型是Int。有了列表数据结构，接下来我们创建RDD，如下所示。</p><pre><code class="language-scala">import org.apache.spark.rdd.RDD
+
 val seq: Seq[(String, Int)] = Seq(("Bob", 14), ("Alice", 18))
 val rdd: RDD[(String, Int)] = sc.parallelize(seq)
 </code></pre><p>有了RDD之后，我们来给它制作一顶“帽子”，也就是我们刚刚说的Schema。创建Schema，我们需要用到Spark SQL内置的几种类型，如StructType、StructField、StringType、IntegerType，等等。</p><p>其中，StructType用于定义并封装Schema，StructFiled用于定义Schema中的每一个字段，包括字段名、字段类型，而像StringType、IntegerType这些*Type类型，表示的正是字段类型。为了和RDD数据类型保持一致，Schema对应的元素类型应该是（StringType，IntegerType）。</p><pre><code class="language-scala">import org.apache.spark.sql.types.{StringType, IntegerType, StructField, StructType}

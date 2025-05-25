@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是倪朋飞。</p><p>前几节，通过几个案例，我们分析了各种常见的内存性能问题。我相信通过它们，你对内存的性能分析已经有了基本的思路，也熟悉了很多分析内存性能的工具。你肯定会想，有没有迅速定位内存问题的方法？当定位出内存的瓶颈后，又有哪些优化内存的思路呢？</p><p>今天，我就来帮你梳理一下，怎样可以快速定位系统内存，并且总结了相关的解决思路。</p><h2>内存性能指标</h2><p>为了分析内存的性能瓶颈，首先你要知道，怎样衡量内存的性能，也就是性能指标问题。我们先来回顾一下，前几节学过的内存性能指标。</p><p>你可以自己先找张纸，凭着记忆写一写；或者打开前面的文章，自己总结一下。</p><p>首先，你最容易想到的是系统内存使用情况，比如已用内存、剩余内存、共享内存、可用内存、缓存和缓冲区的用量等。</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是倪朋飞。</p><p>前几节，通过几个案例，我们分析了各种常见的内存性能问题。我相信通过它们，你对内存的性能分析已经有了基本的思路，也熟悉了很多分析内存性能的工具。你肯定会想，有没有迅速定位内存问题的方法？当定位出内存的瓶颈后，又有哪些优化内存的思路呢？</p><p>今天，我就来帮你梳理一下，怎样可以快速定位系统内存，并且总结了相关的解决思路。</p><h2>内存性能指标</h2><p>为了分析内存的性能瓶颈，首先你要知道，怎样衡量内存的性能，也就是性能指标问题。我们先来回顾一下，前几节学过的内存性能指标。</p><p>你可以自己先找张纸，凭着记忆写一写；或者打开前面的文章，自己总结一下。</p><p>首先，你最容易想到的是系统内存使用情况，比如已用内存、剩余内存、共享内存、可用内存、缓存和缓冲区的用量等。</p><ul>
+
 <li>
 <p>已用内存和剩余内存很容易理解，就是已经使用和还未使用的内存。</p>
 </li>

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是卢誉声，Autodesk 数据平台和计算平台资深软件工程师，也是《移动平台深度神经网络实战》和《分布式实时处理系统：原理架构与实现》的作者，主要从事C/C++、JavaScript开发工作和平台架构方面的研发工作，对SWIG也有比较深的研究。很高兴受极客时间邀请来做本次分享，今天，我们就来聊一聊SWIG这个话题。</p><p>我们都知道，Python 是一门易于上手并实验友好的胶水语言。现在有很多机器学习开发或研究人员，都选择Python作为主力编程语言；流行的机器学习框架也都会提供Python语言的支持作为调用接口和工具。因此，相较于学习成本更高的C++来说，把Python作为进入机器学习世界的首选编程语言，就再合适不过了。</p><p>不过，像TensorFlow或PyTorch这样的机器学习框架的核心，是使用Python编写的吗？</p><p>显然不是。这里面的原因比较多，但最为显著的一个原因就是“性能”。通过C++编写的机器学习框架内核，加上编译器的优化能力，为系统提供了接近于机器码执行的效率。这种得天独厚的优势，让C++在机器学习的核心领域站稳了脚跟。我们前面所说的TensorFlow和PyTorch的核心，便都是使用C/C++开发的。其中，TensorFlow的内核，就是由高度优化的C++代码和CUDA编写而成。</p><!-- [[[read_end]]] --><p>因此，我们可以理解为，TensorFlow通过Python来描述模型，而实际的运算则是由高性能C++代码执行的。而且，在绝大多数情况下，不同操作之间传递的数据，并不会拷贝回Python代码的执行空间。机器学习框架，正是通过这样的方式确保了计算性能，同时兼顾了对框架易用性方面的考虑。</p><p>因此，当Python和C++结合使用的时候，Python本身的性能瓶颈就不那么重要了。它足够胜任我们给它的任务就可以了，至于对计算有更高要求的任务，就交给C++来做吧！</p><p>今天，我们就来讨论下，如何通过SWIG对C++程序进行Python封装。我会先带你编写一段Python脚本，来执行一个简单的机器学习任务；接着，尝试将计算密集的部分改写成C++程序，再通过SWIG对其进行封装。最后的结果就是，Python把计算密集的任务委托给C++执行。</p><p>我们会对性能做一个简单比较，并在这个过程中，讲解使用SWIG的方法。同时，在今天这节课的最后，我会为你提供一个学习路径，作为日后提高的参考。</p><p>明确了今天的学习目的，也就是使用SWIG来实现Python对C++代码的调用，那么，我们今天的内容，其实可以看成一份<strong>关于SWIG的编程实践指南</strong>。学习这份指南之前，我们先来简单了解一下SWIG。</p><h2>SWIG 是什么？</h2><p>SWIG，是一款能够连接C/C++与多种高级编程语言（我们在这里特别强调Python）的软件开发工具。SWIG支持多种不同类型的目标语言，这其中，支持的常见脚本语言包括JavaScript、Perl、PHP、Tcl、Ruby和Python等，支持的高级编程语言则包括C#、D、Go语言、Java（包括对Android的支持）、Lua、OCaml、Octave、Scilab和R。</p><p>我们通常使用SWIG来创建高级解释或编译型的编程环境和接口，它也常被用来当作C/C++编写原型的测试工具。一个典型的应用场景，便是解析和创建C/C++接口，生成胶水代码供像Python这样的高级编程语言调用。近期发布的4.0.0版本，更是带来了对C++的显著改进和支持，这其中包括（不局限于）下面几点。</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是卢誉声，Autodesk 数据平台和计算平台资深软件工程师，也是《移动平台深度神经网络实战》和《分布式实时处理系统：原理架构与实现》的作者，主要从事C/C++、JavaScript开发工作和平台架构方面的研发工作，对SWIG也有比较深的研究。很高兴受极客时间邀请来做本次分享，今天，我们就来聊一聊SWIG这个话题。</p><p>我们都知道，Python 是一门易于上手并实验友好的胶水语言。现在有很多机器学习开发或研究人员，都选择Python作为主力编程语言；流行的机器学习框架也都会提供Python语言的支持作为调用接口和工具。因此，相较于学习成本更高的C++来说，把Python作为进入机器学习世界的首选编程语言，就再合适不过了。</p><p>不过，像TensorFlow或PyTorch这样的机器学习框架的核心，是使用Python编写的吗？</p><p>显然不是。这里面的原因比较多，但最为显著的一个原因就是“性能”。通过C++编写的机器学习框架内核，加上编译器的优化能力，为系统提供了接近于机器码执行的效率。这种得天独厚的优势，让C++在机器学习的核心领域站稳了脚跟。我们前面所说的TensorFlow和PyTorch的核心，便都是使用C/C++开发的。其中，TensorFlow的内核，就是由高度优化的C++代码和CUDA编写而成。</p><!-- [[[read_end]]] --><p>因此，我们可以理解为，TensorFlow通过Python来描述模型，而实际的运算则是由高性能C++代码执行的。而且，在绝大多数情况下，不同操作之间传递的数据，并不会拷贝回Python代码的执行空间。机器学习框架，正是通过这样的方式确保了计算性能，同时兼顾了对框架易用性方面的考虑。</p><p>因此，当Python和C++结合使用的时候，Python本身的性能瓶颈就不那么重要了。它足够胜任我们给它的任务就可以了，至于对计算有更高要求的任务，就交给C++来做吧！</p><p>今天，我们就来讨论下，如何通过SWIG对C++程序进行Python封装。我会先带你编写一段Python脚本，来执行一个简单的机器学习任务；接着，尝试将计算密集的部分改写成C++程序，再通过SWIG对其进行封装。最后的结果就是，Python把计算密集的任务委托给C++执行。</p><p>我们会对性能做一个简单比较，并在这个过程中，讲解使用SWIG的方法。同时，在今天这节课的最后，我会为你提供一个学习路径，作为日后提高的参考。</p><p>明确了今天的学习目的，也就是使用SWIG来实现Python对C++代码的调用，那么，我们今天的内容，其实可以看成一份<strong>关于SWIG的编程实践指南</strong>。学习这份指南之前，我们先来简单了解一下SWIG。</p><h2>SWIG 是什么？</h2><p>SWIG，是一款能够连接C/C++与多种高级编程语言（我们在这里特别强调Python）的软件开发工具。SWIG支持多种不同类型的目标语言，这其中，支持的常见脚本语言包括JavaScript、Perl、PHP、Tcl、Ruby和Python等，支持的高级编程语言则包括C#、D、Go语言、Java（包括对Android的支持）、Lua、OCaml、Octave、Scilab和R。</p><p>我们通常使用SWIG来创建高级解释或编译型的编程环境和接口，它也常被用来当作C/C++编写原型的测试工具。一个典型的应用场景，便是解析和创建C/C++接口，生成胶水代码供像Python这样的高级编程语言调用。近期发布的4.0.0版本，更是带来了对C++的显著改进和支持，这其中包括（不局限于）下面几点。</p><ul>
+
 <li>针对C#、Java和Ruby而改进的STL包装器。</li>
 <li>针对Java、Python和Ruby，增加C++11标准下的STL容器的支持。</li>
 <li>改进了对C++11和C++14代码的支持。</li>

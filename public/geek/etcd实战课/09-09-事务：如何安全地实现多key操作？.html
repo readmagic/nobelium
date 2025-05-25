@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是唐聪。</p><p>在软件开发过程中，我们经常会遇到需要批量执行多个key操作的业务场景，比如转账案例中，Alice给Bob转账100元，Alice账号减少100，Bob账号增加100，这涉及到多个key的原子更新。</p><p>无论发生任何故障，我们应用层期望的结果是，要么两个操作一起成功，要么两个一起失败。我们无法容忍出现一个成功，一个失败的情况。那么etcd是如何解决多key原子更新问题呢？</p><p>这正是我今天要和你分享的主题——事务，它就是为了<strong>简化应用层的编程模型</strong>而诞生的。我将通过转账案例为你剖析etcd事务实现，让你了解etcd如何实现事务ACID特性的，以及MVCC版本号在事务中的重要作用。希望通过本节课，帮助你在业务开发中正确使用事务，保证软件代码的正确性。</p><h2>事务特性初体验及API</h2><p>如何使用etcd实现Alice向Bob转账功能呢？</p><p>在etcd v2的时候， etcd提供了CAS（Compare and swap），然而其只支持单key，不支持多key，因此无法满足类似转账场景的需求。严格意义上说CAS称不上事务，无法实现事务的各个隔离级别。</p><p>etcd v3为了解决多key的原子操作问题，提供了全新迷你事务API，同时基于MVCC版本号，它可以实现各种隔离级别的事务。它的基本结构如下：</p><!-- [[[read_end]]] --><pre><code>client.Txn(ctx).If(cmp1, cmp2, ...).Then(op1, op2, ...,).Else(op1, op2, …)
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是唐聪。</p><p>在软件开发过程中，我们经常会遇到需要批量执行多个key操作的业务场景，比如转账案例中，Alice给Bob转账100元，Alice账号减少100，Bob账号增加100，这涉及到多个key的原子更新。</p><p>无论发生任何故障，我们应用层期望的结果是，要么两个操作一起成功，要么两个一起失败。我们无法容忍出现一个成功，一个失败的情况。那么etcd是如何解决多key原子更新问题呢？</p><p>这正是我今天要和你分享的主题——事务，它就是为了<strong>简化应用层的编程模型</strong>而诞生的。我将通过转账案例为你剖析etcd事务实现，让你了解etcd如何实现事务ACID特性的，以及MVCC版本号在事务中的重要作用。希望通过本节课，帮助你在业务开发中正确使用事务，保证软件代码的正确性。</p><h2>事务特性初体验及API</h2><p>如何使用etcd实现Alice向Bob转账功能呢？</p><p>在etcd v2的时候， etcd提供了CAS（Compare and swap），然而其只支持单key，不支持多key，因此无法满足类似转账场景的需求。严格意义上说CAS称不上事务，无法实现事务的各个隔离级别。</p><p>etcd v3为了解决多key的原子操作问题，提供了全新迷你事务API，同时基于MVCC版本号，它可以实现各种隔离级别的事务。它的基本结构如下：</p><!-- [[[read_end]]] --><pre><code>client.Txn(ctx).If(cmp1, cmp2, ...).Then(op1, op2, ...,).Else(op1, op2, …)
+
 </code></pre><p>从上面结构中你可以看到，<strong>事务API由If语句、Then语句、Else语句组成</strong>，这与我们平时常见的MySQL事务完全不一样。</p><p>它的基本原理是，在If语句中，你可以添加一系列的条件表达式，若条件表达式全部通过检查，则执行Then语句的get/put/delete等操作，否则执行Else的get/put/delete等操作。</p><p>那么If语句支持哪些检查项呢？</p><p>首先是<strong>key的最近一次修改版本号mod_revision</strong>，简称mod。你可以通过它检查key最近一次被修改时的版本号是否符合你的预期。比如当你查询到Alice账号资金为100元时，它的mod_revision是v1，当你发起转账操作时，你得确保Alice账号上的100元未被挪用，这就可以通过mod(“Alice”) = “v1” 条件表达式来保障转账安全性。</p><p>其次是<strong>key的创建版本号create_revision</strong>，简称create。你可以通过它检查key是否已存在。比如在分布式锁场景里，只有分布式锁key(lock)不存在的时候，你才能发起put操作创建锁，这时你可以通过create(“lock”) = "0"来判断，因为一个key不存在的话它的create_revision版本号就是0。</p><p>接着是<strong>key的修改次数version</strong>。你可以通过它检查key的修改次数是否符合预期。比如你期望key在修改次数小于3时，才能发起某些操作时，可以通过version(“key”) &lt; "3"来判断。</p><p>最后是<strong>key的value值</strong>。你可以通过检查key的value值是否符合预期，然后发起某些操作。比如期望Alice的账号资金为200, value(“Alice”) = “200”。</p><p>If语句通过以上MVCC版本号、value值、各种比较运算符(等于、大于、小于、不等于)，实现了灵活的比较的功能，满足你各类业务场景诉求。</p><p>下面我给出了一个使用etcdctl的txn事务命令，基于以上介绍的特性，初步实现的一个Alice向Bob转账100元的事务。</p><p>Alice和Bob初始账上资金分别都为200元，事务首先判断Alice账号资金是否为200，若是则执行转账操作，不是则返回最新资金。etcd是如何执行这个事务的呢？<strong>这个事务实现上有哪些问题呢？</strong></p><pre><code>$ etcdctl txn -i
 compares: //对应If语句
 value(&quot;Alice&quot;) = &quot;200&quot; //判断Alice账号资金是否为200

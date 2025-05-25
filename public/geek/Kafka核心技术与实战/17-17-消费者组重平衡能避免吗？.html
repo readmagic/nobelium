@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是胡夕。今天我要和你分享的内容是：消费者组重平衡能避免吗?</p><p>其实在专栏<a href="https://time.geekbang.org/column/article/105112">第15期</a>中，我们讲过重平衡，也就是Rebalance，现在先来回顾一下这个概念的原理和用途。Rebalance就是让一个Consumer Group下所有的Consumer实例就如何消费订阅主题的所有分区达成共识的过程。在Rebalance过程中，所有Consumer实例共同参与，在协调者组件的帮助下，完成订阅主题分区的分配。但是，在整个过程中，所有实例都不能消费任何消息，因此它对Consumer的TPS影响很大。</p><p>你可能会对这里提到的“协调者”有些陌生，我来简单介绍下。所谓协调者，在Kafka中对应的术语是Coordinator，它专门为Consumer Group服务，负责为Group执行Rebalance以及提供位移管理和组成员管理等。</p><p>具体来讲，Consumer端应用程序在提交位移时，其实是向Coordinator所在的Broker提交位移。同样地，当Consumer应用启动时，也是向Coordinator所在的Broker发送各种请求，然后由Coordinator负责执行消费者组的注册、成员管理记录等元数据管理操作。</p><!-- [[[read_end]]] --><p>所有Broker在启动时，都会创建和开启相应的Coordinator组件。也就是说，<strong>所有Broker都有各自的Coordinator组件</strong>。那么，Consumer Group如何确定为它服务的Coordinator在哪台Broker上呢？答案就在我们之前说过的Kafka内部位移主题__consumer_offsets身上。</p><p>目前，Kafka为某个Consumer Group确定Coordinator所在的Broker的算法有2个步骤。</p><p>第1步：确定由位移主题的哪个分区来保存该Group数据：partitionId=Math.abs(groupId.hashCode() % offsetsTopicPartitionCount)。</p><p>第2步：找出该分区Leader副本所在的Broker，该Broker即为对应的Coordinator。</p><p>简单解释一下上面的算法。首先，Kafka会计算该Group的group.id参数的哈希值。比如你有个Group的group.id设置成了“test-group”，那么它的hashCode值就应该是627841412。其次，Kafka会计算__consumer_offsets的分区数，通常是50个分区，之后将刚才那个哈希值对分区数进行取模加求绝对值计算，即abs(627841412 % 50) = 12。此时，我们就知道了位移主题的分区12负责保存这个Group的数据。有了分区号，算法的第2步就变得很简单了，我们只需要找出位移主题分区12的Leader副本在哪个Broker上就可以了。这个Broker，就是我们要找的Coordinator。</p><p>在实际使用过程中，Consumer应用程序，特别是Java Consumer API，能够自动发现并连接正确的Coordinator，我们不用操心这个问题。知晓这个算法的最大意义在于，它能够帮助我们解决<strong>定位问题</strong>。当Consumer Group出现问题，需要快速排查Broker端日志时，我们能够根据这个算法准确定位Coordinator对应的Broker，不必一台Broker一台Broker地盲查。</p><p>好了，我们说回Rebalance。既然我们今天要讨论的是如何避免Rebalance，那就说明Rebalance这个东西不好，或者说至少有一些弊端需要我们去规避。那么，Rebalance的弊端是什么呢？总结起来有以下3点：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是胡夕。今天我要和你分享的内容是：消费者组重平衡能避免吗?</p><p>其实在专栏<a href="https://time.geekbang.org/column/article/105112">第15期</a>中，我们讲过重平衡，也就是Rebalance，现在先来回顾一下这个概念的原理和用途。Rebalance就是让一个Consumer Group下所有的Consumer实例就如何消费订阅主题的所有分区达成共识的过程。在Rebalance过程中，所有Consumer实例共同参与，在协调者组件的帮助下，完成订阅主题分区的分配。但是，在整个过程中，所有实例都不能消费任何消息，因此它对Consumer的TPS影响很大。</p><p>你可能会对这里提到的“协调者”有些陌生，我来简单介绍下。所谓协调者，在Kafka中对应的术语是Coordinator，它专门为Consumer Group服务，负责为Group执行Rebalance以及提供位移管理和组成员管理等。</p><p>具体来讲，Consumer端应用程序在提交位移时，其实是向Coordinator所在的Broker提交位移。同样地，当Consumer应用启动时，也是向Coordinator所在的Broker发送各种请求，然后由Coordinator负责执行消费者组的注册、成员管理记录等元数据管理操作。</p><!-- [[[read_end]]] --><p>所有Broker在启动时，都会创建和开启相应的Coordinator组件。也就是说，<strong>所有Broker都有各自的Coordinator组件</strong>。那么，Consumer Group如何确定为它服务的Coordinator在哪台Broker上呢？答案就在我们之前说过的Kafka内部位移主题__consumer_offsets身上。</p><p>目前，Kafka为某个Consumer Group确定Coordinator所在的Broker的算法有2个步骤。</p><p>第1步：确定由位移主题的哪个分区来保存该Group数据：partitionId=Math.abs(groupId.hashCode() % offsetsTopicPartitionCount)。</p><p>第2步：找出该分区Leader副本所在的Broker，该Broker即为对应的Coordinator。</p><p>简单解释一下上面的算法。首先，Kafka会计算该Group的group.id参数的哈希值。比如你有个Group的group.id设置成了“test-group”，那么它的hashCode值就应该是627841412。其次，Kafka会计算__consumer_offsets的分区数，通常是50个分区，之后将刚才那个哈希值对分区数进行取模加求绝对值计算，即abs(627841412 % 50) = 12。此时，我们就知道了位移主题的分区12负责保存这个Group的数据。有了分区号，算法的第2步就变得很简单了，我们只需要找出位移主题分区12的Leader副本在哪个Broker上就可以了。这个Broker，就是我们要找的Coordinator。</p><p>在实际使用过程中，Consumer应用程序，特别是Java Consumer API，能够自动发现并连接正确的Coordinator，我们不用操心这个问题。知晓这个算法的最大意义在于，它能够帮助我们解决<strong>定位问题</strong>。当Consumer Group出现问题，需要快速排查Broker端日志时，我们能够根据这个算法准确定位Coordinator对应的Broker，不必一台Broker一台Broker地盲查。</p><p>好了，我们说回Rebalance。既然我们今天要讨论的是如何避免Rebalance，那就说明Rebalance这个东西不好，或者说至少有一些弊端需要我们去规避。那么，Rebalance的弊端是什么呢？总结起来有以下3点：</p><ol>
+
 <li>
 <p>Rebalance影响Consumer端TPS。这个之前也反复提到了，这里就不再具体讲了。总之就是，在Rebalance期间，Consumer会停下手头的事情，什么也干不了。</p>
 </li>

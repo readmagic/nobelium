@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是陈航。专栏上线以来，我在评论区看到了很多同学写的心得、经验和建议，当然更多的还是大家提的问题。</p><p>为了能够让大家更好地理解我们专栏的核心知识点，我今天特意整理了每篇文章的课后思考题，并结合大家在留言区的回答情况做一次分析与扩展。</p><p>当然 ，我也希望你能把这篇答疑文章作为对整个专栏所讲知识点的一次复习，如果你在学习或者使用Flutter的过程中，遇到哪些问题，欢迎继续给我留言。我们一起交流，共同进步！</p><p>需要注意的是，这些课后题并不存在标准答案。就算是同一个功能、同一个界面，不同人也会有完全不一样的实现方案，只要你的解决方案的输入和输出满足题目要求，在我看来你就已经掌握了相应的知识点。因此，<strong>在这篇文章中，我会更侧重于介绍方案、实现思路、原理和关键细节，而不是讲具体实操的方方面面。</strong></p><p>接下来，我们就具体看看这些思考题的答案吧。</p><p><span class="orange">问题1：直接在build函数里以内联的方式实现Scaffold页面元素的构建，好处是什么？</span></p><p>这个问题选自第5篇文章“<a href="https://time.geekbang.org/column/article/106199">从标准模板入手，体会Flutter代码是如何运行在原生系统上的</a>”，你可以先回顾下这篇文章的相关知识点。</p><p>然后，我来说说这样做的最大好处是，各个组件之间可以直接共享页面的状态和方法，页面和组件间不再需要把状态数据传来传去、多级回调了。</p><!-- [[[read_end]]] --><p>不过这种方式也有缺点，一旦数据发生变更，Flutter会重建整个大Widget（而不是变化的那部分），所以会对性能产生些影响。</p><p><span class="orange">问题2：对于集合类型List和Map，如何让其内部元素支持多种类型？</span></p><p>这个问题来自第6篇文章“<a href="https://time.geekbang.org/column/article/106816">基础语法与类型变量：Dart是如何表示信息的？</a>”，你可以先回顾下这篇文章的相关知识点。</p><p>如果集合中多个类型之间存在共同的父类（比如double和int），可以使用父类进行容器类型声明，从而增加类型的安全校验，在取出对象时根据runtimeType转换成实际类型即可。如果容器中的类型比较多，想省掉类型转换的步骤，也可以使用动态类型dynamic为元素添加不同类型的元素。</p><p>而在判断元素真实类型时，我们可以使用is关键字或runtimeType。</p><p><span class="orange">问题3：继承、接口与混入的相关问题。</span></p><p>这个问题来自第7篇文章“<a href="https://time.geekbang.org/column/article/107399">函数、类与运算符：Dart是如何处理信息的？</a>”，你可以先回顾下这篇文章的相关知识点。</p><p><strong>第一</strong>，你是怎样理解父类继承、接口实现和混入的？我们应该在什么场景下使用它们？</p><p>父类继承、接口实现和混入都是实现代码复用的手段，我们在代码中应该根据不同的需求去使用。其中：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是陈航。专栏上线以来，我在评论区看到了很多同学写的心得、经验和建议，当然更多的还是大家提的问题。</p><p>为了能够让大家更好地理解我们专栏的核心知识点，我今天特意整理了每篇文章的课后思考题，并结合大家在留言区的回答情况做一次分析与扩展。</p><p>当然 ，我也希望你能把这篇答疑文章作为对整个专栏所讲知识点的一次复习，如果你在学习或者使用Flutter的过程中，遇到哪些问题，欢迎继续给我留言。我们一起交流，共同进步！</p><p>需要注意的是，这些课后题并不存在标准答案。就算是同一个功能、同一个界面，不同人也会有完全不一样的实现方案，只要你的解决方案的输入和输出满足题目要求，在我看来你就已经掌握了相应的知识点。因此，<strong>在这篇文章中，我会更侧重于介绍方案、实现思路、原理和关键细节，而不是讲具体实操的方方面面。</strong></p><p>接下来，我们就具体看看这些思考题的答案吧。</p><p><span class="orange">问题1：直接在build函数里以内联的方式实现Scaffold页面元素的构建，好处是什么？</span></p><p>这个问题选自第5篇文章“<a href="https://time.geekbang.org/column/article/106199">从标准模板入手，体会Flutter代码是如何运行在原生系统上的</a>”，你可以先回顾下这篇文章的相关知识点。</p><p>然后，我来说说这样做的最大好处是，各个组件之间可以直接共享页面的状态和方法，页面和组件间不再需要把状态数据传来传去、多级回调了。</p><!-- [[[read_end]]] --><p>不过这种方式也有缺点，一旦数据发生变更，Flutter会重建整个大Widget（而不是变化的那部分），所以会对性能产生些影响。</p><p><span class="orange">问题2：对于集合类型List和Map，如何让其内部元素支持多种类型？</span></p><p>这个问题来自第6篇文章“<a href="https://time.geekbang.org/column/article/106816">基础语法与类型变量：Dart是如何表示信息的？</a>”，你可以先回顾下这篇文章的相关知识点。</p><p>如果集合中多个类型之间存在共同的父类（比如double和int），可以使用父类进行容器类型声明，从而增加类型的安全校验，在取出对象时根据runtimeType转换成实际类型即可。如果容器中的类型比较多，想省掉类型转换的步骤，也可以使用动态类型dynamic为元素添加不同类型的元素。</p><p>而在判断元素真实类型时，我们可以使用is关键字或runtimeType。</p><p><span class="orange">问题3：继承、接口与混入的相关问题。</span></p><p>这个问题来自第7篇文章“<a href="https://time.geekbang.org/column/article/107399">函数、类与运算符：Dart是如何处理信息的？</a>”，你可以先回顾下这篇文章的相关知识点。</p><p><strong>第一</strong>，你是怎样理解父类继承、接口实现和混入的？我们应该在什么场景下使用它们？</p><p>父类继承、接口实现和混入都是实现代码复用的手段，我们在代码中应该根据不同的需求去使用。其中：</p><ul>
+
 <li>在父类继承中，子类复用了父类的实现，适用于两个类的整体存在逻辑层次关系的场景；</li>
 <li>在接口实现中，类复用了接口的参数、返回值和方法名，但不复用其方法实现，适用于接口和类在行为存在逻辑层次关系的场景；</li>
 <li>而混入则可以使一个类复用多个类的实现，这些类之间无需存在父子关系，适用于多个类的局部存在逻辑层次关系的场景。</li>

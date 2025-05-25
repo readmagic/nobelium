@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>目前来讲，你已经初步了解了LLVM和它的IR，也能够使用它的命令行工具。<strong>不过，我们还是要通过程序生成LLVM的IR，</strong>这样才能复用LLVM的功能，从而实现一门完整的语言。</p><p>不过，如果我们要像前面生成汇编语言那样，通过字符串拼接来生成LLVM的IR，除了要了解LLVM IR的很多细节之外，代码一定比较啰嗦和复杂，因为字符串拼接不是结构化的方法，所以，最好用一个定义良好的数据结构来表示IR。</p><p>好在LLVM项目已经帮我们考虑到了这一点，它提供了代表LLVM IR的一组对象模型，我们只要生成这些对象，就相当于生成了IR，这个难度就低多了。而且，LLVM还提供了一个工具类，IRBuilder，我们可以利用它，进一步提升创建LLVM IR的对象模型的效率，让生成IR的过程变得更加简单！</p><p>接下来，就让我们先来了解LLVM IR的对象模型。</p><h2>LLVM IR的对象模型</h2><p>LLVM在内部有用C++实现的对象模型，能够完整表示LLVM IR，当我们把字节码读入内存时，LLVM就会在内存中构建出这个模型。只有基于这个对象模型，我们才可以做进一步的工作，包括代码优化，实现即时编译和运行，以及静态编译生成目标文件。<strong>所以说，这个对象模型是LLVM运行时的核心。</strong></p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/ce/9f/ced8f09e66d4bbd60eb524456d165e9f.jpg" alt=""></p><p>IR对象模型的头文件在<a href="https://github.com/llvm/llvm-project/tree/master/llvm/include/llvm/IR">include/llvm/IR</a>目录下，其中最重要的类包括：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>目前来讲，你已经初步了解了LLVM和它的IR，也能够使用它的命令行工具。<strong>不过，我们还是要通过程序生成LLVM的IR，</strong>这样才能复用LLVM的功能，从而实现一门完整的语言。</p><p>不过，如果我们要像前面生成汇编语言那样，通过字符串拼接来生成LLVM的IR，除了要了解LLVM IR的很多细节之外，代码一定比较啰嗦和复杂，因为字符串拼接不是结构化的方法，所以，最好用一个定义良好的数据结构来表示IR。</p><p>好在LLVM项目已经帮我们考虑到了这一点，它提供了代表LLVM IR的一组对象模型，我们只要生成这些对象，就相当于生成了IR，这个难度就低多了。而且，LLVM还提供了一个工具类，IRBuilder，我们可以利用它，进一步提升创建LLVM IR的对象模型的效率，让生成IR的过程变得更加简单！</p><p>接下来，就让我们先来了解LLVM IR的对象模型。</p><h2>LLVM IR的对象模型</h2><p>LLVM在内部有用C++实现的对象模型，能够完整表示LLVM IR，当我们把字节码读入内存时，LLVM就会在内存中构建出这个模型。只有基于这个对象模型，我们才可以做进一步的工作，包括代码优化，实现即时编译和运行，以及静态编译生成目标文件。<strong>所以说，这个对象模型是LLVM运行时的核心。</strong></p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/ce/9f/ced8f09e66d4bbd60eb524456d165e9f.jpg" alt=""></p><p>IR对象模型的头文件在<a href="https://github.com/llvm/llvm-project/tree/master/llvm/include/llvm/IR">include/llvm/IR</a>目录下，其中最重要的类包括：</p><ul>
+
 <li>Module（模块）</li>
 </ul><p>Module类聚合了一个模块中的所有数据，它可以包含多个函数。你可以通过Model::iterator来遍历模块中所有的函数。它也包含了一个模块的全局变量。</p><ul>
 <li>Function（函数）</li>

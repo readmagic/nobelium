@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是于航。</p><p>“main 函数是所有 C 程序的起始入口”，相信对于这句话，每个同学在刚开始学习 C 语言时都很熟悉，因为这是一个被各种教材反复强调的“结论”。但事实真是如此吗？</p><p>实际上，这句话对，但也不完全对。在一段 C 代码中定义的 main 函数总是会被优先执行，这是我们在日常 C 应用开发过程中都能够轻易观察到的现象。不过，如果将目光移到那些无法直接通过 C 代码触达的地方，你会发现 C 程序的执行流程并非这样简单。</p><p>接下来，我们先通过一个简单的例子，来看看在机器指令层面，程序究竟是如何执行的。</p><h2>真正的入口函数</h2><p>这里，我们首先在 Linux 系统中使用命令 “gcc main.c -o main” ，来将如下所示的这段代码，编译成对应的 ELF 二进制可执行文件。</p><pre><code class="language-bash">// main.c
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是于航。</p><p>“main 函数是所有 C 程序的起始入口”，相信对于这句话，每个同学在刚开始学习 C 语言时都很熟悉，因为这是一个被各种教材反复强调的“结论”。但事实真是如此吗？</p><p>实际上，这句话对，但也不完全对。在一段 C 代码中定义的 main 函数总是会被优先执行，这是我们在日常 C 应用开发过程中都能够轻易观察到的现象。不过，如果将目光移到那些无法直接通过 C 代码触达的地方，你会发现 C 程序的执行流程并非这样简单。</p><p>接下来，我们先通过一个简单的例子，来看看在机器指令层面，程序究竟是如何执行的。</p><h2>真正的入口函数</h2><p>这里，我们首先在 Linux 系统中使用命令 “gcc main.c -o main” ，来将如下所示的这段代码，编译成对应的 ELF 二进制可执行文件。</p><pre><code class="language-bash">// main.c
+
 int main(void) {
 &nbsp; return 0;
 }

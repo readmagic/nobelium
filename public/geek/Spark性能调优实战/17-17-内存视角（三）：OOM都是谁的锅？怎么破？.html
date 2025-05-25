@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是吴磊。</p><p>无论是批处理、流计算，还是数据分析、机器学习，只要是在Spark作业中，我们总能见到OOM（Out Of Memory，内存溢出）的身影。一旦出现OOM，作业就会中断，应用的业务功能也都无法执行。因此，及时处理OOM问题是我们日常开发中一项非常重要的工作。</p><p>但是，Spark报出的OOM问题可以说是五花八门，常常让人找不到头绪。比如，我们经常遇到，数据集按照尺寸估算本该可以完全放进内存，但Spark依然会报OOM异常。这个时候，不少同学都会参考网上的做法，把spark.executor.memory不断地调大、调大、再调大，直到内心崩溃也无济于事，最后只能放弃。</p><p>那么，当我们拿到OOM这个“烫手的山芋”的时候该怎么办呢？我们最先应该弄清楚的是“<strong>到底哪里出现了OOM</strong>”。只有准确定位出现问题的具体区域，我们的调优才能有的放矢。具体来说，这个“<strong>哪里</strong>”，我们至少要分3个方面去看。</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是吴磊。</p><p>无论是批处理、流计算，还是数据分析、机器学习，只要是在Spark作业中，我们总能见到OOM（Out Of Memory，内存溢出）的身影。一旦出现OOM，作业就会中断，应用的业务功能也都无法执行。因此，及时处理OOM问题是我们日常开发中一项非常重要的工作。</p><p>但是，Spark报出的OOM问题可以说是五花八门，常常让人找不到头绪。比如，我们经常遇到，数据集按照尺寸估算本该可以完全放进内存，但Spark依然会报OOM异常。这个时候，不少同学都会参考网上的做法，把spark.executor.memory不断地调大、调大、再调大，直到内心崩溃也无济于事，最后只能放弃。</p><p>那么，当我们拿到OOM这个“烫手的山芋”的时候该怎么办呢？我们最先应该弄清楚的是“<strong>到底哪里出现了OOM</strong>”。只有准确定位出现问题的具体区域，我们的调优才能有的放矢。具体来说，这个“<strong>哪里</strong>”，我们至少要分3个方面去看。</p><ul>
+
 <li>发生OOM的LOC（Line Of Code），也就是代码位置在哪？</li>
 <li>OOM发生在Driver端，还是在Executor端？</li>
 <li>如果是发生在Executor端，OOM到底发生在哪一片内存区域？</li>

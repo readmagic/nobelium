@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><blockquote>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><blockquote>
+
 <p>250GB容量，512MB DDR4缓存，连续读取不超过550MB/s，连续写入不超过520MB/s。</p>
 </blockquote><p>“双十一”在天猫看到一款固态硬盘有上面的这些介绍，这些数字分别代表了什么意思？</p><p>在专栏前面卡顿和启动优化里，我也经常提到I/O优化。可能很多同学觉得I/O优化不就是不在主线程读写大文件吗，真的只有这么简单吗？那你是否考虑过，从应用程序调用read()方法，内核和硬件会做什么样的处理，整个流程可能会出现什么问题？今天请你带着这些疑问，我们一起来看看I/O优化需要的知识。</p><h2>I/O的基本知识</h2><p>在工作中，我发现很多工程师对I/O的认识其实比较模糊，认为I/O就是应用程序执行read()、write()这样的一些操作，并不清楚这些操作背后的整个流程是怎样的。</p><p><img src="https://static001.geekbang.org/resource/image/60/d4/60928bc51c0d04b1c39b24282e8126d4.jpg" alt=""></p><p>我画了一张简图，你可以看到整个文件I/O操作由应用程序、文件系统和磁盘共同完成。首先应用程序将I/O命令发送给文件系统，然后文件系统会在合适的时机把I/O操作发给磁盘。</p><p>这就好比CPU、内存、磁盘三个小伙伴一起完成接力跑，最终跑完的时间很大程度上取决于最慢的小伙伴。我们知道，CPU和内存相比磁盘是高速设备，整个流程的瓶颈在于磁盘I/O的性能。所以很多时候，文件系统性能比磁盘性能更加重要，为了降低磁盘对应用程序的影响，文件系统需要通过各种各样的手段进行优化。那么接下来，我们首先来看文件系统。</p><!-- [[[read_end]]] --><p><strong>1. 文件系统</strong></p><p>文件系统，简单来说就是存储和组织数据的方式。比如在iOS 10.3系统以后，苹果使用APFS（Apple File System）替代之前旧的文件系统HFS+。对于Android来说，现在普遍使用的是Linux常用的ext4文件系统。</p><p>关于文件系统还需要多说两句，华为在EMUI 5.0以后就使用F2FS取代ext4，Google也在最新的旗舰手机Pixel 3使用了F2FS文件系统。Flash-Friendly File System是三星是专门为NAND闪存芯片开发的文件系统，也做了大量针对闪存的优化。根据华为的测试数据，F2FS文件系统在小文件的随机读写方面比ext4更快，例如随机写可以优化60%，不足之处在于可靠性方面出现过一些问题。我想说的是，随着Google、华为的投入和规模化使用，F2FS系统应该是未来Android的主流文件系统。</p><p>还是回到文件系统的I/O。应用程序调用read()方法，系统会通过中断从用户空间进入内核处理流程，然后经过VFS（Virtual File System，虚拟文件系统）、具体文件系统、页缓存Page Cache。下面是Linux一个通用的I/O架构模型。</p><p><img src="https://static001.geekbang.org/resource/image/fb/4b/fb11cbe604eb6c0fc2ba5825275f104b.png" alt=""></p><ul>
 <li>

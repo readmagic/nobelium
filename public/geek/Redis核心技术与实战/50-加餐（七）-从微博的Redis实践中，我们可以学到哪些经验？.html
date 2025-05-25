@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是蒋德钧。</p><p>我们知道，微博内部的业务场景中广泛使用了Redis，积累了大量的应用和优化经验。微博有位专家曾有过一个<a href="https://mp.weixin.qq.com/s?__biz=MzI4NTA1MDEwNg==&amp;mid=2650782429&amp;idx=1&amp;sn=7f2df520a7295a002c4a59f6aea9e7f3&amp;chksm=f3f90f48c48e865e478d936d76c5303663c98da506f221ede85f0f9250e5f897f24896147cfb&amp;scene=27#wechat_redirect">分享</a>，介绍了Redis在微博的优化之路，其中有很多的优秀经验。</p><p>俗话说“他山之石，可以攻玉”，学习掌握这些经验，可以帮助我们在自己的业务场景中更好地应用Redis。今天这节课，我就结合微博技术专家的分享，以及我和他们内部专家的交流，和你聊聊微博对Redis的优化以及我总结的经验。</p><p>首先，我们来看下微博业务场景对Redis的需求。这些业务需求也就是微博优化和改进Redis的出发点。</p><p>微博的业务有很多，例如让红包飞活动，粉丝数、用户数、阅读数统计，信息流聚合，音乐榜单等，同时，这些业务面临的用户体量非常大，业务使用Redis存取的数据量经常会达到TB级别。</p><p>作为直接面向终端用户的应用，微博用户的业务体验至关重要，这些都需要技术的支持。我们来总结下微博对Redis的技术需求：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是蒋德钧。</p><p>我们知道，微博内部的业务场景中广泛使用了Redis，积累了大量的应用和优化经验。微博有位专家曾有过一个<a href="https://mp.weixin.qq.com/s?__biz=MzI4NTA1MDEwNg==&amp;mid=2650782429&amp;idx=1&amp;sn=7f2df520a7295a002c4a59f6aea9e7f3&amp;chksm=f3f90f48c48e865e478d936d76c5303663c98da506f221ede85f0f9250e5f897f24896147cfb&amp;scene=27#wechat_redirect">分享</a>，介绍了Redis在微博的优化之路，其中有很多的优秀经验。</p><p>俗话说“他山之石，可以攻玉”，学习掌握这些经验，可以帮助我们在自己的业务场景中更好地应用Redis。今天这节课，我就结合微博技术专家的分享，以及我和他们内部专家的交流，和你聊聊微博对Redis的优化以及我总结的经验。</p><p>首先，我们来看下微博业务场景对Redis的需求。这些业务需求也就是微博优化和改进Redis的出发点。</p><p>微博的业务有很多，例如让红包飞活动，粉丝数、用户数、阅读数统计，信息流聚合，音乐榜单等，同时，这些业务面临的用户体量非常大，业务使用Redis存取的数据量经常会达到TB级别。</p><p>作为直接面向终端用户的应用，微博用户的业务体验至关重要，这些都需要技术的支持。我们来总结下微博对Redis的技术需求：</p><ul>
+
 <li>能够提供高性能、高并发的读写访问，保证读写延迟低；</li>
 <li>能够支持大容量存储；</li>
 <li>可以灵活扩展，对于不同业务能进行快速扩容。</li>

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是宫文学。</p><p>到目前为止，我们已经把挑战生成本地代码的过程中会遇到的各种难点都解决了，也就是说，我们已经实现基本的寄存器分配算法，并维护好了栈桢。在这个基础上，我们只需要再实现其他的语法特性就行了。</p><p>所以，在今天这节课，我们要让编译器支持条件语句和循环语句。这样的话，我们就可以为前面一直在使用的一些例子，比如生成斐波那契数列的程序，生成本地代码了。然后，我们可以再比较一次不同运行时机制下的性能表现。</p><p>还记得吗？我们在前面已经分别使用了AST解释器、基于JavaScript的虚拟机和基于C语言的虚拟机来生成斐波那契数列。现在我们就看看用我们自己生成的本地代码，性能上是否会有巨大的变化。</p><p>在这个过程中，我们还会再次认识CFG这种数据结构，也会考察一下如何支持一元运算，让我们的语言特性更加丰富。</p><p>那首先我们来看一下，如何实现if语句和for循环语句。</p><h2>支持if语句和for循环语句</h2><p>在前面的课程中，我们曾经练习过为if语句和for循环语句生成字节码。不知道你还记不记得，其中的难点就是生成跳转指令。在今天这节课，我们会完成类似的任务，但采用的是一个稍微不同的方法。</p><p>我们还是先来研究一下if语句，看看针对if语句，编译器需要生成什么代码。我们采用下面一个C语言的示例程序，更详细的代码你可以参见代码库中的<a href="https://gitee.com/richard-gong/craft-a-language/blob/master/16-18/if.c">if.c</a>：</p><!-- [[[read_end]]] --><pre><code class="language-plain">int foo(int a){
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是宫文学。</p><p>到目前为止，我们已经把挑战生成本地代码的过程中会遇到的各种难点都解决了，也就是说，我们已经实现基本的寄存器分配算法，并维护好了栈桢。在这个基础上，我们只需要再实现其他的语法特性就行了。</p><p>所以，在今天这节课，我们要让编译器支持条件语句和循环语句。这样的话，我们就可以为前面一直在使用的一些例子，比如生成斐波那契数列的程序，生成本地代码了。然后，我们可以再比较一次不同运行时机制下的性能表现。</p><p>还记得吗？我们在前面已经分别使用了AST解释器、基于JavaScript的虚拟机和基于C语言的虚拟机来生成斐波那契数列。现在我们就看看用我们自己生成的本地代码，性能上是否会有巨大的变化。</p><p>在这个过程中，我们还会再次认识CFG这种数据结构，也会考察一下如何支持一元运算，让我们的语言特性更加丰富。</p><p>那首先我们来看一下，如何实现if语句和for循环语句。</p><h2>支持if语句和for循环语句</h2><p>在前面的课程中，我们曾经练习过为if语句和for循环语句生成字节码。不知道你还记不记得，其中的难点就是生成跳转指令。在今天这节课，我们会完成类似的任务，但采用的是一个稍微不同的方法。</p><p>我们还是先来研究一下if语句，看看针对if语句，编译器需要生成什么代码。我们采用下面一个C语言的示例程序，更详细的代码你可以参见代码库中的<a href="https://gitee.com/richard-gong/craft-a-language/blob/master/16-18/if.c">if.c</a>：</p><!-- [[[read_end]]] --><pre><code class="language-plain">int foo(int a){
+
     if (a &gt; 10)
         return a + 8;
     else

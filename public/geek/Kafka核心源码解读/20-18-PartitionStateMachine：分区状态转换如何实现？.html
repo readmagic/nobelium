@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是胡夕。今天我们进入到分区状态机（PartitionStateMachine）源码的学习。</p><p>PartitionStateMachine负责管理Kafka分区状态的转换，和ReplicaStateMachine是一脉相承的。从代码结构、实现功能和设计原理来看，二者都极为相似。上节课我们已经学过了ReplicaStateMachine，相信你在学习这节课的PartitionStateMachine时，会轻松很多。</p><p>在面试的时候，很多面试官都非常喜欢问Leader选举的策略。学完了今天的课程之后，你不但能够说出4种Leader选举的场景，还能总结出它们的共性。对于面试来说，绝对是个加分项！</p><p>话不多说，我们就正式开始吧。</p><h2>PartitionStateMachine简介</h2><p>PartitionStateMachine.scala文件位于controller包下，代码结构不复杂，可以看下这张思维导图：</p><p><img src="https://static001.geekbang.org/resource/image/b3/5e/b3f286586b39b9910e756c3539a1125e.jpg" alt=""></p><p>代码总共有5大部分。</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是胡夕。今天我们进入到分区状态机（PartitionStateMachine）源码的学习。</p><p>PartitionStateMachine负责管理Kafka分区状态的转换，和ReplicaStateMachine是一脉相承的。从代码结构、实现功能和设计原理来看，二者都极为相似。上节课我们已经学过了ReplicaStateMachine，相信你在学习这节课的PartitionStateMachine时，会轻松很多。</p><p>在面试的时候，很多面试官都非常喜欢问Leader选举的策略。学完了今天的课程之后，你不但能够说出4种Leader选举的场景，还能总结出它们的共性。对于面试来说，绝对是个加分项！</p><p>话不多说，我们就正式开始吧。</p><h2>PartitionStateMachine简介</h2><p>PartitionStateMachine.scala文件位于controller包下，代码结构不复杂，可以看下这张思维导图：</p><p><img src="https://static001.geekbang.org/resource/image/b3/5e/b3f286586b39b9910e756c3539a1125e.jpg" alt=""></p><p>代码总共有5大部分。</p><ul>
+
 <li><strong>PartitionStateMachine</strong>：分区状态机抽象类。它定义了诸如startup、shutdown这样的公共方法，同时也给出了处理分区状态转换入口方法handleStateChanges的签名。</li>
 <li><strong>ZkPartitionStateMachine</strong>：PartitionStateMachine唯一的继承子类。它实现了分区状态机的主体逻辑功能。和ZkReplicaStateMachine类似，ZkPartitionStateMachine重写了父类的handleStateChanges方法，并配以私有的doHandleStateChanges方法，共同实现分区状态转换的操作。</li>
 <li><strong>PartitionState接口及其实现对象</strong>：定义4类分区状态，分别是NewPartition、OnlinePartition、OfflinePartition和NonExistentPartition。除此之外，还定义了它们之间的流转关系。</li>

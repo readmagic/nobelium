@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是陈天。</p><p>到目前为止，我们撰写的代码都在 Rust 精心构造的内存安全的国度里做一个守法好公民。通过遵循所有权、借用检查、生命周期等规则，我们自己的代码一旦编译通过，就相当于信心满满地向全世界宣布：这个代码是安全的！</p><p>然而，安全的 Rust 并不能适应所有的使用场景。</p><p>首先，<strong>为了内存安全，Rust 所做的这些规则往往是普适性的</strong>，编译器会把一切可疑的行为都严格地制止掉。可是，这种一丝不苟的铁面无情往往会过于严苛，导致错杀。</p><p>就好比“屋子的主人只会使用钥匙开门，如果一个人尝试着撬门，那一定是坏人”，正常情况下，这个逻辑是成立的，所有尝试撬门的小偷，都会被抓获（编译错误）；然而，有时候主人丢了钥匙，不得不请开锁匠开门（unsafe code），此时，是正常的诉求，是可以网开一面的。</p><p>其次，无论 Rust 将其内部的世界构建得多么纯粹和完美，它总归是<strong>要跟不纯粹也不完美的外界打交道，无论是硬件还是软件</strong>。</p><p>计算机硬件本身是 unsafe 的，比如操作 IO 访问外设，或者使用汇编指令进行特殊操作（操作 GPU或者使用 SSE 指令集）。这样的操作，编译器是无法保证内存安全的，所以我们需要 unsafe 来告诉编译器要法外开恩。</p><p>同样的，当 Rust 要访问其它语言比如 C/C++ 的库，因为它们并不满足 Rust 的安全性要求，这种跨语言的 FFI（Foreign Function Interface），也是 unsafe 的。</p><!-- [[[read_end]]] --><p>这两种使用 unsafe Rust 的方式是不得而为之，所以情有可原，是我们需要使用 unsafe Rust 的主要原因。</p><p>还有一大类使用 unsafe Rust 纯粹是为了性能。比如略过边界检查、使用未初始化内存等。<strong>这样的 unsafe 我们要尽量不用</strong>，除非通过 benchmark 发现用 unsafe 可以解决某些性能瓶颈，否则使用起来得不偿失。因为，在使用 unsafe 代码的时候，我们已经把 Rust 的内存安全性，降低到了和 C++ 同等的水平。</p><h2>可以使用 unsafe 的场景</h2><p>好，在了解了为什么需要 unsafe Rust 之后，我们再来看看在日常工作中，都具体有哪些地方会用到 unsafe Rust。</p><p>我们先看可以使用、也推荐使用 unsafe 的场景，根据重要/常用程度，会依次介绍：实现 unsafe trait，主要是 Send / Sync 这两个 trait、调用已有的 unsafe 接口、对裸指针做解引用，以及使用 FFI。</p><h3>实现 unsafe trait</h3><p>Rust 里，名气最大的 unsafe 代码应该就是 Send / Sync 这两个 trait 了：</p><pre><code class="language-rust">pub unsafe auto trait Send {}
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是陈天。</p><p>到目前为止，我们撰写的代码都在 Rust 精心构造的内存安全的国度里做一个守法好公民。通过遵循所有权、借用检查、生命周期等规则，我们自己的代码一旦编译通过，就相当于信心满满地向全世界宣布：这个代码是安全的！</p><p>然而，安全的 Rust 并不能适应所有的使用场景。</p><p>首先，<strong>为了内存安全，Rust 所做的这些规则往往是普适性的</strong>，编译器会把一切可疑的行为都严格地制止掉。可是，这种一丝不苟的铁面无情往往会过于严苛，导致错杀。</p><p>就好比“屋子的主人只会使用钥匙开门，如果一个人尝试着撬门，那一定是坏人”，正常情况下，这个逻辑是成立的，所有尝试撬门的小偷，都会被抓获（编译错误）；然而，有时候主人丢了钥匙，不得不请开锁匠开门（unsafe code），此时，是正常的诉求，是可以网开一面的。</p><p>其次，无论 Rust 将其内部的世界构建得多么纯粹和完美，它总归是<strong>要跟不纯粹也不完美的外界打交道，无论是硬件还是软件</strong>。</p><p>计算机硬件本身是 unsafe 的，比如操作 IO 访问外设，或者使用汇编指令进行特殊操作（操作 GPU或者使用 SSE 指令集）。这样的操作，编译器是无法保证内存安全的，所以我们需要 unsafe 来告诉编译器要法外开恩。</p><p>同样的，当 Rust 要访问其它语言比如 C/C++ 的库，因为它们并不满足 Rust 的安全性要求，这种跨语言的 FFI（Foreign Function Interface），也是 unsafe 的。</p><!-- [[[read_end]]] --><p>这两种使用 unsafe Rust 的方式是不得而为之，所以情有可原，是我们需要使用 unsafe Rust 的主要原因。</p><p>还有一大类使用 unsafe Rust 纯粹是为了性能。比如略过边界检查、使用未初始化内存等。<strong>这样的 unsafe 我们要尽量不用</strong>，除非通过 benchmark 发现用 unsafe 可以解决某些性能瓶颈，否则使用起来得不偿失。因为，在使用 unsafe 代码的时候，我们已经把 Rust 的内存安全性，降低到了和 C++ 同等的水平。</p><h2>可以使用 unsafe 的场景</h2><p>好，在了解了为什么需要 unsafe Rust 之后，我们再来看看在日常工作中，都具体有哪些地方会用到 unsafe Rust。</p><p>我们先看可以使用、也推荐使用 unsafe 的场景，根据重要/常用程度，会依次介绍：实现 unsafe trait，主要是 Send / Sync 这两个 trait、调用已有的 unsafe 接口、对裸指针做解引用，以及使用 FFI。</p><h3>实现 unsafe trait</h3><p>Rust 里，名气最大的 unsafe 代码应该就是 Send / Sync 这两个 trait 了：</p><pre><code class="language-rust">pub unsafe auto trait Send {}
+
 pub unsafe auto trait Sync {}
 </code></pre><p>相信你应该对这两个 trait 非常了解了，但凡遇到和并发相关的代码，尤其是接口的类型声明时，少不了要使用 Send / Sync 来约束。我们也知道，绝大多数数据结构都实现了 Send / Sync，但有一些例外，比如 Rc / RefCell /裸指针等。</p><p>因为 Send / Sync 是 auto trait，所以大部分情况下，你自己的数据结构不需要实现 Send / Sync，然而，当你在数据结构里使用裸指针时，<strong>因为裸指针是没有实现 Send/Sync 的，连带着你的数据结构也就没有实现 Send/Sync</strong>。但很可能你的结构是线程安全的，你也需要它线程安全。</p><p>此时，如果你可以保证它能在线程中安全地移动，那可以实现 Send；如果可以保证它能在线程中安全地共享，也可以去实现 Sync。之前我们讨论过的 <a href="https://docs.rs/bytes/1.1.0/src/bytes/bytes.rs.html#508-510">Bytes</a> 就在使用裸指针的情况下实现了 Send / Sync：</p><pre><code class="language-rust">pub struct Bytes {
     ptr: *const u8,

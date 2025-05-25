@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好我是王昊天，今天这一讲我们来一起学习密码算法问题。</p><p>温州话素以难懂著名，据传连温州附近的其他城市也很难理解。这种客观条件，为使用温州话传递秘密信息创造了土壤，因此有一种说法是，抗日战争时期中国军队使用温州话进行秘密通信。</p><p>这听起来确实还挺有可行性的，而且二战时期美军就曾使用纳瓦霍语做出类似的操作。</p><p>使用一种复杂形式的通用性语言作为“加密”方案，虽然在某种现实应用中可以奏效，但在算法选择上其实并不明智。</p><p>要知道，语言是可以翻译的。因此，如果将信息传递的安全性完全依赖于语言复杂性特质，一旦这种语言具有较大受众，对方就很可能具备该类语言的解析能力，从而使该语言失去保密效果。</p><p>在密码学中，这种使用难懂语言的加密方案可以归类到的古典密码算法，而现代社会普遍采用了现代密码学，加密信息的安全性已经不再依赖密码算法的保密性。</p><p>这一讲，我们就来一起研究密码算法的安全性。</p><h2>数学层面的密码安全风险</h2><h3>古典密码学</h3><p>古典密码学是密码学中的一个类型，主要使用<strong>替换式密码</strong>或<strong>移项式密码</strong>。尽管古典密码学由于安全性不足等问题现在已经逐渐退出实际应用了，但是我们从它开始了解密码学的发展历程，可以帮助你理解更深层的密码学原理。那么接下来，我们就来看几种经典的古典密码算法。</p><!-- [[[read_end]]] --><p><strong>凯撒密码</strong>是一种广为人知的加密技术，是一种替换式密码。它的加密逻辑是非常简单的，明文中的字母按照固定偏移向后取值，结果即为密文，反之即是解密过程。</p><pre><code class="language-plain">明文字母表：ABCDEFGHIJKLMNOPQRSTUVWXYZ
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好我是王昊天，今天这一讲我们来一起学习密码算法问题。</p><p>温州话素以难懂著名，据传连温州附近的其他城市也很难理解。这种客观条件，为使用温州话传递秘密信息创造了土壤，因此有一种说法是，抗日战争时期中国军队使用温州话进行秘密通信。</p><p>这听起来确实还挺有可行性的，而且二战时期美军就曾使用纳瓦霍语做出类似的操作。</p><p>使用一种复杂形式的通用性语言作为“加密”方案，虽然在某种现实应用中可以奏效，但在算法选择上其实并不明智。</p><p>要知道，语言是可以翻译的。因此，如果将信息传递的安全性完全依赖于语言复杂性特质，一旦这种语言具有较大受众，对方就很可能具备该类语言的解析能力，从而使该语言失去保密效果。</p><p>在密码学中，这种使用难懂语言的加密方案可以归类到的古典密码算法，而现代社会普遍采用了现代密码学，加密信息的安全性已经不再依赖密码算法的保密性。</p><p>这一讲，我们就来一起研究密码算法的安全性。</p><h2>数学层面的密码安全风险</h2><h3>古典密码学</h3><p>古典密码学是密码学中的一个类型，主要使用<strong>替换式密码</strong>或<strong>移项式密码</strong>。尽管古典密码学由于安全性不足等问题现在已经逐渐退出实际应用了，但是我们从它开始了解密码学的发展历程，可以帮助你理解更深层的密码学原理。那么接下来，我们就来看几种经典的古典密码算法。</p><!-- [[[read_end]]] --><p><strong>凯撒密码</strong>是一种广为人知的加密技术，是一种替换式密码。它的加密逻辑是非常简单的，明文中的字母按照固定偏移向后取值，结果即为密文，反之即是解密过程。</p><pre><code class="language-plain">明文字母表：ABCDEFGHIJKLMNOPQRSTUVWXYZ
+
 密文字母表：DEFGHIJKLMNOPQRSTUVWXYZABC
 </code></pre><p>凯撒加密也可以使用更直观的数学公式来表示：</p><pre><code class="language-plain">Res_Enc = ( plain_text + n ) mod 26
 Res_Dec = ( cipher_text - n ) mod 26

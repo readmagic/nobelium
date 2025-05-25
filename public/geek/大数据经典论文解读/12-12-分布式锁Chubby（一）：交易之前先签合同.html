@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是徐文浩。</p><p>在过去的十几讲课程里，我带你一起学习完了GFS、MapReduce，以及Bigtable这三篇被称之为Google的“三驾马车”的论文。不知道你有没有发现，这三篇论文有一个共同点，那就是这三个系统<strong>都是一个单Master系统</strong>。而这就带来了一个问题，就是这个Master会成为整个系统的单点，一旦Master出现硬件故障，或者遇到Master网络不通的情况，整个集群就不能提供完整的服务了。</p><p>MapReduce里的Master我们可以暂且不论，毕竟这个Master的生命周期只是一个MapReduce任务执行的时间，即使Master出了问题，简单地重跑一下任务就好了。但是GFS和Bigtable，都是要长时间提供在线服务的系统。从概率的角度来讲，它们的Master也一定会遇到故障。</p><p>所以，在GFS和Bigtable的论文里，我们看到它们都有对应的Backup Master机制。通过一个监控机制，当发现Master出现问题的时候，就自动切换到数据和Master完全同步的Backup Master，作为系统的“灾难恢复”机制。</p><p>乍一听，这个做法简单直接。不过如果仔细想一想，这个操作可没有那么容易实现。我们至少会遇到两个问题：</p><!-- [[[read_end]]] --><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是徐文浩。</p><p>在过去的十几讲课程里，我带你一起学习完了GFS、MapReduce，以及Bigtable这三篇被称之为Google的“三驾马车”的论文。不知道你有没有发现，这三篇论文有一个共同点，那就是这三个系统<strong>都是一个单Master系统</strong>。而这就带来了一个问题，就是这个Master会成为整个系统的单点，一旦Master出现硬件故障，或者遇到Master网络不通的情况，整个集群就不能提供完整的服务了。</p><p>MapReduce里的Master我们可以暂且不论，毕竟这个Master的生命周期只是一个MapReduce任务执行的时间，即使Master出了问题，简单地重跑一下任务就好了。但是GFS和Bigtable，都是要长时间提供在线服务的系统。从概率的角度来讲，它们的Master也一定会遇到故障。</p><p>所以，在GFS和Bigtable的论文里，我们看到它们都有对应的Backup Master机制。通过一个监控机制，当发现Master出现问题的时候，就自动切换到数据和Master完全同步的Backup Master，作为系统的“灾难恢复”机制。</p><p>乍一听，这个做法简单直接。不过如果仔细想一想，这个操作可没有那么容易实现。我们至少会遇到两个问题：</p><!-- [[[read_end]]] --><ul>
+
 <li>第一个，是我们怎么能够做到Backup Master和Master完全同步？特别是当硬件、网络可能出现故障的情况下，我们怎么能够做到两边的数据始终同步。如果数据不能做到始终同步，那么当真有需要我们切换节点到Backup Master的时候，我们就会遇到数据丢失的情况。</li>
 <li>第二个，是监控程序本身也是一个单点，当我们的监控程序说Master挂了的时候，我们怎么知道Master是真的挂了，还只是监控程序到Master的网络中断了呢？如果是后者的话，会不会出现一个集群里有两个Master的情况？</li>
 </ul><p><img src="https://static001.geekbang.org/resource/image/b3/3d/b3a8yycfd7ec64214544049bc1e0903d.jpg?wh=2000x963" alt="" title="监控程序和原先Master之间出现网络中断，就会出现多个Master，最终导致数据不一致"></p><p>而这些问题的本质，就是我们接下来要讲解的<strong>分布式共识问题</strong>。并且这个分布式共识问题的解决，最终会落地成为<strong>Chubby</strong>这个粗粒度的分布式锁方案。我会分三个部分来讲解这个问题：</p><ul>

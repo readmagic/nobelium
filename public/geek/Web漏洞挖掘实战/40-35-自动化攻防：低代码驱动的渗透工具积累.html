@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是王昊天。</p><p>在之前的课程中，我们学习了一些Web漏洞挖掘的基础知识，这为我们打下了良好的基础。其实在Web攻防中，还有一个很重要的部分，那就是渗透测试，它就是我们发现Web漏洞的一般方式。</p><p>其中，在渗透测试时，我们一般需要用到很多网络安全工具，这通常是一个麻烦的问题，因为我们每使用一个网络安全工具都需要获取并学习它，之后再次使用它时还需要注意版本有无更新。不过你不用担心，我已经为你解决了这个问题，潮汐社区版已经集成了所有常见的网络安全工具，并且会定期更新它们的版本以供你使用。</p><p>今天，让我们结合潮汐社区版一起来学习渗透测试基础吧！</p><h2>渗透测试基础</h2><p>渗透测试是指安全从业人员对某一网络系统模拟黑客入侵进行攻击，旨在发现网络系统中的不安全因素并进行及时修补。</p><p>它主要是从Web页面入侵到服务器主机，再从服务器主机渗透到域内环境的一个过程，而<strong>从Web到服务器的入侵也就是渗透测试的基础</strong>。</p><p>一般来说，渗透测试基础可以分为四个方面，它们分别为目标确认、信息搜集、漏洞发现以及漏洞利用。</p><p><img src="https://static001.geekbang.org/resource/image/95/86/95026b5088302a5c1b24ec6c37bc7b86.jpg?wh=1380x404" alt="图片"></p><p>首先，我们来学习渗透测试基础的第一个内容——目标确认。</p><h2>目标确认</h2><p>渗透测试的开始，需要我们明确自己着手的目标。</p><p>一般我们会有待攻击Web页面的URL链接，在目标确认阶段，我们需要根据这个链接获取到Web应用的真实IP地址以及存活子域的信息。接下来，让我们来学习如何获取网页的真实IP。</p><!-- [[[read_end]]] --><h3>IP地址获取</h3><p>当我们知道一个网站的网址时，通过直接ping的方式，可以返回一个IP信息，但是我们大概率无法得到网站源服务器的真实IP。这是因为部分网站会使用CDN技术将自己的源站真实IP隐藏起来，该技术会通过使用各种缓存服务器，将这些缓存服务器分布到用户访问相对集中的地区或网络中，当用户访问网络时，由这些缓存服务器直接响应用户请求。</p><p>为了让你更好地理解获取IP的方式，下面我们一起看一个示例。</p><pre><code class="language-bash">ping www.mituan.zone
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是王昊天。</p><p>在之前的课程中，我们学习了一些Web漏洞挖掘的基础知识，这为我们打下了良好的基础。其实在Web攻防中，还有一个很重要的部分，那就是渗透测试，它就是我们发现Web漏洞的一般方式。</p><p>其中，在渗透测试时，我们一般需要用到很多网络安全工具，这通常是一个麻烦的问题，因为我们每使用一个网络安全工具都需要获取并学习它，之后再次使用它时还需要注意版本有无更新。不过你不用担心，我已经为你解决了这个问题，潮汐社区版已经集成了所有常见的网络安全工具，并且会定期更新它们的版本以供你使用。</p><p>今天，让我们结合潮汐社区版一起来学习渗透测试基础吧！</p><h2>渗透测试基础</h2><p>渗透测试是指安全从业人员对某一网络系统模拟黑客入侵进行攻击，旨在发现网络系统中的不安全因素并进行及时修补。</p><p>它主要是从Web页面入侵到服务器主机，再从服务器主机渗透到域内环境的一个过程，而<strong>从Web到服务器的入侵也就是渗透测试的基础</strong>。</p><p>一般来说，渗透测试基础可以分为四个方面，它们分别为目标确认、信息搜集、漏洞发现以及漏洞利用。</p><p><img src="https://static001.geekbang.org/resource/image/95/86/95026b5088302a5c1b24ec6c37bc7b86.jpg?wh=1380x404" alt="图片"></p><p>首先，我们来学习渗透测试基础的第一个内容——目标确认。</p><h2>目标确认</h2><p>渗透测试的开始，需要我们明确自己着手的目标。</p><p>一般我们会有待攻击Web页面的URL链接，在目标确认阶段，我们需要根据这个链接获取到Web应用的真实IP地址以及存活子域的信息。接下来，让我们来学习如何获取网页的真实IP。</p><!-- [[[read_end]]] --><h3>IP地址获取</h3><p>当我们知道一个网站的网址时，通过直接ping的方式，可以返回一个IP信息，但是我们大概率无法得到网站源服务器的真实IP。这是因为部分网站会使用CDN技术将自己的源站真实IP隐藏起来，该技术会通过使用各种缓存服务器，将这些缓存服务器分布到用户访问相对集中的地区或网络中，当用户访问网络时，由这些缓存服务器直接响应用户请求。</p><p>为了让你更好地理解获取IP的方式，下面我们一起看一个示例。</p><pre><code class="language-bash">ping www.mituan.zone
+
 PING www.mituan.zone (54.222.162.186): 56 data bytes
 64 bytes from 54.222.162.186: icmp_seq=0 ttl=48 time=27.061 ms
 64 bytes from 54.222.162.186: icmp_seq=1 ttl=48 time=29.629 ms

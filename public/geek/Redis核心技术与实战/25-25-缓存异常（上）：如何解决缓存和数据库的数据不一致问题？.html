@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是蒋德钧。</p><p>在实际应用Redis缓存时，我们经常会遇到一些异常问题，概括来说有4个方面：缓存中的数据和数据库中的不一致；缓存雪崩；缓存击穿和缓存穿透。</p><p>只要我们使用Redis缓存，就必然会面对缓存和数据库间的一致性保证问题，这也算是Redis缓存应用中的“必答题”了。最重要的是，如果数据不一致，那么业务应用从缓存中读取的数据就不是最新数据，这会导致严重的错误。比如说，我们把电商商品的库存信息缓存在Redis中，如果库存信息不对，那么业务层下单操作就可能出错，这当然是不能接受的。所以，这节课我就重点和你聊聊这个问题。关于缓存雪崩、穿透和击穿等问题，我会在下一节课向你介绍。</p><p>接下来，我们就来看看，缓存和数据库之间的数据不一致是怎么引起的。</p><h2>缓存和数据库的数据不一致是如何发生的？</h2><p>首先，我们得清楚“数据的一致性”具体是啥意思。其实，这里的“一致性”包含了两种情况：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是蒋德钧。</p><p>在实际应用Redis缓存时，我们经常会遇到一些异常问题，概括来说有4个方面：缓存中的数据和数据库中的不一致；缓存雪崩；缓存击穿和缓存穿透。</p><p>只要我们使用Redis缓存，就必然会面对缓存和数据库间的一致性保证问题，这也算是Redis缓存应用中的“必答题”了。最重要的是，如果数据不一致，那么业务应用从缓存中读取的数据就不是最新数据，这会导致严重的错误。比如说，我们把电商商品的库存信息缓存在Redis中，如果库存信息不对，那么业务层下单操作就可能出错，这当然是不能接受的。所以，这节课我就重点和你聊聊这个问题。关于缓存雪崩、穿透和击穿等问题，我会在下一节课向你介绍。</p><p>接下来，我们就来看看，缓存和数据库之间的数据不一致是怎么引起的。</p><h2>缓存和数据库的数据不一致是如何发生的？</h2><p>首先，我们得清楚“数据的一致性”具体是啥意思。其实，这里的“一致性”包含了两种情况：</p><ul>
+
 <li>缓存中有数据，那么，缓存的数据值需要和数据库中的值相同；</li>
 <li>缓存中本身没有数据，那么，数据库中的值必须是最新值。</li>
 </ul><p>不符合这两种情况的，就属于缓存和数据库的数据不一致问题了。不过，当缓存的读写模式不同时，缓存数据不一致的发生情况不一样，我们的应对方法也会有所不同，所以，我们先按照缓存读写模式，来分别了解下不同模式下的缓存不一致情况。我在<a href="https://time.geekbang.org/column/article/293929">第23讲</a>中讲过，根据是否接收写请求，我们可以把缓存分成读写缓存和只读缓存。</p><!-- [[[read_end]]] --><p>对于读写缓存来说，如果要对数据进行增删改，就需要在缓存中进行，同时还要根据采取的写回策略，决定是否同步写回到数据库中。</p><ul>

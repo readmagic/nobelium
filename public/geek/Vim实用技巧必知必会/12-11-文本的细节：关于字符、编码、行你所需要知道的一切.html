@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是吴咏炜。</p><p>从今天开始，我们进入提高篇和拓展篇的学习。</p><p>在提高篇，我会带你对 Vim 的高级用法和技巧进行专项突破，让你可以对 Vim 做深度定制，应对复杂的工作也不在话下。</p><p>在拓展篇，我会介绍一些针对性较强的内容，适合特定场景下的 Vim 使用。为了平衡一般性和特殊性，让你拥有更舒适的学习体验，拓展篇将会与提高篇交叉发布。如果一时用不到相关的知识，拓展的内容可以暂时延后学习。但一旦你需要这些知识时，你会发现，哦，原来如此，Vim 是可以这么使用的！</p><hr><p>Vim 是一个文本编辑器，很多人甚至把它称为“编辑器之神”。在基础篇中，你已经了解了很多用 Vim 编辑文本的常用技巧。可是你有没有想过，到底什么才算是文本？在提高篇的第一讲，我们就先来细细分析一下，关于文本你需要知道的一切知识。这会让你更好地理解编辑时出现的一些奇怪问题（如“乱码”），并予以恰当解决。</p><h2>什么是文本</h2><p>从二元论的角度看，计算机文件可以分为文本文件（text file）和二进制文件（binary file），但这个分法并没有对文本做出清晰的界定。从实用的角度，我们大致可以这么区分：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是吴咏炜。</p><p>从今天开始，我们进入提高篇和拓展篇的学习。</p><p>在提高篇，我会带你对 Vim 的高级用法和技巧进行专项突破，让你可以对 Vim 做深度定制，应对复杂的工作也不在话下。</p><p>在拓展篇，我会介绍一些针对性较强的内容，适合特定场景下的 Vim 使用。为了平衡一般性和特殊性，让你拥有更舒适的学习体验，拓展篇将会与提高篇交叉发布。如果一时用不到相关的知识，拓展的内容可以暂时延后学习。但一旦你需要这些知识时，你会发现，哦，原来如此，Vim 是可以这么使用的！</p><hr><p>Vim 是一个文本编辑器，很多人甚至把它称为“编辑器之神”。在基础篇中，你已经了解了很多用 Vim 编辑文本的常用技巧。可是你有没有想过，到底什么才算是文本？在提高篇的第一讲，我们就先来细细分析一下，关于文本你需要知道的一切知识。这会让你更好地理解编辑时出现的一些奇怪问题（如“乱码”），并予以恰当解决。</p><h2>什么是文本</h2><p>从二元论的角度看，计算机文件可以分为文本文件（text file）和二进制文件（binary file），但这个分法并没有对文本做出清晰的界定。从实用的角度，我们大致可以这么区分：</p><ul>
+
 <li>文本文件里存放的是用行结束符（EOL，即 End of Line）隔开的文本行，二进制文件里则没有这样的明确分隔符</li>
 <li>文本文件可以通过简单、直接的算法转换为人眼能够识别的文字，而二进制文件里含有不能简单转化为文字的信息</li>
 </ul><!-- [[[read_end]]] --><p>我这个描述当然还是有点含糊。事实上，计算机判定一个文件是不是文本文件，并不是件容易的事情，特别是在这个文件含有非 ASCII 字符的时候。曾有一些操作系统（如古老的 Apple DOS），会明确区分文件的类型，但现代的操作系统基本上在文件系统层面完全不关心文件的类型和里面的内容了。因为操作系统不对文件类型进行限定，会更加灵活。</p><p>但我们还是需要关心的，因为 Vim 最适合编辑的，就是文本文件了。从实用的角度，我对文本文件的判定通常是：</p><blockquote>

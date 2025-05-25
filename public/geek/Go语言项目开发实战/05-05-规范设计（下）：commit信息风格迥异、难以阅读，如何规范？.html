@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是孔令飞。今天，我们继续学习非编码类规范中的 Commit 规范。</p><p>我们在做代码开发时，经常需要提交代码，提交代码时需要填写 Commit Message（提交说明），否则就不允许提交。</p><p>而在实际开发中，我发现每个研发人员提交 Commit Message 的格式可以说是五花八门，有用中文的、有用英文的，甚至有的直接填写“11111”。这样的 Commit Message，时间久了可能连提交者自己都看不懂所表述的修改内容，更别说给别人看了。</p><p>所以在 Go 项目开发时，一个好的 Commit Message 至关重要：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是孔令飞。今天，我们继续学习非编码类规范中的 Commit 规范。</p><p>我们在做代码开发时，经常需要提交代码，提交代码时需要填写 Commit Message（提交说明），否则就不允许提交。</p><p>而在实际开发中，我发现每个研发人员提交 Commit Message 的格式可以说是五花八门，有用中文的、有用英文的，甚至有的直接填写“11111”。这样的 Commit Message，时间久了可能连提交者自己都看不懂所表述的修改内容，更别说给别人看了。</p><p>所以在 Go 项目开发时，一个好的 Commit Message 至关重要：</p><ul>
+
 <li>可以使自己或者其他开发人员能够<strong>清晰地知道每个 commit 的变更内容</strong>，方便快速浏览变更历史，比如可以直接略过文档类型或者格式化类型的代码变更。</li>
 <li>可以基于这些 Commit Message <strong>进行过滤查找</strong>，比如只查找某个版本新增的功能：<code>git log --oneline --grep "^feat|^fix|^perf"</code>。</li>
 <li>可以基于规范化的 Commit Message <strong>生成 Change Log</strong>。</li>

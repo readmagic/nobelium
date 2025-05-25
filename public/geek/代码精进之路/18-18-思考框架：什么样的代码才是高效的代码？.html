@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>如果让你设计一个有十亿用户使用的售票网站，你会考虑哪些问题？如果让你设计一个有一万亿用户使用的服务，你又会考虑哪些问题？不要以为有一万亿个用户的服务离我们很远，它正在快速地逼近我们。</p><p>我们前面讨论了，代码的性能是关于如何管理内存、磁盘、网络和内核等计算机资源的。该怎么衡量这些资源管理的好坏呢？这就需要一些评价指标。</p><p>这些指标不仅指导着代码的交付标准，也指导着我们编码时的技术选择。</p><h2>用户的真实感受</h2><p>最直接的指标就是用户的真实感受。用户的感受是我们软件开发最基本的风向标，当然也是代码性能追求的终极目标。</p><p>如果去超市买东西，我们享受的是购物的过程，讨厌结账。结账之所以令人讨厌，一小部分原因在于这时我们要付钱，更大的原因在于这个过程排队时间可能会很长。如果再算错了帐，就更让人不爽了。</p><p>用户对于软件性能的要求，和我们超市结账时的要求差不多：等待时间要短，出错的概率要小。</p><p><strong>等待时间要短</strong></p><p>这个概念很好理解。等待时间越短，我们越喜欢。最好是一点儿都感觉不到等待时间。使用“感觉”、“快”、“慢”这种词汇，有点主观了。有一种统计方法，被广泛地用来评价应用程序性能的满意度，它就是应用程序性能指数（Apdex）。</p><p>根据任务的响应时间，应用程序性能指数定义了三个用户满意度的区间：</p><!-- [[[read_end]]] --><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>如果让你设计一个有十亿用户使用的售票网站，你会考虑哪些问题？如果让你设计一个有一万亿用户使用的服务，你又会考虑哪些问题？不要以为有一万亿个用户的服务离我们很远，它正在快速地逼近我们。</p><p>我们前面讨论了，代码的性能是关于如何管理内存、磁盘、网络和内核等计算机资源的。该怎么衡量这些资源管理的好坏呢？这就需要一些评价指标。</p><p>这些指标不仅指导着代码的交付标准，也指导着我们编码时的技术选择。</p><h2>用户的真实感受</h2><p>最直接的指标就是用户的真实感受。用户的感受是我们软件开发最基本的风向标，当然也是代码性能追求的终极目标。</p><p>如果去超市买东西，我们享受的是购物的过程，讨厌结账。结账之所以令人讨厌，一小部分原因在于这时我们要付钱，更大的原因在于这个过程排队时间可能会很长。如果再算错了帐，就更让人不爽了。</p><p>用户对于软件性能的要求，和我们超市结账时的要求差不多：等待时间要短，出错的概率要小。</p><p><strong>等待时间要短</strong></p><p>这个概念很好理解。等待时间越短，我们越喜欢。最好是一点儿都感觉不到等待时间。使用“感觉”、“快”、“慢”这种词汇，有点主观了。有一种统计方法，被广泛地用来评价应用程序性能的满意度，它就是应用程序性能指数（Apdex）。</p><p>根据任务的响应时间，应用程序性能指数定义了三个用户满意度的区间：</p><!-- [[[read_end]]] --><ul>
+
 <li>
 <p><strong>满意</strong>：如果任务的响应时间小于T，用户感觉不到明显的阻碍，就会比较满意；</p>
 </li>

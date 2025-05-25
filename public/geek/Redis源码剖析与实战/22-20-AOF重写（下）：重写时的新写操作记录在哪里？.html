@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是蒋德钧。</p><p>在上节课，我给你介绍了AOF重写过程，其中我带你重点了解了AOF重写的触发时机，以及AOF重写的基本执行流程。现在你已经知道，AOF重写是通过重写子进程来完成的。</p><p></p><p>但是在上节课的最后，我也提到了在AOF重写时，主进程仍然在接收客户端写操作，<strong>那么这些新写操作会记录到AOF重写日志中吗？如果需要记录的话，重写子进程又是通过什么方式向主进程获取这些写操作的呢？</strong></p><p></p><p>今天这节课，我就来带你了解下AOF重写过程中所使用的管道机制，以及主进程和重写子进程的交互过程。这样一方面，你就可以了解AOF重写日志包含的写操作的完整程度，当你要使用AOF日志恢复Redis数据库时，就知道AOF能恢复到的程度是怎样的。另一方面，因为AOF重写子进程就是通过操作系统提供的管道机制，来和Redis主进程交互的，所以学完这节课之后，你还可以掌握管道技术，从而用来实现进程间的通信。</p><p></p><p>好了，接下来，我们就先来了解下管道机制。</p><p></p><h2>如何使用管道进行父子进程间通信？</h2><p>首先我们要知道，当进程A通过调用fork函数创建一个子进程B，然后进程A和B要进行通信时，我们通常都需要依赖操作系统提供的通信机制，而<strong>管道</strong>（pipe）就是一种用于父子进程间通信的常用机制。</p><!-- [[[read_end]]] --><p></p><p>具体来说，管道机制在操作系统内核中创建了一块缓冲区，父进程A可以打开管道，并往这块缓冲区中写入数据。同时，子进程B也可以打开管道，从这块缓冲区中读取数据。这里，<strong>你需要注意的是</strong>，进程每次往管道中写入数据时，只能追加写到缓冲区中当前数据所在的尾部，而进程每次从管道中读取数据时，只能从缓冲区的头部读取数据。</p><p>其实，管道创建的这块缓冲区就像一个先进先出的队列一样，写数据的进程写到队列尾部，而读数据的进程则从队列头读取。下图就展示了两个进程使用管道进行数据通信的过程，你可以看下。</p><p><img src="https://static001.geekbang.org/resource/image/c1/ff/c16041a949bcef79fcb87805214715ff.jpg?wh=1768x465" alt="图片"></p><p></p><p>好了，了解了管道的基本功能后，我们再来看下使用管道时需要注意的一个关键点。<strong>管道中的数据在一个时刻只能向一个方向流动</strong>，这也就是说，如果父进程A往管道中写入了数据，那么此时子进程B只能从管道中读取数据。类似的，如果子进程B往管道中写入了数据，那么此时父进程A只能从管道中读取数据。而如果父子进程间需要同时进行数据传输通信，我们就需要创建两个管道了。</p><p></p><p>下面，我们就来看下怎么用代码实现管道通信。这其实是和操作系统提供的管道的系统调用pipe有关，pipe的函数原型如下所示：</p><pre><code class="language-plain">int pipe(int pipefd[2]);&nbsp;
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是蒋德钧。</p><p>在上节课，我给你介绍了AOF重写过程，其中我带你重点了解了AOF重写的触发时机，以及AOF重写的基本执行流程。现在你已经知道，AOF重写是通过重写子进程来完成的。</p><p></p><p>但是在上节课的最后，我也提到了在AOF重写时，主进程仍然在接收客户端写操作，<strong>那么这些新写操作会记录到AOF重写日志中吗？如果需要记录的话，重写子进程又是通过什么方式向主进程获取这些写操作的呢？</strong></p><p></p><p>今天这节课，我就来带你了解下AOF重写过程中所使用的管道机制，以及主进程和重写子进程的交互过程。这样一方面，你就可以了解AOF重写日志包含的写操作的完整程度，当你要使用AOF日志恢复Redis数据库时，就知道AOF能恢复到的程度是怎样的。另一方面，因为AOF重写子进程就是通过操作系统提供的管道机制，来和Redis主进程交互的，所以学完这节课之后，你还可以掌握管道技术，从而用来实现进程间的通信。</p><p></p><p>好了，接下来，我们就先来了解下管道机制。</p><p></p><h2>如何使用管道进行父子进程间通信？</h2><p>首先我们要知道，当进程A通过调用fork函数创建一个子进程B，然后进程A和B要进行通信时，我们通常都需要依赖操作系统提供的通信机制，而<strong>管道</strong>（pipe）就是一种用于父子进程间通信的常用机制。</p><!-- [[[read_end]]] --><p></p><p>具体来说，管道机制在操作系统内核中创建了一块缓冲区，父进程A可以打开管道，并往这块缓冲区中写入数据。同时，子进程B也可以打开管道，从这块缓冲区中读取数据。这里，<strong>你需要注意的是</strong>，进程每次往管道中写入数据时，只能追加写到缓冲区中当前数据所在的尾部，而进程每次从管道中读取数据时，只能从缓冲区的头部读取数据。</p><p>其实，管道创建的这块缓冲区就像一个先进先出的队列一样，写数据的进程写到队列尾部，而读数据的进程则从队列头读取。下图就展示了两个进程使用管道进行数据通信的过程，你可以看下。</p><p><img src="https://static001.geekbang.org/resource/image/c1/ff/c16041a949bcef79fcb87805214715ff.jpg?wh=1768x465" alt="图片"></p><p></p><p>好了，了解了管道的基本功能后，我们再来看下使用管道时需要注意的一个关键点。<strong>管道中的数据在一个时刻只能向一个方向流动</strong>，这也就是说，如果父进程A往管道中写入了数据，那么此时子进程B只能从管道中读取数据。类似的，如果子进程B往管道中写入了数据，那么此时父进程A只能从管道中读取数据。而如果父子进程间需要同时进行数据传输通信，我们就需要创建两个管道了。</p><p></p><p>下面，我们就来看下怎么用代码实现管道通信。这其实是和操作系统提供的管道的系统调用pipe有关，pipe的函数原型如下所示：</p><pre><code class="language-plain">int pipe(int pipefd[2]);&nbsp;
+
 </code></pre><p>你可以看到，pipe的参数是一个<strong>数组pipefd</strong>，表示的是管道的文件描述符。这是因为进程在往管道中写入或读取数据时，其实是使用write或read函数的，而write和read函数需要通过<strong>文件描述符</strong>才能进行写数据和读数据操作。</p><p></p><p>数组pipefd有两个元素pipefd[0]和pipefd[1]，分别对应了管道的读描述符和写描述符。这也就是说，当进程需要从管道中读数据时，就需要用到pipefd[0]，而往管道中写入数据时，就使用pipefd[1]。</p><p></p><p>这里我写了一份示例代码，展示了父子进程如何使用管道通信，你可以看下。</p><pre><code class="language-plain">int main()&nbsp;
 {&nbsp;
 &nbsp;&nbsp;&nbsp; int fd[2], nr = 0, nw = 0;&nbsp;

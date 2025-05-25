@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>数据给你一双看透本质的眼睛，这里是《数据分析思维课》，我是郭炜。</p><p>数据分析思维课不仅是讲理论，我们还要实践。所以这节课我们来把前两节课讲过的18个技巧再进行一下实操，我们回到前面课程里的实例，看看这些技巧在真正实践当中是怎样使用的。</p><h2>实践1：平均值</h2><p>首先回到我们的<a href="https://time.geekbang.org/column/article/400764">平均值</a>这节课，你能看到课程里面有这样的一张图，这张图由若干个柱状图和一条平均线组成，其中柱状图的平均线是由Excel自动计算出来的。那么我们怎样用Excel来实现呢？你可以看一下我视频当中的操作方法。</p><p><img src="https://static001.geekbang.org/resource/image/ca/cc/cab04b2d4f07677f92e380dd2bf092cc.png?wh=1460x929" alt=""></p><p>视频演示：</p><p><video poster="https://media001.geekbang.org/cad78a8e28034a17a5d6abe13676b8a3/snapshots/830b35679e3f49a4a2e646203af04837-00005.jpg" preload="none" controls=""><source src="https://media001.geekbang.org/customerTrans/7e27d07d27d407ebcc195a0e78395f55/1c54415e-17c7df18cf7-0000-0000-01d-dbacd.mp4" type="video/mp4"><source src=" https://media001.geekbang.org/83972a73f3ff49999a5e47b18d0661a5/77617331f3b143d0b2d50351a06d3ade-54ba9fa1658bac699e90d62f64224683-sd.m3u8" type="application/x-mpegURL"></video></p><p>你要注意，在画这个图时要注意以下几个重点：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>数据给你一双看透本质的眼睛，这里是《数据分析思维课》，我是郭炜。</p><p>数据分析思维课不仅是讲理论，我们还要实践。所以这节课我们来把前两节课讲过的18个技巧再进行一下实操，我们回到前面课程里的实例，看看这些技巧在真正实践当中是怎样使用的。</p><h2>实践1：平均值</h2><p>首先回到我们的<a href="https://time.geekbang.org/column/article/400764">平均值</a>这节课，你能看到课程里面有这样的一张图，这张图由若干个柱状图和一条平均线组成，其中柱状图的平均线是由Excel自动计算出来的。那么我们怎样用Excel来实现呢？你可以看一下我视频当中的操作方法。</p><p><img src="https://static001.geekbang.org/resource/image/ca/cc/cab04b2d4f07677f92e380dd2bf092cc.png?wh=1460x929" alt=""></p><p>视频演示：</p><p><video poster="https://media001.geekbang.org/cad78a8e28034a17a5d6abe13676b8a3/snapshots/830b35679e3f49a4a2e646203af04837-00005.jpg" preload="none" controls=""><source src="https://media001.geekbang.org/customerTrans/7e27d07d27d407ebcc195a0e78395f55/1c54415e-17c7df18cf7-0000-0000-01d-dbacd.mp4" type="video/mp4"><source src=" https://media001.geekbang.org/83972a73f3ff49999a5e47b18d0661a5/77617331f3b143d0b2d50351a06d3ade-54ba9fa1658bac699e90d62f64224683-sd.m3u8" type="application/x-mpegURL"></video></p><p>你要注意，在画这个图时要注意以下几个重点：</p><ul>
+
 <li>所有的柱状图的间距都是要调整的，否则每个柱状图都会变成豆芽菜的形状，非常难看；</li>
 <li>数据标注时一定要做颜色位置调整；</li>
 <li>平均线其实Excel是无法自动计算出来的，所以我们需要用组合图的方式把平均线通过折线图加入进来。</li>

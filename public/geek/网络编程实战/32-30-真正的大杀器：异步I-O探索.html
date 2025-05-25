@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是盛延敏，这里是网络编程实战的第30讲，欢迎回来。</p><p>在性能篇的前几讲中，我们谈到了阻塞I/O、非阻塞I/O以及像select、poll、epoll等I/O多路复用技术，并在此基础上结合线程技术，实现了以事件分发为核心的reactor反应堆模式。你或许还听说过一个叫做Proactor的网络事件驱动模式，这个Proactor模式和reactor模式到底有什么区别和联系呢？在今天的内容中，我们先讲述异步I/O，再一起揭开以异步I/O为基础的proactor模式的面纱。</p><h2>阻塞/非阻塞 VS 同步/异步</h2><p>尽管在前面的课程中，多少都涉及到了阻塞、非阻塞、同步、异步的概念，但为了避免看见这些概念一头雾水，今天，我们就先来梳理一下这几个概念。</p><p>第一种是阻塞I/O。阻塞I/O发起的read请求，线程会被挂起，一直等到内核数据准备好，并把数据从内核区域拷贝到应用程序的缓冲区中，当拷贝过程完成，read请求调用才返回。接下来，应用程序就可以对缓冲区的数据进行数据解析。</p><p><img src="https://static001.geekbang.org/resource/image/e7/9a/e7f477d5c2e902de5a23b0e90cf9339a.png" alt=""><br>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是盛延敏，这里是网络编程实战的第30讲，欢迎回来。</p><p>在性能篇的前几讲中，我们谈到了阻塞I/O、非阻塞I/O以及像select、poll、epoll等I/O多路复用技术，并在此基础上结合线程技术，实现了以事件分发为核心的reactor反应堆模式。你或许还听说过一个叫做Proactor的网络事件驱动模式，这个Proactor模式和reactor模式到底有什么区别和联系呢？在今天的内容中，我们先讲述异步I/O，再一起揭开以异步I/O为基础的proactor模式的面纱。</p><h2>阻塞/非阻塞 VS 同步/异步</h2><p>尽管在前面的课程中，多少都涉及到了阻塞、非阻塞、同步、异步的概念，但为了避免看见这些概念一头雾水，今天，我们就先来梳理一下这几个概念。</p><p>第一种是阻塞I/O。阻塞I/O发起的read请求，线程会被挂起，一直等到内核数据准备好，并把数据从内核区域拷贝到应用程序的缓冲区中，当拷贝过程完成，read请求调用才返回。接下来，应用程序就可以对缓冲区的数据进行数据解析。</p><p><img src="https://static001.geekbang.org/resource/image/e7/9a/e7f477d5c2e902de5a23b0e90cf9339a.png" alt=""><br>
+
 第二种是非阻塞I/O。非阻塞的read请求在数据未准备好的情况下立即返回，应用程序可以不断轮询内核，直到数据准备好，内核将数据拷贝到应用程序缓冲，并完成这次read调用。注意，这里最后一次read调用，获取数据的过程，<strong>是一个同步的过程。这里的同步指的是内核区域的数据拷贝到缓存区这个过程。</strong></p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/4f/0c/4f93d6e13fb78be2a937f962175c5b0c.png" alt=""><br>
 每次让应用程序去轮询内核的I/O是否准备好，是一个不经济的做法，因为在轮询的过程中应用进程啥也不能干。于是，像select、poll这样的I/O多路复用技术就隆重登场了。通过I/O事件分发，当内核数据准备好时，再通知应用程序进行操作。这个做法大大改善了应用进程对CPU的利用率，在没有被通知的情况下，应用进程可以使用CPU做其他的事情。</p><p>注意，这里read调用，获取数据的过程，<strong>也是一个同步的过程。</strong></p><p><img src="https://static001.geekbang.org/resource/image/ea/dc/ea8552f28b0b630af702a9e7434f03dc.png" alt=""><br>
 第一种阻塞I/O我想你已经比较了解了，在阻塞I/O的情况下，应用程序会被挂起，直到获取数据。第二种非阻塞I/O和第三种基于非阻塞I/O的多路复用技术，获取数据的操作不会被阻塞。</p><p>无论是第一种阻塞I/O，还是第二种非阻塞I/O，第三种基于非阻塞I/O的多路复用都是<strong>同步调用技术。为什么这么说呢？因为同步调用、异步调用的说法，是对于获取数据的过程而言的，前面几种最后获取数据的read操作调用，都是同步的，在read调用时，内核将数据从内核空间拷贝到应用程序空间，这个过程是在read函数中同步进行的，如果内核实现的拷贝效率很差，read调用就会在这个同步过程中消耗比较长的时间。</strong></p><p>而真正的异步调用则不用担心这个问题，我们接下来就来介绍第四种I/O技术，当我们发起aio_read之后，就立即返回，内核自动将数据从内核空间拷贝到应用程序空间，这个拷贝过程是异步的，内核自动完成的，和前面的同步操作不一样，应用程序并不需要主动发起拷贝动作。</p><p><img src="https://static001.geekbang.org/resource/image/de/71/de97e727087775971f83c70c38d6f771.png" alt=""><br>

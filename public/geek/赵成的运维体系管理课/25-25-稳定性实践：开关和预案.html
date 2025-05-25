@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>在稳定性保障中，限流降级的技术方案，是针对服务接口层面的，也就是服务限流和服务降级。这里还有另外一个维度，就是业务维度，所以今天我们就从业务降级的维度来分享，也就是<strong>开关和预案</strong>。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>在稳定性保障中，限流降级的技术方案，是针对服务接口层面的，也就是服务限流和服务降级。这里还有另外一个维度，就是业务维度，所以今天我们就从业务降级的维度来分享，也就是<strong>开关和预案</strong>。</p>
+
 <h2>如何理解开关和预案</h2>
 <p><strong>开关，这个概念更多是业务和功能层面的，主要是针对单个功能的启用和停止进行控制，或者将功能状态在不同版本之间进行切换。</strong></p>
 <p>在业务层面，就像我们前面经常提到的大促场景案例，我们会关闭掉很多非核心功能，只保留交易链路的核心功能。比如我们认为商品评论是非核心功能，这时就会通过开关推送这种方案将这个功能关闭。当用户访问商品详情页时，这个接口就不再被调用，从用户角度来说，就是在大促峰值时刻看不到所浏览商品的评论列表。</p>

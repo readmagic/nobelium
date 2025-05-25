@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是胜辉。这节课我们继续来解答前面课程的思考题。</p><p>第11到14讲的内容呢，主要是关于TCP传输的，涵盖了各种TCP重传、超时、拥塞控制、DDoS等我们都比较关心的问题，这些知识也可以说是TCP体系里比较复杂的部分了。到了第15讲，就进入应用层真实案例了，可能离开发和运维开发的同学更近一些，也相信你对此有不少的问题要问、不少的话要说。那我们就在这节答疑课里进一步沟通吧，我们从第11讲开始。</p><h2>11讲的答疑</h2><h3>思考题</h3><p>你在工作中有没有遇到拥塞引起的问题，或者有没有在抓包分析过程中，观察到过拥塞现象呢？</p><h3>答案</h3><p>这是一个开放式的问题，可以激发我们对这个话题的思考。可能是因为<a href="https://time.geekbang.org/column/article/486281">这一讲</a>的内容理论性多过了实践性，所以留言不算多，但是每个问题都很有价值。比如<strong>@Chao</strong>同学的问题：</p><blockquote>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是胜辉。这节课我们继续来解答前面课程的思考题。</p><p>第11到14讲的内容呢，主要是关于TCP传输的，涵盖了各种TCP重传、超时、拥塞控制、DDoS等我们都比较关心的问题，这些知识也可以说是TCP体系里比较复杂的部分了。到了第15讲，就进入应用层真实案例了，可能离开发和运维开发的同学更近一些，也相信你对此有不少的问题要问、不少的话要说。那我们就在这节答疑课里进一步沟通吧，我们从第11讲开始。</p><h2>11讲的答疑</h2><h3>思考题</h3><p>你在工作中有没有遇到拥塞引起的问题，或者有没有在抓包分析过程中，观察到过拥塞现象呢？</p><h3>答案</h3><p>这是一个开放式的问题，可以激发我们对这个话题的思考。可能是因为<a href="https://time.geekbang.org/column/article/486281">这一讲</a>的内容理论性多过了实践性，所以留言不算多，但是每个问题都很有价值。比如<strong>@Chao</strong>同学的问题：</p><blockquote>
+
 <p>慢启动阈值（ssthresh）的初始值是如何确定的，当慢启动过程中没有进入重传状态，如何进入拥塞避免状态？</p>
 </blockquote><p>这确实是一个很好的问题。我在这一讲里（也包括其他很多资料）介绍的TCP慢启动过程，是下图这样的：</p><p><img src="https://static001.geekbang.org/resource/image/78/52/78b3a9eacab3f1a6332efa1259255b52.jpg?wh=2000x1125" alt=""></p><p>其中，第二次慢启动阈值是基于第一次拥塞窗口减半得到的。那么第一次慢启动阈值又是如何得到的呢？是不是也跟初始拥塞窗口一样，初始慢启动阈值也有一个默认值呢？</p><!-- [[[read_end]]] --><p>在具体的实现上，Linux（应该也包括其他OS）的第一次慢启动阈值，实际上是“<strong>无穷大</strong>”。它被定义为：</p><pre><code class="language-bash">#define TCP_INFINITE_SSTHRESH   0x7fffffff
 </code></pre><p>这个十六进制的 <code>7fffffff</code> 的十进制值，是2147483647，也就是2G。我们知道，发送窗口是拥塞窗口和对方的接收窗口之间的较小值。由于接收窗口理论最大值也只有1G，因而发送窗口的最大值也是1G，那么拥塞窗口超过1G也已经没有意义了，所以这里的2G，事实上就是无穷大。</p><p>所以说，<strong>在Linux的实现里，初始慢启动阈值肯定在第一个拥塞点之上。</strong>这就造成一个现象：Linux的TCP连接在慢启动后，先碰到的是拥塞点，而不是初始慢启动阈值。从现象上看就是，TCP的拥塞窗口在慢启动过程中不断爬升，直到遇到第一个拥塞点（发生丢包或者超时），此时这个拥塞窗口的一半，就是第二次慢启动阈值了。示意图如下：</p><p><img src="https://static001.geekbang.org/resource/image/6d/06/6d5b42604b43b06de79724ce59d28506.jpg?wh=2000x1125" alt=""></p><p>那么，Linux为什么会选择这样的初始慢启动阈值呢？</p><p>主要原因，是当今的网络条件比多年前好了很多，所以为了“压榨”网络性能，让传输的启动阶段<strong>尽可能快地达到理想的传输速度</strong>，Linux在传输刚开始还没有网络质量信息的时候，直接用了“碰到拥塞再快速恢复”的方式。这比预设一个折中的初始慢启动阈值的情况，会更快地达到理想的传输速度。</p><h2>12讲的答疑</h2><h3>思考题</h3><ol>

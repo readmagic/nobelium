@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是高楼。这节课，我们来讲一讲定向监控。</p><p>其实全局监控和定向监控，我在三个专栏里都反复提过。你可能会问了，既然之前都写过了，为什么还要在这个专栏中专门再写一篇呢？毕竟凑字也不是我的风格，我还真是要写点不一样的东西。</p><p>在这一节课，我会主要介绍业务级的定向监控，也就是要实现业务代码级的监控。如果你想学习更多定向监控的知识，也可以看看我以前讲过的内容： <a href="https://time.geekbang.org/column/article/190132">《性能测试场景：如何进行监控设计？》</a> 和 <a href="https://time.geekbang.org/column/article/361138">《如何设计全局和定向监控策略？》</a> 。</p><p>话说回来，为什么要做业务级的定向监控呢？因为线上压测是有风险的，这个大家都知道。而做到业务级的定向监控可以降低压测风险。</p><p>业务级的定向监控对于刚入行的性能测试小白来说确实是一个新话题，但对于从事多年性能测试老鸟来说并不奇怪。那我们怎么具体落地呢，下面我们就来仔细看一看。</p><h2>本地环境准备</h2><p>在之前的课程里，我已经介绍了市场上常见的监控工具，这里我就结合 Prometheus SDK 来说说如何改造代码并落地业务 Metrics 埋点 。</p><blockquote>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是高楼。这节课，我们来讲一讲定向监控。</p><p>其实全局监控和定向监控，我在三个专栏里都反复提过。你可能会问了，既然之前都写过了，为什么还要在这个专栏中专门再写一篇呢？毕竟凑字也不是我的风格，我还真是要写点不一样的东西。</p><p>在这一节课，我会主要介绍业务级的定向监控，也就是要实现业务代码级的监控。如果你想学习更多定向监控的知识，也可以看看我以前讲过的内容： <a href="https://time.geekbang.org/column/article/190132">《性能测试场景：如何进行监控设计？》</a> 和 <a href="https://time.geekbang.org/column/article/361138">《如何设计全局和定向监控策略？》</a> 。</p><p>话说回来，为什么要做业务级的定向监控呢？因为线上压测是有风险的，这个大家都知道。而做到业务级的定向监控可以降低压测风险。</p><p>业务级的定向监控对于刚入行的性能测试小白来说确实是一个新话题，但对于从事多年性能测试老鸟来说并不奇怪。那我们怎么具体落地呢，下面我们就来仔细看一看。</p><h2>本地环境准备</h2><p>在之前的课程里，我已经介绍了市场上常见的监控工具，这里我就结合 Prometheus SDK 来说说如何改造代码并落地业务 Metrics 埋点 。</p><blockquote>
+
 <p>Prometheus 提供度量的四种基本类型包括：Counter，Gauge，Histogram，Summary。</p>
 </blockquote><p>这里，我主要演示电商项目下单业务的定向监控。我们会主要采集<strong>订单成功次数、订单失败次数、订单金额总数</strong>等业务的 Metrics，如果你还想扩展其它业务，也可以参考这一方法进行改造。</p><!-- [[[read_end]]] --><p>依照惯例，我还是先在本地搭建 demo 做技术预演，预演成功后再做真实系统改造。</p><p>首先，我们要搭建 Prometheus 集成 Grafana 的本地环境。具体的操作你可以参考下面三篇文章：</p><ul>
 <li><a href="https://mp.weixin.qq.com/s/C6E0Ak-dokBtuTzTczZAaA">《性能监控之初识 Prometheus》</a></li>

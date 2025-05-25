@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是吴咏炜。</p><p>从这一讲开始，我们进入了未来篇，展望一下即将在 C++20 出现的新功能。我们第一个要讨论的，是 concepts（概念）——一个难产了很多年才终于进入 C++ 的新功能。</p><h2>一个小例子</h2><p>老规矩，要讲“概念”，我们先看例子。</p><p>我们知道 C++ 里有重载，可以根据参数的类型来选择合适的函数。比如，我们可以定义 <code>half</code> 对于 <code>int</code> 和 <code>string</code> 有不同的作用：</p><pre><code class="language-c++">int half(int n)
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是吴咏炜。</p><p>从这一讲开始，我们进入了未来篇，展望一下即将在 C++20 出现的新功能。我们第一个要讨论的，是 concepts（概念）——一个难产了很多年才终于进入 C++ 的新功能。</p><h2>一个小例子</h2><p>老规矩，要讲“概念”，我们先看例子。</p><p>我们知道 C++ 里有重载，可以根据参数的类型来选择合适的函数。比如，我们可以定义 <code>half</code> 对于 <code>int</code> 和 <code>string</code> 有不同的作用：</p><pre><code class="language-c++">int half(int n)
+
 {
   return n / 2;
 }

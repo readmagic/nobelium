@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>前面讲的都是电脑上网的场景，那使用手机上网有什么不同呢？</p><h2>移动网络的发展历程</h2><p>你一定知道手机上网有2G、3G、4G的说法，究竟这都是什么意思呢？有一个通俗的说法就是：用2G看txt，用3G看jpg，用4G看avi。</p><h3>2G网络</h3><p>手机本来是用来打电话的，不是用来上网的，所以原来在2G时代，上网使用的不是IP网络，而是电话网络，走模拟信号，专业名称为公共交换电话网（PSTN，Public Switched Telephone Network）。</p><p>那手机不连网线，也不连电话线，它是怎么上网的呢？</p><p>手机是通过收发无线信号来通信的，专业名称是Mobile Station，简称MS，需要嵌入SIM。手机是客户端，而无线信号的服务端，就是基站子系统（BSS，Base Station SubsystemBSS）。至于什么是基站，你可以回想一下，你在爬山的时候，是不是看到过信号塔？我们平时城市里面的基站比较隐蔽，不容易看到，所以只有在山里才会注意到。正是这个信号塔，通过无线信号，让你的手机可以进行通信。</p><p>但是你要知道一点，<strong>无论无线通信如何无线，最终还是要连接到有线的网络里</strong>。前面讲<a href="https://time.geekbang.org/column/article/10098">数据中心</a>的时候我也讲过，电商的应用是放在数据中心的，数据中心的电脑都是插着网线的。</p><!-- [[[read_end]]] --><p>因而，基站子系统分两部分，一部分对外提供无线通信，叫作基站收发信台（BTS，Base Transceiver Station），另一部分对内连接有线网络，叫作基站控制器（BSC，Base Station Controller）。基站收发信台通过无线收到数据后，转发给基站控制器。</p><p>这部分属于无线的部分，统称为无线接入网（RAN，Radio Access Network）。</p><p>基站控制器通过有线网络，连接到提供手机业务的运营商的数据中心，这部分称为核心网（CN，Core Network）。核心网还没有真的进入互联网，这部分还是主要提供手机业务，是手机业务的有线部分。</p><p>首先接待基站来的数据的是移动业务交换中心（MSC，Mobile Service Switching Center），它是进入核心网的入口，但是它不会让你直接连接到互联网上。</p><p>因为在让你的手机真正进入互联网之前，提供手机业务的运营商，需要认证是不是合法的手机接入。你别自己造了一张手机卡，就连接上来。鉴权中心（AUC，Authentication Center）和设备识别寄存器（EIR，Equipment Identity Register）主要是负责安全性的。</p><p>另外，需要看你是本地的号，还是外地的号，这个牵扯到计费的问题，异地收费还是很贵的。访问位置寄存器（VLR，Visit Location Register）是看你目前在的地方，归属位置寄存器（HLR，Home Location Register）是看你的号码归属地。</p><p>当你的手机卡既合法又有钱的时候，才允许你上网，这个时候需要一个网关，连接核心网和真正的互联网。网关移动交换中心（GMSC ，Gateway Mobile Switching Center）就是干这个的，然后是真正的互连网。在2G时代，还是电话网络PSTN。</p><p>数据中心里面的这些模块统称为网络子系统（NSS，Network and Switching Subsystem）。</p><p><img src="https://static001.geekbang.org/resource/image/2e/72/2e29d99cd977eaa41231a2abd1017c72.jpg" alt=""></p><p>因而2G时代的上网如图所示，我们总结一下，有这几个核心点：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>前面讲的都是电脑上网的场景，那使用手机上网有什么不同呢？</p><h2>移动网络的发展历程</h2><p>你一定知道手机上网有2G、3G、4G的说法，究竟这都是什么意思呢？有一个通俗的说法就是：用2G看txt，用3G看jpg，用4G看avi。</p><h3>2G网络</h3><p>手机本来是用来打电话的，不是用来上网的，所以原来在2G时代，上网使用的不是IP网络，而是电话网络，走模拟信号，专业名称为公共交换电话网（PSTN，Public Switched Telephone Network）。</p><p>那手机不连网线，也不连电话线，它是怎么上网的呢？</p><p>手机是通过收发无线信号来通信的，专业名称是Mobile Station，简称MS，需要嵌入SIM。手机是客户端，而无线信号的服务端，就是基站子系统（BSS，Base Station SubsystemBSS）。至于什么是基站，你可以回想一下，你在爬山的时候，是不是看到过信号塔？我们平时城市里面的基站比较隐蔽，不容易看到，所以只有在山里才会注意到。正是这个信号塔，通过无线信号，让你的手机可以进行通信。</p><p>但是你要知道一点，<strong>无论无线通信如何无线，最终还是要连接到有线的网络里</strong>。前面讲<a href="https://time.geekbang.org/column/article/10098">数据中心</a>的时候我也讲过，电商的应用是放在数据中心的，数据中心的电脑都是插着网线的。</p><!-- [[[read_end]]] --><p>因而，基站子系统分两部分，一部分对外提供无线通信，叫作基站收发信台（BTS，Base Transceiver Station），另一部分对内连接有线网络，叫作基站控制器（BSC，Base Station Controller）。基站收发信台通过无线收到数据后，转发给基站控制器。</p><p>这部分属于无线的部分，统称为无线接入网（RAN，Radio Access Network）。</p><p>基站控制器通过有线网络，连接到提供手机业务的运营商的数据中心，这部分称为核心网（CN，Core Network）。核心网还没有真的进入互联网，这部分还是主要提供手机业务，是手机业务的有线部分。</p><p>首先接待基站来的数据的是移动业务交换中心（MSC，Mobile Service Switching Center），它是进入核心网的入口，但是它不会让你直接连接到互联网上。</p><p>因为在让你的手机真正进入互联网之前，提供手机业务的运营商，需要认证是不是合法的手机接入。你别自己造了一张手机卡，就连接上来。鉴权中心（AUC，Authentication Center）和设备识别寄存器（EIR，Equipment Identity Register）主要是负责安全性的。</p><p>另外，需要看你是本地的号，还是外地的号，这个牵扯到计费的问题，异地收费还是很贵的。访问位置寄存器（VLR，Visit Location Register）是看你目前在的地方，归属位置寄存器（HLR，Home Location Register）是看你的号码归属地。</p><p>当你的手机卡既合法又有钱的时候，才允许你上网，这个时候需要一个网关，连接核心网和真正的互联网。网关移动交换中心（GMSC ，Gateway Mobile Switching Center）就是干这个的，然后是真正的互连网。在2G时代，还是电话网络PSTN。</p><p>数据中心里面的这些模块统称为网络子系统（NSS，Network and Switching Subsystem）。</p><p><img src="https://static001.geekbang.org/resource/image/2e/72/2e29d99cd977eaa41231a2abd1017c72.jpg" alt=""></p><p>因而2G时代的上网如图所示，我们总结一下，有这几个核心点：</p><ul>
+
 <li>
 <p><strong>手机通过无线信号连接基站；</strong></p>
 </li>

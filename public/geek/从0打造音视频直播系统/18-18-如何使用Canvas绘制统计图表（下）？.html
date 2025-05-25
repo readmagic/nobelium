@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>Google 的 Chrome 浏览器已经默认支持 WebRTC 库了，因此 Chrome浏览器之间已经可以进行音视频实时通信了。更让人欣喜的是Google还开源了 WebRTC 源码，此举不仅惊艳，而且非常伟大。WebRTC源码的开放，为音视频实时通信领域从业者、爱好者提供了非常好的研究和学习的机会。</p><p>虽然“浏览器 + WebRTC”为广大用户提供了诸多便利，但当你开发产品时会发现，在浏览器上调试<strong>媒体流</strong>还是非常困难的。因为媒体通信涉及到了多个层面的知识，而浏览器更擅长的是处理 HTML 页面和 JavaScript 脚本，所以如果用它来分析媒体流的收发情况或者网络情况，就显得很困难了。</p><p>为了解决这个问题，Google在它的 Chrome 浏览器中支持了 WebRTC 的统计分析功能，只要<strong>在 Chrome 浏览器的地址栏输入 “chrome://webrtc-internals/ ”</strong>，你就可以看到浏览器中正在使用的 WebRTC 的各种统计分析数据了，而且这些数据都是以可视化统计图表的方式展现在你面前的，从而大大方便了你分析媒体流的效率。</p><p>实际上，关于WebRTC统计方面的内容我在前面《WebRTC中的数据统计原来这么强大》的两篇文章中已经做了详细的介绍。而今天我们要讲的主要内容是<strong>如何使用 Canvas 进行图表的绘制</strong>。</p><!-- [[[read_end]]] --><h2>浏览器中的 WebRTC 统计图表</h2><p>下面我们先通过一个实际的例子，感受一下在Chome浏览器中是如何通过统计图表来展现 WebRTC 的统计信息的。要想看到这个图表，你需按以下步骤操作：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>Google 的 Chrome 浏览器已经默认支持 WebRTC 库了，因此 Chrome浏览器之间已经可以进行音视频实时通信了。更让人欣喜的是Google还开源了 WebRTC 源码，此举不仅惊艳，而且非常伟大。WebRTC源码的开放，为音视频实时通信领域从业者、爱好者提供了非常好的研究和学习的机会。</p><p>虽然“浏览器 + WebRTC”为广大用户提供了诸多便利，但当你开发产品时会发现，在浏览器上调试<strong>媒体流</strong>还是非常困难的。因为媒体通信涉及到了多个层面的知识，而浏览器更擅长的是处理 HTML 页面和 JavaScript 脚本，所以如果用它来分析媒体流的收发情况或者网络情况，就显得很困难了。</p><p>为了解决这个问题，Google在它的 Chrome 浏览器中支持了 WebRTC 的统计分析功能，只要<strong>在 Chrome 浏览器的地址栏输入 “chrome://webrtc-internals/ ”</strong>，你就可以看到浏览器中正在使用的 WebRTC 的各种统计分析数据了，而且这些数据都是以可视化统计图表的方式展现在你面前的，从而大大方便了你分析媒体流的效率。</p><p>实际上，关于WebRTC统计方面的内容我在前面《WebRTC中的数据统计原来这么强大》的两篇文章中已经做了详细的介绍。而今天我们要讲的主要内容是<strong>如何使用 Canvas 进行图表的绘制</strong>。</p><!-- [[[read_end]]] --><h2>浏览器中的 WebRTC 统计图表</h2><p>下面我们先通过一个实际的例子，感受一下在Chome浏览器中是如何通过统计图表来展现 WebRTC 的统计信息的。要想看到这个图表，你需按以下步骤操作：</p><ul>
+
 <li>在 Chrome 浏览器中同时打开两个 tab 页面；</li>
 <li>在两个 tab 页面中输入 <a href="https://learningrtc.cn/getstats/index.html">https://learningrtc.cn/getstats/index.html</a> 地址，这是一个用于测试 WebRTC 的 URL 地址；</li>
 <li>在每一个打开的页面中，点击“Connect Sig Server”按钮，此时每个页面都会出现两个视频窗口，这说明 WebRTC 视频通信已经建立成功了；</li>

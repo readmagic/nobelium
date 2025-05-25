@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是朱晔。</p><p>上一讲的几个例子中，其实都涉及了Stream API的最基本使用方法。今天，我会与你详细介绍复杂、功能强大的Stream API。</p><p>Stream流式操作，用于对集合进行投影、转换、过滤、排序等，更进一步地，这些操作能链式串联在一起使用，类似于SQL语句，可以大大简化代码。可以说，Stream操作是Java 8中最重要的内容，也是这个课程大部分代码都会用到的操作。</p><p>我先说明下，有些案例可能不太好理解，建议你对着代码逐一到源码中查看Stream操作的方法定义，以及JDK中的代码注释。</p><h2>Stream操作详解</h2><p>为了方便你理解Stream的各种操作，以及后面的案例，我先把这节课涉及的Stream操作汇总到了一张图中。你可以先熟悉一下。</p><p><img src="https://static001.geekbang.org/resource/image/44/04/44a6f4cb8b413ef62c40a272cb474104.jpg" alt=""></p><p>在接下来的讲述中，我会围绕订单场景，给出如何使用Stream的各种API完成订单的统计、搜索、查询等功能，和你一起学习Stream流式操作的各种方法。你可以结合代码中的注释理解案例，也可以自己运行源码观察输出。</p><p>我们先定义一个订单类、一个订单商品类和一个顾客类，用作后续Demo代码的数据结构：</p><pre><code>//订单类
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是朱晔。</p><p>上一讲的几个例子中，其实都涉及了Stream API的最基本使用方法。今天，我会与你详细介绍复杂、功能强大的Stream API。</p><p>Stream流式操作，用于对集合进行投影、转换、过滤、排序等，更进一步地，这些操作能链式串联在一起使用，类似于SQL语句，可以大大简化代码。可以说，Stream操作是Java 8中最重要的内容，也是这个课程大部分代码都会用到的操作。</p><p>我先说明下，有些案例可能不太好理解，建议你对着代码逐一到源码中查看Stream操作的方法定义，以及JDK中的代码注释。</p><h2>Stream操作详解</h2><p>为了方便你理解Stream的各种操作，以及后面的案例，我先把这节课涉及的Stream操作汇总到了一张图中。你可以先熟悉一下。</p><p><img src="https://static001.geekbang.org/resource/image/44/04/44a6f4cb8b413ef62c40a272cb474104.jpg" alt=""></p><p>在接下来的讲述中，我会围绕订单场景，给出如何使用Stream的各种API完成订单的统计、搜索、查询等功能，和你一起学习Stream流式操作的各种方法。你可以结合代码中的注释理解案例，也可以自己运行源码观察输出。</p><p>我们先定义一个订单类、一个订单商品类和一个顾客类，用作后续Demo代码的数据结构：</p><pre><code>//订单类
+
 @Data
 public class Order {
     private Long id;

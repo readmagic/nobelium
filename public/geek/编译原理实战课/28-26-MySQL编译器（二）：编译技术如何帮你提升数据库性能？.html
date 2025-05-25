@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是宫文学。今天这一讲，我们继续来探究MySQL编译器。</p><p>通过上一讲的学习，你已经了解了MySQL编译器是怎么做词法和语法分析的了。那么在做完语法分析以后，MySQL编译器又继续做了哪些处理，才能成功地执行这个SQL语句呢？</p><p>所以今天，我就带你来探索一下MySQL的实现机制，我会把重点放在SQL的语义分析和优化机制上。当你学完以后，你就能真正理解以下这些问题了：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是宫文学。今天这一讲，我们继续来探究MySQL编译器。</p><p>通过上一讲的学习，你已经了解了MySQL编译器是怎么做词法和语法分析的了。那么在做完语法分析以后，MySQL编译器又继续做了哪些处理，才能成功地执行这个SQL语句呢？</p><p>所以今天，我就带你来探索一下MySQL的实现机制，我会把重点放在SQL的语义分析和优化机制上。当你学完以后，你就能真正理解以下这些问题了：</p><ul>
+
 <li>高级语言的编译器具有语义分析功能，那么MySQL编译器也会做语义分析吗？它有没有引用消解问题？有没有作用域？有没有类型检查？</li>
 <li>MySQL有没有类似高级语言的那种优化功能呢？</li>
 </ul><p>好，让我们开始今天的探究吧。不过，在讨论MySQL的编译过程之前，我想先带你了解一下MySQL会用到的一些重要的数据结构，因为你在解读代码的过程中经常会见到它们。</p><h2>认识MySQL编译器的一些重要的数据结构</h2><p><strong>第一组数据结构</strong>，是下图中的几个重要的类或结构体，包括线程、保存编译上下文信息的LEX，以及保存编译结果SELECT_LEX_UNIT和SELECT_LEX。</p><p><img src="https://static001.geekbang.org/resource/image/cc/b7/ccd4a2dcae0c974b0b5254c51440f9b7.jpg" alt=""></p><center><span class="reference">图1：MySQL编译器的中的几个重要的类和结构体</span></center><p><strong>首先是THD，也就是线程对象。</strong>对于每一个客户端的连接，MySQL编译器都会启动一个线程来处理它的查询请求。</p><!-- [[[read_end]]] --><p>THD中的一个重要数据成员是<strong>LEX对象</strong>。你可以把LEX对象想象成是编译SQL语句的工作区，保存了SQL语句编译过程中的上下文信息，编译器会把编译的成果放在这里，而编译过程中所需要的信息也是从这里查找。</p><p>在把SQL语句解析完毕以后，编译器会形成一些结构化的对象来表示一个查询。其中<strong>SELECT_LEX_UNIT结构体</strong>，就代表了一个<strong>查询表达式</strong>（Query Expression）。一个查询表达式可能包含了多个查询块，比如使用UNION的情况。</p><p>而<strong>SELECT_LEX</strong>则代表一个<strong>基本的查询块</strong>（Query Block），它里面的信息包括了所有的列和表达式、查询用到的表、where条件等。在SELECT_LEX中会保存查询块中涉及的表、字段和表达式等，它们也都有对应的数据结构。</p><p><strong>第二组需要了解的数据结构</strong>，是表示表、字段等信息的对象。<strong>Table_ident对象</strong>保存了表的信息，包括数据库名、表名和所在的查询语句（SELECT_LEX_UNIT对象）。</p><p><img src="https://static001.geekbang.org/resource/image/10/d0/10567f1112bf04c0240c0ebc277067d0.jpg" alt=""></p><center><span class="reference">图2：Table_indent对象，代表一个表</span></center><p>而字段和表达式等表示一个值的对象，用Item及其子类来表示。SQL语句中的每个字段、每个计算字段，最后都对应一个Item。where条件，其实也是用一个Item就能表示。具体包括：</p><ul>

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>在<a href="https://time.geekbang.org/column/article/138844">上一篇文章</a>中，我们通过开发者工具中的网络面板，介绍了网络请求过程的几种<strong>性能指标</strong>以及对页面加载的影响。</p><p>而在渲染流水线中，后面的步骤都直接或者间接地依赖于DOM结构，所以本文我们就继续沿着网络数据流路径来<strong>介绍DOM树是怎么生成的</strong>。然后再基于DOM树的解析流程介绍两块内容：第一个是在解析过程中遇到JavaScript脚本，DOM解析器是如何处理的？第二个是DOM解析器是如何处理跨站点资源的？</p><h2>什么是DOM</h2><p>从网络传给渲染引擎的HTML文件字节流是无法直接被渲染引擎理解的，所以要将其转化为渲染引擎能够理解的内部结构，这个结构就是DOM。DOM提供了对HTML文档结构化的表述。在渲染引擎中，DOM有三个层面的作用。</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>在<a href="https://time.geekbang.org/column/article/138844">上一篇文章</a>中，我们通过开发者工具中的网络面板，介绍了网络请求过程的几种<strong>性能指标</strong>以及对页面加载的影响。</p><p>而在渲染流水线中，后面的步骤都直接或者间接地依赖于DOM结构，所以本文我们就继续沿着网络数据流路径来<strong>介绍DOM树是怎么生成的</strong>。然后再基于DOM树的解析流程介绍两块内容：第一个是在解析过程中遇到JavaScript脚本，DOM解析器是如何处理的？第二个是DOM解析器是如何处理跨站点资源的？</p><h2>什么是DOM</h2><p>从网络传给渲染引擎的HTML文件字节流是无法直接被渲染引擎理解的，所以要将其转化为渲染引擎能够理解的内部结构，这个结构就是DOM。DOM提供了对HTML文档结构化的表述。在渲染引擎中，DOM有三个层面的作用。</p><ul>
+
 <li>从页面的视角来看，DOM是生成页面的基础数据结构。</li>
 <li>从JavaScript脚本视角来看，DOM提供给JavaScript脚本操作的接口，通过这套接口，JavaScript可以对DOM结构进行访问，从而改变文档的结构、样式和内容。</li>
 <li>从安全视角来看，DOM是一道安全防护线，一些不安全的内容在DOM解析阶段就被拒之门外了。</li>

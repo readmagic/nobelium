@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>回顾之前讲的内容，原理篇重在建立直观理解，帮你建立信心，这是第一轮的认知迭代。应用篇帮你涉足应用领域，在解决领域问题时发挥编译技术的威力，积累运用编译技术的一手经验，也启发你用编译技术去解决更多的领域问题，这是第二轮的认知迭代。而为时三节课的算法篇将你是第三轮的认知迭代。</p><p>在第三轮的认知迭代中，我会带你掌握前端技术中的核心算法。而本节课，我就借“怎样实现正则表达式工具？”这个问题，探讨第一组算法：<strong>与正则表达式处理有关的算法。</strong></p><p>在词法分析阶段，我们可以手工构造有限自动机（FSA，或FSM）实现词法解析，过程比较简单。现在我们不再手工构造词法分析器，而是直接用正则表达式解析词法。</p><p>你会发现，我们只要写一些规则，就能基于这些规则分析和处理文本。这种能够理解正则表达式的功能，除了能生成词法分析器，还有很多用途。比如Linux的三个超级命令，又称三剑客（grep、awk和sed），都是因为能够直接支持正则表达式，功能才变得强大的。</p><p>接下来，我就带你完成编写正则表达式工具的任务，与此同时，你就能用正则文法生成词法分析器了：</p><p><strong>首先，</strong>把正则表达式翻译成非确定的有限自动机（Nondeterministic Finite Automaton，NFA）。<br>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>回顾之前讲的内容，原理篇重在建立直观理解，帮你建立信心，这是第一轮的认知迭代。应用篇帮你涉足应用领域，在解决领域问题时发挥编译技术的威力，积累运用编译技术的一手经验，也启发你用编译技术去解决更多的领域问题，这是第二轮的认知迭代。而为时三节课的算法篇将你是第三轮的认知迭代。</p><p>在第三轮的认知迭代中，我会带你掌握前端技术中的核心算法。而本节课，我就借“怎样实现正则表达式工具？”这个问题，探讨第一组算法：<strong>与正则表达式处理有关的算法。</strong></p><p>在词法分析阶段，我们可以手工构造有限自动机（FSA，或FSM）实现词法解析，过程比较简单。现在我们不再手工构造词法分析器，而是直接用正则表达式解析词法。</p><p>你会发现，我们只要写一些规则，就能基于这些规则分析和处理文本。这种能够理解正则表达式的功能，除了能生成词法分析器，还有很多用途。比如Linux的三个超级命令，又称三剑客（grep、awk和sed），都是因为能够直接支持正则表达式，功能才变得强大的。</p><p>接下来，我就带你完成编写正则表达式工具的任务，与此同时，你就能用正则文法生成词法分析器了：</p><p><strong>首先，</strong>把正则表达式翻译成非确定的有限自动机（Nondeterministic Finite Automaton，NFA）。<br>
+
 <strong>其次，</strong>基于NFA处理字符串，看看它有什么特点。<br>
 <strong>然后，</strong>把非确定的有限自动机转换成确定的有限自动机（Deterministic Finite Automaton，DFA）<br>
 <strong>最后，</strong>运行DFA，看看它有什么特点。</p><!-- [[[read_end]]] --><p>强调一下，不要被非确定的有限自动机、确定的有限自动机这些概念吓倒，我肯定让你学明白。</p><h2>认识DFA和NFA</h2><p>在讲词法分析时，我提到有限自动机（FSA）有有限个状态。识别Token的过程，就是FSA状态迁移的过程。其中，FSA分为<strong>确定的有限自动机（DFA）<strong>和</strong>非确定的有限自动机（NFA）。</strong></p><p><strong>DFA的特点是，</strong>在任何一个状态，我们基于输入的字符串，都能做一个确定的转换，比如：</p><p><img src="https://static001.geekbang.org/resource/image/15/35/15da400d09ede2ce6ac60fa6d5342835.jpg" alt=""></p><p><strong>NFA的特点是，</strong>它存在某些状态，针对某些输入，不能做一个确定的转换，这又细分成两种情况：</p><ul>

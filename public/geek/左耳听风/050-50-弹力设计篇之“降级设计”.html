@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>所谓的降级设计（Degradation），本质是为了解决资源不足和访问量过大的问题。当资源和访问量出现矛盾的时候，在有限的资源下，为了能够扛住大量的请求，我们就需要对系统进行降级操作。也就是说，暂时牺牲掉一些东西，以保障整个系统的平稳运行。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>所谓的降级设计（Degradation），本质是为了解决资源不足和访问量过大的问题。当资源和访问量出现矛盾的时候，在有限的资源下，为了能够扛住大量的请求，我们就需要对系统进行降级操作。也就是说，暂时牺牲掉一些东西，以保障整个系统的平稳运行。</p>
+
 <p>我记得我在伦敦参与诺丁山狂欢节的时候，以及看阿森纳英超足球比赛的时候，散场时因为人太多，所有的公交系统（公交车，地铁）完全免费，就是为了让人通行得更快。而且早在散场前，场外就备着一堆公交车和地铁了，这样就是为了在最短时间内把人疏散掉。</p>
 <p>虽然亏掉了一些钱，但是相比因为人员拥塞造成道路交通拥塞以及还可能出现的一些意外情况所造成的社会成本的损失，公交免费策略真是很明智的做法。与此类似，我们的系统在应对一些突发情况的时候也需要这样的降级流程。</p>
 <!-- [[[read_end]]] -->

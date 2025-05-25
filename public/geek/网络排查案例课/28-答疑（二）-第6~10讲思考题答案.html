@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是胜辉。</p><p>在上一讲里，我们回顾了第1到第5讲的思考题，分析了每道题目的解题思路，当然更重要的是对这五节课的知识点做了一次复习和补充。你看完了这些解答后的感觉如何呢？跟之前你自己的思考过程和结论相比，又有哪些相同和不同之处呢？相信通过再一次的思考，你对知识的掌握将会更加深刻。</p><p>那么这节课，我们就继续讲解这些课后的思考题。先从第6讲开始。</p><h2>06讲的答疑</h2><h3>思考题</h3><p>这节课，我给你介绍了利用防火墙的TTL跟原先的正常报文的TTL不一致的特点，从而识别出防火墙的方法。那么，假设有一天，防火墙公司把这个特性也完善了，我们再也不能仅凭TTL的突变而发现防火墙了，你觉得还有什么办法可以识别出防火墙吗？</p><h3>答案</h3><p>这是一个开放式的问题，其实并没有标准答案。不过，通过对这个问题的思考，我们可以对网络的理解更进一步。我们先参考下面这张图，复习一下用TTL判断防火墙的原理：</p><p><img src="https://static001.geekbang.org/resource/image/f6/56/f6a1206ea604d7f3dd88981e39366256.jpg?wh=1694x562" alt=""></p><blockquote>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是胜辉。</p><p>在上一讲里，我们回顾了第1到第5讲的思考题，分析了每道题目的解题思路，当然更重要的是对这五节课的知识点做了一次复习和补充。你看完了这些解答后的感觉如何呢？跟之前你自己的思考过程和结论相比，又有哪些相同和不同之处呢？相信通过再一次的思考，你对知识的掌握将会更加深刻。</p><p>那么这节课，我们就继续讲解这些课后的思考题。先从第6讲开始。</p><h2>06讲的答疑</h2><h3>思考题</h3><p>这节课，我给你介绍了利用防火墙的TTL跟原先的正常报文的TTL不一致的特点，从而识别出防火墙的方法。那么，假设有一天，防火墙公司把这个特性也完善了，我们再也不能仅凭TTL的突变而发现防火墙了，你觉得还有什么办法可以识别出防火墙吗？</p><h3>答案</h3><p>这是一个开放式的问题，其实并没有标准答案。不过，通过对这个问题的思考，我们可以对网络的理解更进一步。我们先参考下面这张图，复习一下用TTL判断防火墙的原理：</p><p><img src="https://static001.geekbang.org/resource/image/f6/56/f6a1206ea604d7f3dd88981e39366256.jpg?wh=1694x562" alt=""></p><blockquote>
+
 <p>补充：上图是一个例子，假设防火墙是路径上的第5跳，那么防火墙自己发出的报文的TTL就比真正的发送端的TTL多了5。</p>
 </blockquote><p>然后想一想，我们之所以能通过TTL定位防火墙，本质原因是什么呢？实际上，本质原因就是这个IP报文是防火墙自己构造的，而<strong>在构造时TTL被设置为了初始值</strong>。</p><!-- [[[read_end]]] --><p>那么，还有哪些元信息也是在这个构造好的报文里呢？其实这些信息也可以帮我们辅助判断防火墙。</p><p>另外在IP层，除了TTL，还有一个字段也值得我们注意，它就是<strong>IP ID</strong>。这个字段占用了2个字节，所以它的最大值是2^16-1，也就是65535。IP ID一般是IP报文的发起端设置的，每次发包递增1，然后在0到65535之间循环使用。</p><p>它最主要的用途，是<strong>接收端会根据这个ID来组装（assemble）同一组IP分片（fragments），</strong>而中间设备（交换机、路由器）不会改动IP ID。并且在防火墙构造RST报文的时候，IP包的TTL和ID值也是防火墙自己设置的，也就有可能被我们用来发现防火墙。所以，如果SYN+ACK和RST的IP ID不连续，我们就可以判断出防火墙，也就是下图这样：</p><p><img src="https://static001.geekbang.org/resource/image/51/52/51df7643ff2127011ce9e6fd124e9652.jpg?wh=1846x884" alt=""></p><p>不过，我在探究这个可能性的时候，又遇到了新的问题。要知道，Linux系统发送SYN+ACK的时候，IP ID一定是0，但是我既在Wireshark里看到了这个现象，也在内核代码里证实了这一点。而这就给我们利用IP ID带来了障碍：<strong>因为即使RST真的是对端发出的，两个报文的IP ID也会不同。</strong></p><p>只有当我们收到至少三个报文，也就是除了SYN+ACK和RST之外，我们还需要在中间收到一些报文，才可以对比RST跟中间报文的IP ID的差别，然后进行判断。</p><p>所以，利用IP ID的方法，对于TCP握手后就发生RST的情况并不适用，但对于交互过程中发生RST的情况应该是适用的。你有机会也可以在遇到RST时，来抓包验证一下。</p><p><img src="https://static001.geekbang.org/resource/image/16/d5/168e95c43c17fc318d72df93205231d5.jpg?wh=1821x943" alt=""></p><h2>07讲的答疑</h2><h3>思考题</h3><ol>
 <li>tcp.payload eq abc，这个过滤器可以搜索到精确匹配“abc”字符串的报文。那么，如果是模糊匹配，比如只要包含“abc”的报文我都想搜到，这个过滤器又该如何写呢？</li>

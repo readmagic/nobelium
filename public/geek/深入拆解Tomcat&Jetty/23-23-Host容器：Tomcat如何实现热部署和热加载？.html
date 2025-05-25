@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>从这一期我们开始学习Tomcat的容器模块，来聊一聊各容器组件实现的功能，主要有热部署热加载、类加载机制以及Servlet规范的实现。最后还会谈到Spring Boot是如何与Web容器进行交互的。</p><p>今天我们首先来看热部署和热加载。要在运行的过程中升级Web应用，如果你不想重启系统，实现的方式有两种：热加载和热部署。</p><p>那如何实现热部署和热加载呢？它们跟类加载机制有关，具体来说就是：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>从这一期我们开始学习Tomcat的容器模块，来聊一聊各容器组件实现的功能，主要有热部署热加载、类加载机制以及Servlet规范的实现。最后还会谈到Spring Boot是如何与Web容器进行交互的。</p><p>今天我们首先来看热部署和热加载。要在运行的过程中升级Web应用，如果你不想重启系统，实现的方式有两种：热加载和热部署。</p><p>那如何实现热部署和热加载呢？它们跟类加载机制有关，具体来说就是：</p><ul>
+
 <li>热加载的实现方式是Web容器启动一个后台线程，定期检测类文件的变化，如果有变化，就重新加载类，在这个过程中不会清空Session ，一般用在开发环境。</li>
 <li>热部署原理类似，也是由后台线程定时检测Web应用的变化，但它会重新加载整个Web应用。这种方式会清空Session，比热加载更加干净、彻底，一般用在生产环境。</li>
 </ul><p>今天我们来学习一下Tomcat是如何用后台线程来实现热加载和热部署的。Tomcat通过开启后台线程，使得各个层次的容器组件都有机会完成一些周期性任务。我们在实际工作中，往往也需要执行一些周期性的任务，比如监控程序周期性拉取系统的健康状态，就可以借鉴这种设计。</p><h2>Tomcat的后台线程</h2><p>要说开启后台线程做周期性的任务，有经验的同学马上会想到线程池中的ScheduledThreadPoolExecutor，它除了具有线程池的功能，还能够执行周期性的任务。Tomcat就是通过它来开启后台线程的：</p><!-- [[[read_end]]] --><pre><code>bgFuture = exec.scheduleWithFixedDelay(

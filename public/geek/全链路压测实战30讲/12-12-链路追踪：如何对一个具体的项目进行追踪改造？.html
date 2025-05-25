@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是高楼。</p><p>在上一讲，我给你梳理了链路追踪的背景、目标、几种常见的组件，我们还确定了系统最后的选型方案。</p><p>在这一讲，我会通过案例演示在应用  Sleuth+Zipkin  来追踪我们电商微服务项目请求的过程中，需要关注的一些技术细节。</p><p>首先，我们来回顾一下电商项目集成 Sleuth+ Zipkin 的应用架构。​<img src="https://static001.geekbang.org/resource/image/5a/56/5a92b6d7266a4b9b335d79be0d05cd56.jpg?wh=1920x1210" alt="图片"></p><p>系统涉及的需要新增或改造的服务与组件包含以下 10 个：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是高楼。</p><p>在上一讲，我给你梳理了链路追踪的背景、目标、几种常见的组件，我们还确定了系统最后的选型方案。</p><p>在这一讲，我会通过案例演示在应用  Sleuth+Zipkin  来追踪我们电商微服务项目请求的过程中，需要关注的一些技术细节。</p><p>首先，我们来回顾一下电商项目集成 Sleuth+ Zipkin 的应用架构。​<img src="https://static001.geekbang.org/resource/image/5a/56/5a92b6d7266a4b9b335d79be0d05cd56.jpg?wh=1920x1210" alt="图片"></p><p>系统涉及的需要新增或改造的服务与组件包含以下 10 个：</p><ol>
+
 <li>Zipkin，链路追踪系统</li>
 <li>Kafka，消息队列</li>
 <li>ElasticSearch，搜索引擎</li>

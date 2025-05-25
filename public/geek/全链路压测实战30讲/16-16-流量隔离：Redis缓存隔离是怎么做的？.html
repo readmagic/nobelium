@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是高楼。</p><p>这节课，我们详细来讲讲如何基于微服务技术落地 Redis 缓存隔离。</p><p>在全链路压测的流量隔离中，有一个很重要的部分就是缓存隔离，即区分对应的 Cache。</p><p>说到缓存肯定离不开 Redis，因为高性能架构设计中都离不开它，在互联网和传统行业中呢，也都有它的身影。可以说，Redis 是性能项目中的必备知识点。</p><p>Redis 是一个 NoSQL 数据库，它使用的是内存存储的非关系型数据库，Redis 不使用表，使用 K-V 存储。</p><p>根据前面的经验我们知道，要改造什么就得知道它和其它组件的依赖关系，只有这样才能知道要对谁做改造。</p><p>所以，我又得祭出这个项目链路图了，脑中有策，心中有图，手中有码，改造才有路。</p><p><img src="https://static001.geekbang.org/resource/image/45/92/45cf5ddd861f77569f0bcc98c0437892.png?wh=1920x1149" alt="图片"></p><p>从链路图中我们可以看到，几乎所有业务系统（除了搜索）都和 Redis 组件有关系，所以，相关业务系统都得做缓存隔离改造，以保证正常流量与压测流量的缓存分离。</p><p>为了方便你更直观地理解，我给你画了个简要的思维导图。</p><p><img src="https://static001.geekbang.org/resource/image/cf/e3/cfe0663041e4591f71868f0718ba63e3.jpg?wh=1860x1685" alt="图片"></p><p>好了，搞懂了组件间依赖关系后，我们就要进入相关技术预演了。</p><h2>技术预演</h2><p>在正式动工之前，我们先回顾一下数据库隔离的方式。上一讲我们提过， MySQL 数据库隔离通常有三种方式，分别是数据偏移、影子库、影子表，Redis 和 MySQL 数据结构不同，所以 Redis 的缓存隔离技术会有些区别。</p><!-- [[[read_end]]] --><p>首先，我们来了解下目前业界对于缓存隔离的主要解决方案，以及它们的优缺点和适用场景。</p><p><img src="https://static001.geekbang.org/resource/image/13/1b/1325d9f1ab08582290eab3445874d41b.jpg?wh=1920x1080" alt="图片"></p><p>我们可以看到，根据不同的项目情况，可以选择不同的技术方案，<strong>这里最优、最安全的方案当然首推影子缓存（多实例）</strong>，具体的优缺点上面表格已经写得非常清楚了。​</p><p>下面我们来对缓存隔离里面的核心技术做下 demo 预演。</p><h3>缓存隔离落地</h3><p>在这里呢，我会主要介绍影子缓存和影子 key 两种方案。</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是高楼。</p><p>这节课，我们详细来讲讲如何基于微服务技术落地 Redis 缓存隔离。</p><p>在全链路压测的流量隔离中，有一个很重要的部分就是缓存隔离，即区分对应的 Cache。</p><p>说到缓存肯定离不开 Redis，因为高性能架构设计中都离不开它，在互联网和传统行业中呢，也都有它的身影。可以说，Redis 是性能项目中的必备知识点。</p><p>Redis 是一个 NoSQL 数据库，它使用的是内存存储的非关系型数据库，Redis 不使用表，使用 K-V 存储。</p><p>根据前面的经验我们知道，要改造什么就得知道它和其它组件的依赖关系，只有这样才能知道要对谁做改造。</p><p>所以，我又得祭出这个项目链路图了，脑中有策，心中有图，手中有码，改造才有路。</p><p><img src="https://static001.geekbang.org/resource/image/45/92/45cf5ddd861f77569f0bcc98c0437892.png?wh=1920x1149" alt="图片"></p><p>从链路图中我们可以看到，几乎所有业务系统（除了搜索）都和 Redis 组件有关系，所以，相关业务系统都得做缓存隔离改造，以保证正常流量与压测流量的缓存分离。</p><p>为了方便你更直观地理解，我给你画了个简要的思维导图。</p><p><img src="https://static001.geekbang.org/resource/image/cf/e3/cfe0663041e4591f71868f0718ba63e3.jpg?wh=1860x1685" alt="图片"></p><p>好了，搞懂了组件间依赖关系后，我们就要进入相关技术预演了。</p><h2>技术预演</h2><p>在正式动工之前，我们先回顾一下数据库隔离的方式。上一讲我们提过， MySQL 数据库隔离通常有三种方式，分别是数据偏移、影子库、影子表，Redis 和 MySQL 数据结构不同，所以 Redis 的缓存隔离技术会有些区别。</p><!-- [[[read_end]]] --><p>首先，我们来了解下目前业界对于缓存隔离的主要解决方案，以及它们的优缺点和适用场景。</p><p><img src="https://static001.geekbang.org/resource/image/13/1b/1325d9f1ab08582290eab3445874d41b.jpg?wh=1920x1080" alt="图片"></p><p>我们可以看到，根据不同的项目情况，可以选择不同的技术方案，<strong>这里最优、最安全的方案当然首推影子缓存（多实例）</strong>，具体的优缺点上面表格已经写得非常清楚了。​</p><p>下面我们来对缓存隔离里面的核心技术做下 demo 预演。</p><h3>缓存隔离落地</h3><p>在这里呢，我会主要介绍影子缓存和影子 key 两种方案。</p><ul>
+
 <li>第一种方案：影子缓存（多实例）</li>
 </ul><p>影子缓存（多实例）方案，首先要满足多数据源，然后确保它们分属两个物理上不同的Redis实例。在全链路压测过程中，业务层会识别标记，并选择对应的的 Redis 数据源，操作不同的 Redis 实例。</p><p>这里我给你画了一个简单的逻辑图：</p><p><img src="https://static001.geekbang.org/resource/image/8f/yy/8f3944b186162e0aa2e15aa13a4e81yy.jpg?wh=1290x417" alt=""></p><p>实现的具体操作步骤是：</p><p><strong>第一步：添加依赖。</strong></p><p>在 pom 中添加相关依赖。</p><pre><code class="language-xml">&lt;dependency&gt;
    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;

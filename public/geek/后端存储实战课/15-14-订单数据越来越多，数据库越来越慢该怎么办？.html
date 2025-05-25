@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是李玥。</p><p>在前面几节课，我们一起学习了在并发持续高速增长的情况下，如何来逐步升级存储。今天这节课我们来聊一聊，如何应对数据的持续增长，特别是像订单数据这种会随着时间一直累积的数据。</p><p>为什么数据量越大数据库就越慢？你得理解这里面的根本原因。</p><p>我们知道，无论是“增删改查”哪个操作，其实都是查找问题，因为你都得先找到数据才能对数据做操作。那存储系统性能问题，其实就是查找快慢的问题。</p><p>无论是什么样的存储系统，一次查询所耗费的时间，都取决于两个因素：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是李玥。</p><p>在前面几节课，我们一起学习了在并发持续高速增长的情况下，如何来逐步升级存储。今天这节课我们来聊一聊，如何应对数据的持续增长，特别是像订单数据这种会随着时间一直累积的数据。</p><p>为什么数据量越大数据库就越慢？你得理解这里面的根本原因。</p><p>我们知道，无论是“增删改查”哪个操作，其实都是查找问题，因为你都得先找到数据才能对数据做操作。那存储系统性能问题，其实就是查找快慢的问题。</p><p>无论是什么样的存储系统，一次查询所耗费的时间，都取决于两个因素：</p><ol>
+
 <li>查找的时间复杂度；</li>
 <li>数据总量。</li>
 </ol><p>这也是为什么大厂面试时总喜欢问“时间复杂度”相关问题的原因。查找的时间复杂度又取决于两个因素：</p><ol>

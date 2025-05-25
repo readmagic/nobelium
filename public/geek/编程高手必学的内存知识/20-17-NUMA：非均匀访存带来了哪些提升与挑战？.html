@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是海纳。</p><p>在硬件篇的最后一节课，我们来看两个比较重要的物理内存问题。在<a href="https://time.geekbang.org/column/article/430073">第1节课</a>，我们讲到物理内存就是指主存，这句话是不太精确的，其实大型服务器的物理内存是由很多部分组成的，主要包含<strong>外设所使用的内存和主存</strong>。</p><p>这节课，我们先会对计算机是如何组织外设所使用的内存进行分析，因为这是你了解设备驱动开发的基础；接下来，我们将分析主存，不过在展开之前，你还是需要了解一下它的内部结构，才能更好的理解。</p><p>如果你从CPU的角度去看，就会发现物理内存并不是平坦的，而是坑坑洼洼的。正是因为这样的特点，也就导致CPU对物理内存的访问速度也不一样。同时，有些内存可以使用CPU Cache，有些则不可以。我们把这种组织方式称为<strong>异质（Heterogeneity）式</strong>的结构。</p><p>再往深入拆解，在异质式结构中，CPU不仅仅对外设内存和主存的访问速度不一样，它访问主存不同区间的速度也不一样。换句话说，<strong>不同的CPU访问不同地址主存的速度各不相同</strong>，我们把采用这种设计的内存叫做非一致性访存（Non-uniform memory access，NUMA）。</p><p>通常，在进行应用程序内存管理时，正确使用NUMA可以极大地提升应用程序的吞吐量；相应地，如果NUMA的配置不合理，也有可能带来比较大的负面影响。而且，在多核体系结构的服务器上，合理地通过控制NUMA的绑定，来提升应用程序的性能，对于服务端程序员至关重要。为了帮助你合理运用NUMA，今天这节课，我们就来详细分析NUMA会为应用程序带来哪些提升与挑战。</p><!-- [[[read_end]]] --><p>NUMA的内容比较多，我放在了这节课的后半部分讲解。我们先来分析计算机是如何组织外设所使用的内存的？</p><h3>再论物理内存</h3><p><strong>外设所需要的内存主要包括外设的工作内存、DMA区域和用于IO映射的内存</strong>。在Linux系统上，我们可以使用以下命令查看物理内存分布情况：</p><pre><code>$ cat /proc/iomem
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是海纳。</p><p>在硬件篇的最后一节课，我们来看两个比较重要的物理内存问题。在<a href="https://time.geekbang.org/column/article/430073">第1节课</a>，我们讲到物理内存就是指主存，这句话是不太精确的，其实大型服务器的物理内存是由很多部分组成的，主要包含<strong>外设所使用的内存和主存</strong>。</p><p>这节课，我们先会对计算机是如何组织外设所使用的内存进行分析，因为这是你了解设备驱动开发的基础；接下来，我们将分析主存，不过在展开之前，你还是需要了解一下它的内部结构，才能更好的理解。</p><p>如果你从CPU的角度去看，就会发现物理内存并不是平坦的，而是坑坑洼洼的。正是因为这样的特点，也就导致CPU对物理内存的访问速度也不一样。同时，有些内存可以使用CPU Cache，有些则不可以。我们把这种组织方式称为<strong>异质（Heterogeneity）式</strong>的结构。</p><p>再往深入拆解，在异质式结构中，CPU不仅仅对外设内存和主存的访问速度不一样，它访问主存不同区间的速度也不一样。换句话说，<strong>不同的CPU访问不同地址主存的速度各不相同</strong>，我们把采用这种设计的内存叫做非一致性访存（Non-uniform memory access，NUMA）。</p><p>通常，在进行应用程序内存管理时，正确使用NUMA可以极大地提升应用程序的吞吐量；相应地，如果NUMA的配置不合理，也有可能带来比较大的负面影响。而且，在多核体系结构的服务器上，合理地通过控制NUMA的绑定，来提升应用程序的性能，对于服务端程序员至关重要。为了帮助你合理运用NUMA，今天这节课，我们就来详细分析NUMA会为应用程序带来哪些提升与挑战。</p><!-- [[[read_end]]] --><p>NUMA的内容比较多，我放在了这节课的后半部分讲解。我们先来分析计算机是如何组织外设所使用的内存的？</p><h3>再论物理内存</h3><p><strong>外设所需要的内存主要包括外设的工作内存、DMA区域和用于IO映射的内存</strong>。在Linux系统上，我们可以使用以下命令查看物理内存分布情况：</p><pre><code>$ cat /proc/iomem
+
 00000000-00000fff : reserved
 00001000-0009fbff : System RAM
 0009fc00-0009ffff : reserved

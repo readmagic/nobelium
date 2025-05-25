@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>在前面的第<a href="https://time.geekbang.org/column/article/76446">24</a>、<a href="https://time.geekbang.org/column/article/76795">25</a>和<a href="https://time.geekbang.org/column/article/77083">26</a>篇文章中，我和你介绍了MySQL主备复制的基础结构，但这些都是一主一备的结构。</p><p>大多数的互联网应用场景都是读多写少，因此你负责的业务，在发展过程中很可能先会遇到读性能的问题。而在数据库层解决读性能问题，就要涉及到接下来两篇文章要讨论的架构：一主多从。</p><p>今天这篇文章，我们就先聊聊一主多从的切换正确性。然后，我们在下一篇文章中再聊聊解决一主多从的查询逻辑正确性的方法。</p><p>如图1所示，就是一个基本的一主多从结构。</p><p><img src="https://static001.geekbang.org/resource/image/aa/79/aadb3b956d1ffc13ac46515a7d619e79.png" alt=""></p><center><span class="reference">图1 一主多从基本结构</span></center><p>图中，虚线箭头表示的是主备关系，也就是A和A’互为主备， 从库B、C、D指向的是主库A。一主多从的设置，一般用于读写分离，主库负责所有的写入和一部分读，其他的读请求则由从库分担。</p><p>今天我们要讨论的就是，在一主多从架构下，主库故障后的主备切换问题。</p><p>如图2所示，就是主库发生故障，主备切换后的结果。</p><p><img src="https://static001.geekbang.org/resource/image/00/53/0014f97423bd75235a9187f492fb2453.png" alt=""></p><center><span class="reference">图2 一主多从基本结构--主备切换</span></center><p>相比于一主一备的切换流程，一主多从结构在切换完成后，A’会成为新的主库，从库B、C、D也要改接到A’。正是由于多了从库B、C、D重新指向的这个过程，所以主备切换的复杂性也相应增加了。</p><p>接下来，我们再一起看看一个切换系统会怎么完成一主多从的主备切换过程。</p><!-- [[[read_end]]] --><h1>基于位点的主备切换</h1><p>这里，我们需要先来回顾一个知识点。</p><p>当我们把节点B设置成节点A’的从库的时候，需要执行一条change master命令：</p><pre><code>CHANGE MASTER TO 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>在前面的第<a href="https://time.geekbang.org/column/article/76446">24</a>、<a href="https://time.geekbang.org/column/article/76795">25</a>和<a href="https://time.geekbang.org/column/article/77083">26</a>篇文章中，我和你介绍了MySQL主备复制的基础结构，但这些都是一主一备的结构。</p><p>大多数的互联网应用场景都是读多写少，因此你负责的业务，在发展过程中很可能先会遇到读性能的问题。而在数据库层解决读性能问题，就要涉及到接下来两篇文章要讨论的架构：一主多从。</p><p>今天这篇文章，我们就先聊聊一主多从的切换正确性。然后，我们在下一篇文章中再聊聊解决一主多从的查询逻辑正确性的方法。</p><p>如图1所示，就是一个基本的一主多从结构。</p><p><img src="https://static001.geekbang.org/resource/image/aa/79/aadb3b956d1ffc13ac46515a7d619e79.png" alt=""></p><center><span class="reference">图1 一主多从基本结构</span></center><p>图中，虚线箭头表示的是主备关系，也就是A和A’互为主备， 从库B、C、D指向的是主库A。一主多从的设置，一般用于读写分离，主库负责所有的写入和一部分读，其他的读请求则由从库分担。</p><p>今天我们要讨论的就是，在一主多从架构下，主库故障后的主备切换问题。</p><p>如图2所示，就是主库发生故障，主备切换后的结果。</p><p><img src="https://static001.geekbang.org/resource/image/00/53/0014f97423bd75235a9187f492fb2453.png" alt=""></p><center><span class="reference">图2 一主多从基本结构--主备切换</span></center><p>相比于一主一备的切换流程，一主多从结构在切换完成后，A’会成为新的主库，从库B、C、D也要改接到A’。正是由于多了从库B、C、D重新指向的这个过程，所以主备切换的复杂性也相应增加了。</p><p>接下来，我们再一起看看一个切换系统会怎么完成一主多从的主备切换过程。</p><!-- [[[read_end]]] --><h1>基于位点的主备切换</h1><p>这里，我们需要先来回顾一个知识点。</p><p>当我们把节点B设置成节点A’的从库的时候，需要执行一条change master命令：</p><pre><code>CHANGE MASTER TO
+
 MASTER_HOST=$host_name 
 MASTER_PORT=$port 
 MASTER_USER=$user_name 

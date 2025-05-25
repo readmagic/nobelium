@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是宝玉。十多年前，当我还是个野路子程序员时，我在外面接私活做项目，客户在使用过程中遇到了Bug，直接就截个图，或者是用Word文档整理在一起，从QQ或者邮件上把Bug信息发送给我，我收到后再修复更新上线。</p><p>而现在正规的软件项目已经不会再用这种原始的方式来报Bug了，而是会借助测试工具来帮助报告和跟踪Bug，即使你偶尔能看到有项目还在采用原始方式报Bug，你肯定也会觉得这样做不专业。</p><p>但不知道你有没有仔细想过这个问题，为什么现在不通过QQ/微信/邮件报Bug，又有哪些测试工具可以帮助你更好地发现、报告和跟踪软件中的Bug呢？今天我们来展开讨论这个问题。</p><h2>Bug跟踪工具</h2><p>我想你对于Bug这个词一定不陌生，它是我们软件中的缺陷或错误。这个词的诞生也很有意思。</p><blockquote>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是宝玉。十多年前，当我还是个野路子程序员时，我在外面接私活做项目，客户在使用过程中遇到了Bug，直接就截个图，或者是用Word文档整理在一起，从QQ或者邮件上把Bug信息发送给我，我收到后再修复更新上线。</p><p>而现在正规的软件项目已经不会再用这种原始的方式来报Bug了，而是会借助测试工具来帮助报告和跟踪Bug，即使你偶尔能看到有项目还在采用原始方式报Bug，你肯定也会觉得这样做不专业。</p><p>但不知道你有没有仔细想过这个问题，为什么现在不通过QQ/微信/邮件报Bug，又有哪些测试工具可以帮助你更好地发现、报告和跟踪软件中的Bug呢？今天我们来展开讨论这个问题。</p><h2>Bug跟踪工具</h2><p>我想你对于Bug这个词一定不陌生，它是我们软件中的缺陷或错误。这个词的诞生也很有意思。</p><blockquote>
+
 <p>1947年9月9日，一只小飞蛾钻进了哈佛大学的一台计算机电路里，导致系统无法工作，操作员把飞蛾贴在计算机日志上，写下了“首个发现Bug的实际案例”。</p>
 </blockquote><p><a href="http://en.wikipedia.org/wiki/Software_bug"><img src="https://static001.geekbang.org/resource/image/79/3c/796010fd083207b660547887bbc5893c.png" alt="" title="图片来源：WikiPedia"></a></p><p>虽然Bug的历史已经有60多年了，然而Bug跟踪工具却没有出现太久。软件项目中最早也是通过邮件、即时通讯等原始方式报告Bug，直到1992年才有第一个专业的Bug跟踪软件<a href="http://www.gnu.org/software/gnats/">GNATS</a>。</p><p>在这之后才逐步有了像Bugzilla、Jira、MantisBT等专业的Bug跟踪工具。而现在，Bug跟踪工具已经成为软件项目中必不可少的工具之一。</p><!-- [[[read_end]]] --><p>那么，Bug跟踪工具是怎么逐步替代QQ、邮件等方式来处理Bug的呢？</p><h4>为什么要使用Bug跟踪工具？</h4><p>我们在上一节学习了软件测试相关的理论知识，软件测试的主要工作就是发现Bug、报告Bug和跟踪Bug。测试人员发现Bug只是第一步，还需要报告Bug让开发人员可以知晓和定位，并且跟踪整个Bug修复的过程。</p><p>用QQ或者邮件报Bug的这种方式，看起来快捷简单，但是问题很多：</p><ul>
 <li>Bug不能有效被跟踪，不知道一个Bug是不是已经被修复了；</li>

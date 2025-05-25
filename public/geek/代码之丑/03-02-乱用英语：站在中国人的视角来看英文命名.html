@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是郑晔。</p><p>上一讲，我们讲了两种常见的命名的坏味道，这一讲的话题还是命名，只不过，这个主题是国外那些经典编程书籍所不曾涵盖的话题：英语命名。</p><p>现在主流的程序设计语言都是以英语为基础的，且不说欧美人设计的各种语言，就连日本人设计的 Ruby、巴西人设计的 Lua，各种语法采用的也全都是英语。所以，想要成为一个优秀的程序员，会用英语写代码是必要的。</p><p>这里并不是说，程序员的英语一定要多好，但<strong>最低限度的要求是写出来的代码要像是在用英语表达</strong>。</p><p>或许你听说过，甚至接触过国内的一些程序员用汉语拼音写代码，这就是一种典型的坏味道。鉴于现在的一些程序设计语言已经支持了 UTF-8 的编码格式，用汉语拼音写代码，还不如用汉字直接写代码。</p><p>当然，这个坏味道实在是太低级了，我就不在这里深入讨论了。让我们来看看还有哪些可能会不经意间忽略的坏味道。</p><h2>违反语法规则的命名</h2><p>我们来看一段代码：</p><pre><code>public void completedTranslate(final List&lt;ChapterId&gt; chapterIds) {
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是郑晔。</p><p>上一讲，我们讲了两种常见的命名的坏味道，这一讲的话题还是命名，只不过，这个主题是国外那些经典编程书籍所不曾涵盖的话题：英语命名。</p><p>现在主流的程序设计语言都是以英语为基础的，且不说欧美人设计的各种语言，就连日本人设计的 Ruby、巴西人设计的 Lua，各种语法采用的也全都是英语。所以，想要成为一个优秀的程序员，会用英语写代码是必要的。</p><p>这里并不是说，程序员的英语一定要多好，但<strong>最低限度的要求是写出来的代码要像是在用英语表达</strong>。</p><p>或许你听说过，甚至接触过国内的一些程序员用汉语拼音写代码，这就是一种典型的坏味道。鉴于现在的一些程序设计语言已经支持了 UTF-8 的编码格式，用汉语拼音写代码，还不如用汉字直接写代码。</p><p>当然，这个坏味道实在是太低级了，我就不在这里深入讨论了。让我们来看看还有哪些可能会不经意间忽略的坏味道。</p><h2>违反语法规则的命名</h2><p>我们来看一段代码：</p><pre><code>public void completedTranslate(final List&lt;ChapterId&gt; chapterIds) {
+
   List&lt;Chapter&gt; chapters = repository.findByChapterIdIn(chapterIds);
   chapters.forEach(Chapter::completedTranslate);
   repository.saveAll(chapters); 

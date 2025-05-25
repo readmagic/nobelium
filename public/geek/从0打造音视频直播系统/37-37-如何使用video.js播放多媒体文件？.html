@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>在上一篇文章中，我们介绍了 flv.js 播放器。那今天我们再来介绍另一款非常有名的 JavaScript 播放器——video.js。</p><p>我们首先来比较一下这两款播放器，看看它们之间有什么不同？在我看来，flv.js 更聚焦在多媒体格式方面，其主要是将 FLV 格式转换为 MP4 格式，而对于播放器的音量控制、进度条、菜单等 UI 展示部分没有做特别的处理。而 video.js 对音量控制、进度条、菜单等 UI 相关逻辑做了统一处理，对媒体播放部分设计了一个插件框架，可以集成不同媒体格式的播放器进去。所以<strong>相比较而言，video.js 更像是一款完整的播放器</strong>。</p><p>video.js 对大多数的浏览器做了兼容。它设计了自己的播放器 UI，接管了浏览器默认的<code>&lt;video&gt;</code>标签，提供了统一的 HTML5/CSS 皮肤。因此，通过 video.js 实现的播放器，在大多数浏览器上运行时都是统一的风格和操作样式，这极大地提高了我们的开发效率。</p><p>除了上面介绍的特点外，video.js 还有以下优势：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>在上一篇文章中，我们介绍了 flv.js 播放器。那今天我们再来介绍另一款非常有名的 JavaScript 播放器——video.js。</p><p>我们首先来比较一下这两款播放器，看看它们之间有什么不同？在我看来，flv.js 更聚焦在多媒体格式方面，其主要是将 FLV 格式转换为 MP4 格式，而对于播放器的音量控制、进度条、菜单等 UI 展示部分没有做特别的处理。而 video.js 对音量控制、进度条、菜单等 UI 相关逻辑做了统一处理，对媒体播放部分设计了一个插件框架，可以集成不同媒体格式的播放器进去。所以<strong>相比较而言，video.js 更像是一款完整的播放器</strong>。</p><p>video.js 对大多数的浏览器做了兼容。它设计了自己的播放器 UI，接管了浏览器默认的<code>&lt;video&gt;</code>标签，提供了统一的 HTML5/CSS 皮肤。因此，通过 video.js 实现的播放器，在大多数浏览器上运行时都是统一的风格和操作样式，这极大地提高了我们的开发效率。</p><p>除了上面介绍的特点外，video.js 还有以下优势：</p><ul>
+
 <li>开源、免费的。不管你是学习、研究，还是产品应用，video.js都是不错的选择。</li>
 <li>轻量。浏览器 UI 的展现全部是通过 HTML5/CSS 完成，没有图片的依赖。</li>
 <li>完善的 API 接口文档，让你容易理解和使用。</li>

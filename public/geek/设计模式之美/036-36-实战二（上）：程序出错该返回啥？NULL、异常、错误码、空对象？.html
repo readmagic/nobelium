@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>我们可以把函数的运行结果分为两类。一类是预期的结果，也就是函数在正常情况下输出的结果。一类是非预期的结果，也就是函数在异常（或叫出错）情况下输出的结果。比如，在上一节课中，获取本机名的函数，在正常情况下，函数返回字符串格式的本机名；在异常情况下，获取本机名失败，函数返回UnknownHostException异常对象。</p><p>在正常情况下，函数返回数据的类型非常明确，但是，在异常情况下，函数返回的数据类型却非常灵活，有多种选择。除了刚刚提到的类似UnknownHostException这样的异常对象之外，函数在异常情况下还可以返回错误码、NULL值、特殊值（比如-1）、空对象（比如空字符串、空集合）等。</p><p>每一种异常返回数据类型，都有各自的特点和适用场景。但有的时候，在异常情况下，函数到底该返回什么样的数据类型，并不那么容易判断。比如，上节课中，在本机名获取失败的时候，ID生成器的generate()函数应该返回什么呢？是异常？空字符？还是NULL值？又或者是其他特殊值（比如null-15293834874-fd3A9KBn，null表示本机名未获取到）呢？</p><p>函数是代码的一个非常重要的编写单元，而函数的异常处理，又是我们在编写函数的时候，时刻都要考虑的。所以，今天我们就聊一聊，如何设计函数在异常情况下的返回数据类型。</p><!-- [[[read_end]]] --><p>话不多说，让我们正式开始今天的学习吧！</p><h2>从上节课的ID生成器代码讲起</h2><p>上两节课中，我们把一份非常简单的ID生成器的代码，从“能用”重构成了“好用”。最终给出的代码看似已经很完美了，但是如果我们再用心推敲一下，代码中关于出错处理的方式，还有进一步优化的空间，值得我们拿出来再讨论一下。</p><p>为了方便你查看，我将上节课的代码拷贝到了这里。</p><pre><code>public class RandomIdGenerator implements IdGenerator {
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>我们可以把函数的运行结果分为两类。一类是预期的结果，也就是函数在正常情况下输出的结果。一类是非预期的结果，也就是函数在异常（或叫出错）情况下输出的结果。比如，在上一节课中，获取本机名的函数，在正常情况下，函数返回字符串格式的本机名；在异常情况下，获取本机名失败，函数返回UnknownHostException异常对象。</p><p>在正常情况下，函数返回数据的类型非常明确，但是，在异常情况下，函数返回的数据类型却非常灵活，有多种选择。除了刚刚提到的类似UnknownHostException这样的异常对象之外，函数在异常情况下还可以返回错误码、NULL值、特殊值（比如-1）、空对象（比如空字符串、空集合）等。</p><p>每一种异常返回数据类型，都有各自的特点和适用场景。但有的时候，在异常情况下，函数到底该返回什么样的数据类型，并不那么容易判断。比如，上节课中，在本机名获取失败的时候，ID生成器的generate()函数应该返回什么呢？是异常？空字符？还是NULL值？又或者是其他特殊值（比如null-15293834874-fd3A9KBn，null表示本机名未获取到）呢？</p><p>函数是代码的一个非常重要的编写单元，而函数的异常处理，又是我们在编写函数的时候，时刻都要考虑的。所以，今天我们就聊一聊，如何设计函数在异常情况下的返回数据类型。</p><!-- [[[read_end]]] --><p>话不多说，让我们正式开始今天的学习吧！</p><h2>从上节课的ID生成器代码讲起</h2><p>上两节课中，我们把一份非常简单的ID生成器的代码，从“能用”重构成了“好用”。最终给出的代码看似已经很完美了，但是如果我们再用心推敲一下，代码中关于出错处理的方式，还有进一步优化的空间，值得我们拿出来再讨论一下。</p><p>为了方便你查看，我将上节课的代码拷贝到了这里。</p><pre><code>public class RandomIdGenerator implements IdGenerator {
+
   private static final Logger logger = LoggerFactory.getLogger(RandomIdGenerator.class);
 
   @Override

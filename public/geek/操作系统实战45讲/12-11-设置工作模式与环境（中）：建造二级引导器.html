@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是LMOS。</p><p>上节课，我们建造了属于我们的“计算机”，并且在上面安装好了GRUB。这节课我会带你一起实现二级引导器这个关键组件。</p><p>看到这儿你可能会问，GRUB不是已经把我们的操作系统加载到内存中了吗？我们有了GRUB，我们为什么还要实现二级引导器呢？</p><p>这里我要给你说说我的观点，二级引导器作为操作系统的先驱，它需要<strong>收集机器信息</strong>，确定这个计算机能不能运行我们的操作系统，对CPU、内存、显卡进行一些初级的配置，放置好内核相关的文件。</p><p>因为我们二级引导器不是执行具体的加载任务的，而是解析内核文件、收集机器环境信息，它具体收集哪些信息，我会在下节课详细展开。</p><h2>设计机器信息结构</h2><p>二级引导器收集的信息，需要地点存放，我们需要设计一个数据结构。信息放在这个数据结构中，这个结构放在内存1MB的地方，方便以后传给我们的操作系统。</p><p>为了让你抓住重点，我选取了这个数据结构的<strong>关键代码</strong>，这里并没有列出该结构的所有字段（Cosmos/initldr/include/ldrtype.h），这个结构如下所示。</p><pre><code>typedef struct s_MACHBSTART
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是LMOS。</p><p>上节课，我们建造了属于我们的“计算机”，并且在上面安装好了GRUB。这节课我会带你一起实现二级引导器这个关键组件。</p><p>看到这儿你可能会问，GRUB不是已经把我们的操作系统加载到内存中了吗？我们有了GRUB，我们为什么还要实现二级引导器呢？</p><p>这里我要给你说说我的观点，二级引导器作为操作系统的先驱，它需要<strong>收集机器信息</strong>，确定这个计算机能不能运行我们的操作系统，对CPU、内存、显卡进行一些初级的配置，放置好内核相关的文件。</p><p>因为我们二级引导器不是执行具体的加载任务的，而是解析内核文件、收集机器环境信息，它具体收集哪些信息，我会在下节课详细展开。</p><h2>设计机器信息结构</h2><p>二级引导器收集的信息，需要地点存放，我们需要设计一个数据结构。信息放在这个数据结构中，这个结构放在内存1MB的地方，方便以后传给我们的操作系统。</p><p>为了让你抓住重点，我选取了这个数据结构的<strong>关键代码</strong>，这里并没有列出该结构的所有字段（Cosmos/initldr/include/ldrtype.h），这个结构如下所示。</p><pre><code>typedef struct s_MACHBSTART
+
 {
     u64_t   mb_krlinitstack;//内核栈地址
     u64_t   mb_krlitstacksz;//内核栈大小

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>不知不觉，我们已经讲到第五篇了，不知道听到这里，你对于秒杀系统的构建有没有形成一些框架性的认识，这里我再带你简单回忆下前面的主线。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>不知不觉，我们已经讲到第五篇了，不知道听到这里，你对于秒杀系统的构建有没有形成一些框架性的认识，这里我再带你简单回忆下前面的主线。</p>
+
 <p>前面的四篇文章里，我介绍的内容多少都和优化有关：第一篇介绍了一些指导原则；第二篇和第三篇从动静分离和热点数据两个维度，介绍了如何有针对性地对数据进行区分和优化处理；第四篇介绍了在保证实现基本业务功能的前提下，尽量减少和过滤一些无效请求的思路。</p>
 <p>这几篇文章既是在讲根据指导原则实现的具体案例，也是在讲如何实现能够让整个系统更“快”。我想说的是，优化本身有很多手段，也是一个复杂的系统工程。今天，我就来结合秒杀这一场景，重点给你介绍下服务端的一些优化技巧。</p>
 <h2>影响性能的因素</h2>

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是LMOS。</p><p>上节课，我们通过实现一个获取时间的系统服务，学习了Cosmos里如何建立一个系统服务接口。Cosmos为应用程序提供服务的过程大致是这样的：应用程序先设置服务参数，然后通过int指令进入内核，由Cosmos内核运行相应的服务函数，最后为应用程序提供所需服务。</p><p>不知道你是否好奇过业内成熟的Linux内核，又是怎样为应用程序提供服务的呢？</p><p>这节课我们就来看看Linux内核是如何实现这一过程的，我们首先了解一下Linux内核有多少API接口，然后了解一下Linux内核API接口的架构，最后，我们动手为Linux内核增加一个全新的API，并实现相应的功能。</p><p>下面让我们开始吧！这节课的配套代码你可以从<a href="https://gitee.com/lmos/cosmos/tree/master/lesson42">这里</a>下载。</p><h2>Linux内核API接口的架构</h2><p>在上节课中，我们已经熟悉了我们自己的Cosmos内核服务接口的架构，由应用程序调用库函数，再由库函数调用API入口函数，进入内核函数执行系统服务。</p><p>其实对于Linux内核也是一样，应用程序会调用库函数，在库函数中调用API入口函数，触发中断进入Linux内核执行系统调用，完成相应的功能服务。</p><p>在Linux内核之上，使用最广泛的C库是glibc，其中包括C标准库的实现，也包括所有和系统API对应的库接口函数。几乎所有C程序都要调用glibc的库函数，所以<strong>glibc是Linux内核上C程序运行的基础。</strong></p><!-- [[[read_end]]] --><p>下面我们以open库函数为例分析一下，看看open是如何进入Linux内核调用相关的系统调用的。glibc虽然开源了，但是并没有在Linux内核代码之中，你需要从<a href="https://www.gnu.org/software/libc/sources.html">这里</a>下载并解压，open函数代码如下所示。</p><pre><code>//glibc/intl/loadmsgcat.c
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是LMOS。</p><p>上节课，我们通过实现一个获取时间的系统服务，学习了Cosmos里如何建立一个系统服务接口。Cosmos为应用程序提供服务的过程大致是这样的：应用程序先设置服务参数，然后通过int指令进入内核，由Cosmos内核运行相应的服务函数，最后为应用程序提供所需服务。</p><p>不知道你是否好奇过业内成熟的Linux内核，又是怎样为应用程序提供服务的呢？</p><p>这节课我们就来看看Linux内核是如何实现这一过程的，我们首先了解一下Linux内核有多少API接口，然后了解一下Linux内核API接口的架构，最后，我们动手为Linux内核增加一个全新的API，并实现相应的功能。</p><p>下面让我们开始吧！这节课的配套代码你可以从<a href="https://gitee.com/lmos/cosmos/tree/master/lesson42">这里</a>下载。</p><h2>Linux内核API接口的架构</h2><p>在上节课中，我们已经熟悉了我们自己的Cosmos内核服务接口的架构，由应用程序调用库函数，再由库函数调用API入口函数，进入内核函数执行系统服务。</p><p>其实对于Linux内核也是一样，应用程序会调用库函数，在库函数中调用API入口函数，触发中断进入Linux内核执行系统调用，完成相应的功能服务。</p><p>在Linux内核之上，使用最广泛的C库是glibc，其中包括C标准库的实现，也包括所有和系统API对应的库接口函数。几乎所有C程序都要调用glibc的库函数，所以<strong>glibc是Linux内核上C程序运行的基础。</strong></p><!-- [[[read_end]]] --><p>下面我们以open库函数为例分析一下，看看open是如何进入Linux内核调用相关的系统调用的。glibc虽然开源了，但是并没有在Linux内核代码之中，你需要从<a href="https://www.gnu.org/software/libc/sources.html">这里</a>下载并解压，open函数代码如下所示。</p><pre><code>//glibc/intl/loadmsgcat.c
+
 #ifdef _LIBC
 # define open(name, flags)  __open_nocancel (name, flags)
 # define close(fd)      __close_nocancel_nostatus (fd)

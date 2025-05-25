@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是大圣。</p><p>在上一讲中，我们使用组件库完成了项目的搭建，并且引入了Element3和axios等基础库。基于Element3，我们可以很方便地使用组件搭建项目。而使用axios，可以很方便地获取后端数据。在项目中，权限系统的控制需要前后端配合完成，而且权限系统也是后端管理系统中常见的一个难点。不过，今天我们主要从前端的角度，来聊一下项目的权限系统。</p><p>下面，我们先从登录权限谈起，因为登录权限对于一个项目来说是必备的功能模块。完成了登录选项的设置后，下一步需要做的是管理项目中的页面权限，而角色权限在这一过程中则可以帮助我们精细化地去控制页面权限。</p><h2>登录权限</h2><p>继续上一讲我们搭建起来的项目，你可以看到现在所有的页面都可以直接访问了，通常来说管理系统的内部页面都需要登录之后才可以访问，比如个人中心、订单页面等等。首先，我们来设计一个这样的权限限制功能，它能保证某些页面在登录之后才能访问。</p><p>为了实现这个功能，我们首先需要模拟登录的接口和页面。我们先新增路由页面，进入到项目目录下，在router.js中新增路由配置。下面的代码中，routes数组新增/login路由访问。</p><pre><code class="language-javascript">  import Login from '../components/Login.vue'
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是大圣。</p><p>在上一讲中，我们使用组件库完成了项目的搭建，并且引入了Element3和axios等基础库。基于Element3，我们可以很方便地使用组件搭建项目。而使用axios，可以很方便地获取后端数据。在项目中，权限系统的控制需要前后端配合完成，而且权限系统也是后端管理系统中常见的一个难点。不过，今天我们主要从前端的角度，来聊一下项目的权限系统。</p><p>下面，我们先从登录权限谈起，因为登录权限对于一个项目来说是必备的功能模块。完成了登录选项的设置后，下一步需要做的是管理项目中的页面权限，而角色权限在这一过程中则可以帮助我们精细化地去控制页面权限。</p><h2>登录权限</h2><p>继续上一讲我们搭建起来的项目，你可以看到现在所有的页面都可以直接访问了，通常来说管理系统的内部页面都需要登录之后才可以访问，比如个人中心、订单页面等等。首先，我们来设计一个这样的权限限制功能，它能保证某些页面在登录之后才能访问。</p><p>为了实现这个功能，我们首先需要模拟登录的接口和页面。我们先新增路由页面，进入到项目目录下，在router.js中新增路由配置。下面的代码中，routes数组新增/login路由访问。</p><pre><code class="language-javascript">  import Login from '../components/Login.vue'
+
   const routes = [
   ...
   {

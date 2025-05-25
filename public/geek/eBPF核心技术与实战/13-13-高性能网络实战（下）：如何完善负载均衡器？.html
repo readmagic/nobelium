@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是倪朋飞。</p><p>上一讲，我带你使用 sockops 和 sk_msg 等套接字 eBPF 程序，在内核态对套接字进行转发，提升了负载均衡的性能。</p><p>对于网络优化来说，除了套接字 eBPF 程序，XDP 程序和 TC 程序也可以用来优化网络的性能。特别是 XDP 程序，由于它在 Linux 内核协议栈之前就可以处理网络包，在负载均衡、防火墙等需要高性能网络的场景中已经得到大量的应用。</p><p>XDP 程序在内核协议栈初始化之前运行，这也就意味着在 XDP 程序中，你并不能像在 sockops 等程序中那样直接获得套接字的详细信息。使用 XDP 程序加速负载均衡，通常也就意味着需要从头开发一个负载均衡程序。这是不是说 XDP 的使用就特别复杂，需要重新实现内核协议栈的很多逻辑呢？不要担心，<strong>XDP 处理过的数据包还可以正常通过内核协议栈继续处理，所以你只需要在 XDP 程序中实现最核心的网络逻辑就可以了</strong>。</p><p>今天，我就以 XDP 程序为例，带你继续优化和完善负载均衡器的性能。</p><h2>案例准备</h2><p>跟上一讲类似，为了方便环境的重现，负载均衡器、Web 服务器以及客户端都还是运行在容器中，它们的 IP 和 MAC 等基本信息如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/e9/15/e923026f577f7b991be2610734f9e415.jpg?wh=1920x1706" alt="图片"><br>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是倪朋飞。</p><p>上一讲，我带你使用 sockops 和 sk_msg 等套接字 eBPF 程序，在内核态对套接字进行转发，提升了负载均衡的性能。</p><p>对于网络优化来说，除了套接字 eBPF 程序，XDP 程序和 TC 程序也可以用来优化网络的性能。特别是 XDP 程序，由于它在 Linux 内核协议栈之前就可以处理网络包，在负载均衡、防火墙等需要高性能网络的场景中已经得到大量的应用。</p><p>XDP 程序在内核协议栈初始化之前运行，这也就意味着在 XDP 程序中，你并不能像在 sockops 等程序中那样直接获得套接字的详细信息。使用 XDP 程序加速负载均衡，通常也就意味着需要从头开发一个负载均衡程序。这是不是说 XDP 的使用就特别复杂，需要重新实现内核协议栈的很多逻辑呢？不要担心，<strong>XDP 处理过的数据包还可以正常通过内核协议栈继续处理，所以你只需要在 XDP 程序中实现最核心的网络逻辑就可以了</strong>。</p><p>今天，我就以 XDP 程序为例，带你继续优化和完善负载均衡器的性能。</p><h2>案例准备</h2><p>跟上一讲类似，为了方便环境的重现，负载均衡器、Web 服务器以及客户端都还是运行在容器中，它们的 IP 和 MAC 等基本信息如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/e9/15/e923026f577f7b991be2610734f9e415.jpg?wh=1920x1706" alt="图片"><br>
+
 执行下面的命令，启动这几个容器：</p><pre><code class="language-bash"># Webserver
 docker run -itd --name=http1 --hostname=http1 feisky/webserver
 docker run -itd --name=http2 --hostname=http2 feisky/webserver

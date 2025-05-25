@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是LMOS。</p><p>上一节课中，我们已经设计好了文件系统数据结构，相当于建好了仓库的基本结构。</p><p>今天，我将和你一起探索仓库的划分，即什么地方存放仓库的管理信息，什么地方存放进程的“劳动成果”（也就是文件），对应于文件系统就是文件系统的格式化操作。</p><p>具体我是这样安排的，我们先来实现文件系统设备驱动，接着建立文件系统超级块，然后建立根目录，最后建立文件系统的位图。下面，我们先从建立文件系统设备开始。</p><p>这节课的配套代码，你可以从<a href="https://gitee.com/lmos/cosmos/tree/master/lesson33/Cosmos">这里</a>获取。</p><h2>文件系统设备</h2><p>根据我们前面的设计，文件系统并不是Cosmos的一部分，它只是Cosmos下的一个设备。</p><p>既然是设备，那就要编写相应的设备驱动程序。我们首先得编写文件系统设备的驱动程序。由于前面已经写过驱动程序了，你应该对驱动程序框架已经很熟悉了。</p><p>我们先在cosmos/drivers/目录下建立一个drvrfs.c文件，在里面写下文件系统驱动程序框架代码，如下所示。</p><pre><code>drvstus_t rfs_entry(driver_t* drvp,uint_t val,void* p){……}
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是LMOS。</p><p>上一节课中，我们已经设计好了文件系统数据结构，相当于建好了仓库的基本结构。</p><p>今天，我将和你一起探索仓库的划分，即什么地方存放仓库的管理信息，什么地方存放进程的“劳动成果”（也就是文件），对应于文件系统就是文件系统的格式化操作。</p><p>具体我是这样安排的，我们先来实现文件系统设备驱动，接着建立文件系统超级块，然后建立根目录，最后建立文件系统的位图。下面，我们先从建立文件系统设备开始。</p><p>这节课的配套代码，你可以从<a href="https://gitee.com/lmos/cosmos/tree/master/lesson33/Cosmos">这里</a>获取。</p><h2>文件系统设备</h2><p>根据我们前面的设计，文件系统并不是Cosmos的一部分，它只是Cosmos下的一个设备。</p><p>既然是设备，那就要编写相应的设备驱动程序。我们首先得编写文件系统设备的驱动程序。由于前面已经写过驱动程序了，你应该对驱动程序框架已经很熟悉了。</p><p>我们先在cosmos/drivers/目录下建立一个drvrfs.c文件，在里面写下文件系统驱动程序框架代码，如下所示。</p><pre><code>drvstus_t rfs_entry(driver_t* drvp,uint_t val,void* p){……}
+
 drvstus_t rfs_exit(driver_t* drvp,uint_t val,void* p){……}
 drvstus_t rfs_open(device_t* devp,void* iopack){……}
 drvstus_t rfs_close(device_t* devp,void* iopack){……}

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是张磊。今天我和你分享的主题是：从外界连通Service与Service调试“三板斧”。</p><p>在上一篇文章中，我为你介绍了Service机制的工作原理。通过这些讲解，你应该能够明白这样一个事实：Service的访问信息在Kubernetes集群之外，其实是无效的。</p><p>这其实也容易理解：所谓Service的访问入口，其实就是每台宿主机上由kube-proxy生成的iptables规则，以及kube-dns生成的DNS记录。而一旦离开了这个集群，这些信息对用户来说，也就自然没有作用了。</p><p>所以，在使用Kubernetes的Service时，一个必须要面对和解决的问题就是：<strong>如何从外部（Kubernetes集群之外），访问到Kubernetes里创建的Service？</strong></p><p>这里<span class="orange">最常用的一种方式就是：NodePort</span>。我来为你举个例子。</p><pre><code>apiVersion: v1
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是张磊。今天我和你分享的主题是：从外界连通Service与Service调试“三板斧”。</p><p>在上一篇文章中，我为你介绍了Service机制的工作原理。通过这些讲解，你应该能够明白这样一个事实：Service的访问信息在Kubernetes集群之外，其实是无效的。</p><p>这其实也容易理解：所谓Service的访问入口，其实就是每台宿主机上由kube-proxy生成的iptables规则，以及kube-dns生成的DNS记录。而一旦离开了这个集群，这些信息对用户来说，也就自然没有作用了。</p><p>所以，在使用Kubernetes的Service时，一个必须要面对和解决的问题就是：<strong>如何从外部（Kubernetes集群之外），访问到Kubernetes里创建的Service？</strong></p><p>这里<span class="orange">最常用的一种方式就是：NodePort</span>。我来为你举个例子。</p><pre><code>apiVersion: v1
+
 kind: Service
 metadata:
   name: my-nginx

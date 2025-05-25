@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是傅健。</p><p>在开始我们第一章的学习之前，我想为你总结下有关Spring最基础的知识，这可以帮助我们后面的学习进展更加顺利一些。</p><p>就第一章来说，我们关注的是Spring核心功能使用中的各类错误案例。针对问题的讲解，我们大多都是直奔主题，这也是这个专栏的内容定位。所以对于<strong>很多基础的知识和流程</strong>，我们不会在解析过程中反复介绍，但它们依然是重要的，是我们解决问题的前提。借助这篇导读，我带你梳理下。</p><p>回顾Spring本身，什么是Spring最基础的知识呢？</p><p>其实就是那些<strong>Spring最本质的实现和思想</strong>。当你最开始学习的时候，你可能困惑于为什么要用Spring，而随着对Spring原理的深入探究和应用，你慢慢会发现，最大的收获其实还是对于这个困惑的理解。接下来我就给你讲讲。</p><p>在进行“传统的”Java编程时，对象与对象之间的关系都是紧密耦合的，例如服务类 Service 使用组件 ComponentA，则可能写出这样的代码：</p><pre><code>public class Service {
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是傅健。</p><p>在开始我们第一章的学习之前，我想为你总结下有关Spring最基础的知识，这可以帮助我们后面的学习进展更加顺利一些。</p><p>就第一章来说，我们关注的是Spring核心功能使用中的各类错误案例。针对问题的讲解，我们大多都是直奔主题，这也是这个专栏的内容定位。所以对于<strong>很多基础的知识和流程</strong>，我们不会在解析过程中反复介绍，但它们依然是重要的，是我们解决问题的前提。借助这篇导读，我带你梳理下。</p><p>回顾Spring本身，什么是Spring最基础的知识呢？</p><p>其实就是那些<strong>Spring最本质的实现和思想</strong>。当你最开始学习的时候，你可能困惑于为什么要用Spring，而随着对Spring原理的深入探究和应用，你慢慢会发现，最大的收获其实还是对于这个困惑的理解。接下来我就给你讲讲。</p><p>在进行“传统的”Java编程时，对象与对象之间的关系都是紧密耦合的，例如服务类 Service 使用组件 ComponentA，则可能写出这样的代码：</p><pre><code>public class Service {
+
     private ComponentA component = new ComponentA(&quot;first component&quot;);
 }
 </code></pre><p>在没有Spring之前，你应该会觉得这段代码并没有多大问题，毕竟大家都这么写，而且也没有什么更好的方式。就像只有一条大路可走时，大家都朝一个方向走，你大概率不会反思是不是有捷径。</p><!-- [[[read_end]]] --><p>而随着项目的开发推进，你会发现检验一个方式好不好的硬性标准之一，就是看它<strong>有没有拥抱变化的能力</strong>。假设有一天，我们的ComponentA类的构造器需要更多的参数了，你会发现，上述代码到处充斥着这行需要改进的代码：</p><blockquote>

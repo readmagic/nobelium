@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是宫文学。在语义分析之后，编译过程就开始进入中后端了。</p><p>经过前端阶段的处理分析，编译器已经充分理解了源代码的含义，准备好把前端处理的结果（带有标注信息的AST、符号表）翻译成目标代码了。</p><p>我在<a href="https://time.geekbang.org/column/article/242479">第1讲</a>也说过，如果想做好翻译工作，编译器必须理解目标代码。而要理解目标代码，它就必须要理解目标代码是如何被执行的。通常情况下，程序有两种执行模式。</p><p>第一种执行模式是<span class="orange">在物理机上运行</span>。针对的是C、C++、Go这样的语言，编译器直接将源代码编译成汇编代码（或直接生成机器码），然后生成能够在操作系统上运行的可执行程序。为了实现它们的后端，编译器需要理解程序在底层的运行环境，包括CPU、内存、操作系统跟程序的互动关系，并要能理解汇编代码。</p><p>第二种执行模式是<span class="orange">在虚拟机上运行</span>。针对的是Java、Python、Erlang和Lua等语言，它们能够在虚拟机上解释执行。这时候，编译器要理解该语言的虚拟机的运行机制，并生成能够被执行的IR。</p><p>理解了这两种执行模式的特点，我们也就能弄清楚用高级语言编写的程序是如何运行的，进而也就理解了编译器在中后端的任务是什么。接下来，我们就从最基础的物理机模式开始学习吧。</p><h2>在物理机上运行</h2><p>在计算机发展的早期，科学家们确立了计算机的结构，并一直延续至今，这种结构就是<strong>冯·诺依曼结构</strong>。它的主要特点是：数据和指令不加区别，混合存储在同一个存储器中（即主存，或叫做内存）；用一个指令指针指向内存中指令的位置，CPU就能自动加载这个位置的指令并执行。</p><!-- [[[read_end]]] --><p>在x86架构下，这个指针是eip寄存器（32位模式）或rip寄存器（64位模式）。一条指令执行完毕，指令指针自动增加，并执行下一条指令。如果遇到跳转指令，则跳转到另一个地址去执行。</p><p><img src="https://static001.geekbang.org/resource/image/9e/fe/9e4026ca0798caf346131d24586940fe.jpg" alt=""></p><center><span class="reference">图1：计算机的运行机制</span></center><p>这其实就是计算机最基本的运行原理。这样，你就可以在大脑中建立起像图1那样的直观结构。</p><p>通过图1，你会看到，<strong>计算机指令的执行基本上只跟两个硬件相关：一个是CPU，一个是内存。</strong></p><h3>CPU</h3><p>CPU是计算机的核心。从硬件构成方面，我们需要知道它的三个信息：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是宫文学。在语义分析之后，编译过程就开始进入中后端了。</p><p>经过前端阶段的处理分析，编译器已经充分理解了源代码的含义，准备好把前端处理的结果（带有标注信息的AST、符号表）翻译成目标代码了。</p><p>我在<a href="https://time.geekbang.org/column/article/242479">第1讲</a>也说过，如果想做好翻译工作，编译器必须理解目标代码。而要理解目标代码，它就必须要理解目标代码是如何被执行的。通常情况下，程序有两种执行模式。</p><p>第一种执行模式是<span class="orange">在物理机上运行</span>。针对的是C、C++、Go这样的语言，编译器直接将源代码编译成汇编代码（或直接生成机器码），然后生成能够在操作系统上运行的可执行程序。为了实现它们的后端，编译器需要理解程序在底层的运行环境，包括CPU、内存、操作系统跟程序的互动关系，并要能理解汇编代码。</p><p>第二种执行模式是<span class="orange">在虚拟机上运行</span>。针对的是Java、Python、Erlang和Lua等语言，它们能够在虚拟机上解释执行。这时候，编译器要理解该语言的虚拟机的运行机制，并生成能够被执行的IR。</p><p>理解了这两种执行模式的特点，我们也就能弄清楚用高级语言编写的程序是如何运行的，进而也就理解了编译器在中后端的任务是什么。接下来，我们就从最基础的物理机模式开始学习吧。</p><h2>在物理机上运行</h2><p>在计算机发展的早期，科学家们确立了计算机的结构，并一直延续至今，这种结构就是<strong>冯·诺依曼结构</strong>。它的主要特点是：数据和指令不加区别，混合存储在同一个存储器中（即主存，或叫做内存）；用一个指令指针指向内存中指令的位置，CPU就能自动加载这个位置的指令并执行。</p><!-- [[[read_end]]] --><p>在x86架构下，这个指针是eip寄存器（32位模式）或rip寄存器（64位模式）。一条指令执行完毕，指令指针自动增加，并执行下一条指令。如果遇到跳转指令，则跳转到另一个地址去执行。</p><p><img src="https://static001.geekbang.org/resource/image/9e/fe/9e4026ca0798caf346131d24586940fe.jpg" alt=""></p><center><span class="reference">图1：计算机的运行机制</span></center><p>这其实就是计算机最基本的运行原理。这样，你就可以在大脑中建立起像图1那样的直观结构。</p><p>通过图1，你会看到，<strong>计算机指令的执行基本上只跟两个硬件相关：一个是CPU，一个是内存。</strong></p><h3>CPU</h3><p>CPU是计算机的核心。从硬件构成方面，我们需要知道它的三个信息：</p><ul>
+
 <li>第一，CPU上面有寄存器，并且可以直接由指令访问。寄存器的读写速度非常快，大约是内存的100倍。所以我们<strong>编译后的代码，要尽量充分利用寄存器</strong>，而不是频繁地去访问内存。</li>
 <li>第二，CPU有高速缓存，并且可能是多级的。高速缓存也比内存快。CPU在读取指令和数据的时候，不是一次读取一条，而是读取相邻的一批数据，放到高速缓存里。接下来要读取的数据，很可能已经在高速缓存里了，通过这种机制来提高运行性能。因此，<strong>编译器要尽量提高缓存的命中率</strong>。</li>
 <li>第三，CPU内部有多个功能单元，有的负责计算，有的负责解码，等等。所以，一个指令可以被切分成多个执行阶段，每个阶段在不同的功能单元上运行，这为实现指令级并行提供了硬件基础。在第8讲，我还会和你详细解释这个话题。</li>

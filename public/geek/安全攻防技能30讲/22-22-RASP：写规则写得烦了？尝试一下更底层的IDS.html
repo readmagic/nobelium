@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是何为舟。</p><p>在前面的课程中，我们已经介绍了防火墙、WAF和入侵检测。这些产品都有一个共同的特性，就是基于网络请求或者系统行为对攻击的特征进行检测，然后再采取相应的防控手段。这些安全产品基本都和应用本身解耦。也就是说，基本上我们不需要对应用做任何开发和改动，就能够部署这些安全产品。</p><p>尽管解耦在部署上能够节省很大的成本，但解耦同样意味着，安全产品和应用本身是通过接口、请求等形式来进行数据交换的。换一句话说，安全产品只能够看到应用输入和输出的数据，并不知道数据在应用内的流动情况。因此，这种工作模式不可避免会产生一定的误判和漏报。</p><p>我们来看一个关于WAF检测SQL注入的例子。下面是请求代码：</p><pre><code>http://server.com/login?username=test&amp;password=&quot; or &quot;&quot;=&quot;
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是何为舟。</p><p>在前面的课程中，我们已经介绍了防火墙、WAF和入侵检测。这些产品都有一个共同的特性，就是基于网络请求或者系统行为对攻击的特征进行检测，然后再采取相应的防控手段。这些安全产品基本都和应用本身解耦。也就是说，基本上我们不需要对应用做任何开发和改动，就能够部署这些安全产品。</p><p>尽管解耦在部署上能够节省很大的成本，但解耦同样意味着，安全产品和应用本身是通过接口、请求等形式来进行数据交换的。换一句话说，安全产品只能够看到应用输入和输出的数据，并不知道数据在应用内的流动情况。因此，这种工作模式不可避免会产生一定的误判和漏报。</p><p>我们来看一个关于WAF检测SQL注入的例子。下面是请求代码：</p><pre><code>http://server.com/login?username=test&amp;password=&quot; or &quot;&quot;=&quot;
+
 </code></pre><p>WAF可能会检测到password参数中的SQL注入痕迹进行拦截。如果应用采用的是安全的PreparedStatement方法，那这个SQL注入就不会生效，也就不需要拦截。但是WAF和应用解耦，让WAF不知道应用的逻辑，从而产生了误报。</p><p>所以，对于任何安全产品来说，能获取到的数据和信息越多，检测的能力就越强，误判和漏报的概率也就越低。因此，2012年，Gartner提出了RASP（Runtime Application Self Protection）的概念，就是希望将安全产品部署在应用的底层，完全站在应用的视角去发现攻击行为，从而实现更加完善的安全防护。</p><!-- [[[read_end]]] --><h2>RASP的原理</h2><p>想要利用RASP实现更完善的安全防护，首先我们要知道，什么是RASP？以及如何实现RASP？</p><p>RASP的设计思路是通过监控应用的底层，来从根本上发现攻击行为的产生。</p><p>以Java为例，Java应用运行在JVM之上。因此，JVM就是一个底层，它能够看到所有的应用信息。我们可以通过<a href="https://www.jianshu.com/p/63c328ca208d">JavaAgent</a>的形式将RASP运行在JVM上，然后借助<a href="https://www.ibm.com/developerworks/cn/java/j-lo-jse61/index.html">Instrumentation</a>技术Hook关键的类和方法。关键类和方法具体有哪些，你可以参照OpenRASP的<a href="https://rasp.baidu.com/doc/hacking/architect/hook.html">Hook列表</a>。这样一来，RASP就能关注到应用安全相关的信息和调用了。<br>
 <img src="https://static001.geekbang.org/resource/image/b5/b7/b5634e94b5607221dee2ed3680c0efb7.jpg" alt=""></p><p>同样的原理，在PHP中，我们可以通过PHP扩展库来实现RASP；在.Net中，我们可以通过HostingStartup来实现RASP。</p><p>如果你想要研究RASP产品，那我推荐你使用百度的<a href="https://rasp.baidu.com/#section-intro">OpenRASP</a>。因为OpenRASP在开源市场中认可度比较高，也是目前各个公司用来研究RASP产品的一个主要对象。</p><h2>RASP的优势和劣势</h2><p>我们经常会将RASP和WAF拿来做比较，因为它们主要关注的都是应用相关的Web安全问题。那么对比WAF，RASP有哪些优势和劣势呢？</p><p>首先我们来看优势。在开头我们就提到了，RASP对比于WAF最大的优势在于RASP运行在应用的底层，从而能够知道应用运行时的上下文（比如：用户、代码逻辑、SQL语句等）。在Web安全中，我们针对Web安全的攻击原理进行过总结：SQL注入、反序列化等漏洞其实都是通过输入数据，篡改应用的正常逻辑实现的攻击。</p><p>对于WAF来说，它只能够判断出输入的数据“可能”会篡改应用的正常逻辑，因此WAF的拦截决策都来源于这个可能性。而对于RASP来说，它知道应用的正常逻辑是什么，也知道应用接收输入后实际的逻辑是什么，如果实际逻辑和正常逻辑不一致，就必然发生了攻击。基于这种检测方式，RASP基本不会产生误报或者漏报。</p><p>我们以OpenRASP防止SQL注入的<a href="https://github.com/baidu/openrasp/blob/master/plugins/official/plugin.js">检测逻辑</a>为例，来看一下RASP是如何进行检测的。算法描述如下：<br>
 <img src="https://static001.geekbang.org/resource/image/a2/19/a2230de2106ad352ef33bb838b0cf719.jpg" alt=""><br>

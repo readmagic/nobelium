@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>2017年9月13日，苹果公司推出了新一代智能手机iPhone X。相比于它的前辈们，iPhone X的一项重要卖点就是引入了Face ID人脸识别技术，用户直接刷脸就可以解锁手机。虽然目前看来，Face ID的识别率远没有苹果声称的那么“高精度”，但更加简单便捷的人脸识别无疑是未来的发展方向。而人脸识别乃至图像识别中的一项关键技术，就是<strong><span class="orange">卷积神经网络</span></strong>。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>2017年9月13日，苹果公司推出了新一代智能手机iPhone X。相比于它的前辈们，iPhone X的一项重要卖点就是引入了Face ID人脸识别技术，用户直接刷脸就可以解锁手机。虽然目前看来，Face ID的识别率远没有苹果声称的那么“高精度”，但更加简单便捷的人脸识别无疑是未来的发展方向。而人脸识别乃至图像识别中的一项关键技术，就是<strong><span class="orange">卷积神经网络</span></strong>。</p>
+
 <p>诞生于1989年的卷积神经网络已近而立之年，但它的首秀直到9岁才姗姗来迟。1998年，今日的深度学习扛鼎者之一燕乐存提出了第一个卷积神经网络模型LeNet-5，用来识别手写文本。遗憾的是，这个小朋友因为胃口太大（消耗计算资源多），并不招人喜欢。直到2006年，辛顿提出的逐层初始化训练算法才让韬光养晦的卷积神经网络一鸣惊人，这个少年也渐渐成长为神经网络和深度学习队伍中的中坚力量。</p>
 <p>顾名思义，<strong>卷积神经网络（convolutional neural network）指的是至少在某一层中用卷积运算（convolution）来代替矩阵乘法的神经网络</strong>。卷积运算的特性决定了神经网络适用于处理具有网格状结构的数据。最典型的网格型数据就是数字图像，不管是灰度图像还是彩色图像，都是定义在二维像素网格上的一组标量或向量。因而卷积神经网络自诞生以来，便广泛地应用于图像与文本识别之中，并逐渐扩展到自然语音处理等其他领域。</p>
 <p>要介绍卷积神经网络，首先要从卷积运算说起。<strong><span class="orange">卷积</span></strong>是对两个函数进行的一种数学运算，在不同的学科中有不同的解释方式。在卷积网络中，两个参与运算的函数分别叫做输入和核函数（kernel function）。<strong>本质上讲，卷积就是以核函数作为权重系数，对输入进行加权求和的过程</strong>。为了突出这个本质，卷积神经网络中针对二维函数的卷积运算在原始的数学定义上做了一些调整，可以写成以下形式</p>

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是朱涛。</p><p>在前面的课程里，我们一直在研究如何使用Kotlin协程，比如，如何启动协程，如何使用挂起函数，如何使用Channel、Flow等API。但到目前为止，我们只知道该怎么用协程，对它内部的运行机制并没有深究。</p><p>现在我们都知道，launch、async可以创建、启动新的协程，但我们只能通过调试参数，通过log看到协程。比如我们可以回过头来看下<a href="https://time.geekbang.org/column/article/485632">第13讲</a>当中的代码：</p><pre><code class="language-plain">// 代码段1
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是朱涛。</p><p>在前面的课程里，我们一直在研究如何使用Kotlin协程，比如，如何启动协程，如何使用挂起函数，如何使用Channel、Flow等API。但到目前为止，我们只知道该怎么用协程，对它内部的运行机制并没有深究。</p><p>现在我们都知道，launch、async可以创建、启动新的协程，但我们只能通过调试参数，通过log看到协程。比如我们可以回过头来看下<a href="https://time.geekbang.org/column/article/485632">第13讲</a>当中的代码：</p><pre><code class="language-plain">// 代码段1
+
 
 // 代码中一共启动了两个协程
 fun main() = runBlocking {

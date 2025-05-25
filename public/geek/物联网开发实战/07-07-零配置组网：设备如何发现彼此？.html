@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是郭朝斌。</p><p>不知道你还记不记得，在基础篇的<a href="https://time.geekbang.org/column/article/306976">第2讲</a>中，我介绍了 Wi-Fi 设备的配网方式，比如一键配网技术（Smart Config）和设备热点配网技术。这些技术已经可以实现<strong>一定程度的自动化</strong>，让设备比较方便地连接上Wi-Fi 热点。</p><p>同时，我也提到了零配置配网方式，它试图通过已连接上Wi-Fi热点的设备，来实现可信任设备<strong>完全自动化</strong>的配网。</p><p>但是，你可不要把<strong>零配置配网</strong>（Zero Configuration Provisioning）和我们这一讲要谈的<strong>零配置组网</strong>（Zero Configuration Networking ，ZEROCONF）混淆了。配网只是第一步，因为物联网设备无法方便地输入信息，所以相比手机或电脑，我们引入了这个额外的操作步骤。</p><p>配网成功之后，我们还需要组网，也就是让设备获得一个<strong>自己的IP地址</strong>，同时也知道局域网内的<strong>路由器</strong>（Router）的IP地址和<strong>DNS</strong>（Domain Name System）的IP地址等信息。设备自己的IP地址是它在TCP/IP 网络中的唯一标识；路由器可以把设备的数据包正确地转发出去；而DNS服务器可以帮忙解析出数据包中需要设置的目的地 IP 地址。</p><blockquote>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是郭朝斌。</p><p>不知道你还记不记得，在基础篇的<a href="https://time.geekbang.org/column/article/306976">第2讲</a>中，我介绍了 Wi-Fi 设备的配网方式，比如一键配网技术（Smart Config）和设备热点配网技术。这些技术已经可以实现<strong>一定程度的自动化</strong>，让设备比较方便地连接上Wi-Fi 热点。</p><p>同时，我也提到了零配置配网方式，它试图通过已连接上Wi-Fi热点的设备，来实现可信任设备<strong>完全自动化</strong>的配网。</p><p>但是，你可不要把<strong>零配置配网</strong>（Zero Configuration Provisioning）和我们这一讲要谈的<strong>零配置组网</strong>（Zero Configuration Networking ，ZEROCONF）混淆了。配网只是第一步，因为物联网设备无法方便地输入信息，所以相比手机或电脑，我们引入了这个额外的操作步骤。</p><p>配网成功之后，我们还需要组网，也就是让设备获得一个<strong>自己的IP地址</strong>，同时也知道局域网内的<strong>路由器</strong>（Router）的IP地址和<strong>DNS</strong>（Domain Name System）的IP地址等信息。设备自己的IP地址是它在TCP/IP 网络中的唯一标识；路由器可以把设备的数据包正确地转发出去；而DNS服务器可以帮忙解析出数据包中需要设置的目的地 IP 地址。</p><blockquote>
+
 <p>温馨提示：如果你对IP地址和DNS这样的基本概念还不是很熟，可以学习<a href="https://time.geekbang.org/column/intro/100007101">《趣谈网络协议》</a>等课程临时恶补一下。因为这一讲还会涉及不少网络基础知识，对它们有一定了解的话，你的学习效果会更好。</p>
 </blockquote><!-- [[[read_end]]] --><p>零配置组网就是把这些工作自动化，不需要用户手动去操作，甚至可以让这个设备与网络内的其他设备配合工作。</p><p>比如，你要为自己的智能家居系统加一个投屏设备（它可以外接普通电视或者显示器，让你可以将手机或者电脑的屏幕在大屏上显示出来）。你希望这个投屏设备接入Wi-Fi热点之后，你就可以在手机上直接发现它，并且马上开始投屏，看自己想看的电影。</p><p>这个想法非常美，但是你知道要怎么实现吗？其实并不难，你只要掌握我在这一讲介绍的零配置组网就可以了。</p><h3>设备如何获取 IP 地址？</h3><p>零配置组网的第一步，就是自动分配IP地址。</p><p>不知道你以前有没有这样的经验，在学校宿舍或者公司，当你的电脑通过网线连接网络时（现在用网线连网的方式已经不那么常见了），有时电脑桌面右下角会弹出气泡，提示“ IP 地址冲突”。</p><p>这是因为你的电脑的IP地址，被网络内其他电脑占用了。所以你就需要打开网络配置的界面，手动填写一个不同的 IP 地址。对于非专业人士来说，这并不是一个很简单的事情；而且对于特殊的<strong>子网掩码</strong>（比如不像“255.255.25<strong>5</strong>.0”这样整齐，而是“255.255.25<strong>3</strong>.0”这种），即使有经验的用户，可能也很难确定<strong>子网号</strong>和<strong>主机号</strong>分别是什么。</p><p>现在随着Wi-Fi的普及，我们连网的时候基本上不会再碰到这种情况了。这一方面是因为每一个 Wi-Fi 热点接入的设备数量是有限的，另一方面则是因为 Wi-Fi 路由器提供了完善的 <strong>IP 地址自动分配功能</strong>。</p><h4>DHCP 协议</h4><p>这个自动分配功能是基于 <strong>DHCP 协议</strong>（Dynamic Host Configuration Protocol，动态主机配置协议）实现的。DHCP 协议的前身是 <strong>BOOTP 协议</strong>（Bootstrap Protocol），从“Bootstrap”这个名字你就可以看出来，它解决的正是一个设备接入 IP 网络后，需要完成的第一件事——获取 IP 地址。</p><p>在网络发展的初期，接入网络的设备很少，所以，网络地址的分配和设置都是管理员手动来完成的。你可能想象不到，最初整个互联网的 DNS 数据库都是手动维护和更新的。</p><p>但是随着接入网络的设备越来越多，而且设备更加便携，经常移动来移动去，手动的方式就跟不上时代发展了。DHCP 协议正是在这种背景下出现的。</p><p>也许你对DHCP的名字很熟悉，但我还是想在这里稍微展开一下，带你了解它背后的工作原理，这样你就能在开发中更好地使用它。</p><p>DHCP 使用了服务器-客户端的架构模型。</p><ul>
 <li>当一个设备（你的手机）接入网络时，它自己就会作为DHCP 客户端，请求网络地址。</li>

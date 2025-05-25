@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是聂鹏程。</p><p>在上一篇文章中，通过对分布式发展历程的学习，我们对分布式技术有了一个整体印象。接下来，我们就再来看看可以用哪些指标去具体地衡量一个分布式系统。如果你已经对分布式系统的指标了解得很清楚了，可以直接跳过这篇文章，学习下一讲的内容。</p><h2>分布式系统的指标</h2><p>从分布式技术的起源可以看出，分布式系统的出现就是为了用廉价的、普通的机器解决单个计算机处理复杂、大规模数据和任务时存在的性能问题、资源瓶颈问题，以及可用性和可扩展性问题。换句话说，分布式的目的是<strong>用更多的机器，处理更多的数据和更复杂的任务。</strong></p><p>由此可以看出，<strong>性能、资源、可用性和可扩展性</strong>是分布式系统的重要指标。没错，它们就是分布式系统的“三围”。接下来，我们一起来看看这几个指标吧。</p><h3>性能（Performance）</h3><p>性能指标，主要用于衡量一个系统处理各种任务的能力。无论是分布式系统还是单机系统，都会对性能有所要求。</p><p>不同的系统、服务要达成的目的不同，关注的性能自然也不尽相同，甚至是相互矛盾。常见的性能指标，包括吞吐量（Throughput）、响应时间（Response Time）和完成时间（Turnaround Time）。</p><p><strong>吞吐量</strong>指的是，系统在一定时间内可以处理的任务数。这个指标可以非常直接地体现一个系统的性能，就好比在客户非常多的情况下，要评判一个银行柜台职员的办事效率，你可以统计一下他在1个小时内接待了多少客户。常见的吞吐量指标有QPS（Queries Per Second）、TPS（Transactions Per Second）和BPS（Bits Per Second）。</p><!-- [[[read_end]]] --><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是聂鹏程。</p><p>在上一篇文章中，通过对分布式发展历程的学习，我们对分布式技术有了一个整体印象。接下来，我们就再来看看可以用哪些指标去具体地衡量一个分布式系统。如果你已经对分布式系统的指标了解得很清楚了，可以直接跳过这篇文章，学习下一讲的内容。</p><h2>分布式系统的指标</h2><p>从分布式技术的起源可以看出，分布式系统的出现就是为了用廉价的、普通的机器解决单个计算机处理复杂、大规模数据和任务时存在的性能问题、资源瓶颈问题，以及可用性和可扩展性问题。换句话说，分布式的目的是<strong>用更多的机器，处理更多的数据和更复杂的任务。</strong></p><p>由此可以看出，<strong>性能、资源、可用性和可扩展性</strong>是分布式系统的重要指标。没错，它们就是分布式系统的“三围”。接下来，我们一起来看看这几个指标吧。</p><h3>性能（Performance）</h3><p>性能指标，主要用于衡量一个系统处理各种任务的能力。无论是分布式系统还是单机系统，都会对性能有所要求。</p><p>不同的系统、服务要达成的目的不同，关注的性能自然也不尽相同，甚至是相互矛盾。常见的性能指标，包括吞吐量（Throughput）、响应时间（Response Time）和完成时间（Turnaround Time）。</p><p><strong>吞吐量</strong>指的是，系统在一定时间内可以处理的任务数。这个指标可以非常直接地体现一个系统的性能，就好比在客户非常多的情况下，要评判一个银行柜台职员的办事效率，你可以统计一下他在1个小时内接待了多少客户。常见的吞吐量指标有QPS（Queries Per Second）、TPS（Transactions Per Second）和BPS（Bits Per Second）。</p><!-- [[[read_end]]] --><ul>
+
 <li>QPS，即查询数每秒，用于衡量一个系统每秒处理的查询数。这个指标通常用于读操作，越高说明对读操作的支持越好。所以，我们在设计一个分布式系统的时候，如果应用主要是读操作，那么需要重点考虑如何提高QPS，来支持高频的读操作。</li>
 <li>TPS，即事务数每秒，用于衡量一个系统每秒处理的事务数。这个指标通常对应于写操作，越高说明对写操作的支持越好。我们在设计一个分布式系统的时候，如果应用主要是写操作，那么需要重点考虑如何提高TPS，来支持高频写操作。</li>
 <li>BPS，即比特数每秒，用于衡量一个系统每秒处理的数据量。对于一些网络系统、数据管理系统，我们不能简单地按照请求数或事务数来衡量其性能。因为请求与请求、事务与事务之间也存在着很大的差异，比方说，有的事务大需要写入更多的数据。那么在这种情况下，BPS更能客观地反映系统的吞吐量。</li>

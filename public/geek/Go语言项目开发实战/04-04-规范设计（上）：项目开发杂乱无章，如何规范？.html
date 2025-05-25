@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是孔令飞。今天，我们来聊聊开发应用中需要用到的那些规范。</p><p>无规矩不成方圆，生活如此，软件开发也是如此。一个应用基本都是多人协作开发的，但不同人的开发习惯、方式都不同。如果没有一个统一的规范，就会造成非常多的问题，比如：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是孔令飞。今天，我们来聊聊开发应用中需要用到的那些规范。</p><p>无规矩不成方圆，生活如此，软件开发也是如此。一个应用基本都是多人协作开发的，但不同人的开发习惯、方式都不同。如果没有一个统一的规范，就会造成非常多的问题，比如：</p><ul>
+
 <li><strong>代码风格不一：</strong>代码仓库中有多种代码风格，读/改他人的代码都是一件痛苦的事情，整个代码库也会看起来很乱。</li>
 <li><strong>目录杂乱无章：</strong>相同的功能被放在不同的目录，或者一个目录你根本不知道它要完成什么功能，新开发的代码你也不知道放在哪个目录或文件。这些都会严重降低代码的可维护性。</li>
 <li><strong>接口不统一：</strong>对外提供的 API 接口不统一，例如修改用户接口为<code>/v1/users/colin</code>，但是修改密钥接口为<code>/v1/secret?name=secret0</code>，难以理解和记忆。</li>

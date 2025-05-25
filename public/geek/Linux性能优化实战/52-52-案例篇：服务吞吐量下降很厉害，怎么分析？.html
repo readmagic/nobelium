@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是倪朋飞。</p><p>上一节，我们一起学习了怎么使用动态追踪来观察应用程序和内核的行为。先简单来回顾一下。</p><p>所谓动态追踪，就是在系统或者应用程序还在正常运行的时候，通过内核中提供的探针，来动态追踪它们的行为，从而辅助排查出性能问题的瓶颈。</p><p>使用动态追踪，便可以在不修改代码也不重启服务的情况下，动态了解应用程序或者内核的行为。这对排查线上的问题、特别是不容易重现的问题尤其有效。</p><p>在 Linux 系统中，常见的动态追踪方法包括 ftrace、perf、eBPF/BCC 以及 SystemTap 等。</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是倪朋飞。</p><p>上一节，我们一起学习了怎么使用动态追踪来观察应用程序和内核的行为。先简单来回顾一下。</p><p>所谓动态追踪，就是在系统或者应用程序还在正常运行的时候，通过内核中提供的探针，来动态追踪它们的行为，从而辅助排查出性能问题的瓶颈。</p><p>使用动态追踪，便可以在不修改代码也不重启服务的情况下，动态了解应用程序或者内核的行为。这对排查线上的问题、特别是不容易重现的问题尤其有效。</p><p>在 Linux 系统中，常见的动态追踪方法包括 ftrace、perf、eBPF/BCC 以及 SystemTap 等。</p><ul>
+
 <li>
 <p>使用 perf 配合火焰图寻找热点函数，是一个比较通用的性能定位方法，在很多场景中都可以使用。</p>
 </li>

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是傅健。</p><p>通过上节课的两个案例，我们了解了容器运行时过滤器的工作原理，那么这节课我们还是通过两个错误案例，来学习下容器启动时过滤器初始化以及排序注册等相关逻辑。了解了它们，你会对如何使用好过滤器更有信心。下面，我们具体来看一下。</p><h2>案例1：@WebFilter过滤器使用@Order无效</h2><p>假设我们还是基于Spring Boot去开发上节课的学籍管理系统，这里我们简单复习下上节课用到的代码。</p><p>首先，创建启动程序的代码如下：</p><pre><code>@SpringBootApplication
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是傅健。</p><p>通过上节课的两个案例，我们了解了容器运行时过滤器的工作原理，那么这节课我们还是通过两个错误案例，来学习下容器启动时过滤器初始化以及排序注册等相关逻辑。了解了它们，你会对如何使用好过滤器更有信心。下面，我们具体来看一下。</p><h2>案例1：@WebFilter过滤器使用@Order无效</h2><p>假设我们还是基于Spring Boot去开发上节课的学籍管理系统，这里我们简单复习下上节课用到的代码。</p><p>首先，创建启动程序的代码如下：</p><pre><code>@SpringBootApplication
+
 @ServletComponentScan
 @Slf4j
 public class Application {

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是鸟窝。</p><p>在前面的课程里，我们学习了标准库的并发原语、原子操作和Channel，掌握了这些，你就可以解决80%的并发编程问题了。但是，如果你要想进一步提升你的并发编程能力，就需要学习一些第三方库。</p><p>所以，在接下来的几节课里，我会给你分享Go官方或者其他人提供的第三方库，这节课我们先来学习信号量，信号量（Semaphore）是用来控制多个goroutine同时访问多个资源的并发原语。</p><h1>信号量是什么？都有什么操作？</h1><p>信号量的概念是荷兰计算机科学家Edsger Dijkstra在1963年左右提出来的，广泛应用在不同的操作系统中。在系统中，会给每一个进程一个信号量，代表每个进程目前的状态。未得到控制权的进程，会在特定的地方被迫停下来，等待可以继续进行的信号到来。</p><p>最简单的信号量就是一个变量加一些并发控制的能力，这个变量是0到n之间的一个数值。当goroutine完成对此信号量的等待（wait）时，该计数值就减1，当goroutine完成对此信号量的释放（release）时，该计数值就加1。当计数值为0的时候，goroutine调用wait等待该信号量是不会成功的，除非计数器又大于0，等待的goroutine才有可能成功返回。</p><!-- [[[read_end]]] --><p>更复杂的信号量类型，就是使用抽象数据类型代替变量，用来代表复杂的资源类型。实际上，大部分的信号量都使用一个整型变量来表示一组资源，并没有实现太复杂的抽象数据类型，所以你只要知道有更复杂的信号量就行了，我们这节课主要是学习最简单的信号量。</p><p>说到这儿呢，我想借助一个生活中的例子，来帮你进一步理解信号量。</p><p>举个例子，图书馆新购买了10本《Go并发编程的独家秘籍》，有1万个学生都想读这本书，“僧多粥少”。所以，图书馆管理员先会让这1万个同学进行登记，按照登记的顺序，借阅此书。如果书全部被借走，那么，其他想看此书的同学就需要等待，如果有人还书了，图书馆管理员就会通知下一位同学来借阅这本书。这里的资源是《Go并发编程的独家秘籍》这十本书，想读此书的同学就是goroutine，图书管理员就是信号量。</p><p>怎么样，现在是不是很好理解了？那么，接下来，我们来学习下信号量的P/V操作。</p><h2>P/V操作</h2><p>Dijkstra在他的论文中为信号量定义了两个操作P和V。P操作（descrease、wait、acquire）是减少信号量的计数值，而V操作（increase、signal、release）是增加信号量的计数值。</p><p>使用伪代码表示如下（中括号代表原子操作）：</p><pre><code>function V(semaphore S, integer I):
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是鸟窝。</p><p>在前面的课程里，我们学习了标准库的并发原语、原子操作和Channel，掌握了这些，你就可以解决80%的并发编程问题了。但是，如果你要想进一步提升你的并发编程能力，就需要学习一些第三方库。</p><p>所以，在接下来的几节课里，我会给你分享Go官方或者其他人提供的第三方库，这节课我们先来学习信号量，信号量（Semaphore）是用来控制多个goroutine同时访问多个资源的并发原语。</p><h1>信号量是什么？都有什么操作？</h1><p>信号量的概念是荷兰计算机科学家Edsger Dijkstra在1963年左右提出来的，广泛应用在不同的操作系统中。在系统中，会给每一个进程一个信号量，代表每个进程目前的状态。未得到控制权的进程，会在特定的地方被迫停下来，等待可以继续进行的信号到来。</p><p>最简单的信号量就是一个变量加一些并发控制的能力，这个变量是0到n之间的一个数值。当goroutine完成对此信号量的等待（wait）时，该计数值就减1，当goroutine完成对此信号量的释放（release）时，该计数值就加1。当计数值为0的时候，goroutine调用wait等待该信号量是不会成功的，除非计数器又大于0，等待的goroutine才有可能成功返回。</p><!-- [[[read_end]]] --><p>更复杂的信号量类型，就是使用抽象数据类型代替变量，用来代表复杂的资源类型。实际上，大部分的信号量都使用一个整型变量来表示一组资源，并没有实现太复杂的抽象数据类型，所以你只要知道有更复杂的信号量就行了，我们这节课主要是学习最简单的信号量。</p><p>说到这儿呢，我想借助一个生活中的例子，来帮你进一步理解信号量。</p><p>举个例子，图书馆新购买了10本《Go并发编程的独家秘籍》，有1万个学生都想读这本书，“僧多粥少”。所以，图书馆管理员先会让这1万个同学进行登记，按照登记的顺序，借阅此书。如果书全部被借走，那么，其他想看此书的同学就需要等待，如果有人还书了，图书馆管理员就会通知下一位同学来借阅这本书。这里的资源是《Go并发编程的独家秘籍》这十本书，想读此书的同学就是goroutine，图书管理员就是信号量。</p><p>怎么样，现在是不是很好理解了？那么，接下来，我们来学习下信号量的P/V操作。</p><h2>P/V操作</h2><p>Dijkstra在他的论文中为信号量定义了两个操作P和V。P操作（descrease、wait、acquire）是减少信号量的计数值，而V操作（increase、signal、release）是增加信号量的计数值。</p><p>使用伪代码表示如下（中括号代表原子操作）：</p><pre><code>function V(semaphore S, integer I):
+
     [S ← S + I]
 
 function P(semaphore S, integer I):

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是徐昊。今天我们来聊聊通过关联对象（Assocation Object）建模聚合（Aggregation）。</p><p>在前面三节课，我们学习了领域驱动设计中的“两关联一循环”：模型与软件实现关联；统一语言与模型关联；提炼知识的循环。其中，统一语言与提炼知识的循环作为一种更为平衡的权责关系，促进了业务方与技术方更好的协作。而这一切又是以模型与软件实现关联为基础。</p><p>然而落地到实践中，关联模型与软件实现总有一些让人纠结与苦恼的地方。引起这些苦恼的主要原因是<strong>架构风格的变化</strong>。我们已经从单机时代过渡到了多层单体架构，以及云原生分布式架构，但我们所采用的建模思路与编程风格并没有彻底跟上时代的步伐，这种差异通常会以<strong>性能问题</strong>或是<strong>代码坏味道</strong>的形式出现。</p><p>如果我们想要真正发挥出领域驱动设计的作用，就需要<strong>在不同架构风格下，找到能够维持模型与软件实现统一的办法</strong>。这也是这个领域常看常新，总能产生新实践的原因。</p><p>因而接下来，我会用三节课来介绍一组实现模式，帮助我们应对从单机架构过渡到多层架构，保持模型与软件实现的关联。这些模式也是我们后面学习在微服务和云原生时代，实施领域驱动设计方法的基础。</p><p>今天这节课，我们就先从关联对象这一方法开始讲起。关联对象是一个古老的设计/分析模式，Martin Fowler在<a href="https://book.douban.com/subject/4832380/">《分析模式》</a>中讨论过它。Peter Coad将它视为一种常见的业务构成模式，并应用到业务分析中。而我大概从2005年开始，使用它建模领域驱动设计中的聚合与关联关系，以解决领域模型（Domain Model）中对技术组件的封装问题。</p><!-- [[[read_end]]] --><p>不过，在讲解到关联对象的具体做法之前，我们需要先看一下<strong>领域驱动设计中的聚合关系在具体实现中存在哪些问题</strong>。了解了问题所在，我们才能更有针对性地去寻找解决办法。</p><h2>无法封装的数据库开销</h2><p>在应用领域驱动设计的时候，聚合与聚合根（Aggregation Root）是构成“富含知识的模型（Knowledge Rich Model）”的关键。通过聚合关系，我们可以将<strong>被聚合对象的集合逻辑放置于聚合/聚合根里，而不是散落在外，或是放在其他无关的服务中</strong>。这么做可以使得逻辑富集于模型中，避免“逻辑泄露”。</p><p>不过落到具体实现上，我们经常会遇到这样一个挑战，即：<strong>这些被聚合的对象，通常都是被数据库持久化</strong>（Persistent）<strong>的集合</strong>（Collection）。也就是说，数据库系统的引入，网络I/O与其他性能开销无法被接口抽象隔离。而将具体技术实现引入领域模型，则有悖领域驱动设计的理念。</p><p>接下来，我们就通过一个例子，在具体的上下文中看一看存在什么问题。然后，再看一下这个问题在建模思路上产生的根源，以及要如何修正我们的建模思路。</p><h3>集合遍历与N+1</h3><p>让我们再回到在<a href="https://time.geekbang.org/column/article/387945">第二讲</a>里展示的极客时间专栏的例子：</p><pre><code>class User {
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是徐昊。今天我们来聊聊通过关联对象（Assocation Object）建模聚合（Aggregation）。</p><p>在前面三节课，我们学习了领域驱动设计中的“两关联一循环”：模型与软件实现关联；统一语言与模型关联；提炼知识的循环。其中，统一语言与提炼知识的循环作为一种更为平衡的权责关系，促进了业务方与技术方更好的协作。而这一切又是以模型与软件实现关联为基础。</p><p>然而落地到实践中，关联模型与软件实现总有一些让人纠结与苦恼的地方。引起这些苦恼的主要原因是<strong>架构风格的变化</strong>。我们已经从单机时代过渡到了多层单体架构，以及云原生分布式架构，但我们所采用的建模思路与编程风格并没有彻底跟上时代的步伐，这种差异通常会以<strong>性能问题</strong>或是<strong>代码坏味道</strong>的形式出现。</p><p>如果我们想要真正发挥出领域驱动设计的作用，就需要<strong>在不同架构风格下，找到能够维持模型与软件实现统一的办法</strong>。这也是这个领域常看常新，总能产生新实践的原因。</p><p>因而接下来，我会用三节课来介绍一组实现模式，帮助我们应对从单机架构过渡到多层架构，保持模型与软件实现的关联。这些模式也是我们后面学习在微服务和云原生时代，实施领域驱动设计方法的基础。</p><p>今天这节课，我们就先从关联对象这一方法开始讲起。关联对象是一个古老的设计/分析模式，Martin Fowler在<a href="https://book.douban.com/subject/4832380/">《分析模式》</a>中讨论过它。Peter Coad将它视为一种常见的业务构成模式，并应用到业务分析中。而我大概从2005年开始，使用它建模领域驱动设计中的聚合与关联关系，以解决领域模型（Domain Model）中对技术组件的封装问题。</p><!-- [[[read_end]]] --><p>不过，在讲解到关联对象的具体做法之前，我们需要先看一下<strong>领域驱动设计中的聚合关系在具体实现中存在哪些问题</strong>。了解了问题所在，我们才能更有针对性地去寻找解决办法。</p><h2>无法封装的数据库开销</h2><p>在应用领域驱动设计的时候，聚合与聚合根（Aggregation Root）是构成“富含知识的模型（Knowledge Rich Model）”的关键。通过聚合关系，我们可以将<strong>被聚合对象的集合逻辑放置于聚合/聚合根里，而不是散落在外，或是放在其他无关的服务中</strong>。这么做可以使得逻辑富集于模型中，避免“逻辑泄露”。</p><p>不过落到具体实现上，我们经常会遇到这样一个挑战，即：<strong>这些被聚合的对象，通常都是被数据库持久化</strong>（Persistent）<strong>的集合</strong>（Collection）。也就是说，数据库系统的引入，网络I/O与其他性能开销无法被接口抽象隔离。而将具体技术实现引入领域模型，则有悖领域驱动设计的理念。</p><p>接下来，我们就通过一个例子，在具体的上下文中看一看存在什么问题。然后，再看一下这个问题在建模思路上产生的根源，以及要如何修正我们的建模思路。</p><h3>集合遍历与N+1</h3><p>让我们再回到在<a href="https://time.geekbang.org/column/article/387945">第二讲</a>里展示的极客时间专栏的例子：</p><pre><code>class User {
+
 
 
    private List&lt;Subscription&gt; subscriptions;

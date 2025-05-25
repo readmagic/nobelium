@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>在上一讲里，我们学习了HTTP协议使用的TCP/IP协议栈，知道了HTTP协议是运行在TCP/IP上的。</p><p>IP协议的职责是“网际互连”，它在MAC层之上，使用IP地址把MAC编号转换成了四位数字，这就对物理网卡的MAC地址做了一层抽象，发展出了许多的“新玩法”。</p><p>例如，分为A、B、C、D、E五种类型，公有地址和私有地址，掩码分割子网等。只要每个小网络在IP地址这个概念上达成一致，不管它在MAC层有多大的差异，都可以接入TCP/IP协议栈，最终汇合进整个互联网。</p><p>但接入互联网的计算机越来越多，IP地址的缺点也就暴露出来了，最主要的是它“对人不友好”，虽然比MAC的16进制数要好一点，但还是难于记忆和输入。</p><p>怎么解决这个问题呢？</p><p>那就“以其人之道还治其人之身”，在IP地址之上再来一次抽象，把数字形式的IP地址转换成更有意义更好记的名字，在字符串的层面上再增加“新玩法”。于是，DNS域名系统就这么出现了。</p><h2>域名的形式</h2><p>在第4讲曾经说过，域名是一个有层次的结构，是一串用“.”分隔的多个单词，最右边的被称为“顶级域名”，然后是“二级域名”，层级关系向左依次降低。</p><p>最左边的是主机名，通常用来表明主机的用途，比如“www”表示提供万维网服务、“mail”表示提供邮件服务，不过这也不是绝对的，名字的关键是要让我们容易记忆。</p><!-- [[[read_end]]] --><p>看一下极客时间的域名“time.geekbang.org”，这里的“org”就是顶级域名，“geekbang”是二级域名，“time”则是主机名。使用这个域名，DNS就会把它转换成相应的IP地址，你就可以访问极客时间的网站了。</p><p>域名不仅能够代替IP地址，还有许多其他的用途。</p><p>在Apache、Nginx这样的Web服务器里，域名可以用来标识虚拟主机，决定由哪个虚拟主机来对外提供服务，比如在Nginx里就会使用“server_name”指令：</p><pre><code>server {
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>在上一讲里，我们学习了HTTP协议使用的TCP/IP协议栈，知道了HTTP协议是运行在TCP/IP上的。</p><p>IP协议的职责是“网际互连”，它在MAC层之上，使用IP地址把MAC编号转换成了四位数字，这就对物理网卡的MAC地址做了一层抽象，发展出了许多的“新玩法”。</p><p>例如，分为A、B、C、D、E五种类型，公有地址和私有地址，掩码分割子网等。只要每个小网络在IP地址这个概念上达成一致，不管它在MAC层有多大的差异，都可以接入TCP/IP协议栈，最终汇合进整个互联网。</p><p>但接入互联网的计算机越来越多，IP地址的缺点也就暴露出来了，最主要的是它“对人不友好”，虽然比MAC的16进制数要好一点，但还是难于记忆和输入。</p><p>怎么解决这个问题呢？</p><p>那就“以其人之道还治其人之身”，在IP地址之上再来一次抽象，把数字形式的IP地址转换成更有意义更好记的名字，在字符串的层面上再增加“新玩法”。于是，DNS域名系统就这么出现了。</p><h2>域名的形式</h2><p>在第4讲曾经说过，域名是一个有层次的结构，是一串用“.”分隔的多个单词，最右边的被称为“顶级域名”，然后是“二级域名”，层级关系向左依次降低。</p><p>最左边的是主机名，通常用来表明主机的用途，比如“www”表示提供万维网服务、“mail”表示提供邮件服务，不过这也不是绝对的，名字的关键是要让我们容易记忆。</p><!-- [[[read_end]]] --><p>看一下极客时间的域名“time.geekbang.org”，这里的“org”就是顶级域名，“geekbang”是二级域名，“time”则是主机名。使用这个域名，DNS就会把它转换成相应的IP地址，你就可以访问极客时间的网站了。</p><p>域名不仅能够代替IP地址，还有许多其他的用途。</p><p>在Apache、Nginx这样的Web服务器里，域名可以用来标识虚拟主机，决定由哪个虚拟主机来对外提供服务，比如在Nginx里就会使用“server_name”指令：</p><pre><code>server {
+
     listen 80;                       #监听80端口
     server_name  time.geekbang.org;  #主机名是time.geekbang.org
     ...

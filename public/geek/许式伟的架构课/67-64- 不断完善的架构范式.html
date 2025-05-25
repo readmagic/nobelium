@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是七牛云许式伟。</p><p>我们在 “<a href="https://time.geekbang.org/column/article/175236">62 | 重新认识开闭原则 (OCP)</a>” 这一讲中介绍了开闭原则。这篇内容非常非常重要，可以说是整个架构课的灵魂。</p><p>总结来说，开闭原则包含以下两层含义：</p><p>第一，模块的业务要稳定。模块的业务遵循 “只读” 设计，如果需要变化不如把它归档，放弃掉。这种模块业务只读的思想，是架构治理的基础哲学。我平常和小伙伴们探讨模块边界的时候，经常会说这样一句话：</p><blockquote>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是七牛云许式伟。</p><p>我们在 “<a href="https://time.geekbang.org/column/article/175236">62 | 重新认识开闭原则 (OCP)</a>” 这一讲中介绍了开闭原则。这篇内容非常非常重要，可以说是整个架构课的灵魂。</p><p>总结来说，开闭原则包含以下两层含义：</p><p>第一，模块的业务要稳定。模块的业务遵循 “只读” 设计，如果需要变化不如把它归档，放弃掉。这种模块业务只读的思想，是架构治理的基础哲学。我平常和小伙伴们探讨模块边界的时候，经常会说这样一句话：</p><blockquote>
+
 <p>每一个模块都应该是可完成的。</p>
 </blockquote><p>这实际上是开闭原则的业务范畴 “只读” 的架构治理思想的另一种表述方式。</p><p>第二，模块业务的变化点，简单一点的，通过回调函数或者接口开放出去，交给其他的业务模块。复杂一点的，通过引入插件机制把系统分解为 “最小化的核心系统+多个彼此正交的周边系统”。事实上回调函数或者接口本质上就是一种事件监听机制，所以它是插件机制的特例。</p><p>上一讲我们介绍了接口设计。到此为止，我们的架构思维篇也已经基本接近尾声。可能有人会越来越奇怪，为什么我还是没有去聊那些大家耳熟能详的架构设计原则？</p><p>实际上，并不是这些架构设计原则不好，它们之中不乏精彩绝伦、振聋发聩的总结。比如：</p><ul>
 <li>接口隔离原则（Interface Segregation Principle，ISP）：一个模块与另一个模块之间的依赖性，应该依赖于尽可能小的接口。</li>

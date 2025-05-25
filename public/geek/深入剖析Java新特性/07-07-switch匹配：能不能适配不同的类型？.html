@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是范学雷。今天，我们聊一聊switch的模式匹配。</p><p>switch的模式匹配这个特性，在JDK 17中以预览版的形式发布。按照通常的进度，这个特性可能还需要两到三个版本，才能最终定稿。</p><p>这个特性很简单，但是非常重要，可以帮助我们解决不少棘手而且重要的问题。我们不妨在定稿之前，就试着看看它。</p><p>前面，我们讨论了类型匹配和switch表达式。那switch的模式匹配又是什么样子的呢？为什么说switch的模式匹配非常重要？我们还是通过案例和代码，一步一步地了解switch的模式匹配吧。</p><h2>阅读案例</h2><p>在面向对象的编程语言中，研究表示形状的类，是一个常用的教学案例。今天的阅读案例，会涉及到表示形状的接口和类的定义，以后，我还会给出一个使用案例。通过这个案例，我们可以看到面向对象设计的一个代码在维护和发展时的难题。</p><p>假设我们定义了一个表示形状的封闭类，它的名字是Shape；我们也定义了两个许可类：Circle和Square，它们分别表示圆形和正方形。下面的代码，就是一个可供你参考的实现方式。</p><pre><code class="language-java">public sealed interface Shape
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是范学雷。今天，我们聊一聊switch的模式匹配。</p><p>switch的模式匹配这个特性，在JDK 17中以预览版的形式发布。按照通常的进度，这个特性可能还需要两到三个版本，才能最终定稿。</p><p>这个特性很简单，但是非常重要，可以帮助我们解决不少棘手而且重要的问题。我们不妨在定稿之前，就试着看看它。</p><p>前面，我们讨论了类型匹配和switch表达式。那switch的模式匹配又是什么样子的呢？为什么说switch的模式匹配非常重要？我们还是通过案例和代码，一步一步地了解switch的模式匹配吧。</p><h2>阅读案例</h2><p>在面向对象的编程语言中，研究表示形状的类，是一个常用的教学案例。今天的阅读案例，会涉及到表示形状的接口和类的定义，以后，我还会给出一个使用案例。通过这个案例，我们可以看到面向对象设计的一个代码在维护和发展时的难题。</p><p>假设我们定义了一个表示形状的封闭类，它的名字是Shape；我们也定义了两个许可类：Circle和Square，它们分别表示圆形和正方形。下面的代码，就是一个可供你参考的实现方式。</p><pre><code class="language-java">public sealed interface Shape
+
         permits Shape.Circle, Shape.Square {
     record Circle(double radius) implements Shape {
         // blank

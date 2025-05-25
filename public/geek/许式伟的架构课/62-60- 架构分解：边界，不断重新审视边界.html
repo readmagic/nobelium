@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是七牛云许式伟。</p><p>在上一讲 “<a href="https://time.geekbang.org/column/article/169113">59 | 少谈点框架，多谈点业务</a>” 中，我们强调：</p><blockquote>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是七牛云许式伟。</p><p>在上一讲 “<a href="https://time.geekbang.org/column/article/169113">59 | 少谈点框架，多谈点业务</a>” 中，我们强调：</p><blockquote>
+
 <p>架构就是业务的正交分解。每个模块都有它自己的业务。</p>
 </blockquote><p>这里我们说的模块是一种泛指，它包括：函数、类、接口、包、子系统、网络服务程序、桌面程序等等。</p><p>接口是业务的抽象，同时也是它与使用方的耦合方式。在业务分解的过程中，我们需要认真审视模块的接口，发现其中 “过度的（或多余的）” 约束条件，把它提高到足够通用的、普适的场景来看。</p><h2>IO 子系统的需求与初始架构</h2><p>这样说太抽象了，今天我们拿一个实际的例子来说明我们在审视模块的业务边界时，需要用什么样的思维方式来思考。</p><p>我们选的例子，是办公软件的 IO 子系统。从需求来说，我们首先考虑支持的是：</p><ul>
 <li>读盘、存盘；</li>

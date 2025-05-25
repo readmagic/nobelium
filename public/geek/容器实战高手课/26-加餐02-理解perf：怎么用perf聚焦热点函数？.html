@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是程远。今天我要和你聊一聊容器中如何使用perf。</p><p><a href="https://time.geekbang.org/column/article/338413">上一讲</a>中，我们分析了一个生产环境里的一个真实例子，由于节点中的大量的IPVS规则导致了容器在往外发送网络包的时候，时不时会有很高的延时。在调试分析这个网络延时问题的过程中，我们会使用多种Linux内核的调试工具，利用这些工具，我们就能很清晰地找到这个问题的根本原因。</p><p>在后面的课程里，我们会挨个来讲解这些工具，其中perf工具的使用相对来说要简单些，所以这一讲我们先来看perf这个工具。</p><h2>问题回顾</h2><p>在具体介绍perf之前，我们先来回顾一下，上一讲中，我们是在什么情况下开始使用perf工具的，使用了perf工具之后给我们带来了哪些信息。</p><p>在调试网路延时的时候，我们使用了ebpf的工具之后，发现了节点上一个CPU，也就是CPU32的Softirq CPU Usage（在运行top时，%Cpu那行中的si数值就是Softirq CPU Usage）时不时地会增高一下。</p><p>在发现CPU Usage异常增高的时候，我们肯定想知道是什么程序引起了CPU Usage的异常增高，这时候我们就可以用到perf了。</p><p>具体怎么操作呢？我们可以通过<strong>抓取数据、数据读取和异常聚焦</strong>三个步骤来实现。</p><!-- [[[read_end]]] --><p>第一步，抓取数据。当时我们运行了下面这条perf命令，这里的参数 <code>-C 32</code> 是指定只抓取CPU32的执行指令；<code>-g</code> 是指call-graph enable，也就是记录函数调用关系； <code>sleep 10</code> 主要是为了让perf抓取10秒钟的数据。</p><pre><code># perf record -C 32 -g -- sleep 10
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是程远。今天我要和你聊一聊容器中如何使用perf。</p><p><a href="https://time.geekbang.org/column/article/338413">上一讲</a>中，我们分析了一个生产环境里的一个真实例子，由于节点中的大量的IPVS规则导致了容器在往外发送网络包的时候，时不时会有很高的延时。在调试分析这个网络延时问题的过程中，我们会使用多种Linux内核的调试工具，利用这些工具，我们就能很清晰地找到这个问题的根本原因。</p><p>在后面的课程里，我们会挨个来讲解这些工具，其中perf工具的使用相对来说要简单些，所以这一讲我们先来看perf这个工具。</p><h2>问题回顾</h2><p>在具体介绍perf之前，我们先来回顾一下，上一讲中，我们是在什么情况下开始使用perf工具的，使用了perf工具之后给我们带来了哪些信息。</p><p>在调试网路延时的时候，我们使用了ebpf的工具之后，发现了节点上一个CPU，也就是CPU32的Softirq CPU Usage（在运行top时，%Cpu那行中的si数值就是Softirq CPU Usage）时不时地会增高一下。</p><p>在发现CPU Usage异常增高的时候，我们肯定想知道是什么程序引起了CPU Usage的异常增高，这时候我们就可以用到perf了。</p><p>具体怎么操作呢？我们可以通过<strong>抓取数据、数据读取和异常聚焦</strong>三个步骤来实现。</p><!-- [[[read_end]]] --><p>第一步，抓取数据。当时我们运行了下面这条perf命令，这里的参数 <code>-C 32</code> 是指定只抓取CPU32的执行指令；<code>-g</code> 是指call-graph enable，也就是记录函数调用关系； <code>sleep 10</code> 主要是为了让perf抓取10秒钟的数据。</p><pre><code># perf record -C 32 -g -- sleep 10
+
 </code></pre><p>执行完 <code>perf record</code> 之后，我们可以用 <code>perf report</code> 命令进行第二步，也就是读取数据。为了更加直观地看到CPU32上的函数调用情况，我给你生成了一个火焰图（火焰图的生产方法，我们在后面介绍）。</p><p>通过这个火焰图，我们发现了在Softirq里TIMER softirq （run_timer_softirq）的占比很高，并且timer主要处理的都是estimation_timer()这个函数，也就是看火焰图X轴占比比较大的函数。这就是第三步异常聚焦，也就是说我们通过perf在CPU Usage异常的CPU32上，找到了具体是哪一个内核函数使用占比较高。这样在后面的调试分析中，我们就可以聚焦到这个内核函数estimation_timer() 上了。</p><p><img src="https://static001.geekbang.org/resource/image/7f/2e/7f66d31a3e32f8bcfc8600abe713962e.jpg" alt=""></p><p>好了，通过回顾我们在网络延时例子中是如何使用perf的，我们知道了这一点，<strong>perf可以在CPU Usage增高的节点上找到具体的引起CPU增高的函数，然后我们就可以有针对性地聚焦到那个函数做分析。</strong></p><p>既然perf工具这么有用，想要更好地使用这个工具，我们就要好好认识一下它，那我们就一起看看perf的基本概念和常用的使用方法。</p><h2>如何理解Perf的概念和工作机制？</h2><p>Perf这个工具最早是Linux内核著名开发者Ingo Molnar开发的，它的源代码在<a href="https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/tools/perf">内核源码</a>tools目录下，在每个Linux发行版里都有这个工具，比如CentOS里我们可以运行 <code>yum install perf</code> 来安装，在Ubuntu里我们可以运行 <code>apt install linux-tools-common</code> 来安装。</p><h3>Event</h3><p>第一次上手使用perf的时候，我们可以先运行一下 <code>perf list</code> 这个命令，然后就会看到perf列出了大量的event，比如下面这个例子就列出了常用的event。</p><pre><code class="language-shell"> # perf list
 …
   branch-instructions OR branches                    [Hardware event]

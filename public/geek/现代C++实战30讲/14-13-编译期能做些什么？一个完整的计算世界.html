@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是吴咏炜。</p><p>上一讲我们简单介绍了模板的基本用法及其在泛型编程中的应用。这一讲我们来看一下模板的另外一种重要用途——编译期计算，也称作“模板元编程”。</p><h2>编译期计算</h2><p>首先，我们给出一个已经被证明的结论：C++ 模板是图灵完全的 <span class="orange">[1]</span>。这句话的意思是，使用 C++ 模板，你可以在编译期间模拟一个完整的图灵机，也就是说，可以完成任何的计算任务。</p><p>当然，这只是理论上的结论。从实际的角度，我们并不<strong>想</strong>、也不可能在编译期完成所有的计算，更不用说编译期的编程是很容易让人看不懂的——因为这并不是语言设计的初衷。即便如此，我们也还是需要了解一下模板元编程的基本概念：它仍然有一些实用的场景，并且在实际的工程中你也可能会遇到这样的代码。虽然我们在开篇就说过不要炫技，但使用模板元编程写出的代码仍然是可理解的，尤其是如果你对递归不发怵的话。</p><p>好，闲话少叙，我们仍然拿代码说话：</p><pre><code class="language-c++">template &lt;int n&gt;
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是吴咏炜。</p><p>上一讲我们简单介绍了模板的基本用法及其在泛型编程中的应用。这一讲我们来看一下模板的另外一种重要用途——编译期计算，也称作“模板元编程”。</p><h2>编译期计算</h2><p>首先，我们给出一个已经被证明的结论：C++ 模板是图灵完全的 <span class="orange">[1]</span>。这句话的意思是，使用 C++ 模板，你可以在编译期间模拟一个完整的图灵机，也就是说，可以完成任何的计算任务。</p><p>当然，这只是理论上的结论。从实际的角度，我们并不<strong>想</strong>、也不可能在编译期完成所有的计算，更不用说编译期的编程是很容易让人看不懂的——因为这并不是语言设计的初衷。即便如此，我们也还是需要了解一下模板元编程的基本概念：它仍然有一些实用的场景，并且在实际的工程中你也可能会遇到这样的代码。虽然我们在开篇就说过不要炫技，但使用模板元编程写出的代码仍然是可理解的，尤其是如果你对递归不发怵的话。</p><p>好，闲话少叙，我们仍然拿代码说话：</p><pre><code class="language-c++">template &lt;int n&gt;
+
 struct factorial {
   static const int value =
     n * factorial&lt;n - 1&gt;::value;

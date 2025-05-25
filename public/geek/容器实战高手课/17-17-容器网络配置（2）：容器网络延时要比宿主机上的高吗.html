@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是程远。</p><p>在上一讲里，我们学习了在容器中的网络接口配置，重点讲解的是veth的接口配置方式，这也是绝大部分容器用的缺省的网络配置方式。</p><p>不过呢，从veth的这种网络接口配置上看，一个数据包要从容器里发送到宿主机外，需要先从容器里的eth0 (veth_container) 把包发送到宿主机上veth_host，然后再在宿主机上通过nat或者路由的方式，经过宿主机上的eth0向外发送。</p><p><img src="https://static001.geekbang.org/resource/image/2f/be/2fba246fb4aaa6315661a11996fa04be.jpg" alt=""></p><p>这种容器向外发送数据包的路径，相比宿主机上直接向外发送数据包的路径，很明显要多了一次接口层的发送和接收。尽管veth是虚拟网络接口，在软件上还是会增加一些开销。</p><p>如果我们的应用程序对网络性能有很高的要求，特别是之前运行在物理机器上，现在迁移到容器上的，如果网络配置采用veth方式，就会出现网络延时增加的现象。</p><p>那今天我们就来聊一聊，容器网络接口对于容器中应用程序网络延时有怎样的影响，还有这个问题应该怎么解决。</p><h2>问题重现</h2><p>对于这种veth接口配置导致网络延时增加的现象，我们可以通过运行<a href="https://hewlettpackard.github.io/netperf/">netperf</a>（Netperf是一个衡量网络性能的工具，它可以提供单向吞吐量和端到端延迟的测试）来模拟一下。</p><p>这里我们需要两台虚拟机或者物理机，这两台机器需要同处于一个二层的网络中。</p><!-- [[[read_end]]] --><p>具体的配置示意图如下：</p><p><img src="https://static001.geekbang.org/resource/image/24/20/24bc885e34e6477cd69324f67e65f120.jpeg" alt=""></p><p>首先，我们需要在第一台机器上启动一个veth接口的容器，容器的启动和宿主机上的配置你可以参考一下这里的<a href="https://github.com/chengyli/training/blob/master/net/latency/start_container.sh">脚本</a>。在第二台机器上，我们只要启动一个netserver就可以了。</p><p>然后呢，我们分别在容器里和宿主机上运行与netserver交互的netperf，再比较一下它们延时的差异。</p><p>我们可以运行netperf的TCP_RR测试用例，TCP_RR是netperf里专门用来测试网络延时的，缺省每次运行10秒钟。运行以后，我们还要计算平均每秒钟TCP request/response的次数，这个次数越高，就说明延时越小。</p><p>接下来，我们先在第一台机器的宿主机上直接运行netperf的TCP_RR测试用例3轮，得到的值分别是2504.92，2410.14和2422.81，计算一下可以得到三轮Transactions平均值是2446/s。</p><pre><code class="language-shell"># ./netperf -H 192.168.0.194 -t TCP_RR
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是程远。</p><p>在上一讲里，我们学习了在容器中的网络接口配置，重点讲解的是veth的接口配置方式，这也是绝大部分容器用的缺省的网络配置方式。</p><p>不过呢，从veth的这种网络接口配置上看，一个数据包要从容器里发送到宿主机外，需要先从容器里的eth0 (veth_container) 把包发送到宿主机上veth_host，然后再在宿主机上通过nat或者路由的方式，经过宿主机上的eth0向外发送。</p><p><img src="https://static001.geekbang.org/resource/image/2f/be/2fba246fb4aaa6315661a11996fa04be.jpg" alt=""></p><p>这种容器向外发送数据包的路径，相比宿主机上直接向外发送数据包的路径，很明显要多了一次接口层的发送和接收。尽管veth是虚拟网络接口，在软件上还是会增加一些开销。</p><p>如果我们的应用程序对网络性能有很高的要求，特别是之前运行在物理机器上，现在迁移到容器上的，如果网络配置采用veth方式，就会出现网络延时增加的现象。</p><p>那今天我们就来聊一聊，容器网络接口对于容器中应用程序网络延时有怎样的影响，还有这个问题应该怎么解决。</p><h2>问题重现</h2><p>对于这种veth接口配置导致网络延时增加的现象，我们可以通过运行<a href="https://hewlettpackard.github.io/netperf/">netperf</a>（Netperf是一个衡量网络性能的工具，它可以提供单向吞吐量和端到端延迟的测试）来模拟一下。</p><p>这里我们需要两台虚拟机或者物理机，这两台机器需要同处于一个二层的网络中。</p><!-- [[[read_end]]] --><p>具体的配置示意图如下：</p><p><img src="https://static001.geekbang.org/resource/image/24/20/24bc885e34e6477cd69324f67e65f120.jpeg" alt=""></p><p>首先，我们需要在第一台机器上启动一个veth接口的容器，容器的启动和宿主机上的配置你可以参考一下这里的<a href="https://github.com/chengyli/training/blob/master/net/latency/start_container.sh">脚本</a>。在第二台机器上，我们只要启动一个netserver就可以了。</p><p>然后呢，我们分别在容器里和宿主机上运行与netserver交互的netperf，再比较一下它们延时的差异。</p><p>我们可以运行netperf的TCP_RR测试用例，TCP_RR是netperf里专门用来测试网络延时的，缺省每次运行10秒钟。运行以后，我们还要计算平均每秒钟TCP request/response的次数，这个次数越高，就说明延时越小。</p><p>接下来，我们先在第一台机器的宿主机上直接运行netperf的TCP_RR测试用例3轮，得到的值分别是2504.92，2410.14和2422.81，计算一下可以得到三轮Transactions平均值是2446/s。</p><pre><code class="language-shell"># ./netperf -H 192.168.0.194 -t TCP_RR
+
 MIGRATED TCP REQUEST/RESPONSE TEST from 0.0.0.0 (0.0.0.0) port 0 AF_INET to 192.168.0.194 () port 0 AF_INET : first burst 0
 Local /Remote
 Socket Size   Request  Resp.   Elapsed  Trans.

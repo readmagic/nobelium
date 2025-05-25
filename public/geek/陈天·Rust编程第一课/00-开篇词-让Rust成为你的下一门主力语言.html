@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是陈天，目前是北美最大的免费流媒体服务TubiTV的研发副总裁，也是公众号程序人生和知乎专栏迷思的作者。</p><p>十八年以来，我一直从事高性能系统的研发工作，涵盖网络协议、网络安全、服务端架构、区块链以及云服务等方向。</p><p>因为<strong>喜欢使用合适的工具解决合适的问题</strong>，在职业生涯的不同阶段，我深度使用过形态和机理都非常不同的开发语言。</p><p>我用 C 和汇编打造过各种网络协议，维护过在网络安全领域非常知名的嵌入式操作系统 ScreenOS；用 Python/JavaScript 撰写过我曾经的创业项目途客圈；用 Node.js/Elixir 打造过 TubiTV 高并发的后端核心；用 Elixir 打造过区块链框架 Forge，也研究过 Haskell/F#、Clojure/Racket、Swift、Golang 和 C#等其他语言。</p><p>2018年起，我开始关注Rust。当时我正在开发 Forge ，深感 Elixir 处理计算密集型功能的无力，在汉东，也是《Rust编程之道》作者的介绍下，我开始学习和使用 Rust。</p><p>也正是因为之前深度使用了很多开发语言，当我一接触到 Rust，就明白它绝对是面向未来的利器。</p><p><strong>首先，你使用起来就会感受到，Rust是一门非常重视开发者用户体验的语言</strong>。如果做一个互联网时代的编程语言用户体验的排行，Rust 绝对是傲视群雄的独一档。</p><!-- [[[read_end]]] --><p>你无法想象一门语言的编译器在告知你的代码错误的同时，还会极尽可能，给你推荐正确的代码。这就好比在你开发的时候，旁边坐着一个无所不知还和蔼可亲的大牛，在孜孜不倦地为你审阅代码，帮你找出问题所在。</p><p>比如下面的代码，我启动了一个新的线程引用当前线程的变量（<a href="https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=b59b592cda78bd026256654177d36f8f">代码</a>）：</p><pre><code class="language-rust">let name = "Tyr".to_string();
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是陈天，目前是北美最大的免费流媒体服务TubiTV的研发副总裁，也是公众号程序人生和知乎专栏迷思的作者。</p><p>十八年以来，我一直从事高性能系统的研发工作，涵盖网络协议、网络安全、服务端架构、区块链以及云服务等方向。</p><p>因为<strong>喜欢使用合适的工具解决合适的问题</strong>，在职业生涯的不同阶段，我深度使用过形态和机理都非常不同的开发语言。</p><p>我用 C 和汇编打造过各种网络协议，维护过在网络安全领域非常知名的嵌入式操作系统 ScreenOS；用 Python/JavaScript 撰写过我曾经的创业项目途客圈；用 Node.js/Elixir 打造过 TubiTV 高并发的后端核心；用 Elixir 打造过区块链框架 Forge，也研究过 Haskell/F#、Clojure/Racket、Swift、Golang 和 C#等其他语言。</p><p>2018年起，我开始关注Rust。当时我正在开发 Forge ，深感 Elixir 处理计算密集型功能的无力，在汉东，也是《Rust编程之道》作者的介绍下，我开始学习和使用 Rust。</p><p>也正是因为之前深度使用了很多开发语言，当我一接触到 Rust，就明白它绝对是面向未来的利器。</p><p><strong>首先，你使用起来就会感受到，Rust是一门非常重视开发者用户体验的语言</strong>。如果做一个互联网时代的编程语言用户体验的排行，Rust 绝对是傲视群雄的独一档。</p><!-- [[[read_end]]] --><p>你无法想象一门语言的编译器在告知你的代码错误的同时，还会极尽可能，给你推荐正确的代码。这就好比在你开发的时候，旁边坐着一个无所不知还和蔼可亲的大牛，在孜孜不倦地为你审阅代码，帮你找出问题所在。</p><p>比如下面的代码，我启动了一个新的线程引用当前线程的变量（<a href="https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=b59b592cda78bd026256654177d36f8f">代码</a>）：</p><pre><code class="language-rust">let name = "Tyr".to_string();
+
 std::thread::spawn(|| {
   println!("hello {}", name);
 });

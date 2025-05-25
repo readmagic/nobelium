@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>内存计算是近十几年来，在数据库和大数据领域的一个热点。随着内存越来越便宜，CPU的架构越来越先进，整个数据库都可以放在内存中，并通过SIMD和并行计算技术，来提升数据处理的性能。</p><p><strong>我问你一个问题：</strong>做1.6亿条数据的汇总计算，需要花费多少时间呢？几秒？几十秒？还是几分钟？如果你经常使用数据库，肯定会知道，我们不会在数据库的一张表中保存上亿条的数据，因为处理速度会很慢。</p><p>但今天，我会带你采用内存计算技术，提高海量数据处理工作的性能。与此同时，我还会介绍SIMD指令、高速缓存和局部性、动态优化等知识点。这些知识点与编译器后端技术息息相关，掌握这些内容，会对你从事基础软件研发工作，有很大的帮助。</p><h2>了解SIMD</h2><p>本节课所采用的CPU，支持一类叫做SIMD（Single Instruction Multiple Data）的指令，<strong>它的字面意思是：</strong>单条指令能处理多个数据。相应的，你可以把每次只处理一个数据的指令，叫做SISD（Single Instruction Single Data）。</p><p>SISD使用普通的寄存器进行操作，比如加法：</p><pre><code>addl $10, %eax
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>内存计算是近十几年来，在数据库和大数据领域的一个热点。随着内存越来越便宜，CPU的架构越来越先进，整个数据库都可以放在内存中，并通过SIMD和并行计算技术，来提升数据处理的性能。</p><p><strong>我问你一个问题：</strong>做1.6亿条数据的汇总计算，需要花费多少时间呢？几秒？几十秒？还是几分钟？如果你经常使用数据库，肯定会知道，我们不会在数据库的一张表中保存上亿条的数据，因为处理速度会很慢。</p><p>但今天，我会带你采用内存计算技术，提高海量数据处理工作的性能。与此同时，我还会介绍SIMD指令、高速缓存和局部性、动态优化等知识点。这些知识点与编译器后端技术息息相关，掌握这些内容，会对你从事基础软件研发工作，有很大的帮助。</p><h2>了解SIMD</h2><p>本节课所采用的CPU，支持一类叫做SIMD（Single Instruction Multiple Data）的指令，<strong>它的字面意思是：</strong>单条指令能处理多个数据。相应的，你可以把每次只处理一个数据的指令，叫做SISD（Single Instruction Single Data）。</p><p>SISD使用普通的寄存器进行操作，比如加法：</p><pre><code>addl $10, %eax
+
 </code></pre><p>这行代码是把一个32位的整型数字，加到%eax寄存器上（在x86-64架构下，这个寄存器一共有64位，但这个指令只用它的低32位，高32位是闲置的）。</p><!-- [[[read_end]]] --><p>这种一次只处理一个数据的计算，<strong>叫做标量计算；</strong>一次可以同时处理多个数据的计算，<strong>叫做矢量计算。</strong>它在一个寄存器里可以并排摆下4个、8个甚至更多标量，构成一个矢量。图中ymm寄存器是256位的，可以支持同时做4个64位数的计算（xmm寄存器是它的低128位）。</p><p><img src="https://static001.geekbang.org/resource/image/e0/57/e0b3f9d6a0726021f224b1b7910e9257.png" alt=""></p><p>如果不做64位整数，而做32位整数计算，一次能计算8个，如果做单字节（8位）数字的计算，一次可以算32个！</p><p><img src="https://static001.geekbang.org/resource/image/61/46/612e429fe459db3d80e13970e4194046.png" alt=""></p><p>1997年，Intel公司推出了奔腾处理器，带有MMX指令集，意思是多媒体扩展。当时，让计算机能够播放多媒体（比如播放视频），是一个巨大的进步。但播放视频需要大量的浮点计算，依靠原来CPU的浮点运算功能并不够。</p><p>所以，Intel公司就引入了MMX指令集，和容量更大的寄存器来支持一条指令，同时计算多个数据，这是在PC上最早的SIMD指令集。后来，SIMD又继续发展，陆续产生了SSE（流式SIMD扩展）、AVX（高级矢量扩展）指令集，处理能力越来越强大。</p><p>2017年，Intel公司发布了一款至强处理器，支持AVX-512指令（也就是它的一个寄存器有512位）。每次能处理8个64位整数，或16个32位整数，或者32个双精度数、64个单精度数。你想想，一条指令顶64条指令，几十倍的性能提升，是不是很厉害！</p><p>那么你的电脑是否支持SIMD指令？又支持哪些指令集呢？在命令行终端，打下面的命令，你可以查看CPU所支持的指令集。</p><pre><code>sysctl -a | grep features | grep cpu   //macOs操作系统
 cat /proc/cpuinfo   //Linux操作系统
 </code></pre><p>现在，想必你已经知道了SIMD指令的强大之处了。<strong>而它的实际作用主要有以下几点：</strong></p><ul>

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是秦粤。通过前面的两节实践课，我们体验了在本地环境中搭建K8s，并且我们利用K8s的组件扩展能力，在本地的K8s上安装了Istio和Knative。正如我在前面课程中所说的，K8s可以让我们的集群架构，轻松迁移到其他集群上，那么今天我就带你将我们本地K8上部署的“待办任务”Web服务部署到云上的K8s集群。</p><p>实践课里还有这么个小细节，不知道你注意没，我们使用Knative时，应用和微服务部署都需要关心项目应用中的Dockerfile，而我在使用FaaS函数时，连Dockerfile都不用管了，其实这就是Serverless带来的变革之一。当然，现在有很多应用托管PaaS平台，也做了Serverless化，让我们部署一个应用时只需要关心Release分支的代码合并，例如Heroku、SAE等等。</p><p>这里我需要先解释一下，K8s集群的运维工作对于很多个人开发者来说，是有些重的。我们通常了解基本知识，用kubectl调用K8s集群就可以了。咱们课程里，我是为了让你更好理解Serverless的工作原理，所以才向你介绍Knative在K8s上的搭建和使用过程。</p><p>实际工作中K8s集群的运维，还是应该交给专业的运维人员。另外，云服务商的K8s集群，都会提供控制面板，一键安装组件。我们在使用Serverless的部署应用时，不用关心底层“被透明化”的类似Knative、Istio等等插件能力，这也是Serverless应用的价值所在，虽然它本身的底层构建在复杂且精密的各种服务上，但我们使用Serverless却极其精简。</p><!-- [[[read_end]]] --><p>在开始部署K8s上云之前，我们要先选择一个云服务商。正如我们上节课所说，K8s整体架构迁移能力，可以帮我们破解Vendor-lock，只要我们部署的云服务商是CNCF的成员，支持K8s集群就可以了。实际上目前几乎所有的云服务商都加入了CNCF阵营。因此，我们的K8s版本的“待办任务”Web服务，可以任意选择云服务商部署，你完全可以横向对比云服务商的各项指标去选择适合自己的。当我们有了选择权，也反向促进了云服务商的良性竞争。</p><h2>云服务商</h2><p>我们先看看2019年的<a href="https://www.canalys.com/newsroom/canalys-worldwide-cloud-infrastructure-Q4-2019-and-full-year-2019">全球云服务商的市场占有率</a>数据，我也将按照这个数据排名，依次向你介绍云服务商和他的主要特色：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是秦粤。通过前面的两节实践课，我们体验了在本地环境中搭建K8s，并且我们利用K8s的组件扩展能力，在本地的K8s上安装了Istio和Knative。正如我在前面课程中所说的，K8s可以让我们的集群架构，轻松迁移到其他集群上，那么今天我就带你将我们本地K8上部署的“待办任务”Web服务部署到云上的K8s集群。</p><p>实践课里还有这么个小细节，不知道你注意没，我们使用Knative时，应用和微服务部署都需要关心项目应用中的Dockerfile，而我在使用FaaS函数时，连Dockerfile都不用管了，其实这就是Serverless带来的变革之一。当然，现在有很多应用托管PaaS平台，也做了Serverless化，让我们部署一个应用时只需要关心Release分支的代码合并，例如Heroku、SAE等等。</p><p>这里我需要先解释一下，K8s集群的运维工作对于很多个人开发者来说，是有些重的。我们通常了解基本知识，用kubectl调用K8s集群就可以了。咱们课程里，我是为了让你更好理解Serverless的工作原理，所以才向你介绍Knative在K8s上的搭建和使用过程。</p><p>实际工作中K8s集群的运维，还是应该交给专业的运维人员。另外，云服务商的K8s集群，都会提供控制面板，一键安装组件。我们在使用Serverless的部署应用时，不用关心底层“被透明化”的类似Knative、Istio等等插件能力，这也是Serverless应用的价值所在，虽然它本身的底层构建在复杂且精密的各种服务上，但我们使用Serverless却极其精简。</p><!-- [[[read_end]]] --><p>在开始部署K8s上云之前，我们要先选择一个云服务商。正如我们上节课所说，K8s整体架构迁移能力，可以帮我们破解Vendor-lock，只要我们部署的云服务商是CNCF的成员，支持K8s集群就可以了。实际上目前几乎所有的云服务商都加入了CNCF阵营。因此，我们的K8s版本的“待办任务”Web服务，可以任意选择云服务商部署，你完全可以横向对比云服务商的各项指标去选择适合自己的。当我们有了选择权，也反向促进了云服务商的良性竞争。</p><h2>云服务商</h2><p>我们先看看2019年的<a href="https://www.canalys.com/newsroom/canalys-worldwide-cloud-infrastructure-Q4-2019-and-full-year-2019">全球云服务商的市场占有率</a>数据，我也将按照这个数据排名，依次向你介绍云服务商和他的主要特色：</p><ol>
+
 <li>亚马逊的AWS市占率32.4%。亚马逊凭借庞大复杂的全球电商业务，让其机房做到了覆盖全球，并引领云服务的发展，提供最全面的生态和最高稳定性的服务。云服务商老大的地位近年内都难以撼动。</li>
 <li>微软的Azure市占率17.6%。依赖微软Windows全家桶的优势和近年的JavaScrpit技术社区的收购或者并购，他的市场地位紧跟亚马逊之后。整体云服务产品的报价也紧盯AWS，所有服务价格略低于AWS。</li>
 <li>阿里巴巴的阿里云，市占率6.0%。国内市场占有率第一，随着阿里电商业务出海，阿里云机房也部署到了海外。在国内云里生态建设得比较完备，每年都经受双十一流量的洗礼，不断打磨稳定性。客服响应速度是一大亮点。</li>

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是刘超。</p><p>在<a href="https://time.geekbang.org/column/article/103541">第17讲</a>讲解并发容器的时候，我提到了“强一致性”和“弱一致性”。很多同学留言表示对这个概念没有了解或者比较模糊，今天这讲加餐就来详解一下。</p><p>说到一致性，其实在系统的很多地方都存在数据一致性的相关问题。除了在并发编程中保证共享变量数据的一致性之外，还有数据库的ACID中的C（Consistency 一致性）、分布式系统的CAP理论中的C（Consistency 一致性）。下面<span class="orange">我们主要讨论的就是“并发编程中共享变量的一致性”。</span></p><p>在并发编程中，Java是通过共享内存来实现共享变量操作的，所以在多线程编程中就会涉及到数据一致性的问题。</p><p>我先通过一个经典的案例来说明下多线程操作共享变量可能出现的问题，假设我们有两个线程（线程1和线程2）分别执行下面的方法，x是共享变量：</p><pre><code>//代码1
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是刘超。</p><p>在<a href="https://time.geekbang.org/column/article/103541">第17讲</a>讲解并发容器的时候，我提到了“强一致性”和“弱一致性”。很多同学留言表示对这个概念没有了解或者比较模糊，今天这讲加餐就来详解一下。</p><p>说到一致性，其实在系统的很多地方都存在数据一致性的相关问题。除了在并发编程中保证共享变量数据的一致性之外，还有数据库的ACID中的C（Consistency 一致性）、分布式系统的CAP理论中的C（Consistency 一致性）。下面<span class="orange">我们主要讨论的就是“并发编程中共享变量的一致性”。</span></p><p>在并发编程中，Java是通过共享内存来实现共享变量操作的，所以在多线程编程中就会涉及到数据一致性的问题。</p><p>我先通过一个经典的案例来说明下多线程操作共享变量可能出现的问题，假设我们有两个线程（线程1和线程2）分别执行下面的方法，x是共享变量：</p><pre><code>//代码1
+
 public class Example {
     int x = 0;
     public void count() {

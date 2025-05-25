@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是何为舟。</p><p>在讲<a href="https://time.geekbang.org/column/article/182421">反序列化漏洞</a>的时候，我们说过，这个漏洞其实就存在于Fastjson、Jackson等知名的JSON解析库中，跟你自己写的代码没有太多关系，所以极难掌控。也就是说，在开发应用的过程中，尽管你的代码很安全了，黑客还是能够通过插件漏洞对应用发起攻击（我文中提到的插件，是第三方的插件、依赖库、工具和框架等的统称）。</p><p>说到这儿，想不想测试一下你的插件是否安全？在这里，我准备了几个问题，你可以看看自己是否对所用的插件了如指掌。</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是何为舟。</p><p>在讲<a href="https://time.geekbang.org/column/article/182421">反序列化漏洞</a>的时候，我们说过，这个漏洞其实就存在于Fastjson、Jackson等知名的JSON解析库中，跟你自己写的代码没有太多关系，所以极难掌控。也就是说，在开发应用的过程中，尽管你的代码很安全了，黑客还是能够通过插件漏洞对应用发起攻击（我文中提到的插件，是第三方的插件、依赖库、工具和框架等的统称）。</p><p>说到这儿，想不想测试一下你的插件是否安全？在这里，我准备了几个问题，你可以看看自己是否对所用的插件了如指掌。</p><ul>
+
 <li>你所使用的所有插件的版本是什么？（包括前端和后端，直接引用和间接引用）</li>
 <li>你所使用的这些插件，是否存在漏洞，是否不被维护了，是否被废弃了？</li>
 <li>你所使用的这些插件，会在哪些地方发布更新信息和漏洞信息？</li>

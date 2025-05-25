@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是李兵。</p><p>我们都知道，JavaScript是一门自动垃圾回收的语言，也就是说，我们不需要去手动回收垃圾数据，这一切都交给V8的垃圾回收器来完成。V8为了更高效地回收垃圾，引入了两个垃圾回收器，它们分别针对着不同的场景。</p><p>那这两个回收器究竟是如何工作的呢，这节课我们就来分析这个问题。</p><h2>垃圾数据是怎么产生的？</h2><p>首先，我们看看垃圾数据是怎么产生的。</p><p>无论是使用什么语言，我们都会频繁地使用数据，这些数据会被存放到栈和堆中，通常的方式是在内存中创建一块空间，使用这块空间，在不需要的时候回收这块空间。</p><p>比如下面这样一句代码：</p><pre><code>window.test = new Object()
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是李兵。</p><p>我们都知道，JavaScript是一门自动垃圾回收的语言，也就是说，我们不需要去手动回收垃圾数据，这一切都交给V8的垃圾回收器来完成。V8为了更高效地回收垃圾，引入了两个垃圾回收器，它们分别针对着不同的场景。</p><p>那这两个回收器究竟是如何工作的呢，这节课我们就来分析这个问题。</p><h2>垃圾数据是怎么产生的？</h2><p>首先，我们看看垃圾数据是怎么产生的。</p><p>无论是使用什么语言，我们都会频繁地使用数据，这些数据会被存放到栈和堆中，通常的方式是在内存中创建一块空间，使用这块空间，在不需要的时候回收这块空间。</p><p>比如下面这样一句代码：</p><pre><code>window.test = new Object()
+
 window.test.a = new Uint16Array(100)
 </code></pre><p>当JavaScript执行这段代码的时候，会先为window对象添加一个test属性，并在堆中创建了一个空对象，并将该对象的地址指向了window.test属性。随后又创建一个大小为100的数组，并将属性地址指向了test.a的属性值。此时的内存布局图如下所示：</p><p><img src="https://static001.geekbang.org/resource/image/42/b1/42b70203c6da641831d778ce08a7a5b1.jpg" alt=""></p><p>我们可以看到，栈中保存了指向window对象的指针，通过栈中window的地址，我们可以到达window对象，通过window对象可以到达test对象，通过test对象还可以到达a对象。</p><p>如果此时，我将另外一个对象赋给了a属性，代码如下所示：</p><!-- [[[read_end]]] --><pre><code>window.test.a = new Object()
 </code></pre><p>那么此时的内存布局如下所示：</p><p><img src="https://static001.geekbang.org/resource/image/9c/dc/9c44e8bb2a75a8da72877c8a192967dc.jpg" alt=""></p><p>我们可以看到，a属性之前是指向堆中数组对象的，现在已经指向了另外一个空对象，那么此时堆中的数组对象就成为了垃圾数据，因为我们无法从一个根对象遍历到这个Array对象。</p><p>不过，你不用担心这个数组对象会一直占用内存空间，因为V8虚拟机中的垃圾回收器会帮你自动清理。</p><h2>垃圾回收算法</h2><p>那么垃圾回收是怎么实现的呢？大致可以分为以下几个步骤：</p><p>第一步，通过GC Root标记空间中<strong>活动对象</strong>和<strong>非活动对象</strong>。</p><p>目前V8采用的<strong>可访问性（reachability）算法</strong>来判断堆中的对象是否是活动对象。具体地讲，这个算法是将一些<strong>GC Root</strong>作为初始存活的对象的集合，从GC Roots对象出发，遍历GC Root中的所有对象：</p><ul>

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>前面我们通过一个秒杀的示例，展示了如何在CDN结点上简单地部署小服务，然后就可以完成在数据中心很难完成的事，我想你应该能看到边缘结点的一些威力。今天，我会和你聊聊我所认识的边缘计算，这也是我创业的方向。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>前面我们通过一个秒杀的示例，展示了如何在CDN结点上简单地部署小服务，然后就可以完成在数据中心很难完成的事，我想你应该能看到边缘结点的一些威力。今天，我会和你聊聊我所认识的边缘计算，这也是我创业的方向。</p>
+
 <p>首先，一说起边缘计算，网上大多数文章都会说这是和IoT相关的一个技术。其实，我觉得这个说法只说对了边缘计算的一部分，边缘计算可以做的事情还有很多很多。</p>
 <p>所谓边缘计算，它是相对于数据中心而言。数据中心喜欢把所有的服务放在一个机房里集中处理用户的数据和请求，集中式部署一方面便于管理和运维，另一方面也便于服务间的通讯有一个比较好的网络保障。的确没错。不过，我们依然需要像CDN这样的边缘式的内容发布网络，把我们的静态内容推到离用户最近的地方，然后获得更好的性能。</p>
 <p>如果我们让CDN的这些边缘结点拥有可定制的计算能力，那么就可以像秒杀那样，可以在边缘结点上处理很多事情，从而为我们的数据中心带来更好的性能，更好的扩展性，还有更好的稳定性。而我们的用户也会觉得响应飞快，从而有了更好的用户体验。</p>

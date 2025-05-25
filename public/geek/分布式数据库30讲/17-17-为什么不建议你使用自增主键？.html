@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是王磊，你也可以叫我Ivan。</p><p>有经验的数据库开发人员一定知道，数据库除了事务处理、查询引擎这些核心功能外，还会提供一些小特性。它们看上去不起眼，却对简化开发工作很有帮助。</p><p>不过，这些特性的设计往往是以单体数据库架构和适度的并发压力为前提的。随着业务规模扩大，在真正的海量并发下，这些特性就可能被削弱或者失效。在分布式架构下，是否要延续这些特性也存在不确定性，我们今天要聊的自增主键就是这样的小特性。</p><p>虽然，我对自增主键的态度和<a href="https://time.geekbang.org/column/article/285270">第16讲</a>提到的存储过程一样，都不推荐你使用，但是原因各有不同。存储过程主要是工程方面的原因，而自增主键则是架构上的因素。好了，让我们进入正题吧。</p><h2>自增主键的特性</h2><p>自增主键在不同的数据库中的存在形式稍有差异。在MySQL中，你可以在建表时直接通过关键字auto_increment来定义自增主键，例如这样：</p><pre><code>create table ‘test’ (
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是王磊，你也可以叫我Ivan。</p><p>有经验的数据库开发人员一定知道，数据库除了事务处理、查询引擎这些核心功能外，还会提供一些小特性。它们看上去不起眼，却对简化开发工作很有帮助。</p><p>不过，这些特性的设计往往是以单体数据库架构和适度的并发压力为前提的。随着业务规模扩大，在真正的海量并发下，这些特性就可能被削弱或者失效。在分布式架构下，是否要延续这些特性也存在不确定性，我们今天要聊的自增主键就是这样的小特性。</p><p>虽然，我对自增主键的态度和<a href="https://time.geekbang.org/column/article/285270">第16讲</a>提到的存储过程一样，都不推荐你使用，但是原因各有不同。存储过程主要是工程方面的原因，而自增主键则是架构上的因素。好了，让我们进入正题吧。</p><h2>自增主键的特性</h2><p>自增主键在不同的数据库中的存在形式稍有差异。在MySQL中，你可以在建表时直接通过关键字auto_increment来定义自增主键，例如这样：</p><pre><code>create table ‘test’ (
+
   ‘id’  int(16) NOT NULL AUTO_INCREMENT,
   ‘name’  char(10) DEFAULT NULL,
   PRIMARY KEY(‘id’) 

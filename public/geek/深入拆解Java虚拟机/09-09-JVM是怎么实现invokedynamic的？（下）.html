@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>上回讲到，为了让所有的动物都能参加赛马，Java 7引入了invokedynamic机制，允许调用任意类的“赛跑”方法。不过，我们并没有讲解invokedynamic，而是深入地探讨了它所依赖的方法句柄。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>上回讲到，为了让所有的动物都能参加赛马，Java 7引入了invokedynamic机制，允许调用任意类的“赛跑”方法。不过，我们并没有讲解invokedynamic，而是深入地探讨了它所依赖的方法句柄。</p>
+
 <p>今天，我便来正式地介绍invokedynamic指令，讲讲它是如何生成调用点，并且允许应用程序自己决定链接至哪一个方法中的。</p>
 <h2>invokedynamic指令</h2>
 <p>invokedynamic是Java 7引入的一条新指令，用以支持动态语言的方法调用。具体来说，它将调用点（CallSite）抽象成一个Java类，并且将原本由Java虚拟机控制的方法调用以及方法链接暴露给了应用程序。在运行过程中，每一条invokedynamic指令将捆绑一个调用点，并且会调用该调用点所链接的方法句柄。</p>

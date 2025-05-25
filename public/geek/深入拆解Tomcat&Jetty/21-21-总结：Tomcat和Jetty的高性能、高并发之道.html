@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>高性能程序就是高效的利用CPU、内存、网络和磁盘等资源，在短时间内处理大量的请求。那如何衡量“短时间和大量”呢？其实就是两个关键指标：响应时间和每秒事务处理量（TPS）。</p><p>那什么是资源的高效利用呢？ 我觉得有两个原则：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>高性能程序就是高效的利用CPU、内存、网络和磁盘等资源，在短时间内处理大量的请求。那如何衡量“短时间和大量”呢？其实就是两个关键指标：响应时间和每秒事务处理量（TPS）。</p><p>那什么是资源的高效利用呢？ 我觉得有两个原则：</p><ol>
+
 <li><strong>减少资源浪费</strong>。比如尽量避免线程阻塞，因为一阻塞就会发生线程上下文切换，就需要耗费CPU资源；再比如网络通信时数据从内核空间拷贝到Java堆内存，需要通过本地内存中转。</li>
 <li><strong>当某种资源成为瓶颈时，用另一种资源来换取</strong>。比如缓存和对象池技术就是用内存换CPU；数据压缩后再传输就是用CPU换网络。</li>
 </ol><p>Tomcat和Jetty中用到了大量的高性能、高并发的设计，我总结了几点：I/O和线程模型、减少系统调用、池化、零拷贝、高效的并发编程。下面我会详细介绍这些设计，希望你也可以将这些技术用到实际的工作中去。</p><h2>I/O和线程模型</h2><p>I/O模型的本质就是为了缓解CPU和外设之间的速度差。当线程发起I/O请求时，比如读写网络数据，网卡数据还没准备好，这个线程就会被阻塞，让出CPU，也就是说发生了线程切换。而线程切换是无用功，并且线程被阻塞后，它持有内存资源并没有释放，阻塞的线程越多，消耗的内存就越大，因此I/O模型的目标就是尽量减少线程阻塞。Tomcat和Jetty都已经抛弃了传统的同步阻塞I/O，采用了非阻塞I/O或者异步I/O，目的是业务线程不需要阻塞在I/O等待上。</p><!-- [[[read_end]]] --><p>除了I/O模型，线程模型也是影响性能和并发的关键点。Tomcat和Jetty的总体处理原则是：</p><ul>

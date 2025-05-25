@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是DS Hunter。</p><p>前面12讲，我们讲完了反爬虫的所有操作，但是你可能会觉得，这样一攻一防的讲解在应用的时候会存在割裂感，实际工作中，还是摸不透反爬虫的整个流程。</p><p>那么今天，我就带你完整地走一遍反爬虫流程，从信息收集开始，到对爬虫的预估、线上测试，对工作需求的分析，最后，也会告诉你在流程中存在的风险点。</p><p>希望你能够通过今天的课程，理解那些反爬虫里严肃的纯理论知识。甚至，你可以把今天的课程当作反爬的标准流程手册。当然，我更希望你能通过今天的总结，了解反爬虫到底反的是什么。是爬虫，还是商业竞争？</p><p>在课程开始之前，我推荐你点开这一讲的音频，可以说，和课程的风格是完全的AB两面，至于如何不同，就等你点开来听了。</p><h2>爬虫反爬虫基础理论</h2><p>首先，我们回顾一下爬虫反爬虫的基础理论。我在上一讲提到过，当你不知道采用什么样的手段反爬的时候，回归初心，往往能够帮助你出奇制胜。</p><p>有的时候，你的反爬可能真的是因为竞对，也可能这就是一个因为技术界轮子太多，不得不另辟蹊径、完成目标的一个选择。你可以想想：</p><blockquote>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是DS Hunter。</p><p>前面12讲，我们讲完了反爬虫的所有操作，但是你可能会觉得，这样一攻一防的讲解在应用的时候会存在割裂感，实际工作中，还是摸不透反爬虫的整个流程。</p><p>那么今天，我就带你完整地走一遍反爬虫流程，从信息收集开始，到对爬虫的预估、线上测试，对工作需求的分析，最后，也会告诉你在流程中存在的风险点。</p><p>希望你能够通过今天的课程，理解那些反爬虫里严肃的纯理论知识。甚至，你可以把今天的课程当作反爬的标准流程手册。当然，我更希望你能通过今天的总结，了解反爬虫到底反的是什么。是爬虫，还是商业竞争？</p><p>在课程开始之前，我推荐你点开这一讲的音频，可以说，和课程的风格是完全的AB两面，至于如何不同，就等你点开来听了。</p><h2>爬虫反爬虫基础理论</h2><p>首先，我们回顾一下爬虫反爬虫的基础理论。我在上一讲提到过，当你不知道采用什么样的手段反爬的时候，回归初心，往往能够帮助你出奇制胜。</p><p>有的时候，你的反爬可能真的是因为竞对，也可能这就是一个因为技术界轮子太多，不得不另辟蹊径、完成目标的一个选择。你可以想想：</p><blockquote>
+
 <p>一个阴霾的晚上，伸手不见五指，你和你的Leader，在一家小龙虾店聊工作。<br>
 <strong>　</strong><br>
 你的领导剥着小龙虾，对你说：“又一个双月要过去了，我们什么轮子也没造，下个月的目标恐怕不好写啊。”<br>

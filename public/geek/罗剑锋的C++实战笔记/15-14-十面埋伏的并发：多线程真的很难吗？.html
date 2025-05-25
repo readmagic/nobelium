@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是Chrono。</p><p>今天，我们来聊聊“并发”（Concurrency）、“多线程”（multithreading）。</p><p>在20年前，大多数人（当然也包括我）对这两个词还是十分陌生的。那个时候，CPU的性能不高，要做的事情也比较少，没什么并发的需求，简单的单进程、单线程就能够解决大多数问题。</p><p>但到了现在，计算机硬件飞速发展，不仅主频上G，还有了多核心，运算能力大幅度提升，只使用单线程很难“喂饱”CPU。而且，随着互联网、大数据、音频视频处理等新需求的不断涌现，运算量也越来越大。这些软硬件上的变化迫使“并发”“多线程”成为了每个技术人都不得不面对的课题。</p><p>通俗地说，“并发”是指在一个时间段里有多个操作在同时进行，与“多线程”并不是一回事。</p><p>并发有很多种实现方式，而多线程只是其中最常用的一种手段。不过，因为多线程已经有了很多年的实际应用，也有很多研究成果、应用模式和成熟的软硬件支持，所以，对这两者的区分一般也不太严格，下面我主要来谈多线程。</p><h2>认识线程和多线程</h2><p>要掌握多线程，就要先了解线程（thread）。</p><p>线程的概念可以分成好几个层次，从CPU、操作系统等不同的角度看，它的定义也不同。今天，我们单从语言的角度来看线程。</p><!-- [[[read_end]]] --><p><strong>在C++语言里，线程就是一个能够独立运行的函数</strong>。比如你写一个lambda表达式，就可以让它在线程里跑起来：</p><pre><code>auto f = []()                // 定义一个lambda表达式
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是Chrono。</p><p>今天，我们来聊聊“并发”（Concurrency）、“多线程”（multithreading）。</p><p>在20年前，大多数人（当然也包括我）对这两个词还是十分陌生的。那个时候，CPU的性能不高，要做的事情也比较少，没什么并发的需求，简单的单进程、单线程就能够解决大多数问题。</p><p>但到了现在，计算机硬件飞速发展，不仅主频上G，还有了多核心，运算能力大幅度提升，只使用单线程很难“喂饱”CPU。而且，随着互联网、大数据、音频视频处理等新需求的不断涌现，运算量也越来越大。这些软硬件上的变化迫使“并发”“多线程”成为了每个技术人都不得不面对的课题。</p><p>通俗地说，“并发”是指在一个时间段里有多个操作在同时进行，与“多线程”并不是一回事。</p><p>并发有很多种实现方式，而多线程只是其中最常用的一种手段。不过，因为多线程已经有了很多年的实际应用，也有很多研究成果、应用模式和成熟的软硬件支持，所以，对这两者的区分一般也不太严格，下面我主要来谈多线程。</p><h2>认识线程和多线程</h2><p>要掌握多线程，就要先了解线程（thread）。</p><p>线程的概念可以分成好几个层次，从CPU、操作系统等不同的角度看，它的定义也不同。今天，我们单从语言的角度来看线程。</p><!-- [[[read_end]]] --><p><strong>在C++语言里，线程就是一个能够独立运行的函数</strong>。比如你写一个lambda表达式，就可以让它在线程里跑起来：</p><pre><code>auto f = []()                // 定义一个lambda表达式
+
 {
     cout &lt;&lt; &quot;tid=&quot; &lt;&lt;
         this_thread::get_id() &lt;&lt; endl;

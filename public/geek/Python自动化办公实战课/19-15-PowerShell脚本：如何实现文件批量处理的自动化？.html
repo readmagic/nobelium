@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是尹会生。</p><p>在工作中，会遇到和Windows操作系统紧密结合又需要批量操作的工作需求，比如文件的批量重命名，还有按照扩展名搜索文件。那么今天这节课，我将给你介绍一个主要应用于Windows操作系统自动化的脚本--PowerShell。</p><p>你肯定会有疑问，为什么我们不用Python，而是要另外学习PowerShell脚本呢？原因就在于，遇到这类工作需求，PowerShell脚本会比Python功能更强大，使用更方便，学习起来也更容易。</p><p>首先，Windows的所有操作，都有对应的PowerShell操作，可以达到办公自动化的目标。而使用Python，会因为Windows没有提供接口，有些功能就不能完全实现，或者有些操作还需要手动执行。</p><p>其次，PowerShell的语法简洁，比Python更加友好，降低了你阅读代码的难度。这一点你在这节课我讲解的例子中会有更深刻的体会。</p><p>最后，PowerShell在Windows上能做到开箱即用，安装完成后就可以正常运行了。而Python还需要安装解释器和配置环境。比如在金融和证券领域中，基于公司的规定，你可能无法安装操作系统之外的软件，这时候PowerShell的优势就体现出来了。</p><!-- [[[read_end]]] --><h2>什么是PowerShell？</h2><p>PowerShell是<strong>开源的终端命令解释器</strong>，之所以被称作解释器，是因为它会把用户输入的命令翻译给操作系统去执行，也能把操作系统执行的结果返回给用户。</p><p>作为PowerShell的初学者，你刚开始理解起来会有点难度，不过别担心，我举个例子你就明白了。</p><p>比如，在商场中的娃娃机，你需要通过对摇杆的控制来移动爪子的位置，抓取想要的礼物，因为你自己是没法直接移动爪子的。那么把你移动摇杆的操作翻译成爪子移动操作的功能，这就是解释器。</p><p>为了强化你对PowerShell的理解，我再把使用PowerShell前后的情况给你做个对比。</p><p>Windows操作系统在日常工作中，我们会采用图形界面（GUI）进行各类办公操作。在没有使用PowerShell的时候，如果我要想添加、删除、修改用户，就得点击各种按钮、选择下拉菜单、鼠标右键点击用户图标。</p><p>想象一下，如果我给100个新员工创建账户，创建一个账户需要5分钟，那仅仅在用户添加这一个操作上，我就需要花费500分钟，效率是不是很低？</p><p>但是利用PowerShell，就可以自动化完成<strong>用户添加</strong>这一重复性的操作了。</p><p>从Windows Server 2012版本（一听就是个很古老的操作系统版本）开始，所有的GUI操作就完全可以基于PowerShell实现了。这意味着，你能用GUI界面实现Windows操作系统中的所有功能。</p><p>你看，微软已经给了我们这么现成的自动化工具，所以我们可以放心大胆地把Windows操作系统上的重复操作，都交给PowerShell，提高工作效率。像这些和Windows操作系统紧密结合又需要批量操作的工作需求，都是PowerShell最适用的工作场景。</p><p>那么接下来，我就以Windows中最常用的文件管理为例，为你讲解一下PowerShell如何对文件进行批量处理。</p><h2>怎样使用PowerShell实现文件批量处理？</h2><p>在对文件的批量处理中，我们经常会遇到两类场景。</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是尹会生。</p><p>在工作中，会遇到和Windows操作系统紧密结合又需要批量操作的工作需求，比如文件的批量重命名，还有按照扩展名搜索文件。那么今天这节课，我将给你介绍一个主要应用于Windows操作系统自动化的脚本--PowerShell。</p><p>你肯定会有疑问，为什么我们不用Python，而是要另外学习PowerShell脚本呢？原因就在于，遇到这类工作需求，PowerShell脚本会比Python功能更强大，使用更方便，学习起来也更容易。</p><p>首先，Windows的所有操作，都有对应的PowerShell操作，可以达到办公自动化的目标。而使用Python，会因为Windows没有提供接口，有些功能就不能完全实现，或者有些操作还需要手动执行。</p><p>其次，PowerShell的语法简洁，比Python更加友好，降低了你阅读代码的难度。这一点你在这节课我讲解的例子中会有更深刻的体会。</p><p>最后，PowerShell在Windows上能做到开箱即用，安装完成后就可以正常运行了。而Python还需要安装解释器和配置环境。比如在金融和证券领域中，基于公司的规定，你可能无法安装操作系统之外的软件，这时候PowerShell的优势就体现出来了。</p><!-- [[[read_end]]] --><h2>什么是PowerShell？</h2><p>PowerShell是<strong>开源的终端命令解释器</strong>，之所以被称作解释器，是因为它会把用户输入的命令翻译给操作系统去执行，也能把操作系统执行的结果返回给用户。</p><p>作为PowerShell的初学者，你刚开始理解起来会有点难度，不过别担心，我举个例子你就明白了。</p><p>比如，在商场中的娃娃机，你需要通过对摇杆的控制来移动爪子的位置，抓取想要的礼物，因为你自己是没法直接移动爪子的。那么把你移动摇杆的操作翻译成爪子移动操作的功能，这就是解释器。</p><p>为了强化你对PowerShell的理解，我再把使用PowerShell前后的情况给你做个对比。</p><p>Windows操作系统在日常工作中，我们会采用图形界面（GUI）进行各类办公操作。在没有使用PowerShell的时候，如果我要想添加、删除、修改用户，就得点击各种按钮、选择下拉菜单、鼠标右键点击用户图标。</p><p>想象一下，如果我给100个新员工创建账户，创建一个账户需要5分钟，那仅仅在用户添加这一个操作上，我就需要花费500分钟，效率是不是很低？</p><p>但是利用PowerShell，就可以自动化完成<strong>用户添加</strong>这一重复性的操作了。</p><p>从Windows Server 2012版本（一听就是个很古老的操作系统版本）开始，所有的GUI操作就完全可以基于PowerShell实现了。这意味着，你能用GUI界面实现Windows操作系统中的所有功能。</p><p>你看，微软已经给了我们这么现成的自动化工具，所以我们可以放心大胆地把Windows操作系统上的重复操作，都交给PowerShell，提高工作效率。像这些和Windows操作系统紧密结合又需要批量操作的工作需求，都是PowerShell最适用的工作场景。</p><p>那么接下来，我就以Windows中最常用的文件管理为例，为你讲解一下PowerShell如何对文件进行批量处理。</p><h2>怎样使用PowerShell实现文件批量处理？</h2><p>在对文件的批量处理中，我们经常会遇到两类场景。</p><ol>
+
 <li>文件夹下的文件按照某一规则批量重命名。比如，为了项目文件名称工整，需要批量给文件夹/文件按照某些规律进行重命名。</li>
 <li>将符合多个条件的扩展名从大量文件中找出来。比如，为了找到outlook里附件中的所有的压缩包，你需要使用搜索功能，一次性查找包含.zip .rar .7z多个扩展名的文件。</li>
 </ol><p>接下来就以文件批量的重命名，来为你讲解一下用Powershell怎么实现。</p><h3>一行代码，实现文件批量重命名</h3><p>使用PowerShell脚本实现文件的批量重命名，我们只需要一行代码。不过在这一行代码中，需要你掌握的PowerShell的概念比较多。所以我会通过一个案例，帮助你在学习的同时也能迅速掌握、内化。</p><p>首先我通过一行代码创建了10个文本文件，创建的PowerShell脚本是：</p><pre><code>foreach($num in (1..10)) { New-Item $num&quot;.txt&quot; -type file }

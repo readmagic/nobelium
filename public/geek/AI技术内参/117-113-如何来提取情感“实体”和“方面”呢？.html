@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>从上一篇分享开始，我们转入文本分析的另外一个领域，文本“情感分析”（Sentiment Analysis），也就是指我们要针对一段文本来判断其文字“色彩”。文本情感分析是一个非常实用的工具。我们从最基础的文档情感分类这个问题说起，这个任务是把一个单独的文档给分类为某种情感。在绝大多数情况下，我们可以把这个任务看作监督学习的问题。另外，我们也聊了聊如何通过建立情感词来进行简单的非监督学习的步骤。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>从上一篇分享开始，我们转入文本分析的另外一个领域，文本“情感分析”（Sentiment Analysis），也就是指我们要针对一段文本来判断其文字“色彩”。文本情感分析是一个非常实用的工具。我们从最基础的文档情感分类这个问题说起，这个任务是把一个单独的文档给分类为某种情感。在绝大多数情况下，我们可以把这个任务看作监督学习的问题。另外，我们也聊了聊如何通过建立情感词来进行简单的非监督学习的步骤。</p>
+
 <p>今天，我们来看文本情感分析中的另一个关键技术，<strong><span class="orange">情感“实体”和“方面”的提取</span></strong>。</p>
 <h2>“实体”和“方面”的提取</h2>
 <p>对于文本情感分析而言，“<strong>实体</strong>”（Entity）和“<strong>方面</strong>”（Aspect）是两个非常重要的概念。很多情感分析的任务都是围绕着这两个概念而产生的。在谈论如何对这两个概念提取之前，我们先来看看这两个概念的意义。</p>

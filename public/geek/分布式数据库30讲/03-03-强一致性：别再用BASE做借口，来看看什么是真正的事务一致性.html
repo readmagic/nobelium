@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是王磊，你也可以叫我Ivan。</p><p>在上一讲的开头，我提了一个问题：对分布式数据库来说，“强一致性”意味着什么？我们经过分析后得出的结论是这个强一致性，包括数据一致性和事务一致性两个方面。然后，我们介绍了数据一致性是怎么回事儿。那么，今天我们会继续这个话题，谈谈事务一致性。</p><p>每次，我和熟悉NoSQL同学聊到事务这个话题时，都会提到ACID和BASE。甚至，不少同学会觉得ACID有些落伍了，以BASE为理论基础的NoSQL，才是当下的潮流。</p><p>那我们来看看BASE是什么？其实，它代表了三个特性，BA表示基本可用性（Basically Available），S表示软状态（Soft State），E表示最终一致性（Eventual Consistency）：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是王磊，你也可以叫我Ivan。</p><p>在上一讲的开头，我提了一个问题：对分布式数据库来说，“强一致性”意味着什么？我们经过分析后得出的结论是这个强一致性，包括数据一致性和事务一致性两个方面。然后，我们介绍了数据一致性是怎么回事儿。那么，今天我们会继续这个话题，谈谈事务一致性。</p><p>每次，我和熟悉NoSQL同学聊到事务这个话题时，都会提到ACID和BASE。甚至，不少同学会觉得ACID有些落伍了，以BASE为理论基础的NoSQL，才是当下的潮流。</p><p>那我们来看看BASE是什么？其实，它代表了三个特性，BA表示基本可用性（Basically Available），S表示软状态（Soft State），E表示最终一致性（Eventual Consistency）：</p><ul>
+
 <li>基本可用性，是指某些部分出现故障，那么系统的其余部分依然可用。</li>
 <li>软状态或柔性事务，是指数据处理过程中，存在数据状态暂时不一致的情况，但最终会实现事务的一致性。</li>
 <li>最终一致性，是指单数据项的多副本，经过一段时间，最终达成一致。这个，我们在第2讲已经详细说过了。</li>

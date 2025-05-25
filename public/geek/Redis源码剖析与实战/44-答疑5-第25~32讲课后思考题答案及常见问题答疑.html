@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是蒋德钧。今天这节课，我们来继续解答第25讲到32讲的课后思考题。</p><p>今天讲解的这些思考题，主要是围绕哨兵命令实现、Redis Cluster实现，以及常用开发技巧提出来的。你可以根据这些思考题的解答思路，进一步了解下哨兵实例命令和普通实例命令的区别、Redis Cluster对事务执行的支持情况，以及函数式编程方法在Redis测试中的应用等内容。</p><h2><a href="https://time.geekbang.org/column/article/422627">第25讲</a></h2><p><strong>问题：</strong>如果我们在哨兵实例上执行publish命令，那么，这条命令是不是就是由pubsub.c文件中的publishCommand函数来处理的呢?</p><p>这道题目主要是希望你能了解，哨兵实例会使用到哨兵自身实现的命令，而不是普通Redis实例使用的命令。这一点我们从哨兵初始化的过程中就可以看到。</p><p>哨兵初始化时，会调用 <strong>initSentinel函数</strong>。而initSentinel函数会先把server.commands对应的命令表清空，然后执行一个循环，把哨兵自身的命令添加到命令表中。哨兵自身的命令是使用 <strong>sentinelcmds数组</strong>保存的。</p><p>那么从sentinelcmds数组中，我们可以看到publish命令对应的实现函数，其实是 <strong>sentinelPublishCommand</strong>。所以，我们在哨兵实例上执行publish命令，执行的并不是pubsub.c文件中的publishCommand函数。</p><!-- [[[read_end]]] --><p>下面的代码展示了initSentinel 函数先清空、再填充命令表的基本过程，以及sentinelcmds数组的部分内容，你可以看下。</p><pre><code class="language-plain">void initSentinel(void) {
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是蒋德钧。今天这节课，我们来继续解答第25讲到32讲的课后思考题。</p><p>今天讲解的这些思考题，主要是围绕哨兵命令实现、Redis Cluster实现，以及常用开发技巧提出来的。你可以根据这些思考题的解答思路，进一步了解下哨兵实例命令和普通实例命令的区别、Redis Cluster对事务执行的支持情况，以及函数式编程方法在Redis测试中的应用等内容。</p><h2><a href="https://time.geekbang.org/column/article/422627">第25讲</a></h2><p><strong>问题：</strong>如果我们在哨兵实例上执行publish命令，那么，这条命令是不是就是由pubsub.c文件中的publishCommand函数来处理的呢?</p><p>这道题目主要是希望你能了解，哨兵实例会使用到哨兵自身实现的命令，而不是普通Redis实例使用的命令。这一点我们从哨兵初始化的过程中就可以看到。</p><p>哨兵初始化时，会调用 <strong>initSentinel函数</strong>。而initSentinel函数会先把server.commands对应的命令表清空，然后执行一个循环，把哨兵自身的命令添加到命令表中。哨兵自身的命令是使用 <strong>sentinelcmds数组</strong>保存的。</p><p>那么从sentinelcmds数组中，我们可以看到publish命令对应的实现函数，其实是 <strong>sentinelPublishCommand</strong>。所以，我们在哨兵实例上执行publish命令，执行的并不是pubsub.c文件中的publishCommand函数。</p><!-- [[[read_end]]] --><p>下面的代码展示了initSentinel 函数先清空、再填充命令表的基本过程，以及sentinelcmds数组的部分内容，你可以看下。</p><pre><code class="language-plain">void initSentinel(void) {
+
 &nbsp;&nbsp;&nbsp; ...
 &nbsp;&nbsp;&nbsp; dictEmpty(server.commands,NULL);&nbsp; //清空现有的命令表
 &nbsp;&nbsp;&nbsp; // 将sentinelcmds数组中的命令添加到命令表中

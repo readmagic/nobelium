@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是吴咏炜。</p><p>今天第一讲，我们先来讨论一下 Vim 在 Linux、macOS、Windows 系统下的安装和配置问题。</p><p>Vim 在 Linux 和 macOS 上一般是默认安装的，在 Windows 上不是。不过 Vim 的网站上提供了 Windows 下的安装包，自己安装也很容易。所以，今天的课程我不会手把手、一步步地讲，而是挑选一些重点。对于默认安装的情况，主要讨论的是版本老旧或功能不全的问题。对于其他情况，我则会给出一个基本指引，减少你走弯路的可能性。</p><p>好了，下面我们就分各个不同的平台，一一来看。</p><h2>Linux 下的安装</h2><h3>Red Hat 和 CentOS 系列</h3><p>在 Red Hat Linux 和 CentOS Linux 上，默认安装的 Vim 可能是一个最小功能的版本。虽然这个版本启动速度很快，但它缺少了很多对开发有用的功能，如语法加亮、Python 集成和图形界面。一般情况下，应至少安装更全功能版本的 Vim；如果能使用 X Window 的话，则应安装图形界面版本。</p><p>你可以通过下面的命令来查看已经安装的 Vim 版本：</p><pre><code class="language-bash">yum list installed | grep vim
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是吴咏炜。</p><p>今天第一讲，我们先来讨论一下 Vim 在 Linux、macOS、Windows 系统下的安装和配置问题。</p><p>Vim 在 Linux 和 macOS 上一般是默认安装的，在 Windows 上不是。不过 Vim 的网站上提供了 Windows 下的安装包，自己安装也很容易。所以，今天的课程我不会手把手、一步步地讲，而是挑选一些重点。对于默认安装的情况，主要讨论的是版本老旧或功能不全的问题。对于其他情况，我则会给出一个基本指引，减少你走弯路的可能性。</p><p>好了，下面我们就分各个不同的平台，一一来看。</p><h2>Linux 下的安装</h2><h3>Red Hat 和 CentOS 系列</h3><p>在 Red Hat Linux 和 CentOS Linux 上，默认安装的 Vim 可能是一个最小功能的版本。虽然这个版本启动速度很快，但它缺少了很多对开发有用的功能，如语法加亮、Python 集成和图形界面。一般情况下，应至少安装更全功能版本的 Vim；如果能使用 X Window 的话，则应安装图形界面版本。</p><p>你可以通过下面的命令来查看已经安装的 Vim 版本：</p><pre><code class="language-bash">yum list installed | grep vim
+
 </code></pre><p>如果输出只有下面这样的内容的话，就说明安装的 Vim 版本只有基本功能：</p><blockquote>
 <p><code>vim-minimal.x86_64 2:8.0.1763-13.el8 @System</code></p>
 </blockquote><!-- [[[read_end]]] --><p>此时，我建议使用 <code>sudo yum install vim-X11</code> 来安装图形界面的 Vim，或至少使用 <code>sudo yum install vim-enhanced</code> 来安装增强版本的 Vim（如果你不在这台机器上进行图形界面登录的话）。</p><p>只要你使用图形界面，一般而言，你都应该安装有图形界面支持的 Vim。总体而言，图形界面 Vim 的功能更丰富，并且即使你只在终端里使用 Vim，含图形界面支持的 Vim 会带剪贴板支持，跟整个图形环境的交互也就比较容易。当然，如果你只是远程通过 SSH 使用 Vim 的话，那确实图形界面支持就没有意义了。</p><h3>Debian 和 Ubuntu 系列</h3><p>在 Debian、Ubuntu 等使用 apt 的 Linux 发行版上，Vim 同样有着不同功能版本的区别，而且选择更多。我们可能会看到：</p><ul>

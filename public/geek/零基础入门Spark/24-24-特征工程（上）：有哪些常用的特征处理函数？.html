@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是吴磊。</p><p>在上一讲，我们一起构建了一个简单的线性回归模型，来预测美国爱荷华州的房价。从模型效果来看，模型的预测能力非常差。不过，事出有因，一方面线性回归的拟合能力有限，再者，我们使用的特征也是少的可怜。</p><p>要想提升模型效果，具体到我们“房价预测”的案例里就是把房价预测得更准，我们需要从特征和模型两个方面着手，逐步对模型进行优化。</p><p>在机器学习领域，有一条尽人皆知的“潜规则”：Garbage in，garbage out。它的意思是说，当我们喂给模型的数据是“垃圾”的时候，模型“吐出”的预测结果也是“垃圾”。垃圾是一句玩笑话，实际上，它指的是不完善的特征工程。</p><p>特征工程不完善的成因有很多，比如数据质量参差不齐、特征字段区分度不高，还有特征选择不到位、不合理，等等。</p><p>作为初学者，我们必须要牢记一点：<strong>特征工程制约着模型效果，它决定了模型效果的上限，也就是“天花板”。而模型调优，仅仅是在不停地逼近这个“天花板”而已</strong>。因此，提升模型效果的第一步，就是要做好特征工程。</p><p>为了减轻你的学习负担，我把特征工程拆成了上、下两篇。我会用两讲的内容，带你了解在Spark MLlib的开发框架下，都有哪些完善特征工程的方法。总的来说，我们需要学习6大类特征处理方法，今天这一讲，我们先来学习前3类，下一讲再学习另外3类。</p><!-- [[[read_end]]] --><h2>课程安排</h2><p>打开<a href="https://spark.apache.org/docs/latest/ml-features.html">Spark MLlib特征工程页面</a>，你会发现这里罗列着数不清的特征处理函数，让人眼花缭乱。作为初学者，看到这么长的列表，更是会感到无所适从。</p><p><img src="https://static001.geekbang.org/resource/image/75/b0/755b3b866b0828aa512b944515e5dbb0.png?wh=1464x1424" alt="图片" title="官网列表"></p><p>不过，你别担心，对于列表中的函数，结合过往的应用经验，我会从特征工程的视角出发，把它们分门别类地进行归类。</p><p><img src="https://static001.geekbang.org/resource/image/fb/8a/fb2e1de527829c503514731396edb68a.jpg?wh=1920x912" alt="图片" title="特征工程一览 &amp; Spark MLlib特征处理函数分类"></p><p>如图所示，从原始数据生成可用于模型训练的训练样本（这个过程又叫“特征工程”），我们有很长的路要走。通常来说，对于原始数据中的字段，我们会把它们分为数值型（Numeric）和非数值型（Categorical）。之所以要这样区分，原因在于字段类型不同，处理方法也不同。</p><p>在上图中，从左到右，Spark MLlib特征处理函数可以被分为如下几类，依次是：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是吴磊。</p><p>在上一讲，我们一起构建了一个简单的线性回归模型，来预测美国爱荷华州的房价。从模型效果来看，模型的预测能力非常差。不过，事出有因，一方面线性回归的拟合能力有限，再者，我们使用的特征也是少的可怜。</p><p>要想提升模型效果，具体到我们“房价预测”的案例里就是把房价预测得更准，我们需要从特征和模型两个方面着手，逐步对模型进行优化。</p><p>在机器学习领域，有一条尽人皆知的“潜规则”：Garbage in，garbage out。它的意思是说，当我们喂给模型的数据是“垃圾”的时候，模型“吐出”的预测结果也是“垃圾”。垃圾是一句玩笑话，实际上，它指的是不完善的特征工程。</p><p>特征工程不完善的成因有很多，比如数据质量参差不齐、特征字段区分度不高，还有特征选择不到位、不合理，等等。</p><p>作为初学者，我们必须要牢记一点：<strong>特征工程制约着模型效果，它决定了模型效果的上限，也就是“天花板”。而模型调优，仅仅是在不停地逼近这个“天花板”而已</strong>。因此，提升模型效果的第一步，就是要做好特征工程。</p><p>为了减轻你的学习负担，我把特征工程拆成了上、下两篇。我会用两讲的内容，带你了解在Spark MLlib的开发框架下，都有哪些完善特征工程的方法。总的来说，我们需要学习6大类特征处理方法，今天这一讲，我们先来学习前3类，下一讲再学习另外3类。</p><!-- [[[read_end]]] --><h2>课程安排</h2><p>打开<a href="https://spark.apache.org/docs/latest/ml-features.html">Spark MLlib特征工程页面</a>，你会发现这里罗列着数不清的特征处理函数，让人眼花缭乱。作为初学者，看到这么长的列表，更是会感到无所适从。</p><p><img src="https://static001.geekbang.org/resource/image/75/b0/755b3b866b0828aa512b944515e5dbb0.png?wh=1464x1424" alt="图片" title="官网列表"></p><p>不过，你别担心，对于列表中的函数，结合过往的应用经验，我会从特征工程的视角出发，把它们分门别类地进行归类。</p><p><img src="https://static001.geekbang.org/resource/image/fb/8a/fb2e1de527829c503514731396edb68a.jpg?wh=1920x912" alt="图片" title="特征工程一览 &amp; Spark MLlib特征处理函数分类"></p><p>如图所示，从原始数据生成可用于模型训练的训练样本（这个过程又叫“特征工程”），我们有很长的路要走。通常来说，对于原始数据中的字段，我们会把它们分为数值型（Numeric）和非数值型（Categorical）。之所以要这样区分，原因在于字段类型不同，处理方法也不同。</p><p>在上图中，从左到右，Spark MLlib特征处理函数可以被分为如下几类，依次是：</p><ul>
+
 <li>预处理</li>
 <li>特征选择</li>
 <li>归一化</li>

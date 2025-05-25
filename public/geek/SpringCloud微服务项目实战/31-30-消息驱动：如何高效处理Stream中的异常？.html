@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是姚秋辰。</p><p>在上节课中，我们通过Spring Cloud Stream和RabbitMQ落地了两个业务场景，实现了用户领券和删除券的操作。如果在Consumer消费消息的时候发生了异常，比如用户领取的优惠券超过了券模板约定的上限，或者用户想要删除一张压根不存在的券，那么Consumer会抛出一个运行期异常。你知道在Stream中有哪些优雅的异常处理方式呢？</p><p>你可以调用deleteCoupon接口删除一张不存在的优惠券，人为制造一个异常场景，你会观察到，在Consumer端的日志中，当前消费者逻辑被执行了三次。这三次执行包括首次消息消费和两次重试，这就是Stream默认的一种异常处理方式：消息重试。</p><p>接下来，我先带你从本地重试出发，看下如何在消费者端配置重试规则。然后再进一步带你了解消息降级和死信队列这两个异常处理手段。</p><h2>消息重试</h2><p>消息重试是一种简单高效的异常恢复手段，当Consumer端抛出异常的时候，Stream会自动执行2次重试。重试次数是由ConsumerProperties类中的maxAttempts参数指定的，它设置了一个消息最多可以被Consumer执行几次。</p><pre><code class="language-plain">private int maxAttempts = 3;
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是姚秋辰。</p><p>在上节课中，我们通过Spring Cloud Stream和RabbitMQ落地了两个业务场景，实现了用户领券和删除券的操作。如果在Consumer消费消息的时候发生了异常，比如用户领取的优惠券超过了券模板约定的上限，或者用户想要删除一张压根不存在的券，那么Consumer会抛出一个运行期异常。你知道在Stream中有哪些优雅的异常处理方式呢？</p><p>你可以调用deleteCoupon接口删除一张不存在的优惠券，人为制造一个异常场景，你会观察到，在Consumer端的日志中，当前消费者逻辑被执行了三次。这三次执行包括首次消息消费和两次重试，这就是Stream默认的一种异常处理方式：消息重试。</p><p>接下来，我先带你从本地重试出发，看下如何在消费者端配置重试规则。然后再进一步带你了解消息降级和死信队列这两个异常处理手段。</p><h2>消息重试</h2><p>消息重试是一种简单高效的异常恢复手段，当Consumer端抛出异常的时候，Stream会自动执行2次重试。重试次数是由ConsumerProperties类中的maxAttempts参数指定的，它设置了一个消息最多可以被Consumer执行几次。</p><pre><code class="language-plain">private int maxAttempts = 3;
+
 </code></pre><!-- [[[read_end]]] --><p>但需要注意，这个maxAttempts并不是重试次数，它其实等于重试次数+1，加的这个1指的就是Consumer头一次消费消息的计数。也就是说，如果你人为地设置maxAttempts=1，那么就代表着当前Consumer只会消费一次消息，不会做重试；如果你设置maxAttempts=2则表示最多重试一次。那么如何来指定重试次数和重试规则呢？</p><p>在application.yml文件中，你可以在spring.cloud.stream.bindings节点下添加一个consumer节点，以addCoupon-in-0为例，我通过consumer节点指定了消息消费次数、重试间隔还有异常重试规则。</p><pre><code class="language-plain">spring:
   cloud:
     stream:

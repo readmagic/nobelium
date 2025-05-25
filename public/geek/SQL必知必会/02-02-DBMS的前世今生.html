@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>上一讲我们介绍过两个IBM研究员在1974年发表了一篇有关结构化英语查询语言的论文，并将这门语言命名为SEQUEL。SEQUEL的语言标准是开放的，但是围绕它的商业化竞争却从来没有停止过。首先因为商标之争，SEQUEL改名为SQL，后来有一个重量级的公司基于那篇论文研发出了商业化的数据库管理软件，这就是Oracle。自此之后，又诞生了一堆大家熟知的DBMS，比如MySQL、SQL Server、PostgreSQL、DB2和MongoDB等。</p><p>我们今天了解一下这些数据库管理软件，也就是DBMS。为什么需要了解它们呢？因为在工作中，我们通常都是和这些数据库管理软件打交道，只不过SQL是它们的通用语言。</p><p>今天我们先从SQL语言中跳脱出来，来分析下这些DBMS。关于今天的内容，你可以从以下几个方面进行思考：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>上一讲我们介绍过两个IBM研究员在1974年发表了一篇有关结构化英语查询语言的论文，并将这门语言命名为SEQUEL。SEQUEL的语言标准是开放的，但是围绕它的商业化竞争却从来没有停止过。首先因为商标之争，SEQUEL改名为SQL，后来有一个重量级的公司基于那篇论文研发出了商业化的数据库管理软件，这就是Oracle。自此之后，又诞生了一堆大家熟知的DBMS，比如MySQL、SQL Server、PostgreSQL、DB2和MongoDB等。</p><p>我们今天了解一下这些数据库管理软件，也就是DBMS。为什么需要了解它们呢？因为在工作中，我们通常都是和这些数据库管理软件打交道，只不过SQL是它们的通用语言。</p><p>今天我们先从SQL语言中跳脱出来，来分析下这些DBMS。关于今天的内容，你可以从以下几个方面进行思考：</p><ol>
+
 <li>主流的DBMS都有哪些，它们各自都有哪些特点；</li>
 <li>既然SQL是通用的标准语言，为什么能存在这么多DBMS；</li>
 <li>从这些DBMS的发展史中，你有哪些感悟。</li>

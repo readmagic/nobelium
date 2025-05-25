@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是郭朝斌。</p><p>到目前为止，我们已经完成智能电灯、光照传感器、智能音箱和自动浇花器的实战训练，在这个过程中，我们主要关注的是设备功能和远程控制的实现。</p><p>其实，物联网设备会生成大量的数据。如果我们能把这些数据存储到物联网系统的数据库中，并且好好应用这些数据，比如提供查询和分析功能，就能够产出更大的价值。</p><p>这一讲，我就基于自动浇花器来讲一讲数据的应用方法，主要包括以下两种：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是郭朝斌。</p><p>到目前为止，我们已经完成智能电灯、光照传感器、智能音箱和自动浇花器的实战训练，在这个过程中，我们主要关注的是设备功能和远程控制的实现。</p><p>其实，物联网设备会生成大量的数据。如果我们能把这些数据存储到物联网系统的数据库中，并且好好应用这些数据，比如提供查询和分析功能，就能够产出更大的价值。</p><p>这一讲，我就基于自动浇花器来讲一讲数据的应用方法，主要包括以下两种：</p><ol>
+
 <li>基于腾讯云物联网平台提供的<strong>数据流</strong>功能，介绍一个<strong>设备消息推送应用</strong>的配置方法。</li>
 <li>基于腾讯云的<strong>HTTP方式的数据同步</strong>功能，开发一个<strong>Web数据应用系统</strong>。因为需要购买云服务器，所以你可以酌情选择是否实际部署。</li>
 </ol><h2>方法一：基于数据流的设备消息推送应用</h2><p>腾讯云物联网平台已经为我们提供了一种简便的数据应用方法。我们可以使用它的可视化编辑界面来完成数据流的创建工作。</p><p>你可以登录腾讯云物联网平台的<a href="https://console.cloud.tencent.com/iotexplorer">控制台</a>，然后进入我们之前创建的“智能家居”项目，点击左边菜单栏中的“数据开发”。</p><p><img src="https://static001.geekbang.org/resource/image/13/3c/138e249c1d126a9b147f0e5e4068a43c.png" alt=""></p><p>然后，你需要新建一个数据流，名称可以是“自动浇花器”。点击数据流列表中的“自动浇花器”项目，你就可以进入可视化的编辑界面。</p><p><img src="https://static001.geekbang.org/resource/image/df/d0/dfffa9589666393a43a8b9fd6cebfed0.png" alt=""></p><p>在可视化编辑界面，我们可以看到，一个数据流包括“输入”“处理”和“输出”三个部分。</p><!-- [[[read_end]]] --><ol>

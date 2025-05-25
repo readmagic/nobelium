@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是姚秋辰。</p><p>上节课我们学习了如何将应用接入Sentinel实现不同的流控效果，今天我们来学习Sentinel组件另一个重要功能：降级熔断。通过这节课，你可以知道如何通过Sentinel的熔断策略处理各种调用异常。除此之外，我还会讲解Sentinel熔断器开关的状态变化过程。</p><p>在<a href="https://time.geekbang.org/column/article/479785">第17课</a>中我们学习过降级和熔断的作用，今天我们就先从降级开始，了解一下如何利用Sentinel的注解指定降级方法。</p><p>这里我将以Template服务的模板批量查询接口为例，向你演示如何设置降级方法。为什么我会选择这个接口？因为券模板查询是一个基础服务，很多上游的业务场景都依赖这个接口获取模板信息，所以它的访问压力相比于其它接口就大得多了，也更容易发生各种服务超时之类的异常情况。</p><p>如果你已经准备好了，我们就从编写降级逻辑开始吧。</p><h2>编写降级逻辑</h2><p>上一节课中，我们在Template服务的批量领劵接口之上添加了一个SentinelResource注解，并在其中使用blockHandler属性指定了降级方法的名称。不过呢，这个注解可不是一个万金油注解，它只能在服务抛出BlockException的情况下执行降级逻辑。</p><p>什么是BlockException呢？这个异常类是Sentinel组件自带的类，当一个请求被Sentinel规则拦截，这个异常便会被抛出。比如请求被Sentinel流控策略阻拦住，或者请求被熔断策略阻断了，这些情况下你可以使用SentinelResource的blockHandler注解来指定降级逻辑。但是对于其它RuntimeException的异常类型它就无能为力了。</p><!-- [[[read_end]]] --><p>我们如何指定一段通用的降级逻辑，来应对BlockException以外的RuntimeException呢？你可以使用SentinelResource中的另一个属性：<strong>fallback</strong>。</p><p>以Template服务的批量查询接口为例，我通过fallback属性指定了一段降级逻辑，用来处理各种运行期异常的情况。你可以参考下面这段代码。</p><pre><code class="language-java">@GetMapping("/getBatch")
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是姚秋辰。</p><p>上节课我们学习了如何将应用接入Sentinel实现不同的流控效果，今天我们来学习Sentinel组件另一个重要功能：降级熔断。通过这节课，你可以知道如何通过Sentinel的熔断策略处理各种调用异常。除此之外，我还会讲解Sentinel熔断器开关的状态变化过程。</p><p>在<a href="https://time.geekbang.org/column/article/479785">第17课</a>中我们学习过降级和熔断的作用，今天我们就先从降级开始，了解一下如何利用Sentinel的注解指定降级方法。</p><p>这里我将以Template服务的模板批量查询接口为例，向你演示如何设置降级方法。为什么我会选择这个接口？因为券模板查询是一个基础服务，很多上游的业务场景都依赖这个接口获取模板信息，所以它的访问压力相比于其它接口就大得多了，也更容易发生各种服务超时之类的异常情况。</p><p>如果你已经准备好了，我们就从编写降级逻辑开始吧。</p><h2>编写降级逻辑</h2><p>上一节课中，我们在Template服务的批量领劵接口之上添加了一个SentinelResource注解，并在其中使用blockHandler属性指定了降级方法的名称。不过呢，这个注解可不是一个万金油注解，它只能在服务抛出BlockException的情况下执行降级逻辑。</p><p>什么是BlockException呢？这个异常类是Sentinel组件自带的类，当一个请求被Sentinel规则拦截，这个异常便会被抛出。比如请求被Sentinel流控策略阻拦住，或者请求被熔断策略阻断了，这些情况下你可以使用SentinelResource的blockHandler注解来指定降级逻辑。但是对于其它RuntimeException的异常类型它就无能为力了。</p><!-- [[[read_end]]] --><p>我们如何指定一段通用的降级逻辑，来应对BlockException以外的RuntimeException呢？你可以使用SentinelResource中的另一个属性：<strong>fallback</strong>。</p><p>以Template服务的批量查询接口为例，我通过fallback属性指定了一段降级逻辑，用来处理各种运行期异常的情况。你可以参考下面这段代码。</p><pre><code class="language-java">@GetMapping("/getBatch")
+
 @SentinelResource(value = "getTemplateInBatch",
         fallback = "getTemplateInBatch_fallback",  
         blockHandler = "getTemplateInBatch_block")

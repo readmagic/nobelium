@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是高楼。</p><p>这节课，我们详细来讲讲如何基于微服务技术落地 MongoDB 数据库隔离。</p><h2>快速了解 MongoDB</h2><p>MongoDB 是目前比较主流的一款 NoSQL 文档数据库，它能够解决关系数据库中的 Schema 问题，其特点是 No-Schema，任意存储和读取任意数据。</p><p>MongoDB 的数据格式主要是 JSON/BSON，因为用它新增字段简单，历史数据容错性强，比较容易存储复杂数据，所以很多电商系统都会用它，我们这个开源电商项目里面的会员服务（mall-member）也用到了它。</p><p>目前 SpringBoot 对 MongoDB 使用的支持，主要通过 Spring Data MongoDB 模块，有以下两种方式：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是高楼。</p><p>这节课，我们详细来讲讲如何基于微服务技术落地 MongoDB 数据库隔离。</p><h2>快速了解 MongoDB</h2><p>MongoDB 是目前比较主流的一款 NoSQL 文档数据库，它能够解决关系数据库中的 Schema 问题，其特点是 No-Schema，任意存储和读取任意数据。</p><p>MongoDB 的数据格式主要是 JSON/BSON，因为用它新增字段简单，历史数据容错性强，比较容易存储复杂数据，所以很多电商系统都会用它，我们这个开源电商项目里面的会员服务（mall-member）也用到了它。</p><p>目前 SpringBoot 对 MongoDB 使用的支持，主要通过 Spring Data MongoDB 模块，有以下两种方式：</p><ul>
+
 <li>MongoTemplate</li>
 <li>MongoRepository</li>
 </ul><p>既然 Template 和 Repository 都可以做增删查改操作，它们俩的区别和优劣势在哪里呢？</p><p>到目前为止，Repository 比 Template 方便得多，但是后者可以提供对执行内容更细粒度的控制。可以说，“方便”和 “功能强大”在某种程度上是相互矛盾的目标。</p><p>Template 能做各式各样的操作，比较灵活，但是什么都得自己写。而 Repository 做了很好的封装，Repository 的实现和 JPA 类似，SQL 是动态生成出来的，对应关系是在实体类上定义的，用起来也比较方便，但是对于更复杂的查询操作，最后还是得靠 Template 来实现。</p><!-- [[[read_end]]] --><p>我们这个电商项目里面，主要是使用 MongoTemplate 方式。</p><h2>数据库隔离方案</h2><p>刚才，我们简单了解了什么是 MongoDB 以及 SpringBoot 中如何使用 MongoDB，接下来进入这节课的重点，如何在 SpringBoot 中落地数据隔离方案。</p><p>首先，我们来回顾一下目前业界对于数据库隔离的主要解决方案，以及它们的优缺点和适用场景。</p><p><img src="https://static001.geekbang.org/resource/image/d3/1d/d34b2104398a74fe530b9c072c44991d.jpg?wh=1920x1080" alt="图片"></p><p>毋庸置疑，这里最优最安全的方案是<strong>影子库</strong>。​所以在这个项目里，我们选择的 MongoDB 数据库隔离方案还是影子库，也就是说，将压测流量对 MongoDB 的读写打到影子库上。</p><p>既然选定了改造方案，我们就梳理一下 MongoDB 影子库改造的需求：</p><ol>

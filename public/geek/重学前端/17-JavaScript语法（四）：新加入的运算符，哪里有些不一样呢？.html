@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是winter。</p><p>上一节课我们已经给你介绍了表达式的一些结构，其中关于赋值表达式，我们讲完了它的左边部分，而留下了它右边部分，那么，我们这节课一起来详细讲解。</p><p>在一些通用的计算机语言设计理论中，能够出现在赋值表达式右边的叫做：右值表达式（RightHandSideExpression），而在JavaScript标准中，规定了在等号右边表达式叫做条件表达式（ConditionalExpression），不过，在JavaScript标准中，从未出现过右值表达式字样。</p><p>JavaScript标准也规定了左值表达式同时都是条件表达式（也就是右值表达式），此外，左值表达式也可以通过跟一定的运算符组合，逐级构成更复杂的结构，直到成为右值表达式。</p><p>关于这块的知识，我们有时会看到按照运算符来组织的讲解形式。</p><p>这样讲解形式是因为：对运算符来说的“优先级”，如果从我们语法的角度来看，那就是“表达式的结构”。讲“乘法运算的优先级高于加法”，从语法的角度看就是“乘法表达式和加号运算符构成加法表达式”。</p><p>对于右值表达式来说，我们可以理解为以左值表达式为最小单位开始构成的，接下来我们就来看看左值表达式是如何一步步构成更为复杂的语法结构。</p><!-- [[[read_end]]] --><h2>更新表达式 UpdateExpression</h2><p>左值表达式搭配 <code>++</code> <code>--</code> 运算符，可以形成更新表达式。</p><pre><code class="language-JavaScript">-- a;
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是winter。</p><p>上一节课我们已经给你介绍了表达式的一些结构，其中关于赋值表达式，我们讲完了它的左边部分，而留下了它右边部分，那么，我们这节课一起来详细讲解。</p><p>在一些通用的计算机语言设计理论中，能够出现在赋值表达式右边的叫做：右值表达式（RightHandSideExpression），而在JavaScript标准中，规定了在等号右边表达式叫做条件表达式（ConditionalExpression），不过，在JavaScript标准中，从未出现过右值表达式字样。</p><p>JavaScript标准也规定了左值表达式同时都是条件表达式（也就是右值表达式），此外，左值表达式也可以通过跟一定的运算符组合，逐级构成更复杂的结构，直到成为右值表达式。</p><p>关于这块的知识，我们有时会看到按照运算符来组织的讲解形式。</p><p>这样讲解形式是因为：对运算符来说的“优先级”，如果从我们语法的角度来看，那就是“表达式的结构”。讲“乘法运算的优先级高于加法”，从语法的角度看就是“乘法表达式和加号运算符构成加法表达式”。</p><p>对于右值表达式来说，我们可以理解为以左值表达式为最小单位开始构成的，接下来我们就来看看左值表达式是如何一步步构成更为复杂的语法结构。</p><!-- [[[read_end]]] --><h2>更新表达式 UpdateExpression</h2><p>左值表达式搭配 <code>++</code> <code>--</code> 运算符，可以形成更新表达式。</p><pre><code class="language-JavaScript">-- a;
+
 ++ a;
 a --
 a ++

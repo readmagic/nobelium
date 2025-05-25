@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是范学雷。今天，我们讨论Java的空指针。</p><p>我们都知道空指针，它的发明者开玩笑似的，称它是一个价值10亿美元的错误；同时呢，他还称C语言的get方法是一个价值100亿美元的错误。空指针真的错得这么厉害吗？get方法又有什么问题？我们能够在Java语言里改进或者消除空指针吗？</p><p>我们从阅读案例开始，来看一看该怎么理解这些问题，以及怎么降低这些问题的影响。</p><h2>阅读案例</h2><p>通常地，一个人的姓名包括两个部分，姓（Last Name）和名（First Name）。在有些文化里，也会使用中间名（Middle Name）。所以，我们通常可以使用姓、名、中间名这三个要素来标识一个人的姓名。用代码的形式表示出来，就是下面的代码这样。</p><pre><code class="language-java">public record FullName(String firstName,
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是范学雷。今天，我们讨论Java的空指针。</p><p>我们都知道空指针，它的发明者开玩笑似的，称它是一个价值10亿美元的错误；同时呢，他还称C语言的get方法是一个价值100亿美元的错误。空指针真的错得这么厉害吗？get方法又有什么问题？我们能够在Java语言里改进或者消除空指针吗？</p><p>我们从阅读案例开始，来看一看该怎么理解这些问题，以及怎么降低这些问题的影响。</p><h2>阅读案例</h2><p>通常地，一个人的姓名包括两个部分，姓（Last Name）和名（First Name）。在有些文化里，也会使用中间名（Middle Name）。所以，我们通常可以使用姓、名、中间名这三个要素来标识一个人的姓名。用代码的形式表示出来，就是下面的代码这样。</p><pre><code class="language-java">public record FullName(String firstName,
+
         String middleName, String lastName) {
     // blank
 }

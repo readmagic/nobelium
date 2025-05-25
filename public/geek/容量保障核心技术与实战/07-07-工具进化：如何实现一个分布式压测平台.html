@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是吴骏龙。工欲善其事必先利其器，今天我将与你分享如何自己实现一个分布式压测平台。</p><p>现在只要是规模大一些的互联网公司，都在不遗余力地开发自己的压测平台，比如<a href="https://mp.weixin.qq.com/s?__biz=MzAwMDU1MTE1OQ%3D%3D&amp;mid=2653548195&amp;idx=1&amp;sn=7668528e8521196f6ef122e85f6028e9&amp;chksm=813a7f3bb64df62dfabba5e9de1ac8373ece36c792a11e8255b57abdaeba8697236c6361f926&amp;scene=0&amp;key=a226a081696afed0b5c63e7489f9cdcbaeac6955294907c42">京东</a>、<a href="https://tech.meituan.com/2018/09/27/quake-introduction.html">美团</a>、<a href="https://www.aliyun.com/product/pts">阿里</a>、<a href="http://test.360.cn/dabai/">360</a>。可能你会问，市面上已经有无数的开源压测工具和平台，比如JMeter、Locust、nGrinder、Gatling等，为什么要自己做呢？我在和一些大厂的同行交流经验时，发现对于常见开源压测工具的诟病不外乎有以下几点。</p><p><img src="https://static001.geekbang.org/resource/image/ee/yy/ee79af8c76bf32a18642f67590e4edyy.png" alt=""></p><p>从开源压测工具和平台的这些缺点中，我们可以看出，对于企业来说，自研压测平台就是要满足以下三点需求：</p><p><strong>1. 平台化：</strong> 企业需要一个平台化的压测工具，每个团队都可以在这个平台上协作，而开源工具大多是C/S类型（ 客户端/服务器体系结构），缺乏平台化支持。</p><p><strong>2. 标准化：</strong> 企业需要一个统一的标准化压测平台，最好能够和公司的审批流程、管理平台等集成，而开源工具在这方面的扩展性一般不强。</p><p><strong>3. 控制成本：</strong> 企业需要控制压测平台的维护成本，对于规模大的公司，自研优于使用开源。虽然开源压测工具由社区维护，但反馈较慢，自己维护的成本又比较高，不如重写一个或者二次开发。</p><p>在这一讲，我会介绍一套由我设计的基于JMeter的分布式压测平台实现方案，这套方案也兼顾了开源工具的一些成熟功能，目前已经在阿里本地生活团队使用了超过4年，能够支撑近百万压测并发量，累计输出了近4000亿次请求量，管理近600台压测机，依然没有出现明显瓶颈。这些成绩到底是怎么做到的，我们来一探究竟吧。</p><!-- [[[read_end]]] --><h2>架构设计思路</h2><p>首先，实现一个分布式压测平台，要能解决上面提到的绝大部分问题，需要实现的功能可以细化为以下几个方面：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是吴骏龙。工欲善其事必先利其器，今天我将与你分享如何自己实现一个分布式压测平台。</p><p>现在只要是规模大一些的互联网公司，都在不遗余力地开发自己的压测平台，比如<a href="https://mp.weixin.qq.com/s?__biz=MzAwMDU1MTE1OQ%3D%3D&amp;mid=2653548195&amp;idx=1&amp;sn=7668528e8521196f6ef122e85f6028e9&amp;chksm=813a7f3bb64df62dfabba5e9de1ac8373ece36c792a11e8255b57abdaeba8697236c6361f926&amp;scene=0&amp;key=a226a081696afed0b5c63e7489f9cdcbaeac6955294907c42">京东</a>、<a href="https://tech.meituan.com/2018/09/27/quake-introduction.html">美团</a>、<a href="https://www.aliyun.com/product/pts">阿里</a>、<a href="http://test.360.cn/dabai/">360</a>。可能你会问，市面上已经有无数的开源压测工具和平台，比如JMeter、Locust、nGrinder、Gatling等，为什么要自己做呢？我在和一些大厂的同行交流经验时，发现对于常见开源压测工具的诟病不外乎有以下几点。</p><p><img src="https://static001.geekbang.org/resource/image/ee/yy/ee79af8c76bf32a18642f67590e4edyy.png" alt=""></p><p>从开源压测工具和平台的这些缺点中，我们可以看出，对于企业来说，自研压测平台就是要满足以下三点需求：</p><p><strong>1. 平台化：</strong> 企业需要一个平台化的压测工具，每个团队都可以在这个平台上协作，而开源工具大多是C/S类型（ 客户端/服务器体系结构），缺乏平台化支持。</p><p><strong>2. 标准化：</strong> 企业需要一个统一的标准化压测平台，最好能够和公司的审批流程、管理平台等集成，而开源工具在这方面的扩展性一般不强。</p><p><strong>3. 控制成本：</strong> 企业需要控制压测平台的维护成本，对于规模大的公司，自研优于使用开源。虽然开源压测工具由社区维护，但反馈较慢，自己维护的成本又比较高，不如重写一个或者二次开发。</p><p>在这一讲，我会介绍一套由我设计的基于JMeter的分布式压测平台实现方案，这套方案也兼顾了开源工具的一些成熟功能，目前已经在阿里本地生活团队使用了超过4年，能够支撑近百万压测并发量，累计输出了近4000亿次请求量，管理近600台压测机，依然没有出现明显瓶颈。这些成绩到底是怎么做到的，我们来一探究竟吧。</p><!-- [[[read_end]]] --><h2>架构设计思路</h2><p>首先，实现一个分布式压测平台，要能解决上面提到的绝大部分问题，需要实现的功能可以细化为以下几个方面：</p><ul>
+
 <li><strong>用例管理：</strong> 用户建立测试用例，包含脚本文件、数据文件和插件，平台进行分类管理并持久化。</li>
 <li><strong>压测执行：</strong> 一键触发测试用例，可指定各种运行参数，可以指定多台压测机分布式执行，可以批量执行多个测试用例，压测过程中能够动态调节压测量。</li>
 <li><strong>实时结果（热数据）：</strong> 压测过程中，实时展示响应时间、吞吐量、错误率等概要数据。由于这些数据都是在压测时需要高频关注的，我们将其称之为“热数据”。</li>

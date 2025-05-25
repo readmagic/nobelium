@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是朱晓峰。今天，我来和你聊一聊临时表。</p><p>当我们遇到一些复杂查询的时候，经常无法一步到位，或者是一步到位会导致查询语句太过复杂，开发和维护的成本过高。这个时候，就可以使用临时表。</p><p>下面，我就结合实际的项目来讲解一下，怎么拆解一个复杂的查询，通过临时表来保存中间结果，从而把一个复杂查询变得简单而且容易实现。</p><h2>临时表是什么？</h2><p>临时表是一种特殊的表，用来存储查询的中间结果，并且会随着当前连接的结束而自动删除。<strong>MySQL中有2种临时表，分别是内部临时表和外部临时表</strong>：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是朱晓峰。今天，我来和你聊一聊临时表。</p><p>当我们遇到一些复杂查询的时候，经常无法一步到位，或者是一步到位会导致查询语句太过复杂，开发和维护的成本过高。这个时候，就可以使用临时表。</p><p>下面，我就结合实际的项目来讲解一下，怎么拆解一个复杂的查询，通过临时表来保存中间结果，从而把一个复杂查询变得简单而且容易实现。</p><h2>临时表是什么？</h2><p>临时表是一种特殊的表，用来存储查询的中间结果，并且会随着当前连接的结束而自动删除。<strong>MySQL中有2种临时表，分别是内部临时表和外部临时表</strong>：</p><ul>
+
 <li>内部临时表主要用于性能优化，由系统自动产生，我们无法看到；</li>
 <li>外部临时表通过SQL语句创建，我们可以使用。</li>
 </ul><p>因为我们不能使用内部临时表，所以我就不多讲了。今天，我来重点讲一讲我们可以创建和使用的外部临时表。</p><p>首先，你要知道临时表的创建语法结构：</p><pre><code>CREATE TEMPORARY TABLE 表名

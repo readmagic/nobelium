@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>在隐马尔可夫模型中，一般的假设是状态和观测都是离散的随机变量。如果假定隐藏的状态变量满足连续分布，那么得到的就是线性动态系统。虽然这个概念更多地出现在信号处理与控制论中，看起来和机器学习风马牛不相及，但是从马尔可夫性和贝叶斯概率的角度观察，<strong>线性系统也是一类重要的处理序列化数据的模型</strong>。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>在隐马尔可夫模型中，一般的假设是状态和观测都是离散的随机变量。如果假定隐藏的状态变量满足连续分布，那么得到的就是线性动态系统。虽然这个概念更多地出现在信号处理与控制论中，看起来和机器学习风马牛不相及，但是从马尔可夫性和贝叶斯概率的角度观察，<strong>线性系统也是一类重要的处理序列化数据的模型</strong>。</p>
+
 <p><strong>线性动态系统</strong>（linear dynamical system）的作用可以通过下面这个例子来说明。假设一个传感器被用于测量未知的物理量$z$，但测量结果$x$会受到零均值高斯噪声的影响。在单次测量中，根据最大似然可以得到，对未知的$z$最优的估计值就是测量结果本身，也就是令$z = x$。可是如果可以对$z$进行多次重复测量的话，就可以通过求解这些结果的平均来平滑掉随机噪声的影响，从而计算出更加精确的估计。</p>
 <p>可一旦多次测量结果是在不同的时间点上测出的，也就是时间序列$x_1, x_2, \cdots, x_N$时，问题就没有那么简单了，因为这种情况下需要将未知变量$z$的<strong>时变特性</strong>考虑进去，前一时刻的$z$和后一时刻的$z$就不一样了。如果还是像上面那样直接对不同时刻的测量结果求均值的话，虽然随机噪声的影响可以被平滑掉，但变量本身的时变特性又会作为另一种噪声出现在结果中。</p><!-- [[[read_end]]] -->
 <p>这种按倒葫芦起了瓢的结果显然不是我们想要的。要想获得更精确的估计，可以根据$z$的具体变化特性采用不同的策略。如果变量$z$具有慢变的特性，也就是它的波动周期远远大于测量周期，那么不同时刻的测量结果中的差别几乎全部来源于随机噪声，变量本身并不会出现多少波动。这时就可以将平滑窗口的长度，也就是用于求平均的测量结果的数目取得大一些，以取得更好的抑制随机噪声的效果。</p>

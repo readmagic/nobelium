@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是郑晔。</p><p>上一讲，我们讲的是控制语句体现出的坏味道，它们不是一种坏味道，而是一类坏味道。这一讲，我们再来讲一类代码的坏味道：缺乏封装。</p><p>在程序设计中，一个重要的观念就是封装，将零散的代码封装成一个又一个可复用的模块。任何一个程序员都会认同封装的价值，但是，具体到写代码时，每个人对于封装的理解程度却天差地别，造成的结果就是：写代码的人认为自己提供了封装，但实际上，我们还是看到许多的代码散落在那里。</p><p>这一讲，我们就来看看，那些被封装遗忘的角落。</p><h2>火车残骸</h2><p>我们先从一段你可能很熟悉的代码开始：</p><pre><code>String name = book.getAuthor().getName();
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是郑晔。</p><p>上一讲，我们讲的是控制语句体现出的坏味道，它们不是一种坏味道，而是一类坏味道。这一讲，我们再来讲一类代码的坏味道：缺乏封装。</p><p>在程序设计中，一个重要的观念就是封装，将零散的代码封装成一个又一个可复用的模块。任何一个程序员都会认同封装的价值，但是，具体到写代码时，每个人对于封装的理解程度却天差地别，造成的结果就是：写代码的人认为自己提供了封装，但实际上，我们还是看到许多的代码散落在那里。</p><p>这一讲，我们就来看看，那些被封装遗忘的角落。</p><h2>火车残骸</h2><p>我们先从一段你可能很熟悉的代码开始：</p><pre><code>String name = book.getAuthor().getName();
+
 </code></pre><p>这段代码表达的是“获得一部作品作者的名字”。作品里有作者信息，想要获得作者的名字，通过“作者”找到“作者姓名”，这就是很多人凭借直觉写出的代码，不过它是有问题的。</p><p>如果你没看出这段代码的问题，说明你可能对封装缺乏理解。</p><p>你可以想一想，如果你想写出上面这段代码，是不是必须得先了解Book和Author这两个类的实现细节？也就是说，我们必须得知道，作者的姓名是存储在作品的作者字段里的。这时你就要注意了：当你必须得先了解一个类的细节，才能写出代码时，这只能说明一件事，这个封装是失败的。</p><p>这段代码只是用来说明这种类型坏味道是什么样的，在实际工作中，这种在一行代码中有连续多个方法调用的情况屡见不鲜，数量上总会不断突破你的认知。</p><!-- [[[read_end]]] --><p>Martin Fowler 在《<a href="https://book.douban.com/subject/33400354/">重构</a>》中给这种坏味道起的名字叫<strong>过长的消息链（Message Chains）</strong>，而有人则给它起了一个更为夸张的名字：<a href="https://wiki.c2.com/">火车残骸（Train Wreck）</a>，形容这样的代码像火车残骸一般，断得一节一节的。</p><p>解决这种代码的重构手法叫<strong>隐藏委托关系（Hide Delegate）</strong>，说得更直白一些就是，把这种调用封装起来：</p><pre><code>class Book {
   ...
   public String getAuthorName() {

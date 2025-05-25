@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是景霄。</p><p>Python的程序中充满了字符串（string），在平常阅读代码时也屡见不鲜。字符串同样是Python中很常见的一种数据类型，比如日志的打印、程序中函数的注释、数据库的访问、变量的基本操作等等，都用到了字符串。</p><p>当然，我相信你本身对字符串已经有所了解。今天这节课，我主要带你回顾一下字符串的常用操作，并对其中的一些小tricks详细地加以解释。</p><h2>字符串基础</h2><p>什么是字符串呢？字符串是由独立字符组成的一个序列，通常包含在单引号（<code>''</code>）双引号（<code>""</code>）或者三引号之中（<code>''' '''</code>或<code>""" """</code>，两者一样），比如下面几种写法。</p><pre><code>name = 'jason'
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是景霄。</p><p>Python的程序中充满了字符串（string），在平常阅读代码时也屡见不鲜。字符串同样是Python中很常见的一种数据类型，比如日志的打印、程序中函数的注释、数据库的访问、变量的基本操作等等，都用到了字符串。</p><p>当然，我相信你本身对字符串已经有所了解。今天这节课，我主要带你回顾一下字符串的常用操作，并对其中的一些小tricks详细地加以解释。</p><h2>字符串基础</h2><p>什么是字符串呢？字符串是由独立字符组成的一个序列，通常包含在单引号（<code>''</code>）双引号（<code>""</code>）或者三引号之中（<code>''' '''</code>或<code>""" """</code>，两者一样），比如下面几种写法。</p><pre><code>name = 'jason'
+
 city = 'beijing'
 text = &quot;welcome to jike shijian&quot;
 </code></pre><p>这里定义了name、city和text三个变量，都是字符串类型。我们知道，Python中单引号、双引号和三引号的字符串是一模一样的，没有区别，比如下面这个例子中的s1、s2、s3完全一样。</p><pre><code>s1 = 'hello'

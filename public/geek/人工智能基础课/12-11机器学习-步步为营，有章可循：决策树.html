@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>决策树算法是解决分类问题的另一种方法。与基于概率推断的朴素贝叶斯分类器和逻辑回归模型不同，<strong>决策树算法采用树形结构，使用层层推理来实现最终的分类</strong>。与贝叶斯分类器相比，决策树的优势在于构造过程无需使用任何先验条件，因而适用于探索式的知识发现。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>决策树算法是解决分类问题的另一种方法。与基于概率推断的朴素贝叶斯分类器和逻辑回归模型不同，<strong>决策树算法采用树形结构，使用层层推理来实现最终的分类</strong>。与贝叶斯分类器相比，决策树的优势在于构造过程无需使用任何先验条件，因而适用于探索式的知识发现。</p>
+
 <p>决策树的分类方法更接近人类的判断机制，这可以通过买房的实例说明。</p>
 <p>面对眼花缭乱的房源，普通人优先考虑的都是每平方米的价格因素，价格不贵就买，价格贵了就不买。在价格合适的前提下，面积就是下一个待确定的问题，面积不小就买，面积小了就不买。如果面积合适，位置也是不容忽视的因素，单身业主会考虑房源离工作地点的远近，离单位近就买，离单位远就不买；为人父母的则要斟酌是不是学区房，是学区房就买，不是学区房就不买。如果位置同样称心，就可以再根据交通是否便捷、物业是否良好、价格是否有优惠等条件进一步筛选，确定最后的购买对象。</p>
 <p>前面的例子模拟了一套购房策略。在这套策略中，业主对每个可选房源都要做出“买”与“不买”的决策结果，而“每平米价格”、“房屋面积”、“学区房”等因素共同构成了决策的判断条件，在每个判断条件下的选择表示的是不同情况下的决策路径，而每个“买”或是“不买”的决定背后都包含一系列完整的决策过程。决策树就是将以上过程形式化、并引入量化指标后形成的分类算法。</p>

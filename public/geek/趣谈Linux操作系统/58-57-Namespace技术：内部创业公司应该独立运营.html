@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>上一节我们讲了Docker的基本原理，今天我们来看一下，“看起来隔离的”技术namespace在内核里面是如何工作的。</p><p>既然容器是一种类似公司内部创业的技术，我们可以设想一下，如果一个创新项目要独立运营，应该成立哪些看起来独立的组织和部门呢？</p><p>首先是<strong>用户管理</strong>，咱们这个小分队应该有自己独立的用户和组管理体系，公司里面并不是任何人都知道我们在做什么。</p><p>其次是<strong>项目管理</strong>，咱们应该有自己独立的项目管理体系，不能按照大公司的来。</p><p>然后是<strong>档案管理</strong>，咱们这个创新项目的资料一定要保密，要不然创意让人家偷走了可不好。</p><p>最后就是<strong>合作部</strong>，咱们这个小分队还是要和公司其他部门或者其他公司合作的，所以需要一个外向的人来干这件事情。</p><p>对应到容器技术，为了隔离不同类型的资源，Linux内核里面实现了以下几种不同类型的namespace。</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>上一节我们讲了Docker的基本原理，今天我们来看一下，“看起来隔离的”技术namespace在内核里面是如何工作的。</p><p>既然容器是一种类似公司内部创业的技术，我们可以设想一下，如果一个创新项目要独立运营，应该成立哪些看起来独立的组织和部门呢？</p><p>首先是<strong>用户管理</strong>，咱们这个小分队应该有自己独立的用户和组管理体系，公司里面并不是任何人都知道我们在做什么。</p><p>其次是<strong>项目管理</strong>，咱们应该有自己独立的项目管理体系，不能按照大公司的来。</p><p>然后是<strong>档案管理</strong>，咱们这个创新项目的资料一定要保密，要不然创意让人家偷走了可不好。</p><p>最后就是<strong>合作部</strong>，咱们这个小分队还是要和公司其他部门或者其他公司合作的，所以需要一个外向的人来干这件事情。</p><p>对应到容器技术，为了隔离不同类型的资源，Linux内核里面实现了以下几种不同类型的namespace。</p><ul>
+
 <li>UTS，对应的宏为CLONE_NEWUTS，表示不同的namespace可以配置不同的hostname。</li>
 <li>User，对应的宏为CLONE_NEWUSER，表示不同的namespace可以配置不同的用户和组。</li>
 <li>Mount，对应的宏为CLONE_NEWNS，表示不同的namespace的文件系统挂载点是隔离的</li>

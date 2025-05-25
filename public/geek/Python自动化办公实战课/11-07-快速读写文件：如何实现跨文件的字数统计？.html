@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是尹会生。这节课，我们来学习下统计多个文件字数的方法。</p><p>之前我在出版图书的时候，每个章节都写入了一个单独的Word中，这就导致我无法使用Word自带的字数统计功能，一次性统计所有章节的字数，自然也就不能分别统计多文件的汉字、英语和标点符号的字数了。如果你在工作中也遇到过类似的情况，需要一次性统计大量的文本文件的字数，应该怎么解决呢?</p><p>今天我就来教你，<strong>怎样使用Python来批量统计多个文件的字数和标点符号。</strong></p><p>首先呢，我们先学习一下简单的操作：统计单个文件的字数。掌握了Python统计字数的基本操作，批量统计也就不在话下了。</p><h2>怎样实现单个文件字数统计</h2><p>统计单个文件的字数，需要用到Python的文件读写函数和变量这两个功能。Python的读写函数是对文件内容的读取操作，变量呢，用来存储统计好的文件字数。</p><p>我把统计单个文件字数的操作分为三个步骤，分别为：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是尹会生。这节课，我们来学习下统计多个文件字数的方法。</p><p>之前我在出版图书的时候，每个章节都写入了一个单独的Word中，这就导致我无法使用Word自带的字数统计功能，一次性统计所有章节的字数，自然也就不能分别统计多文件的汉字、英语和标点符号的字数了。如果你在工作中也遇到过类似的情况，需要一次性统计大量的文本文件的字数，应该怎么解决呢?</p><p>今天我就来教你，<strong>怎样使用Python来批量统计多个文件的字数和标点符号。</strong></p><p>首先呢，我们先学习一下简单的操作：统计单个文件的字数。掌握了Python统计字数的基本操作，批量统计也就不在话下了。</p><h2>怎样实现单个文件字数统计</h2><p>统计单个文件的字数，需要用到Python的文件读写函数和变量这两个功能。Python的读写函数是对文件内容的读取操作，变量呢，用来存储统计好的文件字数。</p><p>我把统计单个文件字数的操作分为三个步骤，分别为：</p><ol>
+
 <li>先把要统计的文件读入内存；</li>
 <li>再对读入到内存的字数数量进行统计，并用变量保存；</li>
 <li>最后是将结果写入统计字数的专用文件中。</li>

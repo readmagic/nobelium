@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是石雪峰。</p><p>最近几年，相信你一定从各种场合听到过“云原生”这个词。比如云原生应用的<a href="https://12factor.net/zh_cn/">12要素</a>、最近大火的现象级技术Docker，以及容器编排技术Kubernetes。其中，Kubernetes背后的CNCF，也就是云原生应用基金会，也成了各大企业争相加入的组织。</p><p>DevOps似乎也一直跟云技术有着说不清的关系，比如容器、微服务、不可变基础设施以及服务网格、声明式API等都是DevOps技术领域中的常客。云原生应用似乎天生就和DevOps是绝配，自带高可用、易维护、高扩展、持续交付的光环。</p><p>那么，所谓的云原生，到底是什么意思呢？我引用一下来自于CNCF的官方定义：</p><blockquote>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是石雪峰。</p><p>最近几年，相信你一定从各种场合听到过“云原生”这个词。比如云原生应用的<a href="https://12factor.net/zh_cn/">12要素</a>、最近大火的现象级技术Docker，以及容器编排技术Kubernetes。其中，Kubernetes背后的CNCF，也就是云原生应用基金会，也成了各大企业争相加入的组织。</p><p>DevOps似乎也一直跟云技术有着说不清的关系，比如容器、微服务、不可变基础设施以及服务网格、声明式API等都是DevOps技术领域中的常客。云原生应用似乎天生就和DevOps是绝配，自带高可用、易维护、高扩展、持续交付的光环。</p><p>那么，所谓的云原生，到底是什么意思呢？我引用一下来自于CNCF的官方定义：</p><blockquote>
+
 <p>Cloud native computing uses an open source software stack to deploy applications as microservices, packaging each part into its own container, and dynamically orchestrating those containers to optimize resource utilization.<br>
 云原生使用一种开源软件技术栈来部署微服务应用，将每个组件打包到它自己的容器中，并且通过动态编排来优化资源的利用率。</p>
 </blockquote><!-- [[[read_end]]] --><p>我总结一下这里面的关键字：<strong>开源软件、微服务应用、容器化部署和动态编排</strong>。那么，简单来说，云原生应用就是将微服务风格的架构应用，以容器化的方式部署在云平台上，典型的是以Kubernetes为核心的云平台，从而受益于云服务所带来的各种好处。</p><p>我在专栏中也反复强调过，容器技术和Kubernetes是划时代的技术，是每一个学习DevOps的工程师的必备技能。就像很多年前要人手一本《鸟哥的Linux私房菜》在学习Linux一样，Kubernetes作为云时代的Linux，同样值得你投入精力。</p><p>今天，我并不是要跟你讲Kubernetes，我想通过一个项目，以及最近两年我的亲身经历，给你分享一下，云原生究竟会带给DevOps怎样的改变。这个项目就是Jenkins X。</p><p>在2018年初，我分享过有关Jenkins X的文章，在短短几天的时间内，阅读量就过万了。这一方面体现了Jenkins在国内的巨大影响力，另外一方面，也凸显了Jenkins与这个时代的冲突和格格不入。为什么这么说呢？因为Jenkins作为一个15年的老系统，浑身上下充满了云原生的反模式 ，比如：</p><ol>

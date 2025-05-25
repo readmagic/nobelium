@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是宫文学。</p><p>上一节课，在开始写汇编代码之前，我先带着你在CPU架构方面做了一些基础的铺垫工作。我希望能让你有个正确的认知：<strong>其实汇编语言的语法等层面的知识是很容易掌握的</strong>。但要真正学懂汇编语言，关键还是要深入了解CPU架构。</p><p>今天这一节课，我们会再进一步，特别针对X86汇编代码来近距离分析一下。我会带你吃透一个汇编程序的例子，在这个过程中，你会获得关于汇编程序构成、指令构成、内存访问方式、栈桢维护，以及汇编代码优化等方面的知识点。掌握这些知识点之后，我们后面生成汇编代码的工作就会顺畅很多了！</p><p>好了，我们开始第一步，通过实际的示例程序，看看X86的汇编代码是什么样子的。</p><h2>学习编译器生成的汇编代码</h2><p>按我个人的经验来说，<strong>学习汇编最快的方法，就是让别的编译器生成汇编代码给我们看。</strong></p><p>比如，你可以用C语言写出表达式计算、函数调用、条件分支等不同的逻辑，然后让C语言的编译器编译一下，就知道这些逻辑对应的汇编代码是什么样子了，而且你还可以分析每条代码的作用。这样看多了、分析多了以后，你自然就会对汇编语言越来越熟悉，也敢自己上手写了。</p><p>我们还是采用上一节课那个用C语言写的示例函数foo，我们让这个函数接受一个整型的参数，把它加上10以后返回：</p><!-- [[[read_end]]] --><pre><code class="language-plain">int foo(int a){
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是宫文学。</p><p>上一节课，在开始写汇编代码之前，我先带着你在CPU架构方面做了一些基础的铺垫工作。我希望能让你有个正确的认知：<strong>其实汇编语言的语法等层面的知识是很容易掌握的</strong>。但要真正学懂汇编语言，关键还是要深入了解CPU架构。</p><p>今天这一节课，我们会再进一步，特别针对X86汇编代码来近距离分析一下。我会带你吃透一个汇编程序的例子，在这个过程中，你会获得关于汇编程序构成、指令构成、内存访问方式、栈桢维护，以及汇编代码优化等方面的知识点。掌握这些知识点之后，我们后面生成汇编代码的工作就会顺畅很多了！</p><p>好了，我们开始第一步，通过实际的示例程序，看看X86的汇编代码是什么样子的。</p><h2>学习编译器生成的汇编代码</h2><p>按我个人的经验来说，<strong>学习汇编最快的方法，就是让别的编译器生成汇编代码给我们看。</strong></p><p>比如，你可以用C语言写出表达式计算、函数调用、条件分支等不同的逻辑，然后让C语言的编译器编译一下，就知道这些逻辑对应的汇编代码是什么样子了，而且你还可以分析每条代码的作用。这样看多了、分析多了以后，你自然就会对汇编语言越来越熟悉，也敢自己上手写了。</p><p>我们还是采用上一节课那个用C语言写的示例函数foo，我们让这个函数接受一个整型的参数，把它加上10以后返回：</p><!-- [[[read_end]]] --><pre><code class="language-plain">int foo(int a){
+
     return a+10;
 }
 </code></pre><p>接着，再输入下面的clang或gcc命令：</p><pre><code class="language-plain">clang -S foo.c -o foo.s 

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是秦粤。上一讲我们通过一个Node.js纯FaaS的Serverless应用，给你介绍了Serverless引擎盖下的运作机制，总结来说，FaaS依赖分层调度和极速冷启动的特性，在无事件时它居然可以缩容到0，就像我们的声控灯一样，有人的时候它可以亮起来，没人的时候，又可以自动关了。</p><p>听完了原理，我估计你肯定会问，FaaS这么好，但是它的应用场景是什么呢？今天我们就来一起看下。不过，想要理解FaaS的应用场景，我们就需要先理解FaaS的进程模型，这也是除了冷启动之后的另外一个重要概念。</p><h2>FaaS进程模型</h2><p>咱先回想一下上节课的FaaS的冷启动过程，我们知道容器和Runtime准备阶段都是由云服务商负责的，我们只需要关注具体的函数执行就可以了。而函数执行在FaaS里是由“函数服务”负责的，当函数触发器通知“事件”到来时，函数服务就会根据情况创建函数实例，然后执行函数。当函数执行完之后，函数实例也随之结束自己的使命，FaaS应用缩容到0，然后开始进入节能模式。</p><p>上面这套逻辑是我们上节课讲的，课后有同学就问，函数执行完之后实例能否不结束，让它继续等待下一次函数被调用呢？这样省去了每次都要冷启动的时间，响应时间不就可以更快了吗？</p><!-- [[[read_end]]] --><p>是的，本身FaaS也考虑到了这种情况，所以从运行函数实例的进程角度来看，就有两种模型。我也画了张图，方便你理解。</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是秦粤。上一讲我们通过一个Node.js纯FaaS的Serverless应用，给你介绍了Serverless引擎盖下的运作机制，总结来说，FaaS依赖分层调度和极速冷启动的特性，在无事件时它居然可以缩容到0，就像我们的声控灯一样，有人的时候它可以亮起来，没人的时候，又可以自动关了。</p><p>听完了原理，我估计你肯定会问，FaaS这么好，但是它的应用场景是什么呢？今天我们就来一起看下。不过，想要理解FaaS的应用场景，我们就需要先理解FaaS的进程模型，这也是除了冷启动之后的另外一个重要概念。</p><h2>FaaS进程模型</h2><p>咱先回想一下上节课的FaaS的冷启动过程，我们知道容器和Runtime准备阶段都是由云服务商负责的，我们只需要关注具体的函数执行就可以了。而函数执行在FaaS里是由“函数服务”负责的，当函数触发器通知“事件”到来时，函数服务就会根据情况创建函数实例，然后执行函数。当函数执行完之后，函数实例也随之结束自己的使命，FaaS应用缩容到0，然后开始进入节能模式。</p><p>上面这套逻辑是我们上节课讲的，课后有同学就问，函数执行完之后实例能否不结束，让它继续等待下一次函数被调用呢？这样省去了每次都要冷启动的时间，响应时间不就可以更快了吗？</p><!-- [[[read_end]]] --><p>是的，本身FaaS也考虑到了这种情况，所以从运行函数实例的进程角度来看，就有两种模型。我也画了张图，方便你理解。</p><ul>
+
 <li>用完即毁型：函数实例准备好后，执行完函数就直接结束。这是FaaS最纯正的用法。</li>
 <li>常驻进程型：函数实例准备好后，执行完函数不结束，而是返回继续等待下一次函数被调用。<strong>这里需要注意，即使FaaS是常驻进程型，如果一段时间没有事件触发，函数实例还是会被云服务商销毁。</strong></li>
 </ul><p><img src="https://static001.geekbang.org/resource/image/84/20/84a81773202e2599474f9c9272a65d20.png" alt="" title="模型示意图"></p><p>这两个模型其实也对应两种不同的应用场景。我举个例子，比如你要把我们第一讲中的“待办任务”应用部署上线，还记得小程同学吧，他完成了第一个版本，他用Express.js<span class="orange">[1]</span> 框架开发的MVC架构，View层他采用流行的React<span class="orange">[2]</span>，并且使用了Ant Design Pro<span class="orange">[3]</span> React组件库，Model数据库采用MongoDB。小程的第一个版本，就是一个典型的传统Web服务。</p><p>从可控性和改造成本角度来看Web服务，服务端部署方案最适合的还是托管平台PaaS或者自己搭服务跑在IaaS上。正如我上一讲所说，使用FaaS就必须在FaaS的条件限制内使用，最佳的做法应该是一开始就选用FaaS开发。</p><p>但是小程的运气比较好，我们查了一下文档，发现FaaS的Node.js的Runtime是支持Express的，所以我们只需少量修改，<strong>小程的第一个版本就可以使用FaaS的常驻进程方案部署。</strong></p><p>这里我要做个对比。在之前，假设没有FaaS，我们要将应用部署到托管平台PaaS上；启动Web服务时，主进程初始化连接MongoDB，初始化完成后，持续监听服务器的80端口，直到监听端口的句柄关闭或主进程接收到终止信号；当80端口和客户端建立完TCP链接，有HTTP请求过来，服务器就会将请求转发给Web服务的主进程，这时主进程会创建一个子进程来处理这个请求。</p><p>而在FaaS常驻进程型模式下，首先我们要改造一下代码，Node.js的Server对象采用FaaS Runtime提供的Server对象；然后我们把监听端口改为监听HTTP事件；启动Web服务时，主进程初始化连接MongoDB，初始化完成后，持续监听HTTP事件，直到被云服务商控制的父进程关闭回收。</p><p>当HTTP事件发生时，我们的Web服务主进程跟之前一样，创建一个子进程来处理这个请求事件。主进程就如我们上图中绘制的那个蓝色的圆点，当HTTP事件发生时，它创建的子进程就是蓝色弧形箭头，当子进程处理完后就会被主进程回收。</p><p>在我看来，常驻进程型就是为了传统MVC架构部署上FaaS专门设计的。数据库也可以使用原来的DB连接方式，不过这样做会增加冷启动的时间（我特意在图中用曲线代表时间增加），从而导致第一次请求长延迟甚至失败。比较适合的做法是我们<a href="https://time.geekbang.org/column/article/224559">[第 1 课]</a> 中，讲Serverless架构时说的，数据持久化采用BaaS服务。</p><p>那么我们能否用用完即毁型来部署小程的这个MVC架构的Web服务呢？可以，但是我不推荐你这样做，因为用完即毁型对传统MVC改造的成本太大。</p><p><img src="https://static001.geekbang.org/resource/image/2f/33/2f1c4643057d8fbcbec6f7514dd9cd33.png" alt="" title="模型示意图"></p><p>说到这里，我们再将上面对比两个模型的示意图镜头再拉远一点，加上HTTP触发器看看。其实从另外一个角度看，触发器就是一个常驻进程型模型一直在等待，只不过这个触发器是由云服务商处理罢了。</p><p>这里我再啰嗦强调下，还是我们上一讲说的，FaaS只是做了极端抽象，云服务商通过技术手段帮助开发者屏蔽了细节，让他们尽量只关注代码本身。</p><p>所以，在用完即毁型中，我们只要将MVC的Control层部署到函数执行就可以了。这也意味着我们要将我们的MVC架构的Control函数一个个拆解出来部署，一个HTTP请求对应一个Control函数；Control函数实例启动时连接MongoDB，一个请求处理完后直接结束。你如果要提升Control函数的冷启动时间，Model层同样要考虑BaaS化改造。这里你听着可能有点陌生，没关系，后面我会通过代码给你演示，你到时候再理解也不迟。</p><p>现在，理解了两种类型，我们再来看看FaaS是怎么收费的，以及常驻型进程这种模式是不是官方会多收费。云服务商FaaS函数服务的收费标准各不相同，但他们都会提供一定的免费额度。我给你归纳下FaaS的收费标准，主要有两个维度：调用函数次数和函数耗时。</p><ul>

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是七牛云许式伟。</p><p>上一讲开始，我们进入了实战模式。从目前看到的反馈看，我的预期目标并没有达到。</p><p>我复盘了一下，虽然这个程序看起来比较简单，但是实际上仍然有很多需要交代而没有交代清楚的东西。</p><p>我个人对这个例子的期望是比较高的。因为我认为 “画图” 程序非常适合作为架构实战的第一课。“画图” 程序需求的可伸缩性非常大，完完全全是一个迷你小 Office 程序，很适合由浅及深去谈架构的演进。</p><p>所以我今天微调了一下计划，把服务端对接往后延后一讲，增加一篇 “实战（中）” 篇。这个“中”篇一方面把前面 “实战（上）” 篇没有交代清楚的补一下，另一方面对 “画图” 程序做一次需求的迭代。</p><h2>MVP 版画图程序</h2><p>先回到 “实战（上）” 篇。这个版本对画图程序来说，基本上是一个 MVP 版本：只能增加新图形，没法删除，也没法修改。</p><p>怎么做？我们先看 Model 层，它的代码就是一个 <a href="https://github.com/qiniu/qpaint/blob/v26/paintweb/www/dom.js">dom.js</a> 文件。从数据结构来说，它是一棵以 QPaintDoc 为根的 DOM 树。这个 DOM 树只有三级：Document -&gt; Shape -&gt; LineStyle。具体细节可以参阅下表：</p><p><img src="https://static001.geekbang.org/resource/image/5a/55/5a2233a851ae2cb234d001725e437755.png?wh=612*305" alt=""></p><p>这个表列出的是 Model 和 View、Controllers 的耦合关系：Model 都为它们提供了什么？可以看出，View 层当前对 Model 层除了绘制（onpaint），没有其他任何需求。而各个 Controller，对 Model 的需求看起来似乎方法数量不少，但是实质上目的也只有一个，那就是创建图形（addShape）。</p><!-- [[[read_end]]] --><p>我们再看 View 层。它的代码主要是一个 <a href="https://github.com/qiniu/qpaint/blob/v26/paintweb/www/index.htm">index.htm</a> 文件和一个 <a href="https://github.com/qiniu/qpaint/blob/v26/paintweb/www/view.js">view.js</a> 文件。View 层只依赖 Model 层，并且只依赖一个 doc.onpaint 函数。所以我们把关注点放在 View 自身的功能。</p><p>View 层只有一个 QPaintView 类。我们将其功能分为了三类：属于 Model 层职责相关的，属于 View 自身职责相关的，以及为 Controller 层服务的，得到下表。</p><p><img src="https://static001.geekbang.org/resource/image/09/4e/09297c130d51b3f6e502522367284b4e.png?wh=613*542" alt=""></p><p>最后，我们来看 Controller 层。Controller 层的文件有很多，这还是一些 Controller 因为实现相近被合并到一个文件，如下所示。</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是七牛云许式伟。</p><p>上一讲开始，我们进入了实战模式。从目前看到的反馈看，我的预期目标并没有达到。</p><p>我复盘了一下，虽然这个程序看起来比较简单，但是实际上仍然有很多需要交代而没有交代清楚的东西。</p><p>我个人对这个例子的期望是比较高的。因为我认为 “画图” 程序非常适合作为架构实战的第一课。“画图” 程序需求的可伸缩性非常大，完完全全是一个迷你小 Office 程序，很适合由浅及深去谈架构的演进。</p><p>所以我今天微调了一下计划，把服务端对接往后延后一讲，增加一篇 “实战（中）” 篇。这个“中”篇一方面把前面 “实战（上）” 篇没有交代清楚的补一下，另一方面对 “画图” 程序做一次需求的迭代。</p><h2>MVP 版画图程序</h2><p>先回到 “实战（上）” 篇。这个版本对画图程序来说，基本上是一个 MVP 版本：只能增加新图形，没法删除，也没法修改。</p><p>怎么做？我们先看 Model 层，它的代码就是一个 <a href="https://github.com/qiniu/qpaint/blob/v26/paintweb/www/dom.js">dom.js</a> 文件。从数据结构来说，它是一棵以 QPaintDoc 为根的 DOM 树。这个 DOM 树只有三级：Document -&gt; Shape -&gt; LineStyle。具体细节可以参阅下表：</p><p><img src="https://static001.geekbang.org/resource/image/5a/55/5a2233a851ae2cb234d001725e437755.png?wh=612*305" alt=""></p><p>这个表列出的是 Model 和 View、Controllers 的耦合关系：Model 都为它们提供了什么？可以看出，View 层当前对 Model 层除了绘制（onpaint），没有其他任何需求。而各个 Controller，对 Model 的需求看起来似乎方法数量不少，但是实质上目的也只有一个，那就是创建图形（addShape）。</p><!-- [[[read_end]]] --><p>我们再看 View 层。它的代码主要是一个 <a href="https://github.com/qiniu/qpaint/blob/v26/paintweb/www/index.htm">index.htm</a> 文件和一个 <a href="https://github.com/qiniu/qpaint/blob/v26/paintweb/www/view.js">view.js</a> 文件。View 层只依赖 Model 层，并且只依赖一个 doc.onpaint 函数。所以我们把关注点放在 View 自身的功能。</p><p>View 层只有一个 QPaintView 类。我们将其功能分为了三类：属于 Model 层职责相关的，属于 View 自身职责相关的，以及为 Controller 层服务的，得到下表。</p><p><img src="https://static001.geekbang.org/resource/image/09/4e/09297c130d51b3f6e502522367284b4e.png?wh=613*542" alt=""></p><p>最后，我们来看 Controller 层。Controller 层的文件有很多，这还是一些 Controller 因为实现相近被合并到一个文件，如下所示。</p><ul>
+
 <li>Menu, PropSelectors, MousePosTracker： <a href="https://github.com/qiniu/qpaint/blob/v26/paintweb/www/accel/menu.js">accel/menu.js</a></li>
 <li>Create Path：<a href="https://github.com/qiniu/qpaint/blob/v26/paintweb/www/creator/path.js">creator/path.js</a></li>
 <li>Create FreePath：<a href="https://github.com/qiniu/qpaint/blob/v26/paintweb/www/creator/freepath.js">creator/freepath.js</a></li>

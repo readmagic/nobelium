@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是唐聪。</p><p>今天我要跟你分享的主题是租约（Lease）。etcd的一个典型的应用场景是Leader选举，那么etcd为什么可以用来实现Leader选举？核心特性实现原理又是怎样的？</p><p>今天我就和你聊聊Leader选举背后技术点之一的Lease， 解析它的核心原理、性能优化思路，希望通过本节让你对Lease如何关联key、Lease如何高效续期、淘汰、什么是checkpoint机制有深入的理解。同时希望你能基于Lease的TTL特性，解决实际业务中遇到分布式锁、节点故障自动剔除等各类问题，提高业务服务的可用性。</p><h2>什么是Lease</h2><p>在实际业务场景中，我们常常会遇到类似Kubernetes的调度器、控制器组件同一时刻只能存在一个副本对外提供服务的情况。然而单副本部署的组件，是无法保证其高可用性的。</p><p>那为了解决单副本的可用性问题，我们就需要多副本部署。同时，为了保证同一时刻只有一个能对外提供服务，我们需要引入Leader选举机制。那么Leader选举本质是要解决什么问题呢？</p><p>首先当然是要保证Leader的唯一性，确保集群不出现多个Leader，才能保证业务逻辑准确性，也就是安全性（Safety）、互斥性。</p><!-- [[[read_end]]] --><p>其次是主节点故障后，备节点应可快速感知到其异常，也就是活性（liveness）检测。实现活性检测主要有两种方案。</p><p>方案一为被动型检测，你可以通过探测节点定时拨测Leader节点，看是否健康，比如Redis Sentinel。</p><p>方案二为主动型上报，Leader节点可定期向协调服务发送"特殊心跳"汇报健康状态，若其未正常发送心跳，并超过和协调服务约定的最大存活时间后，就会被协调服务移除Leader身份标识。同时其他节点可通过协调服务，快速感知到Leader故障了，进而发起新的选举。</p><p>我们今天的主题，Lease，正是基于主动型上报模式，<strong>提供的一种活性检测机制</strong>。Lease顾名思义，client和etcd server之间存在一个约定，内容是etcd server保证在约定的有效期内（TTL），不会删除你关联到此Lease上的key-value。</p><p>若你未在有效期内续租，那么etcd server就会删除Lease和其关联的key-value。</p><p>你可以基于Lease的TTL特性，解决类似Leader选举、Kubernetes Event自动淘汰、服务发现场景中故障节点自动剔除等问题。为了帮助你理解Lease的核心特性原理，我以一个实际场景中的经常遇到的异常节点自动剔除为案例，围绕这个问题，给你深入介绍Lease特性的实现。</p><p>在这个案例中，我们期望的效果是，在节点异常时，表示节点健康的key能被从etcd集群中自动删除。</p><h2>Lease整体架构</h2><p>在和你详细解读Lease特性如何解决上面的问题之前，我们先了解下Lease模块的整体架构，下图是我给你画的Lease模块简要架构图。</p><p><img src="https://static001.geekbang.org/resource/image/ac/7c/ac70641fa3d41c2dac31dbb551394b7c.png" alt=""></p><p>etcd在启动的时候，创建Lessor模块的时候，它会启动两个常驻goroutine，如上图所示，一个是RevokeExpiredLease任务，定时检查是否有过期Lease，发起撤销过期的Lease操作。一个是CheckpointScheduledLease，定时触发更新Lease的剩余到期时间的操作。</p><p>Lessor模块提供了Grant、Revoke、LeaseTimeToLive、LeaseKeepAlive API给client使用，各接口作用如下:</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是唐聪。</p><p>今天我要跟你分享的主题是租约（Lease）。etcd的一个典型的应用场景是Leader选举，那么etcd为什么可以用来实现Leader选举？核心特性实现原理又是怎样的？</p><p>今天我就和你聊聊Leader选举背后技术点之一的Lease， 解析它的核心原理、性能优化思路，希望通过本节让你对Lease如何关联key、Lease如何高效续期、淘汰、什么是checkpoint机制有深入的理解。同时希望你能基于Lease的TTL特性，解决实际业务中遇到分布式锁、节点故障自动剔除等各类问题，提高业务服务的可用性。</p><h2>什么是Lease</h2><p>在实际业务场景中，我们常常会遇到类似Kubernetes的调度器、控制器组件同一时刻只能存在一个副本对外提供服务的情况。然而单副本部署的组件，是无法保证其高可用性的。</p><p>那为了解决单副本的可用性问题，我们就需要多副本部署。同时，为了保证同一时刻只有一个能对外提供服务，我们需要引入Leader选举机制。那么Leader选举本质是要解决什么问题呢？</p><p>首先当然是要保证Leader的唯一性，确保集群不出现多个Leader，才能保证业务逻辑准确性，也就是安全性（Safety）、互斥性。</p><!-- [[[read_end]]] --><p>其次是主节点故障后，备节点应可快速感知到其异常，也就是活性（liveness）检测。实现活性检测主要有两种方案。</p><p>方案一为被动型检测，你可以通过探测节点定时拨测Leader节点，看是否健康，比如Redis Sentinel。</p><p>方案二为主动型上报，Leader节点可定期向协调服务发送"特殊心跳"汇报健康状态，若其未正常发送心跳，并超过和协调服务约定的最大存活时间后，就会被协调服务移除Leader身份标识。同时其他节点可通过协调服务，快速感知到Leader故障了，进而发起新的选举。</p><p>我们今天的主题，Lease，正是基于主动型上报模式，<strong>提供的一种活性检测机制</strong>。Lease顾名思义，client和etcd server之间存在一个约定，内容是etcd server保证在约定的有效期内（TTL），不会删除你关联到此Lease上的key-value。</p><p>若你未在有效期内续租，那么etcd server就会删除Lease和其关联的key-value。</p><p>你可以基于Lease的TTL特性，解决类似Leader选举、Kubernetes Event自动淘汰、服务发现场景中故障节点自动剔除等问题。为了帮助你理解Lease的核心特性原理，我以一个实际场景中的经常遇到的异常节点自动剔除为案例，围绕这个问题，给你深入介绍Lease特性的实现。</p><p>在这个案例中，我们期望的效果是，在节点异常时，表示节点健康的key能被从etcd集群中自动删除。</p><h2>Lease整体架构</h2><p>在和你详细解读Lease特性如何解决上面的问题之前，我们先了解下Lease模块的整体架构，下图是我给你画的Lease模块简要架构图。</p><p><img src="https://static001.geekbang.org/resource/image/ac/7c/ac70641fa3d41c2dac31dbb551394b7c.png" alt=""></p><p>etcd在启动的时候，创建Lessor模块的时候，它会启动两个常驻goroutine，如上图所示，一个是RevokeExpiredLease任务，定时检查是否有过期Lease，发起撤销过期的Lease操作。一个是CheckpointScheduledLease，定时触发更新Lease的剩余到期时间的操作。</p><p>Lessor模块提供了Grant、Revoke、LeaseTimeToLive、LeaseKeepAlive API给client使用，各接口作用如下:</p><ul>
+
 <li>Grant表示创建一个TTL为你指定秒数的Lease，Lessor会将Lease信息持久化存储在boltdb中；</li>
 <li>Revoke表示撤销Lease并删除其关联的数据；</li>
 <li>LeaseTimeToLive表示获取一个Lease的有效期、剩余时间；</li>

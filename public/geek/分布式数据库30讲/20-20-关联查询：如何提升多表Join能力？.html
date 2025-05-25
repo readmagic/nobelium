@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是王磊，你也可以叫我Ivan。</p><p>今天，我们会继续学习查询场景中的处理技术。这一讲的关键词是“多表关联”，也就是数据库中常见的Join操作。无论是单体数据库还是分布式数据库，关联操作的语义始终没有变，一些经典算法也保持了很好的延续性。</p><p>关联算法作为一个稍微细节点的设计，在不同数据库中是有差异的，我们还是秉承课程的整体思路，不陷入具体的设置参数、指令等内容。这样安排的依据是，只要你掌握关联算法的基本原理，就能快速掌握具体数据库的实现了。同时，有了这些原理作为基础，你也能更容易地掌握分布式数据库的优化思路。</p><p>那么，我们先来看看这些经典的关联算法吧。</p><h2>三类关联算法</h2><p>常见的关联算法有三大类，分别是嵌套循环（Nested Loop Join）、排序归并（Sort-Merge Join）和哈希（Hash Join）。</p><h3>嵌套循环连接算法</h3><p>所有的嵌套循环算法都由内外两个循环构成，分别从两张表中顺序取数据。其中，外层循环表称为外表（Outer表），内层循环表则称为内表（Inner表）。因为这个算法的过程是由遍历Outer表开始，所以Outer表也称为驱动表。在最终得到的结果集中，记录的排列顺序与Outer表的记录顺序是一致的。</p><!-- [[[read_end]]] --><p>根据在处理环节上的不同，嵌套循环算法又可以细分为三种，分别是Simple Nested-Loop Join（SNLJ）、Block Nested-Loop Join（BNJ）和Index Lookup Join（ILJ）。</p><h4>Simple Nested Loop Join</h4><p>SNLJ是最简单粗暴的算法，所以也称为Simple Nested-Loop Join。有些资料中会用NLJ指代SNLJ。</p><p><img src="https://static001.geekbang.org/resource/image/eb/a6/eb3865308b203ab1e16b98e5831b76a6.jpg" alt=""></p><p>SNLJ的执行过程是这样的：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是王磊，你也可以叫我Ivan。</p><p>今天，我们会继续学习查询场景中的处理技术。这一讲的关键词是“多表关联”，也就是数据库中常见的Join操作。无论是单体数据库还是分布式数据库，关联操作的语义始终没有变，一些经典算法也保持了很好的延续性。</p><p>关联算法作为一个稍微细节点的设计，在不同数据库中是有差异的，我们还是秉承课程的整体思路，不陷入具体的设置参数、指令等内容。这样安排的依据是，只要你掌握关联算法的基本原理，就能快速掌握具体数据库的实现了。同时，有了这些原理作为基础，你也能更容易地掌握分布式数据库的优化思路。</p><p>那么，我们先来看看这些经典的关联算法吧。</p><h2>三类关联算法</h2><p>常见的关联算法有三大类，分别是嵌套循环（Nested Loop Join）、排序归并（Sort-Merge Join）和哈希（Hash Join）。</p><h3>嵌套循环连接算法</h3><p>所有的嵌套循环算法都由内外两个循环构成，分别从两张表中顺序取数据。其中，外层循环表称为外表（Outer表），内层循环表则称为内表（Inner表）。因为这个算法的过程是由遍历Outer表开始，所以Outer表也称为驱动表。在最终得到的结果集中，记录的排列顺序与Outer表的记录顺序是一致的。</p><!-- [[[read_end]]] --><p>根据在处理环节上的不同，嵌套循环算法又可以细分为三种，分别是Simple Nested-Loop Join（SNLJ）、Block Nested-Loop Join（BNJ）和Index Lookup Join（ILJ）。</p><h4>Simple Nested Loop Join</h4><p>SNLJ是最简单粗暴的算法，所以也称为Simple Nested-Loop Join。有些资料中会用NLJ指代SNLJ。</p><p><img src="https://static001.geekbang.org/resource/image/eb/a6/eb3865308b203ab1e16b98e5831b76a6.jpg" alt=""></p><p>SNLJ的执行过程是这样的：</p><ol>
+
 <li>遍历 Outer 表，取一条记录 r1；</li>
 <li>遍历 Inner 表，对于 Inner 表中的每条记录，与r1做join操作并输出结果；</li>
 <li>重复步骤 1和2，直至遍历完 Outer 表中的所有数据，就得到了最后的结果集。</li>

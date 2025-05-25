@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是蔡元楠。</p><p>上一讲中，我们介绍了Spark中的流处理库Spark Streaming。它将无边界的流数据抽象成DStream，按特定的时间间隔，把数据流分割成一个个RDD进行批处理。所以，DStream API与RDD API高度相似，也拥有RDD的各种性质。</p><p>在第15讲中，我们比较过RDD和DataSet/DataFrame。你还记得DataSet/DataFrame的优点吗？你有没有想过，既然已经有了RDD API，我们为什么还要引入DataSet/DataFrame呢？</p><p>让我们来回顾一下DataSet/DataFrame的优点（为了方便描述，下文中我们统一用DataFrame来代指DataSet和DataFrame）：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是蔡元楠。</p><p>上一讲中，我们介绍了Spark中的流处理库Spark Streaming。它将无边界的流数据抽象成DStream，按特定的时间间隔，把数据流分割成一个个RDD进行批处理。所以，DStream API与RDD API高度相似，也拥有RDD的各种性质。</p><p>在第15讲中，我们比较过RDD和DataSet/DataFrame。你还记得DataSet/DataFrame的优点吗？你有没有想过，既然已经有了RDD API，我们为什么还要引入DataSet/DataFrame呢？</p><p>让我们来回顾一下DataSet/DataFrame的优点（为了方便描述，下文中我们统一用DataFrame来代指DataSet和DataFrame）：</p><ul>
+
 <li>DataFrame 是<strong>高级API</strong>，提供类似于<strong>SQL</strong>的query接口，方便熟悉关系型数据库的开发人员使用；</li>
 <li><strong>Spark SQL执行引擎会自动优化DataFrame程序</strong>，而用RDD API开发的程序本质上需要工程师自己构造RDD的DAG执行图，所以依赖于工程师自己去优化。</li>
 </ul><p>那么我们自然会想到，如果可以拥有一个基于DataFrame API的流处理模块，作为工程师的我们就不需要去用相对low level的DStream API去处理无边界数据，这样会大大提升我们的开发效率。</p><!-- [[[read_end]]] --><p>基于这个思想，2016年，Spark在其2.0版本中推出了结构化流数据处理的模块Structured Streaming。</p><p>Structured Streaming是基于Spark SQL引擎实现的，依靠Structured Streaming，在开发者眼里，流数据和静态数据没有区别。我们完全可以像批处理静态数据那样去处理流数据。随着流数据的持续输入，Spark SQL引擎会帮助我们持续地处理新数据，并且更新计算结果。</p><p>今天，就让我们来一起学习Structured Streaming的原理以及应用。</p><h2>Structured Streaming模型</h2><p>流数据处理最基本的问题就是如何对不断更新的无边界数据建模。</p><p>之前讲的Spark Streaming就是把流数据按一定的时间间隔分割成许多个小的数据块进行批处理。在Structured Streaming的模型中，我们要把数据看成一个无边界的关系型的数据表。每一个数据都是表中的一行，不断会有新的数据行被添加到表里来。我们可以对这个表做任何类似批处理的查询，Spark会帮我们不断对新加入的数据进行处理，并更新计算结果。</p><p><img src="https://static001.geekbang.org/resource/image/bb/37/bb1845be9f34ef7d232a509f90ae0337.jpg" alt=""></p><p>与Spark Streaming类似，Structured Streaming也是将输入的数据流按照时间间隔（以一秒为例）划分成数据段。每一秒都会把新输入的数据添加到表中，Spark也会每秒更新输出结果。输出结果也是表的形式，输出表可以写入硬盘或者HDFS。</p><p>这里我要介绍一下Structured Streaming的三种输出模式。</p><ol>

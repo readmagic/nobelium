@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是姚秋辰。</p><p>在上节课中，我们了解了如何在Spring Cloud Gateway中加载一个路由，以及常用的内置谓词都有哪些。今天我们就来动手实践一把，在实战项目中搭建一个Gateway网关，并完成三个任务：设置跨域规则、添加路由和实现网关层限流。这三个任务将以怎样的方式展开呢？</p><p>首先是跨域规则，它是一段添加在配置文件中的逻辑。我将在编写网关配置文件的同时，顺便为你讲解下跨域的基本原理，以及如何设置同源访问策略。</p><p>然后，我将使用基于Java代码的方式来定义静态路由规则。当然了，你也可以使用配置文件来编写路由，用代码还是用配置全凭个人喜好。不过呢，如果你的路由规则比较复杂，比如，它包含了大量谓词和过滤器，那么我还是推荐你使用代码方式，可读性高，维护起来也容易一些。</p><p>最后就是网关层限流，我们将使用内置的Lua脚本，并借助Redis组件来完成网关层限流。</p><p>闲话少叙，我们先去搭建一个微服务网关应用吧。你可以在<a href="https://gitee.com/banxian-yao/geekbang-coupon-center">Gitee代码仓库</a>中找到下面所有源码。</p><h2>创建微服务网关</h2><p>微服务网关是一个独立部署的平台化组件，我们先在middleware目录下创建一个名为gateway的子模块。接下来的工作就是按部就班地搞定依赖项、配置项和路由规则。</p><!-- [[[read_end]]] --><h3>添加依赖项</h3><p>我们要在这个模块的pom.xml文件中添加几个关键依赖项，分别是Gateway、Nacos和Loadbalancer。你可以参考下面的代码。</p><pre><code class="language-plain">&lt;dependencies&gt;
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是姚秋辰。</p><p>在上节课中，我们了解了如何在Spring Cloud Gateway中加载一个路由，以及常用的内置谓词都有哪些。今天我们就来动手实践一把，在实战项目中搭建一个Gateway网关，并完成三个任务：设置跨域规则、添加路由和实现网关层限流。这三个任务将以怎样的方式展开呢？</p><p>首先是跨域规则，它是一段添加在配置文件中的逻辑。我将在编写网关配置文件的同时，顺便为你讲解下跨域的基本原理，以及如何设置同源访问策略。</p><p>然后，我将使用基于Java代码的方式来定义静态路由规则。当然了，你也可以使用配置文件来编写路由，用代码还是用配置全凭个人喜好。不过呢，如果你的路由规则比较复杂，比如，它包含了大量谓词和过滤器，那么我还是推荐你使用代码方式，可读性高，维护起来也容易一些。</p><p>最后就是网关层限流，我们将使用内置的Lua脚本，并借助Redis组件来完成网关层限流。</p><p>闲话少叙，我们先去搭建一个微服务网关应用吧。你可以在<a href="https://gitee.com/banxian-yao/geekbang-coupon-center">Gitee代码仓库</a>中找到下面所有源码。</p><h2>创建微服务网关</h2><p>微服务网关是一个独立部署的平台化组件，我们先在middleware目录下创建一个名为gateway的子模块。接下来的工作就是按部就班地搞定依赖项、配置项和路由规则。</p><!-- [[[read_end]]] --><h3>添加依赖项</h3><p>我们要在这个模块的pom.xml文件中添加几个关键依赖项，分别是Gateway、Nacos和Loadbalancer。你可以参考下面的代码。</p><pre><code class="language-plain">&lt;dependencies&gt;
+
     &lt;!-- Gateway正经依赖 --&gt;
     &lt;dependency&gt;
         &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;

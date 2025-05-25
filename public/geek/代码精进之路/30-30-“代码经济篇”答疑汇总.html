@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>到这一篇文章，意味着专栏第二模块“经济的代码”已经更新完毕了。非常感谢同学们积极踊跃地留言，提出了很多独到的见解，我自己也学到了不少新东西。</p><p>今天，我来集中解答一下留言区里的一些疑问。有很多问题，我们已经在留言区里讨论了。这里，我们就挑选一些还没有解决掉的问题，深入讨论一下。</p><p><strong>@秦凯</strong></p><blockquote>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>到这一篇文章，意味着专栏第二模块“经济的代码”已经更新完毕了。非常感谢同学们积极踊跃地留言，提出了很多独到的见解，我自己也学到了不少新东西。</p><p>今天，我来集中解答一下留言区里的一些疑问。有很多问题，我们已经在留言区里讨论了。这里，我们就挑选一些还没有解决掉的问题，深入讨论一下。</p><p><strong>@秦凯</strong></p><blockquote>
+
 <p>对性能和资源消耗有一定的意识，但是在具体的开发过程中或者应用运行过程中要对性能进行监控、评测、分析，就束手无策了。</p>
 </blockquote><p><span class="orange">答</span>：我一直都认为，有了意识，其实就成功一大半了。有了意识，我们就会去寻找技术，寻找工具，寻找解决的办法。到了这个专栏的第三个部分（也是接下来要更新的“安全篇”），我们就会更强烈地感受到，“要有意识”是我们首先要获得的能力。大部分代码的问题，其实都是意识和见识带来的问题。</p><p>回到这个问题本身，性能的监控、评测和分析，我们通常要通过一定的工具来解决。</p><p>第一个常用的工具是JMH，我们在<a href="https://time.geekbang.org/column/article/84096">第26篇</a>里简单介绍了这个小工具的用法。JMH可以用来测试一个接口、一段代码跑得有多快。特别是当我们面临两个选择，并且犹豫不决的时候，对比JMH的测试结果，就可以给我们提供一个大致准确的方向。</p><p>第二个常用的工具是性能回归测试。我们经常修改代码，修改后的代码性能有没有变坏？这是一个值得我们警惕的问题。我们可以通过自动化的性能回归测试，来检测修改有没有恶化代码的性能。就像普通的回归测试一样，性能回归测试也需要写测试代码。编写自动的回归测试代码就相当于我们制造了一个工具。从长远看，工具可以提升我们的工作效率。</p><!-- [[[read_end]]] --><p>第三个就是找一款成熟的性能调试工具，比如NetBeans Profiler、JProfiler、Java Mission Control、Stackify Prefix等。这些性能调试工具，能够综合地检测性能问题，比如内存、CPU、线程的使用状况，或者最耗费资源的方法等。</p><p>第四个办法就是用实时的性能监控工具，比如New Relic APM，Stackify Retrace等。这个工具可以用在运营环境上，预警性能障碍，检测性能瓶颈。</p><p>如果掌握了这四样工具，很多性能问题，我们都可以早发现、早解决。</p><p><strong>@悲劇の輪廻</strong></p><blockquote>
 <p>某些银行的客户端已经奔着150M+去了……我怀疑他们的开发人员是不是也经过层层外包，根本不考虑客户终端的运行环境。</p>

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是海纳。</p><p>在第3节课里，我们看到进程的内存空间包含代码段、数据段、bss段、堆和栈等区域。在第4节和第5节课里，我们对栈的相关知识进行了深入学习。今天我们来看看内存中的另一个重要部分：代码段和数据段的组织方式。</p><p>我们知道，编程的代码无非是由函数和各种变量，以及对这些变量的读、写所组成，而不管是变量还是函数，它们最终都要存储在内存里。为每个变量和函数正确地分配内存空间，记录它们的地址，并把这个地址复写回调用或引用它们的地方，这是一个十分重要且困难的任务。</p><p>在我们使用gcc时，往往执行一个命令后，就能得到可执行程序，所以你可能会误以为是编译器负责为变量分配内存地址，但是实际上，这个工作是由链接器来完成的。每个变量和函数都有自己的名称，通常我们把这些名称叫做符号。简单来讲，链接器的作用就是为符号转换成地址，一般来说可以分为三种情况：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是海纳。</p><p>在第3节课里，我们看到进程的内存空间包含代码段、数据段、bss段、堆和栈等区域。在第4节和第5节课里，我们对栈的相关知识进行了深入学习。今天我们来看看内存中的另一个重要部分：代码段和数据段的组织方式。</p><p>我们知道，编程的代码无非是由函数和各种变量，以及对这些变量的读、写所组成，而不管是变量还是函数，它们最终都要存储在内存里。为每个变量和函数正确地分配内存空间，记录它们的地址，并把这个地址复写回调用或引用它们的地方，这是一个十分重要且困难的任务。</p><p>在我们使用gcc时，往往执行一个命令后，就能得到可执行程序，所以你可能会误以为是编译器负责为变量分配内存地址，但是实际上，这个工作是由链接器来完成的。每个变量和函数都有自己的名称，通常我们把这些名称叫做符号。简单来讲，链接器的作用就是为符号转换成地址，一般来说可以分为三种情况：</p><ol>
+
 <li>生成二进制可执行文件的过程中。这种情况称为静态链接；</li>
 <li>在二进制文件被加载进内存时。这种情况是在二进制文件保留符号，在加载时再把符号解析成真实的内存地址，这种被称为动态链接；</li>
 <li>在运行期间解析符号。这种情况会把符号的解析延迟到最后不得不做时才去做符号的解析，这也是动态链接的一种。</li>

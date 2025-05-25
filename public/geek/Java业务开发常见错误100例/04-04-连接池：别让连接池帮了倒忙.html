@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是朱晔。今天，我们来聊聊使用连接池需要注意的问题。</p><p>在上一讲，我们学习了使用线程池需要注意的问题。今天，我再与你说说另一种很重要的池化技术，即连接池。</p><p>我先和你说说连接池的结构。连接池一般对外提供获得连接、归还连接的接口给客户端使用，并暴露最小空闲连接数、最大连接数等可配置参数，在内部则实现连接建立、连接心跳保持、连接管理、空闲连接回收、连接可用性检测等功能。连接池的结构示意图，如下所示：</p><p><img src="https://static001.geekbang.org/resource/image/16/7e/1685d9db2602e1de8483de171af6fd7e.png" alt=""></p><p>业务项目中经常会用到的连接池，主要是数据库连接池、Redis连接池和HTTP连接池。所以，今天我就以这三种连接池为例，和你聊聊使用和配置连接池容易出错的地方。</p><h2>注意鉴别客户端SDK是否基于连接池</h2><p>在使用三方客户端进行网络通信时，我们首先要确定客户端SDK是否是基于连接池技术实现的。我们知道，TCP是面向连接的基于字节流的协议：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是朱晔。今天，我们来聊聊使用连接池需要注意的问题。</p><p>在上一讲，我们学习了使用线程池需要注意的问题。今天，我再与你说说另一种很重要的池化技术，即连接池。</p><p>我先和你说说连接池的结构。连接池一般对外提供获得连接、归还连接的接口给客户端使用，并暴露最小空闲连接数、最大连接数等可配置参数，在内部则实现连接建立、连接心跳保持、连接管理、空闲连接回收、连接可用性检测等功能。连接池的结构示意图，如下所示：</p><p><img src="https://static001.geekbang.org/resource/image/16/7e/1685d9db2602e1de8483de171af6fd7e.png" alt=""></p><p>业务项目中经常会用到的连接池，主要是数据库连接池、Redis连接池和HTTP连接池。所以，今天我就以这三种连接池为例，和你聊聊使用和配置连接池容易出错的地方。</p><h2>注意鉴别客户端SDK是否基于连接池</h2><p>在使用三方客户端进行网络通信时，我们首先要确定客户端SDK是否是基于连接池技术实现的。我们知道，TCP是面向连接的基于字节流的协议：</p><ul>
+
 <li>面向连接，意味着连接需要先创建再使用，创建连接的三次握手有一定开销；</li>
 <li>基于字节流，意味着字节是发送数据的最小单元，TCP协议本身无法区分哪几个字节是完整的消息体，也无法感知是否有多个客户端在使用同一个TCP连接，TCP只是一个读写数据的管道。</li>
 </ul><p>如果客户端SDK没有使用连接池，而直接是TCP连接，那么就需要考虑每次建立TCP连接的开销，<strong>并且因为TCP基于字节流，在多线程的情况下对同一连接进行复用，可能会产生线程安全问题</strong>。</p><!-- [[[read_end]]] --><p>我们先看一下涉及TCP连接的客户端SDK，对外提供API的三种方式。在面对各种三方客户端的时候，只有先识别出其属于哪一种，才能理清楚使用方式。</p><ul>

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是孔令飞。</p><p>这一讲和前面两讲，都是介绍如何基于物理机/虚拟机来部署IAM的。在前面两讲，我们了解了如何部署一个高可用的 IAM 应用，今天就再来看看IAM 应用安全和弹性伸缩能力的构建方式。在这一讲中，我会带你加固IAM应用的安全性，并介绍如何具体执行扩缩容步骤。</p><p>接下来，我们先来看下如何加固IAM应用的安全性。</p><h2>IAM应用安全性加固</h2><p>iam-apiserver、iam-authz-server、MariaDB、Redis和MongoDB这些服务，都提供了绑定监听网卡的功能。我们可以将这些服务绑定到内网网卡上，从而只接收来自于内网的请求，通过这种方式，可以加固我们的系统。</p><p>我们也可以通过iptables来实现类似的功能，通过将安全问题统一收敛到iptables规则，可以使我们更容易地维护安全类设置。</p><p>这门课通过iptables来加固系统，使系统变得更加安全。下面，我先来对iptables工具进行一些简单的介绍。</p><h3>iptables简介</h3><p>iptables是Linux下最优秀的防火墙工具，也是Linux内核中netfilter网络子系统用户态的工具。</p><p>netfilter提供了一系列的接口，在一个到达本机的数据包，或者经本机转发的数据包流程中添加了一些可供用户操作的点，这些点被称为HOOK点。通过在HOOK点注册数据包处理函数，可以实现数据包转发、数据包过滤、地址转换等功能。</p><!-- [[[read_end]]] --><p>用户通过iptables工具定义各种规则，这些规则通过iptables传给内核中的netfilter。最终，netfilter会根据规则对网络包进行过滤。Linux系统一般会默认安装iptables软件。防火墙根据iptables里的规则，对收到的网络数据包进行处理。</p><p>iptables里的数据组织结构分为表、链、规则。</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是孔令飞。</p><p>这一讲和前面两讲，都是介绍如何基于物理机/虚拟机来部署IAM的。在前面两讲，我们了解了如何部署一个高可用的 IAM 应用，今天就再来看看IAM 应用安全和弹性伸缩能力的构建方式。在这一讲中，我会带你加固IAM应用的安全性，并介绍如何具体执行扩缩容步骤。</p><p>接下来，我们先来看下如何加固IAM应用的安全性。</p><h2>IAM应用安全性加固</h2><p>iam-apiserver、iam-authz-server、MariaDB、Redis和MongoDB这些服务，都提供了绑定监听网卡的功能。我们可以将这些服务绑定到内网网卡上，从而只接收来自于内网的请求，通过这种方式，可以加固我们的系统。</p><p>我们也可以通过iptables来实现类似的功能，通过将安全问题统一收敛到iptables规则，可以使我们更容易地维护安全类设置。</p><p>这门课通过iptables来加固系统，使系统变得更加安全。下面，我先来对iptables工具进行一些简单的介绍。</p><h3>iptables简介</h3><p>iptables是Linux下最优秀的防火墙工具，也是Linux内核中netfilter网络子系统用户态的工具。</p><p>netfilter提供了一系列的接口，在一个到达本机的数据包，或者经本机转发的数据包流程中添加了一些可供用户操作的点，这些点被称为HOOK点。通过在HOOK点注册数据包处理函数，可以实现数据包转发、数据包过滤、地址转换等功能。</p><!-- [[[read_end]]] --><p>用户通过iptables工具定义各种规则，这些规则通过iptables传给内核中的netfilter。最终，netfilter会根据规则对网络包进行过滤。Linux系统一般会默认安装iptables软件。防火墙根据iptables里的规则，对收到的网络数据包进行处理。</p><p>iptables里的数据组织结构分为表、链、规则。</p><ul>
+
 <li><strong>表（tables）:</strong>表可以提供特定的功能，每个表里包含多个链。iptables里面一共有5个表，分别是filter、nat、mangle、raw、security。这些表，分别用来实现包过滤、网络地址转换、包重构、数据追踪处理和SELinux标记设置。</li>
 <li><strong>链（chains）:</strong>链是数据包传播的路径，每一条链中可以有一个或多个规则。当一个数据包到达一个链时，iptables会从链中第一条规则开始，检查该数据包是否满足规则所定义的条件。如果满足，就会根据该条规则所定义的方法，处理该数据包。否则，就继续检查下一条规则。如果该数据包不符合链中任一条规则，iptables就会根据该链预先定义的默认策略来处理数据包。</li>
 <li><strong>规则（rules）：</strong>规则存储在内核空间的信息包过滤表中，用来描述“如果数据包满足所描述的条件，就按照要求处理这个数据包，如果不满足，就判断下一条规则”。</li>

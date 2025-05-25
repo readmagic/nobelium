@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>前一讲，我带你了解了指令选择和寄存器分配，本节课我们继续讲解目标代码生成的，第三个需要考虑的因素：<strong>指令重排序（Instruction Scheduling）。</strong></p><p>我们可以通过重新排列指令，让代码的整体执行效率加快。那你可能会问了：就算重新排序了，每一条指令还是要执行啊？怎么就会变快了呢？</p><p>别着急，本节课我就带你探究其中的原理和算法，来了解这个问题。而且，我还会带你了解LLVM是怎么把指令选择、寄存器分配、指令重排序这三项工作组织成一个完整流程，完成目标代码生成的任务的。这样，你会对编译器后端的代码生成过程形成完整的认知，为正式做一些后端工作打下良好的基础。</p><p>首先，我们来看看指令重排序的问题。</p><h2>指令重排序</h2><p>如果你有上面的疑问，其实是很正常的。因为我们通常会把CPU看做一个整体，把CPU执行指令的过程想象成，依此检票进站的过程，改变不同乘客的次序，并不会加快检票的速度。所以，我们会自然而然地认为改变顺序并不会改变总时间。</p><p>但当我们进入CPU内部，会看到CPU是由多个功能部件构成的。下图是Ice Lake微架构的CPU的内部构成（从<a href="https://software.intel.com/sites/default/files/managed/9e/bc/64-ia-32-architectures-optimization-manual.pdf">Intel公司的技术手册</a>中获取）：</p><p><img src="https://static001.geekbang.org/resource/image/d5/72/d542a9f16a9153cf7ddd1d85b83af172.png" alt=""></p><p>在这个结构中，一条指令执行时，要依次用到多个功能部件，分成多个阶段，虽然每条指令是顺序执行的，但每个部件的工作完成以后，就可以服务于下一条指令，从而达到并行执行的效果。这种结构叫做<strong>流水线（pipeline）结构。</strong>我举例子说明一下，比如典型的RISC指令在执行过程会分成前后共5个阶段。</p><!-- [[[read_end]]] --><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>前一讲，我带你了解了指令选择和寄存器分配，本节课我们继续讲解目标代码生成的，第三个需要考虑的因素：<strong>指令重排序（Instruction Scheduling）。</strong></p><p>我们可以通过重新排列指令，让代码的整体执行效率加快。那你可能会问了：就算重新排序了，每一条指令还是要执行啊？怎么就会变快了呢？</p><p>别着急，本节课我就带你探究其中的原理和算法，来了解这个问题。而且，我还会带你了解LLVM是怎么把指令选择、寄存器分配、指令重排序这三项工作组织成一个完整流程，完成目标代码生成的任务的。这样，你会对编译器后端的代码生成过程形成完整的认知，为正式做一些后端工作打下良好的基础。</p><p>首先，我们来看看指令重排序的问题。</p><h2>指令重排序</h2><p>如果你有上面的疑问，其实是很正常的。因为我们通常会把CPU看做一个整体，把CPU执行指令的过程想象成，依此检票进站的过程，改变不同乘客的次序，并不会加快检票的速度。所以，我们会自然而然地认为改变顺序并不会改变总时间。</p><p>但当我们进入CPU内部，会看到CPU是由多个功能部件构成的。下图是Ice Lake微架构的CPU的内部构成（从<a href="https://software.intel.com/sites/default/files/managed/9e/bc/64-ia-32-architectures-optimization-manual.pdf">Intel公司的技术手册</a>中获取）：</p><p><img src="https://static001.geekbang.org/resource/image/d5/72/d542a9f16a9153cf7ddd1d85b83af172.png" alt=""></p><p>在这个结构中，一条指令执行时，要依次用到多个功能部件，分成多个阶段，虽然每条指令是顺序执行的，但每个部件的工作完成以后，就可以服务于下一条指令，从而达到并行执行的效果。这种结构叫做<strong>流水线（pipeline）结构。</strong>我举例子说明一下，比如典型的RISC指令在执行过程会分成前后共5个阶段。</p><!-- [[[read_end]]] --><ul>
+
 <li>IF：获取指令；</li>
 <li>ID（或RF）：指令解码和获取寄存器的值；</li>
 <li>EX：执行指令；</li>

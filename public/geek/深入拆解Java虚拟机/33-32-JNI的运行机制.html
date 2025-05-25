@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>我们经常会遇见Java语言较难表达，甚至是无法表达的应用场景。比如我们希望使用汇编语言（如X86_64的SIMD指令）来提升关键代码的性能；再比如，我们希望调用Java核心类库无法提供的，某个体系架构或者操作系统特有的功能。</p><p>在这种情况下，我们往往会牺牲可移植性，在Java代码中调用C/C++代码（下面简述为C代码），并在其中实现所需功能。这种跨语言的调用，便需要借助Java虚拟机的Java Native Interface（JNI）机制。</p><p>关于JNI的例子，你应该特别熟悉Java中标记为<code>native</code>的、没有方法体的方法（下面统称为native方法）。当在Java代码中调用这些native方法时，Java虚拟机将通过JNI，调用至对应的C函数（下面将native方法对应的C实现统称为C函数）中。</p><pre><code>public class Object {
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>我们经常会遇见Java语言较难表达，甚至是无法表达的应用场景。比如我们希望使用汇编语言（如X86_64的SIMD指令）来提升关键代码的性能；再比如，我们希望调用Java核心类库无法提供的，某个体系架构或者操作系统特有的功能。</p><p>在这种情况下，我们往往会牺牲可移植性，在Java代码中调用C/C++代码（下面简述为C代码），并在其中实现所需功能。这种跨语言的调用，便需要借助Java虚拟机的Java Native Interface（JNI）机制。</p><p>关于JNI的例子，你应该特别熟悉Java中标记为<code>native</code>的、没有方法体的方法（下面统称为native方法）。当在Java代码中调用这些native方法时，Java虚拟机将通过JNI，调用至对应的C函数（下面将native方法对应的C实现统称为C函数）中。</p><pre><code>public class Object {
+
   public native int hashCode();
 }
 </code></pre><p>举个例子，<code>Object.hashCode</code>方法便是一个native方法。它对应的C函数将计算对象的哈希值，并缓存在对象头、栈上锁记录（轻型锁）或对象监视锁（重型锁所使用的monitor）中，以确保该值在对象的生命周期之内不会变更。</p><h2>native方法的链接</h2><p>在调用native方法前，Java虚拟机需要将该native方法链接至对应的C函数上。</p><!-- [[[read_end]]] --><p>链接方式主要有两种。第一种是让Java虚拟机自动查找符合默认命名规范的C函数，并且链接起来。</p><p>事实上，我们并不需要记住所谓的命名规范，而是采用<code>javac -h</code>命令，便可以根据Java程序中的native方法声明，自动生成包含符合命名规范的C函数的头文件。</p><p>举个例子，在下面这段代码中，<code>Foo</code>类有三个native方法，分别为静态方法<code>foo</code>以及两个重载的实例方法<code>bar</code>。</p><pre><code>package org.example;

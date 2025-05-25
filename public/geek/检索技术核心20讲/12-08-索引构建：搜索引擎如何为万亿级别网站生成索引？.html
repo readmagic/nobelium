@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是陈东。</p><p>对基于内容或者属性的检索场景，我们可以使用倒排索引完成高效的检索。但是，在一些超大规模的数据应用场景中，比如搜索引擎，它会对万亿级别的网站进行索引，生成的倒排索引会非常庞大，根本无法存储在内存中。这种情况下，我们能否像B+树或者LSM树那样，将数据存入磁盘呢？今天，我们就来聊一聊这个问题。</p><h2>如何生成大于内存容量的倒排索引？</h2><p>我们先来回顾一下，对于能够在内存中处理的小规模的文档集合，我们是如何生成基于哈希表的倒排索引的。步骤如下：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是陈东。</p><p>对基于内容或者属性的检索场景，我们可以使用倒排索引完成高效的检索。但是，在一些超大规模的数据应用场景中，比如搜索引擎，它会对万亿级别的网站进行索引，生成的倒排索引会非常庞大，根本无法存储在内存中。这种情况下，我们能否像B+树或者LSM树那样，将数据存入磁盘呢？今天，我们就来聊一聊这个问题。</p><h2>如何生成大于内存容量的倒排索引？</h2><p>我们先来回顾一下，对于能够在内存中处理的小规模的文档集合，我们是如何生成基于哈希表的倒排索引的。步骤如下：</p><ol>
+
 <li>给每个文档编号，作为它们的唯一标识，并且排好序；</li>
 <li>顺序扫描每一个文档，将当前扫描的文档中的所有内容生成&lt;关键字，文档ID，关键字位置&gt;数据对，并将所有的&lt;关键字，文档ID，关键字位置&gt;这样的数据对，都以关键字为key存入倒排表（位置信息如果不需要可以省略）；</li>
 <li>重复第2步，直到处理完所有文档。这样就生成一个基于内存的倒排索引。<br>

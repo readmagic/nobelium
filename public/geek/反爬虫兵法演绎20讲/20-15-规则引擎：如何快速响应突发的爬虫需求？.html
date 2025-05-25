@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是DS Hunter，反爬虫专家，又见面了。</p><p>我们前面很多地方都提到了规则引擎。这里再重申一下规则的定义：</p><blockquote>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是DS Hunter，反爬虫专家，又见面了。</p><p>我们前面很多地方都提到了规则引擎。这里再重申一下规则的定义：</p><blockquote>
+
 <p>规则（rule）：使用任何技术手段，对线上请求特征按照指定的条件（condition）或方法（callback）进行检测验证，并执行指定操作的过程。在部分系统里，这个也被称为过滤器（filter）。</p>
 </blockquote><p>如果说低耦合是为了保护你不死，那么规则引擎就是你的战斗利器，相当于将军的兵器，来鉴别爬虫。严格来说，整个反爬系统所有的操作，最终都是各种形态的规则引擎。</p><p>这里我们把规则引擎分为后端和前端两部分来讨论。为了使论述更佳清晰易懂，这里我们将BFF的规则引擎认为是前端的部分。</p><p>此外，做好规则引擎之后，还是需要用上一章的低耦合的办法去接入的，你也可以根据上一讲的内容自行组合。</p><p>那么，我们就直接进入规则引擎的讲解，关注它本身的架构。</p><h2>规则引擎：架构分析</h2><p>从结构上来说，前后端是各有一套规则引擎的。其中，前端的和BFF紧密结合，我们可以放一起讨论。</p><p><img src="https://static001.geekbang.org/resource/image/1f/22/1fecba0be3ff2292a9f45a1d575ea722.jpg?wh=1920x1087" alt=""></p><p>你可以从图里看到，无论是前端还是后端，大致流程都是收集信息，配置规则，对应的模块进行处理，然后根据规则进行指定的操作。这个过程我们可以认为是数据驱动，也可以认为是规则驱动。当然，正是因为规则驱动，所以才有了规则引擎这样的名字。</p><!-- [[[read_end]]] --><p>在发现了前后端的相似性之后，你可能会有一个疑问：既然前后端都需要规则配置，那么这个是否可以抽象出一个配置模块，同时对前后端进行配置呢？</p><p>答案是可以的，但是要看你的业务权限到什么范围。理论上说，一个配置系统同时配置前后端，能减少配置压力。但是，如果对应的系统不在你权限范围内，就意味着你可以随意变更别人模块的权限，通常推行压力会大很多。而且这不是什么技术问题，而是一个办公室政治问题。不同的团队可能会有不同的难度。这个没有标准答案。</p><h2>规则引擎：后端</h2><p>实际上，很多公司都有做反爬虫的系统，但是它们看起来很高大上，实际效果却一般。原因就是他们只做了这个规则引擎，并没有深入下去。这样的现象，恰恰也说明了规则引擎的基础性以及重要性。</p><p>按照我们前面的介绍，后端通常是做请求校验的，也就是对HTTP请求进行规则校验。我们再来复习一下前一张的流程图：</p><p><img src="https://static001.geekbang.org/resource/image/20/74/20e1f0bfb4ba9e01639c36a9f488c674.jpg?wh=1920x1087" alt=""></p><p>可以看到，规则引擎是独立于应用层而存在的。那也就意味着要么SLB调用规则引擎，要么反爬SDK调用规则引擎。这同时也意味着规则引擎的独立性极强，可以随时被熔断。</p><p>记住这个观点，然后我们逐个模块来看。</p><h3>信息收集模块</h3><p>第一个模块就是信息收集模块。</p><p>根据我们前一讲低耦合的说法，规则引擎是由反爬SDK来调用的，而不是耦合在系统内部。那么，规则引擎应该是个独立系统。这意味着，他不可能拿到请求的上下文，因此不可能直接分析HTTP Header。而我们就需要把HTTP Header都带过去。</p><p>给另一个系统带参数过去，方法很简单，就是调用时序列化当前HTTP Header，然后作为调用参数传给对方即可。这里传参本身没什么难度。不过，需要权衡的是，日志在哪里记录？是调用方，还是规则引擎？</p><p>原则上来说，我建议放在规则引擎。虽然放在调用方记录会更加稳妥、不丢日志，但是出于以下考虑，还是放规则引擎方比较合适：</p><p><strong>1. 放在调用方， 会增加接入难度：</strong></p><p>日志如果集成在调用方，要么是给业务方一个接口，要么是集成在SDK里面。无论是哪一种情况，都增加了出错的可能性，并且出错了都难以调试——因为这是跨团队代码。</p><p>因此，出于简单考虑，应该尽可能减少SDK的调用成本。最好就一句话：结果=调用反爬()，然后代码结束。</p><p><strong>2. 放在调用方，会增加对业务系统的耦合：</strong></p><p>上一讲详细解释了的低耦合的思维方式。</p><p><strong>3. 放在调用方，会增加调用方的压力。</strong></p><p>因此，我们的规则引擎应该自带日志模块。</p><p>日志的问题讨论结束了，我们回到正题。后端规则引擎基本上就是收集HTTP Header了，而HTTP协议本身是一个文本协议，因此Header本身也是文本，这也降低了我们序列化的成本。因此，暂时无需考虑序列化对系统造成的压力。但是，依然要对HTTP Header做<a href="http://time.geekbang.org/column/article/483022">限制</a>，避免对方恶意攻击header的count，消耗序列化成本，把反爬虫系统拖熔断。</p><p>规则引擎接收到请求参数，就可以对Header的内容进行规则判定了。这里因为还要做反序列化，而HTTP本身又有大量的encode和decode操作，因此一定要小心处理，不然很容易埋bug，类似忘记调用encode、调用decode次数错误等等都有可能出现。而encode和decode类型的bug，一旦出现，都是概率型bug，不是必现型bug，调试会极难。同样的道理，log记录也要注意这个问题。</p><h3>规则校验模块</h3><p>后端的规则校验模块本质上是一个<a href="http://time.geekbang.org/column/article/214014">策略模式</a>。</p><p>策略模式简单来说就是对策略进行解耦。事实上，大部分设计模式都逃不掉“解耦”这个概念。而规则，也就是Rule，本质上也可以认为是一个策略。因为根据指定的规则，我们可以进行判定，输出结果。这本身也算一种策略。</p><p>我们看这样的伪代码：</p><pre><code class="language-c#">interface IContext;
 interface IRuleResult;

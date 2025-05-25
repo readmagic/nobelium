@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是孔令飞。</p><p>在Go项目开发中，错误是我们必须要处理的一个事项。除了我们上一讲学习过的错误码，处理错误也离不开错误包。</p><p>业界有很多优秀的、开源的错误包可供选择，例如Go标准库自带的<code>errors</code>包、<code>github.com/pkg/errors</code>包。但是这些包目前还不支持业务错误码，很难满足生产级应用的需求。所以，在实际开发中，我们有必要开发出适合自己错误码设计的错误包。当然，我们也没必要自己从0开发，可以基于一些优秀的包来进行二次封装。</p><p>这一讲里，我们就来一起看看，如何设计一个错误包来适配上一讲我们设计的错误码，以及一个错误码的具体实现。</p><h2>错误包需要具有哪些功能？</h2><p>要想设计一个优秀的错误包，我们首先得知道一个优秀的错误包需要具备哪些功能。在我看来，至少需要有下面这六个功能：</p><p><strong>首先，应该能支持错误堆栈。</strong>我们来看下面一段代码，假设保存在<a href="https://github.com/marmotedu/gopractise-demo/blob/master/errors/bad.go">bad.go</a>文件中：</p><pre><code>package main
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是孔令飞。</p><p>在Go项目开发中，错误是我们必须要处理的一个事项。除了我们上一讲学习过的错误码，处理错误也离不开错误包。</p><p>业界有很多优秀的、开源的错误包可供选择，例如Go标准库自带的<code>errors</code>包、<code>github.com/pkg/errors</code>包。但是这些包目前还不支持业务错误码，很难满足生产级应用的需求。所以，在实际开发中，我们有必要开发出适合自己错误码设计的错误包。当然，我们也没必要自己从0开发，可以基于一些优秀的包来进行二次封装。</p><p>这一讲里，我们就来一起看看，如何设计一个错误包来适配上一讲我们设计的错误码，以及一个错误码的具体实现。</p><h2>错误包需要具有哪些功能？</h2><p>要想设计一个优秀的错误包，我们首先得知道一个优秀的错误包需要具备哪些功能。在我看来，至少需要有下面这六个功能：</p><p><strong>首先，应该能支持错误堆栈。</strong>我们来看下面一段代码，假设保存在<a href="https://github.com/marmotedu/gopractise-demo/blob/master/errors/bad.go">bad.go</a>文件中：</p><pre><code>package main
+
 
 import (
 	&quot;fmt&quot;

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是葛俊。今天，我继续和你分享命令行工具的使用。</p><p>在上一篇文章中，我与你介绍了命令行环境中的终端、Shell，以及远程连接的设置，解决了环境配置的问题。今天，我们再来看看具体的命令行工具的使用技巧。我会根据常见的工作场景来组织这些工具，因为优化工作流程、提高效率才是学习工具的真正目的。</p><p>从我的经验来看，开发人员最常见的、使用命令行的场景主要包括两个：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是葛俊。今天，我继续和你分享命令行工具的使用。</p><p>在上一篇文章中，我与你介绍了命令行环境中的终端、Shell，以及远程连接的设置，解决了环境配置的问题。今天，我们再来看看具体的命令行工具的使用技巧。我会根据常见的工作场景来组织这些工具，因为优化工作流程、提高效率才是学习工具的真正目的。</p><p>从我的经验来看，开发人员最常见的、使用命令行的场景主要包括两个：</p><ul>
+
 <li>日常的操作，比如文件夹跳转、处理和搜索文件夹和文件内容、查看和管理系统信息；</li>
 <li>开发中常见的工作，比如Git的使用、API调试、查看日志和网络状况等。</li>
 </ul><p>我会重点与你分享这些场景中有哪些推荐工具以及使用技巧。而至于这些工具如何安装的内容，网络上已经有很多了，我就不再详细描述了。</p><h2>日常操作中的工具和技巧</h2><p>关于日常操作，Linux/Unix系统已经自带了一些工具，另外还有些产生已久、为我们所熟悉的工具。不过，要更高效地完成工作，我们还有更强大的工具可以选择。</p><h3>第一个场景：列举文件夹和文件，查看文件</h3><p><strong>列举文件</strong>的默认工具是ls。除此之外，一个常用的工具是tree，可以列出文件夹的树形结构：</p><p><img src="https://static001.geekbang.org/resource/image/5c/3f/5cee9ed0d0fb2beb25961108acdf633f.png" alt=""></p><p>另外，还有些比tree更方便的工具，比如alder和exa。exa尤其好用，优点包括：</p><!-- [[[read_end]]] --><ul>

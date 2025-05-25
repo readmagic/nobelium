@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是伟忠，这一节课我们一起来学习正则匹配原理相关的内容，以及在书写正则时的一些优化方法。</p><p>这节课我主要给你讲解一下正则匹配过程，回顾一下之前讲的回溯，以及 DFA 和 NFA 引擎的工作方式，方便你明白正则是如何进行匹配的。这些原理性的知识，能够帮助我们快速理解为什么有些正则表达式不符合预期，也可以避免一些常见的错误。只有了解正则引擎的工作原理，我们才可以更轻松地写出正确的，性能更好的正则表达式。</p><h2>有穷状态自动机</h2><p>正则之所以能够处理复杂文本，就是因为采用了<strong>有穷状态自动机（</strong><strong>finite automaton）。</strong>那什么是有穷自动机呢？有穷状态是指一个系统具有有穷个状态，不同的状态代表不同的意义。自动机是指系统可以根据相应的条件，在不同的状态下进行转移。从一个初始状态，根据对应的操作（比如录入的字符集）执行状态转移，最终达到终止状态（可能有一到多个终止状态）。</p><p>有穷自动机的具体实现称为正则引擎，主要有 DFA 和 NFA 两种，其中 NFA 又分为传统的NFA 和POSIX NFA。</p><pre><code>DFA：确定性有穷自动机（Deterministic finite automaton）
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是伟忠，这一节课我们一起来学习正则匹配原理相关的内容，以及在书写正则时的一些优化方法。</p><p>这节课我主要给你讲解一下正则匹配过程，回顾一下之前讲的回溯，以及 DFA 和 NFA 引擎的工作方式，方便你明白正则是如何进行匹配的。这些原理性的知识，能够帮助我们快速理解为什么有些正则表达式不符合预期，也可以避免一些常见的错误。只有了解正则引擎的工作原理，我们才可以更轻松地写出正确的，性能更好的正则表达式。</p><h2>有穷状态自动机</h2><p>正则之所以能够处理复杂文本，就是因为采用了<strong>有穷状态自动机（</strong><strong>finite automaton）。</strong>那什么是有穷自动机呢？有穷状态是指一个系统具有有穷个状态，不同的状态代表不同的意义。自动机是指系统可以根据相应的条件，在不同的状态下进行转移。从一个初始状态，根据对应的操作（比如录入的字符集）执行状态转移，最终达到终止状态（可能有一到多个终止状态）。</p><p>有穷自动机的具体实现称为正则引擎，主要有 DFA 和 NFA 两种，其中 NFA 又分为传统的NFA 和POSIX NFA。</p><pre><code>DFA：确定性有穷自动机（Deterministic finite automaton）
+
 NFA：非确定性有穷自动机（Non-deterministic finite automaton）
 </code></pre><p>接下来我们来通过一些示例，来详细看下正则表达式的匹配过程。</p><h2>正则的匹配过程</h2><p>在使用到编程语言时，我们经常会“编译”一下正则表达式，来提升效率，比如在 Python3 中它是下面这样的：</p><!-- [[[read_end]]] --><pre><code>&gt;&gt;&gt; import re
 &gt;&gt;&gt; reg = re.compile(r'a(?:bb)+a')

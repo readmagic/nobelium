@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是周爱民。欢迎回到我的专栏。书接上回，这一讲我们仍然讲动态执行。</p><p>之前我说到过，setTimeout和setInterval的第一个参数可以使用字符串，那么如果这个参数使用字符串的话，代码将会在哪里执行呢？毕竟当定时器被触发的时候，程序的执行流程“很可能”已经离开了当前的上下文环境，而切换到未知的地方去了。</p><p>所以，的确如你所猜测的那样，如果采用这种方式来执行代码，那么代码片断将在全局环境中执行。并且，这也是后来这一功能被部分限制了的原因，例如你在某些版本的Firefox中这样做，那么你可能会得到如下的错误提示：</p><pre><code>&gt; setTimeout('alert(&quot;HI&quot;)', 1000)
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是周爱民。欢迎回到我的专栏。书接上回，这一讲我们仍然讲动态执行。</p><p>之前我说到过，setTimeout和setInterval的第一个参数可以使用字符串，那么如果这个参数使用字符串的话，代码将会在哪里执行呢？毕竟当定时器被触发的时候，程序的执行流程“很可能”已经离开了当前的上下文环境，而切换到未知的地方去了。</p><p>所以，的确如你所猜测的那样，如果采用这种方式来执行代码，那么代码片断将在全局环境中执行。并且，这也是后来这一功能被部分限制了的原因，例如你在某些版本的Firefox中这样做，那么你可能会得到如下的错误提示：</p><pre><code>&gt; setTimeout('alert(&quot;HI&quot;)', 1000)
+
 Content Security Policy: The page’s settings blocked the loading of a resource at eval (“script-src”).
 </code></pre><p>在全局环境中执行代码所带来的问题远远不止于此，接下来，我们就从这个问题开始谈起。</p><h2>在全局环境中的eval</h2><p>早期的JavaScript是应用于浏览器环境中的，因此，当网页中使用<code>&lt;SCRIPT&gt;</code>标签加载.js文件时候，代码就会在浏览器的全局环境中执行。但这个过程是同步的，将BLOCK掉整个网页的装载进度，因此有了<code>defer</code>这个属性来指示代码异步加载，将这个加载过程延迟到网页初始化结束之后。不过即使如此，JavaScript代码仍然是执行在全局环境中的。</p><p>在那个时代，<code>&lt;SCRIPT&gt;</code>标签还支持<code>for</code>和<code>event</code>属性，用于指定将JavaScript代码绑定给指定的HTML元素或事件响应。当采用这种方式的时候，代码还是在全局环境中执行，只不过可能初始化为一个函数（的回调），并且<code>this</code>指向元素或事件。很不幸，有许多浏览器并不实现这些特性，尤其是<code>for</code>属性，它也许在IE中还存在，这一特性与ActiveXObject的集成有关。</p><!-- [[[read_end]]] --><p>关于脚本的动态执行，你能想象的绝大多数能在浏览器中玩的花样大概都在这里了。当然，你还可以在DOM中动态地插入一个<code>SCRIPT</code>标签来装载脚本，这在Ajax还没有那么流行的时候是唯二之选。另一种选择，是在Document初始化结束之前使用<code>document.write()</code>。</p><p>总而言之，为了动态执行一点什么，古典时代的WEB程序员是绞尽脑汁。</p><p>那么为什么不用<code>eval()</code>呢？</p><p>按照JavaScript脚本的执行机制，所有的.js文件加载之后，它的全局代码只会执行一次。无论是在浏览器还是在Node.js环境中，以及它们的模块加载环境中，都是如此。这意味着放在这些全局代码中的<code>eval()</code>事实上也就只在初始化阶段执行一次而已。而<code>eval()</code>又有一个特别的性质，那就是它“总是在”当前上下文中执行代码。因此，所有其他的、放在函数中的<code>eval()</code>代码都只会影响函数内的、局部的上下文，而无法影响全局。</p><p>也就是说，除了初始化，<code>eval()</code>无法在全局执行。</p><p>不同的浏览器都有各自的内置机制来解决这个问题。IE会允许用户代码调用<code>window.execScript()</code>，实现那些希望<code>eval()</code>执行在全局的需求。而Firefox采用了另外的一条道路，称为<code>window.eval()</code>。这个从字面上就很好理解，就是“让<code>eval()</code>代码执行在window环境中”。而<code>window</code>就是浏览器中的全局对象global，也就是说，window.eval与global.eval是等义的。</p><p>这带来了另外一个著名的、在Firefox早期实现的JavaScript特性，称为“对象的eval”。</p><p>如果你试图执行<code>obj.eval(x)</code>，那么就是将代码文本<code>x</code>执行在<code>obj</code>的对象闭包中（类似于<code>with (obj) eval(x)</code>）。因为全局环境就是使用global来创建的“对象环境（对象闭包）”，所以这是在实现“全局eval()”的时候“顺手”就实现了的特性。</p><p>但这意味着用户代码可以将<code>eval</code>函数作为一个方法赋给任何一个JavaScript对象，以及任何一个属性名字。例如：</p><pre><code>var obj = { do: eval };
 obj.do('alert(&quot;HI&quot;)');

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是鸟窝。</p><p>前面我们在学习Mutex、RWMutex等并发原语的实现时，你可以看到，最底层是通过atomic包中的一些原子操作来实现的。当时，为了让你的注意力集中在这些原语的功能实现上，我并没有展开介绍这些原子操作是干什么用的。</p><p>你可能会说，这些并发原语已经可以应对大多数的并发场景了，为啥还要学习原子操作呢？其实，这是因为，在很多场景中，使用并发原语实现起来比较复杂，而原子操作可以帮助我们更轻松地实现底层的优化。</p><p>所以，现在，我会专门用一节课，带你仔细地了解一下什么是原子操作，atomic包都提供了哪些实现原子操作的方法。另外，我还会带你实现一个基于原子操作的数据结构。好了，接下来我们先来学习下什么是原子操作。</p><h1>原子操作的基础知识</h1><p>Package sync/atomic 实现了同步算法底层的原子的内存操作原语，我们把它叫做原子操作原语，它提供了一些实现原子操作的方法。</p><p>之所以叫原子操作，是因为一个原子在执行的时候，其它线程不会看到执行一半的操作结果。在其它线程看来，原子操作要么执行完了，要么还没有执行，就像一个最小的粒子-原子一样，不可分割。</p><p>CPU提供了基础的原子操作，不过，不同架构的系统的原子操作是不一样的。</p><!-- [[[read_end]]] --><p>对于单处理器单核系统来说，如果一个操作是由一个CPU指令来实现的，那么它就是原子操作，比如它的XCHG和INC等指令。如果操作是基于多条指令来实现的，那么，执行的过程中可能会被中断，并执行上下文切换，这样的话，原子性的保证就被打破了，因为这个时候，操作可能只执行了一半。</p><p>在多处理器多核系统中，原子操作的实现就比较复杂了。</p><p>由于cache的存在，单个核上的单个指令进行原子操作的时候，你要确保其它处理器或者核不访问此原子操作的地址，或者是确保其它处理器或者核总是访问原子操作之后的最新的值。x86架构中提供了指令前缀LOCK，LOCK保证了指令（比如LOCK CMPXCHG op1、op2）不会受其它处理器或CPU核的影响，有些指令（比如XCHG）本身就提供Lock的机制。不同的CPU架构提供的原子操作指令的方式也是不同的，比如对于多核的MIPS和ARM，提供了LL/SC（Load Link/Store Conditional）指令，可以帮助实现原子操作（ARMLL/SC指令 LDREX和STREX）。</p><p><strong>因为不同的CPU架构甚至不同的版本提供的原子操作的指令是不同的，所以，要用一种编程语言实现支持不同架构的原子操作是相当有难度的</strong>。不过，还好这些都不需要你操心，因为Go提供了一个通用的原子操作的API，将更底层的不同的架构下的实现封装成atomic包，提供了修改类型的原子操作（<a href="https://preshing.com/20150402/you-can-do-any-kind-of-atomic-read-modify-write-operation/">atomic read-modify-write</a>，RMW）和加载存储类型的原子操作（<a href="https://preshing.com/20130618/atomic-vs-non-atomic-operations/">Load和Store</a>）的API，稍后我会一一介绍。</p><p>有的代码也会因为架构的不同而不同。有时看起来貌似一个操作是原子操作，但实际上，对于不同的架构来说，情况是不一样的。比如下面的代码的第4行，是将一个64位的值赋值给变量i：</p><pre><code>const x int64 = 1 + 1&lt;&lt;33
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是鸟窝。</p><p>前面我们在学习Mutex、RWMutex等并发原语的实现时，你可以看到，最底层是通过atomic包中的一些原子操作来实现的。当时，为了让你的注意力集中在这些原语的功能实现上，我并没有展开介绍这些原子操作是干什么用的。</p><p>你可能会说，这些并发原语已经可以应对大多数的并发场景了，为啥还要学习原子操作呢？其实，这是因为，在很多场景中，使用并发原语实现起来比较复杂，而原子操作可以帮助我们更轻松地实现底层的优化。</p><p>所以，现在，我会专门用一节课，带你仔细地了解一下什么是原子操作，atomic包都提供了哪些实现原子操作的方法。另外，我还会带你实现一个基于原子操作的数据结构。好了，接下来我们先来学习下什么是原子操作。</p><h1>原子操作的基础知识</h1><p>Package sync/atomic 实现了同步算法底层的原子的内存操作原语，我们把它叫做原子操作原语，它提供了一些实现原子操作的方法。</p><p>之所以叫原子操作，是因为一个原子在执行的时候，其它线程不会看到执行一半的操作结果。在其它线程看来，原子操作要么执行完了，要么还没有执行，就像一个最小的粒子-原子一样，不可分割。</p><p>CPU提供了基础的原子操作，不过，不同架构的系统的原子操作是不一样的。</p><!-- [[[read_end]]] --><p>对于单处理器单核系统来说，如果一个操作是由一个CPU指令来实现的，那么它就是原子操作，比如它的XCHG和INC等指令。如果操作是基于多条指令来实现的，那么，执行的过程中可能会被中断，并执行上下文切换，这样的话，原子性的保证就被打破了，因为这个时候，操作可能只执行了一半。</p><p>在多处理器多核系统中，原子操作的实现就比较复杂了。</p><p>由于cache的存在，单个核上的单个指令进行原子操作的时候，你要确保其它处理器或者核不访问此原子操作的地址，或者是确保其它处理器或者核总是访问原子操作之后的最新的值。x86架构中提供了指令前缀LOCK，LOCK保证了指令（比如LOCK CMPXCHG op1、op2）不会受其它处理器或CPU核的影响，有些指令（比如XCHG）本身就提供Lock的机制。不同的CPU架构提供的原子操作指令的方式也是不同的，比如对于多核的MIPS和ARM，提供了LL/SC（Load Link/Store Conditional）指令，可以帮助实现原子操作（ARMLL/SC指令 LDREX和STREX）。</p><p><strong>因为不同的CPU架构甚至不同的版本提供的原子操作的指令是不同的，所以，要用一种编程语言实现支持不同架构的原子操作是相当有难度的</strong>。不过，还好这些都不需要你操心，因为Go提供了一个通用的原子操作的API，将更底层的不同的架构下的实现封装成atomic包，提供了修改类型的原子操作（<a href="https://preshing.com/20150402/you-can-do-any-kind-of-atomic-read-modify-write-operation/">atomic read-modify-write</a>，RMW）和加载存储类型的原子操作（<a href="https://preshing.com/20130618/atomic-vs-non-atomic-operations/">Load和Store</a>）的API，稍后我会一一介绍。</p><p>有的代码也会因为架构的不同而不同。有时看起来貌似一个操作是原子操作，但实际上，对于不同的架构来说，情况是不一样的。比如下面的代码的第4行，是将一个64位的值赋值给变量i：</p><pre><code>const x int64 = 1 + 1&lt;&lt;33
+
 
 func main() {
     var i = x

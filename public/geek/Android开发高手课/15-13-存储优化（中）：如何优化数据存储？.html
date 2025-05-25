@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>“将特定结构的数据转化为另一种能被记录和还原的格式”，这是我在上一期对存储下的一个定义。</p><p>再来复习一下数据存储的六个关键要素：正确性、时间开销、空间开销、安全、开发成本和兼容性。我们不可能同时把所有要素都做到最好，所谓数据存储优化就是根据自己的使用场景去把其中的一项或者几项做到最好。</p><p>更宽泛来讲，我认为数据存储不一定就是将数据存放到磁盘中，比如放到内存中、通过网络传输也可以算是存储的一种形式。或者我们也可以把这个过程叫作对象或者数据的序列化。</p><p>对于大部分的开发者来说，我们不一定有精力去“创造”一种数据序列化的格式，所以我今天主要来讲讲Android常用的序列化方法如何进行选择。</p><h2>对象的序列化</h2><p>应用程序中的对象存储在内存中，如果我们想把对象存储下来或者在网络上传输，这个时候就需要用到对象的序列化和反序列化。</p><p>对象序列化就是把一个Object对象所有的信息表示成一个字节序列，这包括Class信息、继承关系信息、访问权限、变量类型以及数值信息等。</p><p><strong>1. Serializable</strong></p><p>Serializable是Java原生的序列化机制，在Android中也有被广泛使用。我们可以通过Serializable将对象持久化存储，也可以通过Bundle传递Serializable的序列化数据。</p><!-- [[[read_end]]] --><p><strong>Serializable的原理</strong></p><p>Serializable的原理是通过ObjectInputStream和ObjectOutputStream来实现的，我们以Android 6.0的源码为例，你可以看到<a href="http://androidxref.com/6.0.0_r1/xref/libcore/luni/src/main/java/java/io/ObjectOutputStream.java#927">ObjectOutputStream</a>的部分源码实现：</p><pre><code>private void writeFieldValues(Object obj, ObjectStreamClass classDesc)  {
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>“将特定结构的数据转化为另一种能被记录和还原的格式”，这是我在上一期对存储下的一个定义。</p><p>再来复习一下数据存储的六个关键要素：正确性、时间开销、空间开销、安全、开发成本和兼容性。我们不可能同时把所有要素都做到最好，所谓数据存储优化就是根据自己的使用场景去把其中的一项或者几项做到最好。</p><p>更宽泛来讲，我认为数据存储不一定就是将数据存放到磁盘中，比如放到内存中、通过网络传输也可以算是存储的一种形式。或者我们也可以把这个过程叫作对象或者数据的序列化。</p><p>对于大部分的开发者来说，我们不一定有精力去“创造”一种数据序列化的格式，所以我今天主要来讲讲Android常用的序列化方法如何进行选择。</p><h2>对象的序列化</h2><p>应用程序中的对象存储在内存中，如果我们想把对象存储下来或者在网络上传输，这个时候就需要用到对象的序列化和反序列化。</p><p>对象序列化就是把一个Object对象所有的信息表示成一个字节序列，这包括Class信息、继承关系信息、访问权限、变量类型以及数值信息等。</p><p><strong>1. Serializable</strong></p><p>Serializable是Java原生的序列化机制，在Android中也有被广泛使用。我们可以通过Serializable将对象持久化存储，也可以通过Bundle传递Serializable的序列化数据。</p><!-- [[[read_end]]] --><p><strong>Serializable的原理</strong></p><p>Serializable的原理是通过ObjectInputStream和ObjectOutputStream来实现的，我们以Android 6.0的源码为例，你可以看到<a href="http://androidxref.com/6.0.0_r1/xref/libcore/luni/src/main/java/java/io/ObjectOutputStream.java#927">ObjectOutputStream</a>的部分源码实现：</p><pre><code>private void writeFieldValues(Object obj, ObjectStreamClass classDesc)  {
+
     for (ObjectStreamField fieldDesc : classDesc.fields()) {
         ...
         Field field = classDesc.checkAndGetReflectionField(fieldDesc);

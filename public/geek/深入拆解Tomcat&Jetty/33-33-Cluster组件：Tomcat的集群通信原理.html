@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>为了支持水平扩展和高可用，Tomcat提供了集群部署的能力，但与此同时也带来了分布式系统的一个通用问题，那就是如何在集群中的多个节点之间保持数据的一致性，比如会话（Session）信息。</p><p>要实现这一点，基本上有两种方式，一种是把所有Session数据放到一台服务器或者一个数据库中，集群中的所有节点通过访问这台Session服务器来获取数据。另一种方式就是在集群中的节点间进行Session数据的同步拷贝，这里又分为两种策略：第一种是将一个节点的Session拷贝到集群中其他所有节点；第二种是只将一个节点上的Session数据拷贝到另一个备份节点。</p><p>对于Tomcat的Session管理来说，这两种方式都支持。今天我们就来看看第二种方式的实现原理，也就是Tomcat集群通信的原理和配置方法，最后通过官网上的一个例子来了解下Tomcat集群到底是如何工作的。</p><h2>集群通信原理</h2><p>要实现集群通信，首先要知道集群中都有哪些成员。Tomcat是通过<strong>组播</strong>（Multicast）来实现的。那什么是组播呢？为了理解组播，我先来说说什么是“单播”。网络节点之间的通信就好像是人们之间的对话一样，一个人对另外一个人说话，此时信息的接收和传递只在两个节点之间进行，比如你在收发电子邮件、浏览网页时，使用的就是单播，也就是我们熟悉的“点对点通信”。</p><!-- [[[read_end]]] --><p>如果一台主机需要将同一个消息发送多个主机逐个传输，效率就会比较低，于是就出现组播技术。组播是<strong>一台主机向指定的一组主机发送数据报包</strong>，组播通信的过程是这样的：每一个Tomcat节点在启动时和运行时都会周期性（默认500毫秒）发送组播心跳包，同一个集群内的节点都在相同的<strong>组播地址</strong>和<strong>端口</strong>监听这些信息；在一定的时间内（默认3秒）不发送<strong>组播报文</strong>的节点就会被认为已经崩溃了，会从集群中删去。因此通过组播，集群中每个成员都能维护一个集群成员列表。</p><h2>集群通信配置</h2><p>有了集群成员的列表，集群中的节点就能通过TCP连接向其他节点传输Session数据。Tomcat通过SimpleTcpCluster类来进行会话复制（In-Memory Replication）。要开启集群功能，只需要将<code>server.xml</code>里的这一行的注释去掉就行：</p><p><img src="https://static001.geekbang.org/resource/image/45/89/45760766a99cad8a1e7001beae6d5589.png" alt=""></p><p>变成这样：</p><p><img src="https://static001.geekbang.org/resource/image/99/bb/99d7bd2cebfd19dfd4d702351a4450bb.png" alt=""></p><p>虽然只是简单的一行配置，但这一行配置等同于下面这样的配置，也就是说Tomcat给我们设置了很多默认参数，这些参数都跟集群通信有关。</p><pre><code>&lt;!-- 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>为了支持水平扩展和高可用，Tomcat提供了集群部署的能力，但与此同时也带来了分布式系统的一个通用问题，那就是如何在集群中的多个节点之间保持数据的一致性，比如会话（Session）信息。</p><p>要实现这一点，基本上有两种方式，一种是把所有Session数据放到一台服务器或者一个数据库中，集群中的所有节点通过访问这台Session服务器来获取数据。另一种方式就是在集群中的节点间进行Session数据的同步拷贝，这里又分为两种策略：第一种是将一个节点的Session拷贝到集群中其他所有节点；第二种是只将一个节点上的Session数据拷贝到另一个备份节点。</p><p>对于Tomcat的Session管理来说，这两种方式都支持。今天我们就来看看第二种方式的实现原理，也就是Tomcat集群通信的原理和配置方法，最后通过官网上的一个例子来了解下Tomcat集群到底是如何工作的。</p><h2>集群通信原理</h2><p>要实现集群通信，首先要知道集群中都有哪些成员。Tomcat是通过<strong>组播</strong>（Multicast）来实现的。那什么是组播呢？为了理解组播，我先来说说什么是“单播”。网络节点之间的通信就好像是人们之间的对话一样，一个人对另外一个人说话，此时信息的接收和传递只在两个节点之间进行，比如你在收发电子邮件、浏览网页时，使用的就是单播，也就是我们熟悉的“点对点通信”。</p><!-- [[[read_end]]] --><p>如果一台主机需要将同一个消息发送多个主机逐个传输，效率就会比较低，于是就出现组播技术。组播是<strong>一台主机向指定的一组主机发送数据报包</strong>，组播通信的过程是这样的：每一个Tomcat节点在启动时和运行时都会周期性（默认500毫秒）发送组播心跳包，同一个集群内的节点都在相同的<strong>组播地址</strong>和<strong>端口</strong>监听这些信息；在一定的时间内（默认3秒）不发送<strong>组播报文</strong>的节点就会被认为已经崩溃了，会从集群中删去。因此通过组播，集群中每个成员都能维护一个集群成员列表。</p><h2>集群通信配置</h2><p>有了集群成员的列表，集群中的节点就能通过TCP连接向其他节点传输Session数据。Tomcat通过SimpleTcpCluster类来进行会话复制（In-Memory Replication）。要开启集群功能，只需要将<code>server.xml</code>里的这一行的注释去掉就行：</p><p><img src="https://static001.geekbang.org/resource/image/45/89/45760766a99cad8a1e7001beae6d5589.png" alt=""></p><p>变成这样：</p><p><img src="https://static001.geekbang.org/resource/image/99/bb/99d7bd2cebfd19dfd4d702351a4450bb.png" alt=""></p><p>虽然只是简单的一行配置，但这一行配置等同于下面这样的配置，也就是说Tomcat给我们设置了很多默认参数，这些参数都跟集群通信有关。</p><pre><code>&lt;!--
+
   SimpleTcpCluster是用来复制Session的组件。复制Session有同步和异步两种方式：
   同步模式下，向浏览器的发送响应数据前，需要先将Session拷贝到其他节点完；
   异步模式下，无需等待Session拷贝完成就可响应。异步模式更高效，但是同步模式

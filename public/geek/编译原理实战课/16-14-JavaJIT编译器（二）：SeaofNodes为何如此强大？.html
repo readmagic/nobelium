@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是宫文学。这一讲，我们继续来研究Graal编译器，重点来了解一下它的IR的设计。</p><p>在上一讲中，我们发现Graal在执行过程中，创建了一个图的数据结构，这个数据结构就是Graal的IR。之后的很多处理和优化算法，都是基于这个IR的。可以说，这个IR是Graal编译器的核心特性之一。</p><p><strong>那么，为什么这个IR采用的是图结构？它有什么特点和优点？编译器的优化算法又是如何基于这个IR来运行的呢？</strong></p><p>今天，我就带你一起来攻破以上这些问题。在揭晓问题答案的过程中，你对真实编译器中IR的设计和优化处理过程，也就能获得直观的认识了。</p><h2>基于图的IR</h2><p>IR对于编译器非常重要，因为它填补了高级语言和机器语言在语义上的巨大差别。比如说，你在高级语言中是使用一个数组，而翻译成最高效的x86机器码，是用间接寻址的方式，去访问一块连续的内存。所以IR的设计必须有利于实现这种转换，并且还要有利于运行优化算法，使得生成的代码更加高效。</p><p>在上一讲中，通过跟踪Graal编译器的执行过程，我们会发现它在一开始，就把字节码翻译成了一种新的IR，这个IR是用图的结构来表示的。那这个图长什么样子呢？非常幸运的是，我们可以用工具来直观地看到它的结构。</p><!-- [[[read_end]]] --><p>你可以从Oracle的<a href="https://www.oracle.com/downloads/graalvm-downloads.html">网站</a>上，下载一个<strong>idealgraphvisualizer</strong>的工具。下载之后，解压缩，并运行它：</p><pre><code>export PATH=&quot;/&lt;上级目录&gt;/idealgraphvisualizer/bin:$PATH&quot;
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是宫文学。这一讲，我们继续来研究Graal编译器，重点来了解一下它的IR的设计。</p><p>在上一讲中，我们发现Graal在执行过程中，创建了一个图的数据结构，这个数据结构就是Graal的IR。之后的很多处理和优化算法，都是基于这个IR的。可以说，这个IR是Graal编译器的核心特性之一。</p><p><strong>那么，为什么这个IR采用的是图结构？它有什么特点和优点？编译器的优化算法又是如何基于这个IR来运行的呢？</strong></p><p>今天，我就带你一起来攻破以上这些问题。在揭晓问题答案的过程中，你对真实编译器中IR的设计和优化处理过程，也就能获得直观的认识了。</p><h2>基于图的IR</h2><p>IR对于编译器非常重要，因为它填补了高级语言和机器语言在语义上的巨大差别。比如说，你在高级语言中是使用一个数组，而翻译成最高效的x86机器码，是用间接寻址的方式，去访问一块连续的内存。所以IR的设计必须有利于实现这种转换，并且还要有利于运行优化算法，使得生成的代码更加高效。</p><p>在上一讲中，通过跟踪Graal编译器的执行过程，我们会发现它在一开始，就把字节码翻译成了一种新的IR，这个IR是用图的结构来表示的。那这个图长什么样子呢？非常幸运的是，我们可以用工具来直观地看到它的结构。</p><!-- [[[read_end]]] --><p>你可以从Oracle的<a href="https://www.oracle.com/downloads/graalvm-downloads.html">网站</a>上，下载一个<strong>idealgraphvisualizer</strong>的工具。下载之后，解压缩，并运行它：</p><pre><code>export PATH=&quot;/&lt;上级目录&gt;/idealgraphvisualizer/bin:$PATH&quot;
+
 idealgraphvisualizer &amp;
 </code></pre><p>这时，程序会启动一个图形界面，并在4445端口上等待GraalVM发送数据过来。</p><p>接着，还是运行Foo示例程序，不过这次你要增加一个参数“<code>-Dgraal.Dump</code>”，这会让GraalVM输出编译过程的一些中间结果。并且在这个示例程序当中，我还增加了一个“<code>-Xcomp</code>”参数，它能让JIT编译器在第一次使用某个方法的时候，就去做编译工作。</p><pre><code>mx vm \
   -XX:+UnlockExperimentalVMOptions \

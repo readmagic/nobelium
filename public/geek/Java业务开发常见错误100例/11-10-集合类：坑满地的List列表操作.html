@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是朱晔。今天，我来和你说说List列表操作有哪些坑。</p><p>Pascal之父尼克劳斯 · 维尔特（Niklaus Wirth），曾提出一个著名公式“程序=数据结构+算法”。由此可见，数据结构的重要性。常见的数据结构包括List、Set、Map、Queue、Tree、Graph、Stack等，其中List、Set、Map、Queue可以从广义上统称为集合类数据结构。</p><p>现代编程语言一般都会提供各种数据结构的实现，供我们开箱即用。Java也是一样，比如提供了集合类的各种实现。Java的集合类包括Map和Collection两大类。Collection包括List、Set和Queue三个小类，其中List列表集合是最重要也是所有业务代码都会用到的。所以，今天我会重点介绍List的内容，而不会集中介绍Map以及Collection中其他小类的坑。</p><p>今天，我们就从把数组转换为List集合、对List进行切片操作、List搜索的性能问题等几个方面着手，来聊聊其中最可能遇到的一些坑。</p><h2>使用Arrays.asList把数据转换为List的三个坑</h2><p>Java 8中Stream流式处理的各种功能，大大减少了集合类各种操作（投影、过滤、转换）的代码量。所以，在业务开发中，我们常常会把原始的数组转换为List类数据结构，来继续展开各种Stream操作。</p><!-- [[[read_end]]] --><p>你可能也想到了，使用Arrays.asList方法可以把数组一键转换为List，但其实没这么简单。接下来，就让我们看看其中的缘由，以及使用Arrays.asList把数组转换为List的几个坑。</p><p>在如下代码中，我们初始化三个数字的int[]数组，然后使用Arrays.asList把数组转换为List：</p><pre><code>int[] arr = {1, 2, 3};
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是朱晔。今天，我来和你说说List列表操作有哪些坑。</p><p>Pascal之父尼克劳斯 · 维尔特（Niklaus Wirth），曾提出一个著名公式“程序=数据结构+算法”。由此可见，数据结构的重要性。常见的数据结构包括List、Set、Map、Queue、Tree、Graph、Stack等，其中List、Set、Map、Queue可以从广义上统称为集合类数据结构。</p><p>现代编程语言一般都会提供各种数据结构的实现，供我们开箱即用。Java也是一样，比如提供了集合类的各种实现。Java的集合类包括Map和Collection两大类。Collection包括List、Set和Queue三个小类，其中List列表集合是最重要也是所有业务代码都会用到的。所以，今天我会重点介绍List的内容，而不会集中介绍Map以及Collection中其他小类的坑。</p><p>今天，我们就从把数组转换为List集合、对List进行切片操作、List搜索的性能问题等几个方面着手，来聊聊其中最可能遇到的一些坑。</p><h2>使用Arrays.asList把数据转换为List的三个坑</h2><p>Java 8中Stream流式处理的各种功能，大大减少了集合类各种操作（投影、过滤、转换）的代码量。所以，在业务开发中，我们常常会把原始的数组转换为List类数据结构，来继续展开各种Stream操作。</p><!-- [[[read_end]]] --><p>你可能也想到了，使用Arrays.asList方法可以把数组一键转换为List，但其实没这么简单。接下来，就让我们看看其中的缘由，以及使用Arrays.asList把数组转换为List的几个坑。</p><p>在如下代码中，我们初始化三个数字的int[]数组，然后使用Arrays.asList把数组转换为List：</p><pre><code>int[] arr = {1, 2, 3};
+
 List list = Arrays.asList(arr);
 log.info(&quot;list:{} size:{} class:{}&quot;, list, list.size(), list.get(0).getClass());
 </code></pre><p>但，这样初始化的List并不是我们期望的包含3个数字的List。通过日志可以发现，这个List包含的其实是一个int数组，整个List的元素个数是1，元素类型是整数数组。</p><pre><code>12:50:39.445 [main] INFO org.geekbang.time.commonmistakes.collection.aslist.AsListApplication - list:[[I@1c53fd30] size:1 class:class [I

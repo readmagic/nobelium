@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是胡夕。今天我来讲讲Kafka源码的日志（Log）对象。</p><p>上节课，我们学习了日志段部分的源码，你可以认为，<strong>日志是日志段的容器，里面定义了很多管理日志段的操作</strong>。坦率地说，如果看Kafka源码却不看Log，就跟你买了这门课却不知道作者是谁一样。在我看来，Log对象是Kafka源码（特别是Broker端）最核心的部分，没有之一。</p><p>它到底有多重要呢？我和你分享一个例子，你先感受下。我最近正在修复一个Kafka的Bug（<a href="https://issues.apache.org/jira/browse/KAFKA-9157">KAFKA-9157</a>）：在某些情况下，Kafka的Compaction操作会产生很多空的日志段文件。如果要避免这些空日志段文件被创建出来，就必须搞懂创建日志段文件的原理，而这些代码恰恰就在Log源码中。</p><p>既然Log源码要管理日志段对象，那么它就必须先把所有日志段对象加载到内存里面。这个过程是怎么实现的呢？今天，我就带你学习下日志加载日志段的过程。</p><p>首先，我们来看下Log对象的源码结构。</p><h2>Log源码结构</h2><p>Log源码位于Kafka core工程的log源码包下，文件名是Log.scala。总体上，该文件定义了10个类和对象，如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/81/ce/8126a191f63d9abea860d71992b0aece.jpg" alt=""></p><p>那么，这10个类和对象都是做什么的呢？我先给你简单介绍一下，你可以对它们有个大致的了解。</p><!-- [[[read_end]]] --><p>不过，在介绍之前，我先提一句，图中括号里的C表示Class，O表示Object。还记得我在上节课提到过的伴生对象吗？没错，同时定义同名的Class和Object，就属于Scala中的伴生对象用法。</p><p>我们先来看伴生对象，也就是LogAppendInfo、Log和RollParams。</p><p><strong>1.LogAppendInfo</strong></p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是胡夕。今天我来讲讲Kafka源码的日志（Log）对象。</p><p>上节课，我们学习了日志段部分的源码，你可以认为，<strong>日志是日志段的容器，里面定义了很多管理日志段的操作</strong>。坦率地说，如果看Kafka源码却不看Log，就跟你买了这门课却不知道作者是谁一样。在我看来，Log对象是Kafka源码（特别是Broker端）最核心的部分，没有之一。</p><p>它到底有多重要呢？我和你分享一个例子，你先感受下。我最近正在修复一个Kafka的Bug（<a href="https://issues.apache.org/jira/browse/KAFKA-9157">KAFKA-9157</a>）：在某些情况下，Kafka的Compaction操作会产生很多空的日志段文件。如果要避免这些空日志段文件被创建出来，就必须搞懂创建日志段文件的原理，而这些代码恰恰就在Log源码中。</p><p>既然Log源码要管理日志段对象，那么它就必须先把所有日志段对象加载到内存里面。这个过程是怎么实现的呢？今天，我就带你学习下日志加载日志段的过程。</p><p>首先，我们来看下Log对象的源码结构。</p><h2>Log源码结构</h2><p>Log源码位于Kafka core工程的log源码包下，文件名是Log.scala。总体上，该文件定义了10个类和对象，如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/81/ce/8126a191f63d9abea860d71992b0aece.jpg" alt=""></p><p>那么，这10个类和对象都是做什么的呢？我先给你简单介绍一下，你可以对它们有个大致的了解。</p><!-- [[[read_end]]] --><p>不过，在介绍之前，我先提一句，图中括号里的C表示Class，O表示Object。还记得我在上节课提到过的伴生对象吗？没错，同时定义同名的Class和Object，就属于Scala中的伴生对象用法。</p><p>我们先来看伴生对象，也就是LogAppendInfo、Log和RollParams。</p><p><strong>1.LogAppendInfo</strong></p><ul>
+
 <li>LogAppendInfo（C）：保存了一组待写入消息的各种元数据信息。比如，这组消息中第一条消息的位移值是多少、最后一条消息的位移值是多少；再比如，这组消息中最大的消息时间戳又是多少。总之，这里面的数据非常丰富（下节课我再具体说说）。</li>
 <li>LogAppendInfo（O）: 可以理解为其对应伴生类的工厂方法类，里面定义了一些工厂方法，用于创建特定的LogAppendInfo实例。</li>
 </ul><p><strong>2.Log</strong></p><ul>

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是胡夕。今天，我们学习位移主题管理的源码。</p><p>位移主题，即__consumer_offsets，是Kafka的两大内部主题之一（另一个内部主题是管理Kafka事务的，名字是__transaction_state，用于保存Kafka事务的状态信息）。</p><p>Kafka创建位移主题的目的，是<strong>保存消费者组的注册消息和提交位移消息</strong>。前者保存能够标识消费者组的身份信息；后者保存消费者组消费的进度信息。在Kafka源码中，GroupMetadataManager类定义了操作位移主题消息类型以及操作位移主题的方法。该主题下都有哪些消息类型，是我们今天学习的重点。</p><p>说到位移主题，你是否对它里面的消息内容感到很好奇呢？我见过很多人直接使用kafka-console-consumer命令消费该主题，想要知道里面保存的内容，可输出的结果却是一堆二进制乱码。其实，如果你不阅读今天的源码，是无法知晓如何通过命令行工具查询该主题消息的内容的。因为这些知识只包含在源码中，官方文档并没有涉及到。</p><p>好了，我不卖关子了。简单来说，你在运行kafka-console-consumer命令时，必须指定<code>--formatter "kafka.coordinator.group.GroupMetadataManager\$OffsetsMessageFormatter"</code>，才能查看提交的位移消息数据。类似地，你必须指定GroupMetadataMessageFormatter，才能读取消费者组的注册消息数据。</p><!-- [[[read_end]]] --><p>今天，我们就来学习位移主题下的这两大消息类型。除此之外，我还会给你介绍消费者组是如何寻找自己的Coordinator的。毕竟，对位移主题进行读写的前提，就是要能找到正确的Coordinator所在。</p><h2>消息类型</h2><p>位移主题有两类消息：<strong>消费者组注册消息</strong>（Group Metadata）和<strong>消费者组的已提交位移消息</strong>（Offset Commit）。很多人以为，位移主题里面只保存消费者组位移，这是错误的！它还保存了消费者组的注册信息，或者说是消费者组的元数据。这里的元数据，主要是指消费者组名称以及成员分区消费分配方案。</p><p>在分别介绍这两类消息的实现代码之前，我们先看下Kafka为它们定义的公共服务代码。毕竟它们是这两类消息都会用到的代码组件。这些公共代码主要由两部分组成：GroupTopicPartition类和BaseKey接口。</p><p>我们首先来看POJO类<strong>GroupTopicPartition</strong>。它的作用是封装&lt;消费者组名，主题，分区号&gt;的三元组，代码如下：</p><pre><code>case class GroupTopicPartition(group: String, topicPartition: TopicPartition) {
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是胡夕。今天，我们学习位移主题管理的源码。</p><p>位移主题，即__consumer_offsets，是Kafka的两大内部主题之一（另一个内部主题是管理Kafka事务的，名字是__transaction_state，用于保存Kafka事务的状态信息）。</p><p>Kafka创建位移主题的目的，是<strong>保存消费者组的注册消息和提交位移消息</strong>。前者保存能够标识消费者组的身份信息；后者保存消费者组消费的进度信息。在Kafka源码中，GroupMetadataManager类定义了操作位移主题消息类型以及操作位移主题的方法。该主题下都有哪些消息类型，是我们今天学习的重点。</p><p>说到位移主题，你是否对它里面的消息内容感到很好奇呢？我见过很多人直接使用kafka-console-consumer命令消费该主题，想要知道里面保存的内容，可输出的结果却是一堆二进制乱码。其实，如果你不阅读今天的源码，是无法知晓如何通过命令行工具查询该主题消息的内容的。因为这些知识只包含在源码中，官方文档并没有涉及到。</p><p>好了，我不卖关子了。简单来说，你在运行kafka-console-consumer命令时，必须指定<code>--formatter "kafka.coordinator.group.GroupMetadataManager\$OffsetsMessageFormatter"</code>，才能查看提交的位移消息数据。类似地，你必须指定GroupMetadataMessageFormatter，才能读取消费者组的注册消息数据。</p><!-- [[[read_end]]] --><p>今天，我们就来学习位移主题下的这两大消息类型。除此之外，我还会给你介绍消费者组是如何寻找自己的Coordinator的。毕竟，对位移主题进行读写的前提，就是要能找到正确的Coordinator所在。</p><h2>消息类型</h2><p>位移主题有两类消息：<strong>消费者组注册消息</strong>（Group Metadata）和<strong>消费者组的已提交位移消息</strong>（Offset Commit）。很多人以为，位移主题里面只保存消费者组位移，这是错误的！它还保存了消费者组的注册信息，或者说是消费者组的元数据。这里的元数据，主要是指消费者组名称以及成员分区消费分配方案。</p><p>在分别介绍这两类消息的实现代码之前，我们先看下Kafka为它们定义的公共服务代码。毕竟它们是这两类消息都会用到的代码组件。这些公共代码主要由两部分组成：GroupTopicPartition类和BaseKey接口。</p><p>我们首先来看POJO类<strong>GroupTopicPartition</strong>。它的作用是封装&lt;消费者组名，主题，分区号&gt;的三元组，代码如下：</p><pre><code>case class GroupTopicPartition(group: String, topicPartition: TopicPartition) {
+
   def this(group: String, topic: String, partition: Int) =
     this(group, new TopicPartition(topic, partition))
   // toString方法......

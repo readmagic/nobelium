@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>在上一篇文章中，我们用Account.class作为互斥锁，来解决银行业务里面的转账问题，虽然这个方案不存在并发问题，但是所有账户的转账操作都是串行的，例如账户A 转账户B、账户C 转账户D这两个转账操作现实世界里是可以并行的，但是在这个方案里却被串行化了，这样的话，性能太差。</p><p>试想互联网支付盛行的当下，8亿网民每人每天一笔交易，每天就是8亿笔交易；每笔交易都对应着一次转账操作，8亿笔交易就是8亿次转账操作，也就是说平均到每秒就是近1万次转账操作，若所有的转账操作都串行，性能完全不能接受。</p><p>那下面我们就尝试着把性能提升一下。</p><h2>向现实世界要答案</h2><p>现实世界里，账户转账操作是支持并发的，而且绝对是真正的并行，银行所有的窗口都可以做转账操作。只要我们能仿照现实世界做转账操作，串行的问题就解决了。</p><p>我们试想在古代，没有信息化，账户的存在形式真的就是一个账本，而且每个账户都有一个账本，这些账本都统一存放在文件架上。银行柜员在给我们做转账时，要去文件架上把转出账本和转入账本都拿到手，然后做转账。这个柜员在拿账本的时候可能遇到以下三种情况：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>在上一篇文章中，我们用Account.class作为互斥锁，来解决银行业务里面的转账问题，虽然这个方案不存在并发问题，但是所有账户的转账操作都是串行的，例如账户A 转账户B、账户C 转账户D这两个转账操作现实世界里是可以并行的，但是在这个方案里却被串行化了，这样的话，性能太差。</p><p>试想互联网支付盛行的当下，8亿网民每人每天一笔交易，每天就是8亿笔交易；每笔交易都对应着一次转账操作，8亿笔交易就是8亿次转账操作，也就是说平均到每秒就是近1万次转账操作，若所有的转账操作都串行，性能完全不能接受。</p><p>那下面我们就尝试着把性能提升一下。</p><h2>向现实世界要答案</h2><p>现实世界里，账户转账操作是支持并发的，而且绝对是真正的并行，银行所有的窗口都可以做转账操作。只要我们能仿照现实世界做转账操作，串行的问题就解决了。</p><p>我们试想在古代，没有信息化，账户的存在形式真的就是一个账本，而且每个账户都有一个账本，这些账本都统一存放在文件架上。银行柜员在给我们做转账时，要去文件架上把转出账本和转入账本都拿到手，然后做转账。这个柜员在拿账本的时候可能遇到以下三种情况：</p><ol>
+
 <li>文件架上恰好有转出账本和转入账本，那就同时拿走；</li>
 <li>如果文件架上只有转出账本和转入账本之一，那这个柜员就先把文件架上有的账本拿到手，同时等着其他柜员把另外一个账本送回来；</li>
 <li>转出账本和转入账本都没有，那这个柜员就等着两个账本都被送回来。</li>

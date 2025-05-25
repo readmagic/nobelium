@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是郭朝斌。</p><p>在上一讲的讨论中，我们得到一个结论，物联网是互联网的发展和延伸，是由设备和人作为主体共同组成的互联网。而在设备、人和信息之间搭建联系的物联网，可以分为设备层、网络层和应用层三个层面。</p><p>今天这一讲，我们先来看看物联网数据流的第一站，设备层。</p><p>物联网设备和单机设备最大的区别在哪儿呢？就在于它们<strong>接入了网络</strong>，所以这些设备才能将传感器采集的数据（生产信息）上传到云平台，然后根据平台对数据的分析做出反应（消费信息）。</p><p>因此，接入网络的技术，也就是通信技术，是你在做物联网设备设计时需要重点关注的。</p><p>想一想你的手机，刷票进地铁站会用到<strong>NFC</strong>，追剧会用到<strong>Wi-Fi</strong>或者<strong>4G</strong>，连无线耳机听音乐会用到<strong>蓝牙</strong>。正是因为集成了这么多的通信技术，它才可以满足你不同使用场景下的使用需求。</p><p>那么在物联网领域，我们有哪些通信技术可以选择呢？手机上使用的这些技术，可以用于其他物联网设备吗？</p><p>当然可以。除了刚才提到的这些，智能手机上已经不流行的2G、3G网络技术，在某些不需要高速率的物联网场景仍会使用到。另外，物联网行业也有一些自己专有的通信技术，比如<a href="https://www.semtech.com/lora/what-is-lora">LoRa</a> 和 <a href="https://build.sigfox.com/sigfox">SigFox</a>。</p><p>当然，设备接入网络不仅可以通过无线通信技术，还可以通过有线通信的方式，比如工厂中广泛应用的 <strong>PLC</strong> （Power Line Communication，电力载波通信）接入技术。但是，无线通信无疑是物联网应用的主流。</p><!-- [[[read_end]]] --><p>这一方面是因为有线技术的部署成本很高；另一方面，物联网是亿级数量设备的接入，如果每个设备都需要像古老的座机电话一样，连线接入，那么就对便利性构成了挑战，对网络中继设备来说更是灾难。</p><p>在这一讲中，我会介绍几种最重要的无线通信技术的特性。在后面的实战中，我们将基于这些特性来设计产品的通信方式。同时，我也会说一说在实践中需要关注的一些知识点。</p><h2>无线通信技术的4个重要参数</h2><p>在学习具体的无线通信技术之前，我们得先熟悉无线通信技术的4个重要参数：</p><ol>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是郭朝斌。</p><p>在上一讲的讨论中，我们得到一个结论，物联网是互联网的发展和延伸，是由设备和人作为主体共同组成的互联网。而在设备、人和信息之间搭建联系的物联网，可以分为设备层、网络层和应用层三个层面。</p><p>今天这一讲，我们先来看看物联网数据流的第一站，设备层。</p><p>物联网设备和单机设备最大的区别在哪儿呢？就在于它们<strong>接入了网络</strong>，所以这些设备才能将传感器采集的数据（生产信息）上传到云平台，然后根据平台对数据的分析做出反应（消费信息）。</p><p>因此，接入网络的技术，也就是通信技术，是你在做物联网设备设计时需要重点关注的。</p><p>想一想你的手机，刷票进地铁站会用到<strong>NFC</strong>，追剧会用到<strong>Wi-Fi</strong>或者<strong>4G</strong>，连无线耳机听音乐会用到<strong>蓝牙</strong>。正是因为集成了这么多的通信技术，它才可以满足你不同使用场景下的使用需求。</p><p>那么在物联网领域，我们有哪些通信技术可以选择呢？手机上使用的这些技术，可以用于其他物联网设备吗？</p><p>当然可以。除了刚才提到的这些，智能手机上已经不流行的2G、3G网络技术，在某些不需要高速率的物联网场景仍会使用到。另外，物联网行业也有一些自己专有的通信技术，比如<a href="https://www.semtech.com/lora/what-is-lora">LoRa</a> 和 <a href="https://build.sigfox.com/sigfox">SigFox</a>。</p><p>当然，设备接入网络不仅可以通过无线通信技术，还可以通过有线通信的方式，比如工厂中广泛应用的 <strong>PLC</strong> （Power Line Communication，电力载波通信）接入技术。但是，无线通信无疑是物联网应用的主流。</p><!-- [[[read_end]]] --><p>这一方面是因为有线技术的部署成本很高；另一方面，物联网是亿级数量设备的接入，如果每个设备都需要像古老的座机电话一样，连线接入，那么就对便利性构成了挑战，对网络中继设备来说更是灾难。</p><p>在这一讲中，我会介绍几种最重要的无线通信技术的特性。在后面的实战中，我们将基于这些特性来设计产品的通信方式。同时，我也会说一说在实践中需要关注的一些知识点。</p><h2>无线通信技术的4个重要参数</h2><p>在学习具体的无线通信技术之前，我们得先熟悉无线通信技术的4个重要参数：</p><ol>
+
 <li>频段</li>
 <li>信道</li>
 <li>信道带宽</li>

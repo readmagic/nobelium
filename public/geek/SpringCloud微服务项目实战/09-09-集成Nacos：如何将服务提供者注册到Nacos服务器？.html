@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是姚秋辰。</p><p>今天我们来动手集成优惠券平台项目到Nacos服务器。这个项目我们将分两节课来讲，通过这两节课的学习，你可以知道如何借助Nacos，搭建起一个端到端的微服务调用链路。在这个过程中，你还会学到Nacos自动装配器的工作原理，以及Nacos核心参数的配置。掌握了这些内容，你就可以平稳驾驭Nacos服务治理了。</p><p>在Nacos的地盘上，下游服务需要先将自己作为“服务提供者”注册到Nacos，这个流程叫做“服务注册”；而上游服务作为“服务消费者”，需要到Nacos中获取可供调用的下游服务的列表，这个流程就是“服务发现”。</p><p>今天我先从两个下游服务coupon-template-serv和coupon-calculation-serv开始，利用Nacos的服务注册功能，将服务提供者注册到Nacos服务器。在下一节课中，我再向你展示作为服务消费者的coupon-customer-serv是如何通过服务发现机制向服务提供者发起调用。</p><p>在集成Nacos之前，我们需要先把Nacos的依赖项引入到项目中。</p><h2>添加Nacos依赖项</h2><p>Nacos是Sping Cloud Alibaba项目的一款组件，在引入Nacos的依赖项之前，我们需要在项目的顶层pom中定义所要使用的Spring Cloud和Spring Cloud Alibaba的版本。</p><!-- [[[read_end]]] --><p>Spring Boot、Spring Cloud和Spring Cloud Alibaba三者之间有严格的版本匹配关系，这三个组件的口味非常刁钻，只能和特定版本区间的搭档相互合作，一旦用错了版本，就会产生各种莫名其妙的兼容性问题。那么我们在哪里可以查询到正确的版本匹配关系呢？</p><p>Spring Boot和Spring Cloud的版本匹配关系可以从<a href="https://start.spring.io/actuator/info">Spring社区网站</a>获取，访问该网址后你会看到一串JSON文件，在这个文件中，你可以看到Spring 官方给出的Spring Cloud最新分支所支持的Spring Boot版本范围。</p><p><img src="https://static001.geekbang.org/resource/image/8c/2a/8c6142335c4989d8ba078fba67333f2a.jpg?wh=2000x939" alt=""></p><p>另外，Spring Cloud Alibaba、Spring Boot和Spring Cloud的匹配关系可以从Spring Cloud Alibaba的官方<a href="https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E">GitHub wiki页</a>中获取，我将一些常用的版本绘制成表格，你可以作为参考。</p><p><img src="https://static001.geekbang.org/resource/image/b7/89/b72d6496ab660f878c0cdbe868a94489.jpg?wh=2000x1188" alt=""></p><p>我推荐你使用上图中指定的版本组合，这里列出的组合都是经过兼容性测试的稳定版本，可以用在生产环境中。我这里选择Spring Cloud 2020.0.1、Spring Cloud Alibaba 2021.1和Spring Boot 2.4.2作为实战项目的依赖版本。</p><p>接下来，我们将Spring Cloud Alibaba和Spring Cloud的依赖项版本添加到顶层项目geekbang-coupon下的pom.xml文件中。</p><pre><code>&lt;dependencyManagement&gt;
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是姚秋辰。</p><p>今天我们来动手集成优惠券平台项目到Nacos服务器。这个项目我们将分两节课来讲，通过这两节课的学习，你可以知道如何借助Nacos，搭建起一个端到端的微服务调用链路。在这个过程中，你还会学到Nacos自动装配器的工作原理，以及Nacos核心参数的配置。掌握了这些内容，你就可以平稳驾驭Nacos服务治理了。</p><p>在Nacos的地盘上，下游服务需要先将自己作为“服务提供者”注册到Nacos，这个流程叫做“服务注册”；而上游服务作为“服务消费者”，需要到Nacos中获取可供调用的下游服务的列表，这个流程就是“服务发现”。</p><p>今天我先从两个下游服务coupon-template-serv和coupon-calculation-serv开始，利用Nacos的服务注册功能，将服务提供者注册到Nacos服务器。在下一节课中，我再向你展示作为服务消费者的coupon-customer-serv是如何通过服务发现机制向服务提供者发起调用。</p><p>在集成Nacos之前，我们需要先把Nacos的依赖项引入到项目中。</p><h2>添加Nacos依赖项</h2><p>Nacos是Sping Cloud Alibaba项目的一款组件，在引入Nacos的依赖项之前，我们需要在项目的顶层pom中定义所要使用的Spring Cloud和Spring Cloud Alibaba的版本。</p><!-- [[[read_end]]] --><p>Spring Boot、Spring Cloud和Spring Cloud Alibaba三者之间有严格的版本匹配关系，这三个组件的口味非常刁钻，只能和特定版本区间的搭档相互合作，一旦用错了版本，就会产生各种莫名其妙的兼容性问题。那么我们在哪里可以查询到正确的版本匹配关系呢？</p><p>Spring Boot和Spring Cloud的版本匹配关系可以从<a href="https://start.spring.io/actuator/info">Spring社区网站</a>获取，访问该网址后你会看到一串JSON文件，在这个文件中，你可以看到Spring 官方给出的Spring Cloud最新分支所支持的Spring Boot版本范围。</p><p><img src="https://static001.geekbang.org/resource/image/8c/2a/8c6142335c4989d8ba078fba67333f2a.jpg?wh=2000x939" alt=""></p><p>另外，Spring Cloud Alibaba、Spring Boot和Spring Cloud的匹配关系可以从Spring Cloud Alibaba的官方<a href="https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E">GitHub wiki页</a>中获取，我将一些常用的版本绘制成表格，你可以作为参考。</p><p><img src="https://static001.geekbang.org/resource/image/b7/89/b72d6496ab660f878c0cdbe868a94489.jpg?wh=2000x1188" alt=""></p><p>我推荐你使用上图中指定的版本组合，这里列出的组合都是经过兼容性测试的稳定版本，可以用在生产环境中。我这里选择Spring Cloud 2020.0.1、Spring Cloud Alibaba 2021.1和Spring Boot 2.4.2作为实战项目的依赖版本。</p><p>接下来，我们将Spring Cloud Alibaba和Spring Cloud的依赖项版本添加到顶层项目geekbang-coupon下的pom.xml文件中。</p><pre><code>&lt;dependencyManagement&gt;
+
     &lt;dependencies&gt;
         &lt;dependency&gt;
             &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;

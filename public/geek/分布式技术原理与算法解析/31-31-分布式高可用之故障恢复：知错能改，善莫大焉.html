@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是聂鹏程。今天，我来继续带你打卡分布式核心技术。</p><p>在上一篇文章，我带你学习了故障隔离。故障隔离的目的是，对故障组件进行隔离，以避免其影响系统中的其他组件，尽可能保证分布式系统的可用性。</p><p>在分布式系统中，故障在所难免，发生故障后仅仅进行隔离还远远不够，还需要进行故障恢复。比如，现在集群中有3个节点，节点1故障后，对节点1进行隔离，如果节点2、节点3紧接着故障了，又隔离了这两个节点。那么，整个集群就无法继续提供服务了，何谈分布式系统的高可用呢？</p><p>为了解决这种问题，分布式领域还有一个关键技术来保证系统的高可用，即故障恢复。</p><p>接下来，我们就一起打卡分布式系统的故障恢复技术吧。</p><h2>分布式故障基础知识</h2><p>在介绍故障恢复之前，我先与你说说分布式系统中会有哪些故障类型。</p><h3>故障类型</h3><p>在任何一个分布式系统中，故障都是不可避免的。这里的故障，通常包括两类：</p><ul>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是聂鹏程。今天，我来继续带你打卡分布式核心技术。</p><p>在上一篇文章，我带你学习了故障隔离。故障隔离的目的是，对故障组件进行隔离，以避免其影响系统中的其他组件，尽可能保证分布式系统的可用性。</p><p>在分布式系统中，故障在所难免，发生故障后仅仅进行隔离还远远不够，还需要进行故障恢复。比如，现在集群中有3个节点，节点1故障后，对节点1进行隔离，如果节点2、节点3紧接着故障了，又隔离了这两个节点。那么，整个集群就无法继续提供服务了，何谈分布式系统的高可用呢？</p><p>为了解决这种问题，分布式领域还有一个关键技术来保证系统的高可用，即故障恢复。</p><p>接下来，我们就一起打卡分布式系统的故障恢复技术吧。</p><h2>分布式故障基础知识</h2><p>在介绍故障恢复之前，我先与你说说分布式系统中会有哪些故障类型。</p><h3>故障类型</h3><p>在任何一个分布式系统中，故障都是不可避免的。这里的故障，通常包括两类：</p><ul>
+
 <li>一类是物理故障，比如硬盘损坏、断电断网、硬件升级等；</li>
 <li>另一类是软件层故障，比如系统存在Bug导致系统崩溃、系统负载过高导致系统崩溃等。</li>
 </ul><p>在讨论分布式系统故障时，我们通常还会从是否是网络导致的故障的角度来进行故障划分，包括节点故障和网络故障，而这两类故障可能同时包括物理故障和软件层故障。由于软件层故障和具体的程序实现等相关，因此主要由开发者根据自己的实现去解决；而物理故障通常具有很多共同特征，因此<strong>今天我主要针对物理故障导致软件不可用的情况进行讲解</strong>。</p><!-- [[[read_end]]] --><p>首先，我们看一下<strong>节点故障。</strong></p><p>简单地说，节点故障就是单个机器自身出现故障。比如，由机器A、B，……，Z构成的分布式集群中，机器A自身出现故障，而不是非机器之间的网络连接出现故障，就是节点故障。</p><p><img src="https://static001.geekbang.org/resource/image/43/28/434bfe18caacd4be581722b589bac828.png" alt=""></p><p>节点故障有很多种，大体可以分为两类：</p><ul>

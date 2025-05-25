@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是倪朋飞。</p><p>今天是我们第二期答疑，这期答疑的主题是我们多次用到的perf工具，内容主要包括前面案例中， perf 使用方法的各种疑问。</p><p>perf 在性能分析中非常有效，是我们每个人都需要掌握的核心工具。perf 的使用方法也很丰富，不过不用担心，目前你只要会用 perf record 和 perf report 就够了。而对于 perf 显示的调用栈中的某些内核符号，如果你不理解也没有关系，可以暂时跳过，并不影响我们的分析。</p><p>同样的，为了便于你学习理解，它们并不是严格按照文章顺序排列的，如果你需要回顾内容原文，可以扫描每个问题右下方的二维码查看。</p><h2>问题 1： 使用 perf 工具时，看到的是16进制地址而不是函数名</h2><p><img src="https://static001.geekbang.org/resource/image/94/69/94f67501d5be157a25a26d852b8c2869.png" alt=""></p><p>这也是留言比较多的一个问题，在 CentOS 系统中，使用 perf 工具看不到函数名，只能看到一些16进制格式的函数地址。</p><p>其实，只要你观察一下perf界面最下面的那一行，就会发现一个警告信息：</p><pre><code>Failed to open /opt/bitnami/php/lib/php/extensions/opcache.so, continuing without symbols
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是倪朋飞。</p><p>今天是我们第二期答疑，这期答疑的主题是我们多次用到的perf工具，内容主要包括前面案例中， perf 使用方法的各种疑问。</p><p>perf 在性能分析中非常有效，是我们每个人都需要掌握的核心工具。perf 的使用方法也很丰富，不过不用担心，目前你只要会用 perf record 和 perf report 就够了。而对于 perf 显示的调用栈中的某些内核符号，如果你不理解也没有关系，可以暂时跳过，并不影响我们的分析。</p><p>同样的，为了便于你学习理解，它们并不是严格按照文章顺序排列的，如果你需要回顾内容原文，可以扫描每个问题右下方的二维码查看。</p><h2>问题 1： 使用 perf 工具时，看到的是16进制地址而不是函数名</h2><p><img src="https://static001.geekbang.org/resource/image/94/69/94f67501d5be157a25a26d852b8c2869.png" alt=""></p><p>这也是留言比较多的一个问题，在 CentOS 系统中，使用 perf 工具看不到函数名，只能看到一些16进制格式的函数地址。</p><p>其实，只要你观察一下perf界面最下面的那一行，就会发现一个警告信息：</p><pre><code>Failed to open /opt/bitnami/php/lib/php/extensions/opcache.so, continuing without symbols
+
 </code></pre><p>这说明，perf 找不到待分析进程依赖的库。当然，实际上这个案例中有很多依赖库都找不到，只不过，perf工具本身只在最后一行显示警告信息，所以你只能看到这一条警告。</p><p>这个问题，其实也是在分析Docker容器应用时，我们经常碰到的一个问题，因为容器应用依赖的库都在镜像里面。</p><!-- [[[read_end]]] --><p>针对这种情况，我总结了下面<strong>四个解决方法</strong>。</p><p><strong>第一个方法，在容器外面构建相同路径的依赖库</strong>。这种方法从原理上可行，但是我并不推荐，一方面是因为找出这些依赖库比较麻烦，更重要的是，构建这些路径，会污染容器主机的环境。</p><p><strong>第二个方法，在容器内部运行 perf</strong>。不过，这需要容器运行在特权模式下，但实际的应用程序往往只以普通容器的方式运行。所以，容器内部一般没有权限执行 perf 分析。</p><p>比方说，如果你在普通容器内部运行 perf record ，你将会看到下面这个错误提示：</p><pre><code>$ perf_4.9 record -a -g
 perf_event_open(..., PERF_FLAG_FD_CLOEXEC) failed with unexpected error 1 (Operation not permitted)
 perf_event_open(..., 0) failed unexpectedly with error 1 (Operation not permitted)

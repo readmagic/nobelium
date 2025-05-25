@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>从今天起，我们将进入概率图模型的模块，以贝叶斯的角度重新审视机器学习。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>从今天起，我们将进入概率图模型的模块，以贝叶斯的角度重新审视机器学习。</p>
+
 <p>在机器学习任务中，输入和输出之间并不是简单的一对一的决定关系，两者之间通常存在着一些可见或不可见的中间变量。要计算输出变量的概率分布，就得把这些中间变量纳入到建模的框架之中。要简洁明快地表达多个变量之间的复杂的相关关系，<strong>图模型</strong>无疑是理想的选择。将图模型和概率模型结合起来，就是这个模块的主题——<strong>概率图模型</strong>（probabilistic graphical model）。</p>
 <p>在“人工智能基础课”中，我曾用简短的篇幅粗略地介绍过概率图模型的概念和分类。这次我们从实例出发，看一看最简单的概率图模型——<strong>朴素贝叶斯分类器</strong>（naive Bayes classifier），并以它作为从统计机器学习到概率图模型的过渡。</p>
 <p>还记得朴素贝叶斯的原理吗？回忆一下，朴素贝叶斯利用后验概率最大化来判定数据所属的类别，其“朴素”之处在于条件独立性的引入。条件独立性假设保证了所有属性相互独立，互不影响，每个属性独立地对分类结果发生作用，这样类条件概率就变成了属性条件概率的乘积。这在概率图中体现为<strong>条件独立关系（conditioanl independence）</strong>：如果将朴素贝叶斯模型画成有向图的话，它就是下图中的贝叶斯网络，<strong>类别信息指向所有的属性，任何两个属性之间都没有箭头的指向</strong>。</p><!-- [[[read_end]]] -->

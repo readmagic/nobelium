@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>上一节，我们讲了文件系统的挂载和文件的打开，并通过打开文件的过程，构建了一个文件管理的整套数据结构体系。其实到这里，我们还没有对文件进行读写，还属于对于元数据的操作。那这一节，我们就重点关注读写。</p><h2>系统调用层和虚拟文件系统层</h2><p>文件系统的读写，其实就是调用系统函数read和write。由于读和写的很多逻辑是相似的，这里我们一起来看一下这个过程。</p><p>下面的代码就是read和write的系统调用，在内核里面的定义。</p><pre><code>SYSCALL_DEFINE3(read, unsigned int, fd, char __user *, buf, size_t, count)
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>上一节，我们讲了文件系统的挂载和文件的打开，并通过打开文件的过程，构建了一个文件管理的整套数据结构体系。其实到这里，我们还没有对文件进行读写，还属于对于元数据的操作。那这一节，我们就重点关注读写。</p><h2>系统调用层和虚拟文件系统层</h2><p>文件系统的读写，其实就是调用系统函数read和write。由于读和写的很多逻辑是相似的，这里我们一起来看一下这个过程。</p><p>下面的代码就是read和write的系统调用，在内核里面的定义。</p><pre><code>SYSCALL_DEFINE3(read, unsigned int, fd, char __user *, buf, size_t, count)
+
 {
 	struct fd f = fdget_pos(fd);
 ......

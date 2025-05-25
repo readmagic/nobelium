@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是于航。</p><p>这一讲是这门课中关于 C 标准库的最后一讲。通过前面几讲的学习，相信你已经对 C 标准库提供的相关能力有了一个全面的认识。在此基础上，我们便可以使用这些成熟的接口，来更加方便地构建应用程序。这一讲后，在“ C 工程实战篇”的其他篇目中，我会和你一起讨论语言具体功能之外的性能优化、自动化测试、结构化编译等 C 工程化相关内容，并带你手把手实现一个简单的高性能 HTTP Server。</p><p>今天，我们来看一看与 C 标准库相关的最后三个话题：断言、错误处理，以及对齐。</p><p>断言为我们提供了一种可以静态或动态地检查程序在目标平台上整体状态的能力，与它相关的接口由头文件 assert.h 提供。错误处理则涉及 C 程序如何通过特定方式，判断其运行是否发生错误，以及错误的具体类型，头文件 errno.h 中则定义了与此相关的宏。除此之外，C 语言还具有自定义数据对齐方式的能力，借助 stdalign.h 头文件提供的宏，我们可以轻松地做到这一点。</p><h2>断言</h2><p>在计算机编程中，断言是一种可用于判断程序设计或运行是否符合开发者预期的逻辑判断式。与断言相关的编程接口由标准库头文件 assert.h 提供。</p><p>在 C 语言中，断言被分为静态断言与运行时断言。其中，静态断言主要用来约束程序在编译时需要满足的一定要求；运行时断言则可以在程序运行过程中，判断一些支持程序正常运行的假设性条件是否满足。我们来看下面这个例子：</p><!-- [[[read_end]]] --><pre><code class="language-c++">#include &lt;assert.h&gt;
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是于航。</p><p>这一讲是这门课中关于 C 标准库的最后一讲。通过前面几讲的学习，相信你已经对 C 标准库提供的相关能力有了一个全面的认识。在此基础上，我们便可以使用这些成熟的接口，来更加方便地构建应用程序。这一讲后，在“ C 工程实战篇”的其他篇目中，我会和你一起讨论语言具体功能之外的性能优化、自动化测试、结构化编译等 C 工程化相关内容，并带你手把手实现一个简单的高性能 HTTP Server。</p><p>今天，我们来看一看与 C 标准库相关的最后三个话题：断言、错误处理，以及对齐。</p><p>断言为我们提供了一种可以静态或动态地检查程序在目标平台上整体状态的能力，与它相关的接口由头文件 assert.h 提供。错误处理则涉及 C 程序如何通过特定方式，判断其运行是否发生错误，以及错误的具体类型，头文件 errno.h 中则定义了与此相关的宏。除此之外，C 语言还具有自定义数据对齐方式的能力，借助 stdalign.h 头文件提供的宏，我们可以轻松地做到这一点。</p><h2>断言</h2><p>在计算机编程中，断言是一种可用于判断程序设计或运行是否符合开发者预期的逻辑判断式。与断言相关的编程接口由标准库头文件 assert.h 提供。</p><p>在 C 语言中，断言被分为静态断言与运行时断言。其中，静态断言主要用来约束程序在编译时需要满足的一定要求；运行时断言则可以在程序运行过程中，判断一些支持程序正常运行的假设性条件是否满足。我们来看下面这个例子：</p><!-- [[[read_end]]] --><pre><code class="language-c++">#include &lt;assert.h&gt;
+
 double sqrt(double x) {
 &nbsp; // 检查函数使用时传入的参数；
 &nbsp; assert(x &gt; 0.0);

@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>今天这篇文章我用一个增长日活数的案例，跟你分享一下如何用数据做出产品决定。</p>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>今天这篇文章我用一个增长日活数的案例，跟你分享一下如何用数据做出产品决定。</p>
+
 <h2 id="-">案例背景：通过提高新用户的留存率来提高日活数</h2>
 <p>我们希望能够把不同活跃程度的用户区分开来，于是就发明了一个指标：七天活跃天数。我们用D7表示这个指标，直观体现留存率：D7=1，代表用户在过去的7天只使用了这个APP一天；D7=7，代表用户在过去的7天中每天至少使用这个APP一次。D7&gt;4代表高活跃度用户，2&lt;D7&lt;4代表中等活跃度用户，D7&lt;2代表低活跃度用户。</p>
 <p>通过对已有数据的分析，我们发现很多低活跃度用户并没有关注其他用户，他们的朋友圈根本没有任何内容，只能通过搜索来看内容。因此，我们认为用户关注其他用户的数量会影响到用户留存率，此时我们并不是非常清楚其他因素是否会影响留存率，所以我们可以先假设，关注其他用户对提高用户留存率非常重要。</p>

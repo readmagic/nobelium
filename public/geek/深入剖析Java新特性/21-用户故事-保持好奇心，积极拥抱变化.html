@@ -1,8 +1,16 @@
-<meta name="referrer" content="no-referrer" /><p>你好，我是贾慧鑫，目前是蔚来汽车的一名后端开发工程师，平时主要使用Java语言。</p><p>9月份，JDK 17正式版发布，作为Java的又一长期版本，最近我们的新项目也在尝试将JDK 11升级到17。恰巧就在这时候，我看到了范学雷老师推出的《深入剖析 Java 新特性》，于是毫不犹疑地订阅了。</p><p>我认为，作为一名研发工程师，应该保持一颗好奇心，积极拥抱技术的变化，不断地去学习和迭代自己的知识。接下来，我想跟大家分享一下工作以来我学习和使用Java的一些心得体会，以及这门课程对我的帮助。</p><h2>学习Java的心得</h2><p>从Java 8开始，Java语言正式引入了函数式编程。Stream和Lambda的结合极大地简化了我们在Java7中对集合类的操作。现在再看Java 7，会有种回不去的感觉。因为相比之下，用Java 7编写的代码又复杂又冗余。如果你还用过Java 11或者Java 17，相信这种感觉会更强烈。</p><p>而且，Java语言也在不断借鉴其他编程语言，让代码变得更加简洁高效。下面我通过一个例子来展示一下不同 Java 版本的变化。</p><pre><code class="language-plain">// 假如给定一个由数字1，2，3，4构成的List，要求把元素都值都扩大一倍
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/responsive.css">
-<link rel="stylesheet" href="../assets/beautify.css">
-<script src="../assets/responsive.js" defer></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/beautify.css">
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
+    <meta name="referrer" content="no-referrer" />
+</head><p>你好，我是贾慧鑫，目前是蔚来汽车的一名后端开发工程师，平时主要使用Java语言。</p><p>9月份，JDK 17正式版发布，作为Java的又一长期版本，最近我们的新项目也在尝试将JDK 11升级到17。恰巧就在这时候，我看到了范学雷老师推出的《深入剖析 Java 新特性》，于是毫不犹疑地订阅了。</p><p>我认为，作为一名研发工程师，应该保持一颗好奇心，积极拥抱技术的变化，不断地去学习和迭代自己的知识。接下来，我想跟大家分享一下工作以来我学习和使用Java的一些心得体会，以及这门课程对我的帮助。</p><h2>学习Java的心得</h2><p>从Java 8开始，Java语言正式引入了函数式编程。Stream和Lambda的结合极大地简化了我们在Java7中对集合类的操作。现在再看Java 7，会有种回不去的感觉。因为相比之下，用Java 7编写的代码又复杂又冗余。如果你还用过Java 11或者Java 17，相信这种感觉会更强烈。</p><p>而且，Java语言也在不断借鉴其他编程语言，让代码变得更加简洁高效。下面我通过一个例子来展示一下不同 Java 版本的变化。</p><pre><code class="language-plain">// 假如给定一个由数字1，2，3，4构成的List，要求把元素都值都扩大一倍
+
 
 // java8
 List&lt;Integer&gt; res = initList.stream().map(i -&gt; i * 2).collect(Collectors.toList());
