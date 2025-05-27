@@ -4,10 +4,11 @@ document.addEventListener('DOMContentLoaded', function() {
   wrapContent();
   
   // 创建导航菜单按钮和结构
-  createMobileNav();
+  // createMobileNav();
   
   // 创建返回顶部按钮
   // createBackToTopButton();
+  createBackToPreviousPageButton();
   
   // 处理图片响应式
   makeImagesResponsive();
@@ -17,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // 处理iframe响应式
   makeIframesResponsive();
+  addDarkModeToggle()
 });
 
 // 将主要内容包装在容器中
@@ -121,6 +123,34 @@ function createBackToTopButton() {
   // 添加到DOM
   document.body.appendChild(backToTop);
 }
+
+// 创建返回上一页按钮
+function createBackToPreviousPageButton() {
+  const backButton = document.createElement('a');
+  backButton.className = 'back-to-previous';
+  backButton.innerHTML = '&larr;';
+  backButton.href = '#';
+  backButton.setAttribute('aria-label', '返回上一页');
+
+  // 添加点击事件监听器
+  backButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    window.history.back(); // 返回上一页
+  });
+
+  // 监听滚动事件，控制按钮显示/隐藏（可选）
+  window.addEventListener('scroll', function() {
+    if (window.pageYOffset > 300) {
+      backButton.classList.add('visible');
+    } else {
+      backButton.classList.remove('visible');
+    }
+  });
+
+  // 添加到DOM
+  document.body.appendChild(backButton);
+}
+
 
 // 处理图片响应式
 function makeImagesResponsive() {
