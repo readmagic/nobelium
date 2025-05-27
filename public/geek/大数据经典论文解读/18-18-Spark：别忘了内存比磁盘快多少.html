@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是徐文浩。</p><p>过去几讲里，无论是Hive这样基于MapReduce的系统，还是Dremel这样抛开MapReduce的系统，其实都已经反映了MapReduce这个大数据处理的计算模型，在2010年这个时间节点已经有一些“落后”了。来自Facebook的Hive选择了在MapReduce上优化改良，仍然基于MapReduce的模型。而Google自家的Dremel则是另起炉灶，用一个新的底层架构来支持OLAP的数据分析。</p><p>不过，在工业界之外，学术界一样不会在整个大数据飞速发展的时代里缺席。2010年，来自Berkeley的博士生<a href="https://en.wikipedia.org/wiki/Matei_Zaharia">Matei Zaharia</a>发表了一篇论文《Resilient Distributed Datasets: A Fault-Tolerant Abstraction for In-Memory Cluster Computing》。伴随着这篇论文的，是一个开源系统，也就是<strong>Spark</strong>。在之后的几年里，Spark不仅逐步侵蚀了Hadoop的市场份额，成为大数据分析的第一选择，也在实时数据处理，以及大规模机器学习里占据了重要的地位。</p><p>Spark的计算模型，其实可以看作一个是支持多轮迭代的MapReduce模型。不过它在实现层面，又和稍显笨拙的MapReduce完全不同。通过引入RDD这样一个函数式对象的数据集的概念，Spark在多轮的数据迭代里，不需要像MapReduce一样反反复复地读写硬盘，大大提升了处理数据的性能。</p><!-- [[[read_end]]] --><p>最重要的是，Spark的这篇引入了RDD概念的论文，让我们看到了一个优秀的系统设计并不需要有多复杂，Spark论文发表的时候，整个系统也就1万多行代码，一个人花上一两个月就能写出来。整个系统也没有太多复杂难懂的学术概念，只是针对MapReduce明显的不足之处做了改造而已。</p><p>那么，接下来我们就一起来看看Spark是如何做到这一点的，它的系统设计又有什么精妙之处。通过这一讲的学习，我希望你能够掌握以下几点：</p><ul>
 

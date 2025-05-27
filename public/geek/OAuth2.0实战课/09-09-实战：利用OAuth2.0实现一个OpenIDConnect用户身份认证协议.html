@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王新栋。</p><p>如果你是一个第三方软件开发者，在实现用户登录的逻辑时，除了可以让用户新注册一个账号再登录外，还可以接入微信、微博等平台，让用户使用自己的微信、微博账号去登录。同时，如果你的应用下面又有多个子应用，还可以让用户只登录一次就能访问所有的子应用，来提升用户体验。</p><p>这就是联合登录和单点登录了。再继续深究，它们其实都是OpenID Connect（简称OIDC）的应用场景的实现。那OIDC又是什么呢？</p><p>今天，我们就来学习下OIDC和OAuth 2.0的关系，以及如何用OAuth 2.0来实现一个OIDC用户身份认证协议。</p><h2>OIDC是什么？</h2><p>OIDC其实就是一种用户身份认证的开放标准。使用微信账号登录极客时间的场景，就是这种开放标准的实践。</p><p>说到这里，你可能要发问了：“不对呀，使用微信登录第三方App用的不是OAuth 2.0开放协议吗，怎么又扯上OIDC了呢？”</p><p>没错，用微信登录某第三方软件，确实使用的是OAuth 2.0。但OAuth2.0是一种授权协议，而不是身份认证协议。OIDC才是身份认证协议，而且是基于OAuth 2.0来执行用户身份认证的互通协议。更概括地说，OIDC就是直接基于OAuth 2.0 构建的身份认证框架协议。</p><!-- [[[read_end]]] --><p>换种表述方式，<strong>OIDC=授权协议+身份认证</strong>，是OAuth 2.0的超集。为方便理解，我们可以把OAuth 2.0理解为面粉，把OIDC理解为面包。这下，你是不是就理解它们的关系了？因此，我们说“第三方App使用微信登录用到了OAuth 2.0”没有错，说“使用到了OIDC”更没有错。</p><p>考虑到单点登录、联合登录，都遵循的是OIDC的标准流程，因此今天我们就讲讲如何利用OAuth2.0来实现一个OIDC，“高屋建瓴” 地去看问题。掌握了这一点，我们再去做单点登录、联合登录的场景，以及其他更多关于身份认证的场景，就都不再是问题了。</p><h2>OIDC 和 OAuth 2.0 的角色对应关系</h2><p>说到“如何利用 OAuth 2.0 来构建 OIDC 这样的认证协议”，我们可以想到一个切入点，这个切入点就是OAuth 2.0 的四种角色。</p><p>OAuth 2.0的授权码许可流程的运转，需要资源拥有者、第三方软件、授权服务、受保护资源这4个角色间的顺畅通信、配合才能够完成。如果我们要想在OAuth 2.0的授权码许可类型的基础上，来构建 OIDC 的话，这4个角色仍然要继续发挥 “它们的价值”。那么，这4个角色又是怎么对应到OIDC中的参与方的呢？</p><p>那么，我们就先想想一个关于身份认证的协议框架，应该有什么角色。你可能已经想出来了，它需要一个登录第三方软件的最终用户、一个第三方软件，以及一个认证服务来为这个用户提供身份证明的验证判断。</p><p>没错，这就是OIDC的三个主要角色了。在OIDC的官方标准框架中，这三个角色的名字是：</p><ul>
 

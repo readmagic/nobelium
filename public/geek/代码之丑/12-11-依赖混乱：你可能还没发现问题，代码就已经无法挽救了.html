@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是郑晔。</p><p>我们前面已经讲了许多坏味道，无论是你很容易接受的，还是挑战你编程习惯的，它们都有相对直观的表现形式，属于你很容易一下子就看出来问题的。这一讲，我们要讲的坏味道就不属于一下子就能看出来的，需要你稍微仔细一点看代码才会发现问题，那就是依赖关系。</p><p>我前面在讲“大类”这个坏味道的时候曾经说过，为了避免同时面对所有细节，我们需要把程序进行拆分，分解成一个又一个的小模块。但随之而来的问题就是，我们需要把这些拆分出来的模块按照一定的规则重新组装在一起，这就是依赖的缘起。</p><p>一个模块要依赖另外一个模块完成完整的业务功能，而到底怎么去依赖，这里就很容易产生问题。</p><h2>缺少防腐层</h2><p>我们还是先来看一段代码：</p><pre><code>@PostMapping(&quot;/books&quot;)
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好！我是郑晔。</p><p>从上一讲开始，我们开启了函数式编程之旅，相信你已经对函数式编程有了一个初步的认识。函数式编程是一种以函数为编程元素的编程范式。但是，如果只有函数这一样东西，即使是说出花来，也没有什么特别的地方。</p><p>之前我讲过，GC来自于函数式编程，Lambda也来自于函数式编程。此外，在 Java 8增加的对函数式编程的处理中，流（Stream）的概念也从函数式编程中来，Optional也和函数式编程中的一些概念有着紧密的联系。由此可见，函数式编程给我们提供了许多优秀的内容。</p><p>接下来，我们来<strong>讲讲函数式编程在设计上对我们帮助最大的两个特性：组合性和不变性。</strong></p><p>首先，我们来讨论一下组合性，看看函数式编程为什么能够如此吸引人。</p><h2>组合行为的高阶函数</h2><p>在函数式编程中，有一类比较特殊的函数，它们可以接收函数作为输入，或者返回一个函数作为输出。这种函数叫做<strong>高阶函数</strong>（High-order function）。</p><p>听上去稍微有点复杂，如果我们回想一下高中数学里有一个复合函数的概念，也就是 f(g(x)) ，把一个函数和另一个函数组合起来，这么一类比，是不是就好接受一点了。</p><p>那么，<strong>高阶函数有什么用呢？它的一个重要作用在于，我们可以用它去做行为的组合</strong>。我们再来回顾一下上一讲写过的一段代码：</p><!-- [[[read_end]]] --><pre><code>find(byName(name).and(bySno(sno)));
 

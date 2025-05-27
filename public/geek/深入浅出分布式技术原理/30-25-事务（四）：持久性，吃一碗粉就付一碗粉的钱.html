@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈现麟。</p><p>通过上节课的学习，我们掌握了通过 MVCC 和 2PL 实现分布式事务隔离性的技术原理，并且也明白了隔离级别是事务在正确性和性能之间的一个权衡，以后在极客时间的业务研发中，我们就可以根据业务特点，对事情的隔离级别做出正确的选择了。</p><p>虽然事务在有了一致性、原子性和隔离性的保障后，已经可以很好地保障业务在各种使用场景下的正确性了，但是如果机器突然断电或者崩溃，导致已经提交成功的事务数据丢失了，最终也就功亏一篑了。</p><p>所以在这节课中，我们将一起来讨论如何确保机器在突然断电、崩溃等异常情况下，不会将已经成功的事务数据丢失掉的问题，即事务的持久性。</p><p>我们首先会通过持久性的定义分析出它面临的挑战，然后再一起讨论一下如何通过非易失性存储来保障事务的持久性，最后一起讨论在分布式系统中，如何通过数据复制来进一步提高事务的持久性。</p><h2>持久性的挑战</h2><p>持久性在事务中的定义是，如果一个事务已经提交，不论什么原因，它产生的结果都是永久存在的，这保证了事务的结果不会丢失。通过持久性的定义，我们会发现要保证事务的持久性，一个显而易见的思路就是，将事务的结果立即写入到非易失性存储设备中，比如 SSD 硬盘和 SATA 硬盘等，并且写入的副本数越多，持久性就越高。</p><!-- [[[read_end]]] --><p>但是理想很完美，现实却很骨感，<strong>将数据写入到硬盘中其实是非常消耗性能的</strong>。如果将每一个事务所有的操作结果，都实时写入到持久化的存储设备中，这样的数据库几乎就是不可用的，更不用说多副本的写入了，那么我们如何来解决，存储设备的写入性能和事务持久性之间的矛盾呢？</p><h2>如何通过非易失性存储保障持久性</h2><p>关于这个问题，我们需要从磁盘设备的特性开始说起。对于 SATA 硬盘来说，可以将它简单理解为一个有很多同心圆的圆盘，在写入数据的时候，会经历以下几个步骤。</p><ul>
 

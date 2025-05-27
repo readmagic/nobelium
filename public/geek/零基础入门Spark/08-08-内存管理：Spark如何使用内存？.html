@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴磊。</p><p>在<a href="https://time.geekbang.org/column/article/420399">第6讲</a>，我们拜访了斯巴克建筑集团的分公司，熟悉了分公司的办公环境与人员配置，同时用“工地搬砖的任务”作类比，介绍了Spark Shuffle的工作原理。</p><p>今天这一讲，我们再次来到分公司，去看看斯巴克公司都在承接哪些建筑项目，以及这些项目是如何施工的。通过熟悉项目的施工过程，我们一起来学习Spark的内存管理。</p><p><img src="https://static001.geekbang.org/resource/image/2f/63/2fe7ba37365ca1b0da67f83eb859f663.jpg?wh=1920x1016" alt="图片" title="斯巴克建筑集团分公司"></p><p>相比其他大数据计算引擎，关于Spark的特性与优势，想必你听到最多的字眼，就是“内存计算”。<strong>合理而又充分地利用内存资源</strong>，是Spark的核心竞争力之一。因此，作为开发者，我们弄清楚Spark是如何使用内存的，就变得非常重要。</p><p>好啦，闲言少叙，请你戴好安全帽，跟我一起再次去拜访斯巴克集团分公司吧。不过，在正式“拜访”之前，我们还有一项准备工作要做，那就是先了解清楚Spark的内存区域是怎样划分的。</p><h2>Spark内存区域划分</h2><p>对于任意一个Executor来说，Spark会把内存分为4个区域，分别是Reserved Memory、User Memory、Execution Memory和Storage Memory。</p><p><img src="https://static001.geekbang.org/resource/image/c3/7b/c317aa36c594b6ccc93a8a65b5bcf57b.jpg?wh=1920x1010" alt="图片" title="Spark内存区域划分"></p><p>其中，Reserved Memory固定为300MB，不受开发者控制，它是Spark预留的、用来存储各种 Spark 内部对象的内存区域；User Memory用于存储开发者自定义的数据结构，例如RDD算子中引用的数组、列表、映射等等。</p><!-- [[[read_end]]] --><p>Execution Memory用来执行分布式任务。分布式任务的计算，主要包括数据的转换、过滤、映射、排序、聚合、归并等环节，而这些计算环节的内存消耗，统统来自于Execution Memory。</p><p>Storage Memory用于缓存分布式数据集，比如RDD Cache、广播变量等等。关于广播变量的细节，我们留到第10讲再去展开。RDD Cache指的是RDD物化到内存中的副本。在一个较长的DAG中，如果同一个RDD被引用多次，那么把这个RDD缓存到内存中，往往会大幅提升作业的执行性能。我们在这节课的最后会介绍RDD Cache的具体用法。</p><p>不难发现，Execution Memory和Storage Memory这两块内存区域，对于Spark作业的执行性能起着举足轻重的作用。因此，<strong>在所有的内存区域中，Execution Memory和Storage Memory是最重要的，也是开发者最需要关注的</strong>。</p><p>在 Spark 1.6 版本之前，Execution Memory 和 Storage Memory的空间划分是静态的，一旦空间划分完毕，不同内存区域的用途与尺寸就固定了。也就是说，即便你没有缓存任何 RDD 或是广播变量，Storage Memory 区域的空闲内存也不能用来执行映射、排序或聚合等计算任务，宝贵的内存资源就这么白白地浪费掉了。</p><p>考虑到静态内存划分的弊端，在 1.6 版本之后，Spark 推出了<strong>统一内存管理模式</strong>，在这种模式下，Execution Memory 和 Storage Memory 之间可以相互转化。这是什么意思呢？接下来，我们一起走进斯巴克集团分公司，看看不同内存区域相互转化的逻辑。</p><h2>不同内存区域的相互转化</h2><p>刚一走进分公司的大门，我们就能看到工人们在工地上如火如荼的忙碌景象。走近一问，才知道他们承接了一个“集装箱改装活动房”的建筑项目。顾名思义，这个项目的具体任务，就是把集装箱改装成活动房。</p><p>活动房的制作过程并不复杂，只需一系列简单的步骤，就能把集装箱改装为小巧而又别致的活动房，这些步骤包括清洗、切割开窗、切割开门、刷漆、打隔断、布置家居、装饰点缀。活动房的制作在工地上完成，成功改装的活动房会被立即拉走，由货运卡车运往集团公司的物流集散地。</p><p>好了，介绍完集装箱改装活动房的项目，我们必须要交代一下这个项目与Spark之间的关联关系。毕竟，再有趣的故事，也是用来辅助咱们更好地学习Spark嘛。</p><p>项目中涉及的原材料、施工步骤与Spark之间的类比关系，我把它整理到了下面的这张表格中：<br>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是聂鹏程。今天，我来继续带你打卡分布式核心技术。</p><p>在上一篇文章中，我带你了解了分布式体系结构中的集中式结构。虽然很多云上的管理都采用了集中式结构，但是这种结构对中心服务器性能要求很高，而且存在单点瓶颈和单点故障问题。</p><p>为了解决这个问题，分布式领域中又出现了另一个经典的系统结构，即非集中式结构，也叫作分布式结构。那什么是非集中式结构呢，它的原理是什么样的，又有哪些集群采用了这种结构呢？</p><p>今天，我们就一起打卡非集中式结构，揭开它的神秘面纱吧。</p><h2>什么是非集中式结构？</h2><p>在非集中式结构中，服务的执行和数据的存储被分散到不同的服务器集群，服务器集群间通过消息传递进行通信和协调。</p><p><img src="https://static001.geekbang.org/resource/image/f6/5e/f6c9e7033f09f240e21877b11170675e.png" alt=""></p><p>也就是说，在非集中式结构中，没有中央服务器和节点服务器之分，所有的服务器地位都是平等（对等）的，也就是我们常说的“众生平等”。这样一来，相比于集中式结构，非集中式结构就降低了某一个或者某一簇计算机集群的压力，在解决了单点瓶颈和单点故障问题的同时，还提升了系统的并发度，比较适合大规模集群的管理。</p><p>所以近几年来，Google、 Amazon、Facebook、阿里巴巴、腾讯等互联网公司在一些业务中也相继采用了非集中式结构。</p><p>接下来，我将为你介绍3种典型的非集中式架构系统，包括Akka集群、Redis集群和Cassandra集群，来帮助你深入理解非集中式架构。</p><!-- [[[read_end]]] --><h2>Akka集群</h2><p>在介绍Akka集群的结构之前，我带你了解一下什么是Akka框架吧。</p><p>Akka是一个开发库和运行环境，用于构建可扩展的、弹性的、快速响应的应用程序。Akka框架是基于Actor模型实现的，Actor模型是一个封装了状态和行为的对象，它接收消息并基于该消息执行计算。Actor之间通信的唯一机制就是消息传递，每个Actor都有自己的MailBox。</p><p>比如，在分布式系统中，一个服务器或一个节点可以视为一个Actor，Actor与Actor之间采用mail进行通信，如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/3d/11/3d64427315a82ef08f4dd0fc88d9a311.png" alt=""></p><p>可以看到，Actor发送的Mail消息会存储在接收方的MailBox中。默认情况下，接收方按照mail到达的先后顺序，从MailBox中提取mail消息，并进行相应的计算处理。</p><blockquote>
 

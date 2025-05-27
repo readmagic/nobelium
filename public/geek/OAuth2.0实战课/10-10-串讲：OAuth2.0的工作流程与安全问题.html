@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王新栋。</p><p>今天这一讲，我并不打算带你去解决新的什么问题，而是把我们已经讲过的内容再串一遍，就像学生时代每个学期即将结束时的一次串讲，来 “回味”下 OAuth 2.0的整个知识体系。当然了，我也会在这个过程中，与你分享我在实践OAuth 2.0的过程中，积累的最值得分享的经验。</p><p>好，接下来就让我们先串一串OAuth 2.0的工作流程吧。</p><h2>OAuth 2.0工作流程串讲</h2><p><img src="https://static001.geekbang.org/resource/image/be/2a/beb02a5baf3654c5025238552cd26a2a.jpg" alt=""></p><p>我们一直在讲OAuth 2.0是一种授权协议，这种协议可以让第三方软件<strong>代表</strong>用户去执行被允许的操作。那么，第三方软件就需要向用户索取<strong>授权</strong>来获得那个令牌。</p><p>我们回想下<a href="https://time.geekbang.org/column/article/254565">第1讲</a>拜访百度王总的例子。只有拿到前台小姐姐给你的门禁卡，你才能够进入百度大楼。这个过程就相当于前台小姐姐给你做了一次授权，而这个授权的凭证就是门禁卡。对应到我们的系统中，门禁卡便相当于访问令牌。</p><p>通过“代表”“授权”这样的关键词，我们可以认识到，OAuth 2.0是一个授权协议，也是一个安全协议。那么，如果我说它也是一种委托协议，你也不要吃惊。</p><p>试想一下，用户在微信平台上有修改昵称、修改头像、修改个人兴趣的权限，当第三方软件请求让自己代表用户来操作这些权限的时候，就是第三方软件请求用户把这些权限<strong>委托</strong>给自己，用户在批准了委托请求之后，才可以代表用户去执行这些操作。</p><!-- [[[read_end]]] --><p>这时，我们细想一下，<strong>委托才是OAuth 2.0授权概念的根基，因为没有“委托”之意就不会有“代表”行为的发生</strong>。</p><p>在整个课程讲述授权的过程中，我频繁举例和强调的就是授权码许可流程。在学习授权码流程的时候，你最困惑的一点恐怕莫过于 “为什么要多此一举，非得通过一个<strong>授权码code</strong>来换取访问令牌access_token”了吧。这个问题我在讲<a href="https://time.geekbang.org/column/article/256196">授权码许可的整体流程</a>时也做过分析了，你现在回想起来应该不会再为此“痛苦不堪” 了吧。</p><p>我们再来分析下，第三方软件要获取访问令牌，只能通过两个渠道：</p><ul>
 

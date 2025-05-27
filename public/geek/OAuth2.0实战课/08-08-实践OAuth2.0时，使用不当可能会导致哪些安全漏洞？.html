@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王新栋。</p><p>当知道这一讲的主题是OAuth 2.0的安全漏洞时，你可能要问了：“OAuth 2.0 不是一种安全协议吗，不是保护Web API的吗？为啥OAuth 2.0自己还有安全的问题了呢？”</p><p>首先，OAuth 2.0 的确是一种安全协议。这没啥问题，但是它有很多使用规范，比如授权码是一个临时凭据只能被使用一次，要对重定向URI做校验等。那么，如果使用的时候你没有按照这样的规范来实施，就会有安全漏洞了。</p><p>其次，OAuth 2.0既然是“生长”在互联网这个大环境中，就一样会面对互联网上常见安全风险的攻击，比如跨站请求伪造（Cross-site request forgery，CSRF）、跨站脚本攻击（Cross Site Scripting，XSS）。</p><p>最后，除了这些常见攻击类型外，OAuth 2.0 自身也有可被利用的安全漏洞，比如授权码失窃、重定向URI伪造。</p><p>所以，我们<strong>在实践OAuth 2.0的过程中，安全问题一定是重中之重</strong>。接下来，我挑选了5个典型的安全问题，其中CSRF、XSS、水平越权这三种是互联网环境下常见的安全风险，授权码失窃和重定向URI被篡改属于OAuth2.0“专属”的安全风险。接下来，我就和你一起看看这些安全风险的由来，以及如何应对吧。</p><!-- [[[read_end]]] --><h2>CSRF攻击</h2><p>对于CSRF的定义，《OAuth 2 in Action》这本书里的解释，是我目前看到的最为贴切的解释：恶意软件让浏览器向<strong>已完成用户身份认证</strong>的网站发起请求，并<strong>执行有害的操作</strong>，就是跨站请求伪造攻击。</p><p>它是互联网上最为常见的攻击之一。我们在实践OAuth2.0的过程，其实就是在构建一次互联网的应用。因此，OAuth 2.0同样也会面临这个攻击。接下来，我通过一个案例和你说明这个攻击类型。</p><p>有一个软件 A，我们让它来扮演攻击者，让它的开发者按照正常的流程使用极客时间。当该攻击者授权后，拿到授权码的值 codeA之后，“立即按下了暂停键”，不继续往下走了。那它想干啥呢，我们继续往下看。</p><p>这时，<strong>有一个第三方软件B，比如咱们的Web版极客时间，来扮演受害者吧。<strong>当然最终的受害者是用户，这里是用Web版极客时间来作为被软件A攻击的对象</strong>。</strong></p><p>极客时间用于接收授权码的回调地址为 <code>https://time.geekbang.org/callback</code>。有一个用户G已经在极客时间的平台登录，且对极客时间进行了授权，也就是用户G已经在极客时间平台上有登录态了。</p><p>如果此时攻击者软件A，在自己的网站上构造了一个恶意页面：</p><pre><code>&lt;html&gt;
 

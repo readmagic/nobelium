@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是郝林，我今天继续分享bufio包中的数据类型。</p><p>在上一篇文章中，我提到了<code>bufio</code>包中的数据类型主要有<code>Reader</code>、<code>Scanner</code>、<code>Writer</code>和<code>ReadWriter</code>。并着重讲到了<code>bufio.Reader</code>类型与<code>bufio.Writer</code>类型，今天，我们继续专注<code>bufio.Reader</code>的内容来进行学习。</p><h2>知识扩展</h2><h3>问题 ：<code>bufio.Reader</code>类型读取方法有哪些不同？</h3><p><code>bufio.Reader</code>类型拥有很多用于读取数据的指针方法，<strong>这里面有4个方法可以作为不同读取流程的代表，它们是：<code>Peek</code>、<code>Read</code>、<code>ReadSlice</code>和<code>ReadBytes</code>。</strong></p><p><strong><code>Reader</code>值的<code>Peek</code>方法</strong>的功能是：读取并返回其缓冲区中的<code>n</code>个未读字节，并且它会从已读计数代表的索引位置开始读。</p><p>在缓冲区未被填满，并且其中的未读字节的数量小于<code>n</code>的时候，该方法就会调用<code>fill</code>方法，以启动缓冲区填充流程。但是，如果它发现上次填充缓冲区的时候有错误，那就不会再次填充。</p><p>如果调用方给定的<code>n</code>比缓冲区的长度还要大，或者缓冲区中未读字节的数量小于<code>n</code>，那么<code>Peek</code>方法就会把“所有未读字节组成的序列”作为第一个结果值返回。</p><p>同时，它通常还把“<code>bufio.ErrBufferFull</code>变量的值（以下简称缓冲区已满的错误）”<br>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是李江。今天我们一起来聊一聊图像的颜色空间。</p><p>图像的颜色空间是图像和视频技术里面的一个非常重要的知识点，在图像处理、视频编码等技术中你会经常遇到这个概念。</p><p>而至于它为什么重要，其实也很好理解。在现实世界中，我们的眼睛每天看到的颜色是千变万化的。为了能够更方便地表示和处理这些颜色，不同应用领域就建立了多种不同的颜色空间，主要包括RGB 、YUV、CMYK 、 HSI等（后面两种和这门课程没有关系，因此这里我们不再介绍）。</p><p>在视频技术中，我们经常碰到的颜色空间有两种：RGB和YUV，接下来我们就逐一看一看。</p><h2>RGB</h2><p>RGB相对比较简单。顾名思义，它就是指图像的每一个像素都有R、G、B三个值。RGB是我们平常遇到最多的一种图像颜色空间，比如摄像头采集的原始图像就是RGB图像，且显示器显示的图像也是RGB图像。</p><p>一般来说，<strong>我们的RGB图像，每一个像素都是分别存储R、G、B三个值，且三个值依次排列存储</strong>。比如对于一张8bit位深的RGB图，每个值占用一个字节。但是，需要注意的是RGB图像像素中R、G、B三个值并不一定是按R、G、B顺序排列的，也有可能是B、G、R顺序排列。</p><p>比如OpenCV就经常使用BGR的排列方式来存储图像。所以在存储和读取RGB图像的时候需要稍微注意一下。RGB和BGR的存储方式如下图所示：</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/1b/98/1b4d7c24133df818b0187fdf56898a98.jpeg?wh=1920x1080" alt=""></p><p>虽然RGB比较简单，同时在图像处理的时候也经常会用到。但是在视频领域，我们更多地是使用YUV颜色空间来表示图像的。这是因为R、G、B三个颜色是有相关性的，所以不太方便做图像压缩编码。那YUV究竟是怎么表示图像的呢？它又是如何存储在内存当中的呢？我们接下来就来揭开它的“面纱”。</p><h2>YUV</h2><p>YUV跟RGB类似，也是一种颜色空间，但其种类会更多更复杂些，所以接下来我们会花大量的篇幅去讲解它。</p><p>YUV最早主要是用于电视系统与模拟视频领域。现在视频领域基本都是使用YUV颜色空间。</p><p>跟RGB图像中R、G、B三个通道都跟色彩信息相关这种特点不同，<strong>YUV图像将亮度信息Y与色彩信息U、V分离开来。Y表示亮度，是图像的总体轮廓，称之为Y分量。U、V表示色度，主要描绘图像的色彩等信息，分别称为U分量和V分量</strong>。这样一张图像如果没有了色度信息U、V，只剩下亮度Y，则依旧是一张图像，只不过是一张黑白图像。这种特点有什么好处呢？</p><p>在以前，世界上只有黑白电视机，每一帧电视画面都是黑白的，没有色彩信息。当然黑白电视机也不支持显示彩色图像。后来随着技术的发展，出现了彩色电视机，每一帧画面都是有颜色信息的，那当然我们可以使用RGB、YUV等颜色空间来表示一帧图像。</p><p>但是考虑到兼容老的黑白电视机，如果使用RGB表示图像，那么黑白电视机就没办法播放。这是因为R、G、B三个通道都是彩色的，而Y、U、V就可以。因为黑白电视机可以使用Y分量，Y分量就是黑白图像，而且包含了图像的总体轮廓信息，只是没有色彩信息而已。</p><p>好了，讲了YUV的起源之后，我们来讲讲YUV颜色空间最重要的知识点，那就是YUV的类型和存储方式。</p><p><strong>YUV主要分为YUV 4:4:4、YUV 4:2:2、YUV 4:2:0这几种常用的类型</strong>。其中最常用的又是YUV 4:2:0。这三种类型的YUV主要的区别就是U、V分量像素点的个数和采集方式。</p><p>YUV 4:4:4就是每一个Y就对应一个U和一个V；而YUV 4:2:2则是每两个Y共用一个U、一个V；YUV 4:2:0则是每四个Y共用一个U、V。我们可以通过图片来清晰地看一下三种YUV类型的区别。具体如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/00/ce/00d9109af3b89dbc5ecf1a81230f7bce.jpeg?wh=1920x1080" alt=""><img src="https://static001.geekbang.org/resource/image/f1/a4/f17b300f8c1yyae6eda99f1f746acea4.jpeg?wh=1920x1080" alt=""><img src="https://static001.geekbang.org/resource/image/f7/01/f745382857eefca91c1cb7151c439701.jpeg?wh=1920x1080" alt=""></p><p>总的来说：</p><ol>
 

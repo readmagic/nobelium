@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是winter。</p><p>在上一节课中，我已经讲了浏览器的DOM构建过程，但是这个构建的DOM，实际上信息是不全的，它只有节点和属性，不包含任何的样式信息。</p><p>我们这一节课就来讲讲：浏览器是如何把CSS规则应用到节点上，并给这棵朴素的DOM树添加上CSS属性的。</p><h2>整体过程</h2><p>首先我们还是要感性地理解一下这个过程。</p><p>首先CSS选择器这个名称，可能会给你带来一定的误解，觉得好像CSS规则是DOM树构建好了以后，再进行选择并给它添加样式的。实际上，这个过程并不是这样的。</p><p>我们回忆一下我们在浏览器第一节课讲的内容，浏览器会尽量流式处理整个过程。我们上一节课构建DOM的过程是：从父到子，从先到后，一个一个节点构造，并且挂载到DOM树上的，那么这个过程中，我们是否能同步把CSS属性计算出来呢？</p><p>答案是肯定的。</p><p>在这个过程中，我们依次拿到上一步构造好的元素，去检查它匹配到了哪些规则，再根据规则的优先级，做覆盖和调整。所以，从这个角度看，所谓的选择器，应该被理解成“匹配器”才更合适。</p><p>我在CSS语法部分，已经总结了选择器的各种符号，这里再把它列出来，我们回顾一下。</p><ul>
 

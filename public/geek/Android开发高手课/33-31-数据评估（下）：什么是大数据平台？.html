@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>数据是连接产品和用户的桥梁，它反映了用户对产品的使用情况，是我们作出业务决策的重要依据。虽然通过“高可用的上报组件”，可以从源头上保障数据采集的准确性和实时性，但是随着App业务迭代的复杂化，经常会出现遗漏埋点、错误埋点、多端埋点不统一等情况，影响了业务数据的稳定性。</p><p>我见过很多团队的埋点文档管理得非常不规范，有的还在使用Excel来管理埋点文档，经常找不到某些埋点的定义。而随着埋点技术和流程的成熟，我们需要有一整套完整的方案来保证数据的稳定性。</p><p>那埋点应该遵循什么规范？如何实现对埋点整个流程的引导和监控？埋点管理、埋点开发、埋点测试验证、埋点数据监控…怎样打造一站式的埋点平台？在埋点平台之上，大数据平台又是什么样的呢？</p><h2>埋点的基础知识</h2><p>我们知道，一个业务埋点的上线需要经历需求、开发、测试等多个阶段，会涉及产品、开发和测试多方协作，而对于大型团队来说，可能还要加上专门的数据团队。</p><p>对于传统埋点来说，错埋、漏埋这样的问题总会反反复复出现。为了排查和解决数据的准确性问题，参与的各方团队都要耗费大量的精力。特别是如果埋点一旦出现问题，我们还需要依赖App发布新版本，可见埋点的修复周期长，而且成本也非常巨大。</p><!-- [[[read_end]]] --><p>那应该如何解决这个问题呢？请先来思考一下，我们应该如何实现一个正确的埋点。</p><p><img src="https://static001.geekbang.org/resource/image/d9/3f/d9a2df07038e18b1f143615cf36ce73f.png" alt=""></p><p>如果想实现一个正确的埋点，必须要满足上面的这四个条件，需要有非常严格的埋点流程管理。因此，你需要做到：</p><ul>
 

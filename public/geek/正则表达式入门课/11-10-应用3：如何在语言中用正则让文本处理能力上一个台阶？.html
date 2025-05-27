@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是伟忠。今天要和你分享的内容是如何在编程语言中使用正则，让文本处理能力上一个台阶。</p><p>现代主流的编程语言几乎都内置了正则模块，很少能见到不支持正则的编程语言。学会在编程语言中使用正则，可以极大地提高文本的处理能力。</p><p>在进行文本处理时，正则解决的问题大概可以分成四类，分别是校验文本内容、提取文本内容、替换文本内容、切割文本内容。在这一节里，我会从功能分类出发，给你讲解在一些常见的编程语言中，如何正确地实现这些功能。</p><h2>1.校验文本内容</h2><p>我们先来看一下数据验证，通常我们在网页上输入的手机号、邮箱、日期等，都需要校验。校验的特点在于，整个文本的内容要符合正则，比如要求输入6位数字的时候，输入123456abc 就是不符合要求的。</p><p>下面我们以验证日期格式年月日为例子来讲解，比如2020-01-01，我们使用正则\d{4}-\d{2}-\d{2} 来验证。</p><h3>Python</h3><p>在 Python 中，正则的包名是 re，验证文本可以使用 re.match 或 re.search 的方法，这两个方法的区别在于，re.match 是从开头匹配的，re.search是从文本中找子串。下面是详细的解释：</p><pre><code># 测试环境 Python3
 

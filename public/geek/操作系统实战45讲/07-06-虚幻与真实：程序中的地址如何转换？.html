@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是LMOS。</p><p>从前面的课程我们得知，CPU执行程序、处理数据都要和内存打交道，这个打交道的方式就是内存地址。</p><p>读取指令、读写数据都需要首先告诉内存芯片：hi，内存老哥请你把0x10000地址处的数据交给我……hi，内存老哥，我已经计算完成，请让我把结果写回0x200000地址的空间。这些地址存在于代码指令字段后的常数，或者存在于某个寄存器中。</p><p><img src="https://static001.geekbang.org/resource/image/b0/fc/b0e93b744dfdc62c4a3ce8816b25b1fc.jpg" alt=""></p><p>今天，我们就来专门研究一下程序中的地址。说起程序中的地址，不知道你是否好奇过，为啥系统设计者要引入虚拟地址呢？</p><p>我会先带你从一个多程序并发的场景热身，一起思考这会导致哪些问题，为什么能用虚拟地址解决这些问题。</p><p>搞懂原理之后，我还会带你一起探索<strong>虚拟地址和物理地址的关系和转换机制</strong>。在后面的课里，你会发现，我们最宝贵的内存资源正是通过这些机制来管理的。</p><h2>从一个多程序并发的场景说起</h2><p>设想一下，如果一台计算机的内存中只运行一个程序A，这种方式正好用前面CPU的<a href="https://time.geekbang.org/column/article/375278">实模式</a>来运行，因为程序A的地址在链接时就可以确定，例如从内存地址0x8000开始，每次运行程序A都装入内存0x8000地址处开始运行，没有其它程序干扰。</p><p>现在改变一下，内存中又放一道程序B，程序A和程序B各自运行一秒钟，如此循环，直到其中之一结束。这个新场景下就会产生一些问题，当然这里我们只关心内存相关的这几个核心问题。</p><!-- [[[read_end]]] --><p>1.谁来保证程序A跟程序B <strong>没有内存地址的冲突</strong>？换句话说，就是程序A、B各自放在什么内存地址，这个问题是由A、B程序协商，还是由操作系统决定。</p><p>2.怎样保证程序A跟程序B <strong>不会互相读写各自的内存空间</strong>？这个问题相对简单，用保护模式就能解决。</p><p>3.如何解决<strong>内存容量</strong>问题？程序A和程序B，在不断开发迭代中程序代码占用的空间会越来越大，导致内存装不下。</p><p>4.还要考虑一个<strong>扩展后的复杂情况</strong>，如果不只程序A、B，还可能有程序C、D、E、F、G……它们分别由不同的公司开发，而每台计算机的内存容量不同。这时候，又对我们的内存方案有怎样的影响呢？</p><p>要想完美地解决以上最核心的4个问题，一个较好的方案是：让所有的程序都各自享有一个从0开始到最大地址的空间，这个地址空间是独立的，是该程序私有的，其它程序既看不到，也不能访问该地址空间，这个地址空间和其它程序无关，和具体的计算机也无关。</p><p>事实上，计算机科学家们早就这么做了，这个方案就是<strong>虚拟地址</strong>，下面我们就来看看它。</p><h2>虚拟地址</h2><p>正如其名，这个地址是虚拟的，自然而然地和具体环境进行了解耦，这个环境包括系统软件环境和硬件环境。</p><p>虚拟地址是逻辑上存在的一个数据值，比如0~100就有101个整数值，这个0~100的区间就可以说是一个虚拟地址空间，该虚拟地址空间有101个地址。</p><p>我们再来看看最开始Hello World的例子，我们用objdump工具反汇编一下Hello World二进制文件，就会得到如下的代码片段：</p><pre><code>00000000000004e8 &lt;_init&gt;:
 

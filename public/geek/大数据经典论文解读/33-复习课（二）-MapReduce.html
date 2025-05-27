@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是黄金。欢迎来到第二期复习课，今天我们来回顾MapReduce论文的知识点。</p><h2>MapReduce介绍</h2><p>在论文的第1节“Introduction”中，作者提到过去5年里，Google的同事们实现了上百个针对特定领域的大数据分析程序，这促使他们思考开发一种更通用的编程模型，让开发者能够专注于分析程序的业务逻辑，而不需要关心分布式领域的复杂问题。</p><p>MapReduce的编程模型也并非是作者首创，而是借鉴了Lisp这类函数式编程语言的思想。熟悉Java Stream API的同学对这种编程模式应该都不陌生，它实际上就是map、groupingBy、reduce之类的操作，这种编程模型<strong>分离了程序的业务逻辑和控制逻辑</strong>，使得程序在大规模的分布式环境下运行成为了可能。</p><p>另外，尽管MapReduce编程模型非常简单，现实中的大多数任务却都可以用这种编程模型来表达，这在函数式编程语言中已经得到了证明，它为MapReduce后来广泛地流行奠定了基础。</p><p>在论文第6.1节“Large-Scale Indexing”中就给出了一个例子，说明用MapReduce重写的索引服务带来的显著收益：第一，代码更精简，也更容易理解，原来用来实现某个计算功能的代码有3800行，重构后只有700行；第二，性能更好，原来改变索引需要几个月，现在只要几天；第三，更容易维护，也更容易提升性能，因为分布式问题都交给了MapReduce框架来处理。</p><!-- [[[read_end]]] --><p>那么总结一下，MapReduce主要有三个特点。<strong>第一，简单的编程模型；第二，丰富的表达能力；第三，能够有效利用分布式系统的资源。</strong></p><h2>编程模型</h2><p>使用MapReduce编程模型，只需要实现两个函数，一个是Map函数，另一个是Reduce函数。</p><p>Map函数，是接受一个key-value对，返回一组新的key-value对，它通常被用来做数据变换。而Reduce函数，是接受一个key，以及一组相关的value，然后返回一组新的value，它通常被用来做数据规约，比如分组计数。如果你对于API还不够清楚的话，可以参考下面的代码：</p><pre><code class="language-plain">map: (k1, v1) -&gt; list (k2, v2)
 

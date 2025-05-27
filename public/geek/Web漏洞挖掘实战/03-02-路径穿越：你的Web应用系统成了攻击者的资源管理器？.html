@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王昊天。</p><p>上节课呢，我们学习了失效的访问控制，这节课我想和你一起探索另一个有趣的漏洞类型——神奇的路径穿越。</p><p>想象你是一个勇者，而你这次的目标是要进入一座盘踞着古龙的城堡寻找宝藏。考虑到自己还不够强大，正面进攻明显会送了自己的小命，于是你打算先绕道看看，这个城堡有没有什么其他可以进入的方式。幸运的是，作为一座昔日的王宫，这座城堡的设计完整，有许多侧门；但同时你也会发现，每一扇侧门的背后不是仓库就是守卫室，完全不能帮助你进入城堡内部。经过了一整天的探索，你终于发现了一个房间，它和其他仓库在外观上并无二致，唯一的不同是其中一块地板下竟藏着一扇暗门，你怀着好奇缓缓开启这扇门，发现面前正是一条通往城堡的密道…</p><p>如果把城堡看作是你进行安全检测的系统，那么恭喜你，现在你已经成功找到了路径穿越漏洞。通过这种漏洞，你可以访问“城堡”内部的各种“宝藏”。当然，你具体能访问到什么样的宝藏，还要取决于地道究竟能够通往何处。</p><h2>路径穿越</h2><p>那么什么是路径穿越呢？简单来说，你所构建的系统中有一个功能组件使用外部输入来构建文件名，而这个文件名会用来定位一个在受限目录的文件，如果文件名中既包含一些特殊元素，又没有进行合理的过滤处理，就会导致路径被解析到受限文件夹之外的目录。</p><!-- [[[read_end]]] --><p>扩展开讲一讲，很多系统内部的文件操作都希望被限制在特定目录中进行。通过使用<code>..</code>以及<code>/</code>符号，攻击者可以进行文件路径逃逸。其中最常见的符号组合是<code>../</code>，这种符号组合在操作系统中会被解析为上级目录，这种漏洞被称为相对路径穿越。绝对路径穿越是另一种类型的路径穿越，比如<code>/usr/local/bin</code>就是典型的例子。</p><p>接下来我们看几种典型的攻击场景：</p><ol>
 

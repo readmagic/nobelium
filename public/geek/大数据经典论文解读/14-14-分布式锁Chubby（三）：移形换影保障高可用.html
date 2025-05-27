@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是徐文浩。</p><p>过去的两讲里，我们都在尝试做一件事情，就是在Master和Backup Master之间保持数据的同步复制。无论是通过分布式事务的两阶段提交算法，还是通过分布式共识的Paxos算法，都是为了做到这一点。</p><p>而我们要去保障Master和Backup Master之间的同步复制，也是为了一个小小的目标，那就是<strong>整个系统的高可用性</strong>。因为系统中只有一个Master节点，我们希望能够在Master节点挂掉的时候，快速切换到另外一个节点，所以我们需要这两个节点的数据是完全同步的。不然的话，我们就可能会丢失一部分数据。</p><p>不过，无论是GFS也好，Bigtable也好，我们能看到它们都是一个单Master系统，而不是有多个Master，能够同时接受外部的请求来保持高可用性。所以，尽管在论文里面，Google没有说GFS在Master和Backup Master之间数据的同步复制是怎么进行的，但是根据我的推测，采用一个两阶段提交的方式会更简单直接一点。</p><p>那么，现在你可能就会觉得有问题了：如果还是使用两阶段提交这样的方式，我们不还是会面临单点故障吗？而且，我们上一讲所说的Paxos算法也用不上啊？</p><p>要回答这个问题，就请你一起来和我学习今天这一讲，也就是Chubby这个系统到底是怎么一回事儿。通过这一讲，我会让你知道：</p><!-- [[[read_end]]] --><ul>
 

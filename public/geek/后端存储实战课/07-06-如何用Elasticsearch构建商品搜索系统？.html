@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是李玥。</p><p>搜索这个特性可以说是无处不在，现在很少有网站或者系统不提供搜索功能了，所以，即使你不是一个专业做搜索的程序员，也难免会遇到一些搜索相关的需求。搜索这个东西，表面上看功能很简单，就是一个搜索框，输入关键字，然后搜出来想要的内容就好了。</p><p>搜索背后的实现，可以非常简单，简单到什么程度呢？我们就用一个SQL，LIKE一下就能实现；也可以很复杂，复杂到什么程度呢？不说百度谷歌这种专业做搜索的公司，其他非专业做搜索的互联网大厂，搜索团队大多是千人规模，这里面不仅有程序员，还有算法工程师、业务专家等等。二者的区别也仅仅是，搜索速度的快慢以及搜出来的内容好坏而已。</p><p>今天这节课，我们就以电商中的商品搜索作为例子，来讲一下，如何用ES(Elasticsearch)来快速、低成本地构建一个体验还不错的搜索系统。</p><h2>理解倒排索引机制</h2><p>刚刚我们说了，既然我们的数据大多都是存在数据库里，用SQL的LIKE也能实现匹配，也能搜出结果，为什么还要专门做一套搜索系统呢？我先来和你分析一下，为什么数据库不适合做搜索。</p><p>搜索的核心需求是全文匹配，对于全文匹配，数据库的索引是根本派不上用场的，那只能全表扫描。全表扫描已经非常慢了，这还不算，还需要在每条记录上做全文匹配，也就是一个字一个字的比对，这个速度就更慢了。所以，使用数据来做搜索，性能上完全没法满足要求。</p><!-- [[[read_end]]] --><p>那ES是怎么来解决搜索问题的呢？我们来举个例子说明一下，假设我们有这样两个商品，一个是烟台红富士苹果，一个是苹果手机iPhone XS Max。</p><p><img src="https://static001.geekbang.org/resource/image/28/0a/28a9b198c9b10a3b4d50a77d8fea6c0a.jpg" alt=""></p><p>这个表里面的DOCID就是唯一标识一条记录的ID，和数据库里面的主键是类似的。</p><p>为了能够支持快速地全文搜索，ES中对于文本采用了一种特殊的索引：倒排索引（Inverted Index）。那我们看一下在ES中，这两条商品数据倒排索引长什么样？请看下面这个表。</p><p><img src="https://static001.geekbang.org/resource/image/6f/1c/6fcdd7e10c3e72b2abe635c8a5a6ff1c.jpg" alt=""></p><p>可以看到，这个倒排索引的表，它是以单词作为索引的Key，然后每个单词的倒排索引的值是一个列表，这个列表的元素就是含有这个单词的商品记录的DOCID。</p><p>这个倒排索引怎么构建的呢？当我们往ES写入商品记录的时候，ES会先对需要搜索的字段，也就是商品标题进行<strong>分词</strong>。分词就是把一段连续的文本按照语义拆分成多个单词。然后ES按照单词来给商品记录做索引，就形成了上面那个表一样的倒排索引。</p><p>当我们搜索关键字“苹果手机”的时候，ES会对关键字也进行分词，比如说，“苹果手机”被分为“苹果”和“手机”。然后，ES会在倒排索引中去搜索我们输入的每个关键字分词，搜索结果应该是：</p><p><img src="https://static001.geekbang.org/resource/image/71/c2/7191b2ba0e28d8b7db9871213664a6c2.jpg" alt=""></p><p>666和888这两条记录都能匹配上搜索的关键词，但是888这个商品比666这个商品匹配度更高，因为它两个单词都能匹配上，所以按照匹配度把结果做一个排序，最终返回的搜索结果就是：</p><blockquote>
 

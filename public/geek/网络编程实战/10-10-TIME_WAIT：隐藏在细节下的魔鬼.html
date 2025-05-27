@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是盛延敏，这是网络编程实战的第10讲，欢迎回来。</p><p>在前面的基础篇里，我们对网络编程涉及到的基础知识进行了梳理，主要内容包括C/S编程模型、TCP协议、UDP协议和本地套接字等内容。在提高篇里，我将结合我的经验，引导你对TCP和UDP进行更深入的理解。</p><p>学习完提高篇之后，我希望你对如何提高TCP及UDP程序的健壮性有一个全面清晰的认识，从而为深入理解性能篇打下良好的基础。</p><p>在前面的基础篇里，我们了解了TCP四次挥手，在四次挥手的过程中，发起连接断开的一方会有一段时间处于TIME_WAIT的状态，你知道TIME_WAIT是用来做什么的么？在面试和实战中，TIME_WAIT相关的问题始终是绕不过去的一道难题。下面就请跟随我，一起找出隐藏在细节下的魔鬼吧。</p><h2>TIME_WAIT发生的场景</h2><p>让我们先从一例线上故障说起。在一次升级线上应用服务之后，我们发现该服务的可用性变得时好时坏，一段时间可以对外提供服务，一段时间突然又不可以，大家都百思不得其解。运维同学登录到服务所在的主机上，使用netstat命令查看后才发现，主机上有成千上万处于TIME_WAIT状态的连接。</p><p>经过层层剖析后，我们发现罪魁祸首就是TIME_WAIT。为什么呢？我们这个应用服务需要通过发起TCP连接对外提供服务。每个连接会占用一个本地端口，当在高并发的情况下，TIME_WAIT状态的连接过多，多到把本机可用的端口耗尽，应用服务对外表现的症状，就是不能正常工作了。当过了一段时间之后，处于TIME_WAIT的连接被系统回收并关闭后，释放出本地端口可供使用，应用服务对外表现为，可以正常工作。这样周而复始，便会出现了一会儿不可以，过一两分钟又可以正常工作的现象。</p><!-- [[[read_end]]] --><p>那么为什么会产生这么多的TIME_WAIT连接呢？</p><p>这要从TCP的四次挥手说起。</p><p><img src="https://static001.geekbang.org/resource/image/f3/e1/f34823ce42a49e4eadaf642a75d14de1.png" alt=""><br>
 

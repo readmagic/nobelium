@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是Tony Bai。</p><p>今天我们将深入Go语法细节，学习静态语言有别于动态语言的一个重要特征：<strong>变量声明</strong>。那么变量声明究竟解决的是什么问题呢？我们先从变量这个概念说起。</p><p>在编程语言中，为了方便操作内存特定位置的数据，我们用一个特定的名字与位于特定位置的内存块绑定在一起，这个名字被称为<strong>变量</strong>。</p><p>但这并不代表我们可以通过变量随意引用或修改内存，<strong>变量所绑定的内存区域是要有一个明确的边界的</strong>。也就是说，通过这样一个变量，我们究竟可以操作4个字节内存还是8个字节内存，又或是256个字节内存，编程语言的编译器或解释器需要明确地知道。</p><p>那么，编程语言的编译器或解释器是如何知道一个变量所能引用的内存区域边界呢？</p><p>其实，动态语言和静态语言有不同的处理方式。动态语言（比如Python、Ruby等）的解释器可以在运行时通过对变量赋值的分析，自动确定变量的边界。并且在动态语言中，一个变量可以在运行时被赋予大小不同的边界。</p><p>而静态编程语言在这方面的“体验略差”。静态类型语言编译器必须明确知道一个变量的边界才允许使用这个变量，但静态语言编译器又没能力自动提供这个信息，这个边界信息必须由这门语言的使用者提供，于是就有了“<strong>变量声明</strong>”。通过变量声明，语言使用者可以显式告知编译器一个变量的边界信息。在具体实现层面呢，这个边界信息由变量的类型属性赋予。</p><!-- [[[read_end]]] --><p>作为身处静态编程语言阵营的Go语言，它沿袭了静态语言的这一要求：<strong>使用变量之前需要先进行变量声明</strong>。</p><p>首先，让我们先来看看Go语言的变量声明方法。</p><h2>Go语言的变量声明方法</h2><p>我们前面说过，Go是静态语言，所有变量在使用前必须先进行声明。声明的意义在于告诉编译器该变量可以操作的内存的边界信息，而这种边界通常又是由变量的类型信息提供的。</p><p>在Go语言中，有一个通用的变量声明方法是这样的：</p><p><img src="https://static001.geekbang.org/resource/image/cf/03/cf0a619528dd03893edbb83f3c4dd303.jpg?wh=1487x770" alt="图片"></p><p>这个变量声明分为四个部分：</p><ul>
 

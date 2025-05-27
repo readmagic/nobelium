@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是高楼。</p><p>今天，我们来优化支付订单接口。通过这个接口，我们来看看怎么高效解决for循环产生的内存溢出问题。</p><p>对于JVM内存溢出或泄露来说，通常性能人员都能定位到一个应用hang住了。但是，要想进一步判断出应用hang住的原因，并没有那么容易做到。因为内存大时做堆Dump比较费时，更重要的一点是，要想把堆里面的对象和栈关联起来是需要足够的经验和时间的。这也是其中的难点之一。</p><p>这节课我就带你来看看怎么解决这个难点。</p><p>不过，在此之前，我们会先处理一个熟悉的问题，就是数据库表加索引。很显然，我们在测试这个接口时又遇到它了。虽然我在<a href="https://time.geekbang.org/column/article/367285">第16讲</a>中给你重点讲过这个问题，但是这一次的每秒全表扫描比之前要高得多。通过这次的讲解，我希望你能明白只要存在全表扫描，CPU消耗很快就会达到100%。同时，也希望你能借此看清楚全表扫描对CPU消耗的影响。</p><h2>场景运行数据</h2><p>首先，我们来运行一下场景：</p><p><img src="https://static001.geekbang.org/resource/image/02/e1/02f5facd8d0196ae07c223b8dc1e4ae1.png" alt=""></p><p>这是一个典型的TPS太低、响应时间不断上升的性能瓶颈，对于这种瓶颈的分析逻辑，我在前面的课程里已经写过很多次了，相信你已经掌握。下面我们来看一下具体的问题是什么。</p><h2>架构图</h2><p><img src="https://static001.geekbang.org/resource/image/72/8f/72b7b04b1e2323d4fae9fcc30cb3be8f.png" alt=""></p><p>这个接口的链路比较简单：User - Gateway - Order - MySQL，我们大概记在脑子里就好。</p><!-- [[[read_end]]] --><h2>第一阶段</h2><p>在这里我就不拆分时间了，我们直接来看全局监控。因为第一阶段的问题相对来说比较简单，只是性能瓶颈的表现形式和之前不太一样。</p><h3>全局监控分析</h3><p>全局监控的数据如下：</p><p><img src="https://static001.geekbang.org/resource/image/0a/3a/0a2471dca622df4a813e8c06d31e5b3a.png" alt=""></p><p>看到这张图，你是不是有一种终于见到典型性能瓶颈的感觉？CPU使用率这么高！那还不简单？打栈看代码呀！</p><p>不过，我们得先查一下是什么东西导致k8s-worker-1的CPU使用率这么高的。这个worker上运行的服务如下：</p><pre><code>[root@k8s-master-2 ~]# kubectl get pods -o wide | grep worker-1
 

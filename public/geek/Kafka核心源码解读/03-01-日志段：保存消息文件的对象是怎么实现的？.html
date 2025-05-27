@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是胡夕。</p><p>今天，我们开始学习Kafka源代码分析的第一模块：日志（Log）、日志段（LogSegment）以及索引（Index）源码。</p><p>日志段及其相关代码是Kafka服务器源码中最为重要的组件代码之一。你可能会非常关心，在Kafka中，消息是如何被保存和组织在一起的。毕竟，<strong>不管是学习任何消息引擎，弄明白消息建模方式都是首要的问题</strong>。因此，你非常有必要学习日志段这个重要的子模块的源码实现。</p><p>除此之外，了解日志段也有很多实际意义，比如说，你一定对Kafka底层日志文件00000000000000012345.log的命名感到很好奇。学过日志段之后，我相信这个问题一定会迎刃而解的。</p><p>今天，我会带你详细看下日志段部分的源码。不过在此之前，你需要先了解一下Kafka的日志结构。</p><h2>Kafka日志结构概览</h2><p>Kafka日志在磁盘上的组织架构如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/72/4b/72fb27cb49e41a61524322ab6bd1cb4b.jpg" alt=""></p><p>日志是Kafka服务器端代码的重要组件之一，很多其他的核心组件都是以日志为基础的，比如后面要讲到的状态管理机和副本管理器等。</p><p>总的来说，Kafka日志对象由多个日志段对象组成，而每个日志段对象会在磁盘上创建一组文件，包括消息日志文件（.log）、位移索引文件（.index）、时间戳索引文件（.timeindex）以及已中止（Aborted）事务的索引文件（.txnindex）。当然，如果你没有使用Kafka事务，已中止事务的索引文件是不会被创建出来的。图中的一串数字0是该日志段的起始位移值（Base Offset），也就是该日志段中所存的第一条消息的位移值。</p><!-- [[[read_end]]] --><p>一般情况下，一个Kafka主题有很多分区，每个分区就对应一个Log对象，在物理磁盘上则对应于一个子目录。比如你创建了一个双分区的主题test-topic，那么，Kafka在磁盘上会创建两个子目录：test-topic-0和test-topic-1。而在服务器端，这就是两个Log对象。每个子目录下存在多组日志段，也就是多组.log、.index、.timeindex文件组合，只不过文件名不同，因为每个日志段的起始位移不同。</p><h2>日志段代码解析</h2><p>阅读日志段源码是很有必要的，因为日志段是Kafka保存消息的最小载体。也就是说，消息是保存在日志段中的。然而，官网对于日志段的描述少得可怜，以至于很多人对于这么重要的概念都知之甚少。</p><p>但是，不熟悉日志段的话，如果在生产环境出现相应的问题，我们是没有办法快速找到解决方案的。我跟你分享一个真实案例。</p><p>我们公司之前碰到过一个问题，当时，大面积日志段同时间切分，导致瞬时打满磁盘I/O带宽。对此，所有人都束手无策，最终只能求助于日志段源码。</p><p>最后，我们在LogSegment的shouldRoll方法中找到了解决方案：设置Broker端参数log.roll.jitter.ms值大于0，即通过给日志段切分执行时间加一个扰动值的方式，来避免大量日志段在同一时刻执行切分动作，从而显著降低磁盘I/O。</p><p>后来在复盘的时候，我们一致认为，阅读LogSegment源码是非常正确的决定。否则，单纯查看官网对该参数的说明，我们不一定能够了解它的真实作用。那，log.roll.jitter.ms参数的具体作用是啥呢？下面咱们说日志段的时候，我会给你详细解释下。</p><p>那话不多说，现在我们就来看一下日志段源码。我会重点给你讲一下日志段类声明、append方法、read方法和recover方法。</p><p>你首先要知道的是，日志段源码位于 Kafka 的 core 工程下，具体文件位置是 core/src/main/scala/kafka/log/LogSegment.scala。实际上，所有日志结构部分的源码都在 core 的 kafka.log 包下。</p><p>该文件下定义了三个 Scala 对象：</p><ul>
 

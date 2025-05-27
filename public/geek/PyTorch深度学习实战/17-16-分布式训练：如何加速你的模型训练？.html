@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是方远。</p><p>在之前的课程里，我们一起学习了深度学习必备的内容，包括构建网络、损失函数、优化方法等，这些环节掌握好了，我们就可以训练很多场景下的模型了。</p><p>但是有的时候，我们的模型比较大，或者训练数据比较多，训练起来就会比较慢，该怎么办呢？这时候牛气闪闪的分布式训练登场了，有了它，我们就可以极大地加速我们的训练过程。</p><p>这节课我就带你入门分布式训练，让你吃透分布式训练的工作原理，最后我还会结合一个实战项目，带你小试牛刀，让你在动手过程中加深对这部分内容的理解。</p><h2>分布式训练原理</h2><p>在具体介绍分布式训练之前，我们需要先简要了解一下为什么深度学习要使用GPU。</p><p>在我们平时使用计算机的时候，程序都是将进程或者线程的数据资源放在内存中，然后在CPU进行计算。通常的程序中涉及到了大量的if else等分支逻辑操作，这也是CPU所擅长的计算方式。</p><p>而在深度学习中，模型的训练与计算过程则没有太多的分支，基本上都是矩阵或者向量的计算，而这种暴力又单纯的计算形式非常适合用GPU处理，GPU 的整个处理过程就是一个流式处理的过程。</p><p>但是再好的车子，一个缸的发动机也肯定比不过12个缸的，同理单单靠一个GPU，速度肯定还是不够快，于是就有了多个GPU协同工作的办法，即分布式训练。分布式训练，顾名思义就是训练的过程是分布式的，重点就在于后面这两个问题：</p><!-- [[[read_end]]] --><p>1.谁分布了？答案有两个：数据与模型。<br>
 

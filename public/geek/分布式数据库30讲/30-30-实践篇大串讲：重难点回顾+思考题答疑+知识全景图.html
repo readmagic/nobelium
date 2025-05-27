@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王磊。</p><p>今天这一讲是我们课程的最后一个答疑篇。我会回顾第24讲到第29讲的主要内容，这部分内容是跳出数据库的架构设计，从应用系统的整体视角展开的。接下来，我照例会集中解答留给大家思考题，同时也会回复一些大家关注的热点内容。</p><h2>第24讲：全球化部署</h2><p><a href="https://time.geekbang.org/column/article/293251">第24讲</a>的主题是全球化部署，更接地气的说法就是“异地多活”。</p><p>异地多活的目标是保证在区域级灾难事件的发生时，关键业务仍然能够持续开展。其实，异地多活一直是高可用架构所追求的目标，它的难点是有状态服务的处理，尤其是数据库。在实践中，有好几种基于单体数据库的方案，但它们都有局限性，无法实现“永不宕机”和“近在咫尺”这两点要求。</p><p>分布式数据库基于新的架构设计思想，是有条件达成这两点的。</p><p>实现“永不宕机”的前提是让主副本可以在异地机房之间的漂移，这就对全局时钟有更高的要求，必须做到多时间源、多点授时。目前能够支持的产品有Spanner、CockroachDB和YugabyteDB，而采用单点授时的产品是无法支持的，比如TiDB、OceanBase以及PGXC风格的数据库。</p><p>而实现“近在咫尺”则要做到两点：</p><ol>
 

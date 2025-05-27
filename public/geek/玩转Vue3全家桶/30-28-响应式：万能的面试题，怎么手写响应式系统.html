@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是大圣。</p><p>经过前面课程的学习，相信你对Vue3的实战和组件有了新的认识，也掌握了很多实战秘籍，从今天开始，我将带你进入Vue框架的内部世界，探究一下Vue框架的原理，让你能知其然，也知其所以然。</p><p>我们将手写一个迷你的Vue框架，实现Vue3的主要渲染和更新逻辑，项目就叫weiyouyi，你可以在 <a href="https://github.com/shengxinjing/weiyouyi">GitHub上</a>看到所有的核心代码。</p><h2>响应式</h2><p>在第三讲的Vue3新特性中，我们剖析了Vue3的功能结构，就是下图所示的Vue核心模块，可以看到，Vue3的组件之间是通过响应式机制来通知的，响应式机制可以自动收集系统中数据的依赖，并且在修改数据之后自动执行更新，极大提高开发的效率。</p><p>我们今天就要自己做一个迷你的响应式原型，希望你能通过自己手写，搞清楚响应式的实现原理。</p><p><img src="https://static001.geekbang.org/resource/image/7e/9e/7e68a41ef94a39eda9cf211ed479e39e.png?wh=1920x939" alt="图片"></p><p>根据响应式组件通知效果可以知道，<strong>响应式机制的主要功能就是，可以把普通的JavaScript对象封装成为响应式对象，拦截数据的获取和修改操作，实现依赖数据的自动化更新</strong>。</p><p>所以，一个最简单的响应式模型，我们可以通过reactive或者ref函数，把数据包裹成响应式对象，并且通过effect函数注册回调函数，然后在数据修改之后，响应式地通知effect去执行回调函数即可。</p><!-- [[[read_end]]] --><p>整个流程这么概括地说，你估计不太理解，我们先通过一个简单的小例子直观感受一下响应式的效果。</p><p>Vue的响应式是可以独立在其他平台使用的。比如你可以新建test.js，使用下面的代码在node环境中使用Vue响应。以reactive为例，我们使用reactive包裹JavaScript对象之后，每一次对响应式对象counter的修改，都会执行effect内部注册的函数：</p><pre><code class="language-javascript">const {effect, reactive} = require('@vue/reactivity')
 

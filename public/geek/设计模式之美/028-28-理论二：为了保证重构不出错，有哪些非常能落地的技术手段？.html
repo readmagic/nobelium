@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>上一节课中，我们对“为什么要重构、到底重构什么、什么时候重构、该如何重构”，做了概括性介绍，强调了重构的重要性，希望你建立持续重构意识，将重构作为开发的一部分来执行。</p><p>据我了解，很多程序员对重构这种做法还是非常认同的，面对项目中的烂代码，也想重构一下，但又担心重构之后出问题，出力不讨好。确实，如果你要重构的代码是别的同事开发的，你不是特别熟悉，在没有任何保障的情况下，重构引入bug的风险还是很大的。</p><p>那如何保证重构不出错呢？你需要熟练掌握各种设计原则、思想、模式，还需要对所重构的业务和代码有足够的了解。除了这些个人能力因素之外，最可落地执行、最有效的保证重构不出错的手段应该就是<strong>单元测试</strong>（Unit Testing）了。当重构完成之后，如果新的代码仍然能通过单元测试，那就说明代码原有逻辑的正确性未被破坏，原有的外部可见行为未变，符合上一节课中我们对重构的定义。</p><p>那今天我们就来学习一下单元测试。今天的内容主要包含这样几个内容：</p><ul>
 

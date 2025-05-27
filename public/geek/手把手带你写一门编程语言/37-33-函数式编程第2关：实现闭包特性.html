@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。</p><p>上节课，我们实现了函数式编程的一个重要特性：高阶函数。今天这节课，我们继续来实现函数式编程的另一个重要特性，也就是闭包。</p><p>闭包机制能实现信息的封装、缓存内部状态数据等等，所以被资深程序员所喜欢，并被用于实现各种框架、类库等等。相信很多程序员都了解过闭包的概念，但往往对它的内在机制不是十分清楚。</p><p>今天这节课，我会带你了解闭包的原理和实现机制。在这个过程中，你会了解到闭包数据的形成机制、词法作用域的概念、闭包和面向对象特性的相似性，以及如何访问位于其他栈桢中的数据。</p><p>首先，让我们了解一下闭包的技术实质，从而确定如何让我们的语言支持闭包特性。</p><h2>理解闭包的实质</h2><p>我们先通过一个例子来了解闭包的特点。在下面的示例程序中有一个ID的生成器。这个生成器是一个函数，但它把一个内部函数作为返回值来返回。这个返回值被赋给了函数类型的变量id1，然后调用这个函数。</p><pre><code class="language-plain">function idGenerator():number{//()=&gt;number{
 

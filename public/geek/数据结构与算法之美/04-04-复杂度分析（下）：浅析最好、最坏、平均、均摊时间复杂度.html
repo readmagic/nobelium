@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>上一节，我们讲了复杂度的大O表示法和几个分析技巧，还举了一些常见复杂度分析的例子，比如O(1)、O(logn)、O(n)、O(nlogn)复杂度分析。掌握了这些内容，对于复杂度分析这个知识点，你已经可以到及格线了。但是，我想你肯定不会满足于此。</p><p>今天我会继续给你讲四个复杂度分析方面的知识点，<strong><span class="orange">最好情况时间复杂度</span></strong>（best case time complexity）、<strong><span class="orange">最坏情况时间复杂度</span></strong>（worst case time complexity）、<strong><span class="orange">平均情况时间复杂度</span></strong>（average case time complexity）、<strong><span class="orange">均摊时间复杂度</span></strong>（amortized time complexity）。如果这几个概念你都能掌握，那对你来说，复杂度分析这部分内容就没什么大问题了。</p><h2>最好、最坏情况时间复杂度</h2><p>上一节我举的分析复杂度的例子都很简单，今天我们来看一个稍微复杂的。你可以用我上节教你的分析技巧，自己先试着分析一下这段代码的时间复杂度。</p><pre><code>// n表示数组array的长度
 

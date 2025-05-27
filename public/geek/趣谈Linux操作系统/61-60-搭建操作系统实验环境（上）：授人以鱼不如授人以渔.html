@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>操作系统的理论部分我们就讲完了，但是计算机这门学科是实验性的。为了更加深入地了解操作系统的本质，我们必须能够做一些上手实验。操作系统的实验，相比其他计算机课程的实验要更加复杂一些。</p><p>我们做任何实验，都需要一个实验环境。这个实验环境要搭建在操作系统之上，但是，我们这个课程本身就是操作系统实验，难不成要自己debug自己？到底该咋整呢？</p><p>我们有一个利器，那就是qemu啊，不知道你还记得吗？它可以在操作系统之上模拟一个操作系统，就像一个普通的进程。那我们是否可以像debug普通进程那样，通过qemu来debug虚拟机里面的操作系统呢？</p><p>这一节和下一节，我们就按照这个思路，来试试看，搭建一个操作系统的实验环境。</p><p>运行一个qemu虚拟机，首先我们要有一个虚拟机的镜像。咱们在<a href="https://time.geekbang.org/column/article/108964">虚拟机</a>那一节，已经制作了一个虚拟机的镜像。假设我们要基于 <a href="http://ubuntu-18.04.2-live-server-amd64.iso">ubuntu-18.04.2-live-server-amd64.iso</a>，它对应的内核版本是linux-source-4.15.0。</p><p>当时我们启动虚拟机的过程很复杂，设置参数的时候也很复杂，以至于解析这些参数就花了我们一章的时间。所以，这里我介绍一个简单的创建和管理虚拟机的方法。</p><p>在<a href="https://time.geekbang.org/column/article/109335">CPU虚拟化</a>那一节，我留过一个思考题，OpenStack是如何创建和管理虚拟机的？当时我给了你一个提示，就是用libvirt。没错，这一节，我们就用libvirt来创建和管理虚拟机。</p><!-- [[[read_end]]] --><h2>创建虚拟机</h2><p>首先，在宿主机上，我们需要一个网桥。我们用下面的命令创建一个网桥，并且设置一个IP地址。</p><pre><code>brctl addbr br0
 

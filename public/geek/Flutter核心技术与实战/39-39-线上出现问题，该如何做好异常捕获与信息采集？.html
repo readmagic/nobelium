@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈航。</p><p>在上一篇文章中，我与你分享了如何为一个Flutter工程编写自动化测试用例。设计一个测试用例的基本步骤可以分为3步，即定义、执行和验证，而Flutter提供的单元测试和UI测试框架则可以帮助我们简化这些步骤。</p><p>其中，通过单元测试，我们可以很方便地验证单个函数、方法或类的行为，还可以利用mockito定制外部依赖返回任意数据，从而让测试更可控；而UI测试则提供了与Widget交互的能力，我们可以模仿用户行为，对应用进行相应的交互操作，确认其功能是否符合预期。</p><p>通过自动化测试，我们可以把重复的人工操作变成自动化的验证步骤，从而在开发阶段更及时地发现问题。但终端设备的碎片化，使得我们终究无法在应用开发期就完全模拟出真实用户的运行环境。所以，无论我们的应用写得多么完美、测试得多么全面，总是无法完全避免线上的异常问题。</p><p>这些异常，可能是因为不充分的机型适配、用户糟糕的网络状况；也可能是因为Flutter框架自身的Bug，甚至是操作系统底层的问题。这些异常一旦发生，Flutter应用会无法响应用户的交互事件，轻则报错，重则功能无法使用甚至闪退，这对用户来说都相当不友好，是开发者最不愿意看到的。</p><!-- [[[read_end]]] --><p>所以，我们要想办法去捕获用户的异常信息，将异常现场保存起来，并上传至服务器，这样我们就可以分析异常上下文，定位引起异常的原因，去解决此类问题了。那么今天，我们就一起来学习下Flutter异常的捕获和信息采集，以及对应的数据上报处理。</p><h2>Flutter异常</h2><p>Flutter异常指的是，Flutter程序中Dart代码运行时意外发生的错误事件。我们可以通过与Java类似的try-catch机制来捕获它。但<strong>与Java不同的是，Dart程序不强制要求我们必须处理异常</strong>。</p><p>这是因为，Dart采用事件循环的机制来运行任务，所以各个任务的运行状态是互相独立的。也就是说，即便某个任务出现了异常我们没有捕获它，Dart程序也不会退出，只会导致当前任务后续的代码不会被执行，用户仍可以继续使用其他功能。</p><p>Dart异常，根据来源又可以细分为App异常和Framework异常。Flutter为这两种异常提供了不同的捕获方式，接下来我们就一起看看吧。</p><h2>App异常的捕获方式</h2><p>App异常，就是应用代码的异常，通常由未处理应用层其他模块所抛出的异常引起。根据异常代码的执行时序，App异常可以分为两类，即同步异常和异步异常：同步异常可以通过try-catch机制捕获，异步异常则需要采用Future提供的catchError语句捕获。</p><p>这两种异常的捕获方式，如下代码所示：</p><pre><code>//使用try-catch捕获同步异常
 

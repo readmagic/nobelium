@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是范学雷。今天，我们继续讨论Java平台模块系统（Java Platform Module System，JPMS）。</p><p>Java平台模块系统是在JDK 9正式发布的。在上一讲我们也说过，这项重要的技术从萌芽到诞生，花费了十多年的时间，堪称Java出现以来最重要的新软件工程技术。</p><p>模块化可以帮助各级开发人员在构建、维护和演进软件系统时提高工作效率。更让人满意的是，它还非常简单、直观。我们不需要太长的学习时间就能快速掌握它。</p><p>这一节课，我们就一起来看看应该怎么使用Java平台模块系统。</p><h2>阅读案例</h2><p>在前面的课程里，我们多次使用了Digest这个案例来讨论问题。在这些案例里，我们把实现的代码和接口定义的代码放在了同一个文件里。对于一次Java新特性的讨论来说，这样做也许是合适的。我们可以使用简短的代码，快速、直观地展示新特性。</p><pre><code class="language-java">public sealed abstract class Digest {
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>今天我们继续上次的话题，看看HTTP性能优化有哪些行之有效的手段。</p><p>上一讲里我说到了，在整个HTTP系统里有三个可优化的环节，分别是<strong>服务器</strong>、<strong>客户端</strong>和<strong>传输链路</strong>（“第一公里”和“中间一公里”）。但因为我们是无法完全控制客户端的，所以实际上的优化工作通常是在服务器端。这里又可以细分为后端和前端，后端是指网站的后台服务，而前端就是HTML、CSS、图片等展现在客户端的代码和数据。</p><p>知道了大致的方向，HTTP性能优化具体应该怎么做呢？</p><p>总的来说，任何计算机系统的优化都可以分成这么几类：硬件软件、内部外部、花钱不花钱。</p><p><strong>投资购买现成的硬件</strong>最简单的优化方式，比如换上更强的CPU、更快的网卡、更大的带宽、更多的服务器，效果也会“立竿见影”，直接提升网站的服务能力，也就实现了HTTP优化。</p><p>另外，<strong>花钱购买外部的软件或者服务</strong>也是一种行之有效的优化方式，最“物有所值”的应该算是CDN了（参见<a href="https://time.geekbang.org/column/article/120664">第37讲</a>）。CDN专注于网络内容交付，帮助网站解决“中间一公里”的问题，还有很多其他非常专业的优化功能。把网站交给CDN运营，就好像是“让网站坐上了喷气飞机”，能够直达用户，几乎不需要费什么力气就能够达成很好的优化效果。</p><p>不过这些“花钱”的手段实在是太没有“技术含量”了，属于“懒人”（无贬义）的做法，所以我就不再细说，接下来重点就讲讲在网站内部、“不花钱”的软件优化。</p><!-- [[[read_end]]] --><p>我把这方面的HTTP性能优化概括为三个关键词：<strong>开源</strong>、<strong>节流</strong>、<strong>缓存</strong>。</p><h2>开源</h2><p>这个“开源”可不是Open Source，而是指抓“源头”，开发网站服务器自身的潜力，在现有条件不变的情况下尽量挖掘出更多的服务能力。</p><p>首先，我们应该选用高性能的Web服务器，最佳选择当然就是Nginx/OpenResty了，尽量不要选择基于Java、Python、Ruby的其他服务器，它们用来做后面的业务逻辑服务器更好。利用Nginx强大的反向代理能力实现“动静分离”，动态页面交给Tomcat、Django、Rails，图片、样式表等静态资源交给Nginx。</p><p>Nginx或者OpenResty自身也有很多配置参数可以用来进一步调优，举几个例子，比如说禁用负载均衡锁、增大连接池，绑定CPU等等，相关的资料有很多。</p><p>特别要说的是，对于HTTP协议一定要<strong>启用长连接</strong>。在<a href="https://time.geekbang.org/column/article/126374">第39讲</a>里你也看到了，TCP和SSL建立新连接的成本是非常高的，有可能会占到客户端总延迟的一半以上。长连接虽然不能优化连接握手，但可以把成本“均摊”到多次请求里，这样只有第一次请求会有延迟，之后的请求就不会有连接延迟，总体的延迟也就降低了。</p><p>另外，在现代操作系统上都已经支持TCP的新特性“<strong>TCP Fast Open</strong>”（Win10、iOS9、Linux 4.1），它的效果类似TLS的“False Start”，可以在初次握手的时候就传输数据，也就是0-RTT，所以我们应该尽可能在操作系统和Nginx里开启这个特性，减少外网和内网里的握手延迟。</p><p>下面给出一个简短的Nginx配置示例，启用了长连接等优化参数，实现了动静分离。</p><pre><code>server {
 

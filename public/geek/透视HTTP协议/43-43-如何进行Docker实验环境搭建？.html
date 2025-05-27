@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是Chrono。</p><p>《透视HTTP协议》这个专栏正式完结已经一年多了，感谢你的支持与鼓励。</p><p>这一年的时间下来，我发现专栏“实验环境的搭建”确实是一个比较严重的问题：虽然我已经尽量把Windows、macOS、Linux里的搭建步骤写清楚了，但因为具体的系统环境千差万别，总会有各式各样奇怪的问题出现，比如端口冲突、目录权限等等。</p><p>所以，为了彻底解决这个麻烦，我特意制作了一个Docker镜像，里面是完整可用的HTTP实验环境，下面我就来详细说一下该怎么用。</p><h2>安装Docker环境</h2><p>因为我不知道你对Docker是否了解，所以第一步我还是先来简单介绍一下它。</p><p>Docker是一种虚拟化技术，基于Linux的容器机制（Linux Containers，简称LXC），你可以把它近似地理解成是一个“轻量级的虚拟机”，只消耗较少的资源就能实现对进程的隔离保护。</p><p>使用Docker可以把应用程序和它相关的各种依赖（如底层库、组件等）“打包”在一起，这就是Docker镜像（Docker image）。Docker镜像可以让应用程序不再顾虑环境的差异，在任意的系统中以容器的形式运行（当然必须要基于Docker环境），极大地增强了应用部署的灵活性和适应性。</p><!-- [[[read_end]]] --><p>Docker是跨平台的，支持Windows、macOS、Linux等操作系统，在Windows、macOS上只要下载一个安装包，然后简单点几下鼠标就可以完成安装。</p><p><img src="https://static001.geekbang.org/resource/image/24/b2/2490f6a2a514710e0b683d6cdb4614b2.png" alt=""></p><p>下面我以Ubuntu为例，说一下在Linux上的安装方法。</p><p>你可以在Linux上用apt-get或者yum安装Docker，不过更好的方式是使用Docker官方提供的脚本，自动完成全套的安装步骤。</p><pre><code>curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
 

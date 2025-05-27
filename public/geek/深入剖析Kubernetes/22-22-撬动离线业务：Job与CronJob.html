@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是张磊。今天我和你分享的主题是：撬动离线业务之Job与CronJob。</p><p>在前面的几篇文章中，我和你详细分享了Deployment、StatefulSet，以及DaemonSet这三个编排概念。你有没有发现它们的共同之处呢？</p><p>实际上，它们主要编排的对象，都是“在线业务”，即：Long Running Task（长作业）。比如，我在前面举例时常用的Nginx、Tomcat，以及MySQL等等。这些应用一旦运行起来，除非出错或者停止，它的容器进程会一直保持在Running状态。</p><p>但是，有一类作业显然不满足这样的条件，这就是“离线业务”，或者叫作Batch Job（计算业务）。这种业务在计算完成后就直接退出了，而此时如果你依然用Deployment来管理这种业务的话，就会发现Pod会在计算结束后退出，然后被Deployment Controller不断地重启；而像“滚动更新”这样的编排功能，更无从谈起了。</p><p>所以，早在Borg项目中，Google就已经对作业进行了分类处理，提出了LRS（Long Running Service）和Batch Jobs两种作业形态，对它们进行“分别管理”和“混合调度”。</p><p>不过，在2015年Borg论文刚刚发布的时候，Kubernetes项目并不支持对Batch Job的管理。直到v1.4版本之后，社区才逐步设计出了一个用来描述离线业务的API对象，它的名字就是：Job。</p><!-- [[[read_end]]] --><p><span class="orange">Job API对象的定义非常简单，我来举个例子</span>，如下所示：</p><pre><code>apiVersion: batch/v1
 

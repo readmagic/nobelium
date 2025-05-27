@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是方远。</p><p>通过前面两节课，我们已经对PyTorch有了初步的了解，你是不是迫不及待想要动手玩转PyTorch了？先别着急，我们有必要先品尝一道“前菜”，它就是NumPy。</p><p>为什么我们要先拿下NumPy呢？我相信，无论你正在从事或打算入门机器学习，不接触NumPy几乎不可能。现在的主流深度学习框架PyTorch与TensorFlow中最基本的计算单元Tensor，都与NumPy数组有着类似的计算逻辑，可以说掌握了NumPy对学习这两种框架都有很大帮助。</p><p>另外，NumPy还被广泛用在Pandas，SciPy等其他数据科学与科学计算的Python模块中。而我们日常用得越来越多的人脸识别技术（属于计算机视觉领域），其原理本质上就是先把图片转换成NumPy的数组，然后再进行一系列处理。</p><p>为了让你真正吃透NumPy，我会用两节课的内容讲解NumPy。这节课，我们先介绍NumPy的数组、数组的关键属性以及非常重要的轴的概念。</p><h2>什么是NumPy</h2><p>NumPy是用于Python中科学计算的一个基础包。它提供了一个多维度的数组对象（稍后展开），以及针对数组对象的各种快速操作，例如排序、变换，选择等。NumPy的安装方式非常简单，可以使用Conda安装，命令如下：</p><!-- [[[read_end]]] --><pre><code class="language-plain">conda install numpy
 

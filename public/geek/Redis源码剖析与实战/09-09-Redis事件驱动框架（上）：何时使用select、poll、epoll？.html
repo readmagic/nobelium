@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是蒋德钧。</p><p>Redis作为一个Client-Server架构的数据库，其源码中少不了用来实现网络通信的部分。而你应该也清楚，通常系统实现网络通信的基本方法是<strong>使用Socket编程模型</strong>，包括创建Socket、监听端口、处理连接请求和读写请求。但是，由于基本的Socket编程模型一次只能处理一个客户端连接上的请求，所以当要处理高并发请求时，一种方案就是使用多线程，让每个线程负责处理一个客户端的请求。</p><p>而Redis负责客户端请求解析和处理的线程只有一个，那么如果直接采用基本Socket模型，就会影响Redis支持高并发的客户端访问。</p><p>因此，为了实现高并发的网络通信，我们常用的Linux操作系统，就提供了select、poll和epoll三种编程模型，而在Linux上运行的Redis，通常就会采用其中的<strong>epoll模型</strong>来进行网络通信。</p><p>这里你可能就要问了：<strong>为啥Redis通常会选择epoll模型呢？这三种编程模型之间有什么区别？</strong>如果我们自己要开发高并发的服务器处理程序时，应该如何选择使用呢？</p><p>今天这节课，我就来和你聊聊，Redis在高并发网络通信编程模型上的选择和设计思想。通过这节课的学习，你可以掌握select、poll和epoll三种模型的工作机制和使用方法。了解这些内容，一方面可以帮助你理解Redis整体网络通信框架的工作基础，另一方面，也可以让你学会如何进行高并发网络通信的开发。</p><!-- [[[read_end]]] --><p>那么，要想理解select、poll和epoll的优势，我们需要有个对比基础，也就是基本的Socket编程模型。所以接下来，我们就先来了解下基本的Socket编程模型，以及它的不足之处。</p><h2>为什么Redis不使用基本的Socket编程模型？</h2><p>刚刚我们说过，使用Socket模型实现网络通信时，需要经过创建Socket、监听端口、处理连接和读写请求等多个步骤，现在我们就来具体了解下这些步骤中的关键操作，以此帮助我们分析Socket模型中的不足。</p><p>首先，当我们需要让服务器端和客户端进行通信时，可以在服务器端通过以下三步，来创建监听客户端连接的监听套接字（Listening Socket）：</p><ol>
 

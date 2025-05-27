@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是于航。</p><p>输入输出（后面简称 “IO”）是应用程序不可或缺的一种基本能力。为了保持设计上的精简，C 语言并没有在核心语言层面提供对 IO 相关接口的支持，相反，采用了标准库的方式来实现。通过引用名为 stdio.h 的标准库头文件，我们便可以快捷地为 C 程序添加读取用户键盘输入、输出内容到控制台，乃至读写文件等一系列常规的 IO 功能。</p><p>这一讲，我将为你深入介绍 C 语言中的标准 IO 模型，以及它背后的一些原理。</p><h2>快速回顾 IO 接口的使用方法</h2><p>首先，让我们通过下面这段代码来快速回顾，应该如何在 C 语言中使用这些由标准库提供的 IO 接口。对于这些接口用法的更具体说明，你可以参考<a href="https://en.cppreference.com/w/c/io">这个链接</a>。</p><pre><code class="language-c++">#include &lt;stdio.h&gt;
 

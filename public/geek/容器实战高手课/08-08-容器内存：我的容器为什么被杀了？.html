@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是程远。</p><p>从这一讲内容开始，我们进入容器内存这个模块。在使用容器的时候，一定会伴随着Memory Cgroup。而Memory Cgroup给Linux原本就复杂的内存管理带来了新的变化，下面我们就一起来学习这一块内容。</p><p>今天这一讲，我们来解决容器在系统中消失的问题。</p><p>不知道你在使用容器时，有没有过这样的经历？一个容器在系统中运行一段时间后，突然消失了，看看自己程序的log文件，也没发现什么错误，不像是自己程序Crash，但是容器就是消失了。</p><p>那么这是怎么回事呢？接下来我们就一起来“破案”。</p><h2>问题再现</h2><p>容器在系统中被杀掉，其实只有一种情况，那就是容器中的进程使用了太多的内存。具体来说，就是容器里所有进程使用的内存量，超过了容器所在Memory Cgroup里的内存限制。这时Linux系统就会主动杀死容器中的一个进程，往往这会导致整个容器的退出。</p><p>我们可以做个简单的容器，模拟一下这种容器被杀死的场景。做容器的Dockerfile和代码，你可以从<a href="https://github.com/chengyli/training/tree/master/memory/oom">这里</a>获得。</p><p>接下来，我们用下面的这个脚本来启动容器，我们先把这个容器的Cgroup内存上限设置为512MB（536870912 bytes）。</p><pre><code>#!/bin/bash
 

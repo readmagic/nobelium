@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱晔。作为课程的第一讲，我今天要和你聊聊使用并发工具类库相关的话题。</p><p>在代码审核讨论的时候，我们有时会听到有关线程安全和并发工具的一些片面的观点和结论，比如“把HashMap改为ConcurrentHashMap，就可以解决并发问题了呀”“要不我们试试无锁的CopyOnWriteArrayList吧，性能更好”。事实上，这些说法都不太准确。</p><p>的确，为了方便开发者进行多线程编程，现代编程语言会提供各种并发工具类。但如果我们没有充分了解它们的使用场景、解决的问题，以及最佳实践的话，盲目使用就可能会导致一些坑，小则损失性能，大则无法确保多线程情况下业务逻辑的正确性。</p><p>我需要先说明下，这里的并发工具类是指用来解决多线程环境下并发问题的工具类库。一般而言并发工具包括同步器和容器两大类，业务代码中使用并发容器的情况会多一些，我今天分享的例子也会侧重并发容器。</p><p>接下来，我们就看看在使用并发工具时，最常遇到哪些坑，以及如何解决、避免这些坑吧。</p><h2>没有意识到线程重用导致用户信息错乱的Bug</h2><p>之前有业务同学和我反馈，在生产上遇到一个诡异的问题，有时获取到的用户信息是别人的。查看代码后，我发现他使用了ThreadLocal来缓存获取到的用户信息。</p><!-- [[[read_end]]] --><p>我们知道，ThreadLocal适用于变量在线程间隔离，而在方法或类间共享的场景。如果用户信息的获取比较昂贵（比如从数据库查询用户信息），那么在ThreadLocal中缓存数据是比较合适的做法。但，这么做为什么会出现用户信息错乱的Bug呢？</p><p>我们看一个具体的案例吧。</p><p>使用Spring Boot创建一个Web应用程序，使用ThreadLocal存放一个Integer的值，来暂且代表需要在线程中保存的用户信息，这个值初始是null。在业务逻辑中，我先从ThreadLocal获取一次值，然后把外部传入的参数设置到ThreadLocal中，来模拟从当前上下文获取到用户信息的逻辑，随后再获取一次值，最后输出两次获得的值和线程名称。</p><pre><code>private static final ThreadLocal&lt;Integer&gt; currentUser = ThreadLocal.withInitial(() -&gt; null);
 

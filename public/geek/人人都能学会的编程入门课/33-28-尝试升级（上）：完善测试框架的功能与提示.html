@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是胡光，欢迎回来。</p><p>在上一节课中呢，我们学习了测试框架的主要功能流程，完成了最重要的 RUN_ALL_TESTS 函数的功能逻辑。并且在这个学习期间，我们还使用了注册函数的技巧，就是让一些函数先于主函数执行，将测试用例函数信息记录在一个函数指针数组中，为后续的 RUN_ALL_TESTS 函数功能的执行作铺垫。</p><p>可你有没有发现，我们上节课程所完成的代码，只能让我们的测试框架在整体流程功能上跑通，然而程序的输出内容却不如 gtest 丰富。</p><p>今天，我们的主要任务，就是参考 gtest 的输出，逐步完善我们自己测试框架的相关信息输出方面的细节，从而让输出内容更加符合我们想要的信息。来，让我们一起开始吧。</p><h2>温故知新，gtest 的输出结果</h2><p>我们先来回顾一下 gtest 的输出结果，gtest 的输出内容大体可以分成三个部分。</p><p>第一部分，一套单元测试的相关信息：</p><pre><code>[==========] Running 2 tests from 1 test suite.
 

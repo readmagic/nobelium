@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是石雪峰。今天是期末总结，我们来聊一聊，在云时代，如何选择一款合适的流水线工具。</p><p>在过去的几年里，我一直专注于软件持续交付的工程实践领域。我发现，越来越多的公司（无论规模大小）开始重视软件持续交付能力的建设了，基本上每家公司都有自己的流水线平台。</p><p>以前提到CI/CD工具，基本上就默认是Jenkins，也没什么其他太好的选项。但是最近两年，随着云容器技术的快速发展，在CI/CD流水线领域，新工具和解决方案出现了爆发式的增长。比如不甘寂寞的GitLab CI、轻量级的容器化解决方案Drone。最近一段时间，GitHub的Actions也火了一把。可见，作为软件交付主路径上的核心工具，<strong>流水线</strong>是每一家企业都不愿意错过的领域。</p><p>对于行业发展来说，这当然是好事情。老牌工具Jenkins自己都开始反省：“在云容器时代，是不是过于保守？十几年的老架构是否已经难以支撑云时代的快速发展了？”于是他们就另辟蹊径，孵化出了Jenkins X项目。</p><p>但是，对于用户来说，选择工具时就很为难：“这些工具看起来大同小异，要解决的也是类似的问题，到底应该选择哪个呢？”</p><p>今天，我就来给你梳理一下流行的CI/CD工具，并给你提供一些选择建议。我挑选了5个工具，分为3组介绍，分别是Jenkins系的Jenkins和Jenkins X、版本控制系统系的GitLab CI和GitHub Actions，以及新兴的、正在快速普及的云原生解决方案Drone。我会从5个方面入手，对它们进行对比和介绍，包括工具的易用性、流水线设计、插件生态、扩展性配置以及适用场景。</p><!-- [[[read_end]]] --><h2>Jenkins/Jenkins X</h2><p>关于Jenkins，我想已经不需要做太多介绍了。在过去的15年里面，Jenkins一直都在为无数的软件开发者默默服务。从一组数字中，我们就能看出来它的影响力：官方能统计到的集群数有26万多个、插件将近1700个、执行的任务数超过3000万次，这还不包括大量公司自建、本地电脑运行的节点信息。另外，一年两次的Jenkins全球大会往往能够吸引上千人参与，这对于国外的技术大会来说，已经是超大规模的盛会了。</p><p>当然，Jenkins的优缺点也很明显。</p><ul>
 

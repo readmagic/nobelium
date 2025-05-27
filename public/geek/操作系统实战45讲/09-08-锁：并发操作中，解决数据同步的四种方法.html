@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是LMOS。</p><p>我们在前面的课程中探索了，开发操作系统要了解的最核心的硬件——CPU、MMU、Cache、内存，知道了它们的工作原理。在程序运行中，它们起到了至关重要的作用。</p><p>在开发我们自己的操作系统以前，还不能一开始就把机器跑起来，而是先要弄清楚数据同步的问题。如果不解决掉数据同步的问题，后面机器跑起来，就会出现很多不可预知的结果。</p><p>通过这节课，我会给你讲清楚为什么在并发操作里，很可能得不到预期的访问数据，还会带你分析这个问题的原因以及解决方法。有了这样一个研究、解决问题的过程，对最重要的几种锁（<strong>原子变量，关中断，信号量，自旋锁</strong>），你就能做到心中有数了。</p><h2>非预期结果的全局变量</h2><p>来看看下面的代码，描述的是一个线程中的函数和中断处理函数，它们分别对一个全局变量执行加1操作，代码如下。</p><pre><code>int a = 0;
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是何为舟。“Web安全”模块已经结束了，今天我会通过一篇串讲，带你回顾这一模块的知识，帮你复习巩固，更好地掌握和应用这些内容。</p><p>有同学留言说：“老师，讲了这么多漏洞的防护知识，有没有什么好的记忆方法呀？”首先，我们要明确一点，不管学什么知识，想要学好，在前期，一定需要时常复习来加深记忆。在此基础上，我们才能深刻理解和熟练应用这些知识。</p><p>那你可能要说了，怎么才能“记住”这些知识呢？我这里有一个我自己非常常用的、好的记忆方法，那就是“体系化地记忆”。怎么个体系化呢？说白了，就是每学完一块内容，通过自己的理解把相关的内容串联在一起。这也就是我们常说的，把知识变成自己的东西，长久下来，你就可以形成自己的知识体系了。</p><p>那放到我们这个“Web安全”模块中，我说过，安全落地的第一步是进行<a href="https://time.geekbang.org/column/article/178528">威胁评估</a>，而威胁评估又可以分为：识别数据、识别攻击和识别漏洞。所以，今天我就基于比较常见的两种应用场景，通过威胁评估的方式，带你系统地复习我们学过的Web安全知识。</p><h2>用户数据的威胁评估</h2><p>假设，你正在为公司设计安全体系，首先要对用户数据进行威胁评估。以微博的用户数据为例，这些数据就包括：个人信息、博文信息以及关注互动信息等等。正常情况下，用户需要登录之后才能获取并修改自己的用户数据。那为了获取这些用户数据，黑客常常会通过盗取用户身份来进行未授权的操作。</p><!-- [[[read_end]]] --><p>我们之前讲过，黑客可以通过尝试弱密码或者通过社工手段盗取用户的密码。这种攻击漏洞出现的原因，主要是用户在密码保管上的安全意识薄弱。因此，我们需要通过管理机制（比如安全培训）和技术手段（比如限制密码强度），提升用户的安全意识，教用户如何更好地保管密码。</p><p>除此之外，黑客还可以通过一些Web漏洞，在不知道用户密码的情况，模拟用户进行未授权的操作。可能的Web漏洞我们讲过3种。你可以先自己想想，看能想起来几种。如果想不起来，再看我下面的内容。</p><p><strong>第1个是XSS漏洞</strong>。通过XSS漏洞，黑客可以在Web应用中嵌入自己的JavaScript脚本，从而篡改Web应用在用户浏览器上的行为。通过XSS，黑客一方面可以模拟用户，直接在Web应用中进行发博关注等互动行为；另一方面，也可以通过JavaScript脚本，窃取到用户的Cookie信息。窃取到Cookie之后，黑客就能够在不知道密码的情况下，<strong>绕过登录认证环节，直接获得用户身份。</strong></p><p><a href="https://time.geekbang.org/column/article/179592"><img src="https://static001.geekbang.org/resource/image/7d/f5/7d77973b1623717cd519b0d3f8b7d4f5.jpg" alt=""></a></p><blockquote>
 

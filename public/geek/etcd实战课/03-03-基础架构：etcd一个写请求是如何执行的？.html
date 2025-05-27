@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是唐聪。</p><p>在上一节课里，我通过分析etcd的一个读请求执行流程，给你介绍了etcd的基础架构，让你初步了解了在etcd的读请求流程中，各个模块是如何紧密协作，执行查询语句，返回数据给client。</p><p>那么etcd一个写请求执行流程又是怎样的呢？在执行写请求过程中，如果进程crash了，如何保证数据不丢、命令不重复执行呢？</p><p>今天我就和你聊聊etcd写过程中是如何解决这些问题的。希望通过这节课，让你了解一个key-value写入的原理，对etcd的基础架构中涉及写请求相关的模块有一定的理解，同时能触类旁通，当你在软件项目开发过程中遇到类似数据安全、幂等性等问题时，能设计出良好的方案解决它。</p><h2>整体架构</h2><p><img src="https://static001.geekbang.org/resource/image/8b/72/8b6dfa84bf8291369ea1803387906c72.png" alt=""></p><p>为了让你能够更直观地理解etcd的写请求流程，我在如上的架构图中，用序号标识了下面的一个put hello为world的写请求的简要执行流程，帮助你从整体上快速了解一个写请求的全貌。</p><pre><code>etcdctl put hello world --endpoints http://127.0.0.1:2379
 

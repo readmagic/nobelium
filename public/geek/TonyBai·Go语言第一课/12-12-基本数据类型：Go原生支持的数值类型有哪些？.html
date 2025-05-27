@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是Tony Bai。</p><p>在上一课中，我们学习了Go变量的声明形式，知道了变量所绑定的内存区域应该有明确的边界，而这个边界信息呢，是由变量的类型赋予的。那么，顺着这个脉络，从这一节课开始，我们就来深入讲解Go语言类型。</p><p>你可能会有点不解，类型是每个语言都有的东西，我们有必要花那么多时长、讲那么详细吗？</p><p>有必要。对像Go这样的静态编程语言来说，类型是十分重要的。因为它不仅是静态语言编译器的要求，更是我们对现实事物进行抽象的基础。对这一方面的学习，可以让你逐渐建立起代码设计的意识。</p><p>Go语言的类型大体可分为基本数据类型、复合数据类型和接口类型这三种。其中，我们日常Go编码中使用最多的就是基本数据类型，而基本数据类型中使用占比最大的又是数值类型。</p><p>那么，我们今天就先来讲数字类型。Go语言原生支持的数值类型包括整型、浮点型以及复数类型，它们适用于不同的场景。我们依次来看一下。</p><h2>被广泛使用的整型</h2><p>Go语言的整型，主要用来表示现实世界中整型数量，比如：人的年龄、班级人数等。它可以分为<strong>平台无关整型</strong>和<strong>平台相关整型</strong>这两种，它们的区别主要就在，这些整数类型在不同CPU架构或操作系统下面，它们的长度是否是一致的。</p><p>我们先来看<strong>平台无关整型</strong>，它们在任何CPU架构或任何操作系统下面，长度都是固定不变的。我在下面这张表中总结了Go提供的平台无关整型：</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/06/f6/06b6f40dd25ed4296b5bae6fa8d890f6.jpg?wh=1920x1047" alt="图片"></p><p>你可以看到，这些平台无关的整型也可以分成两类：有符号整型（int8~int64）和无符号整型（uint8~uint64）。两者的本质差别在于最高二进制位（bit位）是否被解释为符号位，这点会影响到无符号整型与有符号整型的取值范围。</p><p>我们以下图中的这个8比特（一个字节）的整型值为例，当它被解释为无符号整型uint8时，和它被解释为有符号整型int8时表示的值是不同的：</p><p><img src="https://static001.geekbang.org/resource/image/0b/26/0b9890673b05aa168b7bf6031d7f6926.jpg?wh=1611x859" alt="图片"></p><p>在同样的比特位表示下，当最高比特位被解释为符号位时，它代表一个有符号整型（int8），它表示的值为-127；当最高比特位不被解释为符号位时，它代表一个无符号整型(uint8)，它表示的值为129。</p><p>这里你可能就会问了：即便最高比特位被解释为符号位，上面的有符号整型所表示值也应该为-1啊，怎么会是-127呢？</p><p>这是因为Go采用<strong>2的补码</strong>（Two’s Complement）作为整型的比特位编码方法。因此，我们不能简单地将最高比特位看成负号，把其余比特位表示的值看成负号后面的数值。Go的补码是通过原码逐位取反后再加1得到的，比如，我们以-127这个值为例，它的补码转换过程就是这样的：</p><p><img src="https://static001.geekbang.org/resource/image/5b/3c/5bfe6c399f9cb192dd3cc43f180e4b3c.jpg?wh=1731x907" alt="图片"></p><p>与平台无关整型对应的就是平台相关整型，它们的长度会根据运行平台的改变而改变。Go语言原生提供了三个<strong>平台相关整型</strong>，它们是int、uint与uintptr，我同样也列了一张表：</p><p><img src="https://static001.geekbang.org/resource/image/bb/e3/bb54f92e201e950e7977f98d2be52fe3.jpg?wh=1731x907" alt="图片"></p><p>在这里我们要特别注意一点，由于这三个类型的长度是平台相关的，所以我们<strong>在编写有移植性要求的代码时，千万不要强依赖这些类型的长度</strong>。如果你不知道这三个类型在目标运行平台上的长度，可以通过unsafe包提供的SizeOf函数来获取，比如在x86-64平台上，它们的长度均为8：</p><pre><code class="language-plain">var a, b = int(5), uint(6)
 

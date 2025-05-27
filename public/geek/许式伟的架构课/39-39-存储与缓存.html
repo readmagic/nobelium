@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是七牛云许式伟。</p><p>前面接连三讲我们介绍了存储中间件的由来，以及最为常见的存储中间件，如：键值存储（KV Storage）、数据库（Database）、对象存储（Object Storage）。</p><p>当然，它们并不是全部。常见的存储中间件还有很多，比如消息队列（MQ）、搜索引擎（Search Engine）等等。</p><p>限于篇幅，我们不能一一对它们进行分析。今天，我们聊一聊缓存（Cache）。</p><h2>memcached</h2><p>缓存（Cache）是什么？</p><p>简单说，缓存是存储（Storage）的加速器。加速的原理通常是这样几种方法：</p><p>最常见的是用更高速的硬件来加速。比如，用 SSD 缓存加速 SATA 存储，用内存缓存加速基于外存的存储。</p><p>还有一种常见的方法是用更短的路径。比如，假设某个计算 y = F(x) 非常复杂，中间涉及很多步骤，发生了一系列的存储访问请求，但是这个计算经常会被用到，那么我们就可以用一个 x =&gt; y 的内存缓存来加速。</p><p>可见，缓存的数据结构从实现上来讲只需要是一个键值存储。所以它的接口可以非常简单：</p><pre><code>type Cache {
 

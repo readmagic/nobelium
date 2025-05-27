@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是何为舟。</p><p>在前面两节课中，我们讲了防火墙和WAF的工作模式，以及它们是如何作为内外网的隔离设备，在网络边界进行安全防护的。</p><p>但是，无论是防火墙还是WAF，都无法达到100%的防护效果。黑客总是能有很多其他的办法，来隐藏自己或者直接绕过这些保护机制。因此，我们仍然需要对内网中的行为进行检测，及时发现已经入侵到内网中的黑客。这就需要用到IDS（Intrusion Detection System，入侵检测系统）了。</p><p>那么，IDS的工作模式有哪些呢？它能够实现哪些功能呢？今天，我们就一起来学习，如何通过IDS进行安全防护。</p><h2>什么是IDS？</h2><p>IDS的最终目的是检测黑客的攻击行为。那我们应该在哪里进行检测呢？首先是在网络流量中：黑客在控制了一台服务器之后，需要进行权限提升，而权限提升需要黑客在内网中挖掘各个服务器存在的漏洞。因此，黑客会发起很多探测和攻击的网络请求。其次就是在服务器系统中，黑客也可以利用服务器系统或应用本身的漏洞进行权限提升，同时，黑客也会尝试在系统中留下后门，这些行为都是通过系统操作来完成的。</p><p>因此，根据检测内容的不同，IDS可以分成两种类型：NIDS（Network Intrusion Detection System，网络入侵检测系统）和HIDS（Host-based Intrusion Detection System，基于主机型入侵检测系统）。</p><!-- [[[read_end]]] --><p><strong>第一种类型：NIDS。</strong></p><p>在讲防火墙的时候，我们提到防火墙存在盲区：防火墙只能够检测穿越网络边界的流量，如果黑客已经进入到了内网，那防火墙就没办法提供任何的安全防护了。这个时候，我们就需要使用NIDS了。</p><p>NIDS主要检测网络流量中的攻击行为。区别于部署在网络边界的防火墙，NIDS一般部署在内网的网络节点（路由器或交换机）中，所有的网络请求都会流经这些网络节点，所以，NIDS基本可以获取到对应网络节点下全部的网络行为。</p><p>另外，和防火墙不同的是，NIDS一般不具备拦截网络请求的能力。这也让NIDS能够很好地隐蔽自己，让黑客很难发现。对于防火墙和WAF来说，黑客总是会不断尝试各种方式来绕过这些安全产品，原因就是黑客知道自己被拦截了。因此，这些安全产品需要不断地更新规则策略对抗黑客。如果黑客都不知道NIDS的存在，就不会刻意地去绕过NIDS的检测，这也使得NIDS的检测能力比较稳定，不需要频繁地更新规则策略。</p><p>NIDS是一个比较经典的安全产品，你可以直接使用市面上的开源工具，比如：<a href="https://www.snort.org/#get-started">Snort</a>、<a href="https://suricata-ids.org">Suricata</a>等。这些工具也依据CVE库开发了完整的入侵检测规则。以Snort的一条检测规则为例：</p><pre><code>Rule Header	Message alert tcp $EXTERNAL_NET $HTTP_PORTS -&gt; $HOME_NET any
 

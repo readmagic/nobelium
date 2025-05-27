@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是于航。</p><p>所有正在应用 Wasm 这门技术的开发者，都会被频繁问到这样一个问题 ——  “如何能够以最正确的方式来对一个 Wasm 模块（应用）进行调试？”</p><p>实际上，针对 Wasm 模块的调试方案与相应的工具链，暂时还没有统一的“事实标准”。而又由于 Wasm 本身可以被应用在诸如 Web 与 out-of-web 等多种场景中，这便使得对 Wasm 模块或应用的调试过程，变得十分复杂。</p><p>在本节课里我将为你总结现阶段所能够使用的一些，针对于独立 Wasm 模块或者说 Wasm 应用的调试方案。这些方案本身并没有优劣之分，你可以根据自己的实际情况和应用场景来挑选合适的 Wasm 调试方式。</p><p>这些方案将会基于不同的工具实现来展开，而关于工具本身的安装过程，你可以参考我在这节课里给出的相关链接。</p><p>总的来说，我们可以将这些方案划分为 Web 与 out-of-web 两种场景。前者对应于运行在 Web 浏览器中的 Wasm 应用，这些应用仅使用到了 Wasm 核心标准中的特性；而后者则对应于运行在如 Wasmtime 等 Wasm 运行时中的 Wasm 应用，这部分应用还将会使用到除 Wasm 核心标准之外的 WASI 抽象操作系统接口标准。</p><h2>编译时调试</h2><p>作为开发 Wasm 应用的一个必不可少的流程，“编译”是一个无论如何也要跨过去的“槛”。但总是有着各种各样的原因，导致你的应用在编译阶段会出现问题。所以我们先来看看如何调试应用在编译期发生的错误。</p><!-- [[[read_end]]] --><h3>Emscripten</h3><p>Emscripten 作为构建可运行于 Web 浏览器上的 Wasm 应用的首选编译工具之一，它为我们提供了众多的调试选项，可以在编译过程中输出详细的调试信息以供排错之用。</p><h4>EMCC_DEBUG</h4><p>以我们上节课从零构建的 Wasm DIP 应用为例，在实际使用 emcc（Emscripten 提供的编译器）编译该项目时，我们可以通过为编译命令添加 “EMCC_DEBUG” 环境变量的方式，来让 emcc 以“调试模式”的方式来编译我们的项目，修改后的编译命令如下所示。</p><p>注：此命令行形式仅适用于 Linux / MacOS 系统，对于 Windows 则会有所区别。你可以参考 <a href="https://emscripten.org/docs/index.html">Emscripten 官方文档</a>来查看相关细节。</p><pre><code>EMCC_DEBUG=1 emcc dip.cc
 

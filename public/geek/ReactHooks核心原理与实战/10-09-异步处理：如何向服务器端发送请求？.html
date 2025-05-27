@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王沛。这节课我们来学习如何在 React Hooks 中处理 Rest API 请求。</p><p>我遇到很多 React 的初学者，刚把Hello World跑起来，问的第一个问题就是：我该怎么发请求拿数据呢？</p><p>可见，这是最为常见也是最为重要的一个需求。毕竟90%以上的前端 App 都是和服务器端打交道，然后通过各种 API 完成各种功能。</p><p><strong>虽然发请求拿数据有很多<strong><strong>种</strong></strong>做法，但基本上都会遵循一定的规律</strong>，而这正是咱们这节课要介绍的内容。</p><p>其实在第一讲，我们就已经看到了异步请求的一个实例，当时我们在一个组件内直接发起了一个请求，并处理了返回结果。但这个简单的例子只是演示了组件中发请求的基本流程，在实际的项目中我们很少会直接这么写，因为<strong>还需要考虑更多的逻辑</strong>。</p><p>比如说，如何给所有请求都带上一个 Token 供服务器端验证？如何发起并发请求？等等。此外，咱们整个课程都是从 Hooks 角度去思考问题，那么 Hooks 又能给异步逻辑处理带来怎样的优化？这些都是接下来要具体介绍的内容。</p><h1>实现自己的 API Client</h1><p>无论大小项目，在开始实现第一个请求的时候，通常我们要做的第一件事应该都是<strong>创建一个自己的 API Client，之后所有的请求都<strong><strong>会</strong></strong>通过这个</strong> <strong>Client 发出去</strong>。而不是上来就用 fetch 或者是 <a href="https://github.com/axios/axios">axios</a> 去直接发起请求，因为那会造成大量的重复代码。</p><!-- [[[read_end]]] --><p>实现这样一个 Client 之后，你就有了一个统一的地方，去对你需要连接的服务端做一些通用的配置和处理，比如 Token、URL、错误处理等等。</p><p>这个步骤呢，虽然跟 React 和 Hooks 没有直接的关系，但是我经常看到很多同学是在多个组件内分别实现了异步请求处理，写了很多重复代码之后，才开始考虑把这个功能提取出来，增加了额外工作量。所以这里我就先简单介绍下，实现这样一个 API Client 需要考虑哪些因素。</p><p>通常来说，会包括以下几个方面：</p><ol>
 

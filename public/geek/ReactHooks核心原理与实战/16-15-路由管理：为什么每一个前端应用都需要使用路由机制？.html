@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王沛。今天我们来聊聊如何在 React 中使用路由管理。</p><p>所谓<strong>路由管理</strong>，就是<strong>让你的页面能够根据 URL 的变化进行页面的切换</strong>，这是<strong>前端应用中一个非常重要的机制</strong>，同时也是 Web 应用区别于桌面应用的一个重要特征。</p><p>我们之所以说路由非常重要，主要体现在两个方面。</p><p>一方面，路由机制提供了按页面去组织整个应用程序的能力，页面之间的交互可以主要通过 URL 来进行，从而可以让各个业务功能互相独立，实现逻辑的解耦。</p><p>另一方面，URL 的全称是_Uniform Resource Locator_，中文意思是“统一资源定位符”，表明 URL 是用于唯一的定位某个资源的。</p><p>所以对于能够通过前端应用展现的每一个资源，你都要考虑 URL 是否能唯一地定位到这个资源。这要求 URL 不仅能定位到某个页面，还要能定位到一些状态，比如当前的 Tab 页是什么，或者页面列表应该是第几页，等等。而路由机制，就可以让你做到这一点。</p><p>所以，对于每一个前端应用，无论大小，都应该要有自己的路由机制。而我们在开发每一个功能的时候，在设计之初就应该思考当前实现的功能和 URL 是否需要有什么联系。这样就可以让 URL 能够更准确地定位资源，进而提升用户体验。同时，由于我们将某些状态通过 URL 进行了管理，相关的业务逻辑语义也会更加明确。</p><!-- [[[read_end]]] --><p>那么在今天这节课，我就会跟你完整地介绍前端路由的工作原理，以及典型的使用场景，帮助你能够在自己的应用中熟练掌握路由的使用。</p><h2>理解路由的工作原理：自己实现一个简单的路由机制</h2><p>在 React 中的路由管理，一般都会通过路由框架 React Router 去实现。可能很多同学一听到“框架”，下意识地就觉得它的实现非常复杂。其实不然，在 React 中实现一个自己路由框架非常容易，只要<strong>利用最基础的 React 机制</strong>就能够实现。</p><p>所以我们首先就来看看，如果要自己实现这样一个机制应该如何去做，这样你就能够真正理解 React Router 这样的路由框架的工作原理了。理解了原理，你也就能在使用时更加得心应手，遇到问题也能自主解决。</p><p>在一个前端应用中，所谓的<strong>页面切换</strong>，或者导航，其实是一个页面的局部内容要使用不同的组件去展示。比如说下图，一个页面通常由 header、sider、content 等部分组成，但是在实际的页面切换的时候，改变的其实是 content 部分的内容。</p><p><img src="https://static001.geekbang.org/resource/image/30/b4/30a22cb652713ee083e73f96b3b206b4.png?wh=928x532" alt=""></p><p>所以这也是和传统的 Web 应用不一样的地方：</p><ul>
 

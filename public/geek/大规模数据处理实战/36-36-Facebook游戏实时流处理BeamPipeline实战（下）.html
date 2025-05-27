@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是蔡元楠。</p><p>在上一讲中，我们一起对怎样实现一个简易的游戏积分排行榜展开了讨论，也一起研究了如何使用批处理计算的方式在Beam中构建出一个数据流水线来得出排行榜结果。</p><p>我们知道，虽然批处理计算可以得到一个完整的结果，但是它也存在着自身的不足，比如会有一定的延时，需要额外的crontab来管理定时任务，增加了维护成本等等。</p><p>所以在上一讲的末尾，我们提出了使用实时流处理来改进这些不足，而其中就需要用到窗口、触发器和累加模式这几个概念。</p><p>相信学习了<a href="https://time.geekbang.org/column/article/105707">第32讲</a>的内容后，你对于窗口在Beam中是如何运作的，已经比较了解了。对于有效时间为一周的积分排行榜来说，我们可以赋予一个“窗口时长为一周的固定窗口”给数据流水线。也就是说，我们最终的结果会按照每一周的时长来得出。</p><p>那接下来的问题就剩下我们怎么定义触发器和累加模式了。</p><p>首先，我想先讲讲触发器在Beam中是怎么运作的。在<a href="https://time.geekbang.org/column/article/100478">第23讲</a>中，我们已经了解了触发器在Beam中的作用。它是用于告诉数据流水线，什么时候需要计算一遍落在窗口中的所有数据的。这在实时流处理中尤为重要。</p><p>在实时流处理当中，我们总是需要在数据结果的<strong>完整性</strong>和<strong>延迟性</strong>上做出一些取舍。</p><p>如果我们设置的触发器比较频繁，例如说每隔几分钟甚至是几秒钟，或者是在时间上很早发生的话，那就表示我们更倾向于数据流水线的延时比较小，但是不一定能够获得完整的数据。</p><!-- [[[read_end]]] --><p>如果我们设置的触发器是比较长时间的，像每隔一个小时才会触发一次窗口中的计算的话，那就表示我们更希望获得完整的数据集来得到最终结果。</p><p>为什么这么说呢？</p><p>因为在现实世界中，我们是没有办法保证数据流水线可以在某一刻能够得到在这一刻之前所产生的所有数据的。</p><p>就拿获得这个游戏积分排行榜的数据为例子来说明一下。</p><p>在现实生活中，可能很多用户是用手机来通关游戏，并且上传通关时间和积分的。有的地方可能因为信号差，上传数据会有很大的延迟。甚至可能有这样的情况：有一些用户是在坐飞机的时候玩的游戏（在飞行模式之下完成各种通关），等到飞机降落，手机重新有了信号之后，数据才被上传到服务器，这时候可能已经有了好几个小时的延时了。</p><p>如果提早触发窗口中的数据计算，可能会有很多“迟到”的数据未被纳入最终结果中，而这些“迟到”的数据有可能又会影响到游戏积分排行榜。</p><p>所以，在很多复杂的场景下，我们希望尽可能地将所有数据归入正确的时间窗口中，而且还要能够得到正确的结果。因此，除了要对触发器进行设置之外，我们还需要设置到底应不应该在一些“迟到”的数据来到的时候，重新计算一下整个结果。</p><p>在Beam中，我们可以为PCollection设置的触发器有4种模式：</p><p>1.<strong>基于事件时间的触发器</strong>（Event-Time Trigger）</p><p>如果设置了基于事件时间的触发器，那所有的计算都是基于PCollection中所有元素的事件时间的。</p><p>如果我们不显式地设置触发器的话，Beam的默认触发器就是基于事件时间的，如果要显式地设置基于事件时间的触发器，可以使用AfterWatermark类进行设置。</p><p>2.<strong>基于处理时间触发器</strong>（Process-Time Trigger）</p><p>如果设置了基于处理时间的触发器，那一个PCollection中的所有元素都会在数据流水线中的某一个时刻被处理。如果要显式地设置基于处理时间的触发器，可以使AfterProcessingTime类进行设置。</p><p>3.<strong>数据驱动的触发器</strong>（Data-Driven Trigger）</p><p>数据驱动的触发器一般是在每个元素到达每个窗口时，通过检查这个元素是否满足某个属性来触发的。</p><p>就好像我在<a href="https://time.geekbang.org/column/article/100478">第23讲</a>所举的例子一样，检查元素是否在窗口中到达一定的数量，然后触发计算就是数据驱动的触发器的一种，在Beam中，可以使用AfterPane.elementCountAtLeast()函数来配置。</p><p>4.<strong>复合触发器</strong>（Composite Trigger）</p><p>复合触发器其实就是由上面所说三种基本触发器组合而成的。在<a href="https://time.geekbang.org/column/article/100478">第23讲</a>中，我举过一个触发器的例子，例子中至少要等到有两个交易数据到达后才能触发计算。</p><p>有同学在留言中问我，如果现实中只有一个数据到达窗口，那岂不是永远都触发不了计算了？其实，这个时候就可以定义一个复合触发器，可以定义成累积有超过两个元素落入窗口中或者是每隔一分钟触发一次计算的复合触发器。</p><p>而像我之前提到的，如果我们需要处理“迟到”的数据，那在Beam中又是怎么操作呢？我们可以使用withAllowedLateness这个在Window类里定义好的函数，方法签名如下：</p><p>Java</p><pre><code>public Window&lt;T&gt; withAllowedLateness(Duration allowedLateness);
 

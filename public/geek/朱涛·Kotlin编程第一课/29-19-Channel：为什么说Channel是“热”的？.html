@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱涛。</p><p>前面我们学习的挂起函数、async，它们一次都只能返回一个结果。但在某些业务场景下，我们往往需要协程返回多个结果，比如微信等软件的IM通道接收的消息，或者是手机GPS定位返回的经纬度坐标需要实时更新。那么，在这些场景下，我们之前学习的协程知识就无法直接解决了。</p><p>而今天我要讲解的Kotlin协程中的Channel，就是专门用来做这种事情的。类似的需求，如果我们不使用Channel而是用其他的并发手段配合集合来做的话，其实也能实现，但复杂度会大大增加。那么接下来，我们就一起来学习下Channel。</p><h2>Channel就是管道</h2><p>顾名思义，Channel就是一个管道。我们可以用这个概念，先来建立一个思维模型：</p><p><img src="https://static001.geekbang.org/resource/image/6e/e7/6e3884f46932e80f080191d20cc26be7.gif?wh=1080x270" alt=""></p><p>Channel这个管道的其中一端，是发送方；管道的另一端是接收方。而管道本身，则可以用来传输数据。</p><p>所以，我们根据上面的思维模型，很容易就能写出下面的代码。</p><pre><code class="language-plain">// 代码段1
 

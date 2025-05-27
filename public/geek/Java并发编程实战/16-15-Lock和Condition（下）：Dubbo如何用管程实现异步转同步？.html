@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>在上一篇文章中，我们讲到Java SDK并发包里的Lock有别于synchronized隐式锁的三个特性：能够响应中断、支持超时和非阻塞地获取锁。那今天我们接着再来详细聊聊Java SDK并发包里的Condition，<strong>Condition实现了管程模型里面的条件变量</strong>。</p><p>在<a href="https://time.geekbang.org/column/article/86089">《08 | 管程：并发编程的万能钥匙》</a>里我们提到过Java 语言内置的管程里只有一个条件变量，而Lock&amp;Condition实现的管程是支持多个条件变量的，这是二者的一个重要区别。</p><p>在很多并发场景下，支持多个条件变量能够让我们的并发程序可读性更好，实现起来也更容易。例如，实现一个阻塞队列，就需要两个条件变量。</p><p><strong>那如何利用两个条件变量快速实现阻塞队列呢？</strong></p><p>一个阻塞队列，需要两个条件变量，一个是队列不空（空队列不允许出队），另一个是队列不满（队列已满不允许入队），这个例子我们前面在介绍<a href="https://time.geekbang.org/column/article/86089">管程</a>的时候详细说过，这里就不再赘述。相关的代码，我这里重新列了出来，你可以温故知新一下。</p><pre><code>public class BlockedQueue&lt;T&gt;{
 

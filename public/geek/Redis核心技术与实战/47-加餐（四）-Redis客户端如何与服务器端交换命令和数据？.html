@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是蒋德钧。</p><p>在前面的课程中，我们主要学习了Redis服务器端的机制和关键技术，很少涉及到客户端的问题。但是，Redis采用的是典型的client-server（服务器端-客户端）架构，客户端会发送请求给服务器端，服务器端会返回响应给客户端。</p><p>如果要对Redis客户端进行二次开发（比如增加新的命令），我们就需要了解请求和响应涉及的命令、数据在客户端和服务器之间传输时，是如何编码的。否则，我们在客户端新增的命令就无法被服务器端识别和处理。</p><p>Redis使用RESP（REdis Serialization Protocol）协议定义了客户端和服务器端交互的命令、数据的编码格式。在Redis 2.0版本中，RESP协议正式成为客户端和服务器端的标准通信协议。从Redis 2.0 到Redis 5.0，RESP协议都称为RESP 2协议，从Redis 6.0开始，Redis就采用RESP 3协议了。不过，6.0版本是在今年5月刚推出的，所以，目前我们广泛使用的还是RESP 2协议。</p><p>这节课，我就向你重点介绍下RESP 2协议的规范要求，以及RESP 3相对RESP 2的改进之处。</p><p>首先，我们先来看下客户端和服务器端交互的内容包括哪些，毕竟，交互内容不同，编码形式也不一样。</p><!-- [[[read_end]]] --><h2>客户端和服务器端交互的内容有哪些？</h2><p>为了方便你更加清晰地理解，RESP 2协议是如何对命令和数据进行格式编码的，我们可以把交互内容，分成客户端请求和服务器端响应两类：</p><ul>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是傅健。这节课开始，我们聊聊Spring AOP使用中常遇到的一些问题。</p><p>Spring AOP是Spring中除了依赖注入外（DI）最为核心的功能，顾名思义，AOP即Aspect Oriented Programming，翻译为面向切面编程。</p><p>而Spring AOP则利用CGlib和JDK动态代理等方式来实现运行期动态方法增强，其目的是将与业务无关的代码单独抽离出来，使其逻辑不再与业务代码耦合，从而降低系统的耦合性，提高程序的可重用性和开发效率。因而AOP便成为了日志记录、监控管理、性能统计、异常处理、权限管理、统一认证等各个方面被广泛使用的技术。</p><p>追根溯源，我们之所以能无感知地在容器对象方法前后任意添加代码片段，那是由于Spring在运行期帮我们把切面中的代码逻辑动态“织入”到了容器对象方法内，所以说<strong>AOP本质上就是一个代理模式</strong>。然而在使用这种代理模式时，我们常常会用不好，那么这节课我们就来解析下有哪些常见的问题，以及背后的原理是什么。</p><h2>案例1：this调用的当前类方法无法被拦截</h2><p>假设我们正在开发一个宿舍管理系统，这个模块包含一个负责电费充值的类ElectricService，它含有一个充电方法charge()：</p><!-- [[[read_end]]] --><pre><code>@Service
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是方远。</p><p>通过上节课的学习，我们已经对NumPy数组有了一定的了解，正所谓实践出真知，今天我们就以一个图像分类的项目为例，看看NumPy的在实际项目中都有哪些重要功能。</p><p>我们先从一个常见的工作场景出发，互联网教育推荐平台，每天都有千万量级的文字与图片的广告信息流入。为了给用户提供更加精准的推荐，你的老板交代你设计一个模型，让你把包含各个平台Logo（比如包含极客时间Logo）的图片自动找出来。</p><p><img src="https://static001.geekbang.org/resource/image/1e/5d/1ecb3ccdd0b408b0350e255f7e0c875d.png?wh=318x116" alt="图片"></p><p>想要解决这个图片分类问题，我们可以分解成数据加载、训练与模型评估三部分（其实基本所有深度学习的项目都可以这样划分）。其中数据加载跟模型评估中，就经常会用到NumPy数组的相关操作。</p><p>那么我们先来看看数据的加载。</p><h2>数据加载阶段</h2><p>这个阶段我们要做的就是把训练数据读进来，然后给模型训练使用。训练数据不外乎这三种：图片、文本以及类似二维表那样的结构化数据。</p><p>不管使用PyTorch还是TensorFlow，或者是传统机器学习的scikit-learn，我们在读入数据这一块，都会先把数据转换成NumPy的数组，然后再进行后续的一系列操作。</p><p>对应到我们这个项目中，需要做的就是把训练集中的图片读入进来。对于图片的处理，我们一般会使用Pillow与OpenCV这两个模块。</p><!-- [[[read_end]]] --><p>虽然Pillow和OpenCV功能看上去都差不多，但还是有区别的。在PyTorch中，很多图片的操作都是基于Pillow的，所以当使用PyTorch编程出现问题，或者要思考、解决一些图片相关问题时，要从Pillow的角度出发。</p><p>下面我们先以单张图片为例，将极客时间的那张Logo图片分别用Pillow与OpenCV读入，然后转换为NumPy的数组。</p><h3>Pillow方式</h3><p>首先，我们需要使用Pillow中的下述代码读入上面的图片。</p><pre><code class="language-plain">from PIL import Image
 

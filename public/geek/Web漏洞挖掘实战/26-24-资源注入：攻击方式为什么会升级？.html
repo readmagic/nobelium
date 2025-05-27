@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王昊天。</p><p>在我们浏览Web应用的时候，我们可以看到很多不同的信息，并且它们会以不同的样式展现给我们。Web开发者为了方便数据的管理和维护，往往会将数据内容和前端设计分开。XML会在这个过程中扮演很重要的角色。</p><p>XML即可扩展标记语言，它的名称来自eXtensible Markup Language的缩写。XML与HTML不同，它仅仅被设计用来传输和存储数据，不负责数据的显示。值得一提的是，它被广泛应用于各种Web应用中，为数据的读取提供了极大的便利。</p><p>可是XML在给我们带来便利的同时，也带来了一些安全性的问题，今天让我们一起来学习它带来的安全问题吧！</p><h2>XML外部实体注入</h2><p>XML带来的安全问题主要是XML外部实体注入，即XML external entity (XXE) injection，我们简称为XXE。在对这一漏洞进行学习之前，我们首先来学习XML的基础知识。</p><h3>XML可扩展标记语言</h3><p>XML的意思为可扩展标记语言，它是负责数据的传输和存储的。为了让你更好地理解它，我们直接来看示例。</p><pre><code class="language-xml"># 这是XML声明。
 

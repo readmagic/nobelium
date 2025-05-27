@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是四火。</p><p>今天我们来谈谈 Ops 的三部曲之二，集群部署。毕竟一台物理机能够承载的请求数是十分有限的，同时，一台物理机还存在着单点故障（Single Point Failure）问题，因此我们通常需要把多台 Web 服务器组成集群，来提供服务。</p><h2>负载分担</h2><p>还记得我们在 <a href="https://time.geekbang.org/column/article/165225">[第 28 讲]</a> 中介绍的反向代理吗？负载分担，又叫负载均衡，也就是 Load Balancer，就是反向代理设备中非常常见的一种，它可以高效地将访问请求按某种策略发送到内网相应的后端服务器上，但是对外却只暴露单一的一个地址。</p><p>除了作为名词特指设备，负载分担还可以作为动词指用来分配请求负载的行为，它可大可小，小可以到使用 F5 等负载均衡的专用设备来将请求映射到几台服务器上，但也可以大到用 DNS 来实现广域网的路由。例如同样访问 <a href="http://www.google.xn--com-o16s">www.google.com</a>，DNS 会对于不同地区的人解析为不同且就近的 IP 地址，而每个 IP 地址，实际又是一个更小的负载分担的子网和服务器集群。</p><p><img src="https://static001.geekbang.org/resource/image/9f/fe/9f13dc9a69ec0e78d515383f30721cfe.jpg" alt=""></p><p>上图演示了这样一个过程：</p><ul>
 

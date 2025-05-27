@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是微扰君。</p><p>上一节我们学习了数据库中非常常用的索引数据结构——B+树，在过去很多年里它都是数据库索引的首选实现方式，但是这种数据结构也并不是很完美。</p><p>因为，每次修改数据都很有可能破坏B+树的约束，我们需要对整棵树进行递归的合并、分裂等调整操作，而不同节点在磁盘上的位置很可能并不是连续的，这就导致我们需要不断地做随机写入的操作。</p><p>众所周知，随机写入的性能是比较差的。这个问题在写多读少的场景下会更加明显，而且现在很多非关系型数据库就是为了适用写多读少的场景而设计的，比如时序数据库常常面对的IOT也就是物联网场景，数据会大量的产生。所以，如果用B+树作为索引的实现方式，就会产生大量的随机读写，这会成为系统吞吐量的瓶颈。</p><p>但是考虑到非关系型数据库的检索，往往都是针对近期的数据进行的。不知道你会不会又一次想到Kafka的线性索引呢？不过很可惜，非关系型数据库的workload也不是完全append only的，我们仍然需要面对索引结构变动的需求。</p><p>那在写多读少的场景下，如何降低IO的开销呢？</p><p>LSM Tree（Log Structure Merge Tree）就是这样比B+树更适合写多读少场景的索引结构，也广泛应用在各大NoSQL中。比如基于LSM树实现底层索引结构的RocksDB，就是Facebook用Golang对LevelDB的实现，RocksDB本身是一个KV存储引擎，现在被很多分布式数据库拿来做单机存储引擎，其中LSM树对性能的贡献功不可没。</p><!-- [[[read_end]]] --><h2>通过批量读写提高性能</h2><p>那LSM Tree的秘密到底是什么呢？</p><p>其实说起来也不复杂，还记得我们当时讲UUID的时候提到过的“批量生成”策略吗，很多时候，如果批量地去做一些事情，就能获得更好的效率。</p><p>在读写磁盘的场景中也是一样，既然B+树的多次随机写入性能不佳，<strong>我们有没有办法把多次写入合并成一次写入，从而减少磁盘寻道的开销呢？LSM Tree正是这样做的。</strong></p><h3>早期LSM Tree</h3><p>早期，LSM Tree中包含了多个树状结构，C0-tree存储在内存，而C1-tree存储在磁盘中，<strong>实质就是利用内存，延迟写入磁盘的时机。</strong></p><p><img src="https://static001.geekbang.org/resource/image/f9/98/f9a5a1ca2fc0e5a71647023b75ae2998.jpg?wh=1920x1145" alt="图片"></p><p>C0-tree 由于常驻内存，检索起来不会产生IO，所以理论上，我们可以使用各种可用于高效索引的数据结构来存储数据，比如红黑树、跳表等等。但是因为内存成本高昂，能存储的数据必然有限，更大量的数据仍然需要存储在磁盘里。而磁盘中的C1-tree一般被实现为特殊的B+树。</p><p>数据的存储也会分为两个阶段，我们会一直先在内存中存储元素，直到内存中的数据到达一个阈值，我们会开始和C1-tree中的节点进行合并和覆写，过程和多路归并有点相似。因为我们可以决定写入磁盘的时机，所以完全可以保证B+树的所有节点是满的，也就避免了许多单次的随机写操作。</p><p>实现细节我们不用掌握，只需要明白设计实质就可以了，感兴趣的话你可以翻阅最早的LSM tree的<a href="http://paperhub.s3.amazonaws.com/18e91eb4db2114a06ea614f0384f2784.pdf">论文</a>了解。</p><p>现代的LSM-tree已经抛弃了这样繁琐的结构，<strong>但核心仍然是一致的，都是通过内存维护有序的结构，延迟写入磁盘的时机，通过合并多次随机写操作，降低磁盘臂移动的开销</strong>，在多写少读的场景下能获得比B+树好许多的性能。</p><h2>现代LSM Tree</h2><p>整个LSM树包含了三个部分，memtable、immutable memtable、SSTable，前两个在内存中，最后一个在磁盘中。同样，我们会先临时地把数据写在memtable中，然后在合适的时机刷入磁盘上的SSTable中。</p><p>看到这里，不知道你会不会有一个疑问，这个过程听起来好像很不靠谱呀？众所周知，内存是非持久化的存储介质，如果写入内容写到一半的时候断电了，考虑到延迟刷盘的机制，岂不是之前的数据都丢失了，而且很多可能是我们已经认为提交了的修改记录？</p><p>如果你还记得我们之前在操作系统篇学习的<a href="https://time.geekbang.org/column/article/478396">WAL机制</a>，就能想到这个问题的解决方式了吧？没错，在LSM-Tree中我们正是通过预写日志的方式，来保证数据的安全性。</p><p><strong>每次提交记录的时候，都会先把操作同步到磁盘上的WAL中做备份</strong>，如果断电，我们也可以从WAL中恢复所有的修改记录。而且WAL是典型的Append Only的日志存储格式，并不是随机读写，虽然引入了额外成本，但是能明显避免许多随机写的操作，还是能带来巨大的性能提升。</p><p>好解决这个困惑，我们来看LSM tree的三大组成部分，搞清楚它们是如何工作的。</p><ol>
 

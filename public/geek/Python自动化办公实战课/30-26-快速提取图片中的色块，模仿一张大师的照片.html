@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是尹会生。</p><p>当你进行工作汇报使用各种图表时，除了要考虑精确的数据、正确的结论外，<strong>合理的配色方案也是精确表达数据的重要部分。</strong></p><p>正确的配色不但能让用户更容易get到你演示产品的商业用途，还能为你的数据增光添彩。而不合理的配色，不但会降低用户对你演示产品的兴趣，还容易产生误解。</p><p>因此你<strong>要为你的数据搭配上合适的色彩方案，来增加数据的表现力</strong>。那么你要不要找专门的美工或自己分析那些商业模版用了什么配色呢？其实这两点都不需要，有很多设计高手和名画大师已经为我们提供了太多经典的作品了，我们只需要使用相似的配色，将这些配色应用到你的演示图片和文稿中，就能实现非常好的配色方案了。</p><p>我今天就来教你一种利用Pillow库自动分析图片中出现最多的颜色，并自动提取出来的方法。当你再遇到那些为配色发愁的工作场景，就可以找一个你喜欢的商业模版进行模仿了。</p><p>在本节课，我打算使用一幅莫奈的名画《日出·印象》来教你，如何使用Pillow库提取图片中被用到最多的五种颜色并将它们作为色块标注在图片上。下面的截图就是我们要实现的最终效果，接下来我就教你如何来实现它。</p><p><img src="https://static001.geekbang.org/resource/image/07/4c/079d7c9459a9cd5770919e2923eab54c.png" alt=""></p><h2>安装Pillow</h2><p>在进行图片的大小、格式以及颜色调整时，我们通常选择Pillow，它是Python用于图片处理的第三方库。</p><!-- [[[read_end]]] --><p>那我们就看看怎么安装Pillow。它的安装包是同名的包，但是作为库导入的时候，需要使用PIL关键字，这是它和一般第三方库差异最大的地方。我把它的安装和导入命令写在下方，供你参考。</p><pre><code>SHELL$ pip3 install pillow
 

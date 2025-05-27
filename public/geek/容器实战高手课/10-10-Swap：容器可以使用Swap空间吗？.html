@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是程远。这一讲，我们来看看容器中是否可以使用Swap空间。</p><p>用过Linux的同学应该都很熟悉Swap空间了，简单来说它就是就是一块磁盘空间。</p><p>当内存写满的时候，就可以把内存中不常用的数据暂时写到这个Swap空间上。这样一来，内存空间就可以释放出来，用来满足新的内存申请的需求。</p><p>它的好处是可以<strong>应对一些瞬时突发的内存增大需求</strong>，不至于因为内存一时不够而触发OOM Killer，导致进程被杀死。</p><p>那么对于一个容器，特别是容器被设置了Memory Cgroup之后，它还可以使用Swap空间吗？会不会出现什么问题呢？</p><h2>问题再现</h2><p>接下来，我们就结合一个小例子，一起来看看吧。</p><p>首先，我们在一个有Swap空间的节点上启动一个容器，设置好它的Memory Cgroup的限制，一起来看看接下来会发生什么。</p><p>如果你的节点上没有Swap分区，也没有关系，你可以用下面的<a href="https://github.com/chengyli/training/blob/main/memory/swap/create_swap.sh">这组命令</a>来新建一个。</p><p>这个例子里，Swap空间的大小是20G，你可以根据自己磁盘空闲空间来决定这个Swap的大小。执行完这组命令之后，我们来运行free命令，就可以看到Swap空间有20G。</p><p>输出的结果你可以参考下面的截图。</p><p><img src="https://static001.geekbang.org/resource/image/33/5b/337a5efa84fc64f5a7ab2b12295e8b5b.png" alt=""></p><p>然后我们再启动一个容器，和OOM那一讲里的<a href="https://github.com/chengyli/training/blob/main/memory/oom/start_container.sh">例子</a>差不多，容器的Memory Cgroup限制为512MB，容器中的mem_alloc程序去申请2GB内存。</p><!-- [[[read_end]]] --><p>你会发现，这次和上次OOM那一讲里的情况不一样了，并没有发生OOM导致容器退出的情况，容器运行得好好的。</p><p>从下面的图中，我们可以看到，mem_alloc进程的RSS内存一直在512MB（RES: 515596）左右。</p><p><img src="https://static001.geekbang.org/resource/image/f3/dd/f3be95c49af5bed1965654dd79db7bdd.png" alt=""><br>
 

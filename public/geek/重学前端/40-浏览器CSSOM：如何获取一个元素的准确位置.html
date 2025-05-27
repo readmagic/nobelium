@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是winter。</p><p>在前面的课程中，我们已经学习了DOM相关的API，狭义的DOM API仅仅包含DOM树形结构相关的内容。今天，我们再来学习一类新的API：CSSOM。</p><p>我想，你在最初接触浏览器API的时候，应该都有跟我类似的想法：“好想要element.width、element.height这样的API啊”。</p><p>这样的API可以直接获取元素的显示相关信息，它们是非常符合人的第一印象直觉的设计，但是，偏偏 DOM API 中没有这样的内容。</p><p>随着学习的深入，我才知道，这样的设计是有背后的逻辑的，正如HTML和CSS分别承担了语义和表现的分工，DOM和CSSOM也有语义和表现的分工。</p><p>DOM中的所有的属性都是用来表现语义的属性，CSSOM的则都是表现的属性，width和height这类显示相关的属性，都属于我们今天要讲的CSSOM。</p><p>顾名思义，CSSOM是CSS的对象模型，在W3C标准中，它包含两个部分：描述样式表和规则等CSS的模型部分（CSSOM），和跟元素视图相关的View部分（CSSOM View）。</p><p>在实际使用中，CSSOM View比CSSOM更常用一些，因为我们很少需要用代码去动态地管理样式表。</p><!-- [[[read_end]]] --><p>在今天的文章中，我来分别为你介绍这两部分的API。</p><h2>CSSOM</h2><p>首先我们来介绍下CSS中样式表的模型，也就是CSSOM的本体。</p><p>我们通常创建样式表也都是使用HTML标签来做到的，我们用style标签和link标签创建样式表，例如：</p><pre><code>&lt;style title=&quot;Hello&quot;&gt;
 

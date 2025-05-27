@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是月影。</p><p>在<a href="https://time.geekbang.org/column/article/262330">第11节课</a>中，我们使用随机技巧生成噪点、迷宫等复杂图案。它们的作用都是表达数据和增强视觉效果。要想在可视化视觉呈现中实现更加酷炫的视觉效果，我们经常需要生成能够模拟大自然的、丰富而复杂的纹理图案。</p><p>那么这节课，我们就继续来讨论，如何使用随机技巧来生成更加复杂的纹理图案。</p><h2>什么是噪声？</h2><p>我们先来回忆一下，随机效果是怎么生成的。在第11节课中，我们使用一个离散的二维伪随机函数，随机生成了一片带有噪点的图案。代码和最终效果如下：</p><pre><code>float random (vec2 st) {
 

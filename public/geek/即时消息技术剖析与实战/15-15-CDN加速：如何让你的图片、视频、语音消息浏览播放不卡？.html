@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是袁武林。</p><p><a href="https://time.geekbang.org/column/article/141456">上一讲</a>，我从即时消息场景中多媒体消息的上传环节出发，介绍了业界常用的几种提升用户上传体验的优化手段。</p><p>那么这节课，我会从播放的角度出发，带你了解在浏览和播放图片、视频、语音等多媒体消息时，如何避免灰图和卡顿的问题，以及在节省流量方面，业界都有哪些比较常见的优化策略。</p><h2>CDN加速</h2><p>提升用户浏览图片和播放视频体验的一个有效办法就是：让用户离资源更近。</p><p>比如说，北京的用户可以从北京的机房下载图片，而广东的用户可以从广东的节点机房来下载图片，这样让用户和资源实现物理位置上的相邻，以此降低远程访问的耗时，提升下载性能。</p><p>业界常用的一种手段，就是通过CDN（Content Delivery Network，内容分发网络）对图片和音视频进行加速，来提升用户播放体验。</p><p>所谓的CDN加速技术，就是将客户端上传的图片、音视频发布到多个分布在各地的CDN节点的服务器上，当有用户需要访问这些图片和音视频时，能够通过DNS负载均衡技术，根据用户来源就近访问CDN节点中缓存的图片和音视频消息，如果CDN节点中没有需要的资源，会先从源站同步到当前节点上，再返回给用户。</p><p>CDN下载时的访问链路你可以参考下图：<br>
 

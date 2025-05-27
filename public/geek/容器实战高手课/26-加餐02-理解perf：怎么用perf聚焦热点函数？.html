@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是程远。今天我要和你聊一聊容器中如何使用perf。</p><p><a href="https://time.geekbang.org/column/article/338413">上一讲</a>中，我们分析了一个生产环境里的一个真实例子，由于节点中的大量的IPVS规则导致了容器在往外发送网络包的时候，时不时会有很高的延时。在调试分析这个网络延时问题的过程中，我们会使用多种Linux内核的调试工具，利用这些工具，我们就能很清晰地找到这个问题的根本原因。</p><p>在后面的课程里，我们会挨个来讲解这些工具，其中perf工具的使用相对来说要简单些，所以这一讲我们先来看perf这个工具。</p><h2>问题回顾</h2><p>在具体介绍perf之前，我们先来回顾一下，上一讲中，我们是在什么情况下开始使用perf工具的，使用了perf工具之后给我们带来了哪些信息。</p><p>在调试网路延时的时候，我们使用了ebpf的工具之后，发现了节点上一个CPU，也就是CPU32的Softirq CPU Usage（在运行top时，%Cpu那行中的si数值就是Softirq CPU Usage）时不时地会增高一下。</p><p>在发现CPU Usage异常增高的时候，我们肯定想知道是什么程序引起了CPU Usage的异常增高，这时候我们就可以用到perf了。</p><p>具体怎么操作呢？我们可以通过<strong>抓取数据、数据读取和异常聚焦</strong>三个步骤来实现。</p><!-- [[[read_end]]] --><p>第一步，抓取数据。当时我们运行了下面这条perf命令，这里的参数 <code>-C 32</code> 是指定只抓取CPU32的执行指令；<code>-g</code> 是指call-graph enable，也就是记录函数调用关系； <code>sleep 10</code> 主要是为了让perf抓取10秒钟的数据。</p><pre><code># perf record -C 32 -g -- sleep 10
 

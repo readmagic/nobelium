@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>上一讲中我们学习了对称加密和非对称加密，以及两者结合起来的混合加密，实现了机密性。</p><p>但仅有机密性，离安全还差的很远。</p><p>黑客虽然拿不到会话密钥，无法破解密文，但可以通过窃听收集到足够多的密文，再尝试着修改、重组后发给网站。因为没有完整性保证，服务器只能“照单全收”，然后他就可以通过服务器的响应获取进一步的线索，最终就会破解出明文。</p><p>另外，黑客也可以伪造身份发布公钥。如果你拿到了假的公钥，混合加密就完全失效了。你以为自己是在和“某宝”通信，实际上网线的另一端却是黑客，银行卡号、密码等敏感信息就在“安全”的通信过程中被窃取了。</p><p>所以，在机密性的基础上还必须加上完整性、身份认证等特性，才能实现真正的安全。</p><h2>摘要算法</h2><p>实现完整性的手段主要是<strong>摘要算法</strong>（Digest Algorithm），也就是常说的散列函数、哈希函数（Hash Function）。</p><p>你可以把摘要算法近似地理解成一种特殊的压缩算法，它能够把任意长度的数据“压缩”成固定长度、而且独一无二的“摘要”字符串，就好像是给这段数据生成了一个数字“指纹”。</p><p>换一个角度，也可以把摘要算法理解成特殊的“单向”加密算法，它只有算法，没有密钥，加密后的数据无法解密，不能从摘要逆推出原文。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/28/d8/2865d2c77466efb7a480833bcb27f9d8.png" alt=""></p><p>摘要算法实际上是把数据从一个“大空间”映射到了“小空间”，所以就存在“冲突”（collision，也叫碰撞）的可能性，就如同现实中的指纹一样，可能会有两份不同的原文对应相同的摘要。好的摘要算法必须能够“抵抗冲突”，让这种可能性尽量地小。</p><p>因为摘要算法对输入具有“单向性”和“雪崩效应”，输入的微小不同会导致输出的剧烈变化，所以也被TLS用来生成伪随机数（PRF，pseudo random function）。</p><p>你一定在日常工作中听过、或者用过MD5（Message-Digest 5）、SHA-1（Secure Hash Algorithm 1），它们就是最常用的两个摘要算法，能够生成16字节和20字节长度的数字摘要。但这两个算法的安全强度比较低，不够安全，在TLS里已经被禁止使用了。</p><p>目前TLS推荐使用的是SHA-1的后继者：SHA-2。</p><p>SHA-2实际上是一系列摘要算法的统称，总共有6种，常用的有SHA224、SHA256、SHA384，分别能够生成28字节、32字节、48字节的摘要。</p><p>你可以用实验环境的URI“/25-1”来测试一下TLS里的各种摘要算法，包括MD5、SHA-1和SHA-2。</p><pre><code>https://www.chrono.com/25-1?algo=md5
 

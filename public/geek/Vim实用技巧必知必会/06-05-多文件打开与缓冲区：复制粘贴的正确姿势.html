@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴咏炜。</p><p>在前面的几讲里，我们介绍了 Vim 的基本命令和配置。有了这些基本功，单个文件的基本编辑对你来说应该已经不成问题了。不过，显然我们在工作和生活中不可能只用一个文件包打天下，你肯定还会遇到需要同时编辑多个文件的情况。今天，我们就来细细讨论一下这个话题，什么是编辑多个文件的正确姿势。</p><p>先来假设一个简单的使用场景，我们现在需要在某个目录下的所有 .cpp 和 .h 文件开头贴入一段版权声明，该如何操作？</p><h2>单文件的打开方式</h2><h3>图形界面</h3><p>使用图形界面的话，我们可以在操作系统的资源管理器里进入到合适的目录，然后逐个使用 Vim 来打开文件。我们可以使用右键菜单（“Edit with Vim”、“Open with…”等），也可以直接把文件拖拽到 Vim 里。使用“文件 &gt; 打开”（File &gt; Open）菜单当然也是一种选择，但这需要你记住上次打开到第几个文件，并不如使用资源管理器方便。</p><p>使用这几种编辑方式的话，你可以把需要粘贴的内容放到操作系统的剪贴板里，然后在图形界面的 Vim 里用以下方法之一粘贴进去（当然，如果光标不在开头的话，先用鼠标或用 <code>gg</code>  命令跳转到开头）：</p><ul>
 

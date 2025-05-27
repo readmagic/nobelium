@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>Java语言里解决并发问题靠的是多线程，但线程是个重量级的对象，不能频繁创建、销毁，而且线程切换的成本也很高，为了解决这些问题，Java SDK提供了线程池。然而用好线程池并不容易，Java围绕线程池提供了很多工具类，这些工具类学起来也不容易。那有没有更好的解决方案呢？Java语言里目前还没有，但是其他语言里有，这个方案就是<strong>协程</strong>（Coroutine）。</p><p>我们可以把<strong>协程</strong>简单地理解<strong>为一种轻量级的线程</strong>。从操作系统的角度来看，线程是在内核态中调度的，而协程是在用户态调度的，所以相对于线程来说，协程切换的成本更低。协程虽然也有自己的栈，但是相比线程栈要小得多，典型的线程栈大小差不多有1M，而协程栈的大小往往只有几K或者几十K。所以，无论是从时间维度还是空间维度来看，协程都比线程轻量得多。</p><p>支持协程的语言还是挺多的，例如Golang、Python、Lua、Kotlin等都支持协程。下面我们就以Golang为代表，看看协程是如何在Golang中使用的。</p><h2>Golang中的协程</h2><p>在Golang中创建协程非常简单，在下面的示例代码中，要让hello()方法在一个新的协程中执行，只需要<code>go hello("World")</code> 这一行代码就搞定了。你可以对比着想想在Java里是如何“辛勤”地创建线程和线程池的吧，我的感觉一直都是：每次写完Golang的代码，就再也不想写Java代码了。</p><!-- [[[read_end]]] --><pre><code>import (
 

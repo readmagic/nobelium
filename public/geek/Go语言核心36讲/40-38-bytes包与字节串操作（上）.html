@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>我相信，经过上一次的学习，你已经对<code>strings.Builder</code>和<code>strings.Reader</code>这两个类型足够熟悉了。</p><p>我上次还建议你去自行查阅<code>strings</code>代码包中的其他程序实体。如果你认真去看了，那么肯定会对我们今天要讨论的<code>bytes</code>代码包，有种似曾相识的感觉。</p><h2>前导内容： <code>bytes.Buffer</code>基础知识</h2><p><code>strings</code>包和<code>bytes</code>包可以说是一对孪生兄弟，它们在API方面非常的相似。单从它们提供的函数的数量和功能上讲，差别可以说是微乎其微。</p><p><strong>只不过，<code>strings</code>包主要面向的是Unicode字符和经过UTF-8编码的字符串，而<code>bytes</code>包面对的则主要是字节和字节切片。</strong></p><p>我今天会主要讲<code>bytes</code>包中最有特色的类型<code>Buffer</code>。顾名思义，<code>bytes.Buffer</code>类型的用途主要是作为字节序列的缓冲区。</p><p>与<code>strings.Builder</code>类型一样，<code>bytes.Buffer</code>也是开箱即用的。</p><p>但不同的是，<code>strings.Builder</code>只能拼接和导出字符串，而<code>bytes.Buffer</code>不但可以拼接、截断其中的字节序列，以各种形式导出其中的内容，还可以顺序地读取其中的子序列。</p><p>可以说，<code>bytes.Buffer</code>是集读、写功能于一身的数据类型。当然了，这些也基本上都是作为一个缓冲区应该拥有的功能。</p><!-- [[[read_end]]] --><p>在内部，<code>bytes.Buffer</code>类型同样是使用字节切片作为内容容器的。并且，与<code>strings.Reader</code>类型类似，<code>bytes.Buffer</code>有一个<code>int</code>类型的字段，用于代表已读字节的计数，可以简称为已读计数。</p><p>不过，这里的已读计数就无法通过<code>bytes.Buffer</code>提供的方法计算出来了。</p><p>我们先来看下面的代码：</p><pre><code>var buffer1 bytes.Buffer
 

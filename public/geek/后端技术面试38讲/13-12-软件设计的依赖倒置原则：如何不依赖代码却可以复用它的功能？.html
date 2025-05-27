@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>在软件开发过程中，我们经常会使用各种编程框架。如果你使用的是Java，那么你会比较熟悉Spring、MyBatis等。事实上，Tomcat、Jetty这类Web容器也可以归类为框架。框架的一个特点是，当开发者使用框架开发一个应用程序时，无需在程序中调用框架的代码，就可以使用框架的功能特性。比如程序不需要调用Spring的代码，就可以使用Spring的依赖注入，MVC这些特性，开发出低耦合、高内聚的应用代码。我们的程序更不需要调用Tomcat的代码，就可以监听HTTP协议端口，处理HTTP请求。</p><p>这些框架我们每天都在使用，已经司空见惯，所以觉得这种实现理所当然，但是我们停下好好想一想，难道不觉得这很神奇吗？我们自己也写代码，能够做到让其他工程师不调用我们的代码就可以使用我们的代码的功能特性吗？就我观察，大多数开发者是做不到的。那么Spring、Tomcat这些框架是如何做到的呢？</p><h2>依赖倒置原则</h2><p>我们看下Spring、Tomcat这些框架设计的核心关键点，也就是面向对象的基本设计原则之一：依赖倒置原则。</p><p>依赖倒置原则是这样的：</p><ul>
 

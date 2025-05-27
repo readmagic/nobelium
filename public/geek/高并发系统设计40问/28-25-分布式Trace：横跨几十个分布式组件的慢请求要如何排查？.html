@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是唐扬。</p><p>经过前面几节课的学习，你的垂直电商系统在引入RPC框架和注册中心之后已经完成基本的服务化拆分了，系统架构也有了改变：</p><p><img src="https://static001.geekbang.org/resource/image/ac/4e/ac71f706f791e6f8d31d30513657534e.jpg" alt=""></p><p>现在，你的系统运行平稳，老板很高兴，你也安心了很多。而且你认为，在经过了服务化拆分之后，服务的可扩展性增强了很多，可以通过横向扩展服务节点的方式平滑地扩容了，对于应对峰值流量也更有信心了。</p><p><strong>但是这时出现了问题：</strong>你通过监控发现，系统的核心下单接口在晚高峰的时候，会有少量的慢请求，用户也投诉在APP上下单时，等待的时间比较长。而下单的过程可能会调用多个RPC服务或者使用多个资源，一时之间，你很难快速判断究竟是哪个服务或者资源出了问题，从而导致整体流程变慢。<strong>于是你和你的团队开始想办法如何排查这个问题。</strong></p><h2>一体化架构中的慢请求排查如何做</h2><p>因为在分布式环境下，请求要在多个服务之间调用，所以对于慢请求问题的排查会更困难，<strong>我们不妨从简单的入手，</strong>先看看在一体化架构中是如何排查这个慢请求的问题的。</p><p>最简单的思路是：打印下单操作的每一个步骤的耗时情况，然后通过比较这些耗时的数据，找到延迟最高的一步，然后再来看看这个步骤要如何优化。如果有必要的话，你还需要针对步骤中的子步骤，再增加日志来继续排查，<strong>简单的代码就像下面这样：</strong></p><!-- [[[read_end]]] --><pre><code>long start = System.currentTimeMillis();
 

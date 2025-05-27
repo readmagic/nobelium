@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是轩脉刃。</p><p>在上一节课，比对了 Gin 框架和我们之前写的框架，明确框架设计的目标是，要设计出真正具有实用性的一个工业级框架，所以我们接下来会基于现有的比较成熟的 Gin 框架，并且好好利用其中间件的生态，站在巨人的肩膀，继续搭建自己的框架。</p><h2>如何借力，讨论开源项目的许可协议</h2><p>有的人可能就有点困惑了，这样借鉴其他框架或者其他库不是侵权行为吗？</p><p>要解答这个问题，我们得先搞清楚站在巨人肩膀是要做什么操作。借鉴和使用 Gin 框架作为我们的底层框架基本思路是，以复制的形式将 Gin 框架引入到我们的自研框架中，替换和修改之前实现的几个核心模块。</p><p>我们后续会在这个以 Gin 为核心的新框架上，进行其余核心或者非核心框架模块的设计和开发，同时我们也需要找到比较好的方式，能将 Gin 生态中丰富的开源中间件进行复制和使用。</p><p>现在我们再来回答是否侵权的问题，首先得了解开源许可证，并且知道可以对 Gin 框架做些什么操作？</p><p>开源社区有非常多的开源项目，每个项目都需要有许可说明，包含：是否可以引用、是否允许修改、是否允许商用等。目前的开源许可证有非常多种，每个许可证都是一份使用这个开源项目需要遵守的协议，而主流的开源许可证在 OSI 组织（开放源代码促进会）都有 <a href="https://opensource.org/licenses">登记</a> 。<strong>最主流的开源许可证有 6 种：Apache、BSD、GPL、LGPL、MIT、Mozillia</strong>。</p><!-- [[[read_end]]] --><p>BSD 许可证、MIT 许可证和 Apache 许可证属于三个比较宽松的许可，都允许对源代码进行修改，且可以在闭源软件中使用，区别在于对新的修改，是否必须使用原先的许可证格式，以及修改后的软件是否能以原软件的名义进行销售等。</p><p>我们这里重点讲一下 Gin 框架使用的 <a href="https://github.com/gin-gonic/gin/blob/master/LICENSE">MIT开源许可证</a> ，这个许可证内容非常简单，对使用者的要求也最低。</p><ul>
 

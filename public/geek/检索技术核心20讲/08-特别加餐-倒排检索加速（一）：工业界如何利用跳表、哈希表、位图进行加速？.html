@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈东。欢迎来到检索专栏的第一次加餐时间。</p><p>很多同学在留言区提问，说基础篇讲了这么多检索的基础数据结构和算法，那它们在工业界的实际系统中是怎么应用的呢？真正的检索系统和算法又是什么样的呢？</p><p>为了帮助你把这些基础的知识，更好地和实际应用结合。我特别准备了两篇加餐，来和你一起聊一聊，这些看似简单的基础技术是怎样在工业界的实际系统中发挥重要作用的。</p><p>在许多大型系统中，倒排索引是最常用的检索技术，搜索引擎、广告引擎、推荐引擎等都是基于倒排索引技术实现的。而在倒排索引的检索过程中，两个posting list求交集是一个最重要、最耗时的操作。</p><p>所以，今天我们就先来看一看，倒排索引在求交集的过程中，是如何借助跳表、哈希表和位图，这些基础数据结构进行加速的。</p><h2>跳表法加速倒排索引</h2><p>在<a href="https://time.geekbang.org/column/article/219268">第5讲</a>中我们讲过，倒排索引中的posting list一般是用链表来实现的。当两个posting list A和B需要合并求交集时，如果我们用归并法来合并的话，时间代价是O(m+n)。其中，m为posting list A的长度，n为posting list B的长度。</p><p>那对于这个归并过程，工业界是如何优化的呢？接下来，我们就通过一个例子来看一下。</p><!-- [[[read_end]]] --><p>假设posting list A中的元素为&lt;1,2,3,4,5,6,7,8……，1000&gt;，这1000个元素是按照从1到1000的顺序递增的。而posting list B中的元素，只有&lt;1,500,1000&gt;3个。那按照我们之前讲过的归并方法，它们的合并过程就是，在找到相同元素1以后，还需要再遍历498次链表，才能找到第二个相同元素500。<br>
 

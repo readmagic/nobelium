@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是温铭。</p><p>通过上节课的学习，你已经对 <code>test::nginx</code> 有了一个初步的认识，并运行了最简单的示例。不过，在实际的开源项目中，<code>test::nginx</code> 编写的测试案例显然要比示例代码复杂得多，也更加难以掌握，不然它也就称不上是拦路虎了。</p><p>在本节课中，我会带你来熟悉下 <code>test::nginx</code> 中经常用到的指令和测试方法，目的是让你可以看明白 OpenResty 项目中大部分的测试案例集，并有能力来编写更真实的测试案例。即使你还没有给 OpenResty 贡献过代码，但熟悉了 OpenResty 的测试框架，对于你平时工作中设计和编写测试案例，还是会有不少启发的。</p><p><code>test::nginx</code> 的测试，本质上是根据每一个测试案例的配置，先去生成 nginx.conf，并启动一个 Nginx 进程；然后，模拟客户端发起请求，其中包含指定的请求体和请求头；紧接着，测试案例中的 Lua 代码会处理请求并作出响应，这时，<code>test::nginx</code> 解析响应体、响应头、错误日志等关键信息，并和测试配置做对比。如果发现不符，就报错退出，测试失败；否则就算成功。</p><p><code>test::nginx</code> 中提供了很多 DSL 的原语，我按照 Nginx 配置、发送请求、处理响应、检查日志这个流程，做了一个简单的分类。这  20% 的功能可以覆盖 80% 的应用场景，所以你一定要牢牢掌握。至于其他更高级的原语和使用方法，我们留到下一节再来介绍。</p><!-- [[[read_end]]] --><h2>Nginx 配置</h2><p>我们首先来看下 Nginx 配置。<code>test::nginx</code> 的原语中带有 <code>config</code> 这个关键字的，就和 Nginx 配置相关，比如上一节中提到的 <code>config</code>、<code>stream_config</code>、<code>http_config</code> 等。</p><p>它们的作用都是一样的，即在 Nginx 的不同上下文中，插入指定的 Nginx 配置。这些配置可以是 Nginx 指令，也可以是 <code>content_by_lua_block</code> 封装起来的 Lua 代码。</p><p>在做单元测试的时候，<code>config</code> 是最常用的原语，我们会在其中加载 Lua 库，并调用函数来做白盒测试。下面是节选的一段测试代码，并不能完整运行。它来自一个真实的开源项目，如果你对此有兴趣，可以点击<a href="https://github.com/iresty/apisix/blob/master/t/plugin/key-auth.t#L11">链接</a>查看完整的测试，也可以尝试在本机运行。</p><pre><code>=== TEST 1: sanity
 

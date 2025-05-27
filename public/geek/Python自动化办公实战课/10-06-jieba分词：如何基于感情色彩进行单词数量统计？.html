@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是尹会生。</p><p>在涉及运营、市场的工作中，我们经常需要根据产品评论的情感分析，来了解某一产品的口碑。所谓的情感分析，就是指根据用户对产品的评论，分析出用户对产品的喜好程度。</p><p>最简单的，我们会<strong>区分产品的评价是正向还是负向</strong>的，然后根据反馈结果改变产品的特性。稍微复杂一点的，我们会<strong>根据情感色彩将产品的评价关键词提取出来，进行统计和分类（用于更深入的分析产品）。</strong></p><p>如果靠人工对产品评价进行辨析，有很大的局限性：一个是不够公平，因为每个人对词语感情色彩的理解并不是完全一致的；另一个是产品评价有很多，而且还会不定期增加，人工分析很难保证及时性。</p><p>因此，在进行词语的情感分析时，我通常都会使用Python的jieba库，来自动化实现文本情感分析功能。一般需要经过三个步骤，分别是<strong>分词、优化分词结果和情感分析</strong>。</p><p>那我就先带你看看<strong>为什么要进行分词，以及如何进行分词操作。</strong></p><h1>如何分词？</h1><p>要想判断一段话表达的情感是正向还是负向，就需要根据这句话中的关键词来得到情感的倾向。例如一段话中出现了“开心”“高兴”“物超所值”等正向的词语，我们就可以认定这条产品的评价是偏正向的。相反，出现“不喜欢”“差”等词语，评价就是偏负向的。</p><p>但是，要想从一句话中将这些表达情感的词一个一个找出来，就需要依靠专业的工具把一句话根据语义划分成多个词，再把表达情感的词语提取出来，进行情感分析。</p><!-- [[[read_end]]] --><p>为什么要先根据语义来划分词呢？这主要是因为中文句子里的每个词中间没有用空格进行分隔，没有分隔就没法进行之后的情感分析。而对中文句子按照语义进行切割的这种操作，我们就称为“分词”。</p><p>Python中有非常成熟的分词库，其中最流行的库是jieba库。在计算机中，实现语义分割的技术有两种，一种是从统计学的角度分词，另一种是从词库的角度基于TF-IDF算法实现分词。jieba就是采用第二种，基于词库的角度对文章进行自动分词的。</p><p>那我就以电商网站上的一段商品评论为例，给你演示一下jieba库是如何实现分词的。</p><pre><code>import jieba
 

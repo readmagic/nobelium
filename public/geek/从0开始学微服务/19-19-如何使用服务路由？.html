@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>专栏上一期，我给你讲解了常用的客户端负载均衡算法，它帮我们解决了服务消费者如何从众多可用的服务节点中选取一个最合适的节点发起调用的问题。但在业务中经常还会遇到这样的场景，比如服务A部署在北京、上海、广州三个数据中心，所有的服务节点按照所在的数据中心被分成了三组，那么服务A的消费者在发起调用时，该如何选择呢？这就是今天我要给你讲解的服务路由的问题。</p>
 

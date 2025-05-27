@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是李江。</p><p>从今天开始，我们会一起来学习一些视频和图像相关的技术。主要包括视频图像的基本概念、图像的缩放处理、视频压缩编码、视频打包传输以及音视频同步等相关知识。</p><p>今天，我们就从视频和图像（视频是由一帧帧图像组成的）的基础知识讲起。掌握了这些之后，我们再讨论如何对图像进行缩放、如何使缩放后的图像更加清晰，以及如何对视频进行编码压缩等就更加游刃有余了。当然了，这些话题更难，但也更有意思，希望我们能有个不错的开始！</p><h2>像素</h2><p>相信你对像素这个概念一点都不陌生。从智能手机市场大火到现在，我们经常能够听到某某最新款手机，多少多少万像素。像素越高，则图像就会越清晰，拍出来的图片就会更逼真。那像素到底是什么呢？</p><p><strong>像素是图像的基本单元，一个个像素就组成了图像。你可以认为像素就是图像中的一个点。</strong></p><p>我们来直观地看看像素是怎么组成图像的。在下面这张图中，你可以看到一个个方块，这些方块就是像素。</p><p><img src="https://static001.geekbang.org/resource/image/5a/ce/5aa82584e3c3ba42e40f7265a53c91ce.jpeg?wh=2472x1034" alt=""></p><p>那一张图片有多少个像素呢？要回答这个问题就需要引出另外一个非常重要的概念——分辨率。</p><h2>分辨率</h2><p>图像（或视频）的分辨率是指图像的大小或尺寸。我们一般用像素个数来表示图像的尺寸。比如说一张1920x1080的图像，前者1920指的是该图像的宽度方向上有1920个像素点，而后者1080指的是图像的高度方向上有1080个像素点。</p><!-- [[[read_end]]] --><p>视频行业常见的分辨率有QCIF（176x144）、CIF（352x288）、D1（704x576或720x576），还有我们比较熟悉的360P（640x360）、720P（1280x720）、1080P（1920x1080）、4K（3840x2160）、8K（7680x4320）等。</p><p>那么<strong>同样一张图像用不同的分辨率表示会有什么不同呢？</strong>我们可以通过以下这组图片来直观感受一下。</p><p><img src="https://static001.geekbang.org/resource/image/af/7e/af3ddc69e258537c348b026acb240f7e.jpg?wh=2108x832" alt=""></p><p>我们可以看到，1x1的时候我们只能看到一个像素，只有一种颜色，根本就不是我们想象中的图像了。而10x10的图像几乎都是糊的，只能看到一点点轮廓。随着图像的分辨率越来越高，图像的细节就越来越清晰。由此，我们可以总结出：</p><ol>
 

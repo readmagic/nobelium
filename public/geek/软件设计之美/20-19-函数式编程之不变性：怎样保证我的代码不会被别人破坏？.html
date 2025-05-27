@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p><span class="orange"></span>你好！我是郑晔。</p><p>经过前两讲的介绍，你已经认识到了函数式编程的能力，函数以及函数之间的组合很好地体现出了函数式编程的巧妙之处。不过，我们在讲编程范式时说过，学习编程范式不仅要看它提供了什么，还要看它约束了什么。这一讲，我们就来看看函数式编程对我们施加的约束。</p><p>在软件开发中，有一类Bug是很让人头疼的，就是你的代码怎么看都没问题，可是运行起来就是出问题了。我曾经就遇到过这样的麻烦，有一次我用C写了一个程序，怎么运行都不对。我翻来覆去地看自己的代码，看了很多遍都没发现问题，不得已，只能一步一步跟踪代码。最后，我发现我的代码调用到一个程序库时，出现了与预期不符的结果。</p><p>这个程序库是其他人封装的，我只是拿过来用。按理说，我调用的这个函数逻辑也不是特别复杂，不应该出现什么问题。不过，为了更快定位问题，我还是打开了这个程序库的源代码。经过一番挖掘，我发现在这个函数底层实现中，出现了一个全局变量。</p><p>分析之后，我发现正是这个全局变量引起了这场麻烦，因为在我的代码执行过程中，有别的程序会调用另外的函数，修改这个全局变量的值，最终，导致了我的程序执行失败。从表面上看，我调用的这个函数和另外那个函数八竿子都打不到，但是，它们却通过一个底层的全局变量，产生了相互的影响。</p><!-- [[[read_end]]] --><p>这就是一类非常让人头疼的Bug。有人认为这是全局变量使用不当造成的，在Java设计中，甚至取消了全局变量，但类似的问题并没有因此减少，只是以不同面貌展现出来而已，比如，static 变量。</p><p>那么造成这类问题的真正原因是什么呢？<strong>真正原因就在于变量是可变的</strong>。</p><h2>变之殇</h2><p>你可能会好奇，难道变量不就应该是变的吗？为了更好地理解这一类问题，我们来看一段代码：</p><pre><code>class Sample1 {
 

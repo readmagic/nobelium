@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是庄振运。</p><p>今天这一讲是”数理基础“这一部分的最后一讲，我在这一讲会给你总结一组性能相关的常用的数字。这些数字在做性能和设计方面的工作时经常用到。它们就像九九乘法表一样，我希望你能熟记在心。</p><p>记住这些数字的好处是，<span class="orange">每次看到一个性能相关的数据的时候，我们立刻就能知道这个性能数据有没有问题</span>。</p><p>举个简单例子，如果我们看到一个硬盘的IO读写延迟经常在500毫秒左右，我们立刻就知道这里面有性能问题。反之，如果硬盘IO读写延迟小于1毫秒，我们可以马上推断——这些IO读写并没有到达硬盘那里，是被操作系统缓存挡住了。这就是大家常说的“对数字有感觉”。</p><p>人们常说“腹有诗书气自华”。同理，如果我们能对系统和程序运行中常见的性能指标了如指掌，就有可能达到那种“一眼就看出问题”的大师级别。</p><p>为了方便理解和记忆，我把这些数字分成几大类，分别是存储、CPU、操作系统、内存和网络等，并且会给出具体的单个数值。</p><h2>有言在先</h2><p>但是我必须强调说明的是，我之所以给出具体的单个数值，是为了方便你记忆，并让你对性能指标“有感觉”。因为<strong>单个值</strong>比给出<strong>数值范围</strong>更直观。</p><p>比如传统硬盘的IO延迟，如果我冠冕堂皇地说：“IO延迟的大小取决于很多因素，比如硬盘型号、IO大小、随机还是连续、磁头离数据的远近等，从小于1毫米到几秒钟不等。“这样的说法当然对，但是并不能帮助你找到数字的感觉，所以直观指导意义不是很大。</p><!-- [[[read_end]]] --><p>所以我想强调，我给出的数字仅供参考，帮助你记忆和理解，更重要的目的是<strong>让你对不同环境下的性能数据有所感觉</strong>。你要更加注重它们之间的量级比较，比如SSD的随机IOPS的性能，可以轻松地达到普通硬盘HDD的1000倍以上。</p><p>至于具体的性能数字的值大小，却也可能对一个非常具体的场景不那么匹配。这有几个原因：</p><ol>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>我们今天讲另外一种特殊的树，“堆”（$Heap$）。堆这种数据结构的应用场景非常多，最经典的莫过于堆排序了。堆排序是一种原地的、时间复杂度为$O(n\log n)$的排序算法。</p><p>前面我们学过快速排序，平均情况下，它的时间复杂度为$O(n\log n)$。尽管这两种排序算法的时间复杂度都是$O(n\log n)$，甚至堆排序比快速排序的时间复杂度还要稳定，但是，<strong><span class="orange">在实际的软件开发中，快速排序的性能要比堆排序好，这是为什么呢？</span></strong></p><p>现在，你可能还无法回答，甚至对问题本身还有点疑惑。没关系，带着这个问题，我们来学习今天的内容。等你学完之后，或许就能回答出来了。</p><h2>如何理解“堆”？</h2><p>前面我们提到，堆是一种特殊的树。我们现在就来看看，什么样的树才是堆。我罗列了两点要求，只要满足这两点，它就是一个堆。</p><ul>
 

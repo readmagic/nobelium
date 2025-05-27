@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>在前面的 22 篇文章中，我分步骤向你介绍了如何在浏览器上实现一套简单的直播系统。比如，如何采集音视频数据，如何在同一个浏览器上进行音视频通话，如何传输非音视频数据，等等。</p><p>但这些知识点都是一个个独立的，并没有形成一个完整的系统，那么本篇文章我们就将所有这些知识点串联起来，做成一个完整的系统。当这套系统搭建完成之后，你就可以在浏览器上实现从北京到上海这种远距离的实时通信了。</p><p>接下来我们就来详述这套系统的实现步骤（运行环境的搭建，Web 服务器的实现，信令系统的实现，TURN 服务器的搭建，RTCPeerConnection的创建，音视频数据的采集、传输、渲染与播放）。通过这部分内容的讲解，再配合我们之前的文章，相信你一定可以快速搭建出这样一套系统来。</p><h2>运行环境搭建</h2><p>要实现这套系统，运行环境是特别关键的，其中有三个条件是必须要满足的：<strong>云主机、2M以上的带宽</strong>和<strong>HTTPS证书</strong>。</p><p>为什么需要这三个条件呢？下面我们就来详细看一下。</p><p><strong>云主机</strong>就不必多说了，要实现远距离的音视频通信，就得进行信令的交换和数据的中转，这些都需要我们有一台云主机。换句话说，有了云主机后，通信的双方才可以进行信令的交换；在 P2P 不通的情况下，通过服务器中转的方式才能保障端与端之间的连通性。</p><!-- [[[read_end]]] --><p>另外，在实现这套系统时，对云主机的性能要求并不高，2核的 CPU、1G/2G 的内存就够了。但对<strong>带宽</strong>的高求就比较高了，至少要 2M 以上的带宽，而且是越多越好。</p><p>需要 2M 以上带宽的原因我们之前就分析过了，对于一路 720P 的视频，一般情况下需要 1.2M 的带宽，因此在两人通信时，如果都走服务器中转的话就需要 2.4M 的带宽了。所以为了保证双方通信顺畅，带宽是必须要能跟得上的。</p><p>第三个必要条件是HTTPS 证书。那为什么需要这个条件呢？出于安全的原因，浏览器要求我们使用 HTTPS 协议从服务器请求 JavaScript 脚本，只有通过 HTTPS请求的脚本才能访问音视频设备。这是因为通过 HTTPS 访问的服务都是通过安全机构认证过的，这样就保证了音视频设备被访问的安全性。而 HTTP 协议就做不到这一点（因为没有任何安全机构对它们做认证），为了保证用户不会在自己不知情的情况下被偷拍或被录音，<strong>因此在浏览器上通过HTTP 请求下来的 JavaScript 脚本是不允话访问音视频设备的</strong>。</p><p>我曾见过很多同学抱怨使用 HTTP 请求的 JavaScript 脚本不能访问音视频设备的问题，其实这就是因为他们没有理解隐私安全，也没有站在用户的角度去思考问题。</p><p>最后，额外说明一下我个人的一些关于云主机的使用心得吧，云主机的操作系统最好选择使用 <strong>Ubuntu，并且版本越新越好</strong>，这是因为在Ubuntu上边安装依赖库比较方便。另外，在国内申请域名时还要进行备案，而备案时间需要 10 天以上，非常繁琐。所以如果你特别着急的话，可以购买国外的云主机和域名，一般可以免费使用一年，并且在国外购买域名不需要进行备案，这样可以节省不少时间。</p><h2>实现Web服务器</h2><p>对于这部分内容我们在<a href="https://time.geekbang.org/column/article/114179">《11 | 如何通过Node.js实现一套最简单的信令系统？》</a>一文中已经向你做过介绍了，但没有讲 HTTPS 的部分。实际上，在 Node.js 中 HTTPS Server 的实现与 HTTP Server 的实现是类似的，我们来看一下具体的代码：</p><pre><code>var https = require('https');
 

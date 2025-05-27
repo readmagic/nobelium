@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是孔令飞。今天我们来聊聊如何设计合理的开发模式。</p><p>一个企业级项目是由多人合作完成的，不同开发者在本地开发完代码之后，可能提交到同一个代码仓库，同一个开发者也可能同时开发几个功能特性。这种多人合作开发、多功能并行开发的特性如果处理不好，就会带来诸如丢失代码、合错代码、代码冲突等问题。</p><p>所以，在编码之前，我们需要设计一个合理的开发模式。又因为目前开发者基本都是基于 Git 进行开发的，所以本节课，我会教你怎么基于 Git 设计出一个合理的开发模式。</p><p>那么如何设计工作流呢？你可以根据需要，自己设计工作流，也可以采用业界沉淀下来的、设计好的、受欢迎的工作流。一方面，这些工作流经过长时间的实践，被证明是合理的；另一方面，采用一种被大家熟知且业界通用的工作流，会减少团队内部磨合的时间。在这一讲中，我会为你介绍4种受欢迎的工作流，你可以选择其中一种作为你的工作流设计。</p><p>在使用 Git 开发时，有4种常用的工作流，也叫开发模式，按演进顺序分为集中式工作流、功能分支工作流、Git Flow 工作流和Forking 工作流。接下来，我会按演进顺序分别介绍这 4 种工作流。</p><h2>集中式工作流</h2><p>我们先来看看集中式工作流，它是最简单的一种开发方式。集中式工作流的工作模式如下图所示：</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/31/eb/3174a9e1373ed2d6d14471164dcb13eb.png" alt=""></p><p>A、B、C 为 3 位开发者，每位开发者都在本地有一份远程仓库的拷贝：本地仓库。A、B、C 在本地的 master 分支开发完代码之后，将修改后的代码commit到远程仓库，如果有冲突就先解决本地的冲突再提交。在进行了一段时间的开发之后，远程仓库 master 分支的日志可能如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/fb/c7/fbcc75ba5b91223f6bf243f0bc08bac7.png" alt=""></p><p>集中式工作流是最简单的开发模式，但它的缺点也很明显：不同开发人员的提交日志混杂在一起，难以定位问题。如果同时开发多个功能，不同功能同时往 master 分支合并，代码之间也会相互影响，从而产生代码冲突。</p><p>和其他工作流相比，集中式工作流程的代码管理较混乱，容易出问题，因此适合用在<strong>团队人数少、开发不频繁、不需要同时维护多个版本的小项目</strong>中。当我们想要并行开发多个功能时，这种工作流就不适用了，这时候怎么办呢？我们接下来看功能分支工作流。</p><h2>功能分支工作流</h2><p>功能分支工作流基于集中式工作流演进而来。在开发新功能时，基于 master 分支新建一个功能分支，在功能分支上进行开发，而不是直接在本地的 master 分支开发，开发完成之后合并到 master 分支，如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/1c/0b/1c0b08a1c9032c87c35b85de6ca6820b.png" alt=""></p><p>相较于集中式工作流，这种工作流让不同功能在不同的分支进行开发，只在最后一步合并到master分支，不仅可以避免不同功能之间的相互影响，还可以使提交历史看起来更加简洁。</p><p>还有，在合并到 master 分支时，需要提交 PR（pull request），而不是直接将代码 merge 到 master 分支。PR 流程不仅可以把分支代码提供给团队其他开发人员进行 CR（Code Review），还可以在 PR 页面讨论代码。通过 CR ，我们可以确保合并到 master 的代码是健壮的；通过 PR 页面的讨论，可以使开发者充分参与到代码的讨论中，有助于提高代码的质量，并且提供了一个代码变更的历史回顾途径。</p><p>那么，功能分支工作流具体的开发流程是什么呢？我们一起来看下。</p><ol>
 

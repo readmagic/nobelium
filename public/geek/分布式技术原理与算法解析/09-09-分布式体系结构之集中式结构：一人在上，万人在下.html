@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是聂鹏程。今天，我来继续带你打卡分布式核心技术。</p><p>云这个话题对我们来说已经非常熟悉了。可以说，云在我们的生活中无处不在，比如我们平时看的视频通常就是放在云上的。当我们要播放一段视频时，请求会先转发到云上，从云上下载数据到本地，然后播放。在这里，你肯定会疑惑，云上资源那么丰富吗，可以存放这么多东西吗？</p><p>云上的资源确实丰富，因为它可以尽可能地把更多的服务器组织起来，作为一个统一的资源，为多个用户提供服务。<strong>这里的重点是，把多个服务器管理起来，作为一个统一的资源提供服务</strong>。而如何组织，就是分布式体系结构的范畴了。</p><p>你会发现，很多场景下，我们的请求都会汇总到一台服务器上，由这台服务器统一协调我们的请求和其他服务器之间的关系。这种由一台服务器统一管理其他服务器的方式，就是分布式体系结构中的集中式结构（也称为Master/Slave架构），其中统一管理其他服务器的服务器是主，其他服务器是从，可以形象地比喻为“一人在上，万人在下”。</p><p>接下来，我就带你一起打卡分布式体系结构中的集中式结构吧。</p><h2>什么是集中式结构？</h2><p>集中式结构就是，由一台或多台服务器组成中央服务器，系统内的所有数据都存储在中央服务器中，系统内所有的业务也均先由中央服务器处理。多个节点服务器与中央服务器连接，并将自己的信息汇报给中央服务器，由中央服务器统一进行资源和任务调度：中央服务器根据这些信息，将任务下达给节点服务器；节点服务器执行任务，并将结果反馈给中央服务器。</p><!-- [[[read_end]]] --><p>集中式结构最大的特点，就是部署结构简单。这是因为，集中式系统的中央服务器往往是多个具有较强计算能力和存储能力的计算机，为此中央服务器进行统一管理和调度任务时，无需考虑对任务的多节点部署，而节点服务器之间无需通信和协作，只要与中央服务器通信协作即可，具体示意图如下所示：</p><p><img src="https://static001.geekbang.org/resource/image/63/ba/63142a07af92ad80db90da02472489ba.png?wh=515*329" alt=""></p><h2>经典集中式结构</h2><p>现在，我们理解了什么是集中式结构，为了加深理解，接下来我以Google Borg、Kubernetes和Apache Mesos三个经典的集群管理系统为例，带你深入学习集中式结构的原理。</p><h3>Google Borg</h3><p>Borg是Google内部使用的集群管理系统，采用了典型的集中式结构，负责提交、调度、开始、重启和管理Google运行在其上的所有应用。</p><p>在Borg中，一个集群称为一个Cell，每个Cell里面有一个Leader，称为BorgMaster，即为中央服务器；其他服务器为节点服务器或从服务器，被称为Borglet。</p><p>首先，我们一起看看<strong>BorgMaster</strong>。它由两个进程组成，一个是Borgmaster主进程，一个是独立的scheduler进程：</p><ul>
 

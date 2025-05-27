@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>更到这一篇的时候，意味着专栏第一模块“代码规范”篇已经更新完毕了。在更新的时候，非常感谢同学的积极踊跃地留言，提出了很多独到的见解，也给专栏增色了许多。</p><p>今天，我来解答一下留言里的一些疑问。其实有很多问题，我们已经在留言区里讨论了。这里，我们就挑选一些还没有解决掉的问题，深入讨论一下。</p><p><span class="orange">@大於一</span>：回归测试其实怎么测? 不懂。</p><p><span class="orange">答</span>：InfoQ有一篇文章《<a href="https://www.infoq.cn/article/regression-testing-strategies">回归测试策略概览</a>》我觉得写得不错。你可以找来看看。</p><p>我想要补充的一点是，要想发挥回归测试的最大作用，要把回归测试自动化。只需要简单的操作，就可以启动回归测试。比如使用“make test”命令行，或者其他集成工具的触发配置。这样，我们做的每一个更改，哪怕只是修改了一行代码，都可以跑一遍回归测试。</p><p><span class="orange">@一一</span>：高质量的代码，依赖于高质量的流水线，那么问题来了，如何建立中小企业的高质量的代码流水线呢？</p><p><span class="orange">答</span>：回答这个问题之前，我们先看看一些公开的数据。</p><p>Java SE的安全，是由OpenJDK的Security组负责的，评审一般通过Security-Dev@Openjdk.java.net的邮件列表进行。根据OpenJDK的登记数据，Security组总共有过13人，其中包括离职的，退休的。现存的团队，也就八九个人的样子。</p><!-- [[[read_end]]] --><p>这八九个人要做多少东西呢？下面是一个不完全的简要的列表：</p><ol>
 

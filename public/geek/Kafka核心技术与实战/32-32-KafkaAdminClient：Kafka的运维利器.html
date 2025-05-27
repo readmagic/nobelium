@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是胡夕。今天我要和你分享的主题是：Kafka的运维利器KafkaAdminClient。</p><h2>引入原因</h2><p>在上一讲中，我向你介绍了Kafka自带的各种命令行脚本，这些脚本使用起来虽然方便，却有一些弊端。</p><p>首先，不论是Windows平台，还是Linux平台，命令行的脚本都只能运行在控制台上。如果你想要在应用程序、运维框架或是监控平台中集成它们，会非常得困难。</p><p>其次，这些命令行脚本很多都是通过连接ZooKeeper来提供服务的。目前，社区已经越来越不推荐任何工具直连ZooKeeper了，因为这会带来一些潜在的问题，比如这可能会绕过Kafka的安全设置。在专栏前面，我说过kafka-topics脚本连接ZooKeeper时，不会考虑Kafka设置的用户认证机制。也就是说，任何使用该脚本的用户，不论是否具有创建主题的权限，都能成功“跳过”权限检查，强行创建主题。这显然和Kafka运维人员配置权限的初衷背道而驰。</p><p>最后，运行这些脚本需要使用Kafka内部的类实现，也就是Kafka<strong>服务器端</strong>的代码。实际上，社区还是希望用户只使用Kafka<strong>客户端</strong>代码，通过现有的请求机制来运维管理集群。这样的话，所有运维操作都能纳入到统一的处理机制下，方便后面的功能演进。</p><!-- [[[read_end]]] --><p>基于这些原因，社区于0.11版本正式推出了Java客户端版的AdminClient，并不断地在后续的版本中对它进行完善。我粗略地计算了一下，有关AdminClient的优化和更新的各种提案，社区中有十几个之多，而且贯穿各个大的版本，足见社区对AdminClient的重视。</p><p>值得注意的是，<strong>服务器端也有一个AdminClient</strong>，包路径是kafka.admin。这是之前的老运维工具类，提供的功能也比较有限，社区已经不再推荐使用它了。所以，我们最好统一使用客户端的AdminClient。</p><h2>如何使用？</h2><p>下面，我们来看一下如何在应用程序中使用AdminClient。我们在前面说过，它是Java客户端提供的工具。想要使用它的话，你需要在你的工程中显式地增加依赖。我以最新的2.3版本为例来进行一下展示。</p><p>如果你使用的是Maven，需要增加以下依赖项：</p><pre><code>&lt;dependency&gt;
 

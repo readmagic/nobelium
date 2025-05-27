@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是戴铭。</p><p>你是不是经常会好奇自己参与的这么些项目，为什么有的编译起来很快，有的却很慢；编译完成后，有的启动得很快，有的却很慢。其实，在理解了编译和启动时链接器所做的事儿之后，你就可以从根儿上找到这些问题的答案了。</p><p>所以，在今天这篇文章中，我就重点和你讲解一下链接器相关的知识。<strong>简单地说，链接器最主要的作用，就是将符号绑定到地址上。</strong>理解了这其中的原理后，你就可以有针对性地去调整和优化项目了。</p><p>同时，掌握了链接器的作用，也将有助于你理解后面文章中，关于符号表、加载相关的内容。</p><p>现在，我们就从 iOS 开发的起点，也就是编写代码和编译代码开始说起，看看链接器在这其中到底发挥了什么作用。</p><h2>iOS开发为什么使用的是编译器？</h2><p>我们都知道，iOS 编写的代码是先使用编译器把代码编译成机器码，然后直接在 CPU 上执行机器码的。之所以不使用解释器来运行代码，是因为苹果公司希望 iPhone 的执行效率更高、运行速度能达到最快。</p><p>那<strong>为什么说用解释器运行代码的速度不够快呢？</strong>这是因为解释器会在运行时解释执行代码，获取一段代码后就会将其翻译成目标代码（就是字节码（Bytecode）），然后一句一句地执行目标代码。</p><p>也就是说，解释器，是在运行时才去解析代码，这样就比在运行之前通过编译器生成一份完整的机器码再去执行的效率要低。</p><!-- [[[read_end]]] --><p>这时你一定会纳闷了，既然编译器效率这么高，那为什么还有人用解释器呢？所谓事有利弊，解释器可以在运行时去执行代码，说明它具有动态性，程序运行后能够随时通过增加和更新代码来改变程序的逻辑。</p><p>也就是说，你写的程序跑起来后不用重新启动，就可以看到代码修改后的效果，这样就缩短了调试周期。程序发布后，你还可以随时修复问题或者增加新功能，用户也不用一定要等到发布新版本后才可以升级使用。所以说，使用解释器可以帮我们缩短整个程序的开发周期和功能更新周期。</p><p>那么，使用编译器和解释器执行代码的特点，我们就可以概括如下：</p><ul>
 

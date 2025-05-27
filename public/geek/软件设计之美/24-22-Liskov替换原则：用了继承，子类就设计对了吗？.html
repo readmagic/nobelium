@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好！我是郑晔。</p><p>上一讲，我们讲了开放封闭原则，想要让系统符合开放封闭原则，最重要的就是我们要构建起相应的扩展模型，所以，我们要面向接口编程。</p><p>而大部分的面向接口编程要依赖于继承实现，虽然我们在前面的课程中说过，继承的重要性不如封装和多态，但在大部分面向对象程序设计语言中，继承却是构建一个对象体系的重要组成部分。</p><p>理论上，在定义了接口之后，我们就可以把继承这个接口的类完美地嵌入到我们设计好的体系之中。然而，用了继承，子类就一定设计对了吗？事情可能并没有这么简单。</p><p>新的类虽然在语法上声明了一个接口，形成了一个继承关系，但我们要想让这个子类真正地扮演起这个接口的角色，还需要有一个好的继承指导原则。</p><p>所以，这一讲，我们就来看看可以把继承体系设计好的设计原则：Liskov替换法则。</p><h2>Liskov替换原则</h2><p>2008年，图灵奖授予Barbara Liskov，表彰她在程序设计语言和系统设计方法方面的卓越工作。她在设计领域影响最深远的就是以她名字命名的Liskov替换原则（Liskov substitution principle，简称LSP）。</p><p>1988 年，Barbara Liskov在描述如何定义子类型时写下这样一段话：</p><!-- [[[read_end]]] --><blockquote>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是微扰君。</p><p>在掌握操作系统中的一些经典算法之后，我们来学习计算机的另一大基础课——计算机网络中的算法。计算机网络，当然也是一个历史悠久的科研方向，可以说之所以现在计算机世界如此繁荣，计算机网络发挥着巨大的作用，是整个互联网世界的基石。</p><p>复杂的计算机网络中自然也产生了许多算法问题，比如许多经典的图论算法都是在计算机网络的研究背景中诞生的。在这一章我们会挑选几个有趣的问题一起讨论，主要涉及两种场景，计算机网络网络层的选路算法、传输层协议TCP中的滑动窗口思想。</p><p>今天我们先来学习选路算法，有时它也被称为路由算法，“路由”这个词相信你应该很熟悉，没错，说的就是路由器里的路由。</p><h2>路由</h2><p>我们知道，计算机网络的作用，就是通过把不同的节点连接在一起从而交换信息、共享资源，而各个节点之间也就通过网络形成了一张拓扑关系网。</p><p>比如在一个局域网下，节点A要给节点B发送一条消息，如果A和B并没有直接通过网络相连，可能就需要经过其他路由设备的几次转发，这时我们需要在整个网络拓扑图中找到一条可到达的路径，才能把消息发送到目的地。</p><p>每台路由器都是一台网络设备，也就是网络中的一个节点，在其中就保存有一张路由表，<strong>每次网卡收到包含目标地址的数据包（packet）时，就会根据路由表的内容决定如何转发数据</strong>。</p><!-- [[[read_end]]] --><p>你的电脑也是一个网络上的一个节点，我们在Mac上通过命令就可以看到自己节点的路由表：</p><pre><code class="language-java">netstat -nr
 

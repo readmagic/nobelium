@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是尹会生。</p><p>之前我在游戏行业工作的时候，经常需要取得用户在线时长TOP3、用户战斗力TOP5、用户完成任务数量TOP10等数据，相信你在工作中也会有遇到从大量数据取得TopN这类需求。</p><p>提取TopN的操作，本质上是对大量数据先进行排序，然后根据排序的结果取出前N个值。而实现提取TopN的值，用Python来实现会非常高效，这节课，我就来讲一讲具体怎么操作。</p><h2>使用sorted()函数实现排序</h2><p>在Python中，已经内置了排序函数sorted()函数，它是Python中实现排序最简单且最直接的形式，可以解决80%的排序问题。那么，我们就来学习一下怎么用sorted()函数对常见的数据类型进行排序。</p><p>先看sorted()函数的定义。</p><pre><code>sorted(iterable, cmp=None, key=None, reverse=False)
 

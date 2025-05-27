@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是阿里巴巴前端技术专家狼叔，前两篇文章，我分享了大前端的现状和未来，接下来的两篇文章，我将会注重分享一些跟Node.js结合比较密切的点。</p><h2>Node.js</h2><p>Node.js在大前端布局里意义重大，除了基本构建和Web服务外，这里我还想讲2点。首先它打破了原有的前端边界，之前应用开发只分前端和API开发。但通过引入Node.js做BFF这样的API proxy中间层，使得API开发也成了前端的工作范围，让后端同学专注于开发RPC服务，很明显这样明确的分工是极好的。其次，在前端开发过程中，有很多问题不依赖服务器端是做不到的，比如场景的性能优化，在使用React后，导致bundle过大，首屏渲染时间过长，而且存在SEO问题，这时候使用Node.js做SSR就是非常好的。当然，前端开发Node.js还是存在一些成本，要了解运维等，会略微复杂一些，不过也有解决方案，比如Servlerless就可以降级运维成本，又能完成前端开发。直白点讲，在已有Node.js拓展的边界内，降级运维成本，提高开发的灵活性，这一定会是一个大趋势。</p><p>2018 年Node.js发展的非常好，InfoQ曾翻译过一篇文章《2018 Node.js 用户调查报告显示社区仍然在快速成长》。2018 年 5 月 31 日，Node.js 基金会发布了2018 年用户调查报告，涵盖了来自 100 多个国家 1600 多名参与者的意见。报告显示，Node.js的使用量仍然在快速增长，超过¾的参与者期望在来年扩展他们的使用场景，另外和2017 年的报告相比，Node 的易学程度有了大幅提升。</p><!-- [[[read_end]]] --><p>该调查远非 Node 快速增长的唯一指征。根据ModuleCounts.com的数据，Node 的包注册中心 NPM 每天会增加 507 个包，相比下一名要多 4 倍多。2018 年 Stack Overflow 调查也有类似的结果，JavaScript 是使用最广泛的语言，Node.js 是使用最广泛的框架。</p><p>本节我会主要分享一些跟Node.js结合比较密切的点：首先介绍一下 API演进与GraphQL，然后讲一下SSR如何结合API落地，构建出具有Node.js特色的服务，然后再简要介绍下Node.js的新特性、新书等，最后聊聊我对<br>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是于航。</p><p>在深入了解 C 语言、做到“知其所以然”之前，我们需要先做到“知其然”，也就是知道 C 语言是如何使用的。所以这一讲，我会从语法细节和语言特性、微观和宏观相结合的角度，带你快速、直观地回顾 C 语言的一些基础内容。而通过本讲的学习，你也会更容易理解这门课接下来的内容。</p><p>首先，我会带你回顾一个 C 程序从源代码编写到编译，再到最后运行的完整过程。除此之外，我还会用一段相对复杂的示例代码，来带你快速回顾 C 语言中最常见的那些语法及使用方式。最后，我们还会从语言本身的角度，来探讨 C 语言与其他编程语言在编程范式上的不同之处。</p><h2>学习这门课，需要怎样的实践开发环境？</h2><p>在开始回顾这些内容之前，我要先向你推荐一些学习这门课时会用到的开发工具。你可以利用这些工具，自行编译和运行课程中给出的示例代码，以加深你对课程内容的理解。</p><p>对于编译工具，这门课会穿插使用运行于 x86-64 平台的 GCC 11.2 或 Clang 13.0.0 版本编译器。市面上有很多成熟的 C 编译器可以选择，但不同的编译器可能存在着所支持平台（类 Unix、Windows）以及 C 标准（C89、C99、C11、C17）上的差异，因此在选择时需要特别注意这些问题。这门课里使用的 GCC 和 Clang 都支持 C 语言的最新标准 C17，并且都可以运行在类 Unix 与 Windows 系统上。</p><!-- [[[read_end]]] --><p>当然，如果你在本地环境中没有安装上面这些编译器，那么也可以直接使用云编译器，比如 <a href="https://godbolt.org">Godbolt</a>。相较于本地编译器，云编译器即开即用，而且可以随时灵活切换不同的编译器版本。</p><p>至于 IDE，那些常用的都可以，不过推荐你选择 Visual Studio Code，因为它较为轻量，且目前提供的插件能力也足够进行 C 语言开发。最后，这门课里出现的所有代码，我都会统一放在<a href="https://github.com/Becavalier/geektime-c">这个代码库</a>中，你可以根据需要自行获取。</p><h2>用一个程序快速回顾 C 核心语法</h2><p>为了让你比较完整地回顾 C 语言的核心语法，我设计了一个相对复杂的 C 语言程序作为例子。在这里，你可以先试着阅读这段代码，思考下 C 语言的使用方式。代码如下所示：</p><pre><code>#include &lt;stdlib.h&gt;
 

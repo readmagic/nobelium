@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是温铭。</p><p>前面我们介绍了 OpenResty API、共享字典缓存和 cosocket。它们实现的功能，都还在 Nginx 和 Web 服务器的范畴之内，算是提供了开发成本更低、更容易维护的一种实现，提供了可编程的 Web 服务器。</p><p>不过，OpenResty并不满足于此。我们今天就挑选几个，OpenResty 中超越 Web 服务器的功能来介绍一下。它们分别是定时任务、特权进程和非阻塞的 ngx.pipe。</p><h2>定时任务</h2><p>在 OpenResty 中，我们有时候需要在后台定期地执行某些任务，比如同步数据、清理日志等。如果让你来设计，你会怎么做呢？最容易想到的方法，便是对外提供一个 API 接口，在接口中完成这些任务；然后用系统的 crontab 定时调用 curl，来访问这个接口，进而曲线地实现这个需求。</p><p>不过，这样一来不仅会有割裂感，也会给运维带来更高的复杂度。所以， OpenResty 提供了 <code>ngx.timer</code> 来解决这类需求。你可以把<code>ngx.timer</code> ，看作是 OpenResty 模拟的客户端请求，用以触发对应的回调函数。</p><p>其实，OpenResty 的定时任务可以分为下面两种：</p><ul>
 

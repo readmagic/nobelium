@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是高楼。</p><p>今天这节课，我用商品加入购物车接口，来给你讲一讲SQL优化和压力工具中的参数分析。</p><p>对于SQL的优化，很多人一看到数据库资源使用率高，就猜测是SQL有问题。这个方向看起来没错，但是，具体是哪个SQL有问题，以及有什么样的问题，往往回答不出来。因此，这节课我会教你怎么根据资源使用率高，快速定位到有问题的SQL，并做出相应的调整。此外，你还将看到，当压力工具的参数使用不合理时，我们应该如何处理由此产生的数据库锁的问题。</p><p>现在，我们就开始这节课的分析。</p><h2>压力数据</h2><p>对于商品加入购物车这个接口，我们第一次运行的性能场景结果如下：</p><p><img src="https://static001.geekbang.org/resource/image/f8/8c/f871d42d3e4528def48fe1202e219a8c.png" alt=""></p><p>看着有一种想哭的感觉，有没有？从这张图来看，问题不止一个。我用自己在有限的职业生涯中吸收的天地之灵气，打开天眼一看，感觉这里有两个问题：</p><ul>
 

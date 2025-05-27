@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是景霄。</p><p>实际工作生活中，我曾见到不少初学者编写的Python程序，他们长达几百行的代码中，却没有一个函数，通通按顺序堆到一块儿，不仅让人读起来费时费力，往往也是错误连连。</p><p>一个规范的值得借鉴的Python程序，除非代码量很少（比如10行、20行以下），基本都应该由多个函数组成，这样的代码才更加模块化、规范化。</p><p>函数是Python程序中不可或缺的一部分。事实上，在前面的学习中，我们已经用到了很多Python的内置函数，比如sorted()表示对一个集合序列排序，len()表示返回一个集合序列的长度大小等等。这节课，我们主要来学习Python的自定义函数。</p><h2>函数基础</h2><p>那么，到底什么是函数，如何在Python程序中定义函数呢？</p><p>说白了，函数就是为了实现某一功能的代码段，只要写好以后，就可以重复利用。我们先来看下面一个简单的例子:</p><pre><code>def my_func(message):
 

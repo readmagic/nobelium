@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>前面我们用13篇文章的内容介绍了Java SDK提供的并发工具类，这些工具类都是久经考验的，所以学好用好它们对于解决并发问题非常重要。我们在介绍这些工具类的时候，重点介绍了这些工具类的产生背景、应用场景以及实现原理，目的就是让你在面对并发问题的时候，有思路，有办法。只有思路、办法有了，才谈得上开始动手解决问题。</p><p>当然了，只有思路和办法还不足以把问题解决，最终还是要动手实践的，我觉得在实践中有两方面的问题需要重点关注：<strong>细节问题与最佳实践</strong>。千里之堤毁于蚁穴，细节虽然不能保证成功，但是可以导致失败，所以我们一直都强调要关注细节。而最佳实践是前人的经验总结，可以帮助我们不要阴沟里翻船，所以没有十足的理由，一定要遵守。</p><p>为了让你学完即学即用，我在每篇文章的最后都给你留了道思考题。这13篇文章的13个思考题，基本上都是相关工具类在使用中需要特别注意的一些细节问题，工作中容易碰到且费神费力，所以咱们今天就来一一分析。</p><h2>1. while(true) 总不让人省心</h2><p><a href="https://time.geekbang.org/column/article/87779">《14 | Lock&amp;Condition（上）：隐藏在并发包中的管程》</a>的思考题，本意是通过破坏不可抢占条件来避免死锁问题，但是它的实现中有一个致命的问题，那就是： while(true) 没有break条件，从而导致了死循环。除此之外，这个实现虽然不存在死锁问题，但还是存在活锁问题的，解决活锁问题很简单，只需要随机等待一小段时间就可以了。</p><!-- [[[read_end]]] --><p>修复后的代码如下所示，我仅仅修改了两个地方，一处是转账成功之后break，另一处是在while循环体结束前增加了<code>Thread.sleep(随机时间)</code>。</p><pre><code>class Account {
 

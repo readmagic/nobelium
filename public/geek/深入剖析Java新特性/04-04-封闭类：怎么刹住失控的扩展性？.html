@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是范学雷。今天，我们聊一聊Java的封闭类。</p><p>封闭类这个特性，首先在JDK 15中以预览版的形式发布。在JDK 16中，改进的封闭类再次以预览版的形式发布。最后，封闭类在JDK 17正式发布。</p><p>那么，什么是封闭类呢？封闭类的英文，使用的词汇是"sealed classes"。从名字我们就可以感受到，封闭类首先是Java的类，然后它还是封闭的。</p><p>Java的类，我们都知道什么意思。那么，“封闭”又是什么意思呢？字面的意思，就是把一些东西封存起来，里面的东西出不去，外面的东西也进不来，所以可查可数。</p><p>“封闭”、“可查可数”，这些词汇字面看起来好像很通俗，但是实际上并不容易理解。我们还是通过案例和代码，一步一步地来了解封闭类吧。</p><h2>阅读案例</h2><p>在面向对象的编程语言中，研究表示形状的类，是一个常用的教学案例。今天的评审案例，我们也从形状这个类开始，来研究一下怎么判断一个形状是不是正方形吧。</p><p>下面的这段代码，就是一个简单的、抽象的形状类的定义。这个抽象类的名字是<strong>Shape</strong>。它有一个抽象方法area()，用来计算形状的面积。它还有一个公开的属性id，用来标识这个形状的对象。</p><pre><code class="language-java">package co.ivi.jus.sealed.former;
 

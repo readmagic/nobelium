@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是美团高级技术经理钮博彦，主要负责美团点评研发工具栈的建设。在上一篇文章中，我分享了研发度量体系建设中度量的意义与度量体系中的前两个衡量指标，即价值与效率，今天我们继续聊一聊度量体系中的质量指标以及如何建设度量平台。</p><h2>度量体系之质量</h2><p>在我们明确了价值，提高了效率之后，我们就需要判断产品质量是否能够达到预期。质量度量的重点有两个，一是以结果为导向，二是质量问题，越早发现，越易修复。</p><p>其实这是两个老生常谈的问题了，但同时它也引发出我们对质量的两个关注点：第一，关注线上质量，包括服务端和客户端等；第二，关注过程质量，包括需求质量、代码质量、测试质量、发布质量和系统质量等。</p><h3>线上质量</h3><p>我相信多数团队都有线上质量看板，从中我们能够得知很多信息。首先，对于服务端，我们可以将度量指标分为三类：第一，线上故障，以线上故障数、线上故障恢复时长、线上缺陷数等指标来衡量；第二，稳定性，以服务可用性、错误类型分布、错误率、报警数、错误数量等指标来衡量；第三，性能，以接口响应时间、慢消息、接口慢响应率、慢SQL、慢缓存等指标来衡量。</p><p>其次，对于客户端的线上质量度量指标，多数人会从Crash率、页面错误率等维度去衡量客户端的稳定性，而对于它的性能，我们可以关注安装包大小、页面加载时间、启动时间、FPS、卡顿、流量、CPU等影响因素。</p><!-- [[[read_end]]] --><h3>过程质量</h3><p>之前提到，过程质量，一般可以从需求质量、代码质量、测试质量、发布质量和系统质量等维度进行度量。</p><p>1.需求质量<br>
 

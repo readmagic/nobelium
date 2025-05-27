@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱晓峰。</p><p>MySQL中有很多字段类型，比如整数、文本、浮点数，等等。如果类型定义合理，就能节省存储空间，提升数据查询和处理的速度，相反，如果数据类型定义不合理，就有可能会导致数据超出取值范围，引发系统报错，甚至可能会出现计算错误的情况，进而影响到整个系统。</p><p>之前，我们就遇到过这样一个问题：在销售流水表中，需要定义商品销售的数量。由于有称重商品，不能用整数，我们想当然地用了浮点数，为了确保精度，我们还用了DOUBLE类型。结果却造成了在没有找零的情况下，客人无法结账的重大错误。经过排查，我们才发现，原来DOUBLE类型是不精准的，不能使用。</p><p>你看，准确地定义字段类型，不但关系到数据存储的效率，而且会影响整个信息系统的可靠性。所以，我们必须要掌握不同字段的类型，包括它们的适用场景、定义方法，这节课，我们就聊一聊这个问题。</p><p>首先，我要说的是MySQL中最简单的数据类型：整数类型。</p><h2>整数类型</h2><p>整数类型一共有5种，包括TINYINT、SMALLINT、MEDIUMINT、INT（INTEGER）和BIGINT，它们的区别如下表所示：</p><p><img src="https://static001.geekbang.org/resource/image/dd/68/dd11099e29ae339f605a222b5b194368.jpg?wh=3938*1995" alt=""></p><p>这么多整数类型，咱们该怎么选择呢？</p><p>其实，在评估用哪种整数类型的时候，你<strong>需要考虑存储空间和可靠性的平衡问题</strong>：一方面，用占用字节数少的整数类型可以节省存储空间；另一方面，要是为了节省存储空间，使用的整数类型取值范围太小，一旦遇到超出取值范围的情况，就可能引起系统错误，影响可靠性。</p><!-- [[[read_end]]] --><p>举个例子，在我们的项目中，商品编号采用的数据类型是INT。</p><p>我们之所以没有采用占用字节更少的SMALLINT类型整数，原因就在于，客户门店中流通的商品种类较多，而且，每天都有旧商品下架，新商品上架，这样不断迭代，日积月累。如果使用SMALLINT类型，虽然占用字节数比INT类型的整数少，但是却不能保证数据不会超出范围65535。相反，使用INT，就能确保有足够大的取值范围，不用担心数据超出范围影响可靠性的问题。</p><p>你要注意的是，在实际工作中，系统故障产生的成本远远超过增加几个字段存储空间所产生的成本。因此，我建议你首先<strong>确保数据不会超过取值范围</strong>，在这个前提之下，再去考虑如何节省存储空间。</p><p>接下来，我再给你介绍下浮点数类型和定点数类型。</p><h2>浮点数类型和定点数类型</h2><p>浮点数和定点数类型的特点是可以处理小数，你可以把整数看成小数的一个特例。因此，浮点数和定点数的使用场景，就比整数大多了。</p><p>我们先来了解下MySQL支持的浮点数类型，分别是FLOAT、DOUBLE、REAL。</p><ul>
 

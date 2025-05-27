@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是徐文浩。</p><p>过去两周，我们一起看完了GFS和MapReduce的论文。相信这个时候的你一定自信满满，有一种“我上我也行”的感觉。的确，GFS和MapReduce通过非常简单的设计，帮助我们解决了海量数据的存储、顺序写入，以及分布式批量处理的问题。</p><p>不过我们也要看到，GFS和MapReduce的局限性也很大。</p><p>在GFS里，数据写入只对顺序写入有比较弱的一致性保障。而对于数据读取，虽然GFS支持随机读取，但是考虑到当时Google用的是孱弱的5400转的机械硬盘，实际上是支撑不了真正的高并发地读取的。</p><p>而MapReduce，它也是一个批量处理数据的框架，吞吐量（throughput）确实很大，但是延时（latency）和额外开销（overhead）也不小。</p><p><img src="https://static001.geekbang.org/resource/image/f4/23/f426e8e43d27976b3c8b871053d6cb23.jpg?wh=1142x537" alt="图片" title="性能可以分成“吞吐率”和“响应时间”两个角度，我在之前的专栏中单独讲过这个主题"></p><blockquote>
 

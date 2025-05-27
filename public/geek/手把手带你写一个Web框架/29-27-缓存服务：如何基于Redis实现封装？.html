@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是轩脉刃。</p><p>上面两节课把数据库操作接入到hade框架中了，现在我们能使用容器中的ORM服务来操作数据库了。在实际工作中，一旦数据库出现性能瓶颈，除了优化数据库本身之外，另外一个常用的方法是使用缓存来优化业务请求。所以这节课，我们来讨论一下，hade框架如何提供缓存支持。</p><p>现在的Web业务，大部分都是使用Redis来做缓存实现。但是，缓存的实现方式远不止Redis一种，比如在Redis出现之前，Memcached一般是缓存首选；在单机上，还可以使用文件来存储数据，又或者直接使用进程的内存也可以进行缓存实现。</p><p>缓存服务的底层使用哪个存储方式，和具体的业务架构原型相关。我个人在不同业务场景中用过不少的缓存存储方案，不过业界用的最多的Redis，还是优点比较突出。相比文件存储，它能集中分布式管理；而相比Memcached，优势在于多维度的存储数据结构。所以，顺应潮流，我们hade框架主要也针对使用Redis来实现缓存服务。</p><p>我们这节课会创建两个服务，一个是Redis服务，提供对Redis的封装，另外一个是缓存服务，提供一系列对“缓存”的统一操作。而这些统一操作，具体底层是由Redis还是内存进行驱动的，这个可以根据配置决定。</p><!-- [[[read_end]]] --><p>下面我们一个个来讨论吧。</p><h2>Redis服务</h2><p>首先封装一个可以对Redis进行操作的服务。和封装ORM一样，我们自己并不实现Redis的底层传输协议和操作封装，只将Redis“创建连接”的过程封装在hade中就行了。</p><p>这里我们就选择<a href="https://github.com/go-redis/redis">go-redis</a>这个库来实现对Redis的连接。这个库目前也是Golang开源社区最常用的Redis库，有12.8k的star数，使用的是BSD 协议，可以引用，可以修改，但是修改的同时要保留版权声明，这里我们并不需要修改，所以BSD已经足够了。这个库目前是v8版本，可以使用 <code>go get github.com/go-redis/redis/v8</code> 来引入它。</p><p>go-redis的连接非常简单，我们看官网的例子，就看创建连接部分：</p><pre><code class="language-go">import (
 

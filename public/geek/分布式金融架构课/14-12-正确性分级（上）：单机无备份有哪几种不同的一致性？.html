@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是任杰。从今天开始，我们进入到最后一个模块：分布式正确性及高可用。</p><p>在前面两个模块里，我们一起学习了金融业务，以及如何实现正确的金融系统架构。不过我们前面所讲的正确性，主要侧重点是金融业务实现的正确性。但是这些正确性还远远不够，你原来正确的代码运行在多线程或者分布式环境下，依然有可能出错。</p><p>所以，这一个模块我们主要探讨的内容是如何保证与业务无关的正确性。按照从简单到复杂的顺序，我们先来看看单机情况下会出现哪些不正确的情况。</p><h2>冲突</h2><p>如果一个东西永远都不会变，那么我们在使用它的时候一定不会出错，这就是我们在<a href="https://time.geekbang.org/column/article/330288">第8节课</a>说过的函数式编程优势。</p><p>可惜现实并不完美，程序的状态还是会被修改。如果多个人在没有良好沟通的情况下独自修改状态，这样就可能会出错，而这种错误就叫冲突。</p><p>当然了，这么定义太过于模糊，我们还需要对冲突做准确的定义。为了方便后面做分析，我们先对要研究的问题做一些假设。</p><p>我们假设机器上存在着一些共享资源，用 <code>x</code> 、 <code>y</code> 、 <code>z</code> 表示，对这些资源有读和写两种操作，用 <code>R</code> 和 <code>W</code> 来表示。对资源的读操作不会改变资源的状态，但是写操作会改变。</p><p>有很多人会对这些资源做读或者写的操作。每个人的操作叫作事务，我们用 <code>T</code>来表示。所以一个事务<code>T</code>里会有一系列读写操作。下面是一个时序图，展示了两个事务随着时间推移的情况：</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/19/c7/19829eeb7bbaef447519a3de4ceyyac7.jpg" alt=""></p><p>需要注意的是，事务在运行到一半或者结束后，可以选择保留所有操作的影响，或者取消所有操作的影响，对应的术语是事务的提交和回滚。由于提交和回滚不会影响我们接下来的分析，这节课里我们会省略这一步。</p><p>定义好了资源、操作和事务之后，我们再来看看前面说的冲突。</p><p>如果两个操作对应的是不同的对象，那么这两个操作不会有任何冲突。所以两个操作<strong>如果要有冲突，一定是它们操作了同一个对象。</strong>另外，如果两个操作都是读操作，也不会出现任何冲突。</p><p>所以我们可以这样理解冲突，<strong>两个操作如果冲突，一定有一个操作是写操作</strong>；发生冲突的时候，一定是一个操作先发生，另一个后发生（<strong>我们称后面的操作依赖于前面的操作</strong>）。</p><p>我们可以用排列组合算一算。有两个操作，每个操作都有读和写两种情况，一共就有4种情况。现在排除两个操作都是读的情况，就<strong>只剩下了3个情况，分别是读写、写读和写写</strong>这三种。</p><p>下面这幅图给你展示了这3种冲突类型和操作之间的操作关系：</p><p><img src="https://static001.geekbang.org/resource/image/0a/4a/0a1a4781a981f5a528e2a1bbecf5a04a.jpg" alt=""></p><h2>隔离级别分类</h2><p>现在很多数据系统在加上了一定的正确性保障之后，会宣称自己支持了事务。你也许会觉得这个事务，就是平时在使用关系型数据库时最高的正确性保障。其实不是这样，事务也分很多种不同的正确性级别，就算是同一个名字，也有可能意味着不同的东西，你一定要多加小心。</p><p>我们接下来就一起看看都有哪些正确性的级别。</p><p>当我们定义好冲突之后就可以看看都有哪些不正确了。在数据库理论里对不正确的分级叫作<strong>隔离级别</strong>（Isolation Level）。</p><p>有关隔离级别的经典论文是1995年发表的"A Critique of ANSI SQL Isolation Levels"。这篇论文抨击了当时SQL标准的事务，指出了这个标准不够完备，又提出了隐含的假设。论文对隔离级别做了详细的定义和梳理，你有兴趣可以仔细去研究。</p><p>这里我们主要了解一些常用的隔离级别，重点是最后的可串行化和MVCC。</p><p>最低的隔离级别 <strong>Read Uncommitted</strong> 解决了<strong>脏写</strong>（Dirty Write）的问题。脏写指的是两个事务写了同一份资源，这样后写的事务会覆盖先写的内容。其实<strong>脏写就是上面提到的写写冲突</strong>，示意图如下：<br>
 

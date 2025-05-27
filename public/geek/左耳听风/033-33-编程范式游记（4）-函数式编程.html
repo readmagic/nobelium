@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈皓，网名左耳朵耗子。</p><p>从前三章内容中，我们了解到，虽然C语言简单灵活，能够让程序员在高级语言特性之上轻松进行底层上的微观控制，被誉为“高级语言中的汇编语言”，但其基于过程和底层的设计初衷又成了它的短板。</p><p>在程序世界中，编程工作更多的是解决业务上的问题，而不是计算机的问题，我们需要更为贴近业务、更为抽象的语言，如典型的面向对象语言C++和Java等。</p><p>C++很大程度上解决了C语言中的各种问题和不便，尤其是通过类、模板、虚函数和运行时识别等解决了C语言的泛型编程问题。然而，如何做更为抽象的泛型呢？答案就是函数式编程（Functional Programming）。</p><h1>函数式编程</h1><p>相对于计算机的历史而言，函数式编程其实是一个非常古老的概念。函数式编程的基础模型来源于 λ 演算，而 λ 演算并没有被设计在计算机上执行。它是由 Alonzo Church 和 Stephen Cole Kleene 在 20 世纪 30 年代引入的一套用于研究函数定义、函数应用和递归的形式系统。</p><p>如 Alonzo 所说，像 booleans、integers 或者其他的数据结构都可以被函数取代掉。</p><p><img src="https://static001.geekbang.org/resource/image/7f/cd/7fac133e887bb91f6619887e6a6dcfcd.png?wh=1330*997" alt=""></p><p>我们来看一下函数式编程，它的理念就来自于数学中的代数。</p><pre><code>f(x)=5x^2+4x+3
 

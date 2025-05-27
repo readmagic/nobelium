@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>在整个互联网系统架构中，承受着最大处理压力，最难以被伸缩的，就是数据存储部分。原因主要有两方面。一方面，数据存储需要使用硬盘，而硬盘的处理速度要比其他几种计算资源，比如CPU、内存、网卡都要慢一些；另一方面，数据是公司最重要的资产，公司需要保证数据的高可用以及一致性，非功能性约束更多一些。</p><p>因此数据存储通常都是互联网应用的瓶颈。在高并发的情况下，最容易出现性能问题的就是数据存储。目前用来改善数据存储能力的主要手段包括：数据库主从复制、数据库分片和NoSQL数据库。</p><h2>数据库主从复制</h2><p>我们以MySQL为例，看下数据库主从复制的实现技术以及应用场景。</p><p>MySQL的主从复制，顾名思义就是将MySQL主数据库中的数据复制到从数据库中去。主要的复制原理是，当应用程序客户端发送一条更新命令到主服务器数据库的时候，数据库会把这条更新命令同步记录到Binlog中，然后由另外一个线程从Binlog中读取这条日志，通过远程通讯的方式将它复制到从服务器上面去。</p><p>从服务器获得这条更新日志后，将其加入到自己的Relay Log中，然后由另外一个SQL执行线程从Relay log中读取这条新的日志，并把它在本地的数据库中重新执行一遍，这样当客户端应用程序执行一个update命令的时候，这个命令会同时在主数据库和从数据库上执行，从而实现了主数据库向从数据库的复制，让从数据库和主数据库保持一样的数据。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/b4/cc/b44938ad3560931905ecdfdd763d50cc.png" alt=""><br>
 

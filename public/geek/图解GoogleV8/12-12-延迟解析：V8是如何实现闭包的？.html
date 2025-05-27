@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是李兵。</p><p>在第一节我们介绍过V8执行JavaScript代码，需要经过<strong>编译</strong>和<strong>执行</strong>两个阶段，其中<strong>编译过程</strong>是指V8将JavaScript代码转换为字节码或者二进制机器代码的阶段，而执行阶段则是指解释器解释执行字节码，或者是CPU直接执行二进制机器代码的阶段。总的流程你可以参考下图：</p><p><img src="https://static001.geekbang.org/resource/image/fe/db/fe3d39715d28a833883df6702930a0db.jpg" alt="" title="代码执行"></p><p>在编译JavaScript代码的过程中，V8并不会一次性将所有的JavaScript解析为中间代码，这主要是基于以下两点：</p><ul>
 

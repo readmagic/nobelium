@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是Tony Bai。</p><p>在前面的讲解中，我们编写的Go程序都是简单程序，一般由一个或几个Go源码文件组成，而且所有源码文件都在同一个目录中。但是生产环境中运行的实用程序可不会这么简单，通常它们都有着复杂的项目结构布局。弄清楚一个实用Go项目的项目布局标准是Go开发者走向编写复杂Go程序的第一步，也是必经的一步。</p><p>但Go官方到目前为止也没有给出一个关于Go项目布局标准的正式定义。那在这样的情况下，Go社区是否有我们可以遵循的参考布局，或者事实标准呢？我可以肯定的告诉你：有的。在这一节课里，我就来告诉你Go社区广泛采用的Go项目布局是什么样子的。</p><p>要想了解Go项目的结构布局以及演化历史，全世界第一个Go语言项目是一个最好的切入点。所以，我们就先来看一下Go语言“创世项目”的结构布局是什么样的。</p><h3>Go语言“创世项目”结构是怎样的？</h3><p>什么是“<strong>Go语言的创世项目</strong>”呢？其实就是Go语言项目自身，它是全世界第一个Go语言项目。但这么说也不够精确，因为Go语言项目从项目伊始就混杂着多种语言，而且以C和Go代码为主，Go语言的早期版本C代码的比例还不小。</p><p>我们先用<a href="https://gitlab.com/esr/loccount">loccount工具</a>对Go语言发布的第一个<a href="https://github.com/golang/go/releases/tag/go1">Go 1.0版本</a>分析看看：</p><!-- [[[read_end]]] --><pre><code class="language-plain">$loccount .
 

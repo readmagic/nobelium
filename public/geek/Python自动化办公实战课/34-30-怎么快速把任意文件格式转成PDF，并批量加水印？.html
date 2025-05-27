@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是尹会生。</p><p>在办公场景中，我们打交道最多的软件，要数Office的办公套件了，功能丰富且强大，使用方便。不过你可能也会发现，我们经常用于文字编辑的Word软件，它使用的docx扩展名的文件无论是在不同操作系统平台、不同的设备上，还是在内容安全性和格式的兼容性上，都没有PDF文件强大。Excel和PowerPoint中的文件也是如此。</p><p>例如：你需要把公司的合同范本发给其他公司审阅，为了保证文本不会被随意篡改，往往需要把Word或PowerPoint的文件转换为PDF文件，再通过邮件发给其他公司。而且，随着数字化转型的开始，原本在计算机上正常显示的表格，拿到手机上可能会缺少字体；也可能因为屏幕宽度不同，导致格式无法对齐；还可能会出现无法显示文字等格式问题。</p><p>不过这些问题呢，PDF统统可以解决。所以像是商业的条款、合同、产品介绍，既要保证安全，又要确保格式正确，如果你不想限制用户必须要用多宽的显示器，或者必须安装好特定的字体，才能看到你的Word、Excel、PowerPoint里的内容的话，那么使用PDF文件就是非常必要的了。</p><p>所以在今天这一讲中，我将带你学习如何把Word、Excel、PowerPoint的默认文件格式批量转换为PDF文件，并教你怎么给PDF文件增加水印，既保证样式美观，又确保文档的安全。</p><!-- [[[read_end]]] --><h2>将常用办公文件转换为PDF格式</h2><p>如果你以前遇到过类似转换为PDF文件的需求，那么在你搜索Python的第三方库时，就会发现，将Word、Excel、PowerPoint 的默认文件保存格式转换为PDF的库非常多。由于我要将多种格式的文件转换为PDF，那么为了我就需要使用一个能支持Office所有组件的库，而这个库就是pywin32库。</p><p>pywin32库支持了绝大多数的Windows API，因此它只能运行在操作系统是Windows上，当你需要使用pywin32操作Office各个组件时，可以利用pywin32库调用Offcie组件中的VBA实现Office组件的大部分功能。</p><p>接下来，我将从pywin32库的安装开始，来为你逐步讲解一下如何把Office组件中的Word、Excel、PowerPoint的默认文件保存格式转换为PDF文件。</p><p>虽然你要学习三种不同的软件格式转换为PDF文件，但是它们三个文件格式转换的思路和被调用的函数是相同的，你可以通过对照Word文件转换为PDF来去掌握其他两个软件的文件格式转换代码，来学习自动格式转换，这样学起来会更加轻松。</p><h3>将Word文档转换为PDF</h3><p>我先以Word为例，来为你讲解一下pywin32库的安装、导入，以及将Word文档进行转换的操作步骤。</p><p>由于pywin32是第三方库，所以你要使用pip命令把它安装到你的Windows计算机中。这里需要注意，pywin32的安装包和软件名称不同，而且导入的库名称也和pywin32不同。所以我把pywin32库的安装和导入时，使用的名称写在文档中，供你进行参考：</p><pre><code>SHELL$ pip3 install pypiwin32
 

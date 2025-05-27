@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>内存计算是近十几年来，在数据库和大数据领域的一个热点。随着内存越来越便宜，CPU的架构越来越先进，整个数据库都可以放在内存中，并通过SIMD和并行计算技术，来提升数据处理的性能。</p><p><strong>我问你一个问题：</strong>做1.6亿条数据的汇总计算，需要花费多少时间呢？几秒？几十秒？还是几分钟？如果你经常使用数据库，肯定会知道，我们不会在数据库的一张表中保存上亿条的数据，因为处理速度会很慢。</p><p>但今天，我会带你采用内存计算技术，提高海量数据处理工作的性能。与此同时，我还会介绍SIMD指令、高速缓存和局部性、动态优化等知识点。这些知识点与编译器后端技术息息相关，掌握这些内容，会对你从事基础软件研发工作，有很大的帮助。</p><h2>了解SIMD</h2><p>本节课所采用的CPU，支持一类叫做SIMD（Single Instruction Multiple Data）的指令，<strong>它的字面意思是：</strong>单条指令能处理多个数据。相应的，你可以把每次只处理一个数据的指令，叫做SISD（Single Instruction Single Data）。</p><p>SISD使用普通的寄存器进行操作，比如加法：</p><pre><code>addl $10, %eax
 

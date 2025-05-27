@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是尉刚强。</p><p>在学完了第<a href="https://time.geekbang.org/column/article/375102">2</a>、<a href="https://time.geekbang.org/column/article/376555">3</a>节课之后，我们已经清楚了并行设计的重要性，也掌握了几类典型的并行设计架构模式，但是在编码实现的过程中，这些并行设计架构模式还需要依赖底层的并发框架才能完成。所以今天这节课，我就和你聊一聊并发框架的选择和使用秘诀。</p><p>其实不同的编程语言中，可用的并发框架种类非常多，比如Java语言有Thread Pool框架、 Akka框架、Reactor响应式框架等；C++语言有CAF框架、Theron框架等；Go语言有goroutine等。</p><p>这些并发框架之间的差异很大，如果选择或使用不当，会很容易导致开发出来的软件性能比较差。而且，现在也依旧有不少的程序员，对这些并发框架并没有比较系统的认识，在选择和使用并发框架时，经常是比较随意的。</p><p>所以在今天的课程中，我就来告诉你当碰到具体的业务问题时，你应该如何选择更合适的并发框架，以及在使用中要遵循什么样的方法，才能发挥出并发框架的最佳性能。另外，在课程中我主要是以Java语言为例，来重点给你讲解Thread Pool框架、Akka并发框架、Reactor响应式框架的基本原理与特点，以及它们在使用过程中的一些注意事项，让你能最大化地发挥并发框架的性能优势。</p><!-- [[[read_end]]] --><p>而如果你是从事其他编程语言的开发工作，当然也可以参考这节课的内容，因为接下来我要介绍的Java并发框架，它们也代表了如今在并发系统设计中比较主流的三种框架（线程池、Actor模型、响应式架构）。</p><p>那接下来，就从我们最熟悉的Thread Pool框架开始学习吧。</p><h2>Java Thread Pool框架</h2><p>Java的Thread Pool框架是目前最流行的一个并发框架，因为它使用起来比较方便，适用的场景也非常多。同时，它也是其他并发框架（如Akka）内部实现所依赖的技术，所以理解和学习这个框架是很重要的。</p><p>那么，为了更好地理解Java Thread Pool框架，我们先来看下它的框架模型图：</p><p><img src="https://static001.geekbang.org/resource/image/5e/62/5ebcc2ef8b46987d04e6a459ac38ca62.jpg?wh=2000x1056" alt=""></p><p>从图的左边开始看，继承接口Runnable、Callable的具体实现任务，在调用ExecutorService.submit接口时，会提交任务到ExecutorService内部的一个任务队列中。同时，在ExecutorService内部还存在一个预先申请的线程池（Thread Pool），线程池中的线程会从任务队列中领取一个任务来执行。</p><p>那么由此我们也能发现，在Java语言中，与直接在代码中创建线程相比，<strong>采用Thread Pool这种机制有很多好处</strong>：第一个好处，就是在Thread Pool中，你可以重复利用已创建的线程资源，从而减少线程创建和销毁造成的额外开销；第二个好处是，当有新业务请求到达时，你可以直接使用已创建的线程来处理业务，所以还可以最大化地减少处理时延。</p><p>其实，<strong>对于一个软件系统而言，线程是非常重要的稀缺资源，而线程池技术也是有效管理线程资源、最大化提升软件性能的关键手段之一。</strong></p><p>但是，我见过不少的软件系统，在使用线程池时根本没有章法，每个开发人员在自己的业务模块中随意创建线程池，而对于整个软件系统来说，业务代码中一共创建了多少个线程池、每个线程池的资源规模配置如何，都是很含糊的，从而就导致开发出的软件性能总是处于不可控的状态。</p><p>所以通常来说，在使用线程池设计实现并发系统的时候，你需要针对线程池的创建与配置进行全局设计。那么这里的问题就是，<strong>你应该依据什么样的规则来划分线程池组？以及如何去配置线程池使用的资源呢？</strong></p><p>实际上，就我的实践经验来看，我认为应该根据以下两个维度来划分线程池组：</p><ul>
 

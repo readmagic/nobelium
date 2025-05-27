@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是刘超。</p><p>从这一讲开始，我们将一起探讨设计模式的性能调优。在《Design Patterns: Elements of Reusable Object-Oriented Software》一书中，有23种设计模式的描述，其中，单例设计模式是最常用的设计模式之一。无论是在开源框架，还是在我们的日常开发中，单例模式几乎无处不在。</p><h2>什么是单例模式？</h2><p>它的核心在于，单例模式可以保证一个类仅创建一个实例，并提供一个访问它的全局访问点。</p><p>该模式有三个基本要点：一是这个类只能有一个实例；二是它必须自行创建这个实例；三是它必须自行向整个系统提供这个实例。</p><p>结合这三点，我们来实现一个简单的单例：</p><pre><code>//饿汉模式
 

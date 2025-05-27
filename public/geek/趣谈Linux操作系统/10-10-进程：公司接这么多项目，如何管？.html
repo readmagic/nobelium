@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>有了系统调用，咱们公司就能开始批量接项目啦！对应到Linux操作系统，就是可以创建进程了。</p><p>在<a href="https://time.geekbang.org/column/article/88761">命令行</a>那一节，我们讲了使用命令创建Linux进程的几种方式。现在学习了系统调用，你是不是想尝试一下，如何通过写代码使用系统调用创建一个进程呢？我们一起来看看。</p><h2>写代码：用系统调用创建进程</h2><p>在Linux上写程序和编译程序，也需要一系列的开发套件，就像Visual Studio一样。运行下面的命令，就可以在centOS 7操作系统上安装开发套件。在以后的章节里面，我们的实验都是基于centOS 7操作系统进行的。</p><pre><code>yum -y groupinstall &quot;Development Tools&quot;
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>从2005年开始，逐渐流行使用C/C++语言结合脚本语言（Lua、Python、Ruby等等）编写游戏。这是因为用C/C++编写游戏的传统方式，硬代码太多，而使用硬代码编写的游戏，更新难度很大，除非重新编译一次程序。</p><p>于是，就有人开始使用配置文件来做活动逻辑。比如填写好配置表、玩家等级多少、攻击力如何、等于多少的伤害力等等，一开始就将这些内容都读取进代码，在游戏中实时计算出来。</p><p>但是这种方法其实也并不方便。很久以前的游戏，由于硬件资源限制，所以一般都加载WAV格式。而加载MP3则需要机器对音乐文件进行解压缩再播放，如果机器硬件计算能力不好的话，会由于解压缩而导致整个游戏的运行效率下降。</p><p>脚本语言也是如此，如果机器硬件能力不好的话，会由于脚本语言的虚拟机要解释程序，导致游戏运行效率下降。随着电脑硬件的提升，我们在游戏中加载MP3音乐文件成为可能，而在游戏中加载脚本语言进行逻辑编写当然也是可以的。</p><p>《魔兽世界》就是使用Lua脚本语言编写的。类似《GTA》等大型游戏，都拥有一套自己的脚本语言和体系。 <strong>使用脚本语言，是为了能够在编写硬代码的同时，也能很方便地、不需要重新编译地编写逻辑代码。</strong> 事实上，现在很多大型游戏都使用这种方式来编写代码，甚至一些游戏引擎本身，也支持脚本语言和引擎本身所提供的语言分离编写。比如引擎用C++语言编写，脚本语言用Lua编写。</p><!-- [[[read_end]]] --><h2>为什么使用Lua脚本嵌入C/C++硬代码？</h2><p>今天我就来教你使用Lua脚本来嵌入C/C++硬代码。为什么我要选择Lua脚本语言来编写代码呢？</p><p>因为<strong>Lua脚本足够轻量级，几乎没有冗余的代码。Lua虚拟机的执行效率几乎可以媲美C/C++的执行效率</strong>。如果选择Python、Ruby等常用脚本语言来嵌入，并不是不行，而是要付出执行效率作为代价。因为Python、Ruby的执行效率远逊于Lua。</p><p>如果没有非常多的编码经验，你可能会问，为什么Python、Ruby的执行效率远逊于Lua呢？这个问题，用一本书的篇幅恐怕才能彻底讲明白。我这里只简要说一下原因。</p><p>Lua的虚拟机很简单，指令设计得也精简，Lua本身是基于寄存器的虚拟机实现，而Python等其他脚本语言是基于堆栈的虚拟机，而基于寄存器的虚拟机字节码更简单、高效。因为字节码，一般会同时包含指令、操作数、操作目标等内容。</p><p>另一方面，Python、Ruby之所以应用范围广，是因为它们拥有大量的成熟库和框架，而Lua只是一种很纯粹的脚本语言。因为Lua没有过多的第三方库，只提供最基础的I/O处理、数学运算处理、字符串处理等，别的与操作系统相关度密切的，例如网络、多线程、音频视频处理等等都不提供。</p><p>我在<a href="https://time.geekbang.org/column/article/8782">第6讲</a>里，已经非常详细地讲过，如何将Lua脚本编译成为静态库，如果不记得的话，可以回去复习一下。编译好静态库liblua.a之后，我们就可以在编程中使用它了。</p><p>你也可以选择在解压缩出来的目录内，使用make命令来直接编译，编译会生成Lua虚拟机的执行文件lua.exe、luac.exe，当然这需要一整套MinGW的环境支持。</p><p>开始，我们还是使用MinGW Development Studio来创建一个工程。由于只是示例，所以名字可以任意取。我取一个叫作lua_test的工程名，并且将工程设置为Win32 Console Application。你可以看这个示例图。<br>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是四火。</p><p>在基于 Web 的全栈技术下，每一层的设计都有共同点，当然，也有各自的特殊之处。你可以回想一下，我们曾经在第一章谈到的客户端和服务端交互以及 Web API 的设计，在第三章谈到的前端的设计，在第二章谈到的服务端 MVC 各层的设计，从前到后。那么，本章余下的内容，我们就来让整个设计层面上的体系变得完整，讲一讲最后面一层的数据持久层怎样设计。</p><p>持久层的设计包括持久化框架选择、持久层代码设计，以及存储技术选型等等，考虑到这其中有部分内容我们在第二章谈论 MVC 模型层的时候已经讲到过了，那么在这一讲和下一讲中，我就会先偏重于持久层的数据存储技术本身，再结合实际的设计案例来介绍怎样选择合适的技术来解决那些经典的实际问题。</p><h2>关系数据库</h2><p>关系数据库就是以“关系模型”为基础而建立的数据库，这里的关系模型说的是数据可以通过数学上的关系表示和关联起来，也就是说，关系模型最终可以通过二维表格的结构来表达。关系数据库除了带来了明确的 schema 和关系以外，还带来了对事务的支持，也就是对于强一致性的支持。</p><h3>数据库范式</h3><p>数据库的表设计，可以说是全栈工程师经常需要面对的问题。而这部分，其实是有“套路”可循的，其中一些常见的规范要求，就被总结为不同的“范式”（Normal Form）。它可以说是数据库表设计的基础，对于数据库表设计很有实际的指导意义。我注意到有很多程序员朋友都不太清楚不同范式的实际含义，那么今天，就请让我通过一个尽可能简单的图书管理系统的例子，来把它讲清楚。</p><!-- [[[read_end]]] --><p><strong>1. 第一范式（1 NF）</strong></p><p><strong>第一范式要求每个属性值都是不可再分的。</strong>满足 1NF 的关系被称为规范化的关系，1NF 也是关系模式应具备的最起码的条件。比如下面这样的 Books 表：</p><p><img src="https://static001.geekbang.org/resource/image/c3/e0/c3e7821cd54c491b0aff7e12026573e0.jpg" alt=""></p><p>你看，在上面这张表中，有两本书重名了，都叫“Life”，但是国际标准书号 ISBN 是不同的。放在了同一个属性 ISBN 中，并非不可再分，这显然违反了第一范式。那解决这个问题的办法就是拆分：</p><p><img src="https://static001.geekbang.org/resource/image/60/9a/60bb114c4dfe64f3341c34cc4b0b859a.jpg" alt=""></p><p><strong>2. 第二范式（2 NF）</strong></p><p><strong>第二范式要求去除局部依赖。</strong>也就是说，表中的属性完全依赖于全部主键，而不是部分主键。</p><p><img src="https://static001.geekbang.org/resource/image/80/fe/803754244fa279d784a6af203d74fdfe.jpg" alt=""></p><p>你看，在上面这张表中，原本的设计是想让 BOOK_ID 和 AUTHOR_ID 组成联合主键，但是，BOOK_NAME 仅仅依赖于部分主键 BOOK_ID，而 AUTHOR_NAME 也仅仅依赖于部分主键 AUTHOR_ID，违背了第二范式 。解决的办法依然是拆分，把这个可以独立被依赖的部分主键拿出去，上面的表可以拆成下面这样两张表：</p><p><img src="https://static001.geekbang.org/resource/image/9d/cb/9d6f9f22b2b5feab01cd6ea1de9582cb.jpg" alt=""><img src="https://static001.geekbang.org/resource/image/98/c3/9874e9af23ebd64c5278654a78cfacc3.jpg" alt=""></p><p>从这个拆分中我们也可以看到，原表被拆成了 N 对 1 关系的两个表，而被不合范式依赖的那个“部分主键”，变成了“1”这头的主键。</p><p><strong>3. 第三范式（3 NF）</strong></p><p><strong>第三范式要求去除非主属性的传递依赖。</strong>即在第二范式的基础上，非主属性必须直接依赖于主键，而不能传递依赖于主键。</p><p><img src="https://static001.geekbang.org/resource/image/88/29/889a89fd92fab3a818aae622f3655e29.jpg" alt=""></p><p>你看上面这张表，主键是 BOOK_ID，而 CATEGORY_NAME 是非关键字段，并非直接依赖于主键，而是通过这样的传递依赖实现：</p><blockquote>
 

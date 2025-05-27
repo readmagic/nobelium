@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是姚秋辰。</p><p>在上节课中，我们借助Sleuth和Zikpin的合力，搭建了一套调用链追踪系统，它可以帮助我们串联调用链中的上下游访问单元，快速定位线上异常出现在哪个环节。不过呢，光有Tracing能力似乎还不够，如果我们想要更深一步调查异常背后的原因，那必须完整还原这个异常问题的案发现场。</p><p>在线上环境中，我们无法像操作本地开发环境一样去打断点一步步调试问题，服务器的Remote Debug端口通常也是被禁用的，我们唯一能重现案发现场的途径就是<strong>日志信息</strong>。因此，我们还要去构建一套<strong>日志检索系统</strong>，作为线上异常排查的辅助工具。</p><p>今天，我就来带你通过ELK组件来搭建日志检索系统，完成整个调用链追踪方案的最后一块拼图。在这个过程中，你会知道如何使用Docker搭建ELK镜像，以及如何把应用程序对接到Logstash日志收集器，当然了，还有如何在UI界面查询日志。</p><p>在开始之前，我们先来看看什么是ELK吧。</p><h2>什么是ELK？</h2><p>ELK并不是一个技术框架的名称，它其实是一个三位一体的技术名词，ELK的每个字母都来自一个技术组件，它们分别是Elasticsearch（简称ES）、Logstash和Kibana。取这三个组件各自的首字母，就组成了所谓的ELK。</p><!-- [[[read_end]]] --><p>那么这三个技术组件在日志检索平台中分别起到了什么作用呢？我用一幅图来表达一下它们之间的关系。</p><p><img src="https://static001.geekbang.org/resource/image/ac/3d/acb9f72fa960914b1c7b0bd17c511b3d.jpg?wh=1920x769" alt="图片"></p><p>在Elastic解决方案中，<strong>Logstash</strong>扮演了一个<strong>日志收集器</strong>的角色。它可以从多个数据源对数据进行采集，也可以对数据做初步过滤和清洗，比如将数据转换成通用格式、隐匿敏感数据等。</p><p>而<strong>Elasticsearch</strong>呢，它是一个<strong>分布式的搜索和数据分析引擎</strong>。它在整套方案中扮演了日志存储和分词器的角色。Elasticsearch会收到来自Logstash的日志信息，并将这些日志信息集中存储起来。同时，Elasticserch还对外提供了多种RESTful风格的接口，上层应用可以通过这些接口完成数据查找和分析的任务。</p><p><strong>Kibana</strong>在整个Elastic方案中扮演了一个“<strong>花瓶</strong>”的角色。它提供了一套UI界面，让我们可以对Elasticsearch中存储的数据进行查找。同时，它还提供了各种统计报表的功能，如柱状图、饼图、时序统计分析、图谱关联分析等等。当然了，报表数据都来自于Elasticsearch。</p><p>现在，你已经了解了Elasticsearch、Logstash和Kibana的用途和三者间的关系。接下来，我们就来动手搭建ELK环境吧。</p><h2>搭建ELK环境</h2><p>我们有两种搭建ELK环境的方法，一种是分别搭建Elasticsearch、Logstash和Kibana的集群，并将这些组件相互集成起来。就算我们可以通过Docker技术分别搭建三者的镜像环境，环境配置和启动异常排查还是有些麻烦的，很容易劝退初学者。</p><p>因此，我这里推荐你使用一种更简单的搭建方式，那就是<strong>直接下载sebp/elk镜像</strong>。因为sebp/elk镜像已经为我们集成了完整的ELK环境，只需要稍加配置就能迅速构建ELK环境，而且异常排查也比较方便。</p><p>为了安装sebp/elk镜像，你要先确保本地电脑上已经安装了Docker环境。如果你对Docker已经比较熟悉，那么可以直接使用Docker的命令行程序来操作镜像；如果你之前没有使用过Docker，那么可以下载Docker桌面版简化操作流程。我在课程里将使用命令行程序来操作Docker容器和镜像。</p><h4>下载ELK镜像</h4><p>搭建ELK环境的第一步，就是下载sebp/elk镜像。你可以在命令行运行以下命令，来下载7.16.1标签的镜像文件。因为镜像文件相当庞大，所以这个下载过程是非常漫长的，请你拿出对待初恋女友的耐心独自等待。</p><pre><code class="language-bash">docker pull sebp/elk:7.16.1
 

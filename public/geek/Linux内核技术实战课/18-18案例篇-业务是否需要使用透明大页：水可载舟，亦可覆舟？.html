@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是邵亚方。</p><p>我们这节课的案例来自于我在多年以前帮助业务团队分析的一个稳定性问题。当时，业务团队反映说他们有一些服务器的CPU利用率会异常飙高，然后很快就能恢复，并且持续的时间不长，大概几秒到几分钟，从监控图上可以看到它像一些毛刺。</p><p>因为这类问题是普遍存在的，所以我就把该问题的定位分析过程分享给你，希望你以后遇到CPU利用率飙高的问题时，知道该如何一步步地分析。</p><p>CPU利用率是一个很笼统的概念，在遇到CPU利用率飙高的问题时，我们需要看看CPU到底在忙哪类事情，比如说CPU是在忙着处理中断、等待I/O、执行内核函数？还是在执行用户函数？这个时候就需要我们细化CPU利用率的监控，因为监控这些细化的指标对我们分析问题很有帮助。</p><h2>细化CPU利用率监控</h2><p>这里我们以常用的top命令为例，来看看CPU更加细化的利用率指标（不同版本的top命令显示可能会略有不同）：</p><p>%Cpu(s): 12.5 us,  0.0 sy,  0.0 ni, 87.4 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st</p><p>top命令显示了us、sy、ni、id、wa、hi、si和st这几个指标，这几个指标之和为100。那你可能会有疑问，细化CPU利用率指标的监控会不会带来明显的额外开销？答案是不会的，因为CPU利用率监控通常是去解析/proc/stat文件，而这些文件中就包含了这些细化的指标。</p><!-- [[[read_end]]] --><p>我们继续来看下上述几个指标的具体含义，这些含义你也可以从<a href="https://man7.org/linux/man-pages/man1/top.1.html">top手册</a>里来查看：</p><pre><code>       us, user    : time running un-niced user processes
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是何为舟。</p><p>我们都知道，Java是一种高层级的语言。在Java中，你不需要直接操控内存，大部分的服务和组件都已经有了成熟的封装。除此之外，Java是一种先编译再执行的语言，无法像JavaScript那样随时插入一段代码。因此，很多人会认为，Java是一个安全的语言。如果使用Java开发服务，我们只需要考虑逻辑层的安全问题即可。但是，Java真的这么安全吗？</p><p>2015年，Java曾被曝出一个严重的漏洞，很多经典的商业框架都因此受到影响，其中最知名的是<a href="https://baike.baidu.com/item/weblogic/451978?fr=aladdin">WebLogic</a>。据统计，在网络中公开的WebLogic服务有3万多个。其中，中国就有1万多个外网可访问的WebLogic服务。因此，WebLogic的反序列化漏洞意味着，国内有1万多台服务器可能会被黑客攻陷，其影响的用户数量更是不可估量的。</p><p>你可能要说了，我实际工作中并没有遇到过反序列化漏洞啊。但是，你一定使用过一些序列化和反序列化的工具，比如Fastjson和Jackson等。如果你关注这些工具的版本更新，就会发现，这些版本更新中包含很多修复反序列化漏洞的改动。而了解反序列化漏洞，可以让你理解，Java作为一种先打包后执行的语言，是如何被插入额外逻辑的；也能够让你对Java这门语言的安全性，有一个更全面的认知。</p><!-- [[[read_end]]] --><p>那么，到底什么是反序列化漏洞呢？它究竟会对Java的安全带来哪些冲击呢？遇到这些冲击，我们该怎么办呢？今天我就带你来了解反序列化漏洞，然后一起学习如何防护这样的攻击！</p><h2>反序列化漏洞是如何产生的？</h2><p>如果你是研发人员，工作中一定会涉及很多的序列化和反序列化操作。应用在输出某个数据的时候，将对象转化成字符串或者字节流，这就是序列化操作。那什么是反序列化呢？没错，我们把这个过程反过来，就是反序列化操作，也就是应用将字符串或者字节流变成对象。</p><p>序列化和反序列化有很多种实现方式。比如Java中的Serializable接口（或者Python中的pickle）可以把应用中的对象转化为二进制的字节流，把字节流再还原为对象；还有XML和JSON这些跨平台的协议，可以把对象转化为带格式的文本，把文本再还原为对象。</p><p>那反序列化漏洞到底是怎么产生的呢？问题就出在把数据转化成对象的过程中。在这个过程中，应用需要根据数据的内容，去调用特定的方法。而黑客正是利用这个逻辑，在数据中嵌入自定义的代码（比如执行某个系统命令）。应用对数据进行反序列化的时候，会执行这段代码，从而使得黑客能够控制整个应用及服务器。这就是反序列化漏洞攻击的过程。</p><p>事实上，基本上所有语言都会涉及反序列化漏洞。其中，Java因为使用范围比较广，本身体积也比较庞大， 所以被曝出的反序列化漏洞最多。下面，我就以Java中一个经典的反序列化漏洞demo  <a href="https://github.com/frohoff/ysoserial">ysoserial</a>  为基础，来介绍一个经典的反序列化漏洞案例，给你讲明白反序列化漏洞具体的产生过程。了解漏洞是怎么产生的，对于你后面理解防护措施也会非常有帮助，所以这里你一定要认真看。</p><p>不过，这里也先提醒你一下，这块原理的内容相对比较复杂。我会尽量给你讲解清楚，讲完之后，我也会带着你对这部分内容进行总结、复习。重复记忆可以加深理解，这块内容建议你可以多看几遍。好了，下面我们就来看这个案例！</p><p>最终的演示demo的代码如下所示。在macOS环境下运行这段代码，你就能够打开一个计算器。（在Windows环境下，将系统命令open -a calculator修改成calc即可。）注意，这里需要依赖3.2.1以下的commons-collections，最新的版本已经对这个漏洞进行了修复，所以无法重现这个攻击的过程。</p><pre><code>public class Deserialize {
 

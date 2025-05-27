@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是胜辉。</p><p>在前面的<a href="https://time.geekbang.org/column/article/484667">第8讲</a>和<a href="https://time.geekbang.org/column/article/484923">第9讲</a>，我们先后介绍了两个TCP传输方面的案例。在刚过去的<a href="https://time.geekbang.org/column/article/486281">第11讲</a>，我们更是全面了解了TCP的拥塞控制机制。其中有一个词经常被提到，就是“重传”。</p><p>在我看来，TCP最核心的价值，如果说只有一个的话，那就是<strong>对可靠传输的保证</strong>。而要实现可靠的传输，可能需要这样做：如果我的报文丢了，应该在一定次数内持续尝试，直到传输完成；而如果这些重传都失败了，那就及时放弃传输，避免陷入死循环。</p><p>所以，为了应对不同的情况，TCP又发展出了两种不同的重传类型：<strong>超时重传</strong>和<strong>快速重传</strong>。它们在各自的场景下都有不可替代的作用。不过，它们本身也只是外在的表现，触发它们的条件又分别是什么呢？</p><p>另外，你可能在Wireshark里也见过Spurious retransmission，这个又是什么意思，会对传输有什么影响吗？</p><p>这节课，我就通过对几个案例中的抓包文件的解读，带你学习这些重传家族的成员，了解它们的性格脾气，以后你在日常网络排查中看到重传，也就能顺利搞定了。</p><h2>超时重传</h2><p>我们先来学习下超时重传，Timeout Retransmission。在TCP传输中，以下两种情况，都可能会导致发送方收不到确认：</p><ul>
 

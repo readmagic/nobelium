@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是轩脉刃。</p><p>上一节课，我们开始把框架向工业级迭代，重新规划了目录，这一节课将对框架做更大的改动，让框架支持命令行工具。</p><p>一个拥有命令行工具的框架会非常受欢迎。比如 Beego 框架提供了一个命令行工具 Bee、Vue 框架提供了 Vue-CLI，这些工具无疑给框架的使用者提供了不少便利。在使用框架过程中，命令行工具能将很多编码行为自动化。</p><p>而且退一步说，在实际工作中你会发现，即使用的框架没有提供任何命令行工具，在业务运营的过程中，我们也需要开发各种大大小小的命令行运营工具，作为业务运营的必要辅助。所以一个自带命令行工具，且很方便让用户自行开发命令行的框架，是非常有必要的。</p><p>这节课我们就研究一下如何将hade框架改造成为支持命令行交互的框架。</p><h2>第三方命令行工具库 cobra</h2><p>要让一个程序支持命令行，那么它的核心功能就是要能解析参数，比如 <code>./hade app start --address=:8888</code> 其中的 ./hade 是我们要运行的程序，而后面的 app 和 start 两个字段以及–address=:8888 就是这个程序对应的参数了。</p><p>那么如何解析参数呢？</p><p>Golang 标准库提供了 flag 包能对参数进行解析。但是 flag 包<strong>只是一个命令行解析的类库，不支持组织，所以如果想基于 flag 包实现父子命令行工具，显然就不够了</strong>。出于不重复造轮子，站在巨人肩膀上的想法，我们将视线移向开源社区一个最出名的命令行工具库 <a href="https://github.com/spf13/cobra">cobra</a>。</p><!-- [[[read_end]]] --><p>cobra 是由大名鼎鼎的谷歌工程师 Steve Francia（spf13）开发并开源的一个项目。Steve Francia 是 Golang 开源界比较出名的一名程序员，是 Golang、Doctor、MongoDB 的开源贡献者，同时开源的 hugo、viper 等项目应用也非常广泛。而由他开发开源的 cobra 目前在 GitHub 上已经有了 23k 的 star。</p><p>cobra 不仅仅能让我们快速构建一个命令行，它更大的优势是能更快地组织起有许多命令行工具，因为从根命令行工具开始，cobra 把所有的命令按照树形结构组织起来了。</p><p><img src="https://static001.geekbang.org/resource/image/68/33/6812f5845567d0c771dea8190eb35e33.jpg?wh=1920x1080" alt=""></p><p>要使用 cobra 就要从源码上了解这个库。按照第一节课说的，按照 <strong>库函数 &gt; 结构定义 &gt; 结构函数</strong>的顺序读，你会发现，cobra 这个库最核心的内容是一个数据结构 <a href="https://github.com/spf13/cobra/blob/master/command.go">Command</a> 。</p><p>一个 Command 代表一个执行命令。这个 Command 包含很多可设置的字段，如何使用这个 Command，就取决于我们如何设置这些属性。下面是源码片段，我在注释中列出了这些属性的意义。</p><pre><code class="language-go">// Command代表执行命令的结构
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>上一节我们讲了编码规范的重要性，而编码规范，从起一个好名字开始。但起名字，也没有我们想得那么简单。有个流传很广的戏言：“计算机科学只有两件难事，废弃缓存和取名字。”</p><p>之所以说是戏言，因为取名字这件事无论如何都不算是高深的学问；之所以广泛流传，因为取名字真的就是一件很难的事情，而且起名字是关乎代码质量的大事。</p><p>给小孩取过名字的人都知道，取个好名字有多难，又要合八字，又要算五行，还要避尊者讳。 写程序给代码取名字更难，每天都要想很多名字。给孩子取名字，父母喜欢就行，给代码取名字，还要别人也喜欢。</p><h2>为什么需要一个好名字？</h2><p>名字要准确地代表它背后的东西，并且还能让代码干净漂亮。不然，我们的思路就会受到干扰，影响我们的思考和心情。</p><p>比如说，对于答案只有是与非两个选择的时候，我们通常使用布尔类型（boolean）。所以，取名字的时候，我们通常需要一个表达疑问的前缀，比如是不是“is”。</p><pre><code>public boolean isEmpty();     // String.isEmpty()
 

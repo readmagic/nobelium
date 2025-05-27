@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是蒋德钧。这节课，我们继续从底层数据结构的视角出发，来聊聊Redis中的Stream数据类型是如何保存消息的。</p><p>Redis从5.0版本开始支持提供Stream数据类型，它可以用来保存消息数据，进而能帮助我们实现一个带有消息读写基本功能的消息队列，并用于日常的分布式程序通信当中。我在讲<a href="https://time.geekbang.org/column/article/284291">如何使用Redis实现消息队列</a>的时候，曾介绍过Stream。当时，有不少同学就说想学习了解下Stream的实现，以便掌握Stream内部结构的操作特点，但自己对Stream类型不太熟悉，不知道Stream底层是采用怎样的数据结构来保存消息数据的。</p><p>其实，为了节省内存空间，在Stream数据类型的底层数据结构中，采用了<strong>Radix Tree和listpack</strong>两种数据结构来保存消息。我在<a href="https://time.geekbang.org/column/article/405387">第6讲</a>已经给你介绍过了listpack，它是一个紧凑型列表，在保存数据时会非常节省内存。</p><p>所以今天这节课，我就来给你介绍下Stream用到的另一个数据结构Radix Tree。这个数据结构的<strong>最大特点是适合保存具有相同前缀的数据</strong>，从而实现节省内存空间的目标，以及支持范围查询。</p><p>同时，和常见的B树或B+树类似，Radix Tree也是一种重要的树型结构，在操作系统内核和数据库中也有应用。所以，了解Radix Tree的设计与实现，既可以帮助我们掌握Stream的实现思路，还可以让我们把Radix Tree应用到需要节省内存的有序树型索引场景中，进一步解决具有公共前缀的大量数据保存时的内存开销问题。</p><!-- [[[read_end]]] --><p>好，那么接下来，我们先来了解下Stream保存的消息数据的特征，这也是Redis使用Radix Tree和listpack作为底层结构保存消息的重要考虑因素。</p><h2>Stream消息数据的特征</h2><p>首先，Stream作为消息队列，它保存的消息通常具有以下两个特征：</p><ul>
 

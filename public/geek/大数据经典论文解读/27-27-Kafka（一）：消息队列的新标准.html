@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是徐文浩。</p><p>过去的两节课里，我给你介绍了S4和Storm这两个流式计算框架相关的论文。不过，在讲解这两篇论文的时候，我们其实没有去搞清楚对应的流式数据是从哪里来的。虽然S4里有Keyless PE，Storm里也有Spout，它们都是框架自己提供的发送流式数据的机制，这些框架本身并不能产生数据。我们各种应用服务器产生的数据，必须要想一个办法，能够给这些流式数据处理系统。</p><p>其实，不只是流式数据处理系统有这个需求，我们之前讲解过的GFS/MapReduce这些分布式文件系统，以及大数据批处理系统，一样面临这个“<strong>数据从哪里来</strong>”的问题。</p><p>这个问题，也就是我们今天要探讨的主题，就是我们应该通过一个什么样的系统，来传输数据。这个系统需要满足哪些需求，整个系统架构应该怎么设计。而对于这个问题的解答，就是开源的Kafka系统。</p><p>同样在2011年，来自LinkedIn的三位工程师，一起发表了《Kafka: a Distributed Messaging System for Log Processing》这样一篇论文，并且把论文里描述的这个系统Kafka开源。这篇论文，可以说帮我们圆上了整个大数据系统的最后一个环节，就是<strong>高性能、高可用的数据传输</strong>。</p><!-- [[[read_end]]] --><p>虽然后续，整个大数据领域仍然有不断的迭代更新，但是有了Kafka之后，通过Hadoop/Spark进行批数据处理，通过Hive搭建数据仓库，通过Storm进行流式数据处理，然后通过Kafka作为业务系统和大数据系统之间的消息管道，已经是一个完整而成熟的“标准方案”了。可以说，随着Kafka的发布，整个大数据领域开始迈入一个成熟的阶段。大部分公司都可以通过组合开源框架，搭建起完善的大数据系统，而不再需要自己去“造轮子”了。</p><p>那么，在学完今天这节课之后，希望你能够掌握以下两点：</p><ul>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是张磊。今天我和你分享的主题是：浅谈容器网络。</p><p>在前面讲解容器基础时，我曾经提到过一个Linux容器能看见的“网络栈”，实际上是被隔离在它自己的Network Namespace当中的。</p><p>而所谓“网络栈”，就包括了：网卡（Network Interface）、回环设备（Loopback Device）、路由表（Routing Table）和iptables规则。对于一个进程来说，这些要素，其实就构成了它发起和响应网络请求的基本环境。</p><p>需要指出的是，作为一个容器，它可以声明直接使用宿主机的网络栈（–net=host），即：不开启Network Namespace，比如：</p><pre><code>$ docker run –d –net=host --name nginx-host nginx
 

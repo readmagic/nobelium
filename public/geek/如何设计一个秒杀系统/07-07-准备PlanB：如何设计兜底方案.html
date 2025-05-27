@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>这是《如何设计一个秒杀系统》专栏的最后一篇文章，前面我们一起看了很多极致的优化思路，以及架构的优化方案。但是很遗憾，现实中总难免会发生一些这样或者那样的意外，而这些看似不经意的意外，却可能带来非常严重的后果。</p><p>我想对于很多秒杀系统而言，在诸如双十一这样的大流量的迅猛冲击下，都曾经或多或少发生过宕机的情况。当一个系统面临持续的大流量时，它其实很难单靠自身调整来恢复状态，你必须等待流量自然下降或者人为地把流量切走才行，这无疑会严重影响用户的购物体验。</p><p>同时，你也要知道，没有人能够提前预估所有情况，意外无法避免。那么，我们是不是就没办法了呢？当然不是，我们可以在系统达到不可用状态之前就做好流量限制，防止最坏情况的发生。用现在流行的话来说，任何一个系统，都需要“反脆弱”。</p><p>具体到秒杀这一场景下，为了保证系统的高可用，我们必须设计一个Plan B方案来兜底，这样在最坏情况发生时我们仍然能够从容应对。今天，我们就来看下兜底方案设计的一些具体思路。</p><h2>高可用建设应该从哪里着手</h2><p>说到系统的高可用建设，它其实是一个系统工程，需要考虑到系统建设的各个阶段，也就是说它其实贯穿了系统建设的整个生命周期，如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/42/35/4225335357b6208a67410c36ea8a1535.jpg" alt=""></p><center><span class="reference">图1  高可用系统建设</span></center><!-- [[[read_end]]] --><p>具体来说，系统的高可用建设涉及架构阶段、编码阶段、测试阶段、发布阶段、运行阶段，以及故障发生时。接下来，我们分别看一下。</p><ol>
 

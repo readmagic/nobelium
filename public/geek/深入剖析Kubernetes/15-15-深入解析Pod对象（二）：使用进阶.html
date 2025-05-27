@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是张磊。今天我和你分享的主题是：深入解析Pod对象之使用进阶。</p><p>在上一篇文章中，我深入解析了Pod的API对象，讲解了Pod和Container的关系。</p><p>作为Kubernetes项目里最核心的编排对象，Pod携带的信息非常丰富。其中，资源定义（比如CPU、内存等），以及调度相关的字段，我会在后面专门讲解调度器时再进行深入的分析。在本篇，我们就先从一种特殊的Volume开始，来帮助你更加深入地理解Pod对象各个重要字段的含义。</p><p>这种特殊的Volume，叫作Projected Volume，你可以把它翻译为“投射数据卷”。</p><blockquote>
 

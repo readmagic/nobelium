@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。</p><p>对泛型的支持，是现代语言中的一个重要特性。它能有效地降低程序员编程的工作量，避免重复造轮子，写很多雷同的代码。像C++、Java、Scala、Kotlin、Swift和Julia这些语言都支持泛型。至于Go语言，它的开发团队也对泛型技术方案讨论了很久，并可能会在2021年的版本中正式支持泛型。可见，泛型真的是成为各种强类型语言的必备特性了。</p><p>那么，<strong>泛型有哪些特点？在设计和实现上有哪些不同的方案？编译器应该进行什么样的配合呢？</strong>今天这一讲，我就带你一起探讨泛型的实现原理，借此加深你对编译原理相关知识点的认知，让你能够在自己的编程中更好地使用泛型技术。</p><p>首先，我们来了解一下什么是泛型。</p><h2>什么是泛型？</h2><p>在日常编程中，我们经常会遇到一些代码逻辑，它们除了类型不同，其他逻辑是完全一样的。你可以看一下这段示例代码，里面有两个类，其中一个类是保存Integer的列表，另一个类是保存Student对象的列表。</p><pre><code>public class IntegerList{
 

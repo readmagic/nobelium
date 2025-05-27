@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是LMOS。</p><p>在上节课里，我们对设备进行了分类，建立了设备与驱动的数据结构，同时也规定了一个驱动程序应该提供哪些标准操作方法，供操作系统内核调用。这相当于设计了行政部门的规章制度，一个部门叫什么，应该干什么，这些就确定好了。</p><p>今天我们来继续探索部门的建立，也就是设备在内核中是如何注册的。我们先从全局了解一下设备的注册流程，然后了解怎么加载驱动，最后探索怎么让驱动建立一个设备，并在内核中注册。让我们正式开始今天的学习吧！</p><p>这节课配套代码，你可以从<a href="https://gitee.com/lmos/cosmos/tree/master/lesson28~29/Cosmos">这里</a>下载。</p><h2>设备的注册流程</h2><p>你是否想象过，你在电脑上插入一个USB鼠标时，操作系统会作出怎样的反应呢？</p><p>我来简单作个描述，<strong>这个过程可以分成这样五步。</strong></p><p>1.操作系统会收到一个中断。<br>
 

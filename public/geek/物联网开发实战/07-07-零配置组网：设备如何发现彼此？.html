@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是郭朝斌。</p><p>不知道你还记不记得，在基础篇的<a href="https://time.geekbang.org/column/article/306976">第2讲</a>中，我介绍了 Wi-Fi 设备的配网方式，比如一键配网技术（Smart Config）和设备热点配网技术。这些技术已经可以实现<strong>一定程度的自动化</strong>，让设备比较方便地连接上Wi-Fi 热点。</p><p>同时，我也提到了零配置配网方式，它试图通过已连接上Wi-Fi热点的设备，来实现可信任设备<strong>完全自动化</strong>的配网。</p><p>但是，你可不要把<strong>零配置配网</strong>（Zero Configuration Provisioning）和我们这一讲要谈的<strong>零配置组网</strong>（Zero Configuration Networking ，ZEROCONF）混淆了。配网只是第一步，因为物联网设备无法方便地输入信息，所以相比手机或电脑，我们引入了这个额外的操作步骤。</p><p>配网成功之后，我们还需要组网，也就是让设备获得一个<strong>自己的IP地址</strong>，同时也知道局域网内的<strong>路由器</strong>（Router）的IP地址和<strong>DNS</strong>（Domain Name System）的IP地址等信息。设备自己的IP地址是它在TCP/IP 网络中的唯一标识；路由器可以把设备的数据包正确地转发出去；而DNS服务器可以帮忙解析出数据包中需要设置的目的地 IP 地址。</p><blockquote>
 

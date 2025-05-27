@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王喆，欢迎来到模型实战准备第二课。</p><p>这节课，我们来讲实战中所需的模型特征和训练样本的处理。为什么我们要专门花一节课的时间讲这些呢？因为在推荐模型篇中，我们的重点在于学习模型结构的原理和实现，而要实现并且训练这些模型，我们就必须先解决训练所需的样本和特征的处理问题。</p><p>这节课我们先来把模型实战的准备工作做完。具体来说，今天，我会带你用Spark来处理深度学习模型训练所需的样本和特征，再把特征存储到Redis中，供模型线上服务时调用。</p><h2>为什么选择Spark为TensorFlow处理特征和样本？</h2><p>这个时候，你可能会有疑问，我们的深度学习模型将在TensorFlow上进行训练，为什么要用Spark处理样本？可不可以直接让TensorFlow解决所有的事情呢？这是一个好问题，在我们学习具体的技术之前，先解决这个架构上的疑问是很有必要的。</p><p>在业界的实践中，我们需要记住一个原则，就是<strong>让合适的平台做合适的事情</strong>。比如说，数据处理是Spark的专长，流处理是Flink的专长，构建和训练模型是TensorFlow的专长。在使用这些平台的时候，我们最好能够用其所长，避其所短。这也是一个业界应用拥有那么多个模块、平台的原因。</p><!-- [[[read_end]]] --><p>你可能想说，TensorFlow也可以处理数据啊。没错，但是它并不擅长分布式的并行数据处理，在并行数据处理能力上，TensorFlow很难和动辄拥有几百上千个节点的Spark相比。那在面对海量数据的时候，如果我们能够利用Spark进行数据清洗、数据预处理、特征提取的话，最好的方案就是让Spark发挥它的长处，承担“繁重”但相对简单的样本和特征处理的工作，为TensorFlow减轻负担。</p><h2>物品和用户特征都有哪些？</h2><p>既然我们决定用Spark进行样本和特征处理，那下一个问题又接踵而来，我们能从MovieLens的数据集中抽取出什么特征呢？这就要用到我们在特征工程篇中学到的，关于推荐系统特征以及相关特征处理方法的知识，如果你记得还不够扎实，我建议你可以先回去复习一下。</p><p>MovieLens数据集中，可供我们提取特征的数据表有两个，分别是movies表和ratings表，它们的数据格式如下：</p><p><img src="https://static001.geekbang.org/resource/image/87/b8/87cd18e09550522e85ef81a8f30869b8.jpg?wh=1920*789" alt="" title="图1 电影基本数据movies表（左），用户评分数据ratings表（右）"></p><p>接下来，我们按照“物品特征”“用户特征”“场景特征”，这三大类推荐系统特征的顺序，来看一看从这两张表中能提取出什么样的特征。</p><p>“物品特征”在我们的项目里指的就是电影特征了，从movies表中我们可以提取出电影的基本信息，包括movieId、title（电影名）、releaseYear（发布年份）和genre（风格类型）。除此之外，我们还可以利用ratings表为每个电影提取出一些统计类的特征，包括电影的平均评分、评分标准差等等。</p><p>接下来是“用户特征”。乍一看，从movies和ratings表中，除了userId我们好像找不到其他直接可用的用户信息了。这个时候，千万不要忘了我们之前提到过的，用户特征最重要的部分就是历史行为特征。</p><p>所以，从用户的评分历史中，我们其实可以提取出非常多有价值的特征。比如，我们可以根据ratings表的历史联合movies表的电影信息，提取出用户统计类特征，它包括用户评分总数、用户平均评分、用户评分标准差、用户好评电影的发布年份均值、用户好评电影的发布年份标准差、用户最喜欢的电影风格，以及用户好评电影ID等等。</p><p>最后是“场景特征”。我们可用的场景特征就一个，那就是评分的时间戳，我们把它作为代表时间场景的特征放到特征工程中。</p><p>好了，到这儿，我们就梳理完了所有可用的特征，我把它们总结在了下面的表格里，供你参考。</p><p><img src="https://static001.geekbang.org/resource/image/ae/d5/ae45f7d9020dcb406291b8519d0312d5.jpeg?wh=1920*1080" alt="" title="图2 所有可用的特征汇总表"></p><p>用Spark来提取这些特征的总体实现会比较琐碎，所以我就不把全部代码贴在这里了，你可以参考SparrowRecsys项目中的com.wzhe.sparrowrecsys.offline.spark.featureeng.FeatureEngForRecModel对象，里面包含了所有特征工程的代码。这里，我们只讲几个有代表性的统计型特征的处理方法。</p><pre><code>val movieRatingFeatures = samplesWithMovies3.groupBy(col(&quot;movieId&quot;))
 

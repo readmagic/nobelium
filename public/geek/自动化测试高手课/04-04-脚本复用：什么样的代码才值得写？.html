@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是柳胜。</p><p>开发和测试团队我都带过，现在测试人员的代码能力越来越强了，已经接近开发人员，我看过一些测试牛人设计的测试模块和代码：MVC实现测试控制台、分布式多测试节点管理、Proxy对测试Interface默认实现……这些用到的技术栈和开发不相上下。</p><p>聊下来，很多的反馈是“能做起来，很庆幸有一个对测试技术很支持的领导”。这就是一个让人困惑的问题，为了开发自动化测试案例，你写了那么多代码，那每一行代码就应该存在它的价值，这个价值是客观的，而不是依赖主观的某个人的认知。不是么？</p><p>所以这一讲要关注的问题是，你写的每一行代码都有自动化测试的价值么？你能把它说出来，说清楚么？想清楚这些，你自然也会明白给定一个自动化测试的项目，哪些工作是overwork（过度工作），哪些是underwork（工作得还不够）。</p><h2>哪些代码值得写？</h2><p>在开始之前，我们再回顾一下自动化测试ROI模型。</p><p><img src="https://static001.geekbang.org/resource/image/cd/00/cd34280bc70b3633e696a7ba16f9e300.jpg?wh=1920x868" alt="图片"></p><p>一个案例转化成自动化测试后，我们的目标是它的投资回报率越高越好，在ROI公式里，回报也就是分子越高越好，成本也就是分母越低越好。</p><p>在第一讲我讲到过，n是自动化测试案例运行的次数，在回归测试里，n是回归迭代的次数，回归次数越高，n也就越大，这是从时间的角度上来看n。在这一讲，我们换个角度，从空间来看，也就是代码的复用率，我们有没有办法让代码的复用率升高？</p><!-- [[[read_end]]] --><h3>初始版本</h3><p>为了让你更容易理解，我们结合一段登录的脚本，一起探索一下怎样提高一个自动化测试案例的复用率。</p><p>脚本代码如下：</p><pre><code class="language-java">@Test
 

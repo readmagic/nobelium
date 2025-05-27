@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是程远。今天我们来聊一聊容器里僵尸进程这个问题。</p><p>说起僵尸进程，相信你并不陌生。很多面试官经常会问到这个知识点，用来考察候选人的操作系统背景。通过这个问题，可以了解候选人对Linux进程管理和信号处理这些基础知识的理解程度，他的基本功扎不扎实。</p><p>所以，今天我们就一起来看看容器里为什么会产生僵尸进程，然后去分析如何怎么解决。</p><p>通过这一讲，你就会对僵尸进程的产生原理有一个清晰的认识，也会更深入地理解容器init进程的特性。</p><h2>问题再现</h2><p>我们平时用容器的时候，有的同学会发现，自己的容器运行久了之后，运行ps命令会看到一些进程，进程名后面加了&lt;defunct&gt;标识。那么你自然会有这样的疑问，这些是什么进程呢？</p><p>你可以自己做个容器镜像来模拟一下，我们先下载这个<a href="https://github.com/chengyli/training/tree/master/init_proc/zombie_proc">例子</a>，运行 <code>make image</code> 之后，再启动容器。</p><p>在容器里我们可以看到，1号进程fork出1000个子进程。当这些子进程运行结束后，它们的进程名字后面都加了<defunct>标识。</defunct></p><p>从它们的Z stat（进程状态）中我们可以知道，这些都是僵尸进程（Zombie Process）。运行top命令，我们也可以看到输出的内容显示有 <code>1000 zombie</code> 进程。</p><pre><code># docker run --name zombie-proc -d registry/zombie-proc:v1
 

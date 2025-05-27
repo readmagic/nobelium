@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>在上一节课中，我们讲了KISS原则和YAGNI原则，KISS原则可以说是人尽皆知。今天，我们再学习一个你肯定听过的原则，那就是DRY原则。它的英文描述为：Don’t Repeat Yourself。中文直译为：不要重复自己。将它应用在编程中，可以理解为：不要写重复的代码。</p><p>你可能会觉得，这条原则非常简单、非常容易应用。只要两段代码长得一样，那就是违反DRY原则了。真的是这样吗？答案是否定的。这是很多人对这条原则存在的误解。实际上，重复的代码不一定违反DRY原则，而且有些看似不重复的代码也有可能违反DRY原则。</p><p>听到这里，你可能会有很多疑问。没关系，今天我会结合具体的代码实例，来把这个问题讲清楚，纠正你对这个原则的错误认知。除此之外，DRY原则与代码的复用性也有一些联系，所以，今天，我还会讲一讲，如何写出可复用性好的代码。</p><p>话不多说，让我们正式开始今天的学习吧！</p><h2>DRY原则（Don’t Repeat Yourself）</h2><p>DRY原则的定义非常简单，我就不再过度解读。今天，我们主要讲三种典型的代码重复情况，它们分别是：实现逻辑重复、功能语义重复和代码执行重复。这三种代码重复，有的看似违反DRY，实际上并不违反；有的看似不违反，实际上却违反了。</p><!-- [[[read_end]]] --><h3>实现逻辑重复</h3><p>我们先来看下面这样一段代码是否违反了DRY原则。如果违反了，你觉得应该如何重构，才能让它满足DRY原则？如果没有违反，那又是为什么呢？</p><pre><code>public class UserAuthenticator {
 

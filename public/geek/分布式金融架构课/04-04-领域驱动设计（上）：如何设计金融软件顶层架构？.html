@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是任杰。这节课我想和你聊一聊如何设计顶层金融软件架构。</p><p>通过前面三节课的学习，你应该感觉到金融业务比较复杂，对应的金融软件也很复杂。那想让业务和架构设计良好配合，就是一个非常有挑战性的事情了。这也是软件工程要解决的问题。</p><p>软件工程的教材里一般不会写项目怎么成功，而是记录项目怎么失败。金融行业对信息化要求很高，那在实际解决问题时，金融行业自然也会经历很多失败的软件项目。</p><p>幸运的是，错的次数多了也渐渐总结出一些比较好的方法论，本世纪初出现的<strong>领域驱动设计</strong>就是其中一个。一些大型的金融公司已经用这个方法，从战略上重新设计了顶层框架和运作机制，也取得了不错的效果。</p><p>想更好地掌握这种方法，你就要搞清楚它的适用范围以及整体思路，这样才能在后续实践中更好地使用。话不多说，接下来我会从三个角度入手，带你理解领域驱动设计理论中的核心知识点。</p><h2>领域驱动设计侧重点</h2><p>顾名思义，领域驱动设计（<strong>Domain Driven Design</strong>，简称 <strong>DDD</strong>）指的是针对特定领域进行定制化的设计。</p><p>从<strong>空间</strong>上来讲，它看到的是整个行业或者整个领域。从<strong>时间</strong>上来讲，它看到的是软件从发生、发展到消亡的整个生命周期。从<strong>角色</strong>上来讲，它看到的是业务、产品、开发和运维等所有参与人员的合作。</p><!-- [[[read_end]]] --><p>因此领域驱动设计是战略上的思路，而不是战术上的实操。这里你要抓住一个重点，<strong>领域驱动设计解决的是复杂问题。</strong></p><p>虽然领域驱动设计是从宏观角度解决问题，但是它非常务实，主要体现在以下两个方面，一方面是<strong>注重投资回报比</strong>（Return On Investment，ROI），另一方面是<strong>做长期优化</strong>。</p><h3>注重投资回报比</h3><p>我们想做好领域驱动设计，需要多角度思考问题，还需要对各方面因素做一些平衡，所以这个设计本身是一个非常耗时耗力的过程。</p><p>如果你投入了大量的人力物力和时间，却没有收到相应的成果，就有点得不偿失了。这种情况下就不推荐使用领域驱动设计了。</p><p>具体来说，适合使用领域驱动设计的系统需要具备这些特点：</p><p>1.系统组件足够多。<br>
 

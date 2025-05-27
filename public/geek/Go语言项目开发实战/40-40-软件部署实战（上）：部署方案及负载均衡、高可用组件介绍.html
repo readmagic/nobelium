@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是孔令飞。</p><p>接下来，我们就进入到这门课的最后一个模块，服务部署部分的学习。在这一模块中，我会带着你一步一步地部署一个生产级可用的IAM应用。</p><p>在 <a href="https://time.geekbang.org/column/article/378082">03讲</a> 中，我们快速在单机上部署了IAM系统，但这样的系统缺少高可用、弹性扩容等能力，是很脆弱的，遇到流量波峰、发布变更很容易出问题。在系统真正上线前，我们需要重新调整部署架构，来保证我们的系统具有负载均衡、高可用、弹性伸缩等核心运维能力。</p><p>考虑到你手中的系统资源有限，这一模块会尽量简单地展示如何部署一个相对高可用的IAM系统。按照我讲的部署方法，基本上可以上线一个中小型的系统。</p><p>在这一模块中，我会介绍两种部署方式。</p><p>第一种是传统的部署方式，基于物理机/虚拟机来部署，容灾、弹性伸缩能力要部署人员自己实现。第二种是容器化部署方式，基于Docker、Kubernetes来部署，容灾、弹性伸缩等能力，可以借助Kubernetes自带的能力来实现。</p><p>接下来的三讲，我们先来看下传统的部署方式，也就是如何基于虚拟机来部署IAM应用。今天我主要讲跟IAM部署相关的两个组件，Nginx + Keepalived的相关功能。</p><h2>部署方案</h2><p>先来整体看下我们的部署方案。</p><p>这里，我采用Nginx + Keepalived来部署一个高可用的架构，同时将组件都部署在内网，来保证服务的安全和性能。</p><!-- [[[read_end]]] --><p>部署需要两台物理机/虚拟机，组件之间通过内网访问。所需的服务器如下表所示：</p><p><img src="https://static001.geekbang.org/resource/image/e0/1d/e0a3323831768fbe7f45085ca4a53a1d.jpg?wh=1920x719" alt="图片"></p><p>两台服务器均为腾讯云CVM，VIP（Virtual IP，虚拟IP）为<code>10.0.4.99</code>。部署架构如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/fc/9d/fc5331a780d45a7de6223d6ff3c86f9d.jpg?wh=1920x1197" alt="图片"></p><p>这里我来具体介绍下图中的部署架构。部署采用的这两台CVM服务器，一主一备，它们共享同一个VIP。同一时刻，VIP只在一台主设备上生效，当主服务器出现故障时，备用服务器会自动接管VIP，继续提供服务。</p><p>主服务器上部署了<code>iam-apiserver</code>、<code>iam-authz-server</code>、<code>iam-pump</code>和数据库<code>mongodb</code>、<code>redis</code>、<code>mysql</code>。备服务器部署了<code>iam-apiserver</code>、<code>iam-authz-server</code>和<code>iam-pump</code>。备服务器中的组件通过内网<code>10.0.4.20</code>访问主服务器中的数据库组件。</p><p>主备服务器同时安装了Keepalived和Nginx，通过Nginx的反向代理功能和负载均衡功能，实现后端服务<code>iam-apiserver</code>和<code>iam-authz-server</code>的高可用，通过Keepalived实现Nginx的高可用。</p><p>我们通过给虚拟IP绑定腾讯云弹性公网IP，从而使客户端可以通过外网IP访问内网的Nginx服务器（<code>443</code>端口），如果想通过域名访问内网，还可以申请域名指向该弹性公网IP。</p><p>通过以上部署方案，我们可以实现一个具有较高可用性的IAM系统，它主要具备下面这几个能力。</p><ul>
 

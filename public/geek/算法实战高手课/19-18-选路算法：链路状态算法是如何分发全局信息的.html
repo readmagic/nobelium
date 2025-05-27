@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是微扰君。</p><p>上一讲，我们介绍了网络中选路算法的背景和单源最短路问题的经典算法Dijkstra算法，还记得为什么网络中需要选路算法吗？</p><p>计算机网络很复杂，但核心作用就是把不同的节点连接在一起，交换信息、共享资源，每个节点自己会维护一张路由表，选路算法所做的事情就是：构建出一张路由表，选择出到目标节点成本最低通常也是最快的路径。</p><p>而Dijkstra算法是求解单源最短路问题的经典算法，基于贪心的思想，我们从源点开始，一步步搜索最近路径，构造一颗最短路径树。它在网络路由问题中的应用就是我们今天要学习的链路状态算法。</p><p>具体如何解决网络路由问题呢？带着这个问题，我们马上开始今天的学习。</p><h2>网络路由问题</h2><p>我们知道路由器最大的作用就是转发决策，动态路由算法的作用就是，帮助路由节点在动态变化的网络环境下建立动态变化的路由表，而每个路由表记录，本质就是当前节点到目标节点的最短路。</p><p>链路状态算法的思路就是：<strong>先在每个节点上都通过通信构建出网络全局信息，再利用Dijkstra算法，计算出在当前网络中从当前节点到每个其他节点的最短路，从而把下一跳记录在路由表中</strong>。</p><p>对于最短路问题，我们可以用之前学过的转化为图问题的思路，把网络抽象成一个有向图，也就是网络拓扑图。</p><!-- [[[read_end]]] --><p>图中每个节点就是一台台路由设备，而<strong>节点之间的边的权重（边权）就代表着某种通信成本，我们一般叫链路成本</strong>，它有很多种定义方式，比如：</p><ul>
 

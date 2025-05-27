@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是微扰君。</p><p>今天我们来学习另一个常用的算法思想，二分法。这个算法思想相信即使你没有什么开发经验也不会感到陌生，而且之前讲红黑树的时候我们也简单聊过。</p><p>不知道你有没有玩过“猜数字”的游戏。大家规定一个范围，一个人在心里想一个这个范围内的具体数字，比如一个1-100的自然数，然后另几个人来猜数字；每次猜错，这个人都会提示他们的猜测是大了还是小了，看谁最快猜到数字。</p><p>如果你做这个游戏会怎么猜呢？从1开始顺次猜吗？我反正不会这么猜，出于一个很简单的直觉，如果1猜错了，那么出题的同学给你的提示对可选范围的缩小非常有限，也就是从1-100变成了2-100。</p><p>我想很多人第一反应也都会是从比较中间的位置，比如50，开始猜起。毕竟如果50猜错了，因为要提示是大了还是小了，范围就要么缩小到1-49，要么缩小到51-100，这样猜测范围就可以成倍的缩小。</p><p>所以，<strong>如果每一次我们都猜测可能范围内的中间值，那么即使猜错了也能成倍的缩小范围，这样的策略其实就是二分查找算法</strong>。</p><p>有了二分查找算法，即使更大的范围内进行游戏，比如在1-1,000,000的范围内，我们按照二分的策略，最多也只需要20次即可完成任意数字的猜测，这是遍历数字猜测所远远做不到的。可以看下图有一个直观的认知。<br>
 

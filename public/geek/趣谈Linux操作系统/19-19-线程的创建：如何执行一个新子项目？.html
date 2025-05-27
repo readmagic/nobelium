@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>上一节，我们了解了进程创建的整个过程，今天我们来看线程创建的过程。</p><p>我们前面已经写过多线程编程的程序了，你应该都知道创建一个线程调用的是pthread_create，可你知道它背后的机制吗？</p><h2>用户态创建线程</h2><p>你可能会问，咱们之前不是讲过了吗？无论是进程还是线程，在内核里面都是任务，管起来不是都一样吗？但是问题来了，如果两个完全一样，那为什么咱们前两节写的程序差别那么大？如果不一样，那怎么在内核里面加以区分呢？</p><p>其实，线程不是一个完全由内核实现的机制，它是由内核态和用户态合作完成的。pthread_create不是一个系统调用，是Glibc库的一个函数，所以我们还要去Glibc里面去找线索。</p><p>果然，我们在nptl/pthread_create.c里面找到了这个函数。这里的参数我们应该比较熟悉了。</p><pre><code>int __pthread_create_2_1 (pthread_t *newthread, const pthread_attr_t *attr, void *(*start_routine) (void *), void *arg)
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是蒋德钧。</p><p></p><p>从今天开始，我们就进入了这门课程的最后一个模块，也就是“编程技巧模块”。Redis作为一个广泛使用的系统，除了它自身的功能实现和性能优化值得我们学习以外，它源码中的编程技巧也同样值得我们去了解和掌握。</p><p></p><p>在这个模块中，我会带你学习Redis在循环缓冲区、监控、功能扩展模块等方面的设计与实现，这些功能的开发对于后端系统软件来说都是非常重要的。</p><p></p><p>那么，今天这节课，我先带你来学习<strong>Redis中循环缓冲区的实现</strong>。</p><p>我们在开发后端数据系统时，都会面临数据同步的问题，在应对这个问题时，缓冲区的设计与实现是一定要考虑的。而循环缓冲区是缓冲区开发的一个常用技巧，所以，学习这节课的内容，可以让我们掌握如何实现循环缓冲区，尤其是实现难点的解决方法，从而可以给我们自己开发数据同步提供一个参考实现。</p><p></p><p>好了，下面我们先来看下循环缓冲区是如何工作的，有了这部分知识后，我们就能更好地理解和掌握Redis的代码实现了。</p><p></p><h2>循环缓冲区如何工作？</h2><p>在后端数据系统中，为了保证数据的可靠性，我们通常会采用主从集群的方式，在主节点和从节点之间同步数据。一般来说，主节点会先和从节点进行一次全量同步，把某个时刻的所有数据传输给从节点。</p><!-- [[[read_end]]] --><p></p><p>然后，主节点会持续将收到的命令发送给从节点。在这个发送的过程中，如果从节点和主节点网络断连了，主节点需要将发送给从节点的命令缓存起来。这样一来，当从节点恢复和主节点的网络连接后，主节点可以把缓存着的命令再发给从节点。在这种场景下，我们就需要用到缓冲区来暂存主节点收到的命令。</p><p></p><p>那么，在后端系统中设计缓冲区时，直接面临的一个问题就是，<strong>缓冲区空间不够用时该怎么办？</strong></p><p></p><p>我们比较容易想到的实现方案是，当缓冲区不够用时，系统再动态分配缓冲区。但是动态分配缓冲区会<strong>有一定的开销</strong>，而且如果一旦空间不够用了，就动态分配缓冲区，这也会造成缓冲区空间持续增长，<strong>占用过多内存资源</strong>。</p><p></p><p>而实际上，缓冲区中的数据在发送给从节点后，其实可以删除掉，这样就有新空间可以用了。这也就是说，缓冲区空间是可以复用的，如下图所示：</p><p></p><p><img src="https://static001.geekbang.org/resource/image/27/d9/27278ea3db0f74afb4ca7e576e9837d9.jpg?wh=1920x962" alt="图片"></p><p>那么，循环缓冲区的实现就是使用了复用缓冲区的设计思想，它的空间可以循环写入。从工作原理来说，它有两个特点：</p><ul>
 

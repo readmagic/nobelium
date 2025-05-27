@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王昊天。</p><p>前几天，我在路上遇到了一个外国友人，他用英语问我如何前往上海火车站。我一时没缓过神，直接用中文回答他，乘坐一号线就可以到达。看着他迷茫的眼神，我反应了过来，接着赶忙用英语来回答他。还好我英文不错，他听懂了，在对我说了声谢谢后就走上了一号线。</p><p>事后，我反思了一下，我们人和人之间的沟通，其实都会按照一个隐形的协议去进行，例如我会中文和英文，外国友人却只会英文，所以我们就需要用英文才能进行沟通。</p><p>那么你知道我们是如何与Web应用进行有效通信的吗？事实上，我们与Web应用的交互也离不开一个广泛运用的协议—— HTTP协议。这个协议规定了，Web客户端如何从Web服务器请求Web页面，以及服务器如何把Web页面传送给客户端。</p><p>除了这些广为人知的作用，HTTP协议还能对Web应用提供一些安全支持。这一讲，我们就一起学习下HTTP协议对于安全有哪些支持。</p><h2>HTTP协议</h2><p>首先，我们需要搞清楚什么是HTTP协议。</p><p>HTTP协议，即超文本传输协议Hyper Text Transfer Protocol。它是一个简单的请求-响应协议，且通常运行在TCP协议之上。它指定了客户端可能发送给服务器什么样的消息以及得到什么样的响应。这个协议是早期Web成功的有功之臣，因为<strong>它使开发和部署非常得直截了当</strong>。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/45/91/45e83aa517d5cf1c279f10091cd32c91.jpg?wh=640x480" alt="图片"></p><p>在了解完HTTP协议的大致功能后，让我们一起看一个示例，了解HTTP协议所规定的消息样式。</p><p>这是我访问百度页面时，用BurpSuite捕获到的报文：</p><pre><code class="language-plain">GET / HTTP/1.1
 

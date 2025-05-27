@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是郑晔。</p><p>在这个专栏刚开始的时候，我给你留了一个课前作业，实现一个待办事项管理的软件。许多同学都利用自己的业余时间完成了这个作业，感谢大家的付出！</p><p>学习代码的坏味道，听别人讲是一种方式，但这种方式总会让人有一种隔岸观火的感觉，虽然知道有问题，但感觉并不深刻。最直接受益的方式就是自己写了代码，然后，让别人来点评。其实，这就是某种形式的代码评审。</p><p>所以，这一讲，我们就来做一次“代码评审”，直接来看看代码中存在的问题。题目背景我就不再做过多的介绍了，如果没有来得及完成作业的同学，可以先到“<a href="https://time.geekbang.org/column/article/325594">课前作业区</a>”回顾一下题目。</p><p>既然是指出问题，得罪大家可能就在所难免了，希望你不要介意，毕竟能够发现自己的问题是精进的第一步。好，我们开始！</p><h2>从已知的坏味道出发</h2><p>在<a href="https://github.com/benben773/todomaster">极客双同学的代码仓库</a>里，我在<a href="https://github.com/benben773/todomaster/blob/main/todomaster/src/main/java/com/test/service/impl/ProcessTxtServiceImpl.java">一段代码</a>中看到了之前我们课程中讲过的坏味道：</p><pre><code>Item itemNew = new Item(item.getName());
 

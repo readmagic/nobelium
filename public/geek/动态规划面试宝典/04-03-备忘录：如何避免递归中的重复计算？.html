@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是卢誉声。</p><p>从前面的课程中我们已经看到，动态规划问题的一般形式就是求最值。因此我先讲解了什么是最优解问题，在考虑整体最优的情况下，我们需要找到一种办法获取最优解。那么最简单直接的做法是什么呢？</p><p>其实就是把所有可行的答案<strong>穷举</strong>出来，然后在所有可行的答案中找出满足条件的最值。</p><p>这样的解法看似“天衣无缝”，但它有着重要的缺陷，而且这个缺陷是我们在面试过程中需要极力避免的：它的执行效率极低。</p><p>导致这个问题的罪魁祸首是重叠子问题，我已经不止一次提到这个概念了。那么你该<strong>如何解决重叠子问题并提高算法效率呢？</strong></p><p>接下来我们就带着这个问题，开始学习今天的内容：备忘录。看看它能否有效解决递归过程中出现的大量重复计算的问题，提高算法效率。</p><h2>什么是重叠子问题？</h2><p>斐波那契数列没有求最值的问题，因此严格来说它不是最优解问题，当然也就不是动态规划问题。但它能帮助你理解什么是重叠子问题。首先，它的数学形式即递归表达是这样的：</p><p>$$F(n)=\left\{\begin{array}{c}<br>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱涛。</p><p>从这节课开始，我们就正式进入源码篇的学习了。当我们学习一门知识的时候，总是离不开What、Why和How。在前面的基础篇、协程篇当中，我们已经弄清楚了 <strong>Kotlin是什么</strong>，以及<strong>为什么要用Kotlin</strong>。那么在这个模块里，我们主要是来解决How的问题，以此从根源上搞清楚Kotlin的底层实现原理。今天这节课，我们先来搞定集合操作符的用法与原理。</p><p>对于大部分Java、C开发者来说，可能都会对Kotlin的集合操作符感到头疼，因为它们实在太多、太乱了。即使通过Kotlin官方文档把那些操作符一个个过了一遍，但过一段时间在代码中遇到它们，又会觉得陌生。<strong>一看就会，看完就忘</strong>！</p><p>其实，Kotlin的集合API，本质上是一种<strong>数据处理的模式</strong>。</p><p>什么是数据处理模式？可以想象一下：对于1~10的数字来说，我们找出其中的偶数，那么这就是一种过滤的行为。我们计算出1~10的总和，那么这就是一种求和的行为。所以从数据操作的角度来看，Kotlin的操作符就可以分为几个大类：过滤、转换、分组、分割、求和。</p><p>那么接下来，我会根据一个统计学生成绩的案例，来带你分析Kotlin的集合API的使用场景，对于复杂的API，我还会深入源码分析它们是如何实现的。这样你也就知道，集合操作符的底层实现原理，也能懂得如何在工作中灵活运用它们来解决实际问题。</p><!-- [[[read_end]]] --><p>好，让我们开始吧！</p><h2>场景模拟：统计学生成绩</h2><p>为了研究Kotlin集合API的使用场景，我们先来模拟一个实际的生活场景：统计学生成绩。</p><pre><code class="language-plain">data class Student(
 

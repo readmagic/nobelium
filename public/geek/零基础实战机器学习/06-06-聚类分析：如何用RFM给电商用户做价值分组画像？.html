@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是黄佳。欢迎来到零基础实战机器学习。</p><p>在上一讲中，我们从一份互联网电商“易速鲜花”的历史订单数据集中，求出了每一个用户的R、F、M值。你可能会问，从这些值中，我们又能看出什么有价值的信息呢？</p><p>别着急，在这一讲中，我们继续往前走，看看如何从这些枯燥且不容易观察的数据中，得到更为清晰的用户分组画像。通过这节课，我希望你能理解聚类算法的原理和最优化过程，这可以帮你建立起针对问题选择算法的直觉。</p><h1>怎么给用户分组比较合适？</h1><p>这是我们在上节课中得出的用户层级表，表中有每位用户的R、F、M值。</p><p><img src="https://static001.geekbang.org/resource/image/13/c2/13bc1375b789e5173ce3016b84a01dc2.png?wh=260x208" alt=""></p><p>这里，我们希望看看R值、F值和M值的分布情况，以便为用户分组作出指导。代码是接着上一讲的基础上继续构建，我就不全部贴上来了，完整的代码和数据集请你从<a href="https://github.com/huangjia2019/geektime/tree/main/%E8%8E%B7%E5%AE%A2%E5%85%B306">这里</a>下载。</p><pre><code class="language-typescript">df_user['R值'].plot(kind='hist', bins=20, title = '新进度分布直方图') #R值直方图
 

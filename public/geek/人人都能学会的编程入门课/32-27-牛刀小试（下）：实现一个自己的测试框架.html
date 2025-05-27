@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是胡光，欢迎回来，今天呢，我们继续学习测试框架的相关内容。</p><p>上节课中，我们讲到了软件开发一般分为前中后三个部分，提到作为技术人员的我们，一般主要负责在软件开发中期的编码与测试阶段。还有，我还讲到我们一般会综合运用白盒测试与黑盒测试这两种方法来进行程序测试。</p><p>更主要的是，我们还介绍了 Google 的单元测试框架 gtest，并对测试框架代码进行了一番解读。其中提到代码中的 TEST 是一个宏，那它展开后被替换的内容是什么呢？还有， RUN_ALL_TESTS 函数是如何依次执行程序中所有的测试用例函数的？</p><p>今天呢，我们就一个一个地来解决这些问题，并最终实现一个咱们自己的测试框架。</p><h2>初步实现TEST 宏</h2><p>今天我们实现的所有代码呢，都会写在一个名字为 geek_test.h 的头文件中。当然我们也知道，将声明和定义写在一起，在大型工程中是会出现严重的编译错误，在实际的工程开发中，我们并不会这么做。</p><p>今天把声明和定义写在一起，只是为了课程内容的讲解需要，而你也完全没有必要担心，这不会影响你对主要内容的学习。</p><p>我们先回到上节课中的源代码：</p><pre><code>#include &lt;stdio.h&gt;
 

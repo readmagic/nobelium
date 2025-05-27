@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱晔。今天，我从设计的角度，与你聊聊缓存。</p><p>通常我们会使用更快的介质（比如内存）作为缓存，来解决较慢介质（比如磁盘）读取数据慢的问题，缓存是用空间换时间，来解决性能问题的一种架构设计模式。更重要的是，磁盘上存储的往往是原始数据，而缓存中保存的可以是面向呈现的数据。这样一来，缓存不仅仅是加快了IO，还可以减少原始数据的计算工作。</p><p>此外，缓存系统一般设计简单，功能相对单一，所以诸如Redis这种缓存系统的整体吞吐量，能达到关系型数据库的几倍甚至几十倍，因此缓存特别适用于互联网应用的高并发场景。</p><p>使用Redis做缓存虽然简单好用，但使用和设计缓存并不是set一下这么简单，需要注意缓存的同步、雪崩、并发、穿透等问题。今天，我们就来详细聊聊。</p><h2>不要把Redis当作数据库</h2><p>通常，我们会使用Redis等分布式缓存数据库来缓存数据，但是<strong>千万别把Redis当做数据库来使用。</strong>我就见过许多案例，因为Redis中数据消失导致业务逻辑错误，并且因为没有保留原始数据，业务都无法恢复。</p><p>Redis的确具有数据持久化功能，可以实现服务重启后数据不丢失。这一点，很容易让我们误认为Redis可以作为高性能的KV数据库。</p><p>其实，从本质上来看，Redis（免费版）是一个内存数据库，所有数据保存在内存中，并且直接从内存读写数据响应操作，只不过具有数据持久化能力。所以，Redis的特点是，处理请求很快，但无法保存超过内存大小的数据。</p><!-- [[[read_end]]] --><blockquote>
 

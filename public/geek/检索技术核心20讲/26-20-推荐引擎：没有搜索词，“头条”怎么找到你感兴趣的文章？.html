@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈东。今天我来和你讲讲推荐引擎。</p><p>我们每天都会接触推荐引擎，最常见的，就是当我们用手机浏览资讯类App的时候，经常会用到的“下拉刷新”功能。你会发现，每次刷新之后，这些App都能给你推荐你最关心的“头条信息”。</p><p>那这些资讯类的App，是怎么在没有搜索词的情况下，仅凭下拉刷新就可以在海量的文章中检索出你感兴趣的内容，并且推荐给你的呢？这就和推荐引擎中的检索技术有关了。那今天，我就以资讯类App推荐文章为例，来和你聊一聊推荐引擎中的检索技术。</p><h2>推荐引擎的整体架构和工作过程</h2><p>我们知道，检索引擎的灵活程度和系统的检索约束条件有关。那我们先来看一下针对不同的引擎，系统的检索约束条件分别是什么。</p><p>在搜索引擎中，系统的强约束条件是用户输入的搜索词。而在广告引擎中，系统的强约束条件是广告主设置的定向要求。但是在资讯类App推荐引擎中，因为所有的用户操作只有“下拉刷新”这一个动作，所以外界输入的检索约束条件其实非常少。</p><p>因此，<strong>相比于搜索引擎和广告引擎，推荐引擎具有更灵活的检索能力，也就是可以使用更灵活的检索技术，来进行文章的召回服务</strong>。这也是推荐引擎相比于搜索引擎和广告引擎最大的不同之处。</p><p>那一个推荐引擎是怎么工作的呢？我按照功能划分，梳理出了推荐引擎的核心模块。<br>
 

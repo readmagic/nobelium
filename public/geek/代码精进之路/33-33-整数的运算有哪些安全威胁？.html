@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>在我的日常工作中，有一类错误，无论是原理还是后果，我都十分清楚。但是写代码的时候，这类错误曾经还是会反复出现。如果不是代码评审和代码分析环节的校正，我都很难意识到自己的代码中存在这样的缺陷。今天，我想和你聊聊，那些“<strong>道理我都懂，但代码就是写不好</strong>”的老顽固问题。</p><p>你不妨先停下来想一想，你有没有类似的经历？ 又是怎么解决的呢？</p><h2>评审案例</h2><p>HTTP连接经常被中断或者取消，如果客户端已经获得一部分数据，再次连接时，应该可以请求获取剩余的数据，而不是再次请求获取所有数据。这个特性背后的支持协议就是HTTP范围请求协议（RFC 7233）。</p><p>比如下面的例子，客户端请求服务器返回image.jpg图像的前1024个字节。其中“bytes=0-1023”表示请求传输的数据范围是从0到第1023位的字节（0-1023），以及“-512”表示请求传输数据的最后512个字节（-512）。</p><pre><code>GET /image.jpg HTTP/1.1
 

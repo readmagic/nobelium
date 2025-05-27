@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是博伟。</p><p>上节课，我们讲了一个在做A/B测试时普遍存在的一个问题，那么接下来，我就根据自己这些年做A/B测试的经验，精选了一些在实际业务中会经常遭遇的误区，主要是多重检验问题、学习效应、辛普森悖论和实验/对照组的独立性这四大误区。</p><p>这四个误区，其实也可以被看作在实际业务中经常出现的几个问题。不过我在题目中之所以强调说这是误区，是因为你很可能会在这些问题的理解上产生一些偏差。</p><p>所以接下来我在讲这两节课时，会按照“问题阐述—问题解析—总结引申—课后思考”的范式来给你讲。也就是说，我会先带你深入剖析问题的成因，然后再举例分析这些问题在实践中的表现形式，最后给出对应的解决方法。</p><p>毕竟，在搞清楚问题原理的前提下，再学习问题的表现形式和解决方法，不仅你的学习效果会事半功倍，而且在实际应用时，你也能根据变化多端的业务场景，随机应变，灵活运用。</p><h2><strong>多重检验问题（Multiple Testing Problem）</strong></h2><p>多重检验问题，又叫多重测试问题或多重比较问题（Multiple Comparison Problem），指的是当同时比较多个检验时，第一类错误率α就会增大，而结果的准确性就会受到影响这个问题。我在基础篇讲A/B测试流程时就多次提到过它，比如<a href="https://time.geekbang.org/column/article/321007">第4节课</a>讲OEC的好处时，还有<a href="https://time.geekbang.org/column/article/323696">第7节课</a>讲什么时间才能查看测试结果时。</p><!-- [[[read_end]]] --><h3><strong>多重检验为什么会是一个问题？</strong></h3><p>要搞清楚多重检验为什么会是一个问题，我们还得先从第一类错误率α（又叫假阳性率，显著水平，是测试前的预设值，一般为5%）说起。我在第2节课也讲过，第一类错误率指的就是当事实上两组指标是相同的时候，假设检验推断出两组指标不同的概率，或者说由于偶然得到显著结果的概率。而且，它在统计上的约定俗成是5%。</p><p>5%看上去是个小概率事件，但是如果我们同时比较20个检验（测试）呢？你可以先思考一下，如果每个检验出现第一类错误的概率是5%，那么在这20个检验中至少出现一个第一类错误的概率是多少呢？</p><p>要直接求出这个事件的概率不太容易，我们可以先求出这个事件发生情况的反面，也就是在这20个检验中完全没有出现第一类错误的概率，然后再用100%减去这个反面事件的概率。</p><p>这里我们用P（A）来表示出现事件A的概率。P（每个检验出现第一类错误）=5%，那么P（每个检验不出现第一类错误） = （1-5%）=95%，所以P（20个检验中完全没有第一类错误）= 95%的20次方。</p><p>这样我们就可以求得这个概率：<br>
 

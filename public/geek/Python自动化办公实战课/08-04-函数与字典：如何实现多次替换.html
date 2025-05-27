@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是尹会生。</p><p>“替换”是我们日常办公经常遇到的操作，比较常见是把文件中的英文标点符号（,.""”）替换成中文标点符号（，。“”）。有时候不仅是标点符号，还需要替换好几个词。还有一种情况不太常见，但是一碰到就很棘手，那就是根据数字范围进行替换，比如“0-6岁”替换成“少年”，“7-17岁”替换成“青年”，“18-65岁”替换成“中年”。</p><p>如果直接使用替换函数，你需要编写大量的代码逻辑，但是使用逻辑判断和字典就可以用更高效的代码来实现快速替换功能。那么今天这节课，我们就来学习下怎么实现快速替换。</p><h2>用Python实现“替换”功能的原理</h2><p>为了让你更直观地理解编程语言里的替换，我先来给你讲一讲用Python实现替换的原理。我用一个例子来给你讲解。比如我需要把字符串“新年快乐”替换为“恭喜发财”，在Python中，我是通过replace()函数来实现的：</p><pre><code>string1=&quot;aaa新年快乐bbb&quot;
 

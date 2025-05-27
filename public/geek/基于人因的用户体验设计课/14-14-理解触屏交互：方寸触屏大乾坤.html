@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是Rocky。今天我们来谈谈触屏交互的人因学。</p><p>从乔帮主第一次发布苹果手机到现在已经14年了，但触屏交互并未发生什么革命性的变革。目前的主流依然是电容技术触摸屏CTP（Capacity Touch Panel）。</p><p>这种交互为什么生命力顽强？从人因学的角度来说，滑动意味着抚摸，触屏意味着机器和人的亲密接触响应式交互。</p><p>这门课讲到现在，我已经提了很多次自然交互。在当代社会，没有任何一种交互比触屏交互更加自然，并且被如此广泛地应用了。甚至你可能都会提出质疑，现在我还需要学习触屏交互的人因基础吗？</p><h2>理想的按钮尺寸</h2><p>我先问你一个问题：你知道在移动触摸屏设备上，一个应用按钮的大小多少是合理的？</p><p>如果你查找苹果的交互规范，你会找到最小要<code>44*44dp</code>，折算为7mm。而安卓定义的最小尺寸是<code>48*48dp</code>，折算为7.4mm。如果你查询ISO标准的话，你会看到最小尺寸是6.4mm。看到这么多标准，你是不是会有些懵？</p><p>如果你不了解人因，就只能盲目跟随这些标准。在理解这个问题之前，我们先看一下人手指的尺寸。人的拇指宽度是11~22mm，食指宽度是9~22mm。你会发现不管是苹果、安卓还是ISO国际标准，定义的最小按钮都比手指宽度要小很多，是标准定义错了吗？</p><!-- [[[read_end]]] --><p>从下面这个图你能看得比较清楚。由于人的指腹不是平面的，所以我们手指按压在屏幕上的大小远小于手指宽度（差不多只有手指宽度的一半）。这也就解释了为什么按钮的最小尺寸远小于手指的宽度。</p><p><img src="https://static001.geekbang.org/resource/image/67/95/67a46eb3b311a20713ace945ab781395.png?wh=600*331" alt=""></p><p>以上的信息其实也给按钮和其他控件之间的间距提出了要求。因为有的时候用户会用力按压屏幕，按压的面积会变大（但肯定还是小于手指的宽度），所以安全的间距要用手指的宽度减去按钮的宽度。</p><p>如果按钮是7mm，以最大手指22mm来计算，这个数值就是7.5mm，这是一个非常安全的距离。而如果我们以9mm的小手指来计算，这个数值就是1mm，这就是最小的间距要求（约等于安卓定义的最小间距8dp）。如果你觉得这段描述理解起来有些费劲，你可以参考下面这个图。</p><p><img src="https://static001.geekbang.org/resource/image/b5/24/b5b5a1ab3c5f0c2f4b3679f45f1cfd24.png?wh=1139*1193" alt=""></p><p>所以说按钮和其他交互控件的间距并不是和按钮大小成正比，而是和手指宽度相关。</p><p>好了，学到这儿，如果你之前没有从以上角度仔细思考过这个问题，那么我觉得你很有必要认真学学这节课的余下内容了。</p><h2>握持对移动设备交互的影响</h2><p>在系统理解触屏交互之前，让我们先看一下人是如何握持移动设备的。</p><p>如果是手机竖屏状况握持，基本上会是以下的统计情况：</p><ul>
 
