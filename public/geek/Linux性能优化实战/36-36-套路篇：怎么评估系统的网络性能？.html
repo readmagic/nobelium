@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是倪朋飞。</p><p>上一节，我们回顾了经典的 C10K 和 C1000K 问题。简单回顾一下，C10K 是指如何单机同时处理 1 万个请求（并发连接1万）的问题，而 C1000K 则是单机支持处理 100 万个请求（并发连接100万）的问题。</p><p>I/O 模型的优化，是解决 C10K 问题的最佳良方。Linux 2.6 中引入的 epoll，完美解决了 C10K 的问题，并一直沿用至今。今天的很多高性能网络方案，仍都基于 epoll。</p><p>自然，随着互联网技术的普及，催生出更高的性能需求。从 C10K 到 C100K，我们只需要增加系统的物理资源，就可以满足要求；但从 C100K 到 C1000K ，光增加物理资源就不够了。</p><p>这时，就要对系统的软硬件进行统一优化，从硬件的中断处理，到网络协议栈的文件描述符数量、连接状态跟踪、缓存队列，再到应用程序的工作模型等的整个网络链路，都需要深入优化。</p><p>再进一步，要实现 C10M，就不是增加物理资源、调优内核和应用程序可以解决的问题了。这时内核中冗长的网络协议栈就成了最大的负担。</p><ul>
 

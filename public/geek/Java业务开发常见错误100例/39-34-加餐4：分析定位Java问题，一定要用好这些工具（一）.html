@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱晔。今天，我要和你分享的内容是分析定位Java问题常用的一些工具。</p><p>到这里，我们的课程更新17讲了，已经更新过半了。在学习过程中，你会发现我在介绍各种坑的时候，并不是直接给出问题的结论，而是通过工具来亲眼看到问题。</p><p>为什么这么做呢？因为我始终认为，遇到问题尽量不要去猜，一定要眼见为实。只有通过日志、监控或工具真正看到问题，然后再回到代码中进行比对确认，我们才能认为是找到了根本原因。</p><p>你可能一开始会比较畏惧使用复杂的工具去排查问题，又或者是打开了工具感觉无从下手，但是随着实践越来越多，对Java程序和各种框架的运作越来越熟悉，你会发现使用这些工具越来越顺手。</p><p>其实呢，工具只是我们定位问题的手段，要用好工具主要还是得对程序本身的运作有大概的认识，这需要长期的积累。</p><p>因此，我会通过两篇加餐，和你分享4个案例，分别展示使用JDK自带的工具来排查JVM参数配置问题、使用Wireshark来分析网络问题、通过MAT来分析内存问题，以及使用Arthas来分析CPU使用高的问题。这些案例也只是冰山一角，你可以自己再通过些例子进一步学习和探索。</p><p>在今天这篇加餐中，我们就先学习下如何使用JDK自带工具、Wireshark来分析和定位Java程序的问题吧。</p><!-- [[[read_end]]] --><h2>使用JDK自带工具查看JVM情况</h2><p>JDK自带了很多命令行甚至是图形界面工具，帮助我们查看JVM的一些信息。比如，在我的机器上运行ls命令，可以看到JDK 8提供了非常多的工具或程序：</p><p><img src="https://static001.geekbang.org/resource/image/22/bd/22456d9186a4f36f83209168b782dbbd.png" alt=""></p><p>接下来，我会与你介绍些常用的监控工具。你也可以先通过下面这张图了解下各种工具的基本作用：</p><p><img src="https://static001.geekbang.org/resource/image/b4/0d/b4e8ab0a76a8665879e0fc13964ebc0d.jpg" alt=""></p><p>为了测试这些工具，我们先来写一段代码：启动10个死循环的线程，每个线程分配一个10MB左右的字符串，然后休眠10秒。可以想象到，这个程序会对GC造成压力。</p><pre><code>//启动10个线程
 

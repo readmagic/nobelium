@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>在PC互联网时代，网络优化已经是一项非常复杂的工作。对于移动网络来说，弱网络、网络切换、网络劫持这些问题更加突出，网络优化这项工作也变得更加艰巨。</p><p>那作为一名移动开发者，面对复杂多变的移动网络我们该如何去优化呢？可能也有人会说，我只要用好AFNetworking/OkHttp这些成熟网络库就可以了，并不需要额外去做什么优化。那你确定你真的能用好这些网络库吗？它们内部是怎样实现的、有哪些差异点、哪个网络库更好呢？</p><p>虽然我们可能只是客户端App开发人员，但在关于网络优化还是可以做很多事情的，很多大型的应用也做了很多的实践。今天我们一起来看一下，如何让我们的应用在各种的网络条件下都能“快人一步”。</p><h2>移动端优化</h2><p>回想上一期我给出的网络架构图，一个数据包从手机出发要经过无线网络、核心网络以及外部网络（互联网），才能到达我们的服务器。那整个网络请求的速度会跟哪些因素有关呢？</p><p><img src="https://static001.geekbang.org/resource/image/d3/4d/d39734690f1241262b0a289acdecbf4d.png" alt=""></p><p>从上面这张图上看，客户端网络库实现、服务器性能以及网络链路的质量都是影响网络请求速度的因素。下面我们先从客户端的网络库说过，看看应该如何进行网络优化。</p><p><strong>1. 何为网络优化</strong></p><p>在讲怎么去优化网络之前，我想先明确一下所谓的网络优化，究竟指的是什么？在我看来，核心内容有以下三个：</p><!-- [[[read_end]]] --><ul>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。</p><p>到目前为止，我们的语言看上去已经有点像模像样了。但是有一个地方，我还一直是用比较凑合的方式来实现的，这就是<strong>解释器</strong>，这节课我想带你把它升级一下。</p><p>在之前的内容中，我们用的解释器都是基于AST执行的，而实际上，你所能见到的大多数解释执行的脚本语言，比如Python、PHP、JavaScript等，内部都是采用了一个虚拟机，用字节码解释执行的。像Java这样的语言，虽然是编译执行，但编译的结果也是字节码，JVM虚拟机也能够解释执行它。</p><p>为什么这些语言都广泛采用虚拟机呢？这主要是由基于AST的解释器的不足导致的。今天这节课，我就带你先来分析一下AST解释器的缺陷，然后了解一下像JVM这样的虚拟机的运行原理，特别是栈机和寄存器机的差别，以便确定我们自己的虚拟机的设计思路。</p><p>看上去任务有点多，没关系，我们一步一步来，我们先来分析一下基于AST的解释器。</p><h2>基于AST的解释器的缺陷</h2><p>其实，我们目前采用的解释器，是一种最简单的解释器。它有时被称为“树遍历解释器”(Tree-walking Interpreter)，或者更简单一点，也被叫做“AST解释器”。</p><p>为什么我刚刚会说我们这个基于AST的解释器有点凑合呢？你可能会想通过遍历AST来执行程序不是挺好的吗？</p><!-- [[[read_end]]] --><p>确实，AST解释器虽然简单，但很有用。比如，最常见的就是对一个表达式做求值，实现类似公式计算的功能，这在电子表格等系统里很常见。甚至在MySQL中，也是基于AST做表达式的计算，还有一些计算机语言的早期版本（如Ruby），以及一些产品中自带的脚本功能，也是用AST解释器就足够了！</p><p>不过，虽然AST解释器很有用，但它仍然有明显的缺陷。<strong>最主要的问题，就是性能差，在运行时需要消耗更多的CPU时间和内存。</strong>在上一节课里，你可能使用过我们的函数特性计算过斐波那契数列，在参数值比较大的情况下（比如n大于30以后），你会看到程序的运行速度确实比较慢。</p><p>为什么会这样呢？你再来看我们的解释器，会发现它哪怕只是做一个表达式求值，也要层层做很多次的函数调用。比如，简单的计算2+3*5，需要做的调用包括：</p><pre><code class="language-plain">visitBlock()
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>在前面的专栏里，有同学留言说想看看具体的架构设计文档。由于信息安全的原因，再加上稍微复杂的系统，设计文档都是几十页，因此专栏无法直接给出详细的文档案例。但我认为提供一个架构设计文档模板还是很有必要的，可以方便你在实际进行架构设计的时候更好地编写相关文档。我还以前面讲过的“前浪微博”消息队列为例，给出<span class="orange">架构设计中最重要的两个文档的模板和关键说明</span>。这个案例文档仅给出一些关键内容供你参考，部分细节无法全面覆盖或者完全保证正确。</p><h2>备选方案模板</h2><p>1.需求介绍</p><p><span class="orange">[需求介绍主要描述需求的背景、目标、范围等]</span></p><p>随着前浪微博业务的不断发展，业务上拆分的子系统越来越多，目前系统间的调用都是同步调用，由此带来几个明显的系统问题：</p><ul>
 

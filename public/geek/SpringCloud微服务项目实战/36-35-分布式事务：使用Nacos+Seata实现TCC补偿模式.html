@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是姚秋辰。</p><p>上节课我们落地了一套Seata AT方案，要我说呢，AT绝对是最省心的分布式事务方案，一个注解搞定一切。今天这节课，我们来加一点难度，从Easy模式直接拉到Hard模式，看一个巨复杂的分布式事务方案：Seata TCC。</p><p>说TCC复杂，那是相对于AT来讲的。在AT模式下，你通过一个注解就能搞定所有事情，不需要对业务层代码进行任何修改。TCC难就难在它的实现方式上，它是一个基于“补偿模式”的解决方案。补偿的意思就是，你需要通过编写业务逻辑代码实现事务控制。</p><p>那TCC是如何通过代码来控制事务状态的呢？这就要说到TCC的三阶段事务模型了。</p><h2>TCC事务模型</h2><p>TCC名字里这三个字母分别是三个单词的首字母缩写，从前到后分别是Try、Confirm和Cancel，这三个单词分别对应了TCC模式的三个执行阶段，每一个阶段都是独立的本地事务。</p><p><img src="https://static001.geekbang.org/resource/image/70/ec/700119981d8a5bf14843d35c4b03ecec.jpg?wh=1920x559" alt="图片"></p><p>Try阶段完成的工作是<strong>预定操作资源（Prepare），</strong>说白了就是“占座”的意思，在正式开始执行业务逻辑之前，先把要操作的资源占上座。</p><p>Confirm阶段完成的工作是<strong>执行主要业务逻辑（Commit）</strong>，它类似于事务的Commit操作。在这个阶段中，你可以对Try阶段锁定的资源进行各种CRUD操作。如果Confirm阶段被成功执行，就宣告当前分支事务提交成功。</p><!-- [[[read_end]]] --><p>Cancel阶段的工作是<strong>事务回滚（Rollback），</strong>它类似于事务的Rollback操作。在这个阶段中，你可没有AT方案的undo_log帮你做自动回滚，你需要通过业务代码，对Confirm阶段执行的操作进行人工回滚。</p><p>我用一个考研占座的例子帮你理解TCC的工作流程。话说学校有一个专给考研学生准备的不打烊的考研复习教室，一座难求。如果你想要用TCC的方式坐定一个位子，那么第一步就是要执行Try操作，比如往座位上放上一块板砖，那这个座位就被你预定住了，后面来的人发现座位上面有块砖就去找其他座位了。第二步是Confirm阶段，这时候需要把板砖拿走，然后本尊坐在位子上，到这里TCC事务就算成功执行了。</p><p>如果Try阶段无法锁定资源，或者Confirm阶段发生异常，那么整个全局事务就会回滚，这就触发了第三步Cancel，你需要对Try步骤中锁定的资源进行释放，于是乎，这块砖在Cancel阶段被移走了，座位回到了TCC执行前的状态。</p><p>从这个例子可以看出，TCC的每一个步骤都需要你通过执行业务代码来实现。那接下来，让我带你去实战项目中落地一个简单的TCC案例，近距离感受下Hard模式的开发体验。</p><h2>实现TCC</h2><p>这次我们依然选择优惠券模板删除这个场景作为TCC的落地案例，我将在上节课的AT模式的基础之上，对Template服务做一番改造，将deleteTemplate接口改造为TCC风格。</p><p>前面咱提到过，TCC是由Try-Confirm-Cancel三个部分组成的，这三个部分怎么来定义呢？我先来写一个TCC风格的接口，你一看就明白了。</p><h3>注册TCC接口</h3><p>为了方便你阅读代码，我在Template服务里单独定义了一个新的接口，取名为CouponTemplateServiceTCC，它继承了CouponTemplateService这个接口。</p><pre><code class="language-plain">@LocalTCC
 

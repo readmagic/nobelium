@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是四火。</p><p>我想你很可能已经使用过许多存储层的技术了，例如缓存、文件、关系数据库，甚至一些云上 key-value 的存储服务，但就如同我之前提到的那样，某项具体技术总是相对好学，可对于全栈知识系统地学习，也包括持久层的学习，是一定要立足于技术的基础、原理和本质的。今天，我们要讲的就是其中之一 —— 一致性（Consistency）。</p><p>数据的可用性和一致性是很多工程师几乎每天都会挂在嘴边的概念，在存储系统的技术选型上面，一致性将会是我们一个重要的衡量因素，而在持久层架构设计上面，它也将是最重要的思考维度。</p><p>数据的一致性不但是数据持久化的一个核心内容，也是学习的一个难点，希望我们一起努力，从原理上去彻底理解它，并学习一些常见的应用模式，做到“知其然，知其所以然”，我们一起把这个难啃的骨头给啃下来。</p><h2>概念和背景</h2><p>数据持久化，本质上就是把内存中的数据给转换并写入指定的存储系统中，这个过程是保证数据不丢失的基本方式，而这个存储系统可以具备很多种形式，可以是网络、硬盘文件，也可以是数据库，还可以是前面两讲提到的某种形式的缓存。</p><p>你也许听说过对于一致性的不同解释，而我们在谈论数据持久化的时候讲到的一致性，我认为简单来说，指的就是在存储系统中，客户端对数据的读写行为都是可以预期、符合一定规则的。这里有两个值得注意的方面：</p><!-- [[[read_end]]] --><ul>
 

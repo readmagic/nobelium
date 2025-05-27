@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是唐聪。</p><p>在<a href="https://time.geekbang.org/column/article/336766">03</a>写流程中我和你分享了etcd Quota模块，那么etcd为什么需要对db增加Quota限制，以及不建议你的etcd集群db大小超过8G呢？ 过大的db文件对集群性能和稳定性有哪些影响？</p><p>今天我要和你分享的主题就是关于db大小。我将通过一个大数据量的etcd集群为案例，为你剖析etcd db大小配额限制背后的设计思考和过大的db潜在隐患。</p><p>希望通过这节课，帮助你理解大数据量对集群的各个模块的影响，配置合理的db Quota值。同时，帮助你在实际业务场景中，遵循最佳实践，尽量减少value大小和大key-value更新频率，避免db文件大小不断增长。</p><h2>分析整体思路</h2><p>为了帮助你直观地理解大数据量对集群稳定性的影响，我首先将为你写入大量数据，构造一个db大小为14G的大集群。然后通过此集群为你分析db大小的各个影响面，db大小影响面如下图所示。</p><p><img src="https://static001.geekbang.org/resource/image/ab/11/ab657951310461c835963c38e43fdc11.png?wh=1920*685" alt=""></p><p>首先是<strong>启动耗时</strong>。etcd启动的时候，需打开boltdb db文件，读取db文件所有key-value数据，用于重建内存treeIndex模块。因此在大量key导致db文件过大的场景中，这会导致etcd启动较慢。</p><p>其次是<strong>节点内存配置</strong>。etcd在启动的时候会通过mmap将db文件映射内存中，若节点可用内存不足，小于db文件大小时，可能会出现缺页文件中断，导致服务稳定性、性能下降。</p><!-- [[[read_end]]] --><p>接着是<strong>treeIndex</strong>索引性能。因etcd不支持数据分片，内存中的treeIndex若保存了几十万到上千万的key，这会增加查询、修改操作的整体延时。</p><p>然后是<strong>boltdb性能</strong>。大db文件场景会导致事务提交耗时增长、抖动。</p><p>再次是<strong>集群稳定性</strong>。大db文件场景下，无论你是百万级别小key还是上千个大value场景，一旦出现expensive request后，很容易导致etcd OOM、节点带宽满而丢包。</p><p>最后是<strong>快照。</strong>当Follower节点落后Leader较多数据的时候，会触发Leader生成快照重建发送给Follower节点，Follower基于它进行还原重建操作。较大的db文件会导致Leader发送快照需要消耗较多的CPU、网络带宽资源，同时Follower节点重建还原慢。</p><h2>构造大集群</h2><p>简单介绍完db大小的六个影响面后，我们下面来构造一个大数据量的集群，用于后续各个影响面的分析。</p><p>首先，我通过一系列如下<a href="https://github.com/etcd-io/etcd/tree/v3.4.9/tools/benchmark">benchmark</a>命令，向一个8核32G的3节点的集群写入120万左右key。key大小为32，value大小为256到10K，用以分析大db集群案例中的各个影响面。</p><pre><code>./benchmark put --key-size 32 --val-size 10240 --total
 

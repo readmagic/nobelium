@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴咏炜。</p><p>上一讲我们初步介绍了函数对象和 lambda 表达式，今天我们来讲讲它们的主要用途——函数式编程。</p><h2>一个小例子</h2><p>按惯例，我们还是从一个例子开始。想一下，如果给定一组文件名，要求数一下文件里的总文本行数，你会怎么做？</p><p>我们先规定一下函数的原型：</p><pre><code class="language-c++">int count_lines(const char** begin,
 

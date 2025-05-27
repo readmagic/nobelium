@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是任杰。这一讲我想和你聊一聊怎么在多机无容灾的情况下保证一致性。</p><p>我在<a href="https://time.geekbang.org/column/article/334878">前一节课</a>里给你介绍了，在单机情况下的5种不同的一致性级别。在分布式环境下，由于网络存在很大的不确定性，金融系统首要关心的不是如何在这些一致性中做选择，而是理论上有没有可能达到最高的正确性。那么这节课我们就来学习一下最常用的两个方法。</p><h2>背景</h2><p>在分布式环境下，每个节点上的数据库都会保证这台机器的数据操作具有可串行化或者快照隔离的事务隔离级别，但是这只是本地机器局部的事务保证，是分散的信息。</p><p>如果想要具有分布式事务（Distributed Transaction）的能力，就需要有个方法把局部的信息收集起来做集中决策。这个收集的过程和做集中决策的过程也需要有事务的保证。通过<strong>单机事务来达到多机之间的事务协调，通过单机事务的正确性来保证全局事务的正确性</strong>，你在后面的学习中一定要注意这个核心思路。</p><p>分布式事务的实现也分为两种不同的级别。一种是偏底层的实现，由数据库自己来实现分布式事务，比较著名的有两阶段提交（2PC）和三阶段提交（3PC）。另一种是偏上层实现，业务系统自己来实现分布式事务，在国内比较常见的是TCC。接下来我们先看看两阶段提交。</p><!-- [[[read_end]]] --><h2>两阶段提交（2PC）</h2><h3>假设</h3><p>前面提到过，分布式事务需要有人能收集信息后做集中决策，这个人就是两阶段提交的<strong>协调者</strong>（Coordinator）。</p><p>想理解2PC，你要先知道分布式环境的两个假设：</p><p>第一，每台机器是独立的，它有自己独立的事务控制机制。两台机器间没有直接交流。</p><p>第二，协调者是唯一和所有其他机器交流的角色。它负责给所有机器发指令。机器收到指令后一定需要执行，但是执行不一定会成功。另外，不稳定的网络可能会造成指令丢失，或者指令的返回状态丢失。</p><p>协调者只是一个角色，它既可以是一台单独的机器，也可以是集群里的某一台机器。下面这幅图列举了这两种不同的协调者选择方式：</p><p><img src="https://static001.geekbang.org/resource/image/69/1d/69e4e9387e0d75db438ec6b2b8d7991d.png" alt=""></p><h3>协议</h3><p>顾名思义，两阶段提交一共分为两个阶段。</p><p>在第一阶段，协调者向所有参与的数据库发送<strong>准备提交</strong>的消息。每个数据库在收到协调者的消息之后，对自己本地的数据库进行预处理，比如给数据加锁、修改数据等等。</p><p>如果预处理成功，本地数据库返回<strong>准备成功</strong>的消息给协调者。如果预处理失败，则返回<strong>准备失败</strong>的消息。请注意，<strong>这时候本地的数据库事务还没有完成，也就是既没有提交事务，也没有回滚事务。</strong></p><p>在第二阶段，协调者会收集所有参与者的准备状态。如果所有人都返回了准备成功的消息，那么协调者发消息让所有参与者提交本地事务，这时候整个分布式事务属于提交状态。如果出现了任何问题，协调者就会发消息让所有参与者回滚本地事务，这时候整个分布式事务处于回滚状态。</p><p>导致分布式事务回滚的问题有很多种，比如至少有一台机器返回了准备失败，或者一段时间之后没有收到一台机器的准备情况，我在后面还会提到。</p><h3>举例：两个账号跨机器转账</h3><p>我们还是举个例子来加深理解。分布式事务最常用的例子，就是账务系统中两个账号之间的跨机器转账。</p><p>我们假设用户 <code>x</code> 给用户 <code>y</code> 转100元钱。最开始用户 <code>x</code> 刚好有100元，存在一台数据库 <code>A</code> 上。用户 <code>y</code> 最开始没钱，信息存在另一台数据库 <code>B</code> 中 。</p><p>转账后 <code>x</code> 的余额为0，而 <code>y</code> 的余额为100。转账的代码用SQL代码写出来，就是下面这个样子：</p><pre><code>begin transaction
 

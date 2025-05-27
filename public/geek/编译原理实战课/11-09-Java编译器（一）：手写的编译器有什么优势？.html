@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。</p><p>从今天开始呢，我会带着你去考察实际编译器的具体实现机制，你可以从中学习和印证编译原理的基础知识，进而加深你对编译原理的理解。</p><p>我们探险的第一站，是很多同学都很熟悉的Java语言，我们一起来看看它的编译器里都有什么奥秘。我从97年就开始用它，算是比较早了。当时，我就对它的“一次编译，到处运行”留下了很深的印象，我在Windows下写的程序，编译完毕以后放到Solaris上就能跑。现在看起来这可能不算什么，但在当年，我在Windows和Unix下写程序用的工具可是完全不同的。</p><p>到现在，Java已经是一门非常成熟的语言了，而且它也在不断进化，与时俱进，泛型、函数式编程、模块化等特性陆续都增加了进来。在服务端编程领域，它也变得非常普及。</p><p>与此同时，Java的编译器和虚拟机中所采用的技术，也比20年前发生了天翻地覆的变化。对于这么一门成熟的、广泛普及的、又不断焕发新生机的语言来说，研究它的编译技术会带来两个好处：一方面，Java编译器所采用的技术肯定是比较成熟的、靠谱的，你在实现自己的编译功能时，完全可以去参考和借鉴；另一方面，你可以借此深入了解Java的编译过程，借此去实现一些高级的功能，比方说，按需生成字节码，就像Spring这类工具一样。</p><!-- [[[read_end]]] --><p>因此，我会花4讲的时间，跟你一起探索Java的前端编译器（javac）。然后再花4讲的时间在Java的JIT编译器上。</p><p>那么，针对Java编译器，你可能会提出下面的问题：</p><ul>
 

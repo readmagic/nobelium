@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是景霄。</p><p>技术研发一直以来都是各大公司的核心部分之一，其质量的好坏直接影响到了产品的质量以及用户对产品的体验。如何建立一套规范、健全的开发体系，就显得尤为重要。今天我就和你聊聊技术研发的注意事项。</p><h2>选择合适的编程语言</h2><p>比如我们正在开发一个系统，首先，根据具体的需求，我们需要对系统的各个部分选择合适的编程语言。一般来说，infra这层我们更偏向于使用C++，而纯的服务器端则是以Python、Java、PHP等等为主。以搜索引擎为例，下面我画了一个它的简略架构图：</p><p><img src="https://static001.geekbang.org/resource/image/72/d5/72caf6b3be8758651e6071bd49cb24d5.png" alt=""></p><p>你可以看到，大概的工作流程是：用户在客户端（client）输入一个查询（query），发送请求（request）到达服务器端（server-side）；服务器端首先向NLP service发请求，并对请求进行分析，等到拿到各项信号（signal）后，再向后端（backend）发送请求；后端会做特征抽取（feature extraction），利用ML 模型进行结果的检索（candidate retrieval）、排序，最后再把结果返回给服务器端和客户端。</p><p>这里的NLP Service和后端，我们都会使用C++。因为这部分的处理最为复杂和耗时，都涉及到了特征抽取和model serving，对延迟（latency）的要求极高，只有C/C++这类语言才能满足需求。</p><!-- [[[read_end]]] --><p>而服务器端或者叫中间层（middle tier），我们则会使用Python、Java、PHP等语言。因为这部分并没有特别复杂的处理和对延迟的高需求，主要是以一些业务逻辑为主；并且，对程序员来说，使用这种高级语言也更容易上手和调试。</p><h2>合理使用缓存</h2><p>缓存（cache）在实际工程中十分重要，可以想像，如果没了缓存，我们今天所用的绝大多数产品估计都会崩溃。缓存为我们节约了大量的CPU 容量（capacity）和延迟。</p><p>还是以刚刚的搜索引擎系统为例，我们在客户端、服务器端和后端都会设置缓存。在客户端，我们一般会缓存用户的搜索记录，比如当你点击搜索框时，自动弹出的建议关键词的前几个，就可以是缓存的结果。这不需要向服务器端发请求，可以直接从客户端下载。</p><p>而在服务器端，我们也会设置缓存来存储一些搜索结果。这样，如果同一个用户多次发送相同的请求，就不需要再向后端请求，直接从缓存里面拿结果就可以了，快速又高效。</p><p>同样的，后端也需要缓存。比如在model serving这块儿，我们通常会有几个小时的缓存，不然每次提供实时的在线服务时，对CPU的负荷很大，延迟也会很高。</p><p>总而言之，如果没了缓存，容易造成很多问题。</p><ul>
 

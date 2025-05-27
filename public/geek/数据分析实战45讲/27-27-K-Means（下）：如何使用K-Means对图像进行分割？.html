@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>上节课，我讲解了K-Means的原理，并且用K-Means对20支亚洲球队进行了聚类，分成3个梯队。今天我们继续用K-Means进行聚类的实战。聚类的一个常用场景就是对图像进行分割。</p><p>图像分割就是利用图像自身的信息，比如颜色、纹理、形状等特征进行划分，将图像分割成不同的区域，划分出来的每个区域就相当于是对图像中的像素进行了聚类。单个区域内的像素之间的相似度大，不同区域间的像素差异性大。这个特性正好符合聚类的特性，所以你可以把图像分割看成是将图像中的信息进行聚类。当然聚类只是分割图像的一种方式，除了聚类，我们还可以基于图像颜色的阈值进行分割，或者基于图像边缘的信息进行分割等。</p><h2>将微信开屏封面进行分割</h2><p>上节课，我讲了sklearn工具包中的K-Means算法使用，我们现在用K-Means算法对微信页面进行分割。微信开屏图如下所示：</p><p><img src="https://static001.geekbang.org/resource/image/50/a2/50457e4e1fbd288c125364a6904774a2.png" alt=""><br>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈航。</p><p>在上一篇文章中，我和你一起学习了文本、图片和按钮这3大经典组件在Flutter中的使用方法，以及如何在实际开发中根据不同的场景，去自定义展示样式。</p><p>文本、图片和按钮这些基本元素，需要进行排列组合，才能构成我们看到的UI视图。那么，当这些基本元素的排列布局超过屏幕显示尺寸（即超过一屏）时，我们就需要引入列表控件来展示视图的完整内容，并根据元素的多少进行自适应滚动展示。</p><p>这样的需求，在Android中是由ListView或RecyclerView实现的，在iOS中是用UITableView实现的；而在Flutter中，实现这种需求的则是列表控件ListView。</p><h2>ListView</h2><p>在Flutter中，ListView可以沿一个方向（垂直或水平方向）来排列其所有子Widget，因此常被用于需要展示一组连续视图元素的场景，比如通信录、优惠券、商家列表等。</p><p>我们先来看看ListView怎么用。<strong>ListView提供了一个默认构造函数ListView</strong>，我们可以通过设置它的children参数，很方便地将所有的子Widget包含到ListView中。</p><p>不过，这种创建方式要求提前将所有子Widget一次性创建好，而不是等到它们真正在屏幕上需要显示时才创建，所以有一个很明显的缺点，就是性能不好。因此，<strong>这种方式仅适用于列表中含有少量元素的场景</strong>。</p><!-- [[[read_end]]] --><p>如下所示，我定义了一组列表项组件，并将它们放在了垂直滚动的ListView中：</p><pre><code>ListView(
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是郭忆。</p><p>上一节课，我带你从模型设计层面，逐步将分散、杂乱、烟囱式的小数仓整合成了可复用、可共享的数据中台，数据研发效能提升了一倍。那是不是交付数据足够快，使用数据的人就满意了？ 当然不是，来看发生在我身边的一件事儿。</p><p>供应链部门运营陈英俊（化名）每天上班第一件事情，就是打开供应链辅助决策系统（数据产品），根据系统上给出的商品库存数据、区域下单数据，制订商品的采购计划，然后发送给供货商。可是今天当他准备工作时，突然发现系统中部分商品库存数据显示为0，他第一时间将问题反馈给了数据部门。与此同时，与他一样无法工作的还有供应链部门的其他50多名运营。</p><p><img src="https://static001.geekbang.org/resource/image/bc/7d/bcd45f4e938efe5e215e505f3e4f0b7d.jpg" alt="" title="图1 ADS层商品库存表加工链路图"></p><p>接到投诉后，负责库存域的数据开发郝建（化名）立即开始定位，首先就“商品库存”指标的产出表ads_wms_sku_stock_1d进行排查，确认它产出任务没有问题，是这个任务的上游输入表数据有问题，引发下游表数据异常。</p><p>从数据血缘图中你可以看到，ads_wms_sku_stock_1d上游有20多张表，郝建逐层校验是哪个表的数据出现问题，结果锁定在了dwd_wms_inbound_stock_df。这张表的产出任务在前一天有一次线上变更，任务代码存在漏洞，对部分商品入库数据格式解析异常，但是没有将异常抛出，导致产出数据表dwd_wms_inbound_stock_df 数据异常，进而影响了所有下游表。</p><!-- [[[read_end]]] --><p>排查问题用了近3个小时。</p><p>既然问题定位清楚，就要开始修复的流程。修改好代码后，郝建重新跑了dwd_wms_inbound_stock_df的产出任务，确认数据没有问题，然后需要重跑该任务下游链路上的5个任务（图中红色表的产出任务）。</p><p>运行完任务用了5个小时。</p><p>经过数据验证，确认没有问题，此时已经过去了将近9个小时。对于像陈英俊这样的运营来说，一天都无法工作。如果你是陈英俊， 对数据会满意吗？<strong>所以，光快还不够，还要保证质量。</strong></p><p>当然，这个例子暴露出这样几个问题：</p><ul>
 

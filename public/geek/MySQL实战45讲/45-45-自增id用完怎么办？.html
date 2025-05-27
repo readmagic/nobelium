@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>MySQL里有很多自增的id，每个自增id都是定义了初始值，然后不停地往上加步长。虽然自然数是没有上限的，但是在计算机里，只要定义了表示这个数的字节长度，那它就有上限。比如，无符号整型(unsigned int)是4个字节，上限就是2<sup>32</sup>-1。</p><p>既然自增id有上限，就有可能被用完。但是，自增id用完了会怎么样呢？</p><p>今天这篇文章，我们就来看看MySQL里面的几种自增id，一起分析一下它们的值达到上限以后，会出现什么情况。</p><h1>表定义自增值id</h1><p>说到自增id，你第一个想到的应该就是表结构定义里的自增字段，也就是我在第39篇文章<a href="https://time.geekbang.org/column/article/80531">《自增主键为什么不是连续的？》</a>中和你介绍过的自增主键id。</p><p>表定义的自增值达到上限后的逻辑是：再申请下一个id时，得到的值保持不变。</p><p>我们可以通过下面这个语句序列验证一下：</p><pre><code>create table t(id int unsigned auto_increment primary key) auto_increment=4294967295;
 

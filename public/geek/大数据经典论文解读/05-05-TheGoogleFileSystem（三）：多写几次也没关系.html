@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是徐文浩。在前面的两讲中，我们一起探讨了GFS系统设计中秉持的两个原则，分别是“保持简单”和“根据硬件特性设计系统”，而今天我们要讨论的GFS的最后一个设计特点，是“<strong>放宽数据一致性的要求</strong>”。</p><p>分布式系统的一致性要求是一个很有挑战的话题。如果说分布式系统天生通过更多的服务器提升了性能，是一个天然的优点，那么在这些通过网络连起来的服务器之间保持数据一致，就是一个巨大的挑战。毕竟网络传输总有延时，硬件总会有故障，你的程序稍有不慎，就会遇到甲服务器觉得你的钱转账失败，而乙服务器却觉得钱已经转走了的情况。可以说，<strong>一致性是分布式系统里的一个永恒的话题</strong>。</p><p>不过2003年的GFS，对于一致性的要求，是非常宽松的。一方面，这是为了遵循第一个设计原则，就是“保持简单”，简单的设计使得做到很强的一致性变得困难。另一方面，则是要考虑“硬件特性”，GFS希望在机械硬盘上尽量有比较高的写入性能，所以它只对顺序写入考虑了一致性，这就自然带来了宽松的一致性。</p><p><img src="https://static001.geekbang.org/resource/image/22/73/224bffba53c4398bd39cd55342341673.jpg?wh=1920x904" alt="图片"></p><p>好，废话不多说，让我们切入正题。</p><h2>随机写入只是“确定”的</h2><p>通过上一讲的学习，我们知道了在GFS中，客户端是怎么把数据写入到文件系统里的。不过，我们并没有探讨一个非常重要的问题，就是数据写入的一致性（Consistency）问题。这个一致性，也是我们常常听说的CAP理论中的C，即一致性、可用性、分区容错性在分布式系统中，三者不能兼得中的一致性问题。这个C，也正来自于一致性的英文Consitency的首字母。</p><!-- [[[read_end]]] --><p>我们先来看看，一致性到底指的是什么东西。在GFS里面，主要定义了对一致性的两个层级的概念：</p><ul>
 

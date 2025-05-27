@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。我们继续来学习编译器后端的技术。</p><p>在编译过程的前几个阶段之后，编译器生成了AST，完成了语义检查，并基于IR运行了各种优化算法。这些工作，基本上都是机器无关的。但编译的最后一步，也就是生成目标代码，则必须是跟特定CPU架构相关的。</p><p>这就是编译器的后端。不过，后端不只是简单地生成目标代码，它还要完成与机器相关的一些优化工作，确保生成的目标代码的性能最高。</p><p>这一讲，我就从机器相关的优化入手，带你看看编译器是如何通过指令选择、寄存器分配、指令排序和基于机器代码的优化等步骤，完成整个代码生成的任务的。</p><p>首先，我们来看看编译器后端的任务：生成针对不同架构的目标代码。</p><h2>生成针对不同CPU的目标代码</h2><p>我们已经知道，编译器的后端要把IR翻译成目标代码，那么要生成的目标代码是什么样子的呢？</p><p>我以foo.c函数为例：</p><pre><code>int foo(int a, int b){
 

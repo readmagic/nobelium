@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是唐聪。</p><p>在使用etcd的过程中，你是否被异常内存占用等现象困扰过？比如etcd中只保存了1个1MB的key-value，但是经过若干次修改后，最终etcd内存可能达到数G。它是由什么原因导致的？如何分析呢？</p><p>这就是我今天要和你分享的主题：etcd的内存。 希望通过这节课，帮助你掌握etcd内存抖动、异常背后的常见原因和分析方法，当你遇到类似问题时，能独立定位、解决。同时，帮助你在实际业务场景中，为集群节点配置充足的内存资源，遵循最佳实践，尽量减少expensive request，避免etcd内存出现突增，导致OOM。</p><h2>分析整体思路</h2><p>当你遇到etcd内存占用较高的案例时，你脑海中第一反应是什么呢？</p><p>也许你会立刻重启etcd进程，尝试将内存降低到合理水平，避免线上服务出问题。</p><p>也许你会开启etcd debug模式，重启etcd进程等复现，然后采集heap profile分析内存占用。</p><p>以上措施都有其合理性。但作为团队内etcd高手的你，在集群稳定性还不影响业务的前提下，能否先通过内存异常的现场，结合etcd的读写流程、各核心模块中可能会使用较多内存的关键数据结构，推测出内存异常的可能原因？</p><p>全方位的分析内存异常现场，可以帮助我们节省大量复现和定位时间，也是你专业性的体现。</p><!-- [[[read_end]]] --><p>下图是我以etcd写请求流程为例，给你总结的可能导致etcd内存占用较高的核心模块与其数据结构。</p><p><img src="https://static001.geekbang.org/resource/image/c2/49/c2673ebb2db4b555a9fbe229ed1bda49.png" alt=""></p><p>从图中你可以看到，当etcd收到一个写请求后，gRPC Server会和你建立连接。连接数越多，会导致etcd进程的fd、goroutine等资源上涨，因此会使用越来越多的内存。</p><p>其次，基于我们<a href="https://time.geekbang.org/column/article/337604">04</a>介绍的Raft知识背景，它需要将此请求的日志条目保存在raftLog里面。etcd raftLog后端实现是内存存储，核心就是数组。因此raftLog使用的内存与其保存的日志条目成正比，它也是内存分析过程中最容易被忽视的一个数据结构。</p><p>然后当此日志条目被集群多数节点确认后，在应用到状态机的过程中，会在内存treeIndex模块的B-tree中创建、更新key与版本号信息。 在这过程中treeIndex模块的B-tree使用的内存与key、历史版本号数量成正比。</p><p>更新完treeIndex模块的索引信息后，etcd将key-value数据持久化存储到boltdb。boltdb使用了mmap技术，将db文件映射到操作系统内存中。因此在未触发操作系统将db对应的内存page换出的情况下，etcd的db文件越大，使用的内存也就越大。</p><p>同时，在这个过程中还有两个注意事项。</p><p>一方面，其他client可能会创建若干watcher、监听这个写请求涉及的key， etcd也需要使用一定的内存维护watcher、推送key变化监听的事件。</p><p>另一方面，如果这个写请求的key还关联了Lease，Lease模块会在内存中使用数据结构Heap来快速淘汰过期的Lease，因此Heap也是一个占用一定内存的数据结构。</p><p>最后，不仅仅是写请求流程会占用内存，读请求本身也会导致内存上升。尤其是expensive request，当产生大包查询时，MVCC模块需要使用内存保存查询的结果，很容易导致内存突增。</p><p>基于以上读写流程图对核心数据结构使用内存的分析，我们定位问题时就有线索、方法可循了。那如何确定是哪个模块、场景导致的内存异常呢？</p><p>接下来我就通过一个实际案例，和你深入介绍下内存异常的分析方法。</p><h2>一个key使用数G内存的案例</h2><p>我们通过goreman启动一个3节点etcd集群(linux/etcd v3.4.9)，db quota为6G，执行如下的命令并观察etcd内存占用情况：</p><ul>
 

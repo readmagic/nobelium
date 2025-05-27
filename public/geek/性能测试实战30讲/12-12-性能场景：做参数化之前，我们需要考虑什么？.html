@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>在性能测试中，我们要关注的数据主要有以下几类，分别是参数化数据、监控数据和基础铺底数据。</p><p>我们今天先描述第一种参数化数据，在后面的文章中再描述其他数据。</p><p>首先我们需要了解，为什么要关注性能场景中的参数化数据呢？我以下面的两个例子说明一下。</p><p>在我的工作经历中，见过很多初级性能测试工程师不知道如何设置合理的参数化数据，以至于数据会出现这两种情况。</p><p>1.数据不均衡</p><p>有些人直接用同一个数据执行混合场景测试，在这种情况下对服务器的压力和真实环境下的完全不一样。有时我们不得不造很多参数化数据，也有很多工程师不考虑数据库表中的数据直方图，就直接在少量的参数化数据中创建了大量的相关记录。比如说，在电商系统中造出大量的购买记录；在银行系统中造出大量的个人流水记录。</p><p>这些都不能满足真实用户场景的需要，导致的结果就是整个测试结果都毫无意义。</p><p>2.参数化数据量不足</p><p>有时候，如果我们选择用非常少量的数据运行大量业务操作的场景，就会导致压力和真实生产环境完全不一致。比如说，用100个数据运行出上万甚至上亿的业务操作。</p><p>那么到底该怎样才能合理地设置参数化数据呢？</p><h2>参数化数据的疑问</h2><p>根据我的经验，在参数化测试数据的获取和考虑上，我们一般会有以下四个常见的疑问。</p><!-- [[[read_end]]] --><ol>
 

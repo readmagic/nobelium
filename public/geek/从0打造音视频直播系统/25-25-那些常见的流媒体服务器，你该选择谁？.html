@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>在<a href="https://time.geekbang.org/column/article/132863">上一篇文章</a>中，我们详细讨论了三种类型（Mesh、MCU和SFU）的多方通信架构，并从中知道<strong>SFU方案是目前最优的一种多方通信架构方案</strong>，而且这种方案目前已经有很多开源的实现了，比较流行的开源项目包括 Licode、Janus-gateway、MediaSoup、Medooze等。</p><p>当然，你也可以自己实现SFU流媒体服务器，但自已实现流媒体服务器困难还是蛮多的，它里面至少要涉及到 DTLS 协议、ICE协议、SRTP/SRTCP协议等，光理解这些协议就要花不少的时间，更何况要实现它了。</p><p>而使用开源的流媒体服务器就可以大大地减少你的工作量，但这也带来一个问题：这么多开源流媒体服务器，究竟该选哪一个呢？这就涉及到一个选型的问题，你必须要对上面提到的开源项目有个清楚的认知，知道它们各自的优劣点，才能选出更适合的那款流媒体服务器。</p><p>接下来我们就按顺序把这几个开源实现向你做下介绍，从而让你了解它们的优缺点，以便选出更适合你的那款流媒体服务器。</p><h2>Licode</h2><p>Licode 既可以用作 SFU 类型的流媒体服务器，也可以用作 MCU 类型的流媒体服务器。一般情况下，它都被用于 SFU 类型的流媒体服务器。</p><p>Licode 不仅仅是一个流媒体通信服务器，而且还是一个包括了媒体通信层、业务层、用户管理等功能的完整系统，并且该系统还支持分布式部署。</p><!-- [[[read_end]]] --><p>Licode 是由 C++ 和 Node.js 语言实现。其中，媒体通信部分由 C++ 语言实现，而信令控制、用户管理、房间管理用 Node.js 实现。它的源码地址为：<a href="https://github.com/lynckia/licode">https://github.com/lynckia/licode</a> 。下面这张图是 Licode 的整体架构图：</p><p><img src="https://static001.geekbang.org/resource/image/80/45/80c24c5862342103b1b2dcb134b59d45.png" alt=""></p><center><span class="reference">Licode架构图</span></center><p>通过这张图你可以看出，Licode从功能层面来讲分成三部分，即 Nuve 、ErizoController和ErizoAgent 三部分，它们之间通过消息队列进行通信。</p><ul>
 

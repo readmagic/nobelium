@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是唐扬。</p><p>通过上一节课，我们在电商系统中增加了消息队列对峰值写流量做削峰填谷，对次要的业务逻辑做异步处理，对不同的系统模块做解耦合。因为业务逻辑从同步代码中移除了，所以我们也要有相应的队列处理程序来处理消息、执行业务逻辑，<strong>这时你的系统架构变成了下面的样子：</strong></p><p><img src="https://static001.geekbang.org/resource/image/c9/a6/c9f44acbc4025b2ff1f0a4b9fd0941a6.jpg" alt=""></p><p>这是一个简化版的架构图，实际上，随着业务逻辑越来越复杂，会引入更多的外部系统和服务来解决业务上的问题。比如我们会引入Elasticsearch来解决商品和店铺搜索的问题，也会引入审核系统对售卖的商品、用户的评论做自动的和人工的审核，你会越来越多地使用消息队列与外部系统解耦合以及提升系统性能。</p><p>比如你的电商系统需要上一个新的红包功能：用户在购买一定数量的商品之后，由你的系统给用户发一个现金的红包鼓励用户消费。由于发放红包的过程不应该在购买商品的主流程之内，所以你考虑使用消息队列来异步处理。<strong>这时你发现了一个问题：</strong>如果消息在投递的过程中发生丢失，那么用户就会因为没有得到红包而投诉。相反，如果消息在投递的过程中出现了重复，你的系统就会因为发送两个红包而损失。</p><p>那么我们如何保证产生的消息一定会被消费到并且只被消费一次呢？这个问题虽然听起来很浅显、很好理解，但是实际上却藏着很多玄机，本节课我就带你深入探讨。</p><!-- [[[read_end]]] --><h2>消息为什么会丢失</h2><p>如果要保证消息只被消费一次，首先就要保证消息不会丢失。那么消息从被写入到消息队列到被消费者消费完成，这个链路上会有哪些地方存在丢失消息的可能呢？其实主要存在三个场景：</p><ul>
 

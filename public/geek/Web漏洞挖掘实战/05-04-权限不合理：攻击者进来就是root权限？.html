@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王昊天。</p><p>在多年的电脑使用经历中，你肯定经历过这种画面：</p><p>下载了官方软件却没有正版授权，于是千辛万苦找到一个破解软件，但是在运行破解软件时不断被杀毒软件拦截，一怒之下你把杀毒软件关闭了，随着破解软件的成功消息弹出，你露出了满意的微笑……</p><p>3天后你的电脑由于病毒感染无法开机了。</p><p>这是一种很典型的场景——为了某些临时性的操作破坏了权限边界，进而导致安全问题的发生。其实，<strong>除了临时性的操作，还有很多权限安全问题是长期性的</strong>，可能是配置原因、也可能是代码原因，接下来就让我们来一起探究。</p><h2>权限不合理</h2><p><strong>权限不合理简单来说，是不合理的权限赋予、权限处理以及权限管理过程</strong>。这里所说的权限，指的是终端角色的一种属性。那么什么是终端角色呢？你可以理解为，用户就是一个终端角色。</p><p>与权限相关的赋予、处理以及管理过程，我们主要通过权限管理来统一实现。权限管理就是能够赋予终端执行某种特殊操作的权利，比如在某些运维场景下，运维人员能够获得系统维护的权限，这其中就包括重启服务器权限——我们都知道服务器重启可不是常规操作权限。</p><p><strong>接下来我们以运行时权限过高为例，来看几种典型的攻击场景。</strong></p><p>应用软件在执行某些操作时可能会获取过高的权限，这就可能会破坏我们之前课程中提到的最小权限原则，如果因为这种原因导致了提权漏洞的发生，就可能会放大其他安全风险，导致严重后果。</p><!-- [[[read_end]]] --><p>随着应用软件执行权限的提高，比如运行在root或者Administrator权限，操作系统或者软件环境提供的安全检查可能会失效；更进一步，由于操作环境权限提升，已经存在的中低危安全风险可能因此升级为高危安全漏洞。</p><p><strong>1. 高权限运行应用</strong></p><p>在安装和运行组件的过程中，某些程序组件的运行环境设置的权限过高，导致低权限应用通过服务调用关系可以完成提权操作。</p><p>与开发层面相比，这一类问题的发生更多倾向于运维层面，比较典型的场景如：攻击者通过WebApp挖掘出注入类型的漏洞，而数据库运行在root或者Administrator权限，则可以通过注入提权的方式尝试远程命令执行。</p><p><strong>2. 降权时出现异常 </strong></p><p>以下代码尝试去创建一个用户文件夹，在此操作期间进行了短暂提权：</p><pre><code class="language-python">def makeNewUserDir(username):
 

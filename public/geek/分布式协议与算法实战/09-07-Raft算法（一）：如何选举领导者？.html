@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是韩健。</p><p>通过前两节课，我带你打卡了Paxos算法，今天我想和你聊聊最常用的共识算法，Raft算法。</p><p>Raft算法属于Multi-Paxos算法，它是在兰伯特Multi-Paxos思想的基础上，做了一些简化和限制，比如增加了日志必须是连续的，只支持领导者、跟随者和候选人三种状态，在理解和算法实现上都相对容易许多。</p><p><strong>除此之外，Raft算法是现在分布式系统开发首选的共识算法。</strong>绝大多数选用Paxos算法的系统（比如Cubby、Spanner）都是在Raft算法发布前开发的，当时没得选；而全新的系统大多选择了Raft算法（比如Etcd、Consul、CockroachDB）。</p><p>对你来说，掌握这个算法，可以得心应手地处理绝大部分场景的容错和一致性需求，比如分布式配置系统、分布式NoSQL存储等等，轻松突破系统的单机限制。</p><p><strong>如果要用一句话概括Raft算法，我觉得是这样的：从本质上说，Raft算法是通过一切以领导者为准的方式，实现一系列值的共识和各节点日志的一致。</strong>这句话比较抽象，我来做个比喻，领导者就是Raft算法中的霸道总裁，通过霸道的“一切以我为准”的方式，决定了日志中命令的值，也实现了各节点日志的一致。</p><!-- [[[read_end]]] --><p>我会用三讲的时间，分别以领导者选举、日志复制、成员变更为核心，讲解Raft算法的原理，在实战篇中，会带你进一步剖析Raft算法的实现，介绍基于Raft算法的分布式系统开发实战。那么我希望从原理到实战，在帮助你掌握分布式系统架构设计技巧和开发实战能力的同时，加深你对Raft算法的理解。</p><p>在课程开始之前，我们先来看一道思考题。</p><p>假设我们有一个由节点A、B、C组成的Raft集群（如图所示），因为Raft算法一切以领导者为准，所以如果集群中出现了多个领导者，就会出现不知道谁来做主的问题。在这样一个有多个节点的集群中，在节点故障、分区错误等异常情况下，Raft算法如何保证在同一个时间，集群中只有一个领导者呢？带着这个问题，我们正式进入今天的学习。</p><p><img src="https://static001.geekbang.org/resource/image/b9/33/b99084301cf7b944af0490aa0297ff33.jpg" alt=""></p><p>既然要选举领导者，那要从哪些成员中选举呢？除了领导者，Raft算法还支持哪些成员身份呢？这部分内容是你需要掌握的，最基础的背景知识。</p><h2>有哪些成员身份？</h2><p>成员身份，又叫做服务器节点状态，<strong>Raft算法支持领导者（Leader）、跟随者（Follower）和候选人（Candidate） 3种状态。</strong>为了方便讲解，我们使用不同的图形表示不同的状态。在任何时候，每一个服务器节点都处于这3个状态中的1个。</p><p><img src="https://static001.geekbang.org/resource/image/28/03/280eff8a48c50fc3566ddbde9a97ee03.jpg" alt=""></p><ul>
 

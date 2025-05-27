@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是庄振运。</p><p>今天我们进入了专栏的新模块：性能优化。在这个模块里，我会先从“性能优化的六大原则”开始讲起，然后再为你讲解实践中普遍采用的十个性能优化策略，并且分别针对CPU、系统、存储以及跨层这几个领域，讲讲具体的优化案例。</p><p>我们今天先探讨性能优化的原则。在讲具体原则之前，我想先给你讲一个有趣的往事。</p><p>我曾经负责过一个存储服务的性能优化和容量效率。那个服务的容量需求很大，但它的最大性能瓶颈不是CPU，而是存储的空间。</p><p>所以，虽然有很多人给我们各种建议，让我们花时间做CPU优化，我都尽量挡了回去。因为我知道CPU不是最大问题，所以坚持不懈地通过各种途径优化数据大小，甚至以牺牲CPU为代价。最后的结果很好，大幅度地降低了那个服务的容量需求。</p><p>在这个性能优化的场景，我们遵循了一个原则，那就是<strong>优先优化最大性能瓶颈</strong>。这其实就是马上要讲到的“三要”原则中的第一个。</p><h2>性能优化的原则概述</h2><p>在实际的性能优化中，我们需要考虑的因素很多，也经常需要在多个角度和目标间做一些平衡和取舍。为了帮助你把握这些，我个人总结出了六条原则，我把它们概括为：“<strong>三要，三不要</strong>”。</p><p><img src="https://static001.geekbang.org/resource/image/bc/bb/bc08d73063d641b231db155d7ffe26bb.jpg" alt=""></p><ul>
 

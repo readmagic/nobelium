@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是卢誉声。</p><p>还记得我们在上个模块中讲解的子数组和子序列问题吗？相较于较为复杂的子序列问题，它的答案不一定连续；我们还讲解了子数组问题，这类问题的答案是连续的。因此，这两者之间最大的区别，其实就在于答案是否连续。</p><p>随着时间的推移，面试官们也往往不再满足于考察传统的动态规划问题了，即便涉及了子序列和子数组问题。所以，在这一课中，我将带着你一起掌握最长递增序列的问题。</p><p>在本课的最后，我还会给出完整的攻破子序列的解题模板。还是那句话，由于是经验总结，因此在 90% 以上的情况下这个模板（套路）都是工作的，它足以应对你可能遇到的所有面试问题。</p><p>既然准备要解决的问题是最长递增序列，这就会涉及到子数组和子序列两种情况。你也无需担心，今天我会为你讲解这两种情况。那么按照惯例，在开始前，我先提出一个简单的问题：<strong>在处理递增序列时，连续和不连续的答案会对状态转移方程产生什么影响？</strong></p><p>接下来就让我们带着这个问题，开始今天的学习之旅吧。</p><h2>最长连续递增序列</h2><p>我们先从一个较为简单的递增序列问题说起，从题目本身就可以看出，这是一个基于子数组的递增序列问题。我们看到这样的题目时，首先就要有一个意识，那就是所求答案肯定是连续的。既然如此，我们先看看问题的描述。</p><!-- [[[read_end]]] --><p>问题：给定一个未经排序的整数数组 $nums$，找到最长且连续的的递增序列，并返回该序列的长度。</p><pre><code>示例1：
 

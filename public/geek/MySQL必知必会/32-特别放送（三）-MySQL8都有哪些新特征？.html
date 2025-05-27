@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱晓峰。今天，我来和你聊一聊MySQL  8的新特征。</p><p>作为应用最广泛的三大关系型数据库之一，MySQL的背后有一个强大的开发团队，使MySQL能够持续迭代和创新，满足不断变化的用户需求。在MySQL  8中，就有很多新特征。</p><p>今天，我就给你介绍两个重要的新特征：窗口函数和公用表表达式（Common Table Expressions，简称CTE）。它们可以帮助我们用相对简单的查询语句，实现更加强大的查询功能。</p><h2>什么是窗口函数？</h2><p>窗口函数的作用类似于在查询中对数据进行分组，不同的是，分组操作会把分组的结果聚合成一条记录，而窗口函数是将结果置于每一条数据记录中。一会儿我会借助一个例子来对比下，在此之前，你要先掌握窗口函数的语法结构。</p><p>窗口函数的语法结构是：</p><pre><code>函数 OVER（[PARTITION BY 字段]）
 

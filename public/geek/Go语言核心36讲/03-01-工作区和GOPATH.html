@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><h3>【Go语言代码较多，建议配合文章收听音频。】</h3><p>你好，我是郝林。从今天开始，我将和你一起梳理Go语言的整个知识体系。</p><p>在过去的几年里，我与广大爱好者一起见证了Go语言的崛起。</p><p>从Go 1.5版本的自举（即用Go语言编写程序来实现Go语言自身），到Go 1.7版本的极速GC（也称垃圾回收器），再到2018年2月发布的Go 1.10版本对其自带工具的全面升级，以及可预见的后续版本关键特性（比如用来做程序依赖管理的<code>go mod</code>命令），这一切都令我们欢欣鼓舞。Go语言在一步步走向辉煌的同时，显然已经成为软件工程师们最喜爱的编程语言之一。</p><p>我开办这个专栏的主要目的，是要与你一起探索Go语言的奥秘，并帮助你在学习和实践的过程中获取更多。</p><p>我假设本专栏的读者已经具备了一定的计算机基础，比如，你要知道操作系统是什么、环境变量怎么设置、怎样正确使用命令行，等等。</p><p>当然了，如果你已经有了编程经验，尤其是一点点Go语言编程经验，那就更好了，毕竟我想教给你的，都是Go语言中非常核心的技术。</p><p>如果你对Go语言中最基本的概念和语法还不够了解，那么可能需要在学习本专栏的过程中去查阅<a href="https://golang.google.cn/ref/spec">Go语言规范文档</a>，也可以把预习篇的基础知识图拿出来好好研究一下。</p><!-- [[[read_end]]] --><p>最后，我来说一下专栏的讲述模式。我总会以一道Go语言的面试题开始，针对它进行解答，我会告诉你为什么我要关注这道题，这道题的背后隐藏着哪些知识，并且，我会对这部分的内容，进行相关的知识扩展。</p><p>好了，准备就绪，我们一起开始。</p><hr><p>我们学习Go语言时，要做的第一件事，都是根据自己电脑的计算架构（比如，是32位的计算机还是64位的计算机）以及操作系统（比如，是Windows还是Linux），从<a href="https://golang.google.cn">Go语言官网</a>下载对应的二进制包，也就是可以拿来即用的安装包。</p><p>随后，我们会解压缩安装包、放置到某个目录、配置环境变量，并通过在命令行中输入<code>go version</code>来验证是否安装成功。</p><p>在这个过程中，我们还需要配置3个环境变量，也就是GOROOT、GOPATH和GOBIN。这里我可以简单介绍一下。</p><ul>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱涛。今天我们来学习Kotlin的委托特性。</p><p>Kotlin的委托主要有两个应用场景，一个是委托类，另一个是委托属性。对比第6讲我们学过的<a href="https://time.geekbang.org/column/article/475684">扩展</a>来看的话，Kotlin委托这个特性就没有那么“神奇”了。</p><p>因为扩展可以从类的外部，为一个类“添加”成员方法和属性，因此Kotlin扩展的应用场景也十分明确，而Kotlin委托的应用场景就没那么清晰了。这也是很多人会“重视扩展”，而“轻视委托”的原因。</p><p>然而，我要告诉你的是，<strong>Kotlin“委托”的重要性一点也不比“扩展”低</strong>。Kotlin委托在软件架构中可以发挥巨大的作用，在掌握了Kotlin委托特性后，你不仅可以改善应用的架构，还可以大大提升开发效率。</p><p>另外，如果你是Android工程师，你会发现Jetpack Compose当中大量使用了Kotlin委托特性。可以说，如果你不理解委托，你就无法真正理解Jetpack Compose。</p><p>看到这里，想必你也已经知道Kotlin委托的重要性了，接下来就来开启我们的学习之旅吧！</p><h2>委托类</h2><p>我们先从委托类开始，它的使用场景非常简单易懂：它常常用于实现类的“委托模式”。我们来看个简单例子：</p><pre><code class="language-plain">interface DB {
 

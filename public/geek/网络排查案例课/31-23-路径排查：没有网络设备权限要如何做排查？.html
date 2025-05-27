@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是胜辉。</p><p>有一位同事问我：“大V，你的课程会教我们排查家庭网络问题的技巧吗？”这是一个有意思的问题。我们课程里用到了大量的抓包分析，虽然这套方法功效甚大，但是在很多场景下，也有比它更加合适的方法。在网络路径的排查方面，这一点体现得尤为明显。比如一些小工具往往能起到意想不到的大作用。</p><p>不过，一个现实的问题是，我们一般不是专职的网络工程师，也没有相关的网络设备的查看权限，那要如何在这种条件下，尽可能做一些网络层排查的工作呢？这就需要我们对<strong>协议</strong>有深入的理解，对工具能做到灵活地运用。</p><p>在接下来的实战三模块“不用抓包就能做的网络排查篇”，我们就来学习一下网络层的案例和排查技巧。这样你以后遇到跟网络路径异常、丢包、时通时不通等问题的时候，不仅有抓包分析这样的“重型武器”，也有几把趁手的“瑞士军刀”，可以精确快速地搞定这些问题。</p><p>好，我们还是从案例开始。</p><h2>为何TCP连接时常失败？</h2><p>有一次，我们的一个内部客户团队报告了一个TCP连接失常的问题。这是一个MySQL的服务，它有两台服务器，都在同一个LB VIP的后面。这个团队发现，从他们的客户端到这个LB VIP的TCP连接，时常有失败的情况发生，于是我们介入排查。</p><!-- [[[read_end]]] --><p>这个服务的具体架构是这样的：客户团队从他们的客户端发起TCP连接到这台LB上的VIP，这个VIP后面是两台MySQL主机，LB把请求转发给其中的一台。这里我们使用了LB的一个特性，就是可以平时只启用一台后端主机，只有当这台主机离线时，LB才会自动把流量切换到另外一台上。</p><p><img src="https://static001.geekbang.org/resource/image/94/00/94b9dfe3ceb99f06126faf85eb028500.jpg?wh=2000x731" alt=""></p><blockquote>
 

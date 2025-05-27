@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>在2016年，我参加了两场移动技术大会，在当时的GMTC大会上，原生开发看起来如日中天。</p><p>转眼到了2017年，HTML5性能越来越好，Facebook的React Native、阿里的Weex等跨平台方案在越来越多的公司中实践，微信小程序更是给了原生开发最沉重的一击，许多小公司可能不再需要开发自己的应用。</p><p>“Write once, run anywhere”，人们对跨平台开发的尝试从来没有停止过。特别在这个终端碎片化的时代，一份代码可以在同一个平台不同的系统版本，甚至在不同的平台上运行，对开发者的吸引力越来越大。</p><p>回想一下，HTML5与Native开发的斗争已经持续快十年了，那它们的现状是怎样的呢？React Native和Weex方案有哪些优势，又存在什么问题？小程序是不是真的可以一统江湖？焦虑的Native开发又应该如何在这个潮流之下谋发展呢？</p><h2>跨平台开发的现状</h2><p>从2017年开始，GMTC“移动技术大会”就更名为“大前端技术大会”。从现在看来，前端开发和Native开发并没有谁取代谁，而是正在融合，融合之后的产物就是所谓的“大前端”。为了顺应这种趋势，很多大公司的组织架构也做了相应的调整，把前端团队和iOS、Android一起合并为大前端团队。</p><!-- [[[read_end]]] --><p>移动Web技术、React Native和Weex、小程序，它们是目前最常用到的跨平台开发方案，下面我们一起来看看它们的应用现状。<strong>当然对于今年最为火热的Flutter技术，专栏后面我会花专门的篇幅去介绍。</strong></p><p><strong>1. Web</strong></p><p>从桌面时代开始，以浏览器为载体的Web技术就具备跨平台、动态更新、扩展性强等优点。随着移动设备性能的增强，Web页面的性能也逐渐变得可以接受。客户端中出现越来越多的内嵌Web页面，很多应用也会把一些功能模块改为Web实现。</p><p><strong>浏览器内核</strong></p><p>一个Web页面是由HTML  +  CSS  +  JavaScript组成，通过浏览器内核执行并渲染成开发者预期的界面。</p><p><img src="https://static001.geekbang.org/resource/image/ae/6a/ae3ca2e7151208a5ce7bb45d7e3d976a.png" alt=""></p><p>浏览器内核主要包括两大块功能，它们分别是：</p><ul>
 

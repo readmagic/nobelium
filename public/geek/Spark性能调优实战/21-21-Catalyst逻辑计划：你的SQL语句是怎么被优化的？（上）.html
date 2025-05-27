@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴磊。</p><p>上一讲我们说，Spark SQL已经取代Spark Core成为了新一代的内核优化引擎，所有Spark子框架都能共享Spark SQL带来的性能红利，所以在Spark历次发布的新版本中，Spark SQL占比最大。因此，Spark SQL的优化过程是我们必须要掌握的。</p><p>Spark SQL端到端的完整优化流程主要包括两个阶段：Catalyst优化器和Tungsten。其中，Catalyst优化器又包含逻辑优化和物理优化两个阶段。为了把开发者的查询优化到极致，整个优化过程的运作机制设计得都很精密，因此我会用三讲的时间带你详细探讨。</p><p>下图就是这个过程的完整图示，你可以先通过它对优化流程有一个整体的认知。然后随着我的讲解，逐渐去夯实其中的关键环节、重要步骤和核心知识点，在深入局部优化细节的同时，把握全局优化流程，做到既见树木、也见森林。</p><p><img src="https://static001.geekbang.org/resource/image/f3/72/f3ffb5fc43ae3c9bca44c1f4f8b7e872.jpg" alt="" title="Spark SQL的优化过程"></p><p>今天这一讲，我们先来说说Catalyst优化器逻辑优化阶段的工作原理。</p><h2>案例：小Q变身记</h2><p>我们先来看一个例子，例子来自电子商务场景，业务需求很简单：给定交易事实表transactions和用户维度表users，统计不同用户的交易额，数据源以Parquet的格式存储在分布式文件系统。因此，我们要先用Parquet API读取源文件。</p><!-- [[[read_end]]] --><pre><code>val userFile: String = _
 

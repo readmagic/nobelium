@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴磊。</p><p>上节课，我们探讨了性能调优的必要性，结论是：尽管Spark自身运行高效，但作为开发者，我们仍然需要对应用进行性能调优。</p><p>那么问题来了，性能调优该怎么做呢？面对成百上千行应用代码、近百个Spark配置项，我们该从哪里入手呢？我认为，要想弄清性能调优怎么入手，必须先得搞明白性能调优的本质是什么。</p><p>所以今天这节课，咱们就从一个先入为主的调优反例入手，带你一起探讨并归纳性能调优的本质是什么，最终帮你建立起系统化的性能调优方法论。</p><h2>先入为主的反例</h2><p>在典型的ETL场景中，我们经常需要对数据进行各式各样的转换，有的时候，因为业务需求太复杂，我们往往还需要自定义UDF（User Defined Functions）来实现特定的转换逻辑。但是，无论是Databricks的官方博客，还是网上浩如烟海的Spark技术文章，都警告我们尽量不要自定义UDF来实现业务逻辑，要尽可能地使用Spark内置的SQL functions。</p><p>在日常的工作中，我发现这些警告被反复地用于Code review中，Code reviewer在审查代码的时候，一旦遇到自定义的UDF，就提示开发的同学用SQL functions去重写业务逻辑，这几乎成了一种条件反射。</p><!-- [[[read_end]]] --><p>甚至，开发的同学也觉得非常有道理。于是，他们花费大量时间用SQL functions重构业务代码。但遗憾的是，这么做之后ETL作业端到端的执行性能并没有什么显著的提升。这种情况就是所谓的投入时间与产出不成正比的窘境：<strong>调优的时间没少花，却没啥效果</strong>。</p><p>之所以会出现这种情况，我觉得主要原因在于Code reviewer对于性能调优的理解还停留在照本宣科的层次，没有形成系统化的方法论。要建立系统化的方法论，我们就必须去探究性能调优的本质到底是什么。否则，开发者就像是掉进迷宫的小仓鼠，斗志昂扬地横冲直撞，但就是找不到出口。</p><p>既然性能调优的本质这么重要，那么它到底是什么呢？</p><h2>性能调优的本质</h2><p>探究任何一个事物的本质，都离不开从个例观察、现象归因到总结归纳的过程。</p><p>咱们不妨先来分析分析上面的反例，为什么用SQL functions重构UDF并没有像书本上说的那么奏效？</p><p>是因为这条建议本身就不对吗？肯定不是。通过对比查询计划，我们能够明显看到UDF与SQL functions的区别。Spark SQL的Catalyst Optimizer能够明确感知SQL functions每一步在做什么，因此有足够的优化空间。相反，UDF里面封装的计算逻辑对于Catalyst Optimizer来说就是个黑盒子，除了把UDF塞到闭包里面去，也没什么其他工作可做的。</p><p>那么，是因为UDF相比SQL functions其实并没有性能开销吗？也不是。我们可以做个性能单元测试，从你的ETL应用中随意挑出一个自定义的UDF，尝试用SQL functions去重写，然后准备单元测试数据，最后在单机环境下对比两种不同实现的运行时间。通常情况下，UDF实现相比SQL functions会慢3%到5%不等。所以你看，UDF的性能开销还是有的。</p><p>既然如此，我们在使用SQL functions优化UDF的时候，为什么没有显著提升端到端ETL应用的整体性能呢？</p><p><strong>根据木桶理论，最短的木板决定了木桶的容量，因此，对于一只有短板的木桶，其他木板调节得再高也无济于事，最短的木板才是木桶容量的瓶颈</strong>。对于ETL应用这支木桶来说，UDF到SQL functions的调优之所以对执行性能的影响微乎其微，根本原因在于它不是那块最短的木板。换句话说，ETL应用端到端执行性能的瓶颈不是开发者自定义的UDF。</p><p>结合上面的分析，<strong>性能调优的本质</strong>我们可以归纳为4点。</p><ol>
 

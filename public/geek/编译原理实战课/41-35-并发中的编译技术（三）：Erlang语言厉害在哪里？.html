@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。</p><p>在前面两讲，我们讨论了各门语言支持的并发计算的模型。线程比进程更加轻量级，上下文切换成本更低；协程则比线程更加轻量级，在一台计算机中可以轻易启动几十万、上百万个并发任务。</p><p>但不论是线程模型、还是协程模型，当涉及到多个线程访问共享数据的时候，都会出现竞争问题，从而需要用到锁。锁会让其他需要访问该数据的线程等待，从而导致系统整体处理能力的降低。</p><p>并且，编程人员还要特别注意，避免出现死锁。比如，线程A持有了锁x，并且想要获得锁y；而线程B持有了锁y，想要获得锁x，结果这两个线程就会互相等待，谁也进行不下去。像数据库这样的系统，检测和消除死锁是一项重要的功能，以防止互相等待的线程越来越多，对数据库操作不响应，并最终崩溃掉。</p><p>既然使用锁这么麻烦，那在并发计算中，能否不使用锁呢？这就出现了Actor模型。那么，<strong>什么是Actor模型？为什么它可以不用锁就实现并发？这个并发模型有什么特点？需要编译技术做什么配合？</strong></p><p>今天这一讲，我们就从这几个问题出发，一起学习并理解Actor模型。借此，我们也可以把用编译技术支持不同的并发模型的机制，理解得更深刻。</p><p>首先，我们看一下什么是Actor模型。</p><h2>什么是Actor模型？</h2><!-- [[[read_end]]] --><p>在线程和协程模型中，之所以用到锁，是因为两个线程共享了内存，而它们会去修改同一个变量的值。那，如果避免共享内存，是不是就可以消除这个问题了呢？</p><p>没错，这就是Actor模型的特点。Actor模型是1973年由Carl Hewitt提出的。在Actor模型中，并发的程序之间是不共享内存的。它们通过互相发消息来实现协作，很多个一起协作的Actor就构成了一个支持并发计算的系统。</p><p>我们看一个有三个Actor的例子。</p><p><img src="https://static001.geekbang.org/resource/image/d1/fb/d1494936866024b3c9a687da3a9de1fb.jpg" alt=""></p><center><span class="reference">图1：三个Actor的例子</span></center><p>你会注意到，每个Actor都有一个邮箱，用来接收其他Actor发来的消息；每个Actor也都可以给其他Actor发送消息。这就是Actor之间交互的方式。Actor A给Actor B发完消息后就返回，并不会等着Actor B处理完毕，所以它们之间的交互是异步的。如果Actor B要把结果返回给A，也是通过发送消息的方式。</p><p>这就是Actor大致的工作原理了。因为Actor之间只是互发消息，没有共享的变量，当然也就不需要用到锁了。</p><p>但是，你可能会问：如果不共享内存，能解决传统上需要对资源做竞争性访问的需求吗？比如，卖电影票、卖火车票、秒杀或者转账的场景。我们以卖电影票为例讲解一下。</p><p>在用传统的线程或者协程来实现卖电影票功能的时候，对票的状态进行修改，需要用锁的机制实现同步互斥，以保证同一个时间段只有一个线程可以去修改票的状态、把它分配给某个用户，从而避免多个线程同时访问而出现一张票卖给多个人的情况。这种情况下，多个程序是串行执行的，所以系统的性能就很差。</p><p>如果用Actor模式会怎样呢？</p><p>你可以把电影院的前半个场地和后半个场地的票分别由Actor B和 C负责销售：Actor A在接收到定前半场座位的请求的时候，就发送给Actor B，后半场的就发送给Actor C，Actor B和C依次处理这些请求；如果Actor B或C接收到的两个信息都想要某个座位，那么针对第二个请求会返回订票失败的消息。</p><p><img src="https://static001.geekbang.org/resource/image/31/2d/31838a322d9bddd811a53b44e63ac82d.jpg" alt=""></p><center><span class="reference">图2：Actor用于订票场景</span></center><p>你发现没有？在这个场景中，Actor B和C仍然是顺序处理各个请求。但因为是两个Actor并发地处理请求，所以系统整体的性能会提升到原来的两倍。</p><p>甚至，你可以让每排座位、每个座位都由一个Actor负责，使得系统的性能更高。因为在系统中创建一个Actor的成本是很低的。Actor跟协程类似，很轻量级，一台服务器里创建几十万、上百万个Actor也没有问题。如果每个Actor负责一个座位，那一台服务器也能负责几十万、上百万个座位的销售，也是可以接受的。</p><p>当然，实际的场景要比这个复杂，比如一次购买多张相邻的票等，但原理是一样的。用这种架构，可以大大提高并发能力，处理海量订票、秒杀等场景不在话下。</p><p>其实，我个人比较喜欢Actor这种模式，因为它跟现实世界里的分工协作很相似。比如，餐厅里不同岗位的员工，他们通过互相发信息来实现协作，从而并发地服务很多就餐的顾客。</p><p>分析到这里，我再把Actor模式跟你非常熟悉的一个概念，面向对象编程（Object Oriented Programming，OOP）关联起来。你可能会问：Actor和面向对象怎么还有关联？</p><p>是的。面向对象语言之父阿伦 · 凯伊（Alan Kay），Smalltalk的发明人，在谈到面向对象时是这样说的：对象应该像生物的细胞，或者是网络上的计算机，它们只能通过消息互相通讯。对我来说OOP仅仅意味着消息传递、本地保留和保护以及隐藏状态过程，并且尽量推迟万物之间的绑定关系。</p><blockquote>
 

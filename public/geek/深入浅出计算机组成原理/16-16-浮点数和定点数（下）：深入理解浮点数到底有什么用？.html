@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>上一讲，我们讲了用“浮点数”这样的数据形式，来表示一个不能确定大小的数据范围。浮点数可以大到$3.40×10^{38}$，也可以小到$1.17×10^{-38}$这样的数值。同时，我们也发现，其实我们平时写的0.1、0.2并不是精确的数值，只是一个近似值。只有0.5这样，可以表示成$2^{-1}$这种形式的，才是一个精确的浮点数。</p><p>你是不是感到很疑惑，浮点数的近似值究竟是怎么算出来的？浮点数的加法计算又是怎么回事儿？在实践应用中，我们怎么才用好浮点数呢？这一节，我们就一起来看这几个问题。</p><h2>浮点数的二进制转化</h2><p>我们首先来看，十进制的浮点数怎么表示成二进制。</p><p>我们输入一个任意的十进制浮点数，背后都会对应一个二进制表示。比方说，我们输入了一个十进制浮点数9.1。那么按照之前的讲解，在二进制里面，我们应该把它变成一个“<strong>符号位s+指数位e+有效位数f</strong>”的组合。第一步，我们要做的，就是把这个数变成二进制。</p><p>首先，我们把这个数的整数部分，变成一个二进制。这个我们前面讲二进制的时候已经讲过了。这里的9，换算之后就是1001。</p><!-- [[[read_end]]] --><p>接着，我们把对应的小数部分也换算成二进制。小数怎么换成二进制呢？我们先来定义一下，小数的二进制表示是怎么回事。我们拿0.1001这样一个二进制小数来举例说明。和上面的整数相反，我们把小数点后的每一位，都表示对应的2的-N次方。那么0.1001，转化成十进制就是：</p><p>$1×2^{-1}+0×2^{-2}+0×2^{-3}+$<br>
 

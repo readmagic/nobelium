@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是郝林，今天我们继续分享原子操作的内容。</p><p>我们接着上一篇文章的内容继续聊，上一篇我们提到了，<code>sync/atomic</code>包中的函数可以做的原子操作有：加法（add）、比较并交换（compare and swap，简称CAS）、加载（load）、存储（store）和交换（swap）。并且以此衍生出了两个问题。</p><p>今天我们继续来看<strong>第三个衍生问题： 比较并交换操作与交换操作相比有什么不同？优势在哪里？</strong></p><p>回答是：比较并交换操作即CAS操作，是有条件的交换操作，只有在条件满足的情况下才会进行值的交换。</p><p>所谓的交换指的是，把新值赋给变量，并返回变量的旧值。</p><p>在进行CAS操作的时候，函数会先判断被操作变量的当前值，是否与我们预期的旧值相等。如果相等，它就把新值赋给该变量，并返回<code>true</code>以表明交换操作已进行；否则就忽略交换操作，并返回<code>false</code>。</p><p>可以看到，CAS操作并不是单一的操作，而是一种操作组合。这与其他的原子操作都不同。正因为如此，它的用途要更广泛一些。例如，我们将它与<code>for</code>语句联用就可以实现一种简易的自旋锁（spinlock）。</p><pre><code>for {
 

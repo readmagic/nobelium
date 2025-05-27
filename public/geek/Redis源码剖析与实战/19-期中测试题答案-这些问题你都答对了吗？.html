@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是蒋德钧。这节课，我来给你公布一下期中考试中问答题的答案。</p><h2>第一题</h2><p>Redis源码中实现的哈希表在rehash时，会调用dictRehash函数。dictRehash函数的原型如下，它的参数n表示本次rehash要搬移n个哈希桶（bucket）中的数据。假设dictRehash被调用，并且n的传入值为10。但是，在dictRehash查找的10个bucket中，前5个bucket有数据，而后5个bucket没有数据，那么，本次调用dictRehash是否就只搬移了前5个bucket中的数据？</p><pre><code class="language-plain">int dictRehash(dict *d, int n)
 

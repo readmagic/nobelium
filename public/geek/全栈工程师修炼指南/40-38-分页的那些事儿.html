@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是四火。</p><p>分页是全栈开发中非常常见的一个功能，绝大多数网站都需要用到。这个功能可谓麻雀虽小五脏俱全，是从呈现层、控制器层、到模型层，并和数据存储密切相关的真正的“全栈”功能。有时候你能见到一些清晰、明确的分页，也就是说，你能看到某一个内容的呈现被分成若干页，而当前又是在第几页；而有时候这个功能则是部分模糊了的，比方说，能翻页，但是并不显示总共有多少页。那今天，就让我们来了解一些典型的分页方法，理解分页的一些常见问题和它们的解决方式。</p><h2>物理分页和逻辑分页</h2><p>物理分页一般指的就是数据库分页，而逻辑分页则是程序员口中的“内存分页”。前者是通过条件查询的方式，从数据库中取出特定的数据段来，而后者，则是在完整数据都加载在内存中的情况下，从中取出特定段的数据来。</p><p>显然我们一般情况下更关注物理分页，因为内存的大小总是更为有限，多数情况下我们希望通过条件查询的方式去数据库中取出特定页来。但是也有反例，比方说某些数据量不大，但是访问频率较高的数据，以“缓存”的形式预加载到内存中，再根据客户端的分页条件返回数据，这种方式一样可以遵循分页接口，但是由于被分页的数据是全部在内存中的，这样的数据一般需要遵循如下几个要求：</p><!-- [[[read_end]]] --><ul>
 

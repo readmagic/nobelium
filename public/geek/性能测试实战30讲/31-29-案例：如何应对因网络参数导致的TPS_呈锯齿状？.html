@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>在苍茫的性能分析道路上，不管你是一只多老的鸟，在经历了多个性能测试的项目之后，你都会发现对于性能问题而言，你仍然不敢说能全部解决。因为下一个问题可能真的是你完全没有见过的。</p><p>再加上技术的飞速发展，想跟得上技术的进步都是一件痛苦的事情，更别说要完全掌握并且融会贯通了。</p><p>我经常看到有些人在简历中动辄说自己做过上百个性能项目，以彰显自己有充足的经验。事实上，如果一个性能项目需要做两个星期的话，基本上做不到调优的层面，最多是弄个脚本压个报告。在我的经验中，基本上一个完整的架构级的性能项目从准备开始到写出测试报告、调优报告，需要1.5个月以上。你可以想像，这样的项目，就算一年不停地做，做10个都算是非常快的了，而要做上百个这样的项目，至少需要10年的时间。</p><p>并且不是每一个项目都能让你有分析性能瓶颈的机会，因为有很多问题都是重复的。</p><p>所以性能分析是一个需要不断总结出自己的分析逻辑的工作，有了这些分析逻辑，才能在新项目中无往不利。请注意我的描述，我强调的是要有自己分析的逻辑，而不是经历多少个性能问题。因为问题可能会遇到新的，但是分析逻辑却是可以复用的。</p><p>在今天的文章中，我仍然用一个之前项目中出现过的案例给你讲一讲性能分析的思路。</p><!-- [[[read_end]]] --><h2>案例问题描述</h2><p>这个项目是我调优过两次的项目。我介入这个项目之后，和同事们一起从100TPS调到1000TPS。</p><p>但是调到这个阶段，也只是在测试环境中调的，并没有按生产的架构调优。从测试部署架构上来说，就是Tomcat+Redis+MySQL，负载均衡的Nginx部分还没有加进去。</p><p>本来想着如果只是加个Nginx，也复杂不到哪里去。于是，我就撤了。但是当我离开一周之后，那个项目组同事又给我打电话，说这个项目仍然有问题，加了Nginx之后，TPS达不到1000了。啊，这还得了，要砸我招牌呀。</p><p>于是我又介入这个项目了，直到再次解决这个新的性能问题。</p><p>在今天的内容里，我会将记忆中所有的细节都记录下来，有些是同事调的步骤，有些是我调的步骤。在这个久远的项目中，希望我能写的完整。</p><p>下面来看这个具体的问题分析过程。</p><p>这个系统的简单架构图如下所示：</p><p><img src="https://static001.geekbang.org/resource/image/9c/44/9cb4fcc28c3ff00473346d4033330b44.jpg" alt=""></p><h2>压力工具图</h2><p>照例，我们先看压力工具中给出来的重要曲线。</p><p>用户递增图：</p><p><img src="https://static001.geekbang.org/resource/image/e2/48/e2778129b5c97937427af1dcd6e43148.png" alt=""></p><p>TPS图：</p><p><img src="https://static001.geekbang.org/resource/image/dc/d7/dc2f7c78248f4f35600b3ca8997dfed7.png" alt=""></p><p>响应时间图：</p><p><img src="https://static001.geekbang.org/resource/image/d0/06/d098a98768e4ebf41c10221dd2467406.png" alt=""></p><p>从上面的曲线可以看到，TPS在上升到一个量级的时候就会掉下来，然后再上到同样的量级再掉下来，非常规律。而响应时间呢，在第一次TPS掉下来之后，就变得乱七八糟了。响应时间不仅上升了，而且抖动也很明显。</p><p>这是什么情况？从来没见过呀。</p><h2>分析过程</h2><p>我们需要经过一系列的工作——看操作系统的CPU、I/O、Memory、NET等资源；看数据库、Tomcat、Nginx监控数据等等。</p><p>经过分析，我们觉得其他数据显示正常，网络连接状态是有问题的。如下所示：</p><pre><code>tcp        0      0 ::ffff:192.168.1.12:59103   ::ffff:192.168.1.11:3306    TIME_WAIT   timewait (0.00/0/0)
 

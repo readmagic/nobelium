@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是何为舟。</p><p>在前面的课程中，我们已经介绍了防火墙、WAF和入侵检测。这些产品都有一个共同的特性，就是基于网络请求或者系统行为对攻击的特征进行检测，然后再采取相应的防控手段。这些安全产品基本都和应用本身解耦。也就是说，基本上我们不需要对应用做任何开发和改动，就能够部署这些安全产品。</p><p>尽管解耦在部署上能够节省很大的成本，但解耦同样意味着，安全产品和应用本身是通过接口、请求等形式来进行数据交换的。换一句话说，安全产品只能够看到应用输入和输出的数据，并不知道数据在应用内的流动情况。因此，这种工作模式不可避免会产生一定的误判和漏报。</p><p>我们来看一个关于WAF检测SQL注入的例子。下面是请求代码：</p><pre><code>http://server.com/login?username=test&amp;password=&quot; or &quot;&quot;=&quot;
 

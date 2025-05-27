@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是鸟窝。</p><p>Go是一个自动垃圾回收的编程语言，采用<a href="https://go.dev/blog/ismmkeynote">三色并发标记算法</a>标记对象并回收。和其它没有自动垃圾回收的编程语言不同，使用Go语言创建对象的时候，我们没有回收/释放的心理负担，想用就用，想创建就创建。</p><p>但是，<strong>如果你想使用Go开发一个高性能的应用程序的话，就必须考虑垃圾回收给性能带来的影响</strong>，毕竟，Go的自动垃圾回收机制还是有一个STW（stop-the-world，程序暂停）的时间，而且，大量地创建在堆上的对象，也会影响垃圾回收标记的时间。</p><p>所以，一般我们做性能优化的时候，会采用对象池的方式，把不用的对象回收起来，避免被垃圾回收掉，这样使用的时候就不必在堆上重新创建了。</p><p>不止如此，像数据库连接、TCP的长连接，这些连接在创建的时候是一个非常耗时的操作。如果每次都创建一个新的连接对象，耗时较长，很可能整个业务的大部分耗时都花在了创建连接上。</p><p>所以，如果我们能把这些连接保存下来，避免每次使用的时候都重新创建，不仅可以大大减少业务的耗时，还能提高应用程序的整体性能。</p><p>Go标准库中提供了一个通用的Pool数据结构，也就是sync.Pool，我们使用它可以创建池化的对象。这节课我会详细给你介绍一下sync.Pool的使用方法、实现原理以及常见的坑，帮助你全方位地掌握标准库的Pool。</p><!-- [[[read_end]]] --><p>不过，这个类型也有一些使用起来不太方便的地方，就是<strong>它池化的对象可能会被垃圾回收掉</strong>，这对于数据库长连接等场景是不合适的。所以在这一讲中，我会专门介绍其它的一些Pool，包括TCP连接池、数据库连接池等等。</p><p>除此之外，我还会专门介绍一个池的应用场景： Worker Pool，或者叫做goroutine pool，这也是常用的一种并发模式，可以使用有限的goroutine资源去处理大量的业务数据。</p><h1>sync.Pool</h1><p>首先，我们来学习下标准库提供的sync.Pool数据类型。</p><p>sync.Pool数据类型用来保存一组可独立访问的<strong>临时</strong>对象。请注意这里加粗的“临时”这两个字，它说明了sync.Pool这个数据类型的特点，也就是说，它池化的对象会在未来的某个时候被毫无预兆地移除掉。而且，如果没有别的对象引用这个被移除的对象的话，这个被移除的对象就会被垃圾回收掉。</p><p>因为Pool可以有效地减少新对象的申请，从而提高程序性能，所以Go内部库也用到了sync.Pool，比如fmt包，它会使用一个动态大小的buffer池做输出缓存，当大量的goroutine并发输出的时候，就会创建比较多的buffer，并且在不需要的时候回收掉。</p><p>有两个知识点你需要记住：</p><ol>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是鸟窝。</p><p>上一讲我们一起体验了Mutex的使用，竟是那么简单，只有简简单单两个方法，Lock和Unlock，进入临界区之前调用Lock方法，退出临界区的时候调用Unlock方法。这个时候，你一定会有一丝好奇：“它的实现是不是也很简单呢？”</p><p>其实不是的。如果你阅读Go标准库里Mutex的源代码，并且追溯Mutex的演进历史，你会发现，从一个简单易于理解的互斥锁的实现，到一个非常复杂的数据结构，这是一个逐步完善的过程。Go开发者们做了种种努力，精心设计。我自己每次看，都会被这种匠心和精益求精的精神打动。</p><p>所以，今天我就想带着你一起去探索Mutex的实现及演进之路，希望你能和我一样体验到这种技术追求的美妙。我们从Mutex的一个简单实现开始，看看它是怎样逐步提升性能和公平性的。在这个过程中，我们可以学习如何逐步设计一个完善的同步原语，并能对复杂度、性能、结构设计的权衡考量有新的认识。经过这样一个学习，我们不仅能通透掌握Mutex，更好地使用这个工具，同时，对我们自己设计并发数据接口也非常有帮助。</p><p>那具体怎么来讲呢？我把Mutex的架构演进分成了四个阶段，下面给你画了一张图来说明。</p><p>“<strong>初版</strong>”的Mutex使用一个flag来表示锁是否被持有，实现比较简单；后来照顾到新来的goroutine，所以会让新的goroutine也尽可能地先获取到锁，这是第二个阶段，我把它叫作“<strong>给新人机会</strong>”；那么，接下来就是第三阶段“<strong>多给些机会</strong>”，照顾新来的和被唤醒的goroutine；但是这样会带来饥饿问题，所以目前又加入了饥饿的解决方案，也就是第四阶段“<strong>解决饥饿</strong>”。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/c2/35/c28531b47ff7f220d5bc3c9650180835.jpg?wh=4000*2250" alt=""></p><p>有了这四个阶段，我们学习的路径就清晰了，那接下来我会从代码层面带你领略Go开发者这些大牛们是如何逐步解决这些问题的。</p><h1>初版的互斥锁</h1><p>我们先来看怎么实现一个最简单的互斥锁。在开始之前，你可以先想一想，如果是你，你会怎么设计呢？</p><p>你可能会想到，可以通过一个flag变量，标记当前的锁是否被某个goroutine持有。如果这个flag的值是1，就代表锁已经被持有，那么，其它竞争的goroutine只能等待；如果这个flag的值是0，就可以通过CAS（compare-and-swap，或者compare-and-set）将这个flag设置为1，标识锁被当前的这个goroutine持有了。</p><p>实际上，Russ Cox在2008年提交的第一版Mutex就是这样实现的。</p><pre><code>   // CAS操作，当时还没有抽象出atomic包
 

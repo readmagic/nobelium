@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。现在，就到了我们编译之旅的最后一站了，我们一起来探索一下MySQL编译器。</p><p>数据库系统能够接受SQL语句，并返回数据查询的结果，或者对数据库中的数据进行修改，可以说几乎每个程序员都使用过它。</p><p>而MySQL又是目前使用最广泛的数据库。所以，解析一下MySQL编译并执行SQL语句的过程，一方面能帮助你加深对数据库领域的编译技术的理解；另一方面，由于SQL是一种最成功的DSL（特定领域语言），所以理解了MySQL编译器的内部运作机制，也能加深你对所有使用数据操作类DSL的理解，比如文档数据库的查询语言。另外，解读SQL与它的运行时的关系，也有助于你在自己的领域成功地使用DSL技术。</p><p><strong>那么，数据库系统是如何使用编译技术的呢？</strong>接下来，我就会花两讲的时间，带你进入到MySQL的内部，做一次全面的探秘。</p><p>今天这一讲，我先带你了解一下如何跟踪MySQL的运行，了解它处理一个SQL语句的过程，以及MySQL在词法分析和语法分析方面的实现机制。</p><p>好，让我们开始吧！</p><h2>编译并调试MySQL</h2><p>按照惯例，你要下载<a href="https://github.com/mysql/mysql-server">MySQL的源代码</a>。我下载的是8.0版本的分支。</p><p>源代码里的主要目录及其作用如下，我们需要分析的代码基本都在sql目录下，它包含了编译器和服务端的核心组件。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/b8/c6/b8c9a108f1370bace3b1d8b3300b7ec6.jpg" alt=""></p><center><span class="reference">图1：MySQL的源代码包含的主要目录</span></center><p>MySQL的源代码主要是.cc结尾的，也就是说，MySQL主要是用C++编写的。另外，也有少量几个代码文件是用C语言编写的。</p><p>为了跟踪MySQL的执行过程，你要用Debug模式编译MySQL，具体步骤可以参考这篇<a href="https://dev.mysql.com/doc/internals/en/cmake.html">开发者文档</a>。</p><p>如果你用单线程编译，大约需要1个小时。编译好以后，先初始化出一个数据库来：</p><pre><code>./mysqld --initialize --user=mysql
 

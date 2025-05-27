@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王庆友。</p><p>在上一讲中，我和你详细介绍了打造一个高性能系统的应对策略和架构手段。那么今天，我就以1号店的秒杀系统为例，来具体说明如何实现一个高性能的系统。</p><h2>背景和问题</h2><p>先说下背景。在2014年的时候，1号店作为网上超市类电商，经常在线上举行各种大促活动。比如进口牛奶促销活动，每次促销的牛奶有几十万盒，促销价格非常优惠，一般这样的促销活动会在某个整点的时间进行开卖（如上午10点）。对于这种质高价优并且是刚需的商品，会有大量的用户来抢购，俗话说“手快有，手慢无”，往往短短几分钟内，所有牛奶就能售卖完毕。</p><p>这本质上是一种秒杀活动，但商品数量非常大，一瞬间会有大量的用户流量涌入，流量可以高达平时的几十倍。而且和少量商品的秒杀不同，这些都是有效流量，最终会生成订单。</p><p>而在正常情况下，系统因为资源有限，只能处理10%的流量，无法处理剩下的90%流量，瞬间高并发的流量涌入，很大程度上会引起后台系统超时报错，导致用户下单不成功。这样一来，用户就会反复刷新页面，多次尝试下单，不但用户的体验不好，而且系统的压力会更大。</p><p><strong>最终的结果就是，系统往往由于过载，整体处理能力下降，甚至瘫痪，导致所有用户都无法购买。</strong>就像下图表示的一样，在秒杀场景下，系统会面临这样的困境：</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/e9/31/e933d73f5e41c6ef89080cf56be90031.jpg" alt=""></p><p>在这种情况下，对于用户来说，能不能买到商品，拼的是体力和人品，由于体验不好，用户会逐渐对活动失去兴趣；而对于系统来说，我们需要拼命地加机器来满足峰值流量。</p><p>每次1号店要进行大促的时候，在活动开始前，运营和技术人员会坐在一起，大家一起来预估活动的峰值流量，然后技术人员做评估，系统的哪些节点需要加机器，以及要加多少机器。但这样的做法其实存在几个问题：</p><ul>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是姚秋辰。</p><p>从今天开始，我们的课程就正式进入Spring Cloud环节了。我先带你学习微服务架构中一个最重要的原理概念：<strong>服务治理</strong>。在概念讲解之后，我还会向你介绍<strong>Nacos服务注册中心的体系结构</strong>。通过这节课的学习，你可以了解微服务的完整生命周期，知晓服务注册中心在微服务架构中发挥了什么作用，这些内容能让你对Nacos的体系架构有一个比较全面的认识。</p><p>首先，让我通过一个例子告诉你服务治理解决了什么问题。</p><p>我的系统包含两个微服务（服务A和服务B），每一个微服务有10个虚拟节点，两个服务组成了一个20台虚拟机的微服务集群。如果此时微服务A想要调用微服务B，我们怎么来发起这个调用呢？</p><p>一种通用做法是：在服务A的配置文件中添加一个指向服务B的地址，但这个地址并不直接指向任何一台服务B集群中的节点，而是指向一个VIP（虚拟IP地址）或者是一个网关。这个VIP或网关背后维护了B集群的服务节点列表，VIP层通过负载均衡策略再将请求转到后面配置的某一台服务器。我画了一幅图来描述这个服务调用过程。</p><p><img src="https://static001.geekbang.org/resource/image/fc/0d/fcd15ed204d43fe615cb50acbe58010d.jpg?wh=2000x984" alt=""></p><p>从上面的图中我们可以看出，服务A与服务B之间互相不直接通信，服务调用完全依靠VIP作为中间人来完成。我们如果想要为服务集群扩容或缩容，必须将服务器配置到对应的VIP地址上。如果你的应用是一个由数百个微服务组成的大型应用，光是管理这些VIP Pool的人力成本就够网络运维团队喝上一壶了。</p><!-- [[[read_end]]] --><p>那在微服务架构中，怎么才能实现一种简单可靠的远程服务调用，不让VIP中间商赚差价呢？这就要说到我们的服务治理理论了。</p><h2>服务治理初探</h2><p>如果我们要解决中间商赚差价的问题，那么最好的办法就是让双方直连。因此，服务治理要解决的首要任务就是<strong>服务注册</strong>与<strong>服务发现</strong>，通过这两项技术，我们就能让微服务之间发起面对面的直接调用。</p><p>那么服务A怎么知道服务B中每台机器的地址呢？为了让服务A拿到服务B的机器清单，我们需要搭建一个<strong>中心化的服务注册中心</strong>，服务B只要将自己的信息添加到注册中心里，服务A就能够从注册中心获取到服务B的所有节点列表。我画了一张图来帮助你更好地理解这个过程。</p><p><img src="https://static001.geekbang.org/resource/image/81/e2/81bd88faec1dd053104c3be5b6792de2.jpg?wh=2000x984" alt=""></p><p>从上图中的步骤中我们可以看出，首先，服务B集群向注册中心发起了注册，将自己的地址信息上报到注册中心，这个过程就是<strong>服务注册</strong>。接下来，每隔一段时间，服务A就会从服务中心获取服务B集群的服务列表，或者由服务中心将服务列表的变动推送给服务A，这个过程叫做<strong>服务发现</strong>；最后，服务A根据本地负载均衡策略，从服务列表中选取某一个服务B的节点，发起服务调用。</p><p>在这个过程中，<strong>注册中心的角色是一个中心化的信息管理者</strong>，所有的微服务节点在启动后都会将自己的地址信息添加到注册中心。在服务注册的过程中，有两个关键信息是最为重要的，我把它们列在了这里。</p><ol>
 

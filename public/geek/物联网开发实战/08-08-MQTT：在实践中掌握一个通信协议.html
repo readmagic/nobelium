@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是郭朝斌。</p><p>在基础篇的<a href="https://time.geekbang.org/column/article/307518">第 3 讲</a>中，我介绍了几种物联网系统中常用的网络协议。它们是物联网设备之间沟通的“语言”，使用同一种语言，双方才能通信成功。</p><p>那么，在这么多网络协议当中，最流行的是哪一种呢？毫无疑问，是MQTT协议，它甚至已经成为物联网系统事实上的网络协议标准。如果你想从事物联网开发，就一定要掌握MQTT。</p><p>所以这一讲，我就会带你了解MQTT，在实践中熟悉它的特性。</p><h2>体验MQTT</h2><p>为了让你对MQTT有一个直观的印象，我先带你体验一下它的通信过程，</p><p>第一步是安装 hbmqtt，它是一个开源的基于Python语言的 MQTT Broker  软件，正好包括我们需要使用一些工具。跟其他选择相比，这个软件安装起来非常方便，因为它在 Python 的 PYPI 软件仓库中就有，所以你通过 pip 命令就可以安装。这也是选择使用它的主要原因。</p><p>不过要注意的是，hbmqtt 是基于Python3实现的，因此这里使用的是 pip3 工具。</p><pre><code>pip3 install hbmqtt
 

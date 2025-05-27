@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是志东，欢迎和我一起从零打造秒杀系统。</p><p>今天这节课我们主要是聊一聊和Java相关的一些技术点的优化方向，包括Tomcat、RPC框架、JVM以及CDN等。但在开始之前呢，我们先来说个基本知识点，那就是关于程序代码的两种运行模式，即 <strong>CPU密集型与IO密集型</strong>。</p><p>CPU密集型操作，顾名思义就是需要持续依赖CPU资源来执行的操作，比如各种逻辑计算、解析、判断等等。在这种情况下，我们的优化方向是尽可能地利用多核CPU资源，并且避免让CPU做无效的切换，因为CPU已经在不停地工作了，谁来干都一样，同时切换CPU还浪费资源。所以这个时候，我们最好让任务线程数和CPU核数保持一致，从而最大限度地利用CPU资源。</p><p>和CPU密集型操作相对的，就是IO密集型操作了，比如磁盘IO或者网络IO，这个过程操作系统会挂起任务线程，让出CPU资源。此时如果任务线程较少，同时IO时间相对较长，那可能会出现所有线程都被挂起，然后CPU资源都在闲着的情况，所以此时我们需要适当地增加任务线程数量，来提高吞吐量，同时将CPU资源利用起来。</p><p>那为什么要说这个呢？因为这是做程序优化的基本原则。通过前面课程的学习，我们知道，秒杀系统里有提供两种类型的服务，一个是Web服务，一个是RPC服务，前者一般提供HTTP接口，后者提供RPC接口。当然这两种服务我们一般都是通过Tomcat来启动发布，但它们两者之间还是有些不同的。Web服务接受和处理请求走的是Tomcat那套线程模型，而RPC服务则是根据选择的RPC框架的不同而有所变化，所以这节课我们首先来了解一下Tomcat相关的知识。</p><!-- [[[read_end]]] --><p></p><h2><strong>Tomcat</strong></h2><p>根据我们以往“知己知彼”的学习方式，先看下 <strong>Tomcat在NIO线程模型下是怎么工作的</strong>，简图如下所示：</p><p><img src="https://static001.geekbang.org/resource/image/09/9c/09f73f9dabbyyabe8c78dcbc0abfc79c.jpg?wh=1378x1190" alt=""></p><p>简单来说就是：</p><ul>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱维刚。欢迎你跟我一起重学线性代数！</p><p>在上一节课中，我讲解了线性方程组的另一种表达——矩阵。那么今天，我们就来讲解一下如何使用矩阵来解线性方程组，也就是如何求线性方程组的特殊解和通用解。</p><p>简单的线性方程组，我们当然可以运用初中学过的知识来求解，那复杂的呢？硬来几乎是不可能的了，一方面是因为人工计算的错误率很高，另一方面，即使我们使用计算机，用类似for或while循环来实现算法，它的计算效率也是极低的。你需要用更科学的方式、方法，从另一个角度来看待和求解线性方程组。</p><p>而矩阵就是为我们打开高效之门的钥匙，从计算机科学的角度来说，使用矩阵的运算效率实在是高太多了，因为它可以利用计算机的并行能力，甚至在一些迭代法中，还能实现分布式并行计算（迭代法会在后面“应用篇”中讲解）。</p><h2>线性方程组解的寻找</h2><p>现在，就让我们开始去寻找线性方程组的解。在之前的课程中，我们已经引入了线性方程组的一般表达，你可以看看下面的例子。</p><p>$$<br>
 

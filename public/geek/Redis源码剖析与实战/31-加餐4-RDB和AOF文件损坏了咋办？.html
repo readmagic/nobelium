@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是蒋德钧。今天的加餐课程，我来和你聊聊Redis对损坏的RDB和AOF文件的处理方法。</p><p>我们知道，Redis为了提升可靠性，可以使用AOF记录操作日志，或者使用RDB保存数据库镜像。AOF文件的记录和RDB文件的保存都涉及写盘操作，但是，如果在写盘过程中发生了错误，就会导致AOF或RDB文件不完整。而Redis使用不完整的AOF或RDB文件，是无法恢复数据库的。那么在这种情况下，我们该怎么处理呢？</p><p></p><p>实际上，Redis为了应对这个问题，就专门实现了针对AOF和RDB文件的完整性检测工具，也就是redis-check-aof和redis-check-rdb两个命令。今天这节课，我就来给你介绍下这两个命令的实现以及它们的作用。学完这节课后，如果你再遇到无法使用AOF或RDB文件恢复Redis数据库时，你就可以试试这两个命令。</p><p></p><p>接下来，我们先来看下AOF文件的检测和修复。</p><p></p><h2>AOF文件检测与修复</h2><p>要想掌握AOF文件的检测和修复，我们首先需要了解下，AOF文件的内容格式是怎样的。</p><p></p><h3>AOF文件的内容格式</h3><p>AOF文件记录的是Redis server运行时收到的操作命令。当Redis server往AOF文件中写入命令时，它会按照RESP 2协议的格式来记录每一条命令。当然，如果你使用了Redis 6.0版本，那么Redis会采用RESP 3协议。我在第一季的时候，曾经给你介绍过Redis客户端和server之间进行交互的<a href="https://time.geekbang.org/column/article/298504">RESP 2协议</a>，你可以再去回顾下。</p><!-- [[[read_end]]] --><p></p><p>这里我们就简单来说下，RESP 2协议会为每条命令或每个数据进行编码，在每个编码结果后面增加一个<strong>换行符“\r\n”</strong>，表示一次编码结束。一条命令通常会包含命令名称和命令参数，RESP 2协议会使用数组编码类型来对命令进行编码。比如，当我们在AOF文件中记录一条SET course redis-code命令时，Redis会分别为命令本身SET、key和value的内容course和redis-code进行编码，如下所示：</p><pre><code class="language-plain">*3
 

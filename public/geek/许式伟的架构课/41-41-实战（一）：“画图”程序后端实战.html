@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是七牛云许式伟。</p><p>到今天为止，服务端开发的基本内容已经讲完了。我们花了比较长的篇幅来介绍服务端的基础软件，包括负载均衡和各类存储中间件。然后我们上一讲介绍了服务端在业务架构上的一些通用问题。</p><p>今天我们开始进入实战。</p><p>对比服务端和桌面的内容可以看出，服务端开发和桌面端开发各自有各自的复杂性。服务端开发，难在基础软件很多，对程序员和架构师的知识面和理解深度都有较高的要求。但从业务复杂性来说，服务端的业务逻辑相对简单。而桌面端开发则相反，它的难点在于用户交互逻辑复杂，代码量大，业务架构的复杂性高。</p><p>上一章的实战篇，蛮多人反馈有点难，这某种程度来说和我们课程内容设计的规划有关。上一章我们从架构角度来说，偏重于介绍概要设计，也就是系统架构。所以我们对实现细节并没有做过多的剖析，而是把重心放在模块之间的接口耦合上。这是希望你把关注点放在全局，而不是一上来就进入局部细节。但是由于缺乏完整流程的剖析，大家没法把整个过程串起来，理解上就会打折扣。</p><p>这一章我们在架构上会偏重于详细设计。这在实战篇也会有所体现。</p><p>在上一章，我们实现了一个 mock 版本的服务端，代码如下：</p><ul>
 

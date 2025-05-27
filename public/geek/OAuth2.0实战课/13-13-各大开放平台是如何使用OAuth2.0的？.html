@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王新栋。</p><p>在咱们这门课中，我提到了很多次“开放平台”，不难理解，它的作用就是企业把自己的业务能力主要以开放API的形式，赋能给外部开发者。而作为第三方开发者或者ISV（独立软件供应商）在接入这些开放平台的时候，我们最应该关心的就是它们的官方文档，关注接入的流程是怎样的、对应的API是什么、每个API都传递哪些参数，也就差不多够了。</p><p>到这里，你会发现“开放平台的官方文档”会是一个关键点。不过呢，当你去各大开放平台上面看这些文档的时候，就会发现这些文档非常分散。</p><p>其中的原因也很简单，那就是开放平台为了让已经具备OAuth 2.0知识的研发人员去快速地对接平台上面的业务，把各类对接流程做了分类归档。比如，你会发现微信开放平台上有使用授权码获取授权信息的文档，也有获取令牌的文档，但并没有一份整体的、能够串起来的文档说明。从我的角度来看，这其实也就间接提高了使用门槛，因为如果你不懂OAuth 2.0，基本是没办法理解那些分类的。</p><p>那么，今天我就借着这个点，和你说说以京东、微信、支付宝、美团为代表的各大开放平台是如何使用OAuth 2.0的。理解了这个问题，你以后再对接一个开放平台、再阅读一份官方对接文档时，就更能明白它们的底层逻辑了。</p><!-- [[[read_end]]] --><p>在正式介绍各大开放平台的使用细节之前，我们先来看看大厂的开放平台全局体系。据我观察，各个开放平台基本的系统结构和授权系统在中间的交互流程，大同小异，都是通过授权服务来授权，通过网关来鉴权。所以接下来，我就以京东商家开放平台为例，来和你说说开放平台的体系到底是什么样子的。</p><h2>开放平台体系是什么样子的？</h2><p>我们首先来看一下京东商家开放平台全局体系的结构，如下图所示。</p><p><img src="https://static001.geekbang.org/resource/image/57/56/5775b5bbc363ba2f94d9f6f8e2d05d56.png" alt="" title="图1 京东商家开放平台体系结构示意图"></p><p>我们可以把这个架构体系分为三部分来看：</p><ol>
 

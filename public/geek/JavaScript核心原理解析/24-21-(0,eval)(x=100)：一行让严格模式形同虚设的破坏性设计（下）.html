@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是周爱民。欢迎回到我的专栏。书接上回，这一讲我们仍然讲动态执行。</p><p>之前我说到过，setTimeout和setInterval的第一个参数可以使用字符串，那么如果这个参数使用字符串的话，代码将会在哪里执行呢？毕竟当定时器被触发的时候，程序的执行流程“很可能”已经离开了当前的上下文环境，而切换到未知的地方去了。</p><p>所以，的确如你所猜测的那样，如果采用这种方式来执行代码，那么代码片断将在全局环境中执行。并且，这也是后来这一功能被部分限制了的原因，例如你在某些版本的Firefox中这样做，那么你可能会得到如下的错误提示：</p><pre><code>&gt; setTimeout('alert(&quot;HI&quot;)', 1000)
 

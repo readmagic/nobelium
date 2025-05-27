@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是刘超。</p><p>MySQL是一个灵活性比较强的数据库系统，提供了很多可配置参数，便于我们根据应用和服务器硬件来做定制化数据库服务。如果现在让你回想，你可能觉得在开发的过程中很少去调整MySQL的配置参数，但我今天想说的是我们很有必要去深入了解它们。</p><p>我们知道，数据库主要是用来存取数据的，而存取数据涉及到了磁盘I/O的读写操作，所以数据库系统主要的性能瓶颈就是I/O读写的瓶颈了。<span class="orange">MySQL数据库为了减少磁盘I/O的读写操作，应用了大量内存管理来优化数据库操作，包括内存优化查询、排序以及写入操作。</span></p><p>也许你会想，我们把内存设置得越大越好，数据刷新到磁盘越快越好，不就对了吗？其实不然，内存设置过大，同样会带来新的问题。例如，InnoDB中的数据和索引缓存，如果设置过大，就会引发SWAP页交换。还有数据写入到磁盘也不是越快越好，我们期望的是在高并发时，数据能均匀地写入到磁盘中，从而避免I/O性能瓶颈。</p><blockquote>
 

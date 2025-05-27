@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是涂伟忠。在上一讲中，我们已经学习了正则中和一些元字符相关的内容。这一节我们讲一下正则中的三种模式，贪婪匹配、非贪婪匹配和独占模式。</p><p>这些模式会改变正则中量词的匹配行为，比如匹配一到多次；在匹配的时候，匹配长度是尽可能长还是要尽可能短呢？如果不知道贪婪和非贪婪匹配模式，我们写的正则很可能是错误的，这样匹配就达不到期望的效果了。</p><h2>为什么会有贪婪与非贪婪模式？</h2><p>由于本节内容和量词相关的元字符密切相关，所以我们先来回顾一下正则中表示量词的元字符。</p><p><img src="https://static001.geekbang.org/resource/image/2b/c3/2b03098dcc203c648a40f89a0ba77fc3.png" alt=""></p><p>在这6种元字符中，我们可以用 {m,n} 来表示 （*）（+）（?） 这3种元字符：</p><p><img src="https://static001.geekbang.org/resource/image/38/74/38ceb28add7794fe9ed069e08fb1b374.jpg" alt=""></p><p>表示量词的星号（*）和 加号（+）可能没你想象的那么简单，我用一个例子给你讲解一下。我们先看一下加号（+），使用 a+ 在 aaabb 中查找，可以看到只有一个输出结果：</p><p><img src="https://static001.geekbang.org/resource/image/2b/08/2b3e3f549e69fdd398c15d6b0bd44e08.png" alt=""></p><p>对应的Python代码如下：</p><pre><code>&gt;&gt;&gt; import re
 

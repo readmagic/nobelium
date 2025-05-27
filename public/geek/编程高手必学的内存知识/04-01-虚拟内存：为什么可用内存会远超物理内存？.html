@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是海纳。</p><p>今天是我们的第1节课，我想用一个比较有趣的、很多人都遇到过的问题作为我们这门课的开场，带你正式迈入计算机内存的学习课堂。</p><p>我不知道在你刚接触计算机的时候，有没有这么一个疑问：“为什么我的机器上只有两个G的物理内存，但我却可以使用比这大得多的内存，比如256T？”</p><p>反正我当时还是挺疑惑的，不过现在我可以来告诉你这个答案了。这个问题背后的机制是十分复杂的，但它的核心是计算机中物理内存和虚拟内存的关系，尤其是虚拟内存的运行原理。只要你搞懂了它们，这个问题也就迎刃而解了。</p><p>不止如此，虚拟内存的运行原理还是打开计算机底层知识大门的钥匙，只有掌握好它，我们才能继续学习更多的底层原理。我们整个课程的目的，就是让你在遇到进程崩溃、内存访问错误、SIGSEGV、double free、内存泄漏等与内存相关的错误时，可以有的放矢，把握分析问题的方向。而今天的第一课就是把打开这扇门的钥匙交到你手上。</p><p>在回答虚拟内存的相关问题之前，我们需要先看看物理内存的含义。</p><h2>物理内存</h2><p>计算机的物理内存，简单说就是那根内存条，你的内存条是1G的，那计算机可用的物理内存就是1G。这个内存条加电以后就可以存储数据了，CPU运算的数据都是存储在主存里的。</p><!-- [[[read_end]]] --><p>计算机的主存是由多个连续的单元组成的，每个单元称为一个字节，每个字节都有一个唯一的物理地址(Physical Address， PA)，地址编码是从0开始的。所以，如果计算机上配有2G的内存，那么，这个计算机可用的物理内存空间就是0到2G。</p><p>在早期的CPU指令集里，从内存中加载数据，向内存中写入数据都是直接操作物理内存的。也就是说每一个数据存储在内存的什么位置，都由程序员自己负责。例如，8086这款40年前的CPU的mov指令就可以直接访问物理内存。至今，X86架构的CPU在上电以后，为了与8086保持兼容，还是运行在16位实模式下，实模式的特点是所有访存指令访问的都是物理内存地址。你可以先看看这条代码：</p><pre><code>movb ($0x10), %ax
 

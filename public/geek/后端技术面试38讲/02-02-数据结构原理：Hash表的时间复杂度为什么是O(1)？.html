@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>大概十年前，我在阿里巴巴工作的时候，曾经和另一个面试官一起进行一场技术面试，面试过程中我问了一个问题：<strong>Hash表的时间复杂度为什么是O(1)</strong>？候选人没有回答上来。面试结束后我和另一个面试官有了分歧，我觉得这个问题没有回答上来是不可接受的。而他则觉得，这个问题有一点难度，回答不上来不说明什么。</p><p>因为有了这次争执，后来这个问题成了我面试时的必考题。此后十年间，我用这个问题面试了大约上千人，这些面试经历让我更加坚定了一个想法：这个问题就是候选人技术水平的一个分水岭，是证明一个技术人员是否具有必备专业技能和技术悟性的一个门槛。这个槛过不去是不可接受的。</p><p>为什么呢？我很难相信，如果基本的数据结构没有掌握好，如何能开发好一个稍微复杂一点的程序？</p><p>要了解Hash表，需要先从数组说起。</p><h2>数组</h2><p>数组是最常用的数据结构，创建数组必须要内存中一块<strong>连续</strong>的空间，并且数组中必须存放<strong>相同</strong>的数据类型。比如我们创建一个长度为10，数据类型为整型的数组，在内存中的地址是从1000开始，那么它在内存中的存储格式如下。</p><p><img src="https://static001.geekbang.org/resource/image/c9/71/c98f1f08afacdb9754e6d18c1d7e0471.png" alt=""><br>
 

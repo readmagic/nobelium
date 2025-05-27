@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是韩健。</p><p>很多同学在开发系统的时候，都会有这样的感觉：明明自己看了很多资料，掌握了技术背后的原理，可在开发和调试的时候还是很吃力，这是为什么呢？</p><p>答案很简单，因为理论和实践本来就是两回事，实践不仅需要掌握API接口的用法，还需要理解API背后的代码实现。</p><p>所以，如果你在使用Raft开发分布式系统的时候，仅仅阅读Raft论文或者Raft实现的API手册，是远远不够的。你还要吃透API背后的代码实现，“不仅知其然，也要知其所以然”，这样才能“一切尽在掌握中”，从而开发实现能稳定运行的分布式系统。那么怎么做才能吃透Raft的代码实现呢？</p><p>要知道，任何Raft实现都承载了两个目标：实现Raft算法的原理，设计易用的API接口。所以，你不仅要从算法原理的角度理解代码实现，而且要从场景使用的角度理解API接口的用法。</p><p>而我会用两节课的时间，<strong>从代码实现和接口使用两个角度，</strong>带你循序渐进地掌握当前流行的一个Raft实现：<a href="https://github.com/hashicorp/raft">Hashicorp Raft</a>（以最新稳定版v1.1.1为例）。希望你在这个过程中集中注意力，勾划重点，以便提高学习效率，吃透原理对应的技术实现，彻底掌握Raft算法的实战技巧。</p><p>本节课，我会从算法原理的角度，聊一聊Raft算法的核心功能（领导者选举和日志复制）在Hashicorp Raft中是如何实现的。（如果Raft算法的原理你已经忘得差不多了，那你可以先回顾下7～9讲，加深印象之后，再进入今天的学习。）</p><!-- [[[read_end]]] --><h2>Hashicorp Raft如何实现领导者选举？</h2><p><strong>在我看来，阅读源码的关键，在于找到代码的入口函数，</strong>比如在Golang代码中，程序的入口函数一般为main()函数，那么领导者选举的入口函数是哪个呢？</p><p>我们知道，典型的领导者选举在本质上是节点状态的变更。具体到Hashicorp Raft源码中，领导者选举的入口函数run()，在raft.go中以一个单独的协程运行，来实现节点状态变迁，就像下面的样子：</p><pre><code>func (r *Raft) run() {
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>在当今的互联网时代，我们每个人获取信息的机会基本上都是平等的，但是为什么有些人对信息理解得更深，并且有自己独到的见解呢？我认为是因为他们养成了思考和总结的好习惯。当我们学习一门技术的时候，如果可以勤于思考、善于总结，可以帮助我们看到现象背后更本质的东西，让我们在成长之路上更快“脱颖而出”。</p><p>我们经常谈敏捷、快速迭代和重构，这些都是为了应对需求的快速变化，也因此我们在开始设计一个系统时就要考虑可扩展性。那究竟该怎样设计才能适应变化呢？或者要设计成什么样后面才能以最小的成本进行重构呢？今天我来总结一些Tomcat和Jetty组件化的设计思想，或许从中我们可以得到一些启发。</p><h2>组件化及可配置</h2><p>Tomcat和Jetty的整体架构都是基于组件的，你可以通过XML文件或者代码的方式来配置这些组件，比如我们可以在server.xml配置Tomcat的连接器以及容器组件。相应的，你也可以在jetty.xml文件里组装Jetty的Connector组件，以及各种Handler组件。也就是说，<strong>Tomcat和Jetty提供了一堆积木，怎么搭建这些积木由你来决定</strong>，你可以根据自己的需要灵活选择组件来搭建你的Web容器，并且也可以自定义组件，这样的设计为Web容器提供了深度可定制化。</p><!-- [[[read_end]]] --><p>那Web容器如何实现这种组件化设计呢？我认为有两个要点：</p><ul>
 

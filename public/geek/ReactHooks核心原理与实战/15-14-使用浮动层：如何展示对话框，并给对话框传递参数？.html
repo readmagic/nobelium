@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王沛。今天我们来聊聊如何在 React 中处理对话框。</p><p>对话框是前端应用中非常常用的一种界面模式，它们通常是应用中的一个独立窗口，用于展示信息或者输入信息。</p><p>但是在 React 中，使用对话框其实并不容易，主要原因在于两点：</p><p>一方面，对话框需要先在父组件中声明，才能在子组件中控制其是否显示。</p><p>比如说我们需要同时在布局的 header 和 sider 上用菜单去控制某个对话框是否显示，那么这个对话框就必须定义在根组件上。</p><p>另一方面，给对话框传递参数只能由 props 传入，这意味着所有的状态管理都需要在更高级别的组件上。而实际上呢，这个对话框的参数可能只在子组件中才会维护，这时我们就需要利用自定义事件将参数回传，非常麻烦。</p><h2>案例导入：处理对话框的误区</h2><p>为了方便你理解这两点，我给你举一个实际场景的例子，你就能明白为什么说在 React 中，常用的对话框是比较难处理的。比如说我们需要实现下面这个截图演示的功能：</p><p><img src="https://static001.geekbang.org/resource/image/f8/2d/f8be7ed1yyac44c70caa9bfc74ce4c2d.png?wh=1470x726" alt=""></p><p>在这个例子中，我们有一个左右布局的页面。左边栏有一个新建用户的按钮，右边是一个用户列表。点击新建用户的按钮，或者点击表格中的编辑按钮，都会显示同一个对话框。这个对话框根据是否传入用户数据作为参数，来决定是新建还是编辑用户。</p><!-- [[[read_end]]] --><p>这个页面的代码一般会用下面的 JSX 去实现：</p><pre><code>&lt;div className=&quot;main-layout&quot;&gt;
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈航。</p><p>为了把Flutter引入到原生工程，我们需要把Flutter工程改造为原生工程的一个组件依赖，并以组件化的方式管理不同平台的Flutter构建产物，即Android平台使用aar、iOS平台使用pod进行依赖管理。这样，我们就可以在Android工程中通过FlutterView，iOS工程中通过FlutterViewController，为Flutter搭建应用入口，实现Flutter与原生的混合开发方式。</p><p>我在<a href="https://time.geekbang.org/column/article/127601">第26篇</a>文章中提到，FlutterView与FlutterViewController是初始化Flutter的地方，也是应用的入口。可以看到，以混合开发方式接入Flutter，与开发一个纯Flutter应用在运行机制上并无任何区别，只需要原生工程为它提供一个画板容器（Android为FlutterView，iOS为FlutterViewController），Flutter就可以自己管理页面导航栈，从而实现多个复杂页面的渲染和切换。</p><p>关于纯Flutter应用的页面路由与导航，我已经在<a href="https://time.geekbang.org/column/article/118421">第21篇文章</a>中与你介绍过了。今天这篇文章，我会为你讲述在混合开发中，应该如何管理混合导航栈。</p><!-- [[[read_end]]] --><p>对于混合开发的应用而言，通常我们只会将应用的部分模块修改成Flutter开发，其他模块继续保留原生开发，因此应用内除了Flutter的页面之外，还会有原生Android、iOS的页面。在这种情况下，Flutter页面有可能会需要跳转到原生页面，而原生页面也可能会需要跳转到Flutter页面。这就涉及到了一个新的问题：如何统一管理原生页面和Flutter页面跳转交互的混合导航栈。</p><p>接下来，我们就从这个问题入手，开始今天的学习吧。</p><h2>混合导航栈</h2><p>混合导航栈，指的是原生页面和Flutter页面相互掺杂，存在于用户视角的页面导航栈视图中。</p><p>以下图为例，Flutter与原生Android、iOS各自实现了一套互不相同的页面映射机制，即原生采用单容器单页面（一个ViewController/Activity对应一个原生页面）、Flutter采用单容器多页面（一个ViewController/Activity对应多个Flutter页面）的机制。Flutter在原生的导航栈之上又自建了一套Flutter导航栈，这使得Flutter页面与原生页面之间涉及页面切换时，我们需要处理跨引擎的页面切换。</p><p><img src="https://static001.geekbang.org/resource/image/60/dd/603d3f3777ef09a420b7b794efe0c9dd.png" alt=""></p><center><span class="reference">图1 混合导航栈示意图</span></center><p>接下来，我们就分别看看从原生页面跳转至Flutter页面，以及从Flutter页面跳转至原生页面，应该如何处理吧。</p><h3>从原生页面跳转至Flutter页面</h3><p>从原生页面跳转至Flutter页面，实现起来比较简单。</p><p>因为Flutter本身依托于原生提供的容器（iOS为FlutterViewController，Android为Activity中的FlutterView），所以我们通过初始化Flutter容器，为其设置初始路由页面之后，就可以以原生的方式跳转至Flutter页面了。</p><p>如下代码所示。对于iOS，我们初始化一个FlutterViewController的实例，为其设置初始化页面路由后，将其加入原生的视图导航栈中完成跳转。</p><p>对于Android而言，则需要多加一步。因为Flutter页面的入口并不是原生视图导航栈的最小单位Activity，而是一个View（即FlutterView），所以我们还需要把这个View包装到Activity的contentView中。在Activity内部设置页面初始化路由之后，在外部就可以采用打开一个普通的原生视图的方式，打开Flutter页面了。</p><pre><code>//iOS 跳转至Flutter页面
 

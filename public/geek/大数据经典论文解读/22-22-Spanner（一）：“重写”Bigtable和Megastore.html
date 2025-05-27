@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是徐文浩。</p><p>经过两个月的旅程，我们终于来到了Spanner面前。在这个课程的一开始，我们一起看过GFS这样的分布式文件存储系统，然后基于GFS的分布式存储，我们看到了Bigtable这样的分布式KV数据库是如何搭建的。接着在过去的三讲里，我们又看到了Megastore是如何基于Bigtable搭建出来的。相信你现在也发现了，通过不断利用已经搭建好的成熟系统，分布式数据库的功能越来越强大，架构也越来越复杂。</p><p>不过，即使是Megastore，它也仍然有各种各样的缺点。比如想要跨实体组实现事务，我们就需要使用昂贵的两阶段事务。而由于所有的跨数据中心的数据写入，都是通过Paxos算法来实现的，这就使得单个实体组也只能支持每秒几次的事务。</p><p>所以，最终Google还是选择了另起炉灶，实现了一个全新的数据库系统Spanner。Spanner的论文一发表，就获得了很大的反响，成为了新一代数据库的标杆。而论文的标题也很简单明确，就叫做“Google’s Globally-Distributed Database”。</p><p>那么，在接下来的两讲里，我们就一起来学习一下Spanner的这篇论文的内容。<strong>Spanner不同于Megastore，它是一个全新设计的新系统，而不是在Megastore或者Bigtable上修修补补。</strong>不过，Spanner从Bigtable和Megastore的设计和应用中，都汲取了非常多的养分，你会在它的论文里看到大量Bigtable和Megastore的影子。</p><!-- [[[read_end]]] --><p>好在，我们在过去的两个月里，对于Bigtable、Paxos算法、数据库事务，以及Megastore的架构都已经做了深入的学习和理解，所以Spanner的论文不会是那么难懂的了。</p><p>在课程中，我们会主要剖析Spanner这篇论文的两个主题：</p><ul>
 

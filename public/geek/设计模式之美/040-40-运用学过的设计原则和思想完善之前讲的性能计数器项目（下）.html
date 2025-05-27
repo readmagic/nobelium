@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>上一节课中，我们针对版本1存在的问题（特别是Aggregator类、ConsoleReporter和EmailReporter类）进行了重构优化。经过重构之后，代码结构更加清晰、合理、有逻辑性。不过，在细节方面还是存在一些问题，比如ConsoleReporter、EmailReporter类仍然存在代码重复、可测试性差的问题。今天，我们就在版本3中持续重构这部分代码。</p><p>除此之外，在版本3中，我们还会继续完善框架的功能和非功能需求。比如，让原始数据的采集和存储异步执行，解决聚合统计在数据量大的情况下会导致内存吃紧问题，以及提高框架的易用性等，让它成为一个能用且好用的框架。</p><p>话不多说，让我们正式开始版本3的设计与实现吧！</p><h2>代码重构优化</h2><p>我们知道，继承能解决代码重复的问题。我们可以将ConsoleReporter和EmailReporter中的相同代码逻辑，提取到父类ScheduledReporter中，以解决代码重复问题。按照这个思路，重构之后的代码如下所示：</p><pre><code>public abstract class ScheduledReporter {
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是刘超。</p><p>从第二个模块开始，我将带你学习Java编程的性能优化。今天我们就从最基础的String字符串优化讲起。</p><p>String对象是我们使用最频繁的一个对象类型，但它的性能问题却是最容易被忽略的。String对象作为Java语言中重要的数据类型，是内存中占据空间最大的一个对象。<span class="orange">高效地使用字符串，可以提升系统的整体性能。</span></p><p>接下来我们就从String对象的实现、特性以及实际使用中的优化这三个方面入手，深入了解。</p><p>在开始之前，我想先问你一个小问题，也是我在招聘时，经常会问到面试者的一道题。虽是老生常谈了，但错误率依然很高，当然也有一些面试者答对了，但能解释清楚答案背后原理的人少之又少。问题如下：</p><p>通过三种不同的方式创建了三个对象，再依次两两匹配，每组被匹配的两个对象是否相等？代码如下：</p><pre><code>String str1= &quot;abc&quot;;
 

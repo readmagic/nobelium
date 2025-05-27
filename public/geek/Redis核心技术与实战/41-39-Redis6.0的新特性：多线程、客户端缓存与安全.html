@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是蒋德钧。</p><p>Redis官方在今年5月份正式推出了6.0版本，这个版本中有很多的新特性。所以，6.0刚刚推出，就受到了业界的广泛关注。</p><p>所以，在课程的最后，我特意安排了这节课，想来和你聊聊Redis 6.0中的几个关键新特性，分别是面向网络处理的多IO线程、客户端缓存、细粒度的权限控制，以及RESP 3协议的使用。</p><p>其中，面向网络处理的多IO线程可以提高网络请求处理的速度，而客户端缓存可以让应用直接在客户端本地读取数据，这两个特性可以提升Redis的性能。除此之外，细粒度权限控制让Redis可以按照命令粒度控制不同用户的访问权限，加强了Redis的安全保护。RESP 3协议则增强客户端的功能，可以让应用更加方便地使用Redis的不同数据类型。</p><p>只有详细掌握了这些特性的原理，你才能更好地判断是否使用6.0版本。如果你已经在使用6.0了，也可以看看怎么才能用得更好，少踩坑。</p><p>首先，我们来了解下6.0版本中新出的多线程特性。</p><h2>从单线程处理网络请求到多线程处理</h2><p><strong>在Redis 6.0中，非常受关注的第一个新特性就是多线程</strong>。这是因为，Redis一直被大家熟知的就是它的单线程架构，虽然有些命令操作可以用后台线程或子进程执行（比如数据删除、快照生成、AOF重写），但是，从网络IO处理到实际的读写命令处理，都是由单个线程完成的。</p><!-- [[[read_end]]] --><p>随着网络硬件的性能提升，Redis的性能瓶颈有时会出现在网络IO的处理上，也就是说，<strong>单个主线程处理网络请求的速度跟不上底层网络硬件的速度</strong>。</p><p>为了应对这个问题，一般有两种方法。</p><p>第一种方法是，用用户态网络协议栈（例如DPDK）取代内核网络协议栈，让网络请求的处理不用在内核里执行，直接在用户态完成处理就行。</p><p>对于高性能的Redis来说，避免频繁让内核进行网络请求处理，可以很好地提升请求处理效率。但是，这个方法要求在Redis的整体架构中，添加对用户态网络协议栈的支持，需要修改Redis源码中和网络相关的部分（例如修改所有的网络收发请求函数），这会带来很多开发工作量。而且新增代码还可能引入新Bug，导致系统不稳定。所以，Redis 6.0中并没有采用这个方法。</p><p>第二种方法就是采用多个IO线程来处理网络请求，提高网络请求处理的并行度。Redis 6.0就是采用的这种方法。</p><p>但是，Redis的多IO线程只是用来处理网络请求的，对于读写命令，Redis仍然使用单线程来处理。这是因为，Redis处理请求时，网络处理经常是瓶颈，通过多个IO线程并行处理网络操作，可以提升实例的整体处理性能。而继续使用单线程执行命令操作，就不用为了保证Lua脚本、事务的原子性，额外开发多线程互斥机制了。这样一来，Redis线程模型实现就简单了。</p><p>我们来看下，在Redis 6.0中，主线程和IO线程具体是怎么协作完成请求处理的。掌握了具体原理，你才能真正地会用多线程。为了方便你理解，我们可以把主线程和多IO线程的协作分成四个阶段。</p><p><strong>阶段一：服务端和客户端建立Socket连接，并分配处理线程</strong></p><p>首先，主线程负责接收建立连接请求。当有客户端请求和实例建立Socket连接时，主线程会创建和客户端的连接，并把 Socket 放入全局等待队列中。紧接着，主线程通过轮询方法把Socket连接分配给IO线程。</p><p><strong>阶段二：IO线程读取并解析请求</strong></p><p>主线程一旦把Socket分配给IO线程，就会进入阻塞状态，等待IO线程完成客户端请求读取和解析。因为有多个IO线程在并行处理，所以，这个过程很快就可以完成。</p><p><strong>阶段三：主线程执行请求操作</strong></p><p>等到IO线程解析完请求，主线程还是会以单线程的方式执行这些命令操作。下面这张图显示了刚才介绍的这三个阶段，你可以看下，加深理解。</p><p><img src="https://static001.geekbang.org/resource/image/58/cd/5817b7e2085e7c00e63534a07c4182cd.jpg" alt=""></p><p><strong>阶段四：IO线程回写Socket和主线程清空全局队列</strong></p><p>当主线程执行完请求操作后，会把需要返回的结果写入缓冲区，然后，主线程会阻塞等待IO线程把这些结果回写到Socket中，并返回给客户端。</p><p>和IO线程读取和解析请求一样，IO线程回写Socket时，也是有多个线程在并发执行，所以回写Socket的速度也很快。等到IO线程回写Socket完毕，主线程会清空全局队列，等待客户端的后续请求。</p><p>我也画了一张图，展示了这个阶段主线程和IO线程的操作，你可以看下。</p><p><img src="https://static001.geekbang.org/resource/image/2e/1b/2e1f3a5bafc43880e935aaa4796d131b.jpg" alt=""></p><p>了解了Redis主线程和多线程的协作方式，我们该怎么启用多线程呢？在Redis 6.0中，多线程机制默认是关闭的，如果需要使用多线程功能，需要在redis.conf中完成两个设置。</p><p><strong>1.设置io-thread-do-reads配置项为yes，表示启用多线程。</strong></p><pre><code>io-threads-do-reads yes
 

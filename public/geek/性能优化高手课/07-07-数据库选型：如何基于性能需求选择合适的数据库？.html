@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是尉刚强。</p><p>我们知道，在软件系统的性能建模分析设计中，并行架构设计、IO模型设计、内存模型设计是最核心的三个维度，它们决定了最终产品的性能底座。而在互联网应用服务产品中，内存模型设计与IO模型设计的大部分职责，其实在很大程度上都沉淀到了数据库服务与消息中间件中来实现。</p><p>所以，这节课我会聚焦在数据库选型上，以一个真实的性能需求案例为引导，来带你了解在设计或性能优化阶段，如何寻找备选数据库并进行初步地分析、筛选，然后基于性能评估与软件设计的权衡，来进行数据库选型与方案设计的过程方法。</p><p>不过我们也要知道，数据库的种类非常繁多，要了解每一款数据库的功能与性能其实是不现实的，所以这节课我主要的目的就是<strong>帮你建立基于性能的数据库选型思路</strong>。这样，当你面对不熟悉的性能需求或问题时，也可以做到有的放矢，并能够借助这套数据库选型的过程方法，找到合适的数据库与设计方案。</p><p>现在，我先来给你介绍下这个性能需求案例。这是一个SaaS服务产品中的分析服务，主要功能是针对客户提交的数据进行查询搜索并生成报表数据。通过对产品线上的数据规模和特征分析，以及对系统的核心业务流程分析，我们可以挖掘出其最核心的性能需求：</p><p><img src="https://static001.geekbang.org/resource/image/ce/1e/ce55e9a51700a19yydff8c36fb34fe1e.jpg" alt=""></p><p>实际上，数据查询与搜索、报表生成都是互联网产品的核心业务场景，也是性能问题频发的重灾区。而在软件设计阶段从性能的角度出发，选择合适的数据库与架构设计，就可以在很大程度上避免出现这样的问题。</p><!-- [[[read_end]]] --><p>OK，在识别出典型的性能需求之后，我们接下来的工作就是寻找到所有满足这些条件的备选数据库列表了。</p><h2>基于性能寻找备选数据库列表</h2><p>在寻找备选数据库的过程中，我们首先应该关注的是<strong>广度</strong>。不过由于数据库的种类太多，而且人都存在认知的局限性，会很容易漏掉一些非常有价值的数据库产品，从而导致无法寻找到一个最佳的方案。所以这里，我给你推荐<a href="https://db-engines.com/en/ranking">一个网站</a>，这是一个专门收集和呈现数据库管理系统信息的数据库引擎排名，里面列举了超过300多种数据库产品，大部分的开源和商业数据库都在列。</p><p>可是，直接在这个数据库列表中进行大范围筛选，工作量还是比较巨大的，所以我们可以通过认识和学习数据库的大体分类，来提升筛选的效率。下面我就给你简单介绍下。</p><p>在业内，对数据库的通用分类主要包括5个大类：</p><ol>
 

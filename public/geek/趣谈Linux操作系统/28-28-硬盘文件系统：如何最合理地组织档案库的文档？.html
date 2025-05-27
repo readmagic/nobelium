@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>上一节，我们按照图书馆的模式，规划了档案库，也即文件系统应该有的样子。这一节，我们将这个模式搬到硬盘上来看一看。</p><p><img src="https://static001.geekbang.org/resource/image/2e/d2/2ea68b40d928e6469233fcb4948c7cd2.jpg" alt=""></p><p>我们常见的硬盘是上面这幅图左边的样子，中间圆的部分是磁盘的盘片，右边的图是抽象出来的图。每一层里分多个磁道，每个磁道分多个扇区，每个扇区是512个字节。</p><p>文件系统就是安装在这样的硬盘之上。这一节我们重点目前Linux下最主流的文件系统格式——<strong>ext系列</strong>的文件系统的格式。</p><h2>inode与块的存储</h2><p>就像图书馆的书架都要分成大小相同的格子，硬盘也是一样的。硬盘分成相同大小的单元，我们称为<strong>块</strong>（Block）。一块的大小是扇区大小的整数倍，默认是4K。在格式化的时候，这个值是可以设定的。</p><p>一大块硬盘被分成了一个个小的块，用来存放文件的数据部分。这样一来，如果我们像存放一个文件，就不用给他分配一块连续的空间了。我们可以分散成一个个小块进行存放。这样就灵活得多，也比较容易添加、删除和插入数据。</p><p>但是这也带来一个新的问题，那就是文件的数据存放得太散，找起来就比较困难。有什么办法解决呢？我们是不是可以像图书馆那样，也设立一个索引区域，用来维护“某个文件分成几块、每一块在哪里”等等这些<strong>基本信息</strong>?</p><p>另外，文件还有<strong>元数据</strong>部分，例如名字、权限等，这就需要一个结构<strong>inode</strong>来存放。</p><!-- [[[read_end]]] --><p>什么是inode呢？inode的“i”是index的意思，其实就是“索引”，类似图书馆的索引区域。既然如此，我们每个文件都会对应一个inode；一个文件夹就是一个文件，也对应一个inode。</p><p>至于inode里面有哪些信息，其实我们在内核中就有定义。你可以看下面这个数据结构。</p><pre><code>struct ext4_inode {
 

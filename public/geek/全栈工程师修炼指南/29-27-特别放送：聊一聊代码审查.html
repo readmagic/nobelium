@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是四火。</p><p>又到了特别放送时间，今天我想聊一聊代码审查（Code Review）。在软件工程师日常的开发工作中，<strong>如果要挑出一项极其重要，却又很容易被忽视的工作，在我看来代码审查几乎是无可争议的第一。</strong></p><p>代码审查是一个低投入、高产出的开发活动，就我个人而言，我从其中学到的习惯、方法和知识，让我获益匪浅。但是，我也在微博、微信上看到程序员朋友们争论代码审查的必要性，甚至包括很多大厂的程序员，还有一些有着许多年经验的程序员。</p><p>一开始我觉得有些不可思议，和代价相比，代码审查的好处实在太多了，这有必要费那么大心思去讨论这个必要性吗？后来我意识到，<strong>造成这个争论的原因，既包括缺乏对于代码审查好处的认识，也包括一些因果逻辑上的混淆。</strong>我想，今天的特别放送，我就来把代码审查这个事儿聊清楚，希望它能成为你日常开发工作当中认真对待的必选项。</p><p>那值得一提的是，对于全栈工程师而言，代码审查又有一点特殊性。因为我们经常要写多个层面的代码，包括前端代码 HTML、CSS、JavaScript，后端逻辑，比如 Java 或者 Python，还很可能写很多的脚本代码，比如 Shell，做各种各样的配置，像是和基于 XML、JSON 的配置文件打交道，还很可能使用 SQL 写持久层的逻辑。这些代码中，既包括命令式的代码，也包括声明式的代码。由于涉及到的代码类型比较广泛，代码审查者就自然会和不同的团队或项目中的角色打交道，也需要在不同的思维模式之间来回切换。</p><!-- [[[read_end]]] --><h2>代码审查的流程</h2><p>先来简单介绍一下常见的代码审查的流程。为了开发某个新特性，或者修复某个特定问题，负责的程序员会从代码库的主分支（master branch）上面建立并 check out 一个新的分支，将工作分为一次到若干次的“代码变更”来提交。这每一次的代码变更，都可以组成一次代码审查的单元，有的公司把它叫做 CR（Code Change），有的叫做 PR（Pull Request），还有的叫做 CL（Change List），但无论叫做什么，它一般至少包含这么几项内容：</p><ul>
 

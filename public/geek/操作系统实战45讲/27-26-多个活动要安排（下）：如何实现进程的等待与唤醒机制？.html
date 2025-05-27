@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是LMOS。</p><p>上节课，我带你一起设计了我们Cosmos的进程调度器，但有了进程调度器还不够，因为调度器它始终只是让一个进程让出CPU，切换到它选择的下一个进程上去运行。</p><p>结合前面我们对进程生命周期的讲解，估计你已经反应过来了。没错，多进程调度方面，我们还要实现进程的等待与唤醒机制，今天我们就来搞定它。</p><p>这节课的配套代码，你可以从<a href="https://gitee.com/lmos/cosmos/tree/master/lesson25~26/Cosmos">这里</a>下载。</p><h2>进程的等待与唤醒</h2><p>我们已经知道，进程得不到所需的某个资源时就会进入等待状态，直到这种资源可用时，才会被唤醒。那么进程的等待与唤醒机制到底应该这样设计呢，请听我慢慢为你梳理。</p><h3>进程等待结构</h3><p>很显然，在实现进程的等待与唤醒的机制之前，我们需要设计一种数据结构，用于挂载等待的进程，在唤醒的时候才可以找到那些等待的进程 ，这段代码如下所示。</p><pre><code>typedef struct s_KWLST
 

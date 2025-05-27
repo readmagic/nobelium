@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈东。今天我们来讲广告系统。</p><p>说到广告系统，很多人可能没有那么熟悉。但是在互联网行业中，广告系统其实是非常重要，并且非常有代表性的一种系统。</p><p>一方面是因为，广告是许多互联网公司的重要营收来源。比如，我们熟悉的Google和Facebook，它们的广告收入就占公司总收入的80%以上。因此，尽管许多互联网公司的主营业务并不一样，有的是搜索引擎，有的是电商平台，有的是视频平台等等。但是，它们背后都有着相似的广告业务线。</p><p>另一方面，互联网广告对于工程和算法有着强烈的依赖。强大的工程和算法让现在的互联网广告能做到千人千面。最常见的，我们在打开网站的一瞬间，广告系统就会通过实时的分析计算，从百万甚至千万的广告候选集中，为我们这一次的广告请求选出专属的广告。而且，整个响应广告请求的处理过程，只需要0.1秒就能完成。</p><p>那在大型广告系统中，广告的请求量其实非常大，每秒钟可能有几十万甚至上百万次。因此，广告系统是一个典型的高并发低延迟系统。事实上，这背后离不开一个高性能的广告检索引擎的支持。那今天，我们就来聊一聊，广告系统中负责检索功能的广告引擎架构。</p><h2>广告引擎的整体架构和工作过程</h2><p>首先，我们来了解两个基本概念。</p><!-- [[[read_end]]] --><p>互联网广告分为搜索广告和展示广告两大类。简单来说，搜索广告就是用户主动输入关键词以后，搜索引擎在返回结果中展示出的相关广告。而展示广告，则是在搜索引擎之外的网站或App中，用户在浏览页面的情况下，被动看到的广告。比如说，在打开一些App时出现的开屏广告，以及朋友圈中的广告等等。<br>
 

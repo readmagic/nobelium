@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是蒋德钧。</p><p>咱们的课程已经快接近尾声了，之前我主要把精力和时间集中在了课程内容的准备上，没有来得及及时给大家做答疑，以及回复同学们提出的问题，在这也和同学们说一声抱歉，接下来我会尽快来回复大家的疑问。但其实，在这期间我看到了很多同学的留言，既有针对咱们课程课后思考题的精彩解答，也有围绕课程内容本身提出的关键问题，而且这些问题的质量很高，非常值得好好讨论一下。</p><p></p><p>那么，今天这节课，我就先来对课程的前6节的思考题做一次答疑。你也可以借此机会再来回顾下咱们课程一开始时学习的内容，温故而知新。</p><p></p><h2><a href="https://time.geekbang.org/column/article/399866">第1讲</a></h2><p><strong>问题：Redis从4.0版本开始，能够支持后台异步执行任务，比如异步删除数据，那么你能在Redis功能源码中，找到实现后台任务的代码文件吗？</strong></p><p></p><p>关于这个问题，@悟空聊架构、@小五、@Kaito等不少同学都给出了正确答案。我在这些同学回答的基础上，稍微做了些完善，你可以参考下。</p><p>Redis支持三类后台任务，它们本身是在<a href="https://github.com/redis/redis/tree/5.0/src/bio.h">bio.h</a>文件中定义的，如下所示：</p><pre><code class="language-plain">#define BIO_CLOSE_FILE&nbsp;&nbsp;&nbsp; 0 &nbsp;&nbsp;&nbsp;//后台线程关闭文件
 

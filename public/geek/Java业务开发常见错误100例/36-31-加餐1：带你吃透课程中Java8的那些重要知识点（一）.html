@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱晔。</p><p>Java 8是目前最常用的JDK版本，在增强代码可读性、简化代码方面，相比Java 7增加了很多功能，比如Lambda、Stream流操作、并行流（ParallelStream）、Optional可空类型、新日期时间类型等。</p><p>这个课程中的所有案例，都充分使用了Java 8的各种特性来简化代码。这也就意味着，如果你不了解这些特性的话，理解课程内的Demo可能会有些困难。因此，我将这些特性，单独拎了出来组成了两篇加餐。由于后面有单独一节课去讲Java 8的日期时间类型，所以这里就不赘述了。</p><h2>如何在项目中用上Lambda表达式和Stream操作？</h2><p>Java 8的特性有很多，除了这两篇加餐外，我再给你推荐一本全面介绍Java 8的书，叫《Java实战（第二版）》。此外，有同学在留言区问，怎么把Lambda表达式和Stream操作运用到项目中。其实，业务代码中可以使用这些特性的地方有很多。</p><p>这里，为了帮助你学习，并把这些特性用到业务开发中，我有三个小建议。</p><p>第一，从List的操作开始，先尝试把遍历List来筛选数据和转换数据的操作，使用Stream的filter和map实现，这是Stream最常用、最基本的两个API。你可以重点看看接下来两节的内容来入门。</p><!-- [[[read_end]]] --><p>第二，使用高级的IDE来写代码，以此找到可以利用Java 8语言特性简化代码的地方。比如，对于IDEA，我们可以把匿名类型使用Lambda替换的检测规则，设置为Error级别严重程度：</p><p><img src="https://static001.geekbang.org/resource/image/67/77/6707ccf4415c2d8715ed2529cfdec877.png" alt=""></p><p>这样运行IDEA的Inspect Code的功能，可以在Error级别的错误中看到这个问题，引起更多关注，帮助我们建立使用Lambda表达式的习惯：</p><p><img src="https://static001.geekbang.org/resource/image/50/e4/5062b3ef6ec57ccde0f3f4b182811be4.png" alt=""></p><p>第三，如果你不知道如何把匿名类转换为Lambda表达式，可以借助IDE来重构：</p><p><img src="https://static001.geekbang.org/resource/image/5a/e7/5a55c4284e4b10f659b7bcf0129cbde7.png" alt=""></p><p>反过来，如果你在学习课程内案例时，如果感觉阅读Lambda表达式和Stream API比较吃力，同样可以借助IDE把Java 8的写法转换为使用循环的写法：</p><p><img src="https://static001.geekbang.org/resource/image/98/8a/98828a36d6bb7b7972a647b37a64f08a.png" alt=""></p><p>或者是把Lambda表达式替换为匿名类：</p><p><img src="https://static001.geekbang.org/resource/image/ee/7c/ee9401683b19e57462cb2574c285d67c.png" alt=""></p><h2>Lambda表达式</h2><p>Lambda表达式的初衷是，进一步简化匿名类的语法（不过实现上，Lambda表达式并不是匿名类的语法糖），使Java走向函数式编程。对于匿名类，虽然没有类名，但还是要给出方法定义。这里有个例子，分别使用匿名类和Lambda表达式创建一个线程打印字符串：</p><pre><code>//匿名类
 

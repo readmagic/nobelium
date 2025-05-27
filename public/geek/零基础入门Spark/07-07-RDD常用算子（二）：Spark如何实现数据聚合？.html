@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴磊。</p><p>积累了一定的理论基础之后，今天我们继续来学习RDD常用算子。在<a href="https://time.geekbang.org/column/article/418079">RDD常用算子（一）</a>那一讲，我们讲了四个算子map、mapPartitions、flatMap和filter，同时留了这样一道思考题：“这些算子之间，有哪些共同点？”</p><p>今天我们就来揭晓答案。首先，在功能方面，这4个算子都用于RDD内部的数据转换，而学习过Shuffle的工作原理之后，我们不难发现，这4个算子当中，没有任何一个算子，会引入Shuffle计算。</p><p>而今天我们要学习的几个算子则恰恰相反，它们都会引入繁重的Shuffle计算。这些算子分别是groupByKey、reduceByKey、aggregateByKey和sortByKey，也就是表格中加粗的部分。</p><p>我们知道，在数据分析场景中，典型的计算类型分别是分组、聚合和排序。而groupByKey、reduceByKey、aggregateByKey和sortByKey这些算子的功能，恰恰就是用来实现分组、聚合和排序的计算逻辑。</p><p><img src="https://static001.geekbang.org/resource/image/c9/fc/c97a717512897749d5db659fb583c8fc.jpg?wh=1597x1977" alt="图片" title="RDD算子分类表"></p><p>尽管这些算子看上去相比其他算子的适用范围更窄，也就是它们只能作用（Apply）在Paired RDD之上，所谓Paired RDD，它指的是元素类型为（Key，Value）键值对的RDD。</p><!-- [[[read_end]]] --><p>但是在功能方面，可以说，它们承担了数据分析场景中的大部分职责。因此，掌握这些算子的用法，是我们能够游刃有余地开发数据分析应用的重要基础。那么接下来，我们就通过一些实例，来熟悉并学习这些算子的用法。</p><p>我们先来说说groupByKey，坦白地说，相比后面的3个算子，groupByKey在我们日常开发中的“出镜率”并不高。之所以要先介绍它，主要是为后续的reduceByKey和aggregateByKey这两个重要算子做铺垫。</p><h2>groupByKey：分组收集</h2><p>groupByKey的字面意思是“按照Key做分组”，但实际上，groupByKey算子包含两步，即<strong>分组</strong>和<strong>收集</strong>。</p><p>具体来说，对于元素类型为（Key，Value）键值对的Paired RDD，groupByKey的功能就是对Key值相同的元素做分组，然后把相应的Value值，以集合的形式收集到一起。换句话说，groupByKey会把RDD的类型，由RDD[(Key, Value)]转换为RDD[(Key, Value集合)]。</p><p>这么说比较抽象，我们还是用一个小例子来说明groupByKey的用法。还是我们熟知的Word Count，对于分词后的一个个单词，假设我们不再统计其计数，而仅仅是把相同的单词收集到一起，那么我们该怎么做呢？按照老规矩，咱们还是先来给出代码实现：</p><pre><code class="language-scala">import org.apache.spark.rdd.RDD
 

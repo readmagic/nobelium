@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>在上一篇文章中，我们介绍了如何通过 Nginx 搭建传统直播系统的实验环境，知道了理论是如何与实际结合到一起的。但同时我们也提到，要想通过 Nginx 来实现商用的直播系统还有很长的路要走。</p><p>那么今天，我们就来介绍一下快速构建商用直播系统的方案。要想实现真正商用的直播系统，我们必须踩在巨人肩膀上，这个“巨人”就是CDN网络。</p><p>可以这么说，现在99%的传统直播系统都是在CDN网络的基础上搭建出来的。因此，我们本文主要介绍的内容就是如何通过CDN网络实现商用的直播系统。我们平时所说的“万人直播”就是使用的这种技术。</p><h2>万人直播的原理</h2><p>我们首先来看一下万人直播架构图，如下所示：</p><p><img src="https://static001.geekbang.org/resource/image/15/14/152d2b86619a8a35e28967043f0c5a14.png" alt=""></p><center><span class="reference">万人直播架构图</span></center><p>通过该图我们可以看到，它与上一篇文章所介绍的直播架构是非常类拟的，包括了共享端、观看端和CDN网络。唯一的变化就是把之前架构中的流媒体服务器换成了现在的 CDN 网络。</p><p>对于共享端和观看端来说，使用 CDN 网络与使用流媒体服务器没什么区别。它们都是将流推送给指定的流媒体服务器，然后从指定的播放地址拉流，并最终进行展示这样一个过程。</p><p>关于 CDN 网络的基本知识，我们在<a href="https://time.geekbang.org/column/article/140181">《31 | 一对多直播系统RTMP/HLS，你该选哪个？》</a>一文中已经向你做过详细介绍了，它是由源节点、主干结点和边缘节点组成。它们的具体作用我这里就不做赘述了，记不清的同学可以回顾一下那篇文章。</p><!-- [[[read_end]]] --><p>当共享端将媒体流分享到 CDN 网络后，媒体流在 CDN 内部的流转过程是十分复杂的。现在我们只要简单理解为，CDN网络通过主干结点将流推送到各边缘节点，观看端就近接入到CDN网的边缘节点就可以获取到它想观看的“节目”了。</p><p>观看端就近接入到 CDN 的边缘节点，使得它与CDN节点之间能够使用最好的网络线路传输音视频数据，从而达到非常好的音视频服务质量。</p><h2>CDN就近接入</h2><p>CDN网络为了保证用户的音视频服务质量，它会让观众在观看节目时，就近接入到距离最近的CDN边缘节点。</p><p>咱们来举个例子，一名主播使用上海电信的网络分享它的“节目”，那么使用北京联通网络的观众想看该节目时，如何能得到更好的用户体验呢？换句话说，是观众从上海电信的节点上拉取到的音视频流的服务质量好呢，还是从北京联通的节点上拉取到的音视频流的服务质量好呢？我想答案是不言而喻的！</p><p>那么，CDN 网络是如何让用户就近接入到北京联通的边缘节点上的呢？这里的关键点就是 DNS 解析。</p><h3>1. DNS 解析原理</h3><p>要想解开CDN让用户就近接入的秘密，我们就必须要了解 DNS 的解析原理。下面这张图就是 DNS 解析原理的示意图：</p><p><img src="https://static001.geekbang.org/resource/image/50/a9/504b7cbf63f82f616e4bc8e5baa767a9.png" alt=""></p><center><span class="reference">DNS解析原理示意图</span></center><p>接下来，我们就对这张图做一下解析，看看 DNS 是如何工作的。假设你要访问 <a href="http://www.learningrtc.cn">learningrtc.cn</a> 这个网址，浏览器收到你的命令后，会向本地DNS（如 Google 的 DNS 服务器 8.8.8.8） 的 53 端口（TCP/UDP都使用同样的端口）发送域名解析请求。</p><p>本地DNS收到该请求后，首先查看自己的缓存中是否已经有该域名的记录了。如果有，则直接返回该域名的 IP 地址。如果没有，它会按下列步骤查询域名所对应的IP地址。</p><ul>
 

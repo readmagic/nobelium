@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>上节课我们讲了决策树，基于信息度量的不同方式，我们可以把决策树分为ID3算法、C4.5算法和CART算法。今天我来带你学习CART算法。CART算法，英文全称叫做Classification And Regression Tree，中文叫做分类回归树。ID3和C4.5算法可以生成二叉树或多叉树，而CART只支持二叉树。同时CART决策树比较特殊，既可以作分类树，又可以作回归树。</p><p>那么你首先需要了解的是，什么是分类树，什么是回归树呢？</p><p>我用下面的训练数据举个例子，你能看到不同职业的人，他们的年龄不同，学习时间也不同。如果我构造了一棵决策树，想要基于数据判断这个人的职业身份，这个就属于分类树，因为是从几个分类中来做选择。如果是给定了数据，想要预测这个人的年龄，那就属于回归树。</p><p><img src="https://static001.geekbang.org/resource/image/af/cf/af89317aa55ac3b9f068b0f370fcb9cf.png" alt=""><br>
 

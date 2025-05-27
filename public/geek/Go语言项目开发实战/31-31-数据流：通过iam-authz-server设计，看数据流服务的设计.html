@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是孔令飞。</p><p>在 <a href="https://time.geekbang.org/column/article/401190">28讲</a> 和 <a href="https://time.geekbang.org/column/article/402206">29讲</a> ，我介绍了IAM的控制流服务iam-apiserver的设计和实现。这一讲，我们再来看下IAM数据流服务iam-authz-server的设计和实现。</p><p>因为iam-authz-server是数据流服务，对性能要求较高，所以采用了一些机制来最大化API接口的性能。另外，为了提高开发效率，避免重复造轮子，iam-authz-server和iam-apiserver共享了大部分的功能代码。接下来，我们就来看下，iam-authz-server是如何跟iam-apiserver共享代码的，以及iam-authz-server是如何保证API接口性能的。</p><h2>iam-authz-server的功能介绍</h2><p>iam-authz-server目前的唯一功能，是通过提供 <code>/v1/authz</code> RESTful API接口完成资源授权。 <code>/v1/authz</code> 接口是通过<a href="https://github.com/ory/ladon">github.com/ory/ladon</a>来完成资源授权的。</p><p>因为iam-authz-server承载了数据流的请求，需要确保API接口具有较高的性能。为了保证API接口的性能，iam-authz-server在设计上使用了大量的缓存技术。</p><!-- [[[read_end]]] --><h3>github.com/ory/ladon包介绍</h3><p>因为iam-authz-server资源授权是通过 <code>github.com/ory/ladon</code> 来完成的，为了让你更好地理解iam-authz-server的授权策略，在这里我先介绍下 <code>github.com/ory/ladon</code> 包。</p><p>Ladon是用Go语言编写的用于实现访问控制策略的库，类似于RBAC（基于角色的访问控制系统，Role Based Access Control）和ACL（访问控制列表，Access Control Lists）。但是与RBAC和ACL相比，Ladon可以实现更细粒度的访问控制，并且能够在更为复杂的环境中（例如多租户、分布式应用程序和大型组织）工作。</p><p>Ladon解决了这个问题：在特定的条件下，谁能够/不能够对哪些资源做哪些操作。为了解决这个问题，Ladon引入了授权策略。授权策略是一个有语法规范的文档，这个文档描述了谁在什么条件下能够对哪些资源做哪些操作。Ladon可以用请求的上下文，去匹配设置的授权策略，最终判断出当前授权请求是否通过。下面是一个Ladon的授权策略样例：</p><pre><code class="language-json">{
 

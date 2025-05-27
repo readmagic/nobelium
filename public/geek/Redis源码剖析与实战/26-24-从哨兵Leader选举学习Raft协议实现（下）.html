@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是蒋德钧。</p><p></p><p>上节课，我给你介绍了Raft协议的基本流程，以及哨兵实例工作的基本过程。哨兵是通过serverCron函数的周期性执行，进而在serverCron中调用sentinelTimer函数，实现周期性处理哨兵相关的时间事件。而sentinelTimer函数处理的时间事件，就包括了对哨兵监听的每个主节点，它会通过调用sentinelHandleRedisInstance函数，来检查主节点的在线状态，并在主节点客观下线时进行故障切换。</p><p></p><p>另外，我还带你了解了sentinelHandleRedisInstance函数执行过程的前三步操作，分别是重连断连的实例、周期性给实例发送检测命令，检测实例是否主观下线，这也分别对应了sentinelReconnectInstance、sentinelSendPeriodicCommands和sentinelCheckSubjectivelyDown这三个函数，你可以再回顾下。</p><p></p><p>那么，今天这节课，我接着来给你介绍sentinelHandleRedisInstance函数执行过程中的剩余操作，分别是检测主节点是否客观下线、判断是否需要执行故障切换，以及需要故障切换时的哨兵Leader选举的具体过程。</p><!-- [[[read_end]]] --><p></p><p>学完这节课的内容，你就可以对哨兵工作的过程有个全面了解了。并且，你可以掌握如何在代码层面实现Raft协议来完成Leader选举。这样，当你日后在分布式系统中实现分布式共识时，这部分内容就能帮助指导你的代码设计与实现了。</p><p></p><p>接下来，我们先来看下主节点的客观下线判断。</p><p></p><h2>主节点客观下线判断</h2><p>现在我们知道，哨兵在sentinelHandleRedisInstance函数中会<strong>调用sentinelCheckObjectivelyDown函数</strong>（在sentinel.c文件中），来检测主节点是否客观下线。</p><p></p><p>而sentinelCheckObjectivelyDown函数在执行时，除了会检查当前哨兵对主节点主观下线的判断结果，还需要结合监听相同主节点的其他哨兵，对主节点主观下线的判断结果。它把这些判断结果综合起来，才能做出主节点客观下线的最终判断。</p><p></p><p>从代码实现层面来看，在哨兵用来记录主节点信息的<strong>sentinelRedisInstance结构体</strong>中，本身已经用哈希表保存了监听同一主节点的其他哨兵实例，如下所示：</p><pre><code class="language-plain">typedef struct sentinelRedisInstance {
 

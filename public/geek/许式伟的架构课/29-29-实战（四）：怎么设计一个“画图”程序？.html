@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是七牛云许式伟。</p><p>今天继续我们的画图程序。上一讲完成后，我们的画图程序不只是功能实用，并且还支持了离线编辑与存储。</p><p>今天我们开始考虑服务端。</p><p>我们从哪里开始？</p><p>第一步，我们要考虑的是网络协议。</p><h2>网络协议</h2><p>为了简化，我们暂时不考虑多租户带授权的场景。后面我们在下一章服务端开发篇会继续实战这个画图程序，将其改造为多租户。</p><p>在浏览器中，一个浏览器的页面编辑的是一个文档，不同页面编辑不同的文档。所以在我们的浏览器端的 dom.js 里面，大家可以看到，我们的 DOM 模型是单文档的设计。</p><p>但显然，服务端和浏览器端这一点是不同的，就算没有多租户，但是多文档是跑不了的。我们不妨把 QPaint 的文档叫drawing，如此服务端的功能基本上是以下这些：</p><ul>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是winter。</p><p>在前面几篇文章中，我们已经了解了关于执行上下文、作用域、闭包之间的关系。</p><p>今天，我们则要说一说更为细节的部分：语句。</p><p>语句是任何编程语言的基础结构，与JavaScript对象一样，JavaScript语句同样具有“看起来很像其它语言，但是其实一点都不一样”的特点。</p><p>我们比较常见的语句包括变量声明、表达式、条件、循环等，这些都是大家非常熟悉的东西，对于它们的行为，我在这里就不赘述了。</p><p>为了了解JavaScript语句有哪些特别之处，首先我们要看一个不太常见的例子，我会通过这个例子，来向你介绍JavaScript语句执行机制涉及的一种基础类型：Completion类型。</p><h2>Completion类型</h2><p>我们来看一个例子。在函数foo中，使用了一组try语句。我们可以先来做一个小实验，在try中有return语句，finally中的内容还会执行吗？我们来看一段代码。</p><pre><code>function foo(){
 

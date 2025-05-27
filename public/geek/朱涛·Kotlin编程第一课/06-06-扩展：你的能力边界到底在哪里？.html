@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱涛。</p><p>Kotlin的扩展（Extension），主要分为两种语法：第一个是扩展函数，第二个是扩展属性。从语法上看，扩展看起来就像是我们从类的外部为它扩展了新的成员。</p><p>这在实际编程当中是非常有用的功能。我们可以来想象一个场景：我们想修改JDK当中的String，想在它的基础上增加一个方法“lastElement()”来获取末尾元素，如果使用Java，我们是无法通过常规手段实现的，因为我们没办法修改JDK的源代码。<strong>任何第三方提供的SDK，我们都无权修改。</strong></p><p>不过，借助Kotlin的扩展函数，我们就完全可以在语义层面，来为第三方SDK的类扩展新的成员方法和成员属性。不管是为JDK的String增加新的成员方法，还是为Android SDK的View增加新成员属性，我们都可以实现。</p><p>Kotlin的这个“扩展”功能看起来很神奇，它会不会很难学？其实不然，它的语法非常简洁。今天这节课，我们就一起来学习下Kotlin当中的扩展。通过研究它的原理，来探索它的能力边界，并在理解和掌握核心知识点之后，去思考它的实战应用场景。</p><h2>什么是扩展函数和扩展属性？</h2><p>扩展函数，就是从类的外部扩展出来的一个函数，这个函数看起来就像是类的成员函数一样。这里，我们就以JDK当中的String为例，来看看如何通过Kotlin的扩展特性，为它新增一个lastElement()方法。</p><!-- [[[read_end]]] --><pre><code class="language-plain">// Ext.kt
 

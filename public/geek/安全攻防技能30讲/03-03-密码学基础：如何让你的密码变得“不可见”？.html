@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是何为舟。</p><p>上一讲，我们学习了黄金法则的三部分核心内容：认证、授权、审计。它们描述了用户在使用应用的各个环节，我们需要采取的安全策略。</p><p>在掌握了黄金法则之后，你就能以在安全发展规划上的宏观能力，赢得面试官的认可。接下来，他想考验一下你对安全具体知识的理解，以此来判断你能否将安全发展落地。于是，他问了一个非常基础的问题：你懂加解密吗？</p><p>可以说，密码学是“黄金法则”的基础技术支撑。失去了密码学的保护，任何认证、授权、审计机制都是“可笑”的鸡肋。</p><p>在实际的生活工作中经常会有这样的场景发生：多个用户共用一个Wi-Fi来上网、共用一个服务器来跑任务；多个进程共用一个数据库来完成数据存储。在这些场景中，多方交互都通过一个共同的通道来进行，那我们该如何保障其中内容的CIA呢？这就需要用到各种加密技术了。今天，我们就一起来学习密码学相关的知识。</p><p>首先，我先来普及一个语文知识。密钥中的钥，发音为yuè，不是yào。虽然通常情况下，你按正常发音读的话，别人都会听成“蜜月”。但是，我们还是要用正确、专业的发音。</p><p>接下来，我来介绍一些经典的密码学算法：对称加密算法、非对称加密算法和散列算法。这些算法的具体实现不是咱们课程的重点，而且本身的过程也非常复杂。在安全这块内容里，你只需要明确了解这些算法的概念及其优缺点，就足够你去选取合适的加密算法了。</p><!-- [[[read_end]]] --><h2>对称加密算法</h2><p>首先，我们来看对称加密算法。所谓对称加密，代表加密和解密使用的是同一个密钥。概念很简单，但是也很不具体、直观。为了帮助你理解，我把具体的加解密过程，画了一张图，你可以看一下。</p><p><img src="https://static001.geekbang.org/resource/image/06/3d/06fa7ae0dc38387e9d87e1d3b12a0d3d.jpeg" alt=""></p><p>下面我来具体讲讲这个过程，如果我想给你发一段消息，又不想被其他人知道。那么我作为发送方，会使用加密算法和密钥，生成消息对应的密文；而你作为接收方，想要阅读消息，就需要使用解密算法和一个同样的密钥，来获得明文。</p><p>我们常见的经典对称加密算法有DES、IDEA、AES、国密SM1和SM4。下面我们一起来具体看看。</p><p>第一种对称加密算法是<strong>DES</strong>（数据加密标准，Data Encryption Standard）。</p><p>DES应该是最早的现代密码学算法之一。它由美国政府提出，密钥长度为56位。目前，它暴力破解56位密码的时间，已经能控制在24小时内了。</p><p>DES实际上是一个过时的密码学算法，目前已经不推荐使用了。关于DES，还有一点特别有意思。DES包含一个关键模块：S盒，其设计的原理一直没有公开。因此，很多人都相信，这个S盒中存在后门，只要美国政府需要，就能够解密任何DES密文。</p><p>第二种对称加密算法是<strong>IDEA</strong>（国际数据加密算法，International Data Encryption Algorithm）。</p><p>IDEA由瑞士研究人员设计，密钥长度为128位。对比于其他的密码学算法，<strong>IDEA的优势在于没有专利的限制</strong>。相比于DES和AES的使用受到美国政府的控制，IDEA的设计人员并没有对其设置太多的限制，这让IDEA在全世界范围内得到了广泛地使用和研究。</p><p>第三种需要了解的对称加密算法是<strong>AES</strong>（高级加密标准，Advanced  Encryption  Standard）。</p><p>在DES被破解后，美国政府推出了AES算法，提供了128位、192位和256位三种密钥长度。通常情况下，我们会使用128位的密钥，来获得足够的加密强度，同时保证性能不受影响。目前，<strong>AES是国际上最认可的密码学算法</strong>。在算力没有突破性进展的前提下，AES在可预期的未来都是安全的。</p><p>最后一种是国密<strong>SM1</strong>（SM1 Cryptographic Algorithm）和<strong>SM4</strong>（SM4 Cryptographic Algorithm）。</p><p>我们知道，密码学作为安全的基础学科，如果全部依靠国外的技术，对于国家安全可能产生不利影响。因此，中国政府提出了一系列加密算法。其中，国密算法SM1和SM4都属于对称加密的范畴。SM1算法不公开，属于国家机密，只能通过相关安全产品进行使用。而SM4属于国家标准，算法公开，可自行实现使用。国密算法的优点显而易见：<strong>受到国家的支持和认可。</strong></p><p>借助下面的对比情况表，相信你会对这几种对称加密算法有更清晰的认识。<br>
 

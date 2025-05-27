@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是刘超。</p><p>模块五我们都在讨论设计模式，在我看来，设计模式不仅可以优化我们的代码结构，使代码可扩展性、可读性强，同时也起到了优化系统性能的作用，这是我设置这个模块的初衷。特别是在一些高并发场景中，线程协作相关的设计模式可以大大提高程序的运行性能。</p><p>那么截至本周，有关设计模式的内容就结束了，不知你有没有发现这个模块的思考题都比较发散，很多同学也在留言区中写出了很多硬核信息，促进了技术交流。这一讲的答疑课堂我就来为你总结下课后思考题，希望我的答案能让你有新的收获。</p><p><a href="https://time.geekbang.org/column/article/109564">第 26 讲</a></p><p><strong>除了以上那些实现单例的方式，你还知道其它实现方式吗？</strong></p><p>在<a href="https://time.geekbang.org/column/article/99774">第9讲</a>中，我曾提到过一个单例序列化问题，其答案就是使用枚举来实现单例，这样可以避免Java序列化破坏一个类的单例。</p><p>枚举生来就是单例，枚举类的域（field）其实是相应的enum类型的一个实例对象，因为在Java中枚举是一种语法糖，所以在编译后，枚举类中的枚举域会被声明为static属性。</p><p>在<a href="https://time.geekbang.org/column/article/109564">第26讲</a>中，我已经详细解释了JVM是如何保证static成员变量只被实例化一次的，我们不妨再来回顾下。使用了static修饰的成员变量，会在类初始化的过程中被收集进类构造器即&lt;clinit&gt;方法中，在多线程场景下，JVM会保证只有一个线程能执行该类的&lt;clinit&gt;方法，其它线程将会被阻塞等待。等到唯一的一次&lt;clinit&gt;方法执行完成，其它线程将不会再执行&lt;clinit&gt;方法，转而执行自己的代码。也就是说，static修饰了成员变量，在多线程的情况下能保证只实例化一次。</p><!-- [[[read_end]]] --><p>我们可以通过代码简单了解下使用枚举实现的饿汉单例模式：</p><pre><code>//饿汉模式 枚举实现
 

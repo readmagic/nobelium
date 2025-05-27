@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱晔。今天，我来和你聊聊数据存储的常见错误。</p><p>近几年，各种非关系型数据库，也就是NoSQL发展迅猛，在项目中也非常常见。其中不乏一些使用上的极端情况，比如直接把关系型数据库（RDBMS）全部替换为NoSQL，或是在不合适的场景下错误地使用NoSQL。</p><p>其实，每种NoSQL的特点不同，都有其要着重解决的某一方面的问题。因此，我们在使用NoSQL的时候，要尽量让它去处理擅长的场景，否则不但发挥不出它的功能和优势，还可能会导致性能问题。</p><p>NoSQL一般可以分为缓存数据库、时间序列数据库、全文搜索数据库、文档数据库、图数据库等。今天，我会以缓存数据库Redis、时间序列数据库InfluxDB、全文搜索数据库ElasticSearch为例，通过一些测试案例，和你聊聊这些常见NoSQL的特点，以及它们擅长和不擅长的地方。最后，我也还会和你说说NoSQL如何与RDBMS相辅相成，来构成一套可以应对高并发的复合数据库体系。</p><h2>取长补短之 Redis vs MySQL</h2><p>Redis是一款设计简洁的缓存数据库，数据都保存在内存中，所以读写单一Key的性能非常高。</p><p>我们来做一个简单测试，分别填充10万条数据到Redis和MySQL中。MySQL中的name字段做了索引，相当于Redis的Key，data字段为100字节的数据，相当于Redis的Value：</p><!-- [[[read_end]]] --><pre><code>@SpringBootApplication
 

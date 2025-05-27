@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是Tony Bai。</p><p>美国时间2022年1月31日，在中国人民欢庆虎年春节之际，Go核心团队发布了<a href="https://go.dev/blog/go1.18beta2">Go 1.18 Beta2版本</a>。在Go 1.18beta2版本发布的<a href="https://go.dev/blog/go1.18beta2">博文</a>中，Go核心团队还给出了Go 1.18版本的发布计划：<strong>2022年2月发布Go 1.18RC（release candidate，即发布候选版），2022年3月发布Go 1.18最终版本</strong>。</p><p>考虑到Go 1.18版本中引入了Go语言开源以来最大的语法特性变化：<strong>泛型（generic）</strong>，改动和影响都很大，Go核心团队将Go 1.18版本延迟一个月，放到3月发布也不失为稳妥之举。</p><p>在Go泛型正式落地之前，我想在这篇加餐中带你认识一下Go泛型，目的是“抛砖引玉”，为你后续系统学习和应用Go泛型语法特性开个头儿。</p><p>我们今天将围绕Go为什么加入泛型、泛型设计方案的演化历史、Go泛型的主要语法以及Go泛型的使用建议几个方面，聊聊Go泛型的那些事儿。</p><p>首先，我们先来了解一下Go语言为什么要加入泛型语法特性。</p><h2>为什么要加入泛型？</h2><p>根据近几年的Go官方用户调查结果，在“你最想要的Go语言特性”这项调查中，泛型霸榜多年。你可以看下这张摘自最新的<a href="https://go.dev/blog/survey2020-results">2020年Go官方用户调查结果</a>的图片：</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/12/66/12c48b37821f63e81e7ee52ae6175566.png?wh=1910x1244" alt="图片"></p><p>既然Go社区对泛型特性的需求如此强烈，那么Go核心团队为何要在Go开源后的第13个年头，才将这个特性加入语言当中呢？这里的故事说来话长。要想了解其中原因，我们需要先来了解一下<strong>什么是泛型</strong>？</p><p><a href="https://en.wikipedia.org/wiki/Generic_programming">维基百科</a>提到：最初泛型编程这个概念来自于缪斯.大卫和斯捷潘诺夫.亚历山大合著的“泛型编程”一文。那篇文章对泛型编程的诠释是：“<strong>泛型编程的中心思想是对具体的、高效的算法进行抽象，以获得通用的算法，然后这些算法可以与不同的数据表示法结合起来，产生各种各样有用的软件</strong>”。说白了就是将算法与类型解耦，实现算法更广泛的复用。</p><p>我们举个简单的例子。这里是一个简单得不能再简单的加法函数，这个函数接受两个int32类型参数作为加数：</p><pre><code class="language-plain">func Add(a, b int32) int32 {
 

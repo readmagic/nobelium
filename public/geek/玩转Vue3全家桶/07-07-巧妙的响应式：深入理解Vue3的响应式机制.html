@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是大圣。在上一讲中，我给你介绍了Composition API相比于Option API 的优点，以及&lt;script setup&gt;的语法，这些内容能够给我们后面的开发打下了坚实的基础。</p><p>今天我带你深入了解一下Vue 3的响应式机制，相信学完今天的内容，你会对响应式机制有更深地体会。我还会结合代码示例，帮你掌握响应式机制的进阶用法，让我们正式开始学习吧！</p><h2>什么是响应式</h2><p>响应式一直都是Vue的特色功能之一。与之相比，JavaScript里面的变量，是没有响应式这个概念的。你在学习JavaScript的时候首先被灌输的概念，就是代码是自上而下执行的。我们看下面的代码，代码在执行后，打印输出的两次double的结果也都是2。即使我们修改了代码中的count的值后，double的值也不会有任何改变。</p><pre><code class="language-xml">let count = 1
 

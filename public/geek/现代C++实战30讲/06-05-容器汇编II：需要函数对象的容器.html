@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴咏炜。</p><p>上一讲我们学习了 C++ 的序列容器和两个容器适配器，今天我们继续讲完剩下的标准容器（<span class="orange">[1]</span>）。</p><h2>函数对象及其特化</h2><p>在讲容器之前，我们需要首先来讨论一下两个重要的函数对象，<code>less</code> 和 <code>hash</code>。</p><p>我们先看一下 <code>less</code>，小于关系。在标准库里，通用的 <code>less</code> 大致是这样定义的：</p><pre><code class="language-c++">template &lt;class T&gt;
 

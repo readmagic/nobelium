@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>我们已经知道，环境变量GOPATH指向的是一个或多个工作区，每个工作区中都会有以代码包为基本组织形式的源码文件。</p><p><strong>这里的源码文件又分为三种，即：命令源码文件、库源码文件和测试源码文件，它们都有着不同的用途和编写规则。（</strong> 我在<a href="https://time.geekbang.org/column/article/13540?utm_source=weibo&amp;utm_medium=xuxiaoping&amp;utm_campaign=promotion&amp;utm_content=columns">“预习篇”的基础知识图</a>介绍过这三种文件的基本情况。）</p><p><img src="https://static001.geekbang.org/resource/image/9d/cb/9d08647d238e21e7184d60c0afe5afcb.png" alt=""></p><p>（长按保存大图查看）</p><p>今天，我们就沿着<strong>命令源码文件</strong>的知识点，展开更深层级的学习。</p><hr></hr><p>一旦开始学习用编程语言编写程序，我们就一定希望在编码的过程中及时地得到反馈，只有这样才能清楚对错。实际上，我们的有效学习和进步，都是通过不断地接受反馈和执行修正实现的。</p><p>对于Go语言学习者来说，你在学习阶段中，也一定会经常编写可以直接运行的程序。这样的程序肯定会涉及命令源码文件的编写，而且，命令源码文件也可以很方便地用<code>go run</code>命令启动。</p><p>那么，<strong>我今天的问题就是：命令源码文件的用途是什么，怎样编写它？</strong></p><p>这里，我给出你一个<strong>参考的回答</strong>：命令源码文件是程序的运行入口，是每个可独立运行的程序必须拥有的。我们可以通过构建或安装，生成与其对应的可执行文件，后者一般会与该命令源码文件的直接父目录同名。</p><p><strong>如果一个源码文件声明属于<code>main</code>包，并且包含一个无参数声明且无结果声明的<code>main</code>函数，那么它就是命令源码文件。</strong> 就像下面这段代码：</p><!-- [[[read_end]]] --><pre><code>package main
 

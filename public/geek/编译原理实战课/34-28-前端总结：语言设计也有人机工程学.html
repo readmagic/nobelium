@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。</p><p>正如我在上一讲的“课程导读”中所提到的，在“现代语言设计篇”，我们会开始探讨现代语言设计中的一些典型特性，包括前端、中后端、运行时的特性等，并会研究它们与编译技术的关系。</p><p>今天这一讲，我先以前面的“真实编译器解析篇”所分析的7种编译器作为基础，来总结一下它们的前端技术的特征，为你以后的前端工作做好清晰的指引。</p><p>在此基础上，我们还会进一步讨论语言设计方面的问题。近些年，各种新语言都涌现出了一个显著特征，那就是越来越考虑对程序员的友好性，运用了人机工程的思维。比如说，自动类型推导、Null安全性等。那么在这里，我们就一起来分析一下，要支持这些友好的语法特征，在编译技术上都要做一些什么工作。</p><p>好，首先，我们就来总结一下各个编译器的前端技术特征。</p><h2>前端编译技术总结</h2><p>通过前面课程中对7个编译器的解读分析，我们现在已经知道了，编译器的前端有一些共性的特征，包括：手写的词法分析器、自顶向下分析为主的语法分析器和差异化的语义分析功能。</p><h3>手写的词法分析器</h3><p>我们分析的这几个编译器，全部都采用了手写的词法分析器。主要原因有几个：</p><ul>
 

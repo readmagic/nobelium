@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是徐文浩。</p><p>在上节课里，我们看到了Dremel这个系统的数据存储是怎么回事儿的。不过，只是一个支持复杂嵌套结构的列存储，还没有发挥Dremel百分之百的威力。像Hive也在2011年推出了自己的列存储方案RCFile，并在后续不断改进提出了ORC File的格式。</p><p>列存储可以让一般的MapReduce任务少扫描很多数据，让很多MapReduce任务执行的时间从十几分钟乃至几个小时，下降到了几分钟。更短的反馈时间，使得数据分析师去探索数据，根据拿到的数据反馈不断从不同的角度去尝试分析的效率大大提高了。</p><p>不过，人们总是容易得陇望蜀的。当原先需要花几天时间写MapReduce程序才能分析数据的时候，我们希望能够通过写SQL跑分析数据。当原先SQL运行要30分钟、一个小时的时候，我们通过列存储把SQL执行的时间缩短到5分钟。但是在这5分钟里，我们的数据分析师该干嘛呢？只能去倒杯咖啡发个呆么？所以，我们自然希望SQL在大数据集上，也能在几十秒，甚至是十几秒内得到结果。</p><p>所以Google并没有在列存储上止步，而是借鉴了多种不同的数据系统，搭建起了整个Dremel系统，真的把在百亿行的数据表上，常见OLAP分析所需要的时间，缩短到了10秒这个数量级上。那么，这节课我们就来看看Dremel是通过什么样的系统架构，做到这一点的。</p><!-- [[[read_end]]] --><p>和所有工程上的进展一样，Dremel也是从很多过去的系统中汲取了养分：</p><ul>
 

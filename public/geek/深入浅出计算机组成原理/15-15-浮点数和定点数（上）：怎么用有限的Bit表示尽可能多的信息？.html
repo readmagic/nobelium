@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>在我们日常的程序开发中，不只会用到整数。更多情况下，我们用到的都是实数。比如，我们开发一个电商App，商品的价格常常会是9块9；再比如，现在流行的深度学习算法，对应的机器学习里的模型里的各个权重也都是1.23这样的数。可以说，在实际的应用过程中，这些有零有整的实数，是和整数同样常用的数据类型，我们也需要考虑到。</p><h2>浮点数的不精确性</h2><p>那么，我们能不能用二进制表示所有的实数，然后在二进制下计算它的加减乘除呢？先不着急，我们从一个有意思的小案例来看。</p><p>你可以在Linux下打开Python的命令行Console，也可以在Chrome浏览器里面通过开发者工具，打开浏览器里的Console，在里面输入“0.3 + 0.6”，然后看看你会得到一个什么样的结果。</p><pre><code>&gt;&gt;&gt; 0.3 + 0.6
 

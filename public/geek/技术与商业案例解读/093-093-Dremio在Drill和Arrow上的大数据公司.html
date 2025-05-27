@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>今天这篇文章，我们来讲讲一个非常年轻的公司Dremio的故事。这个故事涉及了两个Apache开源项目Drill和Arrow，和一家Hadoop发行商MapR。</p><p>我们先从MapR公司开始讲起，MapR在2009年成立，发展一直不错，在CTO的带领下，公司出品了一个自己的文件系统，取代了HDFS，同时，它的Hadoop发行版也取得了不俗的成绩。</p><p>托马尔 · 希兰（Tomer Shiran）和雅克 · 纳杜（Jacques Nadeau），这两位都是MapR公司的核心员工。让我们记住这两个人的名字，因为他们与我们接下来的故事息息相关。托马尔是MapR的第一位产品经理，负责整个产品线的开发。雅克则是Apache Drill项目和Apache Arrow项目的主要负责人。</p><h2>第一个项目：Apache Drill</h2><p>让我们把时间倒回到2013年。当时Hive已经存在，但是很慢很不好用。谷歌的Dremel刚出来没多久，就掀起了交互式查询的风潮，随之而来的是Cloudera开始了它的Impala引擎的计划；而MapR也决定做一款查询引擎，自己主导开源项目，这就是后来的Apache Drill。</p><p>当时筹建这个项目的人，是托马尔，而具体负责干事情的人，是雅克。我之所以知道这件事情的详细情况，是因为2013年的时候，这两位打电话给我，希望我加盟这个尚未展开的项目。</p><!-- [[[read_end]]] --><p>但是当时的我比较担心小公司不稳定，就没有去。不过，虽然我没有去，但还是获得了Apache Drill的一些内幕信息。</p><p>Apache Drill是一个基于类SQL语言的查询引擎，它的第一个特点，也是最主要的特点就是可以通过连接器连接各种各样的数据源，这里包括了HDFS、HBase、Hive的表，关系数据库等等。</p><p>并且它可以跨多个数据源进行数据查询和分析。这些连接器是可扩展的，只要有人愿意替一个特定的数据源写一个连接器，那么Apache Drill就可以支持这个数据源。</p><p>Apache Drill的第二个特点是：它使用了半结构化数据类型，类似JSON。它的查询语法类似SQL，但是引入了很多半结构化数据支持的新语法。当然，对于半结构化数据支持，在Google的Dremel以及Hive里面早就有了，所以这些新语法的扩展并没有那么让人吃惊。</p><p>Apache Drill的第三个特点是：系统可以自动推导和识别“元数据”。这一点是Apache Drill独有的特性，其主要目的是解决半结构化数据中“元数据”难以确定的情况。</p><p>Drill的理念无疑是非常先进的，可惜的是Drill并没有大红大紫过。可能的原因有很多，但在我看来，最大的原因是：这个系统很难做到高效。</p><p>在用户查询数据量大的时候，Drill比其他系统要慢很多。好用却不高效，无法应对大规模的数据处理，在大数据的场景下就有些吃力不讨好了。</p><h2>第二个项目：Apache Arrow</h2><p>雅克致力于Drill的开发已经很多年了，肯定也意识到了这样的性能对于Drill是一个问题。但是性能问题要怎么解决，却不是一件容易的事情，雅克的做法是构建另外一个项目：Apache Arrow。于是2016年，Apache Arrow诞生了。</p><p>简单来说，Apache Arrow是一个内存数据结构，它的主要作用是在不同的数据源之间做快速高效的数据交换。这个项目吸收了10多个Apache顶级项目。它的主要目标有两个:</p><ol>
 

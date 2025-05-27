@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王磊，你也可以叫我Ivan。</p><p>我们今天的关键词是“逃生通道”。在生活中，我们去任何一个公共场所，比如火车站、商场、写字楼，都能看安全出口或者紧急疏散通道的提示，这就是逃生通道。逃生通道的作用就是人们能够快速脱离危险的地方。而在系统领域，逃生通道是指让业务能够脱离已经不可用的原有系统，在一个安全的备用系统中继续运转。</p><p>可以说逃生通道就是系统高可用的一种特殊形式。它的特别之处在于，备用系统要提供差异化的、更高级别的可靠性。为什么备用系统能够提供更高级别的可靠性呢？这是主要由于它采用了异构方案。</p><p>对于分布式数据库来说，逃生通道存在的意义应该更容易理解。作为一种新兴的技术，分布式数据库还没有足够多的实践案例来证明自身的稳定性，即使是它本身的高可用架构也不足以打消用户的顾虑。这时候就需要设计一种异构的高可用方案，采用更加稳定、可靠的数据库作为备用系统。我们通常把这个备用数据库称为“逃生库”。</p><p>在分布式数据库的实践没有成为绝对主流前，逃生通道都是一个不容忽视的用户需求。它可以降低实施风险，打消用户的顾虑，减少新技术应用中遇到的各种阻力。</p><h2>CDC</h2><p>作为一个数据库的高可用方案，首先要解决的是数据恢复的完整性，也就是我们提过多次的RPO。这就需要及时将数据复制到逃生库。通常异构数据库间的数据复制有三种可选方式：</p><!-- [[[read_end]]] --><ol>
 

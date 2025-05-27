@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是于航。</p><p>作为“实践篇”的最后一课，今天我们来一起看看“如何从零构建一个 WASI 应用？”。在实践篇的前三节课里，我花了大量的篇幅来介绍如何基于 Emscripten ，去构建一个可以运行在 Web 浏览器中的 Wasm 应用。而基于 WASI 构建的 Wasm 应用将会被运行在浏览器之外的 Native 环境中，因此其构建和使用方式与基于 Emscripten 的 Wasm 应用有所不同。</p><p>但也正如我们在第 <a href="https://time.geekbang.org/column/article/287138">07</a> 讲中介绍的那样，WASI 本身作为一种抽象的操作系统调用接口，对上层的应用开发者来说，没有较为直接的影响。</p><p>甚至对于同样的一段可以被编译为本地可执行应用程序的代码来说，我们只需要适当调整编译器的相关设置，就可以在不做任何代码更改的情况下，编译出所对应的 WASI 版本代码（也就是 Wasm 字节码）。然后再配合相应的 Wasm 虚拟机，我们就能够以“另一种方式”来执行这些代码了。</p><p>总的来说你可以看到，相较于传统的可执行文件，WASI 应用程序的整个“生命周期”基本上只有“编译”与“运行”两个阶段会有所不同。在接下来的内容中，我们将以一段 C/C++ 代码入手，来从编码、编译，再到运行，一步步带你完成这个 WASI 应用。</p><h2>编码</h2><p>首先，我们先来编写应用对应的 C/C++ 代码，这部分内容如下所示。</p><!-- [[[read_end]]] --><pre><code>// wasi-app.c
 

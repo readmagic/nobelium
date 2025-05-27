@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是郑晔。</p><p>前面在讨论 TDD 的时候，我们说任务分解是 TDD 的关键。但这依然是一种感性上的认识。今天，我们就来用一个更加具体的例子，让你看看任务分解到底可以做到什么程度。</p><p>这个例子就是最简单的用户登录。需求很简单，用户通过用户名密码登录。</p><p>我相信，实现这个功能对大家来说并不困难，估计在我给出这个题目的时候，很多人脑子里已经开始写代码了。今天主要就是为了带着大家体验一下任务分解的过程，看看怎样将一个待实现的需求一步步拆细，变成一个个具体可执行的任务。</p><p>要完成这个需求，最基本的任务是用户通过输入用户名和密码登录。</p><p><img src="https://static001.geekbang.org/resource/image/df/1b/df3bcd76b68787145c5d6e16804a191b.jpg" alt=""></p><p>用户名和密码登录这个任务很简单，但我们在第一部分讲过沙盘推演，只要推演一下便不难发现，这不是一个完整的需求。</p><p>用户名和密码是哪来的呢？它们可能是用户设置的，也可能是由系统管理员设置的。这里我们就把它们简单设定成由用户设定。另外，有用户登录，一般情况下，还会有一个退出的功能。好了，这才是一个简单而完整的需求。我们就不做进一步的需求扩展。</p><p>所以，我们要完成的需求列表是下面这样的。</p><p><img src="https://static001.geekbang.org/resource/image/a0/6f/a01d61a6ebfe1ccb1ff38eaec4f4c96f.jpg" alt=""><br>
 

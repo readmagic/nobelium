@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱涛。今天我们来学习Kotlin协程Flow的基础知识。</p><p>Flow，可以说是在Kotlin协程当中自成体系的知识点。<strong>Flow极其强大、极其灵活</strong>，在它出现之前，业界还有很多质疑Kotlin协程的声音，认为Kotlin的挂起函数、结构化并发，并不足以形成核心竞争力，在异步、并发任务的领域，RxJava可以做得更好。</p><p>但是，随着2019年Kotlin推出Flow以后，这样的质疑声就渐渐没有了。有了Flow以后，Kotlin的协程已经没有明显的短板了。简单的异步场景，我们可以直接使用挂起函数、launch、async；至于复杂的异步场景，我们就可以使用Flow。</p><p>实际上，在很多技术领域，Flow已经开始占领RxJava原本的领地，在Android领域，Flow甚至还要取代原本LiveData的地位。因为，Flow是真的香啊！</p><p>接下来，我们就一起来学习Flow。</p><h2>Flow就是“数据流”</h2><p>Flow这个单词有“流”的意思，比如Cash Flow代表了“现金流”；Traffic Flow代表了“车流”；Flow在Kotlin协程当中，其实就是“数据流”的意思。因为Flow当中“流淌”的，都是数据。</p><p>为了帮你建立思维模型，我做了一个动图，来描述Flow的行为模式。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/d3/81/d3138d1386ef7c863086fe9fdcbc0a81.gif?wh=1080x495" alt=""></p><p>可以看到，Flow和我们上节课学习的Channel不一样，Flow并不是只有“发送”“接收”两个行为，它当中流淌的数据是<strong>可以在中途改变</strong>的。</p><p>Flow的数据发送方，我们称之为“上游”；数据接收方称之为“下游”。跟现实生活中一样，上下游其实也是相对的概念。比如我们可以看到下面的图，对于中转站2来说，中转站1就相当于它的上游。</p><p><img src="https://static001.geekbang.org/resource/image/ff/31/ffb1b4f8256ae249108d60600947c031.jpg?wh=2000x1125" alt=""></p><p>另外我们也可以看到，在发送方、接收方的中间，是可以有多个“中转站”的。在这些中转站里，我们就可以对数据进行一些处理了。</p><p>其实，Flow这样的数据模型，在现实生活中也存在，比如说长江，它有发源地和下游，中间还有很多大坝、水电站，甚至还有一些污水净化厂。</p><p>好，相信你现在对Flow已经有比较清晰的概念了。下面我们来看一段代码：</p><pre><code class="language-plain">// 代码段1
 

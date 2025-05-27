@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是韩健！</p><p>你应该有这样的体会，如果你想了解一个网络服务，执行的第一个功能肯定是写操作，然后才执行读操作。比如，你要了解ZooKeeper，那么肯定会在zkCli.sh命令行中执行写操作（比如“create /geekbang 123”）写入数据，然后再是读操作（比如“get /geekbang”）查询数据。这样一来，你才会直观地理解ZooKeeper是如何使用的了。</p><p>在我看来，任何网络服务最重要的功能就是处理读写请求，因为我们访问网络服务本质上都是在执行读写操作，ZooKeeper也不例外。<strong>而且对ZooKeeper而言，这些功能更为重要，因为在ZooKeeper中，如何处理写请求，关乎着操作的顺序性，而操作的顺序性会影响节点的创建；如何处理读请求，关乎着一致性，它们又影响着客户端是否会读到旧数据。</strong></p><p>接下来，我会从ZooKeeper系统的角度，全面地分析整个读写请求的流程，帮助你更加全面、透彻地理解读写请求背后的原理。</p><p>你肯定知道，在ZooKeeper中，写请求是必须在领导者上处理，如果跟随者接收到了写请求，它需要将写请求转发给领导者，当写请求对应的提案被复制到大多数节点上时，领导者会提交提案，并通知跟随者提交提案。而读请求可以在任何节点上处理，也就是说，ZooKeeper实现的是最终一致性。</p><!-- [[[read_end]]] --><p>对你来说，理解了如何处理读写请求，不仅能理解读写这个最重要功能的核心原理，还能更好地理解ZooKeeper的性能和一致性。这样一来，当你在实际场景中安装部署ZooKeeper的时候，就能游刃有余地做资源规划了。比如，如果读请求比较多，你可以增加节点，配置5节点集群，而不是常见的3节点集群。</p><p>话不多说，我们进入今天的内容，一起探究ZooKeeper处理读写请求的背后原理和代码实现。</p><h2>ZooKeeper处理读写请求的原理</h2><p>其实，我在<a href="https://time.geekbang.org/column/article/229975">15讲</a>演示“如何实现操作顺序性”时，就已经介绍了ZooKeeper是如何处理读写请求的了。所以在这里我就不啰嗦了，只是在此基础上，再补充几点。</p><p>首先，在ZooKeeper中，与领导者“失联”的节点，是不能处理读写请求的。比如，如果一个跟随者与领导者的连接发生了读超时，设置了自己的状态为LOOKING，那么此时它既不能转发写请求给领导者处理，也不能处理读请求，只有当它“找到”领导者后，才能处理读写请求。</p><p>举个例子：当发生分区故障了，C与A（领导者）、B网络不通了，那么C将设置自己的状态为LOOKING，此时在C节点上既不能执行读操作，也不能执行写操作。<br>
 

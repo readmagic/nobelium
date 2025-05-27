@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你已经使用过Go语言编写了小命令（或者说微型程序）吗？</p><p>当你在编写“Hello, world”的时候，一个源码文件就足够了，虽然这种小玩意儿没什么用，最多能给你一点点莫名的成就感。如果你对这一点点并不满足，别着急，跟着学，我肯定你也可以写出很厉害的程序。</p><hr></hr><p>我们在上一篇的文章中学到了命令源码文件的相关知识，那么除了命令源码文件，你还能用Go语言编写库源码文件。那么什么是库源码文件呢？</p><p>在我的定义中，<strong>库源码文件是不能被直接运行的源码文件，它仅用于存放程序实体，这些程序实体可以被其他代码使用（只要遵从Go语言规范的话）。</strong></p><p>这里的“其他代码”可以与被使用的程序实体在同一个源码文件内，也可以在其他源码文件，甚至其他代码包中。</p><blockquote>
 

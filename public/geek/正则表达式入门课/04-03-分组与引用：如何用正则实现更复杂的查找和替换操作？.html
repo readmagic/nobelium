@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是伟忠。今天我打算和你聊聊分组与引用。那什么场合下会用到分组呢？</p><p>假设我们现在要去查找15位或18位数字。根据前面学习的知识，使用量词可以表示出现次数，使用管道符号可以表示多个选择，你应该很快就能写出\d{15}|\d{18}。但经过测试，你会发现，这个正则并不能很好地完成任务，因为18位数字也会匹配上前15位，具体如下图所示。</p><p><img src="https://static001.geekbang.org/resource/image/a7/b2/a72ad4ccc3eb769562c331f230b9c6b2.png" alt=""></p><p>为了解决这个问题，你灵机一动，很快就想到了办法，就是把15和18调换顺序，即写成 <strong>\d{18}|\d{15}</strong>。你发现，这回符合要求了。</p><p><img src="https://static001.geekbang.org/resource/image/ba/3c/ba18101e2109df87288d935b5767c83c.png" alt=""></p><p>为什么会出现这种情况呢？因为在大多数正则实现中，多分支选择都是左边的优先。类似地，你可以使用 “北京市|北京” 来查找 “北京” 和 “北京市”。另外我们前面学习过，问号可以表示出现0次或1次，你发现可以使用“北京市?” 来实现来查找 “北京” 和 “北京市”。</p><p><img src="https://static001.geekbang.org/resource/image/fd/30/fdb97d69e376306e68c4e36d5ddbf830.png" alt=""></p><p>同样，针对15或18位数字这个问题，可以看成是15位数字，后面3位数据有或者没有，你应该很快写出了 <strong>\d{15}\d{3}?</strong> 。但这样写对不对呢？我们来看一下。</p><p>在上一节我们学习了量词后面加问号表示非贪婪，而我们现在想要的是 \d{3} 出现0次或1次。</p><p>示例一：<br>
 

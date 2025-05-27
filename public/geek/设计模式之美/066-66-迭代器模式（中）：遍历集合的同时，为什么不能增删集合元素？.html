@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>上一节课中，我们通过给ArrayList、LinkedList容器实现迭代器，学习了迭代器模式的原理、实现和设计意图。迭代器模式主要作用是解耦容器代码和遍历代码，这也印证了我们前面多次讲过的应用设计模式的主要目的是解耦。</p><p>上一节课中讲解的内容都比较基础，今天，我们来深挖一下，如果在使用迭代器遍历集合的同时增加、删除集合中的元素，会发生什么情况？应该如何应对？如何在遍历的同时安全地删除集合元素？</p><p>话不多说，让我们正式开始今天的内容吧！</p><h2>在遍历的同时增删集合元素会发生什么？</h2><p>在通过迭代器来遍历集合元素的同时，增加或者删除集合中的元素，有可能会导致某个元素被重复遍历或遍历不到。不过，并不是所有情况下都会遍历出错，有的时候也可以正常遍历，所以，这种行为称为<strong>结果不可预期行为</strong>或者<strong>未决行为</strong>，也就是说，运行结果到底是对还是错，要视情况而定。</p><p>怎么理解呢？我们通过一个例子来解释一下。我们还是延续上一节课实现的ArrayList迭代器的例子。为了方便你查看，我把相关的代码都重新拷贝到这里了。</p><pre><code>public interface Iterator&lt;E&gt; {
 

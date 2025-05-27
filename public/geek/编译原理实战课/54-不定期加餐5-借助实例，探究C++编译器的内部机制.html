@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。欢迎来到编译原理实战课的加餐环节，今天我们来探讨一下C++的编译器。</p><p>在前面的课程中，我们已经一起解析了很多语言的编译器了，但一直没有讨论C和C++的编译器。并不是因为它们不重要，而是因为C语言家族的编译器实现起来要更复杂一些，阅读代码的难度也更高一些，会对初学者造成比较大的挑战。</p><p>不过，没有解析C和C++语言的特性及其编译器的实现，其实在我心里也多多少少有点遗憾，因为C和C++是很经典的语言。至今为止，我们仍然有一些编程任务是很难用其他语言来代替的，比如，针对响应时间和内存访问量，需要做精确控制的高性能的服务端程序，以及一些系统级的编程任务，等等。</p><p><strong>C和C++有很多个编译器，今天我们要研究的是Clang编译器</strong>。其实它只是前端编译器，而后端用的是LLVM。之所以选择Clang，是因为它的模块划分更清晰，更便于理解，并且还可以跟课程里介绍过的LLVM后端工具串联起来学习。</p><p>另外，因为C++语言的特性比较多，编译器实现起来也比较复杂一些，下手阅读编译器的源代码会让人觉得有点挑战。所以今天这一讲，我的主要目的，就是给你展示如何借助调试工具，深入到Clang的内部，去理解它的运行机制。</p><!-- [[[read_end]]] --><p><strong>我们会具体探究哪个特性呢？我选择了C++的模板技术</strong>。这个技术是很多人学习C++时感觉有困难的一个技术点。通过探究它在编译器中的实现过程，你不仅会加深了解编译器是如何支持元编程的，也能够加深对C++模板技术本身的了解。</p><p>那么下面，我们就先来认识一下Clang这个前端。</p><h2>认识Clang</h2><p>Clang是LLVM的一个子项目，它是C、C++和Objective-C的前端。在llvm.org的官方网站上，你可以下载Clang+LLVM的源代码，这次我用的是10.0.1版本。为了省事，你可以下载带有全部子项目的代码，这样就同时包含了LLVM和Clang。然后你可以参考官网的文档，用Cmake编译一下。</p><p>我使用的命令如下，你可以参考：</p><pre><code>cd llvm-project-10.0.1
 

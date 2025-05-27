@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是Tony Bai。</p><p>在前面的学习中，我们详细讲解了Go基本数据类型，主要包括数值类型与字符串类型。但是，仅仅学习这些基本数据类型建立的抽象概念，还远不足以让我们应对真实世界的各种问题。</p><p>比如，我们要表示一组数量固定且连续的整型数，建立一个能表示书籍的抽象数据类型，这个类型中包含书名、页数、出版信息等；又或者，我们要建立一个学号与学生姓名的映射表等。这些问题基本数据类型都无法解决，所以我们需要一类新类型来建立这些抽象，丰富Go语言的表现力。</p><p>这种新类型是怎么样的呢？我们可以通过这些例子总结出新类型的一个特点，那就是它们都是由多个同构类型（相同类型）或异构类型（不同类型）的元素的值组合而成的。这类数据类型在Go语言中被称为复合类型。</p><p>从这一节课开始，我们就来讲解Go语言的复合类型。Go语言原生内置了多种复合数据类型，包括数组、切片（slice）、map、结构体，以及像channel这类用于并发程序设计的高级复合数据类型。那么这一节课，我们先来学习一下最简单的复合类型：数组，以及与数组有着密切关系的切片。</p><p>下面我们就先从最基础的复合数据类型，数组开始。</p><h2>数组有哪些基本特性？</h2><p>我们先来看数组类型的概念。Go语言的数组是一个长度固定的、由同构类型元素组成的连续序列。通过这个定义，我们可以识别出Go的数组类型包含两个重要属性：<strong>元素的类型</strong>和<strong>数组长度</strong>（元素的个数）。这两个属性也直接构成了Go语言中数组类型变量的声明：</p><!-- [[[read_end]]] --><pre><code class="language-plain">var arr [N]T
 

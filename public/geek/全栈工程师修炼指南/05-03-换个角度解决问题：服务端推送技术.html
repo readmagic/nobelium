@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是四火。</p><p>今天我们继续和 HTTP“过不去”。在上一讲，我们讲到了 HTTP 在安全传输方面的局限，并介绍了怎样使用经过 TLS 加密的 HTTPS 连接来解决这样的弊端。</p><p>今天，我要给你讲讲传统 HTTP的另一个在交互模式上的局限，就是只能由客户端主动发起消息传递，而服务端只能被动响应消息的局限，并介绍它的解决办法。</p><h2>Pull 模型的问题</h2><p>让我们来思考这样一个场景，假设你设计了一款网页版的即时聊天工具，现在你使用浏览器打开了聊天页面，正在和朋友愉快地聊天。这时有朋友给你发送了一条消息，可是由于 HTTP 本身机制的限制，服务端无法主动推送消息，告知浏览器上的聊天页面“你有一条消息”，进而影响到了消息的即时送达。那么，这个问题怎么解决？</p><p>你可能会立即想到<strong>轮询（Poll）</strong>，比如浏览器每隔十秒钟去问一下服务端是不是有新消息不就完了嘛。这看起来是个好思路，但明显存在这样两个问题：</p><ul>
 

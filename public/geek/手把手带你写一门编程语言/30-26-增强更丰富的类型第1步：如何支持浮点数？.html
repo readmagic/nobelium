@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。</p><p>我们前面几节课，讲的都是编译器前端的功能。虽然，要实现完善的前端功能，我们要做的工作还有很多。不过，我们现在已经不“虚”了！因为我们已经把编译器前端部分的主要知识点都讲得差不多了，其他的我们可以慢慢完善。</p><p>所以，现在我们重新把精力放回到编译器后端功能和运行时上来，这部分的功能我们还有待加强。在第一部分起步篇中，为了尽量简化实现过程，我们的语言只支持了整数的运算，甚至都没区分整型的长度，统一使用了32位的整型。</p><p>但这在实用级的语言中可行不通，我们还需要在里面添加各种丰富的数据类型。所以，接下来，我们会花几节课的时间，丰富一下我们语言支持的数据类型。首先我们会添加一些内置的基础类型，比如浮点型、字符串和数组。之后，我们还要通过对面向对象编程特性，支持用户自定义自己的类型。</p><p>在这一节课，我们先来看一下如何让我们的语言支持浮点型数据。为实现这个目的，我们需要先了解CPU为了支持浮点数有哪些特别的设计，ABI方面又有一些什么规定，以及如何修改汇编代码生成逻辑。而且，为了正确地在汇编代码中表示浮点型字面量，你还会学到浮点数编码方面的国际标准。</p><p>首先，让我们了解一下CPU硬件和ABI对浮点数运算提供的支持。</p><!-- [[[read_end]]] --><h2>CPU和ABI对浮点数运算的支持</h2><p>我们先来回顾一下起步篇中关于整数运算的知识。已经有些日子没见到它们了，不知道你还记不记得？你可以和下面我们重点讲解的浮点数的处理模式对比着来看，看看它们有怎样的不同，这也能加强你对这些重点知识的记忆。</p><p>X86架构的CPU在64位模式下对整数运算的支持，最重要的就是这两个知识点：</p><ul>
 

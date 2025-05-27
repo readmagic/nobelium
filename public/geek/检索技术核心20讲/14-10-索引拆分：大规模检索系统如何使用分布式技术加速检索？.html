@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈东。</p><p>在互联网行业中，分布式系统是一个非常重要的技术方向。我们熟悉的搜索引擎、广告引擎和推荐引擎，这些大规模的检索系统都采用了分布式技术。</p><p>分布式技术有什么优点呢？<strong>分布式技术就是将大任务分解成多个子任务，使用多台服务器共同承担任务，让整体系统的服务能力相比于单机系统得到了大幅提升</strong>。而且，在<a href="https://time.geekbang.org/column/article/222810">第8讲</a>中我们就讲过，在索引构建的时候，我们可以使用分布式技术来提升索引构建的效率。</p><p>那今天，我们就来聊一聊，大规模检索系统中是如何使用分布式技术来加速检索的。</p><h2>简单的分布式结构是什么样的？</h2><p>一个完备的分布式系统会有复杂的服务管理机制，包括服务注册、服务发现、负载均衡、流量控制、远程调用和冗余备份等。在这里，我们先抛开分布式系统的实现细节，回归到它的本质，也就是从“让多台服务器共同承担任务”入手，来看一个简单的分布式检索系统是怎样工作的。</p><p>首先，我们需要一台接收请求的服务器，但是该服务器并不执行具体的查询工作，它只负责任务分发，我们把它叫作<strong>分发服务器</strong>。真正执行检索任务的是<strong>多台索引服务器</strong>，每台索引服务器上都保存着完整的倒排索引，它们都能完成检索的工作。</p><p>当分发服务器接到请求时，它会根据负载均衡机制，将当前查询请求发给某台较为空闲的索引服务器进行查询。具体的检索工作由该台索引服务器独立完成，并返回结果。<br>
 

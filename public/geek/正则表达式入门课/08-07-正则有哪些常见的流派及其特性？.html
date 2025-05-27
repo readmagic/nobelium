@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是涂伟忠。今天我来给你讲讲正则常见的流派及其特性。</p><p>你可能要问了，讲正则流派有啥用呢？不如多来点实战啊。其实，我们去了解正则的演变过程是很有必要的。因为你一旦了解了正则的演变过程之后，就能够更加正确地去使用正则，尤其是在 Linux系统中。</p><p>那我们就先来看一个有关Linux系统的例子，你先来感受一下。</p><p>如果你在 Linux 系统的一些命令行中使用正则，比如使用 grep 过滤内容的时候，你可能会发现结果非常诡异，就像下图这样，在grep命令中，使用正则\d+取不到数据，甚至在 egrep 中输出了英文字母d那一行。</p><p><img src="https://static001.geekbang.org/resource/image/f1/09/f183b6fb3fba964ab9a9c3f8aa159b09.png" alt=""></p><p>这个执行结果的原因就和正则的演变有着密不可分的关系。那到底有什么样的关系呢？我们接着往下看，我从正则的发展历史给你讲起。</p><h2>正则表达式简史</h2><p>正则表达式的起源，可以追溯到，早期神经系统如何工作的研究。在20世纪40年代，有两位神经生理学家（Warren  McCulloch和Walter Pitts），研究出了一种用数学方式来描述神经网络的方法。</p><p>1956年，一位数学家（Stephen Kleene）发表了一篇标题为《<a href="https://www.doc88.com/p-9763182364861.html">神经网络事件表示法和有穷自动机</a>》的论文。这篇论文描述了一种叫做“正则集合（Regular Sets）”的符号。</p><!-- [[[read_end]]] --><p>随后，大名鼎鼎的Unix之父Ken Thompson于1968年发表了文章《<a href="https://www.fing.edu.uy/inco/cursos/intropln/material/p419-thompson.pdf">正则表达式搜索算法</a>》，并且将正则引入了自己开发的编辑器qed，以及之后的编辑器ed中，然后又移植到了大名鼎鼎的文本搜索工具grep中。自此，正则表达式被广泛应用到Unix系统或类Unix系统(如macOS、Linux)的各种工具中。</p><p>随后，由于正则功能强大，非常实用，越来越多的语言和工具都开始支持正则。不过遗憾的是，由于没有尽早确立标准，导致各种语言和工具中的正则虽然功能大致类似，但仍然有不少细微差别。</p><p>于是，诞生于1986年的POSIX开始进行标准化的尝试。<a href="https://standards.ieee.org/develop/wg/POSIX.html">POSIX</a>作为一系列规范，定义了Unix操作系统应当支持的功能，其中也包括正则表达式的规范。因此，Unix系统或类Unix系统上的大部分工具，如grep、sed、awk等，均遵循该标准。我们把这些遵循POSIX正则表达式规范的正则表达式，称为<strong>POSIX流派</strong>的正则表达式。</p><p>在1987年12月，Larry Wall发布了Perl语言第一版，因其功能强大一票走红，所引入的正则表达式功能大放异彩。之后Perl语言中的正则表达式不断改进，影响越来越大。于是在此基础上，1997年又诞生了<a href="http://www.pcre.org/">PCRE</a>——<strong>Perl兼容正则表达式</strong>（Perl Compatible Regular Expressions）。</p><p>PCRE是一个兼容Perl语言正则表达式的解析引擎，是由Philip Hazel开发的，为很多现代语言和工具所普遍使用。除了Unix上的工具遵循POSIX标准，PCRE现已成为其他大部分语言和工具隐然遵循的标准。</p><p>之后，正则表达式在各种计算机语言或各种应用领域得到了更为广泛的应用和发展。<strong>POSIX流派</strong> 与 <strong>PCRE流派</strong> 是目前正则表达式流派中的两大最主要的流派。</p><h2>正则表达式流派</h2><p>就像前面说的一样，目前正则表达式主要有两大流派（Flavor）：POSIX流派与PCRE流派。下面我们分别来看看。</p><h3>1. POSIX流派</h3><p>这里我们先简要介绍一下POSIX流派。POSIX 规范定义了正则表达式的两种标准：</p><ul>
 

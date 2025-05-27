@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是张磊。今天我和你分享的主题是：声明式API与Kubernetes编程范式。</p><p>在前面的几篇文章中，我和你分享了很多Kubernetes的API对象。这些API对象，有的是用来描述应用，有的则是为应用提供各种各样的服务。但是，无一例外地，为了使用这些API对象提供的能力，你都需要编写一个对应的YAML文件交给Kubernetes。</p><p>这个YAML文件，正是Kubernetes声明式API所必须具备的一个要素。不过，是不是只要用YAML文件代替了命令行操作，就是声明式API了呢？</p><p>举个例子。我们知道，Docker Swarm的编排操作都是基于命令行的，比如：</p><pre><code>$ docker service create --name nginx --replicas 2  nginx
 

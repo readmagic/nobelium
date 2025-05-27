@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。</p><p>前面几节课，我们在实现生成本地代码的过程中，对汇编语言、栈和栈桢有关的知识点都进行了比较深入的了解。通过这些学习，你应该对程序的运行机制有了更加透彻的理解。</p><p>那么今天这节课，作为第一部分起步篇的结尾，我们就来检验一下自己的学习成果吧！具体一点，我们就是要运用我们前面已经学过的知识点，特别是关于栈和栈桢的知识点，来实现两个有用的优化功能，也就是尾递归和尾调用的优化。</p><p>这两个优化有助于我们更好地利用栈里的内存空间，也能够提高程序的性能，对于我们后面实现函数式编程特性也具有很重要的意义。另外，这样的练习，也会加深我们对栈和栈桢、对程序的控制流，还有对程序的运行机制的理解。</p><p>好了，我们先从尾递归入手吧，说说尾递归是怎么回事，还有它有怎样的运行特点，看看我们为什么需要去优化它。</p><h2>递归函数和尾递归</h2><p>学习编程的同学都应该知道，递归是一种重要的思维方式。我们现实世界的很多事物，用递归来表达是非常自然的。<strong>在递归的思维里，解决整体的问题和解决局部问题的思路是相同的。</strong></p><p>在我们这个课程里，我们学习的语法分析的方法，也采用了递归的思维：我们给一个大程序做语法分析，会分解成给每一个函数、每一条语句做语法分析。不管在哪个颗粒度上，算法的思路都是相同的。</p><!-- [[[read_end]]] --><p>递归思想的一个更具体的使用方式，就是<strong>递归函数</strong>。当前的各种高级语言，都会支持递归函数，也就是允许在一个函数内部调用自身。</p><p>你可以看看下面这个例子，这个例子是用来实现阶乘的计算的。</p><pre><code class="language-plain">function factorial (n:number):number{
 

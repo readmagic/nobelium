@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>到目前为止，我们所讨论的语法分析算法，都是自顶向下的。与之相对应的，是自底向上的算法，比如本节课要探讨的LR算法家族。</p><p>LR算法是一种自底向上的算法，它能够支持更多的语法，而且没有左递归的问题。第一个字母L，与LL算法的第一个L一样，代表从左向右读入程序。第二个字母R，指的是RightMost（最右推导），也就是在使用产生式的时候，是从右往左依次展开非终结符。例如，对于“add-&gt;add+mul”这样一个产生式，是优先把mul展开，然后再是add。在接下来的讲解过程中，你会看到这个过程。</p><p>自顶向下的算法，是递归地做模式匹配，从而逐步地构造出AST。那么自底向上的算法是如何构造出AST的呢？答案是用移进-规约的算法。</p><p>本节课，我就带你通过移进-规约方法，自底向上地构造AST，完成语法的解析。接下来，我们先通过一个例子看看自底向上语法分析的过程。</p><h2>通过实例了解自底向上语法分析的过程</h2><p>我们选择熟悉的语法规则：</p><pre><code>add -&gt; mul
 

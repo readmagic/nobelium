@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是卢誉声。今天我们来继续学习动态规划。</p><p>在前面的几节课中，我们经历了贪心算法求解硬币找零的问题，并从中发现了贪心算法本身的局限性：它几乎只考虑了局部最优，因此无法应对需要考虑整体最优的算法面试问题。</p><p>针对这一问题，我们重新思考了解决方案，用递归的方法来<strong>穷举</strong>出所有可能的组合，从这些可能组合中找出最优解。虽然这么做考虑了整体最优，而且真的可以解决问题，但效率太低。因此，为了解决这个低效问题，我们又提出了备忘录的概念，并在硬币找零案例中应用它解决了问题。</p><p>你应该发现了，我们在解决硬币找零问题时的思路是一以贯之的：发现问题，找解决方案；如果方案有局限性，那么就看如何扩展视野，找寻更优的方法。</p><p>不知道你还记不记得，我在上一节课的结尾有提到：含有备忘录的递归算法已经与动态规划思想十分相似了，从效率上说也是如此。</p><p>事实上，你已经在使用动态规划的思想解决问题了。但<strong>“真正”的动态规划解法跟备忘录法又有什么区别呢？</strong></p><p>接下来我们就带着这个问题，一起来学习今天的内容吧！</p><h2>动态规划的问题描述</h2><p>我们曾不止一次提到重叠子问题，并在上一课对其做了深入探讨。其实，重叠子问题是考虑一个问题是否为动态规划问题的先决条件，除此之外，我还提到了无后效性。</p><!-- [[[read_end]]] --><p>嗯，是时候对这些问题做个总结了，动态规划问题一定具备以下三个特征：</p><ol>
 

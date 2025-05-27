@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王庆友。</p><p>上一讲，我与你介绍了整体化监控系统的设计方案，今天我就带你深入它的内部设计，让你可以了解它具体是如何落地的。</p><p>这个监控系统主要分为4大部分：节点信息采集、节点接入、数据上报和前端展示。下面，我就来为你具体展开介绍。</p><h2>节点信息采集</h2><p>在上一讲中，我提到过，Agent负责采集节点的健康数据，每隔3s，主动访问一次；然后，Agent会根据这些数据，结合相应的规则，来判断节点的健康状态。最终的健康状态有三种，分别是错误、警告和正常，这三种状态也对应了Dashboard中节点的红黄绿三种颜色。</p><p>节点分为4类：Web应用、Redis、MQ和数据库。下面我就来具体讲一下，系统是如何对它们进行监控的。</p><ul>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>我们知道，CPU资源是有限的，任务的处理速度与线程个数并不是线性正相关。相反，过多的线程反而会导致CPU频繁切换，处理性能下降。所以，线程池的大小一般都是综合考虑要处理任务的特点和硬件环境，来事先设置的。</p><p><strong><span class="orange">当我们向固定大小的线程池中请求一个线程时，如果线程池中没有空闲资源了，这个时候线程池如何处理这个请求？是拒绝请求还是排队请求？各种处理策略又是怎么实现的呢？</span></strong></p><p>实际上，这些问题并不复杂，其底层的数据结构就是我们今天要学的内容，队列（queue）。</p><h2>如何理解“队列”？</h2><p>队列这个概念非常好理解。你可以把它想象成排队买票，先来的先买，后来的人只能站末尾，不允许插队。<strong>先进者先出，这就是典型的“<strong><strong>队列</strong></strong>”</strong>。</p><p>我们知道，栈只支持两个基本操作：<strong>入栈push()<strong>和</strong>出栈pop()</strong>。队列跟栈非常相似，支持的操作也很有限，最基本的操作也是两个：<strong>入队enqueue()</strong>，放一个数据到队列尾部；<strong>出队dequeue()</strong>，从队列头部取一个元素。</p><p><img src="https://static001.geekbang.org/resource/image/9e/3e/9eca53f9b557b1213c5d94b94e9dce3e.jpg" alt=""></p><p>所以，队列跟栈一样，也是一种<strong>操作受限的线性表数据结构</strong>。</p><p>队列的概念很好理解，基本操作也很容易掌握。作为一种非常基础的数据结构，队列的应用也非常广泛，特别是一些具有某些额外特性的队列，比如循环队列、阻塞队列、并发队列。它们在很多偏底层系统、框架、中间件的开发中，起着关键性的作用。比如高性能队列Disruptor、Linux环形缓存，都用到了循环并发队列；Java concurrent并发包利用ArrayBlockingQueue来实现公平锁等。</p><!-- [[[read_end]]] --><h2>顺序队列和链式队列</h2><p>我们知道了，队列跟栈一样，也是一种抽象的数据结构。它具有先进先出的特性，支持在队尾插入元素，在队头删除元素，那究竟该如何实现一个队列呢？</p><p>跟栈一样，队列可以用数组来实现，也可以用链表来实现。用数组实现的栈叫作顺序栈，用链表实现的栈叫作链式栈。同样，用数组实现的队列叫作<strong>顺序队列</strong>，用链表实现的队列叫作<strong>链式队列</strong>。</p><p>我们先来看下基于数组的实现方法。我用Java语言实现了一下，不过并不包含Java语言的高级语法，而且我做了比较详细的注释，你应该可以看懂。</p><pre><code>// 用数组实现的队列
 

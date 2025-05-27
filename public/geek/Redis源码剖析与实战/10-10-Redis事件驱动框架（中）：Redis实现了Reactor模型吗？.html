@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是蒋德钧。今天，我们来聊聊Redis是如何实现Reactor模型的。</p><p>你在做Redis面试题的时候，或许经常会遇到这样一道经典的问题：Redis的网络框架是实现了Reactor模型吗？这看起来像是一道简单的“是/否”问答题，但是，如果你想给出一个让面试官满意的答案，这就非常考验你的<strong>高性能网络编程基础和对Redis代码的掌握程度</strong>了。</p><p>如果让我来作答这道题，我会把它分成两部分来回答：一是介绍Reactor模型是什么，二是说明Redis代码实现是如何与Reactor模型相对应的。这样一来，就既体现了我对网络编程的理解，还能体现对Redis源码的深入探究，进而面试官也就会对我刮目相看了。</p><p>实际上，Reactor模型是高性能网络系统实现高并发请求处理的一个重要技术方案。掌握Reactor模型的设计思想与实现方法，除了可以应对面试题，还可以指导你设计和实现自己的高并发系统。当你要处理成千上万的网络连接时，就不会一筹莫展了。</p><p>所以今天这节课，我会先带你了解下Reactor模型，然后一起来学习下如何实现Reactor模型。因为Redis的代码实现提供了很好的参考示例，所以我会通过Redis代码中的关键函数和流程，来给你展开介绍Reactor模型的实现。不过在学习Reactor模型前，你可以先回顾上节课我给你介绍的IO多路复用机制epoll，因为这也是学习今天这节课的基础。</p><!-- [[[read_end]]] --><h2>Reactor模型的工作机制</h2><p>好，首先，我们来看看什么是Reactor模型。</p><p>实际上，<strong>Reactor模型就是网络服务器端用来处理高并发网络IO请求的一种编程模型</strong>。我把这个模型的特征用两个“三”来总结，也就是：</p><ul>
 

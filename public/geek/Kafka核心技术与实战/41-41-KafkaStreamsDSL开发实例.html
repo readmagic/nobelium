@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是胡夕。今天我要和你分享的主题是：Kafka Streams DSL开发实例。</p><p>DSL，也就是Domain Specific Language，意思是领域特定语言。它提供了一组便捷的API帮助我们实现流式数据处理逻辑。今天，我就来分享一些Kafka Streams中的DSL开发方法以及具体实例。</p><h2>Kafka Streams背景介绍</h2><p>在上一讲中，我们提到流处理平台是专门处理无限数据集的引擎。就Kafka Streams而言，它仅仅是一个客户端库。所谓的Kafka Streams应用，就是调用了Streams API的普通Java应用程序。只不过在Kafka Streams中，流处理逻辑是用<strong>拓扑</strong>来表征的。</p><p>一个拓扑结构本质上是一个有向无环图（DAG），它由多个处理节点（Node）和连接节点的多条边组成，如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/da/22/da3db610f959e0952a76d6b06d249c22.jpg" alt=""></p><p>图中的节点也称为处理单元或Processor，它封装了具体的事件处理逻辑。Processor在其他流处理平台也被称为操作算子。常见的操作算子包括转换（map）、过滤（filter）、连接（join）和聚合（aggregation）等。后面我会详细介绍几种常见的操作算子。</p><p>大体上，Kafka Streams开放了两大类API供你定义Processor逻辑。</p><!-- [[[read_end]]] --><p>第1类就是我刚刚提到的DSL，它是声明式的函数式API，使用起来感觉和SQL类似，你不用操心它的底层是怎么实现的，你只需要调用特定的API告诉Kafka Streams你要做什么即可。</p><p>举个简单的例子，你可以看看下面这段代码，尝试理解下它是做什么的。</p><pre><code>movies.filter((title, movie) -&gt; movie.getGenre().equals(&quot;动作片&quot;)).xxx()...
 

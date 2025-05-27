@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是胡光，欢迎回来。</p><p>上节课，我们讲了链表的基础结构，以及体会了一把链表结构在思维逻辑层面的作用，就是面对看似复杂的问题，当我们把它转换成链表结构思维去解决的时候，这些问题和困难都迎刃而解。</p><p>今天呢，我将带你学习一种简单、有趣且高效的算法，叫做二分查找。在学习二分查找之前呢，有一个关于二分查找的笑话，你必须知道。</p><p>话说，在学校图书馆的计算机科学相关书籍借阅区里面，有一个女生抱着 40 本书往外走，经过图书馆安检机器的时候，安检机器发出了警报声。这时候，女生很无奈，就把书放到了地上，准备一本一本地去试，看看究竟是哪一本书没有消磁。</p><p>女生的举动，被旁边图书馆管理员阿姨看到了，阿姨看不下去了，叫住了她，说：这么一本一本的尝试，多慢啊！我教你一种方法。眼看阿姨将书分成两摞，拿起其中一摞的书，过了一下安检，安检机器响了，阿姨就又将这摞书分成了两部分，拿出其中一部分又过了一次安检……就这样，阿姨每次将书的数量减少一半，没几次就找到了那本没有消磁的书。阿姨得意洋洋地说：小姑娘，这就是书中讲的二分查找算法，你这专业知识不过关啊！次日，图书馆发现，丢了 39 本书。</p><p>上面这个故事中的阿姨，虽然知道二分查找算法，可明显是对使用算法的前提条件没有搞清楚。今天，我教给你的不仅是二分查找算法本身，还希望你能准确搞清楚二分查找算法的使用场景。</p><!-- [[[read_end]]] --><h2>今日任务</h2><p>在正式开始课程之前呢，先来看一下我们今天这 10 分钟的任务吧。</p><p>假设你手上有 n 段长度不等的绳子，你现在想将这些绳子进行裁剪，裁剪出 k 条长度相等的绳子，注意，只能剪断绳子，不能拼接绳子。问题就是，你能得到的这 k 段绳子的最长长度是多长？<br>
 

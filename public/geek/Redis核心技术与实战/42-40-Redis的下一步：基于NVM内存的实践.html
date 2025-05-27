@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是蒋德钧。</p><p>今天这节课是咱们课程的最后一节课了，我们来聊聊Redis的下一步发展。</p><p>这几年呢，新型非易失存储（Non-Volatile Memory，NVM）器件发展得非常快。NVM器件具有容量大、性能快、能持久化保存数据的特性，这些刚好就是Redis追求的目标。同时，NVM器件像DRAM一样，可以让软件以字节粒度进行寻址访问，所以，在实际应用中，NVM可以作为内存来使用，我们称为NVM内存。</p><p>你肯定会想到，Redis作为内存键值数据库，如果能和NVM内存结合起来使用，就可以充分享受到这些特性。我认为，Redis发展的下一步，就可以基于NVM内存来实现大容量实例，或者是实现快速持久化数据和恢复。这节课，我就带你了解下这个新趋势。</p><p>接下来，我们先来学习下NVM内存的特性，以及软件使用NVM内存的两种模式。在不同的使用模式下，软件能用到的NVM特性是不一样的，所以，掌握这部分知识，可以帮助我们更好地根据业务需求选择适合的模式。</p><h2>NVM内存的特性与使用模式</h2><p>Redis是基于DRAM内存的键值数据库，而跟传统的DRAM内存相比，NVM有三个显著的特点。</p><p>首先，<strong>NVM内存最大的优势是可以直接持久化保存数据</strong>。也就是说，数据保存在NVM内存上后，即使发生了宕机或是掉电，数据仍然存在NVM内存上。但如果数据是保存在DRAM上，那么，掉电后数据就会丢失。</p><!-- [[[read_end]]] --><p>其次，<strong>NVM内存的访问速度接近DRAM的速度</strong>。我实际测试过NVM内存的访问速度，结果显示，它的读延迟大约是200~300ns，而写延迟大约是100ns。在读写带宽方面，单根NVM内存条的写带宽大约是1~2GB/s，而读带宽约是5~6GB/s。当软件系统把数据保存在NVM内存上时，系统仍然可以快速地存取数据。</p><p>最后，<strong>NVM内存的容量很大</strong>。这是因为，NVM器件的密度大，单个NVM的存储单元可以保存更多数据。例如，单根NVM内存条就能达到128GB的容量，最大可以达到512GB，而单根DRAM内存条通常是16GB或32GB。所以，我们可以很轻松地用NVM内存构建TB级别的内存。</p><p>总结来说，NVM内存的特点可以用三句话概括：</p><ul>
 

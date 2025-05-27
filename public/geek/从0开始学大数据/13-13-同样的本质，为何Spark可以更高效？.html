@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>上一期我们讨论了Spark的编程模型，这期我们聊聊<span class="orange">Spark的架构原理</span>。和MapReduce一样，<strong>Spark也遵循移动计算比移动数据更划算这一大数据计算基本原则</strong>。但是和MapReduce僵化的Map与Reduce分阶段计算相比，Spark的计算框架更加富有弹性和灵活性，进而有更好的运行性能。</p><h2>Spark的计算阶段</h2><p>我们可以对比来看。首先和MapReduce一个应用一次只运行一个map和一个reduce不同，Spark可以根据应用的复杂程度，分割成更多的计算阶段（stage），这些计算阶段组成一个有向无环图DAG，Spark任务调度器可以根据DAG的依赖关系执行计算阶段。</p><p>还记得在上一期，我举了一个比较逻辑回归机器学习性能的例子，发现Spark比MapReduce快100多倍。因为某些机器学习算法可能需要进行大量的迭代计算，产生数万个计算阶段，这些计算阶段在一个应用中处理完成，而不是像MapReduce那样需要启动数万个应用，因此极大地提高了运行效率。</p><p>所谓DAG也就是有向无环图，就是说不同阶段的依赖关系是有向的，计算过程只能沿着依赖关系方向执行，被依赖的阶段执行完成之前，依赖的阶段不能开始执行，同时，这个依赖关系不能有环形依赖，否则就成为死循环了。下面这张图描述了一个典型的Spark运行DAG的不同阶段。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/c8/db/c8cf515c664b478e51058565e0d4a8db.png" alt=""></p><p>从图上看，整个应用被切分成3个阶段，阶段3需要依赖阶段1和阶段2，阶段1和阶段2互不依赖。Spark在执行调度的时候，先执行阶段1和阶段2，完成以后，再执行阶段3。如果有更多的阶段，Spark的策略也是一样的。只要根据程序初始化好DAG，就建立了依赖关系，然后根据依赖关系顺序执行各个计算阶段，Spark大数据应用的计算就完成了。</p><p>上图这个DAG对应的Spark程序伪代码如下。</p><pre><code>rddB = rddA.groupBy(key)
 

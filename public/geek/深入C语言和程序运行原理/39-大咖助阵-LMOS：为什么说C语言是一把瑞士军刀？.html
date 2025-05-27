@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是LMOS。</p><p>很高兴受邀来到这个专栏做一期分享。也许这门课的一些同学对我很熟悉，我是极客时间上<a href="https://time.geekbang.org/column/intro/100078401?tab=catalog">《操作系统实战45讲》</a>这门课的作者，同时也是LMOS、LMOSEM这两套操作系统的独立开发者。十几年来，我一直专注于操作系统内核研发，在C语言的使用方面有比较深刻的理解，所以想在这里把我的经验、见解分享给你。</p><p>操作系统和C语言的起源有着千丝万缕的联系，那么今天，我就先从C语言的起源和发展历史讲起。然后，我会从C语言自身的语法特性出发，向你展示这门古老的语言简单在哪里，又难在哪里。</p><h2><strong>C语言、<strong>UNIX的</strong>起源和发展</strong></h2><p>从英国的剑桥大学到美国的贝尔实验室，C语言走过了一段不平凡的旅程。从最开始的CPL语言到BCPL语言，再到B语言，到最终的C语言，一共经历了四次改进。从20世纪中叶到21世纪初，C语言以它的灵活、高效、通用、抽象、可移植的特性，在计算机界占据了不可撼动的地位。但是，C语言是如何产生的？诞生几十年来，它的地位为何一直不可动摇？请往下看。</p><h3>C语言是两位牛人“玩”出来的</h3><p>1969年夏天，美国贝尔实验室的肯·汤普森的妻子回了娘家，这位理工男终于有了自己的时间。于是，他以BCPL语言为基础，设计出了简单且接近于机器语言的B语言（取BCPL的首字母）。然后，他又用B语言写出了UNICS操作系统，这就是后来风靡全世界的UNIX操作系统的初级版本。</p><!-- [[[read_end]]] --><p>那么，肯·汤普森为什么要写这个操作系统呢？背后的原因是我们这些凡人想象不到的：为了玩一个叫“Space Travel”的游戏。牛人就是牛人，这个“玩出来”的操作系统成功到让人无法想象。</p><p>而肯·汤普森一位同样是牛人的朋友，也疯狂地热爱这款游戏，这个朋友就是C语言之父（请注意不是谭浩强老师），丹尼斯·里奇。他为了能早点儿玩上游戏，加入了汤普森的疯狂项目，一起开发UNIX。他的主要工作是改造B语言，使其更加成熟。1972年，丹尼斯·里奇在B语言的基础上设计出了一种新的语言，他取了BCPL的第二个字母作为这种语言的名字，这就是C语言。C语言实现之后，汤普森和里奇用它重写了UNIX。</p><h3>C语言和UNIX操作系统</h3><p>听到这儿，你应该可以理解，C语言和UNIX操作系统从诞生时就密切相关。那么，C语言对UNIX操作系统的发展具体有什么影响呢？我们先从C语言出现之前说起。</p><p>在C语言出现之前，UNIX操作系统的初级版本是用汇编语言编写的。用机器语言或者汇编语言开发的程序，是不可能在诸如X86、Alpha、SPARC、PPC和ARM等机器上任意运行的，想要运行就得重写所有代码。<strong>而用C语言编写的程序，则可以在任意架构的处理器上运行。</strong>只需要有那种架构的处理器对应的C语言编译器和库，然后将C源代码编译、链接成目标二进制文件，之后即可在该架构的处理器上运行。</p><p>正是C语言的这种高性能和强大的可移植性，促进了UNIX生态的发展。UNIX诞生后的40年间，出现的各种操作系统都是和UNIX有关系的，或者受其影响。甚至直到2021年，各种版本的UNIX内核和周边工具仍然使用C语言作为最主要的开发语言。</p><p>你可以看下这个UNIX家谱图（来自<a href="https://zh.wiki.hancel.org/wiki/UNIX">维基百科</a>），更直观地感受UNIX的发展史：</p><p><img src="https://static001.geekbang.org/resource/image/89/53/89b00acd948yyab250dcdc8964353d53.gif?wh=1123x714" alt="图片"></p><p>看到这个庞大的家谱图，不知道你是否吃惊不已？但是我想说的是，这些操作系统内核都是使用C语言开发的，无一例外。甚至可以说，C语言就是开发操作系统的专用语言。也正因如此，C语言成了计算机史上的一颗明珠，一座灯塔，永远闪耀在计算机历史的长河之上。</p><h2>用一个程序体会C语言的简单性</h2><p>从对C语言起源的介绍中，你可以了解到，C语言最开始是被设计用来开发UNIX的，而这造就了它自身的语言特性：</p><ul>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴磊。</p><p>在RDD常用算子的前两讲中，我们分别介绍了用于RDD内部转换与聚合的诸多算子，今天这一讲，我们继续来介绍表格中剩余部分的算子。</p><p>按照惯例，表格中的算子我们不会全都介绍，而是只挑选其中最常用、最具代表性的进行讲解。今天要讲的算子，我用加粗字体进行了高亮显示，你不妨先扫一眼，做到心中有数。</p><p><img src="https://static001.geekbang.org/resource/image/4e/d3/4ebaf6b9762b2d7ba64d21d8664080d3.jpg?wh=1920x1506" alt="图片" title="RDD算子分类表"></p><p>你可能会觉得，这些高亮显示的算子乍一看也没什么关联啊？但如果我们从数据生命周期的角度入手，给它们归归类，很容易就会发现这些算子分别隶属于生命周期的某个阶段。</p><p><img src="https://static001.geekbang.org/resource/image/8f/cb/8fc62a1795606466f1fe391d098731cb.jpg?wh=1920x737" alt="图片" title="数据生命周期"></p><p>结合上图，我们分别来看看每个算子所在的生命周期和它们实现的功能。</p><p>首先，在数据准备阶段，union与sample用于对不同来源的数据进行合并与拆分。</p><p>我们从左往右接着看，接下来是数据预处理环节。较为均衡的数据分布，对后面数据处理阶段提升CPU利用率更有帮助，可以整体提升执行效率。那这种均衡要怎么实现呢？没错，这时就要coalesce与repartition登场了，它们的作用就是重新调整RDD数据分布。</p><p>在数据处理完毕、计算完成之后，我们自然要对计算结果进行收集。Spark提供了两类结果收集算子，一类是像take、first、collect这样，把结果直接收集到Driver端；另一类则是直接将计算结果持久化到（分布式）文件系统，比如咱们这一讲会提到的saveAsTextFile。</p><!-- [[[read_end]]] --><p>好啦，清楚了我们今天要讲哪些算子，以及它们大致的定位与功用之后，接下来，我们就正式来讲讲这些算子的具体用法。</p><h2>数据准备</h2><p>首先，我们先来说说数据准备阶段的union和sample。</p><h3>union</h3><p>在我们日常的开发中，union非常常见，它常常用于把两个类型一致、但来源不同的RDD进行合并，从而构成一个统一的、更大的分布式数据集。例如，在某个数据分析场景中，一份数据源来自远端数据库，而另一份数据源来自本地文件系统，要将两份数据进行合并，我们就需要用到union这个操作。</p><p>具体怎么使用呢？我来举个例子。给定两个RDD：rdd1和rdd2，调用rdd1.union(rdd2)或是rdd1 union rdd2，其结果都是两个RDD的并集，具体代码如下：</p><pre><code class="language-scala">// T：数据类型
 

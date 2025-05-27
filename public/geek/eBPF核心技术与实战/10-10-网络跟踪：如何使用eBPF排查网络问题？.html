@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是倪朋飞。</p><p>上一讲，我带你一起梳理了应用进程的跟踪方法。根据编程语言的不同，从应用程序二进制文件的跟踪点中可以获取的信息也不同：编译型语言程序中的符号信息可以直接拿来跟踪应用的执行状态，而对于解释型语言和即时编译型语言程序，我们只能从解释器或即时编译器的跟踪点参数中去获取应用的执行状态。</p><p>除了前面三讲提到的内核和应用程序的跟踪之外，网络不仅是 eBPF 应用最早的领域，也是目前 eBPF 应用最为广泛的一个领域。随着分布式系统、云计算和云原生应用的普及，网络已经成为了大部分应用最核心的依赖，随之而来的网络问题也是最难排查的问题之一。</p><p>那么，eBPF 能不能协助我们更好地排查和定位网络问题呢？我们又该如何利用 eBPF 来排查网络相关的问题呢？今天，我就带你一起具体看看。</p><h2>eBPF 提供了哪些网络功能？</h2><p>既然想要使用 eBPF 排查网络问题，我想进入你头脑的第一个问题就是：eBPF 到底提供了哪些网络相关的功能框架呢？</p><p>要回答这个问题，首先要理解 Linux 网络协议栈的基本原理。下面是一个简化版的内核协议栈示意图：</p><p><img src="https://static001.geekbang.org/resource/image/ce/a5/ce9371b7e3b696feaf4233c1595e20a5.jpg?wh=1920x2960" alt="图片" title="Linux内核协议栈"></p><p>如何理解这个网络栈示意图呢？从上往下看，就是应用程序发送网络包的过程；而反过来，从下往上看，则是网络包接收的过程。比如，从上到下来看这个网络栈，你可以发现：</p><!-- [[[read_end]]] --><ul>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>经过上一讲的学习，你是否已经在自己的电脑上搭建好了“最小化”的HTTP实验环境呢？</p><p>我相信你的答案一定是“Yes”，那么，让我们立刻开始“螺蛳壳里做道场”，在这个实验环境里看一下HTTP协议工作的全过程。</p><h2>使用IP地址访问Web服务器</h2><p>首先我们运行www目录下的“start”批处理程序，启动本机的OpenResty服务器，启动后可以用“list”批处理确认服务是否正常运行。</p><p>然后我们打开Wireshark，选择“HTTP TCP port(80)”过滤器，再鼠标双击“Npcap loopback Adapter”，开始抓取本机127.0.0.1地址上的网络数据。</p><p>第三步，在Chrome浏览器的地址栏里输入“<a href="http://127.0.0.1/">http://127.0.0.1/</a>”，再按下回车键，等欢迎页面显示出来后Wireshark里就会有捕获的数据包，如下图所示。</p><p><img src="https://static001.geekbang.org/resource/image/86/b0/86e3c635e9a9ab0abd523c01fc181cb0.png" alt=""></p><p>如果你还没有搭好实验环境，或者捕获与本文里的不一致也没关系。我把这次捕获的数据存成了pcap包，文件名是“08-1”，放到了GitHub上，你可以下载到本地后再用Wireshark打开，完全精确“重放”刚才的HTTP传输过程。</p><h2>抓包分析</h2><p>在Wireshark里你可以看到，这次一共抓到了11个包（这里用了滤包功能，滤掉了3个包，原本是14个包），耗时0.65秒，下面我们就来一起分析一下"键入网址按下回车"后数据传输的全过程。</p><!-- [[[read_end]]] --><p>通过前面“破冰篇”的讲解，你应该知道HTTP协议是运行在TCP/IP基础上的，依靠TCP/IP协议来实现数据的可靠传输。所以浏览器要用HTTP协议收发数据，<span class="orange">首先要做的就是建立TCP连接</span>。</p><p>因为我们在地址栏里直接输入了IP地址“127.0.0.1”，而Web服务器的默认端口是80，所以浏览器就要依照TCP协议的规范，使用“三次握手”建立与Web服务器的连接。</p><p>对应到Wireshark里，就是最开始的三个抓包，浏览器使用的端口是52085，服务器使用的端口是80，经过SYN、SYN/ACK、ACK的三个包之后，浏览器与服务器的TCP连接就建立起来了。</p><p>有了可靠的TCP连接通道后，HTTP协议就可以开始工作了。于是，浏览器按照HTTP协议规定的格式，通过TCP发送了一个“GET / HTTP/1.1”请求报文，也就是Wireshark里的第四个包。至于包的内容具体是什么现在先不用管，我们下一讲再说。</p><p>随后，Web服务器回复了第五个包，在TCP协议层面确认：“刚才的报文我已经收到了”，不过这个TCP包HTTP协议是看不见的。</p><p>Web服务器收到报文后在内部就要处理这个请求。同样也是依据HTTP协议的规定，解析报文，看看浏览器发送这个请求想要干什么。</p><p>它一看，原来是要求获取根目录下的默认文件，好吧，那我就从磁盘上把那个文件全读出来，再拼成符合HTTP格式的报文，发回去吧。这就是Wireshark里的第六个包“HTTP/1.1 200 OK”，底层走的还是TCP协议。</p><p>同样的，浏览器也要给服务器回复一个TCP的ACK确认，“你的响应报文收到了，多谢”，即第七个包。</p><p>这时浏览器就收到了响应数据，但里面是什么呢？所以也要解析报文。一看，服务器给我的是个HTML文件，好，那我就调用排版引擎、JavaScript引擎等等处理一下，然后在浏览器窗口里展现出了欢迎页面。</p><p>这之后还有两个来回，共四个包，重复了相同的步骤。这是浏览器自动请求了作为网站图标的“favicon.ico”文件，与我们输入的网址无关。但因为我们的实验环境没有这个文件，所以服务器在硬盘上找不到，返回了一个“404 Not Found”。</p><p>至此，“键入网址再按下回车”的全过程就结束了。</p><p>我为这个过程画了一个交互图，你可以对照着看一下。不过要提醒你，图里TCP关闭连接的“四次挥手”在抓包里没有出现，这是因为HTTP/1.1长连接特性，默认不会立即关闭连接。</p><p><img src="https://static001.geekbang.org/resource/image/8a/19/8a5bddd3d8046daf7032c7d60a3d1a19.png" alt=""></p><p>再简要叙述一下这次最简单的浏览器HTTP请求过程：</p><ol>
 

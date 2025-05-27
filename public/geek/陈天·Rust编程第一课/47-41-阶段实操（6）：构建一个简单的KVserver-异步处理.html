@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈天。</p><p>到目前为止，我们已经一起完成了一个相对完善的 KV server。还记得是怎么一步步构建这个服务的么？</p><p>基础篇学完，我们搭好了KV server 的基础功能（<a href="https://time.geekbang.org/column/article/425001">21讲</a>、<a href="https://time.geekbang.org/column/article/425005">22讲</a>），构造了客户端和服务器间交互的 protobuf，然后设计了 CommandService trait 和 Storage trait，分别处理客户端命令和存储。</p><p>在进阶篇掌握了trait的实战使用技巧之后，（<a href="https://time.geekbang.org/column/article/429666">26讲</a>）我们进一步构造了 Service 数据结构，接收 CommandRequest，根据其类型调用相应的 CommandService 处理，并做合适的事件通知，最后返回 CommandResponse。</p><p><strong>但所有这一切都发生在同步的世界</strong>：不管数据是怎么获得的，数据已经在那里，我们需要做的就是把一种数据类型转换成另一种数据类型的运算而已。</p><p>之后我们涉足网络的世界。（<a href="https://time.geekbang.org/column/article/446948">36讲</a>）为 KV server 构造了自己的 frame：一个包含长度和是否压缩的信息的 4 字节的头，以及实际的 payload；还设计了一个 FrameCoder 来对 frame 进行封包和拆包，这为接下来构造网络接口打下了坚实的基础。考虑到网络安全，（<a href="https://time.geekbang.org/column/article/446949">37讲</a>）我们提供了 TLS 的支持。</p><!-- [[[read_end]]] --><p>在构建 ProstStream 的时候，我们开始处理异步：ProstStream 内部的 stream 需要支持 AsyncRead + AsyncWrite，这可以让 ProstStream 适配包括 TcpStream 和 TlsStream 在内的一切实现了 AsyncRead 和 AsyncWrite 的异步网络接口。</p><p>至此，我们打通了从远端得到一个命令，历经 TCP、TLS，然后被 FrameCoder 解出来一个 CommandRequest，交由 Service 来处理的过程。<strong>把同步世界和异步世界连接起来的，就是 ProstServerStream 这个结构</strong>。</p><p>这个从收包处理到处理完成后发包的完整流程和系统结构，可以看下图：</p><p><img src="https://static001.geekbang.org/resource/image/82/2c/82da823b4eb16935fdeyy727e3b3262c.jpg?wh=1920x1145" alt="图片"></p><h2>今天做点什么？</h2><p>虽然我们很早就已经撰写了不少异步或者和异步有关的代码。但是最能体现 Rust 异步本质的 poll()、poll_read()、poll_next() 这样的处理函数还没有怎么写过，之前测试异步的 read_frame() 写过一个 DummyStream，算是体验了一下底层的异步处理函数的复杂接口。不过在 DummyStream 里，我们并没有做任何复杂的动作：</p><pre><code class="language-rust">struct DummyStream {
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是徐文浩。</p><p>大数据技术一开始，更像一个专有系统。但是随着时间的推移，工程师们越来越多地让这些大数据系统支持上了SQL的特性。于是我们看到了Hive让大家可以用SQL来执行MapReduce任务，Dremel这样的系统更是一开始就支持了SQL。对于OLAP的分析类系统来说，支持Schema定义、支持字段类型、支持直接用类SQL的语言进行数据分析，很快就成为了新一代大数据分析系统的标准。</p><p>所以，Google想要在Bigtable这样的OLTP数据库上支持SQL，也不会让我们意外了。那么接下来，我们就一起来看一看《Megastore: Providing scalable, highly available storage for interactive services》这篇论文，为我们带来了一个什么样的分布式系统。</p><p>Megastore是一个雄心勃勃的系统，支持SQL这样的接口只是它想要做到的所有事情中的一小项。如果列出Megastore支持的所有特性，相信也是一个让人两眼放光的系统，好像是分布式数据库的终极答案：</p><ul>
 

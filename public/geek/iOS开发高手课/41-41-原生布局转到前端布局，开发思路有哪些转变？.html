@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是戴铭。今天，我来跟你聊聊原生布局转到前端布局的过程中，开发思路会有哪些转变。</p><p>最开始的时候，iOS 原生布局只支持通过横纵坐标和宽高确定布局的方式，后来引入了 Auto Layout 来优化布局。但，Auto Layout 的写法繁琐，开发者需要编写大量的代码，无法将精力集中在界面布局本身。再后来，苹果公司意识到 Auto Layout的这个问题，于是推出了VFL（Visual Format Language，可视化格式语言）来简化 Auto Layout 的写法。</p><p>其实，包装 Auto Layout 的第三方库，通过支持链式写法，也能达到简化编写 Auto Layout 的目的。</p><p>比如，适用于 Objective-C 的 <a href="https://github.com/SnapKit/Masonry">Masonry</a> 和适用于 Swift 的 <a href="https://github.com/SnapKit/SnapKit">SnapKit</a>，都是非常优秀的第三方库。这两个库的实际使用数量，明显高于苹果自身推出的 VFL。关于这两个库的实现原理和源码分析，你可以查看我以前写的“<a href="https://ming1016.github.io/2018/04/07/read-snapkit-and-masonry-source-code/">读 SnapKit 和 Masonry 自动布局框架源码</a>”这篇文章。</p><h2>UIStackView</h2><p>虽然 Masonry 和 SnapKit 能够简化布局写法，但和前端的布局思路相比，Auto Layout 的布局思路还处在处理两个视图之间关系的初级阶段，而前端的 Flexbox 已经进化到处理一组堆栈视图关系的地步了。</p><!-- [[[read_end]]] --><blockquote>
 

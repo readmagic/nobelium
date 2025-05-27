@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈东。</p><p>在实际应用中，我们经常会面临需要根据键（Key）来查询数据的问题。比如说，给你一个用户ID，要求你查出该用户的具体信息。这样的需求我们应该如何实现呢？你可能会想到，使用有序数组和二叉检索树都可以来实现。具体来说，我们可以将用户ID和用户信息作为一个整体的元素，然后以用户ID作为Key来排序，存入有序数组或者二叉检索树中，这样我们就能通过二分查找算法快速查询到用户信息了。</p><p>但是，不管是有序数组、二叉检索树还是跳表，它们的检索效率都是O(log n)。那有没有更高效的检索方案呢？也就是说，有没有能实现O(1)级别的查询方案呢？今天，我们就一起来探讨一下这个问题。</p><h2>使用Hash函数将Key转换为数组下标</h2><p>在第1讲中我们说过，数组具有随机访问的特性。那给定一个用户ID，想要查询对应的用户信息，我们能否利用数组的随机访问特性来实现呢？</p><p>我们先来看一个例子。假设系统中的用户ID是从1开始的整数，并且随着注册数的增加而增加。如果系统中的用户数是有限的，不会大于10万。那么用户的ID范围就会被固定在1到10万之间。在数字范围有限的情况下，我们完全可以申请一个长度为10万的数组，然后将用户ID作为数组下标，从而实现O(1)级别的查询能力。<br>
 

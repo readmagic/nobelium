@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是海纳。</p><p>在前边的课程里，我们学习了计算机物理地址和虚拟地址的概念。有了虚拟地址之后，运行在系统里的用户进程看到的地址空间范围，都是虚拟地址空间范围（32位计算机的地址范围是4G；64位计算机的地址范围是256T）。这样的话，就不用再担心内存地址不够用，以及与其他进程之间产生内存地址冲突的问题了。</p><p>前面几节课，我们关注的是如何解决进程之间的冲突，从这节课起，我们一起来看下进程内部的虚拟内存布局，或者说单一进程是如何安排自己的各种数据的。</p><p>学习了这节课，你将理解全局变量和static变量在内存中的位置以及初始化时机，在这个基础上，你还将明白在栈上创建对象和在堆上创建对象有什么不同等问题。这些问题的核心都可以归结到“内存是如何布局的”这个问题上，所以只有深刻地掌握了内存布局的知识，你才能做到以不变应万变，面对各种具体问题才有了分析的方向和思路，进而，你才能写出更加“内存安全”的代码。</p><p>首先，我们来看一下，对于一个典型的进程来说，它的内存空间是由哪些部分组成的？每个部分又被安置在空间的什么位置？</p><h3>抽象内存布局</h3><p>我们知道，CPU运行一个程序，实质就是在顺序执行该程序的机器码。一个程序的机器码会被组织到同一个地方，这个地方就是<strong>代码段</strong>。</p><!-- [[[read_end]]] --><p>另外，程序在运行过程中必然要操作数据。这其中，对于有初值的变量，它的初始值会存放在程序的二进制文件中，而且，这些数据部分也会被装载到内存中，即程序的<strong>数据段</strong>。数据段存放的是程序中已经初始化且不为0的全局变量和静态变量。</p><p>对于未初始化的全局变量和静态变量，因为编译器知道它们的初始值都是0，因此便不需要再在程序的二进制映像中存放这么多0了，只需要记录他们的大小即可，这便是<strong>BSS段</strong>。BSS段这个缩写名字是Block Started by Symbol，但很多人可能更喜欢把它记作Better Save Space的缩写。</p><p>数据段和BSS段里存放的数据也只能是部分数据，主要是全局变量和静态变量，但程序在运行过程中，仍然需要记录大量的临时变量，以及运行时生成的变量，这里就需要新的内存区域了，即程序的<strong>堆空间</strong>跟<strong>栈空间</strong>。与代码段以及数据段不同的是，堆和栈并不是从磁盘中加载，它们都是由程序在运行的过程中申请，在程序运行结束后释放。</p><p>总的来说，一个程序想要运行起来所需要的几块基本内存区域：代码段、数据段、BSS段、堆空间和栈空间。下面就是内存布局的示意图：</p><p><img src="https://static001.geekbang.org/resource/image/fc/c0/fcb6231d9cc3841643e4b84462e5b3c0.jpg?wh=2284x1980" alt=""></p><p>这是程序运行起来所需要的最小功能集，如果你尝试去看Linux 0.11的内核代码的话，会发现它所支持的a.out文件格式和内存布局就是上边的样子。</p><p>除了上面所讲的基本内存区域外，现代应用程序中还会包含其他的一些内存区域，主要有以下几类：</p><ul>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王磊，你也可以叫我Ivan。</p><p>在这一讲的开头，我想请你思考一个问题，你觉得在大规模的业务应用下，单体数据库遇到的主要问题是什么？对，首先就是写入性能不足，这个我们在<a href="https://time.geekbang.org/column/article/274200">第4讲</a>也说过，另外还有存储方面的限制。而分片就是解决性能和存储这两个问题的关键设计，甚至不仅是分布式数据库，在所有分布式存储系统中，分片这种设计都是广泛存在的。</p><p>所以今天，就让我们好好了解一下，分片到底是怎么回事儿。</p><h2>什么是分片</h2><p>分片在不同系统中有各自的别名，Spanner和YugabyteDB中被称为Tablet，在HBase和TiDB中被称为Region，在CockraochDB中被称为Range。无论叫什么，概念都是一样的，分片是一种水平切分数据表的方式，它是数据记录的集合，也是数据表的组成单位。</p><p>分布式数据库的分片与单体数据库的分区非常相似，区别在于：分区虽然可以将数据表按照策略切分成多个数据文件，但这些文件仍然存储在单节点上；而分片则可以进一步根据特定规则将切分好的文件分布到多个节点上，从而实现更强大的存储和计算能力。</p><p>分片机制通常有两点值得关注：</p><ol>
 

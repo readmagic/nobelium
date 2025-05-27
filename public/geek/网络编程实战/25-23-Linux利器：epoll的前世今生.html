@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是盛延敏，这里是网络编程实战第23讲，欢迎回来。</p><p>性能篇的前三讲，非阻塞I/O加上I/O多路复用，已经渐渐帮助我们在高性能网络编程这个领域搭建了初步的基石。但是，离最终的目标还差那么一点，如果说I/O多路复用帮我们打开了高性能网络编程的窗口，那么今天的主题——epoll，将为我们增添足够的动力。</p><p>这里有放置了一张图，这张图来自The Linux Programming Interface(No Starch Press)。这张图直观地为我们展示了select、poll、epoll几种不同的I/O复用技术在面对不同文件描述符大小时的表现差异。</p><p><img src="https://static001.geekbang.org/resource/image/fd/60/fd2e25f72a5103ef78c05c7ad2dab060.png" alt=""><br>
 

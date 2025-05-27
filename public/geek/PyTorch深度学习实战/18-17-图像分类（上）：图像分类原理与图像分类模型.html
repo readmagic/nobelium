@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是方远，欢迎来到图像分类的学习。</p><p>通过前面的学习，我们已经掌握了PyTorch有关深度学习的不少知识。为了避免纸上谈兵，我们正式进入实战环节，分别从计算机视觉与自然语言处理这两个落地项目最多的深度学习应用展开，看看业界那些常见深度学习应用都是如何实现的。</p><p>完成这个模块的学习以后，我想你不仅仅会巩固之前学习的内容，还会进一步地落实到细分的领域去看待问题、解决问题。</p><p>说到计算机视觉，<strong>很常见的一种应用方向就是图像分类</strong>。关于图像分类，其实离我们并不遥远。你有没有发现，现在很多智能手机，照相的时候都会自动给照片内容打上标签。</p><p>举个例子，你看后面的截图，就是我用手机拍照的时候，手机自动对摄像头的内容进行了识别，打上了“多云”这个标签。</p><p><img src="https://static001.geekbang.org/resource/image/75/7c/75e6ec9c616da2c5c5907e0d11184d7c.jpeg?wh=1920x886" alt="图片"></p><p>然后你会发现，手机还能根据识别到的内容，为你推荐一些美化的方案。那这是怎么做到的呢？其实这就是卷积神经网络最常用、最广泛且最基本的一个应用：图像分类。</p><p>今天咱们就来一探究竟，看看图像分类到底是怎么一回事。我会用两节课的篇幅，带你学习图像分类。这节课我们先学习理论知识，掌握图像分类原理和常见的卷积神经网络。下节课，我们再基于今天学到的原理，一块完成一个完整的图像分类项目实践。</p><!-- [[[read_end]]] --><h2>图像分类原理</h2><p>我们还是“书接上文”，沿用第3节课NumPy的那个例子。现在线上每天都有大量的图片被上传，老板交代你设计一个模型，把有关极客时间Logo的图片自动找出来。</p><p>把这个需求翻译一下就是：建立一个图像分类模型，提供自动识别有极客时间Logo图片的功能。</p><p>我们来梳理一下这个模型的功能，我们这个模型会接收一张图片，然后会输出一组概率，分别是该图片为Logo的概率与该图片为其他图片的概率，从而通过概率来判断这张图片是Logo类还是Other类，如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/f4/68/f4b226497cb6aae5e0dcde4f65e46a68.png?wh=1392x604" alt="图片"></p><h3>感知机</h3><p>我们将上面的模型进一步拆分，看看如何才能获得这样的一组输出。</p><p>其中输入的图片，就是输入X，将其展开后，可以获得输入X为$X={x_1, x_2, … , x_n}$，而模型可以看做有两个节点，每个节点都会有一个输出，分别代表着对输入为Logo和Other的判断，但这里的输出暂时还不是概率，只是模型输出的一组数值。这一部分内容如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/03/29/0322747253dbbffe80a92004ea12be29.png?wh=1732x660" alt="图片"></p><p>上图这个结构其实就是感知机了，中间绿色的节点叫做神经元，是感知机的最基本组成单元。上图中的感知机只有中间一层（绿色的神经元），如果有多层神经元的话，我们就称之为多层感知机。</p><p>那什么是神经元呢？神经元是关于输入的一个线性变换，每一个输入x都会有一个对应的权值，上图中的y的计算方式为：</p><p>$$y_i=\delta(w_{i1}x_{1} + w_{i2}x_{2} + … + w_{i_n}x_{n} + b_i), \space \space \space  i=1,2$$</p><p>其中，$w_{i1}, w_{i2}, …, w_{in}$是神经元的权重，$b_i$为神经元的偏移项。权重与偏移项都是通过模型学习到的参数。$\delta$为激活函数，激活函数是一个可选参数。</p><p>那如何将一组数值，也就是$y_{1}$与$y_{2}$转换为一组对应的概率呢？这个时候Softmax函数就要登场了。它的作用就是将一组数值转换为对应的概率，概率和为1。</p><p>Softmax的计算公式如下：</p><p>$$\delta(x_j) = \frac{e^{x_j}}{\sum_{j=1}^{m}e^{x_j}}$$</p><p>请看下面的代码，我们用Softmax函数对原始的输入y做个转化，将y中的数值转化为一组对应的概率：</p><pre><code class="language-python">import torch
 

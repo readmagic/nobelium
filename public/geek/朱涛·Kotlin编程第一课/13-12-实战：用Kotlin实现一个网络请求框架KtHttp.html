@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱涛，又到了实战环节。</p><p>在前面几节课当中，我们一起学习了Kotlin的委托、泛型、注解、反射这几个高级特性。那么今天这节课，我们将会运用这些特性，来写一个<strong>Kotlin版本的HTTP网络请求框架</strong>。由于它是纯Kotlin开发的，我们就把它叫做是KtHttp吧。</p><p>事实上，在Java和Kotlin领域，有许多出色的网络请求框架，比如 <a href="https://github.com/square/okhttp">OkHttp</a>、<a href="https://github.com/square/Retrofit">Retrofit</a>、<a href="https://github.com/kittinunf/fue">Fuel</a>。而我们今天要实现的KtHttp，它的灵感来自于Retrofit。之所以选择Retrofit作为借鉴的对象，是因为它的底层使用了大量的<strong>泛型、注解和反射</strong>的技术。如果你能跟着我一起用泛型、注解、反射来实现一个简单的网络请求框架，相信你对这几个知识点的认识也会更加透彻。</p><p>在这节课当中，我会带你从0开始实现这个网络请求框架。和往常一样，为了方便你理解，我们的代码会分为两个版本：</p><ul>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴磊。</p><p>上一讲我们说，想要提升CPU利用率，最重要的就是合理分配执行内存，但是，执行内存只是Spark内存分区的一部分。因此，想要合理分配执行内存，我们必须先从整体上合理划分好Spark所有的内存区域。</p><p>可在实际开发应用的时候，身边有不少同学向我抱怨：“Spark划分不同内存区域的原理我都知道，但我还是不知道不同内存区域的大小该怎么设置，纠结来、纠结去。最后，所有跟内存有关的配置项，我还是保留了默认值。”</p><p>这种不能把原理和实践结合起来的情况很常见，所以今天这一讲，我就从熟悉的Label Encoding实例出发，<strong>一步步带你去分析不同情况下，不同内存区域的调整办法，</strong>帮你归纳出最大化内存利用率的常规步骤。这样，你在调整内存的时候，就能结合应用的需要，做到有章可循、有的放矢。</p><h2>从一个实例开始</h2><p>我们先来回顾一下<a href="https://time.geekbang.org/column/article/355028">第5讲</a>中讲过的Label Encoding。在Label Encoding的业务场景中，我们需要对用户兴趣特征做Encoding。依据模板中兴趣字符串及其索引位置，我们的任务是把千亿条样本中的用户兴趣转换为对应的索引值。模板文件的内容示例如下所示。</p><pre><code>//模板文件
 

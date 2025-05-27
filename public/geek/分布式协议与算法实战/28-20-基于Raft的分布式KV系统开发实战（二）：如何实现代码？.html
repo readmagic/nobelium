@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是韩健。</p><p>学完<a href="https://time.geekbang.org/column/article/217049">上一讲</a>后，相信你已经了解了分布式KV系统的架构设计，同时应该也很好奇，架构背后的细节代码是怎么实现的呢？</p><p>别着急，今天这节课，我会带你弄明白这个问题。我会具体讲解<a href="https://github.com/hanj4096/raftdb">分布式KV系统</a>核心功能点的实现细节。比如，如何实现读操作对应的3种一致性模型。而我希望你能在课下反复运行程序，多阅读源码，掌握所有的细节实现。</p><p>话不多说，我们开始今天的学习。</p><p>在上一讲中，咱们将系统划分为三大功能块（接入协议、KV操作、分布式集群），那么今天我会按顺序具体说一说每块功能的实现，帮助你掌握架构背后的细节代码。首先，先来了解一下，如何实现接入协议。</p><h2>如何实现接入协议？</h2><p>在19讲提到，我们选择了HTTP协议作为通讯协议，并设计了"/key"和"/join"2个HTTP RESTful API，分别用于支持KV操作和增加节点的操作，那么，它们是如何实现的呢？</p><p>接入协议的核心实现，就是下面的样子。</p><p><img src="https://static001.geekbang.org/resource/image/b7/56/b72754232480fadd7d8eeb9bfdd15e56.jpg" alt="" title="图1"></p><p>我带你走一遍这三个步骤，便于你加深印象。</p><ol>
 

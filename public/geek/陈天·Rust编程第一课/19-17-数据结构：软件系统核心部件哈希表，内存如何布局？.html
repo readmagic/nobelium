@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈天。</p><p>上一讲我们深入学习了切片，对比了数组、列表、字符串和它们的切片以及切片引用的关系。今天就继续讲 Rust 里另一个非常重要的集合容器：HashMap，也就是哈希表。</p><p>如果谈论软件开发中最重要、出镜率最高的数据结构，那哈希表一定位列其中。很多编程语言甚至将哈希表作为一种内置的数据结构，做进了语言的核心。比如 PHP 的关联数组（associate array）、Python 的字典（dict）、JavaScript 的对象（object）和 Map。</p><p>Google 的工程师Matt Kulukundis 在 <a href="https://youtu.be/ncHmEUmJZf4?t=210">cppCon 2017</a> 做的一个演讲，说：全世界 Google 的服务器上 1% 的 CPU 时间用来做哈希表的计算，超过 4% 的内存用来存储哈希表。足以证明哈希表的重要性。</p><p>我们知道，哈希表和列表类似，都用于处理需要随机访问的数据结构。如果数据结构的输入和输出能一一对应，那么可以使用列表，如果无法一一对应，那么就需要使用哈希表。<br>
 

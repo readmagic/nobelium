@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>前几节，我们介绍了task_struct数据结构。它就像项目管理系统一样，可以帮项目经理维护项目运行过程中的各类信息，但这并不意味着项目管理工作就完事大吉了。task_struct仅仅能够解决“<strong>看到</strong>”的问题，咱们还要解决如何制定流程，进行项目调度的问题，也就是“<strong>做到</strong>”的问题。</p><p>公司的人员总是有限的。无论接了多少项目，公司不可能短时间增加很多人手。有的项目比较紧急，应该先进行排期；有的项目可以缓缓，但是也不能让客户等太久。所以这个过程非常复杂，需要平衡。</p><p>对于操作系统来讲，它面对的CPU的数量是有限的，干活儿都是它们，但是进程数目远远超过CPU的数目，因而就需要进行进程的调度，有效地分配CPU的时间，既要保证进程的最快响应，也要保证进程之间的公平。这也是一个非常复杂的、需要平衡的事情。</p><h2>调度策略与调度类</h2><p>在Linux里面，进程大概可以分成两种。</p><p>一种称为<strong>实时进程</strong>，也就是需要尽快执行返回结果的那种。这就好比我们是一家公司，接到的客户项目需求就会有很多种。有些客户的项目需求比较急，比如一定要在一两个月内完成的这种，客户会加急加钱，那这种客户的优先级就会比较高。</p><p>另一种是<strong>普通进程</strong>，大部分的进程其实都是这种。这就好比，大部分客户的项目都是普通的需求，可以按照正常流程完成，优先级就没实时进程这么高，但是人家肯定也有确定的交付日期。</p><!-- [[[read_end]]] --><p>那很显然，对于这两种进程，我们的调度策略肯定是不同的。</p><p>在task_struct中，有一个成员变量，我们叫<strong>调度策略</strong>。</p><pre><code>unsigned int policy;
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是温铭。</p><p>通过前面几个章节的学习，相信你已经对 LuaJIT、OpenResty 的架构，以及Lua API 和测试等方面有了全面的了解。下面，我们就要进入本专栏内容最多，也是最容易被忽视的性能优化章节了。</p><p>在性能优化章节中，我会带你熟悉 OpenResty 中性能优化的方方面面，并把前面章节中提到的零散内容，总结为全面的 OpenResty 的编码指南，以便你编写出更高质量的 OpenResty 代码。</p><p>要知道，提升性能并不容易，你需要考虑到系统架构优化、数据库优化、代码优化、性能测试、火焰图分析等不少步骤。但相反，降低性能却很容易，就像今天这节课的标题一样，你只需要加几行代码，就可以让性能下降 10 倍甚至更多。如果你使用了 OpenResty 来编写代码，但性能却一直提不上去，那么很可能就是因为使用了阻塞函数。</p><p>所以，在介绍性能优化的具体方法之前，让我们先来了解下 OpenResty 编程中的一个重要原则：<strong>避免使用阻塞函数</strong>。</p><p>我们从小就被家长和老师教育，不要玩火，不要触碰插头，这些都是危险的行为。同样的，在 OpenResty 中也存有这种危险的行为。如果你的代码中存在阻塞的操作，就会导致性能的急剧下降，那么我们使用 OpenResty 来搭建高性能服务端的初衷，也将会落空。</p><!-- [[[read_end]]] --><h2>为什么不要用阻塞操作？</h2><p>了解哪些行为是危险的，并避免使用它们，是性能优化的第一步。让我们先来回顾下，为什么阻塞操作会影响 OpenResty 的性能。</p><p>OpenResty 之所以可以保持很高的性能，简单来说，是因为它借用了 Nginx 的事件处理和 Lua 的协程机制，所以：</p><ul>
 

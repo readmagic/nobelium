@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是轩脉刃。</p><p>经过前面几节课对框架的改造，我们能很方便在 hade 框架中创造一个定时任务，或者一个 Web 服务了。但是随着开始编写业务，你会发现，业务中有大量的配置项，比如数据库的用户名密码、缓存 Redis 的 IP 和端口、第三方调用的地址等。如何通过统一的方法快速获取到这些配置项，就是今天要讨论的内容。</p><p>当你看到获取配置项这个需求，第一个反应是不是要创建一个读取配置文件的服务。但是，一个程序获取配置项只有读取配置文件这个方法么？其实不是的，获取配置项的方法有很多，<strong>读取本地配置文件、读取远端配置服务、获取环境变量</strong>，都是获取配置项的方法。</p><p>获取远端配置服务是通过一个远程调用来获取配置信息的方法，它依赖于远端的服务提供。而读取本地配置文件和获取环境变量，是我们通过进程本身获取配置项最常用的方法，这节课就为框架增加这两种获取配置项的能力。</p><h2>环境变量获取配置思路分析</h2><p>在现在服务越来越容器化的时代，环境变量越来越重要。因为一个服务一旦被封装为 Docker 镜像，镜像就会被部署在不同的环境中。如何区分不同的环境呢？在容器内部已经把程序、配置文件都进行了打包，唯一能在不同环境变化的就是环境变量了。</p><p>所以顾名思义，环境变量也就是为不同环境准备的，不同环境有不同的设置。</p><!-- [[[read_end]]] --><p>为一个程序设置环境变量的方式是多种多样的。如果是容器化的进程，可以在创建镜像的时候设置，也可以在容器启动的时候设置，在 Linux 系统中，我们也可以通过在启动进程的时候，通过前面加上“KEY=VALUE”的方式，为单个进程设置环境变量，比如：</p><pre><code class="language-go">FOO_ENV=bar ./hade foo
 

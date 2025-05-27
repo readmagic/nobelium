@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是徐昊。今天我们继续8X Flow的学习。</p><p>上节课我们讲到可以将逻辑分为领域逻辑和业务逻辑，而且可以通过不同的方式，分别对领域逻辑和业务逻辑建模。我们也知道了，领域与运营无关，源自某个特定问题域，而业务逻辑与运营相关，大量的业务逻辑源自运营中实践经验的总结。</p><p>这个时候我们就需要考虑一个问题：领域逻辑真的能复用吗？我们来分析一下。</p><h2>领域逻辑真的能复用吗？</h2><p>由此我们会发现，业务逻辑不如领域逻辑稳定。毕竟业务关注的问题是如何盈利，而不是怎么准确地描述某个问题域。这似乎和我们长久以来的想法相违背：我们希望通过模型精确建模某个问题域，从而实现对该问题域的复用。</p><p>然而<strong>在商业社会里，复用某个领域，就是围绕这个领域构建能够盈利的运营模式</strong>。也就是说，复用某个领域，除了复用领域功能之外，还要构造运营实体。</p><p>就像直到今天不会还有人天真地以为，只要复制了淘宝的功能就能再造一个阿里吧！软件总是简单的，但是构造背后的运营实体，以及确立成本合理的运营模式，才是复用的真正重点和难点。换言之，<strong>业务知识的重建与复用，才是领域复用的关键</strong>。</p><p>从这个角度来说，领域驱动设计就是天真的谎言。因为它所畅想的美好的复用方式，大多源自技术领域的领域系统，并且不假思索地将这种复用模式推广到业务系统，而忽略了业务系统的运营特定性与领域中立性，这就给我们植入了一个虚假的愿景：通过领域驱动设计，我们可以构造某个领域的通用产品，正如数据库一样，然后就可以忽略业务逻辑，在不同企业间形成复用。</p><!-- [[[read_end]]] --><p>按照这个思路，领域驱动设计所希冀的最大成就，就是实现类似于MRP（Manufacturing Resource Planning）或者ERP（Enterprise Resource Planning）这类领域产品。然而，事实告诉我们，所有ERP系统最终都会走上两条路。</p><ol>
 

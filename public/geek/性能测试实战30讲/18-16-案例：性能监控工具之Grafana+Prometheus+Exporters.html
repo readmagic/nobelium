@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>在本模块中，我将把几个常用的监控部分给梳理一下。前面我们提到过，在性能监控图谱中，有操作系统、应用服务器、中间件、队列、缓存、数据库、网络、前端、负载均衡、Web服务器、存储、代码等很多需要监控的点。</p><p>显然这些监控点不能在一个专栏中全部覆盖并一一细化，我只能找最常用的几个，做些逻辑思路的说明，同时也把具体的实现描述出来。如果你遇到了其他的组件，也需要一一实现这些监控。</p><p>在本篇中，主要想说明白下图的这个监控逻辑。</p><p><img src="https://static001.geekbang.org/resource/image/e0/39/e0aa269a7f528f393b859cc8ed69ac39.jpg" alt=""></p><p>这应该是现在最流行的一套监控逻辑了吧。</p><p>我今天把常见的使用Grafana、Prometheus、InfluxDB、Exporters的数据展示方式说一下，如果你刚进入性能测试领域，也能有一个感性的认识。</p><p>有测试工具，有监控工具，才能做后续的性能分析和瓶颈定位，所以有必要把这些工具的逻辑跟你摆一摆。</p><p>所有做性能的人都应该知道一点，不管数据以什么样的形式展示，最要紧的还是看数据的来源和含义，以便做出正确的判断。</p><p>我先说明一下JMeter和node_exporter到Grafana的数据展示逻辑。至于其他的Exporter，我就不再解释这个逻辑了，只说监控分析的部分。</p><h2>JMeter+InfluxDB+Grafana的数据展示逻辑</h2><!-- [[[read_end]]] --><p>一般情况下，我们用JMeter做压力测试时，都是使用JMeter的控制台来查看结果。如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/60/75/60469fd6df4eff032fe0ce161963f675.png" alt=""></p><p>或者装个插件来看结果：</p><p><img src="https://static001.geekbang.org/resource/image/bd/32/bdcaa07b1ce26ffe504a7fde931b1d32.png" alt=""></p><p>或者用JMeter来生成HTML：</p><p><img src="https://static001.geekbang.org/resource/image/98/f2/98d050b5df8554a7109e3e532e0781f2.png" alt=""></p><p>这样看都没有问题，我们在前面也强调过，对于压力工具来说，我们最多只关心三条曲线的数据：TPS（T由测试目标定义）、响应时间、错误率。这里的错误率还只是辅助排查问题的曲线，没有问题时，只看TPS和响应时间即可。</p><p>不过采取以上三种方式有几个方面的问题。</p><ol>
 

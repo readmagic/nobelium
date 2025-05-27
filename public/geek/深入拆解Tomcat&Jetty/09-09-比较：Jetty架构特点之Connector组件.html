@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>经过专栏前面几期的学习，相信你对Tomcat的整体架构和工作原理有了基本了解。但是Servlet容器并非只有Tomcat一家，还有别的架构设计思路吗？今天我们就来看看Jetty的设计特点。</p><p>Jetty是Eclipse基金会的一个开源项目，和Tomcat一样，Jetty也是一个“HTTP服务器 + Servlet容器”，并且Jetty和Tomcat在架构设计上有不少相似的地方。但同时Jetty也有自己的特点，主要是更加小巧，更易于定制化。Jetty作为一名后起之秀，应用范围也越来越广，比如Google App Engine就采用了Jetty来作为Web容器。Jetty和Tomcat各有特点，所以今天我会和你重点聊聊Jetty在哪些地方跟Tomcat不同。通过比较它们的差异，一方面希望可以继续加深你对Web容器架构设计的理解，另一方面也让你更清楚它们的设计区别，并根据它们的特点来选用这两款Web容器。</p><h2>鸟瞰Jetty整体架构</h2><p>简单来说，Jetty Server就是由多个Connector（连接器）、多个Handler（处理器），以及一个线程池组成。整体结构请看下面这张图。</p><p><img src="https://static001.geekbang.org/resource/image/95/b6/95b908af86695af107fd3877a02190b6.jpg" alt=""></p><p>跟Tomcat一样，Jetty也有HTTP服务器和Servlet容器的功能，因此Jetty中的Connector组件和Handler组件分别来实现这两个功能，而这两个组件工作时所需要的线程资源都直接从一个全局线程池ThreadPool中获取。</p><!-- [[[read_end]]] --><p>Jetty Server可以有多个Connector在不同的端口上监听客户请求，而对于请求处理的Handler组件，也可以根据具体场景使用不同的Handler。这样的设计提高了Jetty的灵活性，需要支持Servlet，则可以使用ServletHandler；需要支持Session，则再增加一个SessionHandler。也就是说我们可以不使用Servlet或者Session，只要不配置这个Handler就行了。</p><p>为了启动和协调上面的核心组件工作，Jetty提供了一个Server类来做这个事情，它负责创建并初始化Connector、Handler、ThreadPool组件，然后调用start方法启动它们。</p><p>我们对比一下Tomcat的整体架构图，你会发现Tomcat在整体上跟Jetty很相似，它们的第一个区别是Jetty中没有Service的概念，Tomcat中的Service包装了多个连接器和一个容器组件，一个Tomcat实例可以配置多个Service，不同的Service通过不同的连接器监听不同的端口；而Jetty中Connector是被所有Handler共享的。</p><p><img src="https://static001.geekbang.org/resource/image/7b/f2/7b100cb1c7399a366157b97b77f042f2.jpg" alt=""></p><p>它们的第二个区别是，在Tomcat中每个连接器都有自己的线程池，而在Jetty中所有的Connector共享一个全局的线程池。</p><p>讲完了Jetty的整体架构，接下来我来详细分析Jetty的Connector组件的设计，下一期我将分析Handler组件的设计。</p><h2>Connector组件</h2><p>跟Tomcat一样，Connector的主要功能是对I/O模型和应用层协议的封装。I/O模型方面，最新的Jetty 9版本只支持NIO，因此Jetty的Connector设计有明显的Java NIO通信模型的痕迹。至于应用层协议方面，跟Tomcat的Processor一样，Jetty抽象出了Connection组件来封装应用层协议的差异。</p><p>Java NIO早已成为程序员的必备技能，并且也经常出现在面试题中。接下来我们一起来看看Jetty是如何实现NIO模型的，以及它是怎么<strong>用</strong>Java NIO的。</p><p><strong>Java NIO回顾</strong></p><p>关于Java NIO编程，如果你还不太熟悉，可以先学习这一<a href="http://ifeve.com/java-nio-all/">系列文章</a>。Java NIO的核心组件是Channel、Buffer和Selector。Channel表示一个连接，可以理解为一个Socket，通过它可以读取和写入数据，但是并不能直接操作数据，需要通过Buffer来中转。</p><p>Selector可以用来检测Channel上的I/O事件，比如读就绪、写就绪、连接就绪，一个Selector可以同时处理多个Channel，因此单个线程可以监听多个Channel，这样会大量减少线程上下文切换的开销。下面我们通过一个典型的服务端NIO程序来回顾一下如何使用这些组件。</p><p>首先，创建服务端Channel，绑定监听端口并把Channel设置为非阻塞方式。</p><pre><code>ServerSocketChannel server = ServerSocketChannel.open();
 

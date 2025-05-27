@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴骏龙。</p><p>在上一讲中，我提到了大促活动在业务场景和业务指标中的不同特点，并结合本地生活的双11大促活动案例做了讲解。同时，基于这些特点，我为你构建了一个大促容量保障的框架，并做了一定的展开，以便你能应用到具体工作中去填空。</p><p>上一讲主要涉及大促容量保障的两项准备工作：重点链路梳理和服务架构治理，这一讲，我们步入大促容量保障的进行时，看一看大促容量保障的三项重点步骤：<strong>大促<strong><strong>流</strong></strong>量预估</strong>、<strong>大促容量测试</strong>和<strong>大促容量保障预案</strong>。最后，我会为你总结一下整个大促容量保障的体系大图。</p><h2>大促流量预估</h2><p>大促流量预估是实施容量测试的前提，在“容量保障的目标”一讲中，我有谈到的一个服务流量扩散比计算的案例，这就是大促场景流量预估的一个很常见的方法。</p><p>具体再总结一下重点，如下图所示，在梳理出核心场景链路后，对各服务进行流量预估时，特别要注意对下游服务的流量预估，一方面需要从<strong>核心场景</strong>入手计算，另一方面还要考虑到<strong>上游其他服务的依赖</strong>。</p><p><img src="https://static001.geekbang.org/resource/image/aa/a9/aa9001d76f3aa558aa96bc9f810202a9.png" alt=""></p><p>这里提供一个不错的实践，也是我在双11容量保障工作中沉淀的一个做法，称之为<strong>上游负责制（又称入口服务负责制）</strong>。简单说，所有依赖方应负责预估对被依赖方的调用量，并及时通知下游进行保障。对于调用量很高，且非常关键的调用方，下游服务甚至可以切割出一个物理隔离的集群，专门为这个调用方服务，以降低容量相互影响的可能性。</p><!-- [[[read_end]]] --><p>我以双11活动的订单服务为例，订单服务是非常核心的服务，也是很多其他关键服务的下游，调用量非常大。如下图所示，有大量服务都会调用订单服务执行逻辑，这里我们屏蔽掉调用方式，只从调用量的角度出发，根据“上游负责制”，每个上游服务必须预估对订单服务的调用量，并确保超出时自身先进行限流，或者降级。</p><p><img src="https://static001.geekbang.org/resource/image/yy/e3/yy987d425b9c7aaf1f1575578c9684e3.png" alt=""></p><p>在订单服务得到这些信息后，也要做防御性容量保障，不能假定这些上游都按套路出牌。还是按照上图的场景来讲，我们拆分出两个服务：订单查询和订单创建，分别针对订单服务的读操作和写操作，提供对接用户和商户的功能封装，这是典型的读写分离的架构思路。</p><p>我们发现，订单查询对订单服务的调用量最大，而且订单查询是非常重要的服务，直接面对用户和商户，为了避免风险，对订单服务来说，就可以切分出一个独立的物理集群，专门为订单查询提供服务。</p><p><strong>这样做的好处是，一旦订单查询对订单服务的调用量出现预料外的峰值，导致订单服务出现容量瓶颈，最差也不会影响到其他的调用方</strong>。当然，对于后续的容量测试工作，两个集群的容量也需要分别进行验证。</p><p>除了上面谈到的案例，我再教给你一些关于大促流量预估的诀窍：</p><ol>
 

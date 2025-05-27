@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是胜辉。</p><p>“实战一：TCP真实案例解密篇”刚刚结束。在过去的十几讲里，我们全面回顾了TCP的各种技术细节，从握手到挥手，从重传等容错机制，到传输速度等效率机制，应该说也是对我们的TCP知识做了一个全面的“体检”。如果你发现自己对TCP的掌握还有不少漏洞，也别着急，可以回头复习一下相应部分的内容，或者在留言区提问，我会给你解答。</p><p>从这节课开始，我们要进入网络排查的“实战二：应用层真实案例解密篇”了。今天要给你讲解的是一个关于Nginx的排查案例。</p><h2>Nginx的499状态码是怎么回事？</h2><p>你肯定听说过Nginx，或者经常用到它。作为一个高性能的HTTP和反向代理服务器，Nginx不管是用来搭建Web Server，还是用作负载均衡都很合适，并且它可供配置的日志字段也很丰富，从各类HTTP头部到内部的性能数据都有。</p><p>不过，你在日常维护Nginx时有没有遇到过这种情况：<strong>在Nginx的访问日志中，存在499状态码的日志。</strong>但是常见的4xx家族的状态码只有400、401、403、404等，这个499并未在HTTP的RFC文档中定义，是不是很奇怪？</p><p>这个499错误日志，在流量较大的场景下，特别是面向Internet的Web站点场景下还是很常见的 。但如果你遇到过，第一感觉可能会是一头雾水，不知道499这个状态码具体是用来干啥的，因为确实跟其他的400系列状态码太不同了。</p><!-- [[[read_end]]] --><p>我在公有云的时候，做过的一个案例正好是关于Nginx的499日志。当时一位客户向我反馈：他们的Nginx服务器会连续几天记录较多的499错误日志，之后几天可能趋零，然后再回升，整体状况起伏不定。</p><p>这个客户经营的是To C的电子产品，跟手机端App协同工作。这个App会定时把消息上传到微信消息网关，后者再把这些消息推送到该客户的服务端（在公有云上）做业务处理，整体的消息量约每日三十万条。那么，对消息网关来说，这个服务端就是一个Web回调接口。下面是架构简图：</p><p><img src="https://static001.geekbang.org/resource/image/93/46/93ea615940b140d18e2c3087e0545346.jpg?wh=1697x809" alt=""></p><p>他们给我提供了499日志趋势图：</p><p><img src="https://static001.geekbang.org/resource/image/4d/71/4d99d187880ecaa09e454526e8a9b371.png?wh=1405x368" alt="图片"></p><p>由于大量499日志的存在，客户非常担心业务已经受到影响，比如他们的终端消费者是否经常上传数据失败？是否已经严重影响了消费者的体验？所以，我们需要搞清楚499错误日志的含义。</p><p>那么，499这个状态码本身能帮到我们什么呢？我们可以查一下它在Nginx里的<a href="https://www.Nginx.com/resources/wiki/extending/api/http">官方定义</a>：</p><blockquote>
 

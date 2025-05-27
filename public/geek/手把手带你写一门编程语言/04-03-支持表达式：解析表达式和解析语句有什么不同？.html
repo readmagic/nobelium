@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。</p><p>到目前为止，我们已经学习了一些语法分析的算法。不过，我们主要是分析了如何来解析语句，比如函数声明、函数调用，没有把重点放在解析表达式上。</p><p>其实我是刻意为之的，故意把表达式的解析往后推迟一下。原因是表达式解析，特别是像“2+3*5”这样的看似特别简单的二元运算的表达式解析，涉及的语法分析技术反而是比较复杂的。所以，从循序渐进的角度来说，我们要把它们放在后面。</p><p>表达式的解析复杂在哪里呢？是这样，我们在解析二元表达式的时候，会遇到递归下降算法最大的短板，也就是不支持左递归的文法。如果遇到左递归的文法，会出现无限循环的情况。</p><p><strong>在这一节里，我会给你分析这种左递归的困境，借此加深你对递归下降算法运算过程的理解。</strong></p><p>同时，我也要给出避免左递归问题的方法。这里，我没有采用教科书上经常推荐的改写文法的方法，而是使用了业界实际编译器中更常用的算法：<strong>运算符优先级解析器（Operator-precedence parser）</strong>。JDK的Java编译器、V8的JaveScript编译器和Go语言的GC编译器，都毫无例外地采用了这个算法，所以这个算法非常值得我们掌握。</p><p>好了，那我们首先来了解一下用递归下降算法解析算术表达式会出现的这个左递归问题。</p><!-- [[[read_end]]] --><h2>左递归问题</h2><p>我们先给出一种简化的加法表达式的语法规则：</p><pre><code class="language-plain">add : add '+' IntLiteral
 

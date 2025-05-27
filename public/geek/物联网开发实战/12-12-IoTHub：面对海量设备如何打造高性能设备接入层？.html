@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是郭朝斌。</p><p>前面两讲，我们一直在谈物联网云平台针对海量数据的处理和存储技术。顺着物联网的数据技术体系继续往下探索，我们自然就会面临一个问题：物联网云平台的服务器需要管理海量设备的接入，并且接收来自设备的海量数据的输入，那么服务器要怎么应对这样的挑战呢？</p><p>我们来分析一下这个问题。物联网设备是通过某种通信协议接入云平台的，比如常用的MQTT协议，那么设备接入的服务器就是MQTT Broker服务器。</p><p>从架构设计来说，负责设备接入的这一部分一般叫作<strong>设备接入层</strong>，也被称为<strong>IoT Hub</strong>。设备接入层之后，才是和互联网系统类似的<strong>业务层</strong>。具体的系统架构图可能是下面这样的：</p><p><img src="https://static001.geekbang.org/resource/image/fd/5b/fdb74fcd872c299459bbb2f28383325b.jpg" alt=""></p><p>不过，估计你也发现问题了，这样的架构根本无法支撑物联网场景中海量设备的接入和海量数据的输入。单台MQTT Broker服务器很容易面临性能瓶颈。所以前面提到的“服务器怎么应对挑战”的问题就变成了：怎么打造高性能的设备接入层？</p><p>我们再继续深入分析，把关键点定位得更具体一点。打造<strong>高性能</strong>的设备接入层，最重要的技术难点是，如何实现接入层的<strong>高并发</strong>。因为只有具备高并发的能力，才能有效地、可靠地实现数据的传输。</p><p>所以，现在问题又变成了：物联网云平台中，怎么实现高并发的设备接入层？</p><!-- [[[read_end]]] --><p>接下来，我就带你一步一步地设计一个高并发的设备接入层。在这个过程中，我会为你详细地讲解我们需要用到的重要技术，让你为物联网平台的搭建做好技术储备。</p><h2>负载均衡：让多台服务器更好地协作</h2><p><a href="https://time.geekbang.org/column/article/316274">上一讲</a>曾经我提到，为了解决灭霸这个难题，要让超级英雄们组成联盟。同样地，面对性能瓶颈，我们可以集合多个服务器的力量来解决问题，也就是说，可以通过增加多台MQTT Broker服务器来满足海量设备的连接请求。</p><p>但是服务器数量变多之后，它们具体要怎么协作呢？比如一个MQTT请求过来了，它应该被分配给哪台服务器处理呢？更进一步地说，怎么保证每台服务器的负担和压力都基本平衡呢？</p><p>这就要用到负载均衡技术。<strong>负载均衡</strong>（Load Balancer）这个名字非常形象，我们可以分成“负载”和“均衡”两个词来理解。</p><ul>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>前面我们聊了保持代码长治久安的两个策略，代码规范和风险预案。这一次，我们接着聊代码安全管理的另外一个策略：纵深防御。</p><p>说起纵深防御（Defence-in-Depth），我们最常想到的是军事战略。在军事上，这个概念指的是通过层层设防，以全面深入的防御来延迟敌人的进攻，通过以空间换时间的方式来挫败敌方的攻击。这有别于一战定胜负的决斗思维。决斗思维需要集中所有的优势资源在最前线，一旦前线失守，整个战争基本就宣告结束了。</p><p>信息安全的攻防，有一个很重要的特点，就是不存在没有漏洞的防线。按照决斗思维部署的信息安全防御体系，也许仅仅只能是个心理安慰。事实上，现代网络安全防御体系和应用架构，不管你是否意识到，已经在广泛使用纵深防御的思想了，或多或少，或明或暗。</p><h2>评审案例</h2><p>我们一起来看一段OpenJDK的代码修改。其中wrap()方法的传入参数key是一个不能泄露的密钥，而key.getEncoded()导出这个密钥的编码，以便进行下一步的加密操作。有时候，密钥的编码可以等同于密钥，也是不能泄露的。你知道这样修改的必要性吗？</p><pre><code> byte[] wrap(Key key)
 

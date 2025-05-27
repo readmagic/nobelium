@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈东。</p><p>上一讲我们讲了，对于查询范围固定的应用需求，比如“查找附近的人”，我们可以根据规划好的查询区域大小，均匀划分所有的空间，然后用GeoHash将坐标转换为区域编码，以该区域编码作为Key开始检索。这样，我们就可以查到并取出该区域中的目标数据，对这些数据进行精准计算然后排序输出了。</p><p>但是，并不是所有应用的查询范围都是不变的。<strong>在一些基于地理位置的服务中，我们并不关心检索结果是否就在我们“附近”，而是必须要找到“最近”的一批满足我们要求的结果</strong>。这怎么理解呢？</p><p>我来举个例子，我们在长途自驾游的时候，突然发现车快没油了。这个时候，我们要在一个导航地图中查找最近的k个加油站给车加油，这些加油站可能并不在我们附近，但地图又必须要返回最近的k个结果。类似的情况还有很多，比如说，我们要查询最近的医院有哪些，查询最近的超市有哪些。那对于这一类的查询，如果当前范围内查不到，系统就需要自动调整查询范围，直到能返回k个结果为止。</p><p>对于这种需要动态调整范围的查询场景，我们有什么高效的检索方案呢？今天，我们就来探讨一下这个问题。</p><h2>直接进行多次查询会有什么问题？</h2><p>我们就以查找最近的加油站为例，一个直观的想法是，我们可以先获得当前位置的GeoHash编码，然后根据需求不停扩大查询范围进行多次查询，最后合并查询结果。这么说比较抽象，我们来分析一个具体的位置编码。</p><!-- [[[read_end]]] --><p>假设我们当前地址的GeoHash编码为wx4g6yc8，那我们可以先用wx4g6yc8去查找当前区域的加油站。如果查询的结果为空，我们就扩大范围。扩大查询范围的思路有两种。</p><p>第一种思路是，一圈一圈扩大范围。具体来说就是，我们第一次查询周边8个邻接区域，如果查询结果依然为空，就再扩大一圈，查询再外圈的16个区域。如果还是不够，下一次我们就查询再外圈的24个区域，依此类推。你会发现，这种方案的查询次数会成倍地增加，它的效率并不高。<br>
 

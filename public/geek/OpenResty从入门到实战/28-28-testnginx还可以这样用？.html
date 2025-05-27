@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是温铭。</p><p>在前面两个章节中，你已经掌握了 <code>test::nginx</code> 的大部分使用方法，我相信你已经能够看明白 OpenResty 项目中大部分的测试案例集了。这对于学习 OpenResty 和它的周边库而言，已经足够了。</p><p>但如果你有志于成为 OpenResty 的代码贡献者，或者你正在自己的项目中使用 <code>test::nginx</code> 来编写测试案例，那么你还需要来学习一些更高级、更复杂的用法。</p><p>今天的内容，可能会是这个专栏中最“高冷”的部分，因为这都是从来没有人分享过的内容。 以 lua-nginx-module 这个 OpenResty 中最核心的模块为例，全球一共有 70 多个贡献者，但并非每个贡献者都写过测试案例。所以，如果学完今天的课程，你在 <code>test::nginx</code> 上的理解，绝对可以进入全球 Top 100。</p><h2>测试中的调试</h2><p>首先，我们来看几个最简单、也是开发者最常用到的原语，它们在平时的调试中会被使用到。下面，我们就来依次介绍下，这几个调试相关的原语的使用场景。</p><h3>ONLY</h3><p>很多时候，我们都是在原有的测试案例集基础上，新增了一个测试案例。如果这个测试文件包含了很多的测试案例，那么从头到尾跑一遍显然是比较耗时的，这在你需要反复修改测试案例的时候尤为明显。</p><!-- [[[read_end]]] --><p>那么，有没有什么方法只运行你指定的某一个测试案例呢？ <code>ONLY</code> 这个标记可以轻松实现这一点：</p><pre><code>=== TEST 1: sanity
 

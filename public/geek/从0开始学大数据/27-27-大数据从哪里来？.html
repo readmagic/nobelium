@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>大数据就是存储、计算、应用大数据的技术，如果没有数据，所谓大数据就是无源之水、无本之木，所有技术和应用也都无从谈起。可以说，数据在大数据的整个生态体系里面拥有核心的、最无可代替的地位。很多从事机器学习和人工智能的高校学者选择加入互联网企业，并不是贪图企业给的高薪，而是因为只有互联网企业才有他们做研究需要用到的大量数据。</p><p>技术是通用的，算法是公开的，只有数据需要自己去采集。因此数据采集是大数据平台的核心功能之一，也是大数据的来源。数据可能来自企业内部，也可能是来自企业外部，<span class="orange">大数据平台的数据来源主要有数据库、日志、前端程序埋点、爬虫系统</span>。</p><h2>从数据库导入</h2><p>在大数据技术风靡之前，关系数据库（RDMS）是数据分析与处理的主要工具，我们已经在关系数据库上积累了大量处理数据的技巧、知识与经验。所以当大数据技术出现的时候，人们自然而然就会思考，能不能将关系数据库数据处理的技巧和方法转移到大数据技术上，于是Hive、Spark  SQL、Impala这样的大数据SQL产品就出现了。</p><p>虽然Hive这样的大数据产品可以提供和关系数据库一样的SQL操作，但是互联网应用产生的数据却还是只能记录在类似MySQL这样的关系数据库上。这是因为互联网应用需要实时响应用户操作，基本上都是在毫级完成用户的数据读写操作，通过前面的学习我们知道，大数据不是为这种毫秒级的访问设计的。</p><!-- [[[read_end]]] --><p>所以要用大数据对关系数据库上的数据进行分析处理，必须要将数据从关系数据库导入到大数据平台上。上一期我提到了，目前比较常用的数据库导入工具有Sqoop和Canal。</p><p>Sqoop是一个数据库批量导入导出工具，可以将关系数据库的数据批量导入到Hadoop，也可以将Hadoop的数据导出到关系数据库。</p><p>Sqoop数据导入命令示例如下。</p><pre><code>$ sqoop import --connect jdbc:mysql://localhost/db --username foo --password --table TEST
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>我想你应该知道，公式是Excel电子表格软件的灵魂和核心。除此之外，在HR软件中，可以用公式自定义工资。而且，如果你要开发一款通用报表软件，也会大量用到自定义公式来计算报表上显示的数据。总而言之，很多高级一点儿的软件，都会用到自定义公式功能。</p><p>既然公式功能如此常见和重要，我们不妨实现一个公式计算器，给自己的软件添加自定义公式功能吧！</p><p>本节课将继续“手工打造”之旅，让你纯手工实现一个公式计算器，借此掌握<strong>语法分析的原理</strong>和<strong>递归下降算法（Recursive Descent Parsing），<strong>并初步了解</strong>上下文无关文法（Context-free Grammar，CFG）。</strong></p><p>我所举例的公式计算器支持加减乘除算术运算，比如支持“2 + 3 * 5”的运算。</p><p>在学习语法分析时，我们习惯把上面的公式称为表达式。这个表达式看上去很简单，但你能借此学到很多语法分析的原理，例如左递归、优先级和结合性等问题。</p><p>当然了，要实现上面的表达式，你必须能分析它的语法。不过在此之前，我想先带你解析一下变量声明语句的语法，以便让你循序渐进地掌握语法分析。</p><h2>解析变量声明语句：理解“下降”的含义</h2><p>在“<a href="https://time.geekbang.org/column/article/118132">01 | 理解代码：编译器的前端技术</a>”里，我提到语法分析的结果是生成AST。算法分为自顶向下和自底向上算法，其中，递归下降算法是一种常见的自顶向下算法。</p><!-- [[[read_end]]] --><p>与此同时，我给出了一个简单的代码示例，也针对“int age = 45”这个语句，画了一个语法分析算法的示意图：</p><p><img src="https://static001.geekbang.org/resource/image/cb/16/cbf2b953cb84ef30b154470804262c16.jpg" alt=""></p><p>我们首先把变量声明语句的规则，用形式化的方法表达一下。它的左边是一个非终结符（Non-terminal）。右边是它的产生式（Production Rule）。在语法解析的过程中，左边会被右边替代。如果替代之后还有非终结符，那么继续这个替代过程，直到最后全部都是终结符（Terminal），也就是Token。只有终结符才可以成为AST的叶子节点。这个过程，也叫做推导（Derivation）过程：</p><pre><code>intDeclaration : Int Identifier ('=' additiveExpression)?;
 

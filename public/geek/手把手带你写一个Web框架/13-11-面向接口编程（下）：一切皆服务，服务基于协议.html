@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是轩脉刃。</p><p>之前对比面向过程/面向对象，讲解了抽象程度更高的面向接口编程理念，先定义接口再梳理如何通过接口协议交互，最后实现具体模块。</p><p>根据这一理念，我们框架的核心设计就是：框架主体作为一个服务容器，其他各个服务模块都作为服务提供者，在服务容器中注册自己的服务凭证和服务接口，通过服务凭证来获取具体的服务实例。这样，功能的具体实现交给了各个服务模块，我们只需要规范服务提供者也就是服务容器中的接口协议。</p><p>在上节课也已经完成了服务提供方接口的实现。所以今天就接着实现框架的主体逻辑。</p><h2>服务容器的实现</h2><p>首先是服务容器，先看它需要具有什么能力。同样的，按照面向接口编程，我们不考虑具体实现，先思考服务容器的接口设计。</p><p>将服务容器实现在 framework/container.go 文件中。</p><p>正如之前讨论的，<strong>一个服务容器主要的功能是：为服务提供注册绑定、提供获取服务实例</strong>，所以服务容器至少有两个方法：注册方法 Bind、获取实例方法 Make。</p><ul>
 

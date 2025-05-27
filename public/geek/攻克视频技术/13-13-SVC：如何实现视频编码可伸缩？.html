@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是李江。</p><p>前面我们用了4节课的时间分别讲述了如何将视频编码码流打包成H264，如何预测网络带宽，如何做好码控来控制视频发送的速率，如何分析视频的花屏和卡顿等问题。基本上循序渐进地将视频传输中最重要的一些知识点都讲解了一遍，并对里面几个重要的算法进行了深入的研究。</p><p>今天，我们再讲述一个视频会议场景中经常会使用的视频编码传输相关的技术——SVC编码，也叫做可伸缩视频编码。它的作用是可以实现在一个码流里面包含多个可解码的子码流，服务器可以根据接收端的网络状况，下发对应码率的码流，从而实现可伸缩性。</p><h2>为什么需要SVC</h2><p>2020年全球爆发新冠疫情，很多公司为了员工的安全，实行在家办公的政策。视频会议一时成为了工作中必不可少的日常工作活动。很多大型公司可能会出现一次几十、上百个人参加视频会议的情况。对于视频会议技术商来说，如何提供几十、上百个人的高质量视频通话技术是一个难题。为什么呢？</p><p>比如说，我和你两个人进行视频通话，我是发送端，网络非常好，你是接收端，网络比较差。发送端和接收端之间的视频通路如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/bb/d2/bb477d3a740c1b5a4a9c41e33c1043d2.jpeg?wh=1920x620" alt="图片"></p><p>在<a href="https://time.geekbang.org/column/article/467073">带宽预测</a>这节课里面我们讲过，由于服务器到接收端的网络比较差，那么最后会引起：</p><ul>
 

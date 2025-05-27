@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是张磊。今天我和你分享的主题是：牛刀小试之我的第一个容器化应用。</p><p>在上一篇文章《从0到1：搭建一个完整的Kubernetes集群》中，我和你一起部署了一套完整的Kubernetes集群。这个集群虽然离生产环境的要求还有一定差距（比如，没有一键高可用部署），但也可以当作是一个准生产级别的Kubernetes集群了。</p><p>而在这篇文章中，我们就来扮演一个应用开发者的角色，使用这个Kubernetes集群发布第一个容器化应用。</p><p>在开始实践之前，我先给你讲解一下Kubernetes里面与开发者关系最密切的几个概念。</p><p>作为一个应用开发者，你首先要做的，是制作容器的镜像。这一部分内容，我已经在容器基础部分<a href="https://time.geekbang.org/column/article/17921">《白话容器基础（三）：深入理解容器镜像》</a>重点讲解过了。</p><p>而有了容器镜像之后，你需要按照Kubernetes项目的规范和要求，将你的镜像组织为它能够“认识”的方式，然后提交上去。</p><p>那么，<span class="orange">什么才是Kubernetes项目能“认识”的方式呢？</span></p><p>这就是使用Kubernetes的必备技能：编写配置文件。</p><blockquote>
 

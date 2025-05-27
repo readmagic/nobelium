@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴磊。</p><p>在Spark的应用开发中，有效利用Cache往往能大幅提升执行性能。</p><p>但某一天，有位同学却和我说，自己加了Cache之后，执行性能反而变差了。仔细看了这位同学的代码之后，我吓了一跳。代码中充斥着大量的<code>.cache</code>，无论是RDD，还是DataFrame，但凡有分布式数据集的地方，后面几乎都跟着个<code>.cache</code>。显然，Cache滥用是执行性能变差的始作俑者。</p><p>实际上，在有些场景中，Cache是灵丹妙药，而在另一些场合，大肆使用Cache却成了饮鸩止渴。那Cache到底该在什么时候用、怎么用，都有哪些注意事项呢？今天这一讲，我们先一起回顾Cache的工作原理，再来回答这些问题。</p><h2>Cache的工作原理</h2><p>在<a href="https://time.geekbang.org/column/article/355081">存储系统</a>那一讲，我们其实介绍过RDD的缓存过程，只不过当时的视角是以MemoryStore为中心，目的在于理解存储系统的工作原理，今天咱们把重点重新聚焦到缓存上来。</p><p>Spark的Cache机制主要有3个方面需要我们掌握，它们分别是：</p><ul>
 

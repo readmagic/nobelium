@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是温铭。在学习了 OpenResty 的原理和几个重要概念后，我们终于要开始 API 的学习了。</p><p>从我个人的经验来看，学习 OpenResty 的 API 是相对容易的，所以并没有占用本专栏太多的篇幅。你可以会疑惑：API 不是最常用、最重要的部分吗，为什么花的笔墨不多？</p><p>其实，这主要是出于两个方面的考虑。</p><p>第一，OpenResty 提供了非常详尽的文档。和很多其他的开发语言或者平台相比，OpenResty 除了会提供 API 的参数、返回值定义，还会提供完整的、可运行的代码示例，清楚地告诉你API 是如何处理各种边界条件的。</p><p>这种在 API 定义下面紧跟着示例代码和注意事项的做法，就是 OpenResty 文档的一贯风格。这样一来，在看完 API 描述后，你就可以立即在自己的环境下运行示例代码，并修改参数来和文档互相印证，加深记忆和理解。</p><p>第二，在文档之外，OpenResty还提供了高覆盖度的测试案例集。刚刚我提到过，OpenResty文档中提供了 API 的代码示例，但终究篇幅有限，多个 API 之间如何配合使用、各种异常情况下的报错和处理等，在文档中并没有呈现。</p><p>不过，不用担心，这些内容你大都可以在测试案例集里找到。</p><p>对于 OpenResty 的开发者来说，最好的 API 学习资料就是官方文档和测试案例，它们足够专业和友好。在这个前提下，如果我单纯地把文档翻译成中文再放在专栏中来讲，就没有太大意义了。</p><!-- [[[read_end]]] --><p>授人以鱼不如授之以渔，我更希望教给你的是通用的方法和经验。让我们用一个真实的例子来体验下，在 OpenResty 的开发中，如何让文档和测试案例集发挥更大的威力。</p><h2>shdict get API</h2><p>shared dict（共享字典）是基于 NGINX 共享内存区的 Lua 字典对象，它可以跨多个 worker 来存取数据，一般用来存放限流、限速、缓存等数据。shared dict 相关的 API 有 20 多个，是 OpenResty 中最常用也是最重要的一组 API。</p><p>我们以最简单的 get 操作为例，你可以点开  <a href="https://github.com/openresty/lua-nginx-module/#ngxshareddictget">文档链接</a>  做为对照。下面的最小化的代码示例，正是由官方文档改编而来：</p><pre><code>  http {
 

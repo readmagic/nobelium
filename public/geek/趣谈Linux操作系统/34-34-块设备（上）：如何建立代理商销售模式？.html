@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>上一章，我们解析了文件系统，最后讲文件系统读写的流程到达底层的时候，没有更深入地分析下去，这是因为文件系统再往下就是硬盘设备了。上两节，我们解析了字符设备的mknod、打开和读写流程。那这一节我们就来讲块设备的mknod、打开流程，以及文件系统和下层的硬盘设备的读写流程。</p><p>块设备一般会被格式化为文件系统，但是，下面的讲述中，你可能会有一点困惑。你会看到各种各样的dentry和inode。块设备涉及三种文件系统，所以你看到的这些dentry和inode可能都不是一回事儿，请注意分辨。</p><p>块设备需要mknod吗？对于启动盘，你可能觉得，启动了就在那里了。可是如果我们要插进一块新的USB盘，还是要有这个操作的。</p><p>mknod还是会创建在/dev路径下面，这一点和字符设备一样。/dev路径下面是devtmpfs文件系统。<strong>这是块设备遇到的第一个文件系统</strong>。我们会为这个块设备文件，分配一个特殊的inode，这一点和字符设备也是一样的。只不过字符设备走S_ISCHR这个分支，对应inode的file_operations是def_chr_fops；而块设备走S_ISBLK这个分支，对应的inode的file_operations是def_blk_fops。这里要注意，inode里面的i_rdev被设置成了块设备的设备号dev_t，这个我们后面会用到，你先记住有这么一回事儿。</p><!-- [[[read_end]]] --><pre><code>void init_special_inode(struct inode *inode, umode_t mode, dev_t rdev)
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是韩健。</p><p>学完前面几讲后，有些同学可能有这样的疑问：如果我们通过Raft算法实现了KV存储，虽然领导者模型简化了算法实现和共识协商，但写请求只能限制在领导者节点上处理，导致了集群的接入性能约等于单机，那么随着业务发展，集群的性能可能就扛不住了，会造成系统过载和服务不可用，这时该怎么办呢？</p><p>其实这是一个非常常见的问题。在我看来，这时我们就要通过分集群，突破单集群的性能限制了。</p><p>说到这儿，有同学可能会说了，分集群还不简单吗？加个Proxy层，由Proxy层处理来自客户端的读写请求，接收到读写请求后，通过对Key做哈希找到对应的集群就可以了啊。</p><p>是的，哈希算法的确是个办法，但它有个明显的缺点：当需要变更集群数时（比如从2个集群扩展为3个集群），这时大部分的数据都需要迁移，重新映射，数据的迁移成本是非常高的。那么如何解决哈希算法，数据迁移成本高的痛点呢？答案就是一致哈希（Consistent Hashing）。</p><p>为了帮你更好地理解如何通过哈希寻址实现KV存储的分集群，我除了会带你了解哈希算法寻址问题的本质之外，还会讲一下一致哈希是如何解决哈希算法数据迁移成本高这个痛点，以及如何实现数据访问的冷热相对均匀。</p><!-- [[[read_end]]] --><p>对你来说，学完本讲内容之后，不仅能理解一致哈希的原理，还能掌握通过一致哈希实现数据访问冷热均匀的实战能力。</p><p>老规矩，在正式开始学习之前，我们先看一道思考题。</p><p>假设我们有一个由A、B、C三个节点组成（为了方便演示，我使用节点来替代集群）的KV服务，每个节点存放不同的KV数据：</p><p><img src="https://static001.geekbang.org/resource/image/16/9f/1651257c6ff0194960b6b2f07f51e99f.jpg" alt="" title="图1"></p><p>那么，使用哈希算法实现哈希寻址时，到底有哪些问题呢？带着这个问题，让我们开始今天的内容吧。</p><h2>使用哈希算法有什么问题？</h2><p>通过哈希算法，每个key都可以寻址到对应的服务器，比如，查询key是key-01，计算公式为hash(key-01) % 3 ，经过计算寻址到了编号为1的服务器节点A（就像图2的样子）。</p><p><img src="https://static001.geekbang.org/resource/image/c6/5a/c6f440a9e77973c3591394d0d896ed5a.jpg" alt="" title="图2"></p><p>但如果服务器数量发生变化，基于新的服务器数量来执行哈希算法的时候，就会出现路由寻址失败的情况，Proxy无法找到之前寻址到的那个服务器节点，这是为什么呢？</p><p>想象一下，假如3个节点不能满足业务需要了，这时我们增加了一个节点，节点的数量从3变化为4，那么之前的hash(key-01) % 3 = 1，就变成了hash(key-01) % 4 = X，因为取模运算发生了变化，所以这个X大概率不是1（可能X为2），这时你再查询，就会找不到数据了，因为key-01对应的数据，存储在节点A上，而不是节点B：</p><p><img src="https://static001.geekbang.org/resource/image/27/13/270362d08b0ea77437abcf032634b713.jpg" alt="" title="图3"></p><p>同样的道理，如果我们需要下线1个服务器节点（也就是缩容），也会存在类似的可能查询不到数据的问题。</p><p>而解决这个问题的办法，在于我们要迁移数据，基于新的计算公式hash(key-01) % 4 ，来重新对数据和节点做映射。需要你注意的是，数据的迁移成本是非常高的。</p><p>为了便于你理解，我举个例子，对于1000万key的3节点KV存储，如果我们增加1个节点，变为4节点集群，则需要迁移75%的数据。</p><pre><code>$ go run ./hash.go  -keys 10000000 -nodes 3 -new-nodes 4
 

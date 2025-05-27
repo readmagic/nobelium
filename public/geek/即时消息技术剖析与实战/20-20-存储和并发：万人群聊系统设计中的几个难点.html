@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是袁武林。</p><p>我在场景篇的第10讲<a href="https://time.geekbang.org/column/article/137000">“自动智能扩缩容：直播互动场景中峰值流量的应对”</a>中，分析了直播互动场景中，容易出现瓶颈的原因主要在于：“直播间人数多，短时间内活跃度高，消息的扇出量巨大”。</p><p>那么，对于同样属于多人互动的群聊场景来说，虽然在“群人数”等方面与高热度的直播间相比要少一些，但由于同时开播的直播间数量一般不会太多，所以群在数量上的总体量级相对要大得多，可能上百万个群同时会有消息收发的情况发生。因此，在整体的流量方面，群聊场景的消息扇出也是非常大的。</p><p>而且和直播互动场景不太一样的是，直播互动中，热度高的直播活动持续时间都比较短，可以借助上云，来进行短时间的扩容解决，成本方面也比较可控；但群聊的场景，一般是流量总量高，但是峰值没有那么明显，靠扩容解决不太现实。因此，更多地需要我们从架构和设计层面来优化。</p><p>今天，我们就一起从架构设计层面，来聊一聊万人群聊系统中的几个难点，以及相应的解决方案。</p><h2>群聊消息怎么存储？</h2><p>首先来看一看群聊消息存储的问题。</p><p>关于点对点聊天场景，我在第2课<a href="https://time.geekbang.org/column/article/127978">“消息收发架构：为你的App，加上实时通信功能”</a>中也有讲到：我们在一条消息发出后，会针对消息收发的双方，各自存储一条索引，便于双方进行查询、删除、撤回等操作。</p><!-- [[[read_end]]] --><p>那么，对于群聊消息来说，是不是也需要给群里的每一个用户，都存储一条消息索引呢？</p><p>这里需要注意的是：对于点对点聊天来说，针对消息收发双方进行用户维度的索引存储，能便于后续会话维度的消息查看和离线消息的获取，但如果群聊场景也采取这种方式，那么假设一个群有一万个人，就需要针对这一万个人都进行这一条消息的存储，一方面会使写入并发量巨大，另一方面也存在存储浪费的问题。</p><p>所以，业界针对群聊消息的存储，一般采取“读扩散”的方式。也就是一条消息只针对群维度存储一次，群里用户需要查询消息时，都通过这个群维度的消息索引来获取。</p><p>用户查询群聊消息的大概流程，你可以参考下图：<br>
 

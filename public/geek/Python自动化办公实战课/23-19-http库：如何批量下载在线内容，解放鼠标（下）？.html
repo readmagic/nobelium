@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是尹会生。</p><p>在上节课，我们学习了怎么使用“requests-html”库来批量下载图片，这足以帮你应对大部分需要批量下载互联网资源的场景了。</p><p>但是除了批量下载这一典型场景外，还有两种场景“requests-html”工具无法覆盖，其中就包括一些网站的每日签到功能，明明登录网站后点击一个按钮就能领到虚拟货币，但是每次还要手动输入账户和密码，再用鼠标点击领取按钮。相信已经学会了如何用Python访问网页的你，早就想把签到进行自动化了吧。</p><p>那么今天，我就以京东自动签到领金豆为例，为你介绍一款比“requests-html”更加强大的浏览器工具“selenium”，通过selenium我将带你实现自动化的用户登录和模拟鼠标点击功能。</p><h2>selenium的适用场景</h2><p>我刚才也提到了，在你把“requests-html”库应用到各种批量下载场景之后，你会发现有两种场景下使用“requests-html”无法实现批量下载。</p><p>一种场景是，有的网页为了防止你用工具下载，会对下载工具进行检测。如果你的HTTP客户端不是浏览器，那就不允许你访问该网站下的所有内容。</p><p>另一种场景是，一些网页为了更好的交互性，就使用了JavaScript脚本语言。而JavaScript脚本语言需要在浏览器运行，才能获得服务器的数据。所以如果使用“requests-html”来获取这些数据的话，你就必须再编写Javascript脚本。</p><!-- [[[read_end]]] --><p>基于这两种原因，我们可以使用“selenium”来解决。这也正是为什么有了“requests-html”库之后，我还要再带你学习“selenium”库。</p><p>它的实现原理，即：通过“WebDriver”组件，把Python与浏览器连接起来，让Python来控制浏览器的行为，向浏览器发送各种模拟用户操作的指令，此时，真实的浏览器会按照Python发的各种指令对服务器进行访问。</p><p>这样既可以解决网页加密的问题，又避免了再编写Javascript脚本，弥补了“requests-html”在批量下载场景中的缺憾。无论从操作的友好程度，还是实现功能的简单程度上，都要比“requests-html”强大。</p><p>那今天这节课，我们就来学习如何使用“selenium”来实现自动签到。不过考虑到你是第一次接触“selenium”，所以在学习实现方法之前，我还是先来带你学习怎么安装和执行它。</p><h2>“selenium” 的安装与初次运行</h2><p>“selenium”是基于“Webdriver”连接Python和浏览器的，而“Webdriver”的组件比较多，所以它的安装过程也要比一般的Python第三方库复杂一点。</p><p>考虑到你是第一次使用它，我就把具体的安装步骤以及注意事项，拆分成了5个步骤，保证你能顺利安装，并且能用它访问网页。</p><p>第一步：根据浏览器版本来下载“Webdriver”。</p><p>由于“selenium”会通过“Webdriver”调用你当前电脑上的浏览器访问HTTP服务器，所以必须找到和浏览器版本一致的“Webdirver”程序，然后下载下来。</p><p>我这里以工作中最常用的Chrome浏览器为例，首先要通过Chrome的“设置”—“关于”菜单查看浏览器的版本。我的Chrome浏览器版本如下图：</p><p><img src="https://static001.geekbang.org/resource/image/21/0c/211e46d304be4ec29709295396dbc70c.png" alt=""></p><p>接着，根据我的浏览器版本“89.0”访问“Webdrive”<a href="http://npm.taobao.org/mirrors/chromedriver/">国内的镜像站</a>，下载与浏览器相匹配版本的“Webdriver”。这里要注意，不同的操作系统，“Webdriver”的安装包不同，所以需要你选择对应的操作系统版本。“Webdriver”的下载网页内容截图如下：</p><p><img src="https://static001.geekbang.org/resource/image/72/e7/724055e74881a83f406fb4b777607be7.png" alt=""></p><p>我这里以“mac”操作系统为例，下载了“chromedriver_mac64.zip”压缩包后，解压缩之后，会得到“chromedriver”文件。这个文件就是连接Python和浏览器的工具。</p><p>第二步，把“Webdriver”放在命令的搜索路径下。</p><p>“chromedriver”文件是一个可执行文件，我们需要把它放入命令的搜索路径中，这样文件才能在Python调用浏览器时被直接运行，我们就不用输入它的完整路径。</p><p>我在这里解释一下命令的搜索路径。它是每个操作系统都事先定义好的，就像它的名字一样，你在命令行运行的任意一条命令，都可以从命令搜索路径中依次查找到。</p><p>那么在mac操作系统下，我们可以使用命令行运行“echo $PATH”，来查看当前系统的命令搜索路径都有哪些。</p><p>在这个命令行中，变量“PATH”就是专门用于指定命令搜索路径的环境变量。我电脑上的命令搜索路径和搜索顺序如下。</p><pre><code>SHELL$ echo $PATH
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是大圣。上一讲我们仔细分析了Vue中虚拟DOM如何执行的，整体流程就是树形结构的diff计算，但是在diff的计算过程中，如何高效计算虚拟DOM属性的变化，以及如何更新数组的子元素，需要一些算法知识的补充。</p><p>给你提前划个重点，今天我们将讲到如何使用位运算来实现Vue中的按需更新，让静态的节点可以越过虚拟DOM的计算逻辑，并且使用计算最长递增子序列的方式，来实现队伍的高效排序。我们会剖析Vue框架源码，结合对应的LeetCode题，帮助你掌握算法的核心原理和实现。</p><h2>位运算</h2><p>前面也复习了，在执行diff之前，要根据需要判断每个虚拟DOM节点有哪些属性需要计算，因为无论响应式数据怎么变化，静态的属性和节点都不会发生变化。</p><p>所以我们看每个节点diff的时候会做什么，在renderer.ts代码文件中就可以看到代码，主要就是通过虚拟DOM节点的patchFlag树形判断是否需要更新节点。</p><p><strong>方法就是使用&amp;操作符来判断操作的类型</strong>，比如patchFlag &amp; PatchFlags.CLASS来判断当前元素的class是否需要计算diff；shapeFlag &amp; ShapeFlags.ELEMENT来判断当前虚拟DOM是HTML元素还是Component组件。这个“&amp;”其实就是位运算的按位与。</p><!-- [[[read_end]]] --><pre><code class="language-javascript">// class
 

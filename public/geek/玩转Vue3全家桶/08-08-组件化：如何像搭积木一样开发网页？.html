@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是大圣。</p><p>在上一讲中，我给你讲解了响应式的基本原理和进阶用法。除了响应式，组件相关的知识在Vue中也非常重要，所以今天我就跟你聊一下Vue的组件化机制。</p><p>在我们的项目中，组件无处不在，通过对组件功能的封装，可以像搭积木一样开发网页。而我们现在已经很难想象，没有组件的开发状态是什么样了。你可以看下面 Vue官方的示例图，它对组件化开发做了形象化的展示。图中的左边是一个网页，可以按照功能模块抽象成很多组件，这些组件就像积木一样拼接成网页。</p><p><img src="https://static001.geekbang.org/resource/image/0e/39/0e922d413eeeac4378233baa254dd039.png?wh=1406x544" alt="图片"></p><h2>什么是组件化开发</h2><p>谈组件化开发之前，我们先来看看什么是组件。举个通俗的例子，我们在页面的源码里写出的button标签，会在前端页面中显示出下面的样式：</p><p><img src="https://static001.geekbang.org/resource/image/eb/91/eb35f15db1cd10a804aebfe140da5991.png?wh=1866x958" alt="图片"></p><p>这个button其实就是一个组件，这样前端页面在显示上会加上边框和鼠标悬停的样式，还可以使用click事件触发函数等。只不过这是浏览器帮我们封装好的组件，我们在编辑代码的任何地方，只需要使用下面的代码，就可以让前端页面显示一个按钮。</p><pre><code class="language-xml">&lt;button&gt; 按钮 &lt;/button&gt;
 

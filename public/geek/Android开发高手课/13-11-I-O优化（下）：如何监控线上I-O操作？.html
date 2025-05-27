@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>通过前面的学习，相信你对I/O相关的基础知识有了一些认识，也了解了测量I/O性能的方法。</p><p>但是在实际应用中，你知道有哪些I/O操作是不合理的吗？我们应该如何发现代码中不合理的I/O操作呢？或者更进一步，我们能否在线上持续监控应用程序中I/O的使用呢？今天我们就一起来看看这些问题如何解决。</p><h2>I/O跟踪</h2><p>在监控I/O操作之前，你需要先知道应用程序中究竟有哪些I/O操作。</p><p>我在专栏前面讲卡顿优化的中提到过，Facebook的Profilo为了拿到ftrace的信息，使用了PLT Hook技术监听了“atrace_marker_fd”文件的写入。那么还有哪些方法可以实现I/O跟踪，而我们又应该跟踪哪些信息呢？</p><p><strong>1. Java Hook</strong></p><p>出于兼容性的考虑，你可能第一时间想到的方法就是插桩。但是插桩无法监控到所有的I/O操作，因为有大量的系统代码也同样存在I/O操作。</p><p>出于稳定性的考虑，我们退而求其次还可以尝试使用Java Hook方案。以Android 6.0的源码为例，FileInputStream的整个调用流程如下。</p><pre><code>java : FileInputStream -&gt; IoBridge.open -&gt; Libcore.os.open
 

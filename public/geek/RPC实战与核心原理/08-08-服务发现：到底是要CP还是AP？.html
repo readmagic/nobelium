@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是何小锋。在上一讲中，我讲了“怎么设计一个灵活的RPC框架”，总结起来，就是怎么在RPC框架中应用插件，用插件方式构造一个基于微内核的RPC框架，其关键点就是“插件化”。</p><p>今天，我要和你聊聊RPC里面的“服务发现”在超大规模集群的场景下所面临的挑战。</p><h2>为什么需要服务发现？</h2><p>先举个例子，假如你要给一位以前从未合作过的同事发邮件请求帮助，但你却没有他的邮箱地址。这个时候你会怎么办呢？如果是我，我会选择去看公司的企业“通信录”。</p><p>同理，为了高可用，在生产环境中服务提供方都是以集群的方式对外提供服务，集群里面的这些IP随时可能变化，我们也需要用一本“通信录”及时获取到对应的服务节点，这个获取的过程我们一般叫作“服务发现”。</p><p>对于服务调用方和服务提供方来说，其契约就是接口，相当于“通信录”中的姓名，服务节点就是提供该契约的一个具体实例。服务IP集合作为“通信录”中的地址，从而可以通过接口获取服务IP的集合来完成服务的发现。这就是我要说的RPC框架的服务发现机制，如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/51/5d/514dc04df2b8b2f3130b7d44776a825d.jpg?wh=2746*1445" alt="" title="RPC服务发现原理图"></p><ol>
 

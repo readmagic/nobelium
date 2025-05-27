@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是月影。这一节课开始，我们学习3D图形的绘制。</p><p>之前我们主要讨论的都是2D图形的绘制，实际上WebGL真正强大之处在于，它可以绘制各种3D图形，而3D图形能够极大地增强可视化的表现能力。</p><p>用WebGL绘制3D图形，其实在基本原理上和绘制2D图形并没有什么区别，只不过是我们把绘图空间从二维扩展到三维，所以计算起来会更加复杂一些。</p><p>今天，我们就从绘制最简单的三维立方体，讲到矩阵、法向量在三维空间中的使用，这样由浅入深地带你去了解，如何用WebGL绘制出各种3D图形。</p><h2>如何用WebGL绘制三维立方体</h2><p>首先，我们来绘制熟悉的2D图形，比如矩形，再把它拓展到三维空间变成立方体。代码如下：</p><pre><code>// vertex shader  顶点着色器
 

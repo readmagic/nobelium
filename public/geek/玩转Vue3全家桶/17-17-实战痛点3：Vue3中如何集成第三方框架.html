@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是大圣。</p><p>在上一讲中，我给你介绍了如何在Vue 3中实现页面和接口的权限管理。我们把vue-router的动态路由、导航守卫、axios的接口拦截等功能配合到一起使用，实现了页面的权限控制，这也算是Vue中进阶使用vue-router和axios的一个方式。</p><p>今天，我们再来学习另一个进阶玩法，聊一下如何在Vue 3中使用和引入更多的框架。可别小看这里的门道，有的第三方工具框架跟Vue耦合性不高，而有的需要做适配，这一讲我就详细给你说说实操中的注意事项，帮助你在提高开发效率的同时少走弯路。</p><h2>独立的第三方库</h2><p>首先我们要介绍的第三方框架是axios，这是一个完全独立于Vue的框架，我们可以使用axios发送和获取网络接口数据。在Vue、React框架下，axios可以用来获取后端数据。甚至在Node.js环境下，也可以用axios去作为网络接口工具去实现爬虫。</p><p>axios这种相对独立的工具对于我们项目来说，引入的难度非常低。通常来说，使用这种独立的框架需要以下两步。</p><p>以页面进度条工具NProgress为例，第一步是，我们先进入到项目根目录下，使用下面的命令去安装NProgress。</p><pre><code class="language-bash">npm install nprogress -D
 

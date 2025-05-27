@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>坚持到底就是胜利，终于我们一起来到了专栏的最后一个主题。让我一起带你来看一看，CPU到底能有多快。在接下来的两讲里，我会带你一起来看一个开源项目Disruptor。看看我们怎么利用CPU和高速缓存的硬件特性，来设计一个对于性能有极限追求的系统。</p><p>不知道你还记不记得，在<a href="https://time.geekbang.org/column/article/107477">第37讲</a>里，为了优化4毫秒专门铺设光纤的故事。实际上，最在意极限性能的并不是互联网公司，而是高频交易公司。我们今天讲解的Disruptor就是由一家专门做高频交易的公司LMAX开源出来的。</p><p>有意思的是，Disruptor的开发语言，并不是很多人心目中最容易做到性能极限的C/C++，而是性能受限于JVM的Java。这到底是怎么一回事呢？那通过这一讲，你就能体会到，其实只要通晓硬件层面的原理，即使是像Java这样的高级语言，也能够把CPU的性能发挥到极限。</p><h2>Padding Cache Line，体验高速缓存的威力</h2><p>我们先来看看Disruptor里面一段神奇的代码。这段代码里，Disruptor在RingBufferPad这个类里面定义了p1，p2一直到p7 这样7个long类型的变量。</p><pre><code>abstract class RingBufferPad
 

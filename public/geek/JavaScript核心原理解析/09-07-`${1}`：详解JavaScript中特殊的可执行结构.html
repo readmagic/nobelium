@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是周爱民。</p><p>今天这一讲的标题是一个<strong>模板</strong>。模板这个语法元素在JavaScript中出现得很晚，以至于总是有人感到奇怪：为什么JavaScript这么晚才弄出个模板这样的东西？</p><p>模板看起来很简单，就是把一个字符串里的东西替换一下就行了，C语言里的printf()就有类似的功能，Bash脚本里也可以直接在字符串里替换变量。这个功能非常好用，但在实现上其实很简单，无非就是字符串替换而已。</p><h2>模板是什么？</h2><p>但是，模板就是一个字符串吗？或者我们需要更准确地问一个概念上的问题：</p><p>模板是什么？</p><p>回顾之前的内容，我们说JavaScript中，有<strong>语句</strong>和<strong>表达式</strong>两种基本的可执行元素。这在语言设计的层面来讲，是很普通的，大多数语言都这么设计。少数的语言会省略掉<strong>语句</strong>这个语法元素，或者添加其它一些奇怪的东西，不过通常情况下它的结果就是让语言变得不那么人性。那么，是不是说，JavaScript中只有语句和表达式是可以执行的呢？</p><p>答案是“No”，譬如这里讲到的模板，其实就是<strong>一种特殊的可执行结构</strong>。</p><p>所有特殊可执行结构其实都是来自于某种固定的、确定的逻辑。这些逻辑语义是非常明确的，输入输出都很确定，这样才能被设计成一个标准的、易于理解的可执行结构。并且，如果在一门语言中添加太多的、有特殊含义的执行结构，那么这门语言就像上面说的，会显得“渐渐地有些奇怪了”。</p><!-- [[[read_end]]] --><p>语言的坏味道就是这样产生的。越来越多的抽象概念放进来，固化成一种特殊的逻辑或结构，试图通过非正常的逻辑来影响程序员的思维过程，于是就会渐渐地变得令人不愉快了。</p><p>如果我们抛开JavaScript核心库或者标准语言运行时里面的那些东西，例如Map、Set等等，专门考察一下在语言及语法层面定义的特殊可执行结构的话，都会有哪些可执行结构浮出水面呢？</p><h2>参数表</h2><p>第一个不太容易注意到的东西就是参数表。</p><p>在JavaScript语言的内核中，参数表其实是一个独立的语法组件：</p><ul>
 

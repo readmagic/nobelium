@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>多线程设计模式是前人解决并发问题的经验总结，当我们试图解决一个并发问题时，首选方案往往是使用匹配的设计模式，这样能避免走弯路。同时，由于大家都熟悉设计模式，所以使用设计模式还能提升方案和代码的可理解性。</p><p>在这个模块，我们总共介绍了9种常见的多线程设计模式。下面我们就对这9种设计模式做个分类和总结，同时也对前面各章的课后思考题做个答疑。</p><h2>避免共享的设计模式</h2><p><strong>Immutability模式</strong>、<strong>Copy-on-Write模式</strong>和<strong>线程本地存储模式</strong>本质上都是<strong>为了避免共享</strong>，只是实现手段不同而已。这3种设计模式的实现都很简单，但是实现过程中有些细节还是需要格外注意的。例如，<strong>使用Immutability模式需要注意对象属性的不可变性，使用Copy-on-Write模式需要注意性能问题，使用线程本地存储模式需要注意异步执行问题</strong>。所以，每篇文章最后我设置的课后思考题的目的就是提醒你注意这些细节。</p><p><a href="https://time.geekbang.org/column/article/92856">《28 | Immutability模式：如何利用不变性解决并发问题？》</a>的课后思考题是讨论Account这个类是不是具备不可变性。这个类初看上去属于不可变对象的中规中矩实现，而实质上这个实现是有问题的，原因在于StringBuffer不同于String，StringBuffer不具备不可变性，通过getUser()方法获取user之后，是可以修改user的。一个简单的解决方案是让getUser()方法返回String对象。</p><!-- [[[read_end]]] --><pre><code>public final class Account{
 

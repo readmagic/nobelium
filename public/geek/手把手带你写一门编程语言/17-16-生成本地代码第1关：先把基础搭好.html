@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。</p><p>到目前为止，我们已经初步了解了CPU架构和X86汇编代码的相关知识点，为我们接下来的让编译器生成汇编代码的工作打下了不错的基础。</p><p>不过，我总是相信最好的学习方法就是实践。因为，只有你自己动手尝试过用编译器生成汇编代码，你才会对CPU架构和汇编的知识有更深刻的了解，总之，遇到问题，解决问题就好了。</p><p>所以呢，今天这节课，我们就开始着手生成X86汇编代码。我会带你分析生成汇编代码的算法思路，理解寄存器机与栈机在生成代码上的差别，以及了解如何在内存里表示汇编代码。</p><p>看上去工作有点多，不着急，我们一步步来。那首先，我们就通过一个实例，让你对生成汇编代码的算法思路有一个直觉上的认知。</p><h2>生成汇编代码的算法思路</h2><p>在前面的课里，我们已经学会了如何生成字节码。你也知道了，基本上，我们只需要通过遍历AST就能生成栈机的字节码。</p><p>但当时我们也说过，为栈机生成代码是比较简单的，比寄存器机要简单，这具体是为什么呢？</p><p>你可以保留这个疑问，先来跟我分析一个例子，看看我们要怎么把它转化成汇编代码，以及在这个过程中会遇到什么问题：</p><pre><code class="language-plain">function foo(a:number, b:number):number{
 

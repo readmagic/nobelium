@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是鸟窝。</p><p>WaitGroup，我们以前都多多少少学习过，或者是使用过。其实，WaitGroup很简单，就是package sync用来做任务编排的一个并发原语。它要解决的就是并发-等待的问题：现在有一个goroutine A 在检查点（checkpoint）等待一组goroutine全部完成，如果在执行任务的这些goroutine还没全部完成，那么goroutine A就会阻塞在检查点，直到所有goroutine都完成后才能继续执行。</p><p>我们来看一个使用WaitGroup的场景。</p><p>比如，我们要完成一个大的任务，需要使用并行的goroutine执行三个小任务，只有这三个小任务都完成，我们才能去执行后面的任务。如果通过轮询的方式定时询问三个小任务是否完成，会存在两个问题：一是，性能比较低，因为三个小任务可能早就完成了，却要等很长时间才被轮询到；二是，会有很多无谓的轮询，空耗CPU资源。</p><p>那么，这个时候使用WaitGroup并发原语就比较有效了，它可以阻塞等待的goroutine。等到三个小任务都完成了，再即时唤醒它们。</p><p>其实，很多操作系统和编程语言都提供了类似的并发原语。比如，Linux中的barrier、Pthread（POSIX线程）中的barrier、C++中的std::barrier、Java中的CyclicBarrier和CountDownLatch等。由此可见，这个并发原语还是一个非常基础的并发类型。所以，我们要认真掌握今天的内容，这样就可以举一反三，轻松应对其他场景下的需求了。</p><!-- [[[read_end]]] --><p>我们还是从WaitGroup的基本用法学起吧。</p><h2>WaitGroup的基本用法</h2><p>Go标准库中的WaitGroup提供了三个方法，保持了Go简洁的风格。</p><pre><code>    func (wg *WaitGroup) Add(delta int)
 

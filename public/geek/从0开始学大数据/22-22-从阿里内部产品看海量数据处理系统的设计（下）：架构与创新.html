@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/responsive.css">
+    <link rel="stylesheet" href="../assets/floating-menu.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/responsive.js" defer></script>
-    <link rel="stylesheet" href="../assets/tts.css">
-    <script src="../assets/tts.js" defer></script>
+    <script src="../assets/floating-menu.js" defer></script>
+
+
     <meta name="referrer" content="no-referrer" />
 </head><p>上一期，Doris提出了目前阿里巴巴海量KV存储方面的问题，给出了Doris的业务价值、设计目标和技术指标。但是Doris项目组还必须证明自己有已经经过论证的架构技术方案，可以实现前面设定的目标，立项后可以迅速启动执行，不需要再去摸索尝试，风险可以把控。</p><p>因此，PPT后面的内容主要就是阐述<span class="orange">Doris的架构方案和创新设计</span>。</p><p><img src="https://static001.geekbang.org/resource/image/eb/5b/eb949889c4fe1823ced433ea59123a5b.png" alt=""></p><p>Doris是一种支持Key、Value数据结构的分布式存储系统，核心要解决的问题是分布式路由、分布式集群伸缩、分布式数据冗余与失效转移。所以Doris把分布式存储系统很重要的一块，也就是数据存储部分转移出去，使用第三方软件完成，当时选择Berkeley DB作为Doris的底层存储Store，Doris自己专注于分布式技术实现。</p><p>Doris的主要访问模型是，应用程序KV Client启动后，连接控制中心Administration，从控制中心获得整个Doris集群的服务器部署信息及路由算法，Client使用Key作为参数进行路由计算，计算得到集群中某些服务器作为当前Key、Value数据存储的服务器节点；然后KV Client使用自定义的通信协议将数据和命令传输给服务器上的Data Server组件，DataServer再调用本地的Berkeley DB将数据存储到本地磁盘。</p><!-- [[[read_end]]] --><p>Doris的核心技术就是这个架构模型上创新性地实现了自己独特的<strong>分区路由算法、失效转移策略、集群伸缩设计方案</strong>。并在项目开发过程中，将这个三个技术创新申请了技术专利。下面我们重点看下这三个技术创新。</p><h2>分区路由算法</h2><p><img src="https://static001.geekbang.org/resource/image/01/d6/019cd0d87daf9d356bd7326cd2a928d6.png" alt=""></p><p>Doris采用一种基于虚拟节点的分区路由算法，Key使用余数Hash算法计算得到虚拟节点下标。</p><pre><code>虚拟节点下标 = hash(md5(key)) mod 虚拟节点个数
 
