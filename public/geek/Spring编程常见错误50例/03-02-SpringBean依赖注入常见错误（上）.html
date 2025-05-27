@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是傅健，这节课我们来聊聊 Spring @Autowired。</p><p>提及Spring的优势或特性，我们都会立马想起“<strong>控制反转、依赖注入</strong>”这八字真言。而@Autowired正是用来支持依赖注入的核心利器之一。表面上看，它仅仅是一个注解，在使用上不应该出错。但是，在实际使用中，我们仍然会出现各式各样的错误，而且都堪称经典。所以这节课我就带着你学习下这些经典错误及其背后的原因，以防患于未然。</p><h2>案例1：过多赠予，无所适从</h2><p>在使用@Autowired时，不管你是菜鸟级还是专家级的Spring使用者，都应该制造或者遭遇过类似的错误：</p><blockquote>
 

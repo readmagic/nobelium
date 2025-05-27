@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是盛延敏，这里是网络编程实战的第30讲，欢迎回来。</p><p>在性能篇的前几讲中，我们谈到了阻塞I/O、非阻塞I/O以及像select、poll、epoll等I/O多路复用技术，并在此基础上结合线程技术，实现了以事件分发为核心的reactor反应堆模式。你或许还听说过一个叫做Proactor的网络事件驱动模式，这个Proactor模式和reactor模式到底有什么区别和联系呢？在今天的内容中，我们先讲述异步I/O，再一起揭开以异步I/O为基础的proactor模式的面纱。</p><h2>阻塞/非阻塞 VS 同步/异步</h2><p>尽管在前面的课程中，多少都涉及到了阻塞、非阻塞、同步、异步的概念，但为了避免看见这些概念一头雾水，今天，我们就先来梳理一下这几个概念。</p><p>第一种是阻塞I/O。阻塞I/O发起的read请求，线程会被挂起，一直等到内核数据准备好，并把数据从内核区域拷贝到应用程序的缓冲区中，当拷贝过程完成，read请求调用才返回。接下来，应用程序就可以对缓冲区的数据进行数据解析。</p><p><img src="https://static001.geekbang.org/resource/image/e7/9a/e7f477d5c2e902de5a23b0e90cf9339a.png" alt=""><br>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是winter。</p><p>我们的课程中已经讲解了一部分CSS属性，但是CSS属性数量繁多，我们的课程只能覆盖其中一小部分，所以我设计了这个小实验，教你用代码挖掘W3C标准中的属性。</p><h2>浏览器中已经实现的属性</h2><p>首先我们来看看浏览器中实现了哪些属性。我们用一段代码来看一下。</p><pre><code class="language-JavaScript">Object.keys(document.body.style).filter(e =&gt; !e.match(/^webkit/))
 

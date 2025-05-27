@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是唐扬。</p><p>开课之后，有同学反馈说课程中偏理论知识的讲解比较多，希望看到实例。我一直关注这些声音，也感谢你提出的建议，在04讲的开篇，我想对此作出一些回应。</p><p>在课程设计时，我主要想用基础篇中的前五讲内容带你了解一些关于高并发系统设计的基本概念，期望能帮你建立一个整体的框架，这样方便在后面的演进篇和实战篇中对涉及的知识点做逐一的展开和延伸。比方说，本节课提到了降级，那我会在运维篇中以案例的方式详细介绍降级方案的种类以及适用的场景，之所以这么设计是期望通过前面少量的篇幅把课程先串起来，以点带面，逐步展开。</p><p>当然，不同的声音是我后续不断优化课程内容的动力，我会认真对待每一条建议，不断优化课程，与你一起努力、进步。</p><p>接下来，让我们正式进入课程。</p><p>本节课，我会继续带你了解高并发系统设计的第二个目标——高可用性。你需要在本节课对提升系统可用性的思路和方法有一个直观的了解，这样，当后续对点讲解这些内容时，你能马上反应过来，你的系统在遇到可用性的问题时，也能参考这些方法进行优化。</p><p><strong>高可用性（High Availability，HA）</strong>是你在系统设计时经常会听到的一个名词，它指的是系统具备较高的无故障运行的能力。</p><!-- [[[read_end]]] --><p>我们在很多开源组件的文档中看到的HA方案就是提升组件可用性，让系统免于宕机无法服务的方案。比如，你知道Hadoop 1.0中的NameNode是单点的，一旦发生故障则整个集群就会不可用；而在Hadoop2中提出的NameNode HA方案就是同时启动两个NameNode，一个处于Active状态，另一个处于Standby状态，两者共享存储，一旦Active NameNode发生故障，则可以将Standby NameNode切换成Active状态继续提供服务，这样就增强了Hadoop的持续无故障运行的能力，也就是提升了它的可用性。</p><p>通常来讲，一个高并发大流量的系统，系统出现故障比系统性能低更损伤用户的使用体验。想象一下，一个日活用户过百万的系统，一分钟的故障可能会影响到上千的用户。而且随着系统日活的增加，一分钟的故障时间影响到的用户数也随之增加，系统对于可用性的要求也会更高。所以今天，我就带你了解一下在高并发下，我们如何来保证系统的高可用性，以便给你的系统设计提供一些思路。</p><h2>可用性的度量</h2><p>可用性是一个抽象的概念，你需要知道要如何来度量它，与之相关的概念是：<strong>MTBF和MTTR。</strong></p><p><strong>MTBF（Mean Time Between Failure）</strong>是平均故障间隔的意思，代表两次故障的间隔时间，也就是系统正常运转的平均时间。这个时间越长，系统稳定性越高。</p><p><strong>MTTR（Mean Time To Repair）</strong>表示故障的平均恢复时间，也可以理解为平均故障时间。这个值越小，故障对于用户的影响越小。</p><p>可用性与MTBF和MTTR的值息息相关，我们可以用下面的公式表示它们之间的关系：</p><blockquote>
 

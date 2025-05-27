@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。通过前一讲的学习，我们已经了解了V8的整个编译过程，并重点探讨了一个问题，就是<strong>V8的编译速度为什么那么快</strong>。</p><p>V8把解析过程做了重点的优化，解析完毕以后就可以马上通过Ignition解释执行了。这就让JavaScript可以快速运行起来。</p><p>今天这一讲呢，我们重点来讨论一下，<strong>V8的运行速度为什么也这么快</strong>，一起来看看V8所采用的优化技术。</p><p>上一讲我也提及过，V8在2008年刚推出的时候，它提供了一个快速编译成机器码的编译器，虽然没做太多优化，但性能已经是当时其他JavaScript引擎的10倍了。而现在，V8的速度又是2008年刚发布时候的10倍。那么，是什么技术造成了这么大的性能优化的呢？</p><p>这其中，<strong>一方面原因，是TurboFan这个优化编译器，采用了很多的优化技术。</strong>那么，它采用了什么优化算法？采用了什么IR？其优化思路跟Java的JIT编译器有什么相同点和不同点？</p><p><strong>另一方面，最新的Ignition解释器，虽然只是做解释执行的功能，但竟然也比一个基础的编译器生成的代码慢不了多少。</strong>这又是什么原因呢？</p><p>所以今天，我们就一起把这些问题都搞清楚，这样你就能全面了解V8所采用的编译技术的特点了，你对动态类型语言的编译，也就能有更深入的了解，并且这也有助于你编写更高效的JavaScript程序。</p><!-- [[[read_end]]] --><p>好，首先，我们来了解一下TurboFan的优化编译技术。</p><h2>TurboFan的优化编译技术</h2><p>TurboFan是一个优化编译器。不过它跟Java的优化编译器要完成的任务是不太相同的。因为JavaScript是动态类型的语言，所以如果它能够推断出准确的类型再来做优化，就会带来巨大的性能提升。</p><p>同时，TurboFan也会像Java的JIT编译器那样，基于IR来运行各种优化算法，以及在后端做指令选择、寄存器分配等优化。所有的这些因素加起来，才使得TurboFan能达到很高的性能。</p><p>我们先来看看V8最特别的优化，也就是通过对类型的推理所做的优化。</p><h3>基于推理的优化（Speculative Optimazition）</h3><p>对于基于推理的优化，我们其实并不陌生。在研究<a href="https://time.geekbang.org/column/article/257504">Java的JIT编译器</a>时，你就发现了Graal会针对解释器收集的一些信息，对于代码做一些推断，从而做一些激进的优化，比如说会跳过一些不必要的程序分支。</p><p>而JavaScript是动态类型的语言，所以对于V8来说，最重要的优化，就是能够在运行时正确地做出类型推断。举个例子来说，假设示例函数中的add函数，在解释器里多次执行的时候，接受的参数都是整型，那么TurboFan就处理整型加法运算的代码就行了。这也就是上一讲中我们生成的汇编代码。</p><pre><code>function add(a,b){
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是郑晔！</p><p>我们之前用了三讲的篇幅讲了函数式编程，相信函数式编程在你心目中已经没有那么神秘了。我一直很偏执地认为，想要成为一个优秀的程序员，函数式编程是一定要学习的，它简直是一个待人发掘的宝库，因为里面的好东西太多了。</p><p>不过，考虑到整个课程的主线，我主要选择了函数式编程在设计上有较大影响的组合性和不变性来讲。但其实，函数式编程中有一些内容，虽然不一定是在设计上影响那么大，但作为一种编程技巧，也是非常值得我们去了解的。</p><p>所以，我准备了这次加餐，从函数式编程再找出一些内容来，让你来了解一下。相信我，即便你用的不是函数式编程语言，这些内容对你也是很有帮助的。</p><p>好，我们出发！</p><h2>惰性求值</h2><p>还记得我们第17讲的那个学生的例子吗？我们继续使用学生这个类。这次简化一点，我只使用其中的几个字段：</p><pre><code>class Student {
 

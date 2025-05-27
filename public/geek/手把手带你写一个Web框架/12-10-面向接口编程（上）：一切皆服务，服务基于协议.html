@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是轩脉刃。</p><p>在上一节课我们已经将 Gin 框架迁移到自己的 hade 框架中，但是如果 hade 框架只止步于 Gin 的已有功能：支持 Context、路由、中间件这些框架最简单的功能，显然背离了我们设计这个框架的初衷，毕竟我们的目标是搭建一个生产中可用且具有丰富功能模块的框架。</p><p>那么如何组织这些功能模块更好地协作，就是我们今天要讨论的问题。</p><p>组织的方法也很简单，之前提到过。如果你还记得我们第五课封装请求和返回结构的时候，先定义了 IRequest 和 IResponse 接口，再一一实现具体的函数方法，<strong>这种先接口后实现的方式，其实不仅仅是一种代码优化手段，更是一种编程思想：面向接口编程</strong>，这其实就是我们组织功能模块的核心思路。</p><h2>面向接口编程</h2><p>面向接口编程的思想到底是什么含义？我们从关键词“接口”开始思考。</p><p>不知道你考虑过这个问题没有，现在的高级语言，比如 PHP、Golang、Java 等，除了函数、对象等定义之外，都无一例外地拥有“接口”。但是为什么这些高级语言会需要有“接口”这个定义呢？我们从接口做到了什么的角度来反向思考。</p><h3>抽象业务</h3><p>首先，接口实现了对业务逻辑的抽象，设计接口就是抽象业务的过程。</p><p>因为在工作、生活中，我们需要把业务转换到代码中。但是一个真实的业务需求往往有很多复杂的描述，有些描述是某个业务特有的，而有些描述是所有同类型业务共有的，我们需要把描述的相同点抽象出来，成为一个个的步骤。而每个步骤实际上都是一个通过输入、产生输出的方法，把这些方法聚合起来，就是一个接口。</p><!-- [[[read_end]]] --><p>这段话说得有点抽象，我们结合一个具体例子来加深理解。在《面向接口设计（Interface Oriented Design）》这本书中，作者举了寻找一个 pizza 店并购买pizza的例子，很简单也便于理解，这里我们是为了明白接口实现了什么，所以就不再另外举例，直接看这个例子就好。</p><p>在找pizza店之前我们首先要知道pizza店是什么，所以先来定义一个pizza店，并且来寻找所有pizza店共性的地方。</p><p>作者发现购买 pizza 的流程基本都是相似的，先确认大小、再确认佐料、再确认收货地址、最后被告知送货时间，<strong>所以可以将“购买 pizza”这个业务逻辑，抽象成一个接口结构：PizzaOrdering</strong>。它包含四个方法：set_size、set_toppings、set_address、get_time_till_delivered。</p><ul>
 

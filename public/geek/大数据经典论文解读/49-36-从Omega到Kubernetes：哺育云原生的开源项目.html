@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是徐文浩。</p><p>在前面两节课里，我们一起看过在2015年发表的Borg的论文。不过，Borg这个系统的开发与使用，其实要远远早于2015年。事实上，在2004年Google发表的MapReduce的论文里，我们就已经隐隐约约可以看到Borg的存在了。</p><p>而在2015年，Borg也早就已经进行了很多次的进化。在2013年，Google就发表了一篇叫做《Omega: Flexiable, Scalable Schedulers for large compute clusters》的论文，向整个工业界介绍了 <strong>Omega</strong> 这个调度系统。而在不久之后的2014年7月，Google更是首次发布了开源的 <strong>Kubernetes</strong> 系统。</p><p>在2016年，Google更是发表了一篇叫做《Borg, Omega, and Kubernetes: Lessons Learned From Three Container-Management Systems Over A Decade》的文章。这篇文章总结了十多年来，Google从开发Borg，到优化调度系统变成Omega，以及最后重起炉灶开源Kubernetes中的经验与教训。</p><p>那么，今天我们就一起来了解下，在2013和2016年发表的这两篇论文到底讲了什么。虽然Google并没有开源Borg和Omega，但是从开源的Kubernetes和发表的论文中，我们也多少能够一窥这些系统是如何一路走来的。我在这个课程的一开始就说过，我们学习这些论文和知识，重要的并不只是“是什么”“怎么做”的，更重要的是<strong>“为什么”</strong>。了解系统是如何逐渐演变过来的，你才能真的体会到如何在不断地迭代优化中设计系统。</p><!-- [[[read_end]]] --><p>而在学完这节课的内容之后，我希望我们能够一起思考这样两个问题：</p><ul>
 

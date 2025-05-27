@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是蒋德钧。这节课，我们一起来看看Redis是如何在源码中实现哨兵机制的。</p><p>我们知道，Redis主从复制是保证Redis可用性的一个重要手段。而一旦Redis主节点发生故障，哨兵机制就会执行故障切换。这个故障切换过程实现起来其实比较复杂，涉及了哨兵Leader选举、新主节点选举和故障切换等关键操作。但同时，这个故障切换过程又是我们在实现高可用系统时经常要面对的开发需求。</p><p></p><p>所以从这节课开始，我就来给你逐一介绍下，Redis哨兵机制及其实现故障切换的关键技术设计与实现。通过这部分内容的学习，你既可以了解在故障切换过程中，起到重要作用的Raft协议是如何实现的，而且你还可以掌握在故障切换时，主节点、从节点和客户端相互之间如何完成切换通知的。</p><p></p><p>不过，在开始了解故障切换的关键技术之前，今天我们会先来了解哨兵实例本身的初始化和基本运行过程，这是因为从源码的角度来看，哨兵实例和常规Redis实例的实现都是在一套源码中的，它们共享了一些执行流程。所以了解这部分内容，也可以帮助我们更加清楚地掌握哨兵实例的实现机制。</p><p></p><p>好，下面我们就先来看下哨兵实例的初始化过程。</p><p></p><h2>哨兵实例的初始化</h2><p>因为哨兵实例是属于运行在一种特殊模式下的Redis server，而我在<a href="https://time.geekbang.org/column/article/406556">第8讲</a>中，已经给你介绍过了Redis server启动后的入口函数main的整体执行过程。其实，这个过程就包含了哨兵实例的初始化操作。</p><!-- [[[read_end]]] --><p></p><p>所以，哨兵实例的初始化入口函数也是main（在server.c文件中）。那么，main函数在运行时，就会通过对运行参数的判断，来执行哨兵实例对应的运行逻辑。具体来说，main函数在调用initServerConfig函数初始化各种配置项之前，会调用<strong>checkForSentinelMode函数</strong>，来判断当前运行的是否为哨兵实例，如下所示：</p><pre><code class="language-plain">server.sentinel_mode = checkForSentinelMode(argc,argv);
 

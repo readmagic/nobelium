@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在上一篇文章中，我介绍了Go语言与Unicode编码规范、UTF-8编码格式的渊源及运用。</p><p>Go语言不但拥有可以独立代表Unicode字符的类型<code>rune</code>，而且还有可以对字符串值进行Unicode字符拆分的<code>for</code>语句。</p><p>除此之外，标准库中的<code>unicode</code>包及其子包还提供了很多的函数和数据类型，可以帮助我们解析各种内容中的Unicode字符。</p><p>这些程序实体都很好用，也都很简单明了，而且有效地隐藏了Unicode编码规范中的一些复杂的细节。我就不在这里对它们进行专门的讲解了。</p><p>我们今天主要来说一说标准库中的<code>strings</code>代码包。这个代码包也用到了不少<code>unicode</code>包和<code>unicode/utf8</code>包中的程序实体。</p><ul>
 

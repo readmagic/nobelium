@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>上一次，我们谈到了如何在游戏中嵌入脚本语言，我们用的语言是Lua。Lua语言具有轻量级、速度快的特点，而且API的调用也非常方便和直观。现在，我们仍然拿Lua脚本，试着把它应用在我们开发的游戏中。</p><p>我们使用C语言来对Lua脚本的绑定做一次深入的剖析，然后来看一下，在游戏开发中绑定了脚本语言后，脚本语言能做些什么事情。</p><p>首先，我们要明白一点，事实上<strong>任何模块都可以使用脚本语言编写</strong>。当然在游戏开发的过程中，需要分工明确，如果不分工的话，效率可能会比较低。</p><p>在需要某些效率要求非常高的情况下，一般是用C、C++或ASM语言，将底层模块搭建好，然后将一些逻辑部分分出来，给脚本语言处理。比如我们熟知的服务器端，可以使用C/C++来编写服务器端的IOCP或者epoll处理；而接收、发送、逻辑处理等等，都可以使用绑定脚本的方式编写。</p><p>我们在编写的过程中，需要对C/C++的语言和代码有个了解，我们需要先考虑这个函数。</p><pre><code>int test_func(lua_State *L)
 

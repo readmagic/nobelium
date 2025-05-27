@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在开发中我们经常会碰到“池”的概念，比如数据库连接池、内存池、线程池、常量池等。为什么需要“池”呢？程序运行的本质，就是通过使用系统资源（CPU、内存、网络、磁盘等）来完成信息的处理，比如在JVM中创建一个对象实例需要消耗CPU和内存资源，如果你的程序需要频繁创建大量的对象，并且这些对象的存活时间短，就意味着需要进行频繁销毁，那么很有可能这部分代码会成为性能的瓶颈。</p><p>而“池”就是用来解决这个问题的，简单来说，对象池就是把用过的对象保存起来，等下一次需要这种对象的时候，直接从对象池中拿出来重复使用，避免频繁地创建和销毁。在Java中万物皆对象，线程也是一个对象，Java线程是对操作系统线程的封装，创建Java线程也需要消耗系统资源，因此就有了线程池。JDK中提供了线程池的默认实现，我们也可以通过扩展Java原生线程池来实现自己的线程池。</p><p>同样，为了提高处理能力和并发度，Web容器一般会把处理请求的工作放到线程池里来执行，Tomcat扩展了原生的Java线程池，来满足Web容器高并发的需求，下面我们就来学习一下Java线程池的原理，以及Tomcat是如何扩展Java线程池的。</p><h2>Java线程池</h2><p>简单的说，Java线程池里内部维护一个线程数组和一个任务队列，当任务处理不过来的时，就把任务放到队列里慢慢处理。</p><!-- [[[read_end]]] --><p><strong>ThreadPoolExecutor</strong></p><p>我们先来看看Java线程池核心类ThreadPoolExecutor的构造函数，你需要知道ThreadPoolExecutor是如何使用这些参数的，这是理解Java线程工作原理的关键。</p><pre><code>public ThreadPoolExecutor(int corePoolSize,
 

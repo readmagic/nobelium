@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>上一节，我们讲了虚拟空间的布局。接下来，我们需要知道，如何将其映射成为物理地址呢？</p><p>你可能已经想到了，咱们前面讲x86 CPU的时候，讲过分段机制，咱们规划虚拟空间的时候，也是将空间分成多个段进行保存。</p><p>那就直接用分段机制呗。我们来看看分段机制的原理。</p><p><img src="https://static001.geekbang.org/resource/image/96/eb/9697ae17b9f561e78514890f9d58d4eb.jpg" alt=""></p><p>分段机制下的虚拟地址由两部分组成，<strong>段选择子</strong>和<strong>段内偏移量</strong>。段选择子就保存在咱们前面讲过的段寄存器里面。段选择子里面最重要的是<strong>段号</strong>，用作段表的索引。段表里面保存的是这个段的<strong>基地址</strong>、<strong>段的界限</strong>和<strong>特权等级</strong>等。虚拟地址中的段内偏移量应该位于0和段界限之间。如果段内偏移量是合法的，就将段基地址加上段内偏移量得到物理内存地址。</p><p>例如，我们将上面的虚拟空间分成以下4个段，用0～3来编号。每个段在段表中有一个项，在物理空间中，段的排列如下图的右边所示。</p><p><img src="https://static001.geekbang.org/resource/image/7c/04/7c82068d2d6bdb601084a07569ac8b04.jpg" alt=""></p><p>如果要访问段2中偏移量600的虚拟地址，我们可以计算出物理地址为，段2基地址2000 + 偏移量600 = 2600。</p><p>多好的机制啊！我们来看看Linux是如何使用这个机制的。</p><p>在Linux里面，段表全称<strong>段描述符表</strong>（segment descriptors），放在<strong>全局描述符表GDT</strong>（Global Descriptor Table）里面，会有下面的宏来初始化段描述符表里面的表项。</p><!-- [[[read_end]]] --><pre><code>#define GDT_ENTRY_INIT(flags, base, limit) { { { \
 

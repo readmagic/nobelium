@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是周爱民，感谢你来听我的专栏。</p><p>今天是这个系列的第一讲，我将从JavaScript中最不起眼的、使用率最低的一个运算——delete讲起。</p><p>你知道，JavaScript是一门面向对象的语言。它很早就支持了delete运算，这是一个元老级的语言特性。但细追究起来，delete其实是从JavaScript 1.2中才开始有的，与它一同出现的，是对象和数组的字面量语法。</p><p>有趣的是，JavaScript中最具恶名的typeof运算其实是在1.1版本中提供的，比delete运算其实还要早。这里提及typeof这个声名狼藉的运算符，主要是因为delete的操作与类型的识别其实是相关的。</p><h2>习惯中的“引用”</h2><p>早期的JavaScript在推广时，仍然采用传统的数据类型的分类方法，也就是说，它宣称自己同时支持值类型和引用类型的数据，并且，所谓值类型中的字符串是按照引用来赋值和传递引用（而不是传递值）的。这些都是当时“开发人员的概念集”中已经有的、容易理解的知识，不需要特别解释。</p><p>但是<span class="orange">什么是引用类型呢？</span></p><p>在这件事上，JavaScript偷了个懒，它强行定义了“Object和Function就是引用类型”。这样一来，引用类型和值类型就给开发人员讲清楚了，对象和函数呢，也就可以理解了：它们按引用来传递和使用。</p><!-- [[[read_end]]] --><p>绝大多数情况下，这样解释起来是行得通的。但是到了delete运算这里，就不行。</p><p>因为这样一来，<code>delete 0</code>就是删除一个值，而<code>delete x</code>就既可能是删除一个值，也可能是删除一个引用。然而，当时JavaScript又同时约定：那些在global对象上声明的属性，就“等同于”全局变量。于是，这就带来了第三个问题：<code>delete x</code>还可能是删除一个global对象上的属性。而它在执行这个操作的时候，看起来却像是一个全局变量（的名字）。</p><p>这中间有哪些细节的区别呢？</p><p>delete这个运算的表面意思，是该运算试图销毁某种东西。然而，<code>delete 0</code>中的0是一个具体的、字面量表示的“值”。一个字面量值“0”如何在现实世界中销毁呢？假定它销毁了，那是不是说，在这个语言当前的运行环境中，就不能使用0这个值了呢？显然，这不合理。</p><p>所以，JavaScript认为“<strong>所有删除值的delete就直接返回true</strong>”，表明该行为过程中没有异常。很不幸，JavaScript 1.2的时代并没有结构化异常处理（即try…catch语句）。所以，通过函数调用中返回true来表明“没有异常”，其实是很常规的做法。</p><p>然而，返回值只表明执行过程中没有异常，但实际的执行行为是“什么也没发生”。你显然不可能真的将“0”从执行系统中清理出去。</p><p>那么接下来，就还剩下删除变量和删除属性。由于全局变量实际上是通过全局对象的属性来实现的，因此删除变量也就存在识别这两种行为的必要性。例如：</p><pre><code>delete x
 

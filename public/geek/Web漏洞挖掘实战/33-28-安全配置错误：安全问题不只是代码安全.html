@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王昊天。</p><p>不知道你是否看见过下面这张图片？它是我们在使用Django编写后端程序时，经常会看到的报错页面。在这个报错页面中，我们可以看到这个Web应用的所有路径，这对于Web应用来说是极其危险的。</p><p><img src="https://static001.geekbang.org/resource/image/29/03/2944a63eaa107628f0f44b38db517c03.png?wh=1920x1082" alt="图片"></p><p>从页面最下方的提示信息中，我们可以知道，这是由于我们在Django的配置文件中，没有将DEBUG改为False导致的。所以<strong>这就是一个由于配置错误导致的Web应用安全问题</strong>。</p><p>其实，在Web应用中，安全配置问题还是很普遍的，这节课就让我们一起来深入学习下吧！</p><h2>安全配置错误</h2><p>在Web应用中，由于安全配置错误导致的安全问题屡见不鲜，这里我选取了Web应用中典型的一些安全配置问题来讲解，它们分别为Apache配置安全问题、Nginx配置安全问题以及Tomcat配置安全问题，下面我们逐一看下。</p><p><img src="https://static001.geekbang.org/resource/image/b9/b0/b94ffbc2248005978049649a54c961b0.jpg?wh=1738x644" alt="图片"></p><h3>Apache配置安全问题</h3><p>Apache是世界使用排名第一的Web服务器软件。它的兼容性很好，可以在Linux系统以及Windows系统中运行。Web应用开发者可以用它来运行开发的Web服务。</p><p>我们可以将它简单理解为，当在一台机器上配置好Apache服务器，可利用它响应HTML页面的访问请求。</p><p>Apache软件有一个配置文件，它通常为httpd.conf，我们在启动自己的Web应用前，首先需要对它进行配置的修改。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/5f/f9/5f17fc1e53320a81f5c791312b7e25f9.png?wh=773x434" alt="图片"></p><p>如果我们希望，Apache在遇到扩展名为PHP的页面文件时，将它用x-httpd-php来解析，那么我们就可以在配置文件中添加代码 <code>AddHandler application/x-httpd-php .php</code>。之后，重启Apache服务，配置就能生效。</p><p><img src="https://static001.geekbang.org/resource/image/5a/ed/5a03f5d89e053d1ac2373ab68d9006ed.png?wh=931x312" alt="图片"></p><p>而这个配置会导致一定的安全隐患，接下来让我们借助一个示例，看看它会带来什么安全隐患吧。</p><p>在此之前，我们需要学习一下Apache的基本特性。</p><p><img src="https://static001.geekbang.org/resource/image/66/46/663689407ff9dec170d6baf07354b046.jpg?wh=1594x406" alt="图片"></p><p><strong>Apache是从前往后开始识别文件扩展名的</strong>，例如遇到文件test.php.xyz.jpg时，它会将PHP识别为文件的扩展名，从而根据之前的配置，选择用x-httpd-php来对它进行解析。</p><p>这样，我们就做好了所有的前期准备工作。下面，我们一起来看这个安全隐患。</p><p><img src="https://static001.geekbang.org/resource/image/7a/d5/7a6881dd2366f32af090f96b0fd8e3d5.png?wh=1920x1232" alt="图片"></p><p>这是一个文件上传靶场，由于我们将它的安全等级设为高，所以<strong>它可以成功拦截所有PHP后缀的文件</strong>，这样做可以防止攻击者上传PHP恶意文件，从而保护Web应用的安全。</p><p>但是我们可以将恶意PHP文件名设置为test.php.xyz.jpg，这样就能绕过文件上传检测，成功将这个文件上传到images文件中。</p><p>其中这个test.php.xyz.jpg的内容为：</p><pre><code class="language-php">&lt;?php phpinfo();?&gt;
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是程远。作为一名工程师，我猜在过去的几年时间里，你肯定用过或者听人提起过容器（Container）。</p><p>说实话，容器这东西一点都不复杂，如果你只是想用的话，那跟着<a href="https://docs.docker.com/get-started/">Docker官网</a>的说明，应该十来分钟就能搞定。</p><p>简单来说，它就是个小工具，可以把你想跑的程序，库文件啊，配置文件都一起“打包”。</p><p>然后，我们在任何一个计算机的节点上，都可以使用这个打好的包。有了容器，一个命令就能把你想跑的程序跑起来，做到了<strong>一次打包，就可以到处使用。</strong></p><p>今天是咱们整个课程的第一讲，我想和你来聊聊容器背后的实现机制。</p><p>当然，空讲原理也没什么感觉，所以我还是会先带着你启动一个容器玩玩，然后咱们再一起来探讨容器里面的两大关键技术—— Namespace和Cgroups。基本上理解了这两个概念，你就能彻底搞懂容器的核心原理了。</p><h2>做个镜像</h2><p>话不多说，咱们就先动手玩一玩。启动容器的工具有很多，在这里我们还是使用Docker这个最常用的容器管理工具。</p><p>如果你之前根本没用过Docker的话，那我建议你先去<a href="https://docs.docker.com/">官网</a>看看文档，一些基础的介绍我就不讲了，那些内容你随便在网上一搜就能找到。</p><p>安装完Docker之后，咱们先来用下面的命令运行一个httpd服务。</p><!-- [[[read_end]]] --><pre><code># docker run -d centos/httpd:latest
 

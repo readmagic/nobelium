@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是唐聪。</p><p>在Kubernetes中，各种各样的控制器实现了Deployment、StatefulSet、Job等功能强大的Workload。控制器的核心思想是监听、比较资源实际状态与期望状态是否一致，若不一致则进行协调工作，使其最终一致。</p><p>那么当你修改一个Deployment的镜像时，Deployment控制器是如何高效的感知到期望状态发生了变化呢？</p><p>要回答这个问题，得从etcd的Watch特性说起，它是Kubernetes控制器的工作基础。今天我和你分享的主题就是etcd的核心特性Watch机制设计实现，通过分析Watch机制的四大核心问题，让你了解一个变化数据是如何从0到1推送给client，并给你介绍Watch特性从etcd v2到etcd v3演进、优化过程。</p><p>希望通过这节课，你能在实际业务中应用Watch特性，快速获取数据变更通知，而不是使用可能导致大量expensive request的轮询模式。更进一步，我将帮助你掌握Watch过程中，可能会出现的各种异常错误和原因，并知道在业务中如何优雅处理，让你的服务更稳地运行。</p><h2>Watch特性初体验</h2><p>在详细介绍Watch特性实现原理之前，我先通过几个简单命令，带你初体验下Watch特性。</p><!-- [[[read_end]]] --><p>启动一个空集群，更新两次key hello后，使用Watch特性如何获取key hello的历史修改记录呢？</p><p>如下所示，你可以通过下面的watch命令，带版本号监听key hello，集群版本号可通过endpoint status命令获取，空集群启动后的版本号为1。</p><p>执行后输出如下代码所示，两个事件记录分别对应上面的两次的修改，事件中含有key、value、各类版本号等信息，你还可以通过比较create_revision和mod_revision区分此事件是add还是update事件。</p><p>watch命令执行后，你后续执行的增量put hello修改操作，它同样可持续输出最新的变更事件给你。</p><pre><code>$ etcdctl put hello world1
 

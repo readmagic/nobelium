@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱涛。上节课我给你布置了一份考试题，你完成得怎么样了呢？这节课呢，我会来告诉你我是如何用Kotlin来做这个图片处理程序的，供你参考。</p><p>由于上节课我们已经做好了前期准备，所以这里我们直接写代码就行了。</p><h2>1.0版本</h2><p>对于图片反转和裁切的这个问题，如果一开始你就去想象一个大图片，里面有几万个像素点，那你可能会被吓到。但是，如果你将数据规模缩小，再来分析的话，你会发现这个问题其实很简单。</p><p>这里，我们就以一张4X4像素的照片为例来分析一下。</p><p><img src="https://static001.geekbang.org/resource/image/2f/20/2f31e490e0b973c9511e4aaa921f0520.jpg?wh=1498x646" alt=""></p><p>这其实就相当于一个抽象的模型，如果我们基于这张4X4的照片，继续分析翻转和裁切，就会容易很多。我们可以来画一个简单的图形：</p><p><img src="https://static001.geekbang.org/resource/image/b6/8d/b6a1a1f3b70b9b1a8132c51a92660d8d.jpg?wh=2000x814" alt=""></p><p>上面这张图，从左到右分别是原图、横向翻转、纵向翻转、裁切。其中，翻转看起来是要复杂一些，而裁切是最简单的。</p><p><img src="https://static001.geekbang.org/resource/image/64/c3/64001cb039dbcff66c4e9eec48dcf6c3.jpg?wh=2000x789" alt=""></p><p>我们先来处理裁切。对于裁切，其实只需要将图片当中某个部分的像素拷贝到内存，然后存储成为一张新图片就行了。</p><pre><code class="language-plain">/**
 

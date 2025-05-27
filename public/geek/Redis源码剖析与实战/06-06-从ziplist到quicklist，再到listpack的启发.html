@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是蒋德钧。</p><p>在前面的<a href="https://time.geekbang.org/column/article/402223">第4讲</a>，我介绍Redis优化设计数据结构来提升内存利用率的时候，提到可以使用压缩列表（ziplist）来保存数据。所以现在你应该也知道，ziplist的最大特点，就是它被设计成一种内存紧凑型的数据结构，占用一块连续的内存空间，以达到节省内存的目的。</p><p>但是，<strong>在计算机系统中，任何一个设计都是有利有弊的</strong>。对于ziplist来说，这个道理同样成立。</p><p>虽然ziplist节省了内存开销，可它也存在两个设计代价：一是不能保存过多的元素，否则访问性能会降低；二是不能保存过大的元素，否则容易导致内存重新分配，甚至可能引发连锁更新的问题。所谓的连锁更新，简单来说，就是ziplist中的每一项都要被重新分配内存空间，造成ziplist的性能降低。</p><p>因此，针对ziplist在设计上的不足，Redis代码在开发演进的过程中，新增设计了两种数据结构：<strong>quicklist和listpack</strong>。这两种数据结构的设计目标，就是尽可能地保持ziplist节省内存的优势，同时避免ziplist潜在的性能下降问题。</p><p>今天这节课，我就来给你详细介绍下quicklist和listpack的设计思想和实现思路，不过在具体讲解这两种数据结构之前，我想先带你来了解下为什么ziplist的设计会存在缺陷。这样一来，你在学习quicklist和listpack时，可以和ziplist的设计进行对比，进一步就能更加容易地掌握quicklist和listpack的设计考虑了。</p><!-- [[[read_end]]] --><p>而且，ziplist和quicklist的区别，也是经常被问到的面试题，而listpack数据结构因为比较新，你对它的设计实现可能了解得并不多。那在学完了这节课之后，你其实就可以很轻松地应对这三种数据结构的使用问题了。此外，你还可以从这三种数据结构的逐步优化设计中，学习到Redis数据结构在内存开销和访问性能之间，采取的设计取舍思想。如果你需要开发高效的数据结构，你就可以把这种设计思想应用起来。</p><p>好，那么接下来，我们就先来了解下ziplist在设计与实现上存在的缺陷。</p><h2>ziplist的不足</h2><p>你已经知道，一个ziplist数据结构在内存中的布局，就是一块连续的内存空间。这块空间的起始部分是大小固定的10字节元数据，其中记录了ziplist的总字节数、最后一个元素的偏移量以及列表元素的数量，而这10字节后面的内存空间则保存了实际的列表数据。在ziplist的最后部分，是一个1字节的标识（固定为255），用来表示ziplist的结束，如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/08/6d/08fe01427f264234c59951c8293d466d.jpg?wh=2000x795" alt=""></p><p>不过，虽然ziplist通过紧凑的内存布局来保存数据，节省了内存空间，但是ziplist也面临着随之而来的两个不足：查找复杂度高和潜在的连锁更新风险。那么下面，我们就分别来了解下这两个问题。</p><h3>查找复杂度高</h3><p>因为ziplist头尾元数据的大小是固定的，并且在ziplist头部记录了最后一个元素的位置，所以，当在ziplist中查找第一个或最后一个元素的时候，就可以很快找到。</p><p>但问题是，当要查找列表中间的元素时，ziplist就得从列表头或列表尾遍历才行。而当ziplist保存的元素过多时，查找中间数据的复杂度就增加了。更糟糕的是，如果ziplist里面保存的是字符串，ziplist在查找某个元素时，还需要逐一判断元素的每个字符，这样又进一步增加了复杂度。</p><p>也正因为如此，我们在使用ziplist保存Hash或Sorted Set数据时，都会在redis.conf文件中，通过hash-max-ziplist-entries和zset-max-ziplist-entries两个参数，来控制保存在ziplist中的元素个数。</p><p>不仅如此，除了查找复杂度高以外，ziplist在插入元素时，如果内存空间不够了，ziplist还需要重新分配一块连续的内存空间，而这还会进一步引发连锁更新的问题。</p><h3>连锁更新风险</h3><p>我们知道，因为ziplist必须使用一块连续的内存空间来保存数据，所以当新插入一个元素时，ziplist就需要计算其所需的空间大小，并申请相应的内存空间。这一系列操作，我们可以从ziplist的元素插入函数__ziplistInsert中看到。</p><p><strong>__ziplistInsert函数首先会计算获得当前ziplist的长度</strong>，这个步骤通过ZIPLIST_BYTES宏定义就可以完成，如下所示。同时，该函数还声明了reqlen变量，用于记录插入元素后所需的新增空间大小。</p><pre><code>//获取当前ziplist长度curlen；声明reqlen变量，用来记录新插入元素所需的长度
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>从机器学习模型角度看，目前最简单的机器学习模型大概就是感知机了，而最火热的机器学习模型则是神经网络。人工智能领域几乎所有炫酷的东西都是神经网络的成果，有下赢人类最顶尖围棋棋手的AlphaGo、自动驾驶技术、聊天机器人、语音识别与自动翻译等。事实上，神经网络和感知机是一脉相承的，就像复杂的人体是由一个个细胞组成、复杂的大脑是由一个个神经元组成，而神经网络正是由感知机组成的。</p><h2>感知机</h2><p>感知机是一种比较简单的二分类模型，将输入特征分类为+1、-1两类，就像下图所示的，一条直线将平面上的两类点分类。</p><p><img src="https://static001.geekbang.org/resource/image/b2/bd/b2c13b1dee2a9cb412512973075eaabd.png" alt=""></p><p>二维平面上的点只有两个输入特征（横轴坐标和纵轴坐标），一条直线就可以分类。如果输入数据有更多维度的特征，那么就需要建立同样多维度的模型，高维度上的分类模型也被称为超平面。</p><p>感知机模型如下：</p><p>$$f(x)=sign(w\cdot x+b)$$</p><p>其中$x$代表输入的特征空间向量，输出空间是{-1, +1}，$w$为权值向量，$b$叫作偏置，$sign$是一个符号函数。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/7b/8f/7b0c3465dc8a590a5d59780d9dcb728f.png" alt=""></p><p>$w\cdot x+b=0$为超平面的方程，当感知机输出为+1表示输入值在超平面的上方，当感知机输出为-1表示输入值在超平面的下方。训练感知机模型就是要计算出$w$和$b$的值，当有新的数据需要分类的时候，输入感知机模型就可以计算出+1或者-1从而进行分类。</p><p>由于输出空间只有{-1, +1}两个值，所以只有误分类的时候，才会有模型计算值和样本真实值之间的偏差，偏差之和就是感知机的损失函数。</p><p>$$L(w,b)=-\sum_{x_{i}\in M}{y_i}({w\cdot{x_i}+b})$$</p><p>其中$M$为误分类点集合，误分类点越少，损失函数的值越小；如果没有误分类点，损失函数值为0。求模型的参数$w$和$b$，就是求损失函数的极小值。</p><p>数学上求函数的极小值就是求函数的一阶导数，但是感知机损失函数用统计求和函数表达，没办法计算解析解。机器学习采用梯度下降法求损失函数极小值，实质上就是求导过程的数值计算方法。</p><p>对于误分类点集合$M$，损失函数$L(w,b)$变化的梯度，就是某个函数变量的变化引起的函数值的变化，根据感知机损失函数可知：</p><p>$$\Delta_{w}L(w,b)=-\sum_{x_i\in M}{y_i x_i}$$</p><p>$$\Delta_{b}L(w,b)=-\sum_{x_i\in M}{y_i}$$</p><p>使用梯度下降更新$w$和$b$，不断迭代使损失函数$L(w,b)$不断减小，直到为0，也就是没有误分类点。感知机算法的实现过程：</p><p>1.选择初始值$w_0,b_0$。</p><p>2.在样本集合中选择样本数据$x_i,y_i$。</p><p>3.如果$y_i(w\cdot x_i+b)&lt; 0$，表示$y_i$为误分类点，那么$w = w +\eta y_i x_i$、$b = b +\eta y_i$，在梯度方向校正$w$和$b$。其中$\eta$为步长，步长选择要适当，步长太长会导致每次计算调整太大出现震荡；步长太短又会导致收敛速度慢、计算时间长。</p><p>4.跳转回2，直到样本集合中没有误分类点， 即全部样本数据$y_i(w\cdot x_i+b)\geq 0$。</p><h2>神经网络</h2><p>我们现在所说的神经网络，通常是指机器学习所使用的“人工神经网络”，是对人脑神经网络的一种模拟。人脑神经网络由许多神经元构成，每个神经元有多个树突，负责接收其他神经元的输出信号，神经元细胞完成对输入信号的处理，转换成输出信号，通过突触传递给其他神经元。</p><p><img src="https://static001.geekbang.org/resource/image/9a/eb/9a2679bdc32052da55066158d63092eb.png" alt=""></p><p>神经元细胞的输出只有0或者1两种输出，但是人脑大约有140亿个神经元，这些神经元组成一个神经网络，前面的神经元输出作为后面的神经元输入进一步处理，最终实现人类的智能。</p><p><img src="https://static001.geekbang.org/resource/image/da/65/da0e437ca52544e1e1d0f72d8b682d65.png" alt=""></p><p>人脑神经元可以通过感知机进行模拟，每个感知机相当于一个神经元，使用$sign$函数的感知机输出也是只有两个值，跟人脑神经元一样。</p><p><img src="https://static001.geekbang.org/resource/image/7e/0a/7e2a410a9d8c8e14ad36a61922ec050a.png" alt=""></p><p>$x_1,x_2,x_3$相当于神经元的树突，实现信号的输入；$sum()+b$及$sign$函数相当于神经元细胞，完成输入的计算；$y$是神经元的输出，上图用数学形式表达的话是<br>
 

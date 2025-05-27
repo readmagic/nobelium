@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴咏炜。</p><p>在前几讲中，我们已经学了很多关于 Vim 的知识，现在需要好好消化一下。今天是基础篇的最后一讲，我们就基本上不学新的内容了，而是通过一个假想的代码重构实验，来复习、巩固已经学到的编辑技能。</p><h2>开始前的准备工作</h2><p>这是一堂实验课，你需要跟着我一步步地操作。跟只学习文字内容相比，实践操作能让你收获更多。所以，就请你现在把电脑准备好，跟我来吧。</p><p>今天我们将要做的是，签出我为极客时间写的 C++ 示例程序，并对其中的代码进行重构。别紧张，你不需要精通 C++，因为我会在必要的时候对代码进行解释。你学习的重点在于，我是如何进行编辑的，而不是我写的代码是什么意思。</p><p>首先，你需要先为工作代码找一个合适的父目录，然后用下面的命令签出代码（Windows 下面去掉“\”全部写一行，或者把“\”换成“^”））：</p><pre><code class="language-bash">git clone --recurse-submodules \
 

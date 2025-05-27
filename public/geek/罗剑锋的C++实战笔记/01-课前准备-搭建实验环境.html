@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是Chrono。</p><p>在开始正式的学习之前，我们需要先做一点准备工作——在自己的电脑上搭建出课程使用的实验环境。</p><p>我会给你推荐具体的操作系统、编译器，带你一步步搭建环境，还会给你分享我的<a href="https://github.com/chronolaw/cpp_study">GitHub链接</a>，之后课程里的所有代码，你都可以在这里找到。</p><h2>操作系统</h2><p>首先说一下操作系统。</p><p>目前流行的操作系统有三种：Windows、macOS和Linux。</p><p>Windows是应用得最广泛的一个系统了，是绝对的主流，但是，作为C++开发环境来说，Windows并不能算是首选。</p><p>一个原因是，Windows上的标准C++开发工具Visual Studio不是免费的，尽管它提供了可自由下载的社区版，但有各种限制（你可以看下社区版和其他版本的<a href="https://visualstudio.microsoft.com/zh-hans/vs/compare/">差异</a>），用来做实验还行，如果要用来开发正式的软件，就不是那么合适了。</p><p>另一个更重要的原因是，Windows现在已经不再是C++的“主战场”了，现在开发Windows程序，更多的是用C#、Java、TypeScript等其他语言，在Windows上写C++程序，很难有大的作为，会有种“英雄无用武之地”的感觉。</p><p>macOS是苹果的专用系统，比较“小众精英”，用户比较少。必须要承认，它是一个很高效易用的开发环境，但也有点“曲高和寡”，不是每个人都能有一台MacBook的。而且，macOS虽然也是UNIX，但它源自FreeBSD，内部结构、使用方式与Linux有一些差异。</p><!-- [[[read_end]]] --><p>macOS也有与Windows相同的问题，它的官方开发语言是Objective-C、Swift，几乎没有纯粹使用C++开发出的Mac应用。</p><p>所以，<strong>我建议你使用Linux操作系统</strong>，它是完全自由、免费的系统，不受任何人的控制，开发工具链非常完善，而且，目前差不多所有的商业网站的服务器（当然还有Android）上跑的都是Linux，而C++也正好能在开发后台应用服务方面大显身手，两者可谓是“绝配”。</p><h2>编译器</h2><p>选好了Linux操作系统，接下来就要选择编译器了。</p><p>虽然C++20马上就要发布了，但现在C++标准的实际普及情况还是相当落后的。据我多年的观察，很多企业因为各式各样的原因，还在用着老旧的操作系统和编译器，别说C++20了，连C++17都很少用到。</p><p>所以，从应用现状出发，我不会使用那么“超前”的标准和编译器，而是选择更贴合实际、更“接地气”的编译器，让你在工作中能够立即用得上，不用苦等操作系统、编译器的升级。</p><p>好了，说一下我对编译器的要求：<strong>至少要支持C++11，支持到C++14最好，对再往上的17/20则不强求，在今后的课程中，也会尽量不涉及17/20里的特性</strong>。</p><p>把这几点要求落实到Linux上的默认编译器GCC，就是4.6或者是 4.8版本，越高越好。至于具体版本GCC对C++的支持程度，可以在它的<a href="https://gcc.gnu.org/projects/cxx-status.html">官网</a>上找到。</p><p>GCC通常是和Linux系统绑定在一起的，选编译器也就相当于选择Linux的版本。</p><p>Linux也是版本众多，最常见的是<strong>RedHat系的CentOS</strong>和<strong>Debian系的Ubuntu</strong>。</p><p>这两个被很多企业广泛采用，但CentOS通常比较“稳定”，更新较慢，像CentOS 6一直用的是GCC 4.4，CentOS 7也才是4.8，对C++标准的支持很不完善，极大地限制了C++能力的发挥。</p><p>所以，<strong>我建议使用的Linux操作系统是Ubuntu，最低版本是16.04</strong>。这个系统里的GCC版本是5.4，完美支持C++11/14。当然，你要是愿意安装更新的18.04、20.04也没有问题，它们里面的GCC版本更高，支持C++17，只不过有点“功能过剩”。</p><h2>搭建环境</h2><p>确定了操作系统和编译器以后，该去哪里找一个这样的开发环境呢？</p><p>你的公司里或许就有现成的Linux服务器，可以直接登录上去用，但公司服务器的环境不一定满足刚才说的那几点要求，而且还得小心，别把系统搞乱了，所以，还是弄一个自己的实验环境最保险。</p><p>好在如今的虚拟技术非常成熟，只要安装一个虚拟机软件，再去Ubuntu官网下载一个光盘镜像，然后按部就班地点点鼠标就行了。</p><p>这里我选择的是免费的VirtualBox，版本任意，Ubuntu则是<a href="http://releases.ubuntu.com/16.04/ubuntu-16.04.6-desktop-amd64.iso">64位的桌面版</a>。至于它们俩具体的安装过程，网上有很多资料，而且我相信，即使没有资料，也难不倒你，所以我就不再多说了。</p><p>弄好VirtualBox和Ubuntu环境之后，还有一个小小的“收尾”步骤。</p><p>Linux系统里通常默认只有GCC，没有G++，所以还要再执行一个apt-get命令：</p><pre><code>sudo apt-get install g++
 

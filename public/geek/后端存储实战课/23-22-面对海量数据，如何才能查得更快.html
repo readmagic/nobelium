@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是李玥。</p><p>我们接着上节课的话题，来继续说海量数据。上节课我们讲了，如何来保存原始数据，那我们知道，原始数据的数据量太大了，能存下来就很不容易了，这个数据是没法直接来给业务系统查询和分析的。有两个原因，一是数据量太大了，二是也没有很好的数据结构和查询能力，来支持业务系统查询。</p><p>所以一般的做法是，用流计算或者是批计算，把原始数据再进行一次或者多次的过滤、汇聚和计算，把计算结果落到另外一个存储系统中去，由这个存储再给业务系统提供查询支持。这里的“流计算”，指的是Flink、Storm这类的实时计算，批计算是Map-Reduce或者Spark这类的非实时计算。</p><p>上节课我们说过，像点击流、监控和日志这些原始数据是“海量数据中的海量数据”，这些原始数据经过过滤汇总和计算之后，大多数情况下数据量会有量级的下降，比如说从TB级别的数据量，减少到GB级别。</p><p>有的业务，计算后的数据非常少，比如说一些按天粒度的汇总数据，或者排行榜类的数据，用什么存储都能满足要求。那有一些业务，没法通过事先计算的方式解决全部的问题。原始数据经过计算后产生的计算结果，数据量相比原始数据会减少一些，但仍然是海量数据。并且，我们还要在这个海量数据上，提供性能可以接受的查询服务。</p><!-- [[[read_end]]] --><p>今天这节课我们就来聊一聊，面对这样的海量数据，如何才能让查询更快一些。</p><h2>常用的分析类系统应该如何选择存储？</h2><p>查询海量数据的系统，大多都是离线分析类系统，你可以简单地理解为类似于做报表的系统，也就是那些主要功能是对数据做统计分析的系统。这类系统是重度依赖于存储的。选择什么样的存储系统、使用什么样的数据结构来存储数据，直接决定了数据查询、聚合和分析的性能。</p><p>分析类系统对存储的需求一般是这样的：</p><ol>
 

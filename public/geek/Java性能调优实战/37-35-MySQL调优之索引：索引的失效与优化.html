@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是刘超。</p><p>不知道你是否跟我有过同样的经历，那就是作为一个开发工程师，经常被DBA叫过去“批评”，而最常见的就是申请创建新的索引或发现慢SQL日志了。</p><p>记得之前有一次迭代一个业务模块的开发，涉及到了一个新的查询业务，需要根据商品类型、订单状态筛选出需要的订单，并以订单时间进行排序。由于sku的索引已经存在了，我在完成业务开发之后，提交了一个创建status的索引的需求，理由是SQL查询需要使用到这两个索引：</p><blockquote>
 

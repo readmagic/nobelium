@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴咏炜。</p><p>在实战篇，我们最后要讲解的一个库是 C++ REST SDK（也写作 cpprestsdk）<span class="orange">[1]</span>，一个支持 HTTP 协议 <span class="orange">[2]</span>、主要用于 RESTful <span class="orange">[3]</span> 接口开发的 C++ 库。</p><h2>初识 C++ REST SDK</h2><p>向你提一个问题，你认为用多少行代码可以写出一个类似于 curl <span class="orange">[4]</span> 的 HTTP 客户端？</p><p>使用 C++ REST SDK 的话，答案是，只需要五十多行有效代码（即使是适配到我们目前的窄小的手机屏幕上）。请看：</p><pre><code class="language-c++">#include &lt;iostream&gt;
 

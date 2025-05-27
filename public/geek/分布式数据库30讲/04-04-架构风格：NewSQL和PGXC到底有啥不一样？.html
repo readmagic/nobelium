@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王磊，你也可以叫我Ivan。</p><p>分布式数据库已经是技术新潮流了，所以产品也越来越多，如果你要做技术选型或者想要学习，该如何下手呢？怎么能更高效地了解不同产品的特点呢？这就需要你把它们分分类，有些差不多的产品，熟悉了其中的一个，剩下的我们只要记下差异点就可以了。那下面的问题就是如何分类了，这个其实很简单，因为业界已经有共识，把产品按照架构风格划分到不同的阵营。</p><p>总的来说，分布式数据库大多可以分为两种架构风格，一种是NewSQL，它的代表系统是Google Spanner；另一种是从单体数据库中间件基础上演进出来的，被称为Prxoy风格，没有公认的代表系统。我觉得Prxoy这个名字太笼统，没有反映架构的全貌，还是要有一个具体的架构模板，才能便于你理解，所以我选了一个出现较早的产品来指代这种风格，这就是PostgreSQL-XC（下文简称PGXC）。</p><p>我在后面的课程中讲述分布式数据库的特性和原理的时候，也会沿着这两种架构风格的思路，帮助你去迅速抓住不同产品的要点。因此，我们今天就先用一讲来学习下这两种架构风格。</p><h2>数据库的基本架构</h2><p>要搞清楚分布式数据库的架构风格，就要先了解“数据库”的架构。当然，我们这里说的数据库仍然默认是关系型数据库。我们先通过一张架构图看看数据库的全貌。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/02/66/0224c515b201a42725a5ed3ce9a3c366.jpg" alt=""></p><p>这张图从约瑟夫 · 海勒斯坦(Joseph M. Hellerstein)等人的论文“<a href="https://dsf.berkeley.edu/papers/fntdb07-architecture.pdf">Architecture of a Database System</a>”中翻译而来。文中将数据库从逻辑上拆分为5个部分，分别是客户端通讯管理器(Client Communications Manager)、查询处理器（Relational Query Processor）、事务存储管理器（Transactional Storage Manager）、进程管理器（Process Manager）和共享组件与工具(Shared Components and Utilities)，每个部分下面又可以拆分成一些组件。</p><p>你在各种数据库产品中都能找到这5个部分的对应实现，比如Oracle、DB2、SQL Server和MySQL，无一例外。下面，我依次介绍下这5个部分的功能。</p><ol>
 

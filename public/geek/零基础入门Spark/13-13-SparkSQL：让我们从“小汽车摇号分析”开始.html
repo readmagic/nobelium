@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴磊。</p><p>在开篇词我们提出“入门Spark需要三步走”，到目前为止，我们携手并肩跨越了前面两步，首先恭喜你学到这里！熟练掌握了Spark常用算子与核心原理以后，你已经可以轻松应对大部分数据处理需求了。</p><p>不过，数据处理毕竟是比较基础的数据应用场景，就像赛车有着不同的驾驶场景，想成为Spark的资深赛车手，我们还要走出第三步——学习Spark计算子框架。只有完成这一步，我们才能掌握Spark SQL，Structured Streaming和Spark MLlib的常规开发方法，游刃有余地应对不同的数据应用场景，如数据分析、流计算和机器学习，等等。</p><p><img src="https://static001.geekbang.org/resource/image/6a/a3/6a56c520ab7666d1bb9dd1f0683346a3.jpg?wh=1920x915" alt="图片" title="还差第三步"></p><p>那这么多子框架，从哪里入手比较好呢？在所有的子框架中，Spark SQL是代码量最多、Spark社区投入最大、应用范围最广、影响力最深远的那个。就子框架的学习来说，我们自然要从Spark SQL开始。</p><p>今天我们从一个例子入手，在实战中带你熟悉数据分析开发的思路和实现步骤。有了对Spark SQL的直观体验，我们后面几讲还会深入探讨Spark SQL的用法、特性与优势，让你逐步掌握Spark SQL的全貌。</p><h2>业务需求</h2><p>今天我们要讲的小例子，来自于北京市小汽车摇号。我们知道，为了限制机动车保有量，从2011年开始，北京市政府推出了小汽车摇号政策。随着摇号进程的推进，在2016年，为了照顾那些长时间没有摇中号码牌的“准司机”，摇号政策又推出了“倍率”制度。</p><!-- [[[read_end]]] --><p>所谓倍率制度，它指的是，结合参与摇号次数，为每个人赋予不同的倍率系数。有了倍率加持，大家的中签率就由原来整齐划一的基础概率，变为“<strong>基础概率 * 倍率系数</strong>”。参与摇号的次数越多，倍率系数越大，中签率也会相应得到提高。</p><p>不过，身边无数的“准司机”总是跟我说，其实倍率这玩意没什么用，背了8倍、10倍的倍率，照样摇不上！那么今天这一讲，咱们就来借着学习Spark SQL的机会，用数据来为这些还没摸过车的“老司机”答疑解惑，帮他们定量地分析一下，倍率与中签率之间，到底有没有关系？</p><h2>准备工作</h2><p>巧妇难为无米之炊，既然是做数据分析，那咱们得先有数据才行。我这边为你准备了2011年到2019年北京市小汽车的摇号数据，你可以通过<a href="https://pan.baidu.com/s/1Vys1Z1mofQFoU52ye7SKuw">这个地址</a>，从网盘进行下载，提取码为ajs6。</p><p>这份数据的文件名是“2011-2019 小汽车摇号数据.tar.gz”，解压之后的目录结构如下图所示。</p><p>可以看到，根目录下有apply和lucky两个子目录，apply目录的内容是 2011-2019 年各个批次参与摇号的申请号码，而lucky目录包含的是各个批次中签的申请号码。为了叙述方便，我们把参与过摇号的人叫“申请者”，把中签的人叫“中签者”。apply和lucky的下一级子目录是各个摇号批次，而摇号批次目录下包含的是Parquet格式的数据文件。</p><p><img src="https://static001.geekbang.org/resource/image/65/93/659f18d2e1c851byye56553cbcff7b93.jpg?wh=1920x1389" alt="图片" title="数据的目录结构"></p><p>数据下载、解压完成之后，接下来，我们再来准备运行环境。</p><p>咱们的小例子比较轻量，Scala版本的代码实现不会超过20行，再者摇号数据体量很小，解压之后的Parquet文件总大小也不超过4G。</p><p>选择这样的例子也是为了轻装上阵，避免你因为硬件限制而难以实验。想要把用于分析倍率的应用跑起来，你在笔记本或是PC上，通过启动本地spark-shell环境就可以。不过，如果条件允许的话，我还是鼓励你搭建分布式的物理集群。关于分布式集群的搭建细节，你可以参考<a href="https://time.geekbang.org/column/article/419200">第4讲</a>。</p><p>好啦，准备好数据与运行环境之后，接下来，我们就可以步入正题，去开发探索倍率与中签率关系的数据分析应用啦。</p><h2>数据探索</h2><p>不过，先别忙着直接上手数据分析。在此之前，我们先要对数据模式（Data Schema）有最基本的认知，也就是源数据都有哪些字段，这些字段的类型和含义分别是什么，这一步就是我们常说的数据探索。</p><p>数据探索的思路是这样的：首先，我们使用SparkSession的read API读取源数据、创建DataFrame。然后，通过调用DataFrame的show方法，我们就可以轻松获取源数据的样本数据，从而完成数据的初步探索，代码如下所示。</p><pre><code class="language-scala">import org.apache.spark.sql.DataFrame
 

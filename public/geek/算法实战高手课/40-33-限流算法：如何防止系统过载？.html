@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是微扰君。</p><p>上一讲我们学习了业务场景中频繁会使用到的延时队列，能帮助处理很多业务上的定时任务问题，因为这个组件的功能和具体业务往往没有关系，我们通常会利用各种中间件来实现延时队列的能力。</p><p>今天我们来探讨另外一个算法的原理和实现，它也和业务本身没有强关联，但是在各个业务场景下都非常常见，那就是限流算法。</p><p>限流算法，也被我们常称为流控算法，顾名思义就是对流量的控制。日常生活中有很多例子，比如地铁站在早高峰的时候，会利用围栏让乘客们有序排队，限制队伍行进的速度，避免大家一拥而上，这就是一种常见的限流思路；再比如在疫情期间，很多景点会按时段限制售卖的门票数量，避免同一时间在景区的游客太多等等。</p><p>这些真实生活中的方案本质都是因为在某段时间里资源有限，我们需要对流量施以控制。其实同样的，<strong>在互联网的世界里，很多服务，单位时间内能承载的请求也是存在容量上限的，我们也需要通过一些策略，控制请求数量多少，实现对流量的控制</strong>。</p><p>当然在工程中，“流量”的定义也是不同的，可以是每秒请求的数量、网络数据传输的流量等等，所以在不同的场景下，我们也需要用不同的方式限制流量，以保证系统不至于被过多的流量压垮。虽然，限流一定会导致部分请求响应速度下降或者直接被拒绝，但是相比于系统直接崩溃的情况，限流还是要好得多。</p><!-- [[[read_end]]] --><h2>业务中的限流场景</h2><p>好，现在相信你明白限流非常重要了，那在我们的开发中有哪些场景需要考虑限流呢？</p><p>一个非常典型的例子就是之前在TCP中提到的拥塞控制算法，这可以被认为是一种经典的限流算法，其中借助窗口控制流量的思路也是限流算法中非常常用的。</p><p>但是对于我们大部分业务开发工程师来说，肯定不会去修改TCP协议了，还有哪些典型的业务中的限流场景呢？</p><p>最常见的就是三种情况：</p><ul>
 

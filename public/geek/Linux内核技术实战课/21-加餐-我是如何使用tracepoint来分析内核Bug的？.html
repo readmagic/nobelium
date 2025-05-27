@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是邵亚方。</p><p>我们这个系列课程的目标受众是应用开发者和运维人员，所以，你可以看到课程里的案例在分析应用问题的时候，都在尽量避免分析内核bug，避免把内核代码拿过来逐个函数地解析为什么会这样。我希望这个课程可以降低内核的门槛，让更多人可以更加容易地了解内核机制，从而更好地解决应用难题、提升应用性能。</p><p>不过，在我们这个课程的学习者中还是有一些内核开发者的，因此，我写了这篇加餐来分析内核bug，希望能把分析内核bug的一些经验分享给这些内核开发者们。</p><p>通过对课程的学习，你应该能发现，我对tracepoint和ftrace是极其推崇的。我对它推崇备至不是没有道理的，这节课我就带你来看下我是如何借助tracepoint来分析内核bug的。</p><h2>炫技般存在的tracepoint内核源码</h2><p>如果你看过tracepoint的内核代码，相信你一定对它炫技般存在的<a href="https://elixir.bootlin.com/linux/v5.9-rc6/source/include/linux/tracepoint.h#L229">宏定义</a>印象深刻。我在第一眼看到这些宏定义时，也是一脸懵逼，不知从何下手，但是很快我就看懂了。为了证明我看懂了，我还特意给tracepoint的这些宏定义<a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v5.9-rc8&amp;id=163363455b42a1cf833742177149d1352dfe673e">又增加了一些定义</a>，我增加的这个宏定义，其关键部分如下：</p><p><img src="https://static001.geekbang.org/resource/image/51/5e/51b5c43325b69edae6ae5a73cd20b75e.png" alt=""></p><p>如果你能看明白这些，那就说明你对这些tracepoint宏的工作机制一清二楚了。当然，这节课我不是来剖析tracepoint内核源码的。如果你不懂tracepoint内核源码，也不妨碍你使用它，不过这对一名内核开发者而言终究是一件憾事。</p><!-- [[[read_end]]] --><p>因为我经常使用tracepoint，所以我对tracepoint的一些功能也比较上心。比如，最近在我的推动下，tracepoint模块的maintainer Steven Rostedt<a href="https://lore.kernel.org/linux-mm/20200925211206.423598568@goodmis.org/">又给tracepoint增加了一个宏定义</a>。我之所以推动Steven增加该宏，是为了让tracepoint函数可以在头文件中使用，以减少因为额外函数调用而带来的开销。有了这个新增的宏之后，你就可以方便地在头文件中使用tracepoint了。</p><p>接下来我要讲的这个内核bug，就是借助tracepoint来分析的。</p><h2>内存申请在慢速路径上为什么会失败</h2><p>有一次，业务人员反馈说他们在启动程序时会偶然失败，我查看内核日志后发现了下面这些报错信息（这个系统为CentOS-7，对应的内核版本为3.10）：</p><pre><code>kworker/31:0: page allocation failure: order:5, mode:0x104050
 

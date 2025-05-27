@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是徐文浩。</p><p>上一讲里，我为你解析了两阶段提交和三阶段提交是怎么回事儿。相信你和我一样，对这两种解决方案都不太满意。虽然它们可以帮助我们实现一个分布式的事务，但同时也有着很明显的缺陷：这两个都是一个“单点”特别明显的系统，一旦作为单点的“协调者”出现网络问题或者硬件故障，整个系统就没法运行了。另一方面，如果你为了一致性，选择了两阶段提交，那么整个系统就是“同步阻塞”的，意味着整个系统的性能也会受到很大的影响。</p><p>单点故障和同步阻塞，使得所谓的“分布式”系统的优势完全没有发挥出来。所以，我们需要一个对单点没有依赖，并且不是同步阻塞的解决方案。而这个方案呢，就是我今天要给你解读的<strong>Paxos算法</strong>。并且在这节课里，我还会带你深入来看一下我们一般在数据库领域所说的“事务性”到底是怎么回事儿、所谓的ACID又是什么意思。特别是当我们处于一个分布式的环境下，又会面临什么样的挑战。</p><p>在学完这节课之后，我相信你会和我一样，搞清楚这三件事情：</p><ul>
 

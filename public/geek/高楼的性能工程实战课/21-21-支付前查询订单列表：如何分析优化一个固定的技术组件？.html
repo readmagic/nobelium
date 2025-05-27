@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>今天我们来分析支付前查询订单列表接口。</p><p>在这节课中，我将带你来看一下对于一个固定的技术组件，分析优化思路应该是怎样的，也就是说组件不是我们开发的，但是又要分析优化它，我们该怎么办？</p><p>此外，我们还会遇到一个问题，就是当数据库的CPU并没有全部用完，而是只用了几颗的时候，我们应该如何具体定向？对此，我们将用到查看数据库本身线程栈的方法，这和前面直接看trx表有所不同。</p><p>下面，我们一起进入今天的内容。</p><h2>场景运行数据</h2><p>对于支付前查询订单列表接口，我们先来看第一次运行的性能场景结果：</p><p><img src="https://static001.geekbang.org/resource/image/0f/d2/0f78445ef87c78dc2bb856cb25f8d4d2.png" alt=""></p><p>从运行的场景数据来看，这个接口的TPS一开始还是挺高的，达到了800多。但是，响应时间也增加了，瓶颈已经出现。我们只要知道瓶颈在哪，就能知道这个接口有没有优化空间。</p><p>根据高老师的分析逻辑，在正式分析之前，我们看一下架构图。</p><h2>架构图</h2><p><img src="https://static001.geekbang.org/resource/image/64/04/64df3dd5f9ae4e5d8e4d4a1e33130d04.png" alt=""></p><p>这张架构图是非常清楚的，可以看到，当前接口的逻辑为：Gateway - Order - Member，其中也使用到了MySQL和Redis。</p><p>下面我们来看看，响应时间消耗到哪里去了。</p><h2>拆分响应时间</h2><ul>
 

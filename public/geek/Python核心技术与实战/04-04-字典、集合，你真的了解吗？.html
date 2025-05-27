@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是景霄。</p><p>前面的课程，我们学习了Python中的列表和元组，了解了他们的基本操作和性能比较。这节课，我们再来学习两个同样很常见并且很有用的数据结构：字典（dict）和集合（set）。字典和集合在Python被广泛使用，并且性能进行了高度优化，其重要性不言而喻。</p><h2>字典和集合基础</h2><p>那究竟什么是字典，什么是集合呢？字典是一系列由键（key）和值（value）配对组成的元素的集合，在Python3.7+，字典被确定为有序（注意：在3.6中，字典有序是一个implementation detail，在3.7才正式成为语言特性，因此3.6中无法100%确保其有序性），而3.6之前是无序的，其长度大小可变，元素可以任意地删减和改变。</p><p>相比于列表和元组，字典的性能更优，特别是对于查找、添加和删除操作，字典都能在常数时间复杂度内完成。</p><p>而集合和字典基本相同，唯一的区别，就是集合没有键和值的配对，是一系列无序的、唯一的元素组合。</p><p>首先我们来看字典和集合的创建，通常有下面这几种方式：</p><pre><code>d1 = {'name': 'jason', 'age': 20, 'gender': 'male'}
 

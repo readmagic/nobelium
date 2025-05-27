@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>通过前面几篇文章的讲解，我想现在你应该已经对 WebRTC 有了一个清楚的认知了。接下来的章节咱们就使用 WebRTC 逐步实现一套真实可用的 1 对 1 实时直播系统吧。</p><p>WebRTC 1.0 规范对 WebRTC 要实现的功能、API 等相关信息做了大量的约束，比如规范中定义了如何采集音视频数据、如何录制以及如何传输等。甚至更细的，还定义了都有哪些 API，以及这些API 的作用是什么。但这些约束只针对于客户端，并没有对服务端做任何限制。</p><p>那WebRTC规范中为什么不对服务器也做约束呢？其实，这样做有以下三点好处。</p><ul>
 

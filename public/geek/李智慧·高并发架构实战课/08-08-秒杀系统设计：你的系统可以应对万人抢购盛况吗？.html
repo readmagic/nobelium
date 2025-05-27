@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是李智慧。</p><p>秒杀是电子商务应用常见的一种营销手段：将少量商品（常常只有一件）以极低的价格，在特定的时间点出售。比如，周日晚上8点整，开售1部1元钱的手机。 因为商品价格诱人，而且数量有限，所以用户趋之若鹜，在秒杀活动开始前涌入系统， 等到秒杀活动开始的一瞬间，点下购买按钮（在此之前购买按钮为灰色，不可以点击），抢购商品。</p><p>秒杀虽然对应用推广有很多好处，但是对系统技术却是极大的挑战：系统是为正常运营设计的，而秒杀活动带来的并发访问用户却是平时的数百倍甚至上千倍。也就是说，秒杀的时候，系统需要承受比平时多得多的负载压力。</p><p>为了应对这种比较特殊的营销活动，我们启动了一个专门的秒杀项目，项目代号是“Apollo”。Apollo的核心挑战是：如何应对突然出现的数百倍高并发访问压力，并保证用户只有在秒杀开始时才能下单购买秒杀商品？接下来我们就看看Apollo的需求与技术架构吧。</p><h2>需求分析</h2><p>Apollo的需求主要有两点。</p><ul>
 

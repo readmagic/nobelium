@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是晁岳攀，网名鸟窝。之前我在微博研发平台架构中心担任资深架构师，同时也是微服务框架rpcx的作者，欢迎来到“Go并发编程实战课”。</p><h2>并发编程，为什么选Go？</h2><p>为什么要学Go并发呢？我想先和你聊聊我和Go结缘的经历。</p><p>作为一位老程序员，我在清华同方、摩托罗拉、Comcast等公司，一直使用Java做项目开发。但是后来，我毅然抛弃了十几年的Java编程经验，投入到了Go语言的怀抱，为什么呢？</p><p>一句话，我被Go的简单高效所打动。它不仅部署方便，自带完善的工具链，特别是Go在处理并发场景上表现出的独特性能，更是让我着迷。</p><p>我们知道，Java语言的编码非常繁琐，为了应用设计模式而做了大量的冗长设计，而Go就不一样了。它提供了便利的并发编程方式，简简单单的Go语句，就可以创建多个goroutine执行并发任务。而且，Go还提供了独特的Channel类型，很容易实现goroutine之间的数据交流。所以，Go并发编程入门很容易，即使是初学者，要写一个使用goroutine异步输出“Hello World”的例子，也可以不费吹灰之力。</p><p>不过，和其他语言相比，Go微服务治理框架的发展还是比较晚的。当阿里出品的Java微服务框架Dubbo被广泛应用时，Go生态圈还没有微服务框架。</p><!-- [[[read_end]]] --><p>于是，四五年前，为了填补Go生态圈微服务化的缺失，我就用Go开发了一个微服务的框架rpcx。它既有类似标准rpc库的易用特点，又包含了非常丰富的服务治理的功能。而且，根据<a href="https://colobu.com/2020/01/21/benchmark-2019-spring-of-popular-rpc-frameworks/">benchmark测试</a>，rpcx有着数一数二的性能，很多互联网企业（比如马蜂窝、百度等）都在使用。</p><p>在微博的四年时间里，我使用Go参与开发多个基础架构系统，并负责中国版权链、微博下一代的Redis集群系统、数据库资源云等系统的设计和开发工作。在多年的实战中，我遇见过各种各样的并发难题，积累了大量的高并发高吞吐的服务器开发经验，也梳理了一整套并发编程的知识体系。</p><p>2019年，astaxie（谢孟军）邀请我在Gopher China大会上做一个关于Go并发编程的分享。我准备了一份120页的<a href="https://github.com/smallnest/dive-to-gosync-workshop/files/6732617/Go.pptx">PPT</a>，全面地介绍了Go并发编程的基础内容，包括基本并发原语、扩展并发原语和Channel等。会后，现场的观众都说干货满满，希望我能提供无删改版的PPT。</p><p>后来，在Go爱好者的强烈要求下，我又在滴滴举办了一场Go并发编程的培训，详细地分享了我的并发编程心得和经验，包括各种并发原语的基本用法和实现机制。</p><p>结合我自己的开发经验，以及这些年的技术分享经历，我真切地感受到了这一点：<strong>Go并发编程的重要性不容置疑。只要是使用Go开发的大型应用程序，并发是必然要采用的技术。</strong></p><p>但同时，我也了解到，很多人想要学习Go并发编程，却不知道该从何学起，也不知该如何精进。</p><h2>学习Go并发编程，有哪些困难？</h2><p>那学习Go并发会有哪些困难呢？我总结了一下，主要是有5大问题。</p><ol>
 

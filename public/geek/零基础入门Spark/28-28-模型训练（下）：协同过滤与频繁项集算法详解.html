@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴磊。</p><p>如果你平时爱刷抖音，或者热衷看电影，不知道有没有过这样的体验：这类影视App你用得越久，它就好像会读心术一样，总能给你推荐对胃口的内容。其实这种迎合用户喜好的推荐，离不开机器学习中的推荐算法。</p><p>今天是咱们模型训练的最后一讲，在今天这一讲，我们就结合两个有趣的电影推荐场景，为你讲解Spark MLlib支持的协同过滤与频繁项集算法。与上一讲一样，咱们还是先来贴出下面这张“全景图”，方便你对学过和即将要学的知识做到心中有数。</p><p><img src="https://static001.geekbang.org/resource/image/f1/54/f1d0ce11953030d6a9eb4475c7827d54.jpg?wh=1920x2035" alt="图片" title="Spark MLlib支持的模型算法"></p><h2>电影推荐场景</h2><p>今天这一讲，咱们结合Kaggle竞赛中的<a href="https://www.kaggle.com/jneupane12/movielens">MovieLens数据集</a>，使用不同算法来构建简易的电影推荐引擎。尽管MovieLens数据集包含了多个文件，但课程中主要用到的，是ratings.csv这个文件。文件中的每条数据条目，记录的都是用户对于电影的打分，如下表所示。</p><p><img src="https://static001.geekbang.org/resource/image/dd/9f/ddb19aa4974092047yyc287929953b9f.jpg?wh=1648x710" alt="图片" title="ratings.csv样本示例"></p><p>其中第一列userId为用户ID，movieId表示电影ID，而rating就是用户对于电影的评分。像这样，同时存有用户与物品（电影）信息的二维表，我们把它们统称为“交互矩阵”，或是“共现矩阵”。你可能会疑惑，通过这么一份简单的二维表，我们能干些什么呢？</p><p>可别小瞧这份数据，与合适的模型算法搭配在一起，我就能根据它们构建初具模样的推荐引擎。在Spark MLlib框架下，至少有两种模型算法可以做到这一点，一个是协同过滤（Collaborative Filtering），另一个是频繁项集（Frequency Patterns）。其中，前者天生就是用来做推荐用的，而后者是一种常规的非监督学习算法，你可以结合数据特点，把这个算法灵活运用于推荐场景。</p><!-- [[[read_end]]] --><h3>协同过滤</h3><p>我们先说协同过滤，从字面上来说，“过滤”是目的，而“协同”是方式、方法。简单地说，协同过滤的目标，就是从物品集合（比如完整的电影候选集）中，“过滤”出那些用户可能感兴趣的物品子集。而“协同”，它指的是，利用群体行为（全部用户与全部物品的交互历史）来实现过滤。</p><p>这样说有些绕，实际上，协同过滤的核心思想很简单，就是“<strong>相似的人倾向于喜好相似的物品集</strong>”。</p><p>交互矩阵看上去简单，但其中隐含着大量的相似性信息，只要利用合适的模型算法，我们就能挖掘出用户与用户之间的相似性、物品与物品之间的相似性，以及用户与物品之间的相似性。一旦这些相似性可以被量化，我们自然就可以基于相似性去做推荐了。思路是不是很简单？</p><p>那么问题来了，这些相似性，该怎么量化呢？答案是：矩阵分解。</p><p><img src="https://static001.geekbang.org/resource/image/ef/9b/efe96d5b4869b57c55b6aa7b1fc11a9b.jpg?wh=1920x635" alt="图片" title="交互矩阵、用户矩阵与物品矩阵"></p><p>在数学上，给定维度为（M，N）的交互矩阵C，我们可以把它分解为两个矩阵U与I的乘积。其中，我们可以把U称作“用户矩阵”，它的维度为（M，K）；而I可以看作是“物品矩阵”，它的维度是（K，N）。</p><p>在用户矩阵与物品矩阵中，K是超参数，它是由开发者人为设定的。不难发现，对于用户矩阵U中的每一行， 都可以看作是用户的Embedding，也即刻画用户的特征向量。同理，物品矩阵中的每一列，也都可以看作是物品的Embedding，也即刻画物品的特征向量。</p><p>正所谓，万物皆可Embedding。对于任何事物，一旦它们被映射到同一个向量空间，我们就可以使用欧氏距离或是余弦夹角等方法，来计算他们向量之间的相似度，从而实现上述各种相似性（用户与用户、物品与物品、用户与物品）的量化。</p><p>基于相似度计算，我们就可以翻着花样地去实现各式各样的推荐。比方说，对于用户A来说，首先搜索与他/她最相似的前5个用户，然后把这些用户喜欢过的物品（电影）推荐给用户A，这样的推荐方式，又叫基于用户相似度的推荐。</p><p>再比如，对于用户A喜欢过的物品，我们搜索与这些物品最相似的前5个物品，然后把这些搜索到的物品，再推荐给用户A，这叫做基于物品相似度的推荐。</p><p>甚至，在一些情况下，我们还可以直接计算用户A与所有物品之间的相似度，然后把排名靠前的5个物品，直接推荐给用户A。</p><p>基于上述逻辑，我们还可以反其道而行之，从物品的视角出发，给物品（电影）推荐用户。不难发现，一旦完成Embedding的转换过程，我们就可以根据相似度计算来灵活地设计推荐系统。</p><p>那么，接下来的问题是，在Spark MLlib的框架下，我们具体要怎么做，才能从原始的互动矩阵，获得分解之后的用户矩阵、物品矩阵，进而获取到用户与物品的Embedding，并最终设计出简易的推荐引擎呢？</p><p>按照惯例，我们还是先上代码，用代码来演示这个过程。</p><pre><code class="language-scala">import org.apache.spark.sql.DataFrame
 

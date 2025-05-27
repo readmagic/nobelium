@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是程远。</p><p>在上一讲，我们讲了Network Namespace隔离了网络设备，IP协议栈和路由表，以及防火墙规则，那容器Network Namespace里的参数怎么去配置，我们现在已经很清楚了。</p><p>其实对于网络配置的问题，我们还有一个最需要关心的内容，那就是容器和外面的容器或者节点是怎么通讯的，这就涉及到了容器网络接口配置的问题了。</p><p>所以这一讲呢，我们就来聊一聊，容器Network Namespace里如何配置网络接口，还有当容器网络不通的时候，我们应该怎么去做一个简单调试。</p><h2>问题再现</h2><p>在前面的课程里，我们一直是用 <code>docker run</code> 这个命令来启动容器的。容器启动了之后，我们也可以看到，在容器里面有一个"eth0"的网络接口，接口上也配置了一个IP地址。</p><p>不过呢，如果我们想从容器里访问外面的一个IP地址，比如说39.106.233.176（这个是极客时间网址对应的IP），结果就发现是不能ping通的。</p><p>这时我们可能会想到，到底是不是容器内出了问题，在容器里无法访问，会不会宿主机也一样不行呢？</p><p>所以我们需要验证一下，首先我们退出容器，然后在宿主机的Network Namespace下，再运行 <code>ping 39.106.233.176</code>，结果就会发现在宿主机上，却是可以连通这个地址的。</p><!-- [[[read_end]]] --><pre><code class="language-shell"># docker run -d --name if-test centos:8.1.1911 sleep 36000
 

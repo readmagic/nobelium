@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>相信一直坚持学习专栏的同学对Hook一定不会陌生，在前面很多期里我无数次提到Hook。可能有不少同学对于Hook还是“懵懵懂懂”，那今天我们从来头了解一下什么是Hook。</p><p>Hook直译过来就是“钩子”的意思，是指截获进程对某个API函数的调用，使得API的执行流程转向我们实现的代码片段，从而实现我们所需要得功能，这里的功能可以是监控、修复系统漏洞，也可以是劫持或者其他恶意行为。</p><p>相信许多新手第一次接触Hook时会觉得这项技术十分神秘，只能被少数高手、黑客所掌握，那Hook是不是真的难以掌握？希望今天的文章可以打消你的顾虑。</p><h2>Native Hook的不同流派</h2><p>对于Native Hook技术，我们比较熟悉的有GOT/PLT Hook、Trap Hook以及Inline Hook，下面我来逐个讲解这些Hook技术的实现原理和优劣比较。</p><p><strong>1. GOT/PLT Hook</strong></p><p>在<a href="https://github.com/AndroidAdvanceWithGeektime/Chapter06-plus">Chapter06-plus</a>中，我们使用了PLT Hook技术来获取线程创建的堆栈。先来回顾一下它的整个流程，我们将libart.so中的外部函数pthread_create替换成自己的方法pthread_create_hook。</p><p><img src="https://static001.geekbang.org/resource/image/71/f5/715e03d40d7c5f185959e284c23e9df5.png" alt=""></p><p>你可以发现，GOT/PLT Hook主要是用于替换某个SO的外部调用，通过将外部函数调用跳转成我们的目标函数。GOT/PLT Hook可以说是一个非常经典的Hook方法，它非常稳定，可以达到部署到生产环境的标准。</p><!-- [[[read_end]]] --><p>那GOT/PLT Hook的实现原理究竟是什么呢？你需要先对SO库文件的ELF文件格式和动态链接过程有所了解。</p><p><strong>ELF格式</strong></p><p>ELF（Executableand Linking Format）是可执行和链接格式，它是一个开放标准，各种UNIX系统的可执行文件大多采用ELF格式。虽然ELF文件本身就支持三种不同的类型（重定位、执行、共享），不同的视图下格式稍微不同，不过它有一个统一的结构，这个结构如下图所示。</p><p><img src="https://static001.geekbang.org/resource/image/18/96/181d3fed100b9ca11360a03625db5296.png" alt=""></p><p>网上介绍ELF格式的文章非常多，你可以参考<a href="https://felixzhang00.github.io/2016/12/24/2016-12-24-ELF%E6%96%87%E4%BB%B6%E8%A3%85%E8%BD%BD%E9%93%BE%E6%8E%A5%E8%BF%87%E7%A8%8B%E5%8F%8Ahook%E5%8E%9F%E7%90%86/">《ELF文件格式解析》</a>。顾名思义，对于GOT/PLT Hook来说，我们主要关心“.plt”和“.got”这两个节区：</p><ul>
 

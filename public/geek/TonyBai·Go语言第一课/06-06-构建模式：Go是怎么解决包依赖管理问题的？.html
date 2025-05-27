@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是Tony Bai。</p><p>通过前面的讲解，我们已经初步了解了Go程序的结构，以及Go项目的典型布局了。那么，接下来，<strong>我们是时候来系统学习一下Go应用的构建了</strong>，它们都是我们继续Go语言学习的前提。</p><p>所以在这一节课，我们就来了解Go构建模式演化的前世今生。理解了这个发展史后，我们会重点来探讨现在被广泛采用的构建模式，Go Module的基本概念和应用构建方式。&nbsp;接着，知道了怎么做后，我们会再深一层，继续分析Go Module的工作原理。这样层层深入地分析完后，你就能彻底、透彻地掌握Go Module构建模式了。</p><p>好了，我们直接开始吧。我们先来了解一下Go构建模式的演化过程，弄清楚Go核心开发团队为什么要引入Go module构建模式。</p><h2>Go构建模式是怎么演化的？</h2><p>Go程序由Go包组合而成的，<strong>Go程序的构建过程就是确定包版本、编译包以及将编译后得到的目标文件链接在一起的过程</strong>。</p><p>Go语言的构建模式历经了三个迭代和演化过程，分别是最初期的GOPATH、1.5版本的Vendor机制，以及现在的Go Module。这里我们就先来介绍一下前面这两个。</p><p><strong>首先我们来看GOPATH。</strong></p><p>Go语言在首次开源时，就内置了一种名为<strong>GOPATH</strong>的构建模式。在这种构建模式下，Go编译器可以在本地GOPATH环境变量配置的路径下，搜寻Go程序依赖的第三方包。如果存在，就使用这个本地包进行编译；如果不存在，就会报编译错误。</p><!-- [[[read_end]]] --><p>我这里给出了一段在GOPATH构建模式下编写的代码，你先来感受一下：</p><pre><code class="language-plain">package main
 

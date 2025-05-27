@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是茹炳晟。</p><p>今天的“答疑解惑”系列文章，我们一起来解决性能测试系列中7篇文章的问题。你可以通过下面对每篇文章的简单总结回顾一下文章内容，也可以点击链接回到对应的文章复习。</p><p>现在，我们就开始今天的问题吧。</p><h2>问题一：你在性能测试项目中，选择具体的系统吞吐量指标时，会考虑哪些因素呢？</h2><p>在专栏的第28篇文章<a href="https://time.geekbang.org/column/article/14577">《带你一起解读不同视角的软件性能与性能指标》</a>中，我首先从终端用户、系统运维人员、软件设计开发人员和性能测试人员，这四个维度介绍了软件系统的性能到底指的是什么；然后，和你分享了软件性能的三个最常用的指标：并发用户数、响应时间、系统吞吐量。</p><p>而在这篇文章最后，我针对系统吞吐量提出了这样一个问题：系统吞吐量的表现形式有很多，比如“Requests/Second”“Pages/Second”“Bytes/Second”等，你在性能测试项目中，选择具体的系统吞吐量指标时，会考虑哪些因素呢？</p><p>其实<strong>选择哪种类型的吞吐量指标，和你的测试目标以及被测系统的特点是息息相关的。</strong></p><p>如果你的被测系统是后台处理系统，而且你的测试目标是要优化它的处理能力，那么这个时候你的关注点必然就是每秒能够处理的请求数量，即Requests/Second。当然如果你发现你的后台处理能力有可能是受限于网络传输的带宽，那么这个时候你就可能需要去考虑“Bytes/Second”这种类型的吞吐量指标了。</p><!-- [[[read_end]]] --><p>总结来讲，选取哪个吞吐量指标，取决于你最关注的内容。</p><p>下面这位昵称为“假装乐”的读者的留言很典型，是很多刚刚结束性能测试的同学都会有的疑惑。</p><p><img src="https://static001.geekbang.org/resource/image/f7/4e/f72b9275cb073e41a79ed3a371befa4e.png" alt=""></p><p>其实，性能测试应该贯穿于软件研发生命周期的各个阶段：</p><ul>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>我们在打完游戏的关卡之后，需要保存游戏进度。单机游戏的进度都保存在本地磁盘上，如果是网络游戏的话该怎么办呢？这一节，我就来讲这个内容。</p><p>首先，我们要了解游戏内容的保存，需要先了解缓存处理。</p><p>为什么要了解缓存的处理呢？那是因为在大量用户的情况下，我们所保存的内容都是为了下次读取，如果每一次都从硬盘或者数据库读取，会导致用户量巨大数据库死锁，或者造成读取速度变慢，所以在服务器端，缓存的功能是一定要加上的。</p><h2>Redis不仅是内存缓存</h2><p>缓存机制里有个叫Redis的软件。它是一种内存数据库，很多开发者把Redis当作单纯的内存缓存来使用，事实上，这种说法并不准确，Redis完全可以当作一般数据库来使用。</p><p>Redis是一种key-value型的存储系统。它支持存储的value类型很多，包括字符串、链表、集合、有序集合和哈希类型。这些数据类型都支持push/pop、add/remove及取交集并集和差集及更丰富的操作，而且这些操作都具有原子性。</p><p>Redis还支持各种不同方式的排序。为了保证效率，数据一般都会缓存在内存中，而Redis会周期性地把更新的数据写入磁盘或者把修改操作写入追加的记录文件，并且在此基础上实现master-slave（主从）的同步。</p><!-- [[[read_end]]] --><p>说到Redis，就不得不说缓存机制的老前辈Memcached。同样是缓存机制，Memcached的做法是多线程，非阻塞的IO复用的网络模型。</p><p>多线程分监听线程和工作子线程。监听线程监听网络连接，接受请求了之后，将连接描述字使用管道传递给工作线程，进行读写。网络层的事件使用libevent封装。多线程模型可以发挥多核的作用。Memcached所有操作都要对全局变量加锁，进行计数等工作，所以会有性能损耗。</p><p>而Redis使用单线程IO复用模型，自己封装了一个简单的事件处理框架，对于单纯只有IO操作的模型来说，单线程可以将速度优势发挥到最大，但是Redis也提供了一些简单的计算功能，比如排序、聚合等。</p><p>Redis还可以在某些场景下对关系数据库（比如MySQL）起到较好的补充作用。它提供了多种编程语言的接口，开发人员调用起来也很方便。</p><p>Redis支持主从同步。通过配置文件，可以将主服务器上的数据往任意数量的从服务器上同步，从服务器A1也是主服务器B（B是关联到其他从服务器B1，B2的主服务器，同时又是主服务器A的从服务器A1）。</p><p>这种做法就使得Redis可以执行单层的树结构的复制。Redis实现了发布/订阅（publisher/subscriber）的机制。所谓发布和订阅，就是订阅者接收发布者的消息的时候，发布者和订阅者都不用去管对方是什么状态，只管各司其职就好了，在这种状态下，可以订阅一个频道并接收主服务器完整的消息发布记录。</p><h2>编写Redis接口代码</h2><p>我们尝试使用Python编写Redis接口的代码。</p><p>要使Python支持Redis编程，必须安装一个包“redis”，在使用的时候import一下。</p><pre><code>import redis
 

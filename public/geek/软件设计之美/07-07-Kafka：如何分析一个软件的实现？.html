@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好！我是郑晔。</p><p>上一讲，我们学习了如何看接口，今天我们进入第三个部分——看实现。在一个系统中，模型和接口是相对稳定的部分。但是，同样的模型和接口，如果采用不同的实现，稳定性、可扩展性和性能等诸多方面相差极大。而且，只有了解实现，你才有改动代码的基础。</p><p>但是，不得不说，“看实现”是一个很大的挑战，因为有无数的细节在那里等着你。所以，在很多团队里，一个新人甚至会用长达几个月的时间去熟悉代码中的这些细节。</p><p>面对这种情况，我们该怎么办呢？</p><p>首先，你要记住一件事，你不太可能记住真实项目的所有细节，甚至到你离开项目的那一天，你依然会有很多细节不知道，可这并不妨碍你的工作。但是，如果你心中没有一份关于项目实现的地图，你就一定会迷失。</p><p>像我前面所说的新人，他们用几个月的时间熟悉代码，就是在通过代码一点点展开地图，但是，这不仅极其浪费时间，也很难形成一个整体认知。所以我建议，你应该直接把地图展开。怎么展开呢？<strong>你需要找到两个关键点：软件的结构和关键的技术。</strong></p><p>可能你还不太理解我的意思，下面我就以开源软件Kafka为例，给你讲一下如何把地图展开，去看一个软件的实现。按照我们之前讲过的思路，了解一个软件设计的步骤是“先模型，再接口，最后看实现”。所以，我们要先了解Kafka的模型和接口。</p><!-- [[[read_end]]] --><h2>消息队列的模型与接口</h2><p>Kafka是这么自我介绍的：Kafka是一个分布式流平台。这是它现在的发展方向，但在更多人的心目中，Kafka的角色是一个消息队列。可以说，消息队列是Kafka这个软件的核心模型，而流平台显然是这个核心模型存在之后的扩展。所以，我们要先把焦点放在Kafka的核心模型——消息队列上。</p><p>简单地说， 消息队列（Messaging Queue）是一种进程间通信的方式，发消息的一方（也就是生产者）将消息发给消息队列，收消息的一方（也就是消费者）将队列中的消息取出并进行处理。</p><p>站在看模型的角度上，消息队列是很简单的，无非是生产者发消息，消费者消费消息。而且消息队列通常还会有一个topic的概念，用以区分发给不同目标的消息。</p><p>消息队列的基本接口也很简单。以Kafka为例，生产者是这样发消息的：</p><pre><code>producer.send(new KafkaRecord&lt;&gt;(&quot;topic&quot;, new Message()));
 

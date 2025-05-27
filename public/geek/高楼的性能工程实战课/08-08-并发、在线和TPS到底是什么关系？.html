@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是高楼。</p><p>在性能领域中，我们经常用“并发用户数”来判断一个系统是否达到性能需求，比如说用“系统支持1000用户”这样的描述来说明性能需求。但是并发是怎么个并发法？它和TPS之间是什么关系？并发用户数和在线用户数又是什么关系呢？</p><p>这样的问题长期以来困扰着性能工程师们。不管是网上看到的文章或者是各个群里的讨论，我们都能听到不同的声音。所以，我即便是冒着引起争论的危险，也要写一下这个问题。</p><h2>典型的争论</h2><p>有一天，有个小伙跟我说，他和同事们看到我上一个专栏<a href="https://time.geekbang.org/column/intro/100042501">《性能测试实战30讲》</a>中的文章后，在公司会议室吵翻了天，有一个同事还把微积分都搬出来了。我很高兴听到这样的争论，就像战国时期的稷下学宫一样，不争论，哪有那么辉煌的文明高峰呢。</p><p>他们的争论点是这样的：有一个项目，性能目标是对一个底层是Kubernetes、上层是微服务架构的系统进行容量评估（系统性能验证）。而他们的争论点就在于这个容量评估的方法。</p><p>对于评估方法，他们分成了两个流派。第一种是根据DAU（Daily Active User，日活跃用户数量）和用户业务模型，推导出并发用户数（工具中未来的线程数）。而第二种反对第一种，认为第一种估算不合理，要站在服务端层面，去推导 服务端要承载的 并发请求数（TPS）。</p><!-- [[[read_end]]] --><p>这个小伙说，在两个流派争论的过程中，有一些概念无法达成一致，包括用户、工具中的线程数、TPS和响应时间。后来他又告诉我，第一种流派的评估方法突出用户，但没有考虑用户的动作。第二种流派则从用户操作的角度出发，按照操作频率，计算“用户操作次数/时间段”，以这个为需要达到的TPS，加上他们自己设定的容忍度RT，反过来推算并发用户数。</p><p>在争议的过程中，大家都没说服对方。第一种认为第二种偏差可能会更大；第二种认为，不讲业务指标换算成技术指标就是耍流氓。其中有一个同事，甚至弄出了一个公式：</p><p>$并发用户数 = TPS \times RT$</p><p>所以，这场争论的结果就是：没有结果。</p><p>现在我们不妨思考一下，上面的争论中到底谁对呢？他们给出的公式哪个合理呢？</p><p>我给你举个例子来说（为了简化问题，以下示意图不考虑响应时间的变化）：</p><p><img src="https://static001.geekbang.org/resource/image/a7/23/a7ff0b6856d499dcbf289594fdc70923.jpg?wh=2000*1204" alt=""></p><p>你看，在这个示意图中，压力线程是5个，在1秒内每个线程可以完成5次请求。根据上面的公式，我们应该得到的结论是：</p><p>$并发 = TPS \times RT = 25(事务总数) \times 0.2(响应时间) = 5$</p><p>这个5，显然是并发线程的个数，但是这个并发线程是从用户角度出发的吗？显然不是的。因为从示意图上看，每一个事务才是一个真实的用户。</p><p>这就涉及到一个关键的概念，并发到底是什么？</p><p>在百度百科上是这样描述的：</p><blockquote>
 

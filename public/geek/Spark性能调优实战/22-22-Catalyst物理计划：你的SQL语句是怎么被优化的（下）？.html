@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴磊。</p><p>上一讲我们说了，Catalyst优化器的逻辑优化过程包含两个环节：逻辑计划解析和逻辑计划优化。逻辑优化的最终目的就是要把Unresolved Logical Plan从次优的Analyzed Logical Plan最终变身为执行高效的Optimized Logical Plan。</p><p>但是，逻辑优化的每一步仅仅是从逻辑上表明Spark SQL需要“做什么”，并没有从执行层面说明具体该“怎么做”。因此，为了把逻辑计划交付执行，Catalyst还需要把Optimized Logical Plan转换为物理计划。物理计划比逻辑计划更具体，它明确交代了Spark SQL的每一步具体该怎么执行。</p><p><img src="https://static001.geekbang.org/resource/image/53/fd/534dd788609386c14d9e977866301dfd.jpg?wh=4629*1104?wh=4629*1104" alt="" title="物理计划阶段"></p><p>今天这一讲，我们继续追随小Q的脚步，看看它经过Catalyst的物理优化阶段之后，还会发生哪些变化。</p><h2>优化Spark Plan</h2><p>物理阶段的优化是从逻辑优化阶段输出的Optimized Logical Plan开始的，因此我们先来回顾一下小Q的原始查询和Optimized Logical Plan。</p><pre><code>
 

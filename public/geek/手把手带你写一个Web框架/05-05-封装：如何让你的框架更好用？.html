@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是轩脉刃。</p><p>在前面几节课，我们实现了框架的路由、中间件等机制，并且自定义 context 结构来封装请求。但是回顾在对 context 的封装中，我们只是将 request、response 结构直接放入 context 结构体中，对应的方法并没有很好的封装。所以这节课，我们要做的事情就是为 context 封装更多的方法，让框架更好用。</p><p>在今天的学习中，希望你能认识到，函数封装并不是一件很简单、很随意的事情。相反，如何封装出易用、可读性高的函数是非常需要精心考量的，<strong>框架中每个函数的参数、返回值、命名，都代表着我们作为作者在某个事情上的思考</strong>。想要针对某个功能，封装出一系列比较完美的接口，更要我们从系统性的角度思考。</p><h2>思考如何封装请求和返回</h2><p>我们的目标是尽量在 context 这个数据结构中，封装“读取请求数据”和“封装返回数据”中的方法。在动手之前还是先做到心中有数，我们将请求和返回这两个事情分开思考。</p><ul>
 

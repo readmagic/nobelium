@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是七牛云许式伟。</p><p>到今天为止，我们第三章 “服务端开发篇” 就要结束了。今天，让我们对整章的内容做一个回顾与总结。本章我们主要涉及的内容如下。</p><p><img src="https://static001.geekbang.org/resource/image/c2/74/c27e45e3ed686e4f007b6df957ba1b74.png" alt=""></p><p>服务端开发这个分工，出现的历史极短。如果我们从互联网诞生算起也就 40 多年的历史。以进入民用市场为标志，它真正活跃的时段，其实只有 20 多年。</p><p>作为架构师，记住这一点非常非常重要。20 多年能够形成的有效经验并不多。这意味着我们不能固步自封，很多惯例是可以被挑战的，并且最终也必然被挑战的。</p><p>作为最底层的服务端操作系统，最初从桌面操作系统而来。但桌面操作系统自身在发展，服务端操作系统自身也在发展，两者渐行渐远。</p><p>桌面的领域特征是强交互，以事件为输入，GDI 为输出。</p><p>所以，桌面技术的迭代，是交互的迭代，是人机交互的革命。在 “<a href="https://time.geekbang.org/column/article/97617">13 | 进程间的同步互斥、资源共享与通讯</a>” 一讲中，我们介绍了桌面操作系统中进程间协同方式的变迁。如果我们从业务需求角度看，这个变迁本质上也是交互的变迁（为什么我们这么说？欢迎留言探讨）。</p><p>而服务端程序有很强烈的服务特征。它的领域特征是大规模的用户请求，以及 24 小时不间断的服务。这些都不是业务功能上的需要，是客户服务的需要。</p><p>所以，服务端技术的迭代，虽然一开始沿用了桌面操作系统的整套体系框架，但它正逐步和桌面操作系统分道而行，转向数据中心操作系统（DCOS）之路。</p><!-- [[[read_end]]] --><p>服务端技术的迭代，有一些和服务端开发相关，会影响到业务架构。而更多则和业务架构无关，属于服务治理的范畴。</p><p>服务端开发与服务治理的边界在于，服务端开发致力于设计合适的业务架构来满足用户需求，而服务治理则致力于让服务端程序健康地为客户提供不间断的服务。</p><p>关于服务治理相关的内容，我们留到下一章来介绍。</p><h2>服务端开发篇的内容回顾</h2><p>本章服务端开发篇我们讲了些什么？为了让你对第三章内容有个宏观的了解，我画了一幅图，如下。</p><p><img src="https://static001.geekbang.org/resource/image/0b/7c/0b39991f3d579bccdf331b001cd9247c.png" alt=""></p><p>首先，从服务端开发来说，服务端程序依赖的基础软件不只是操作系统和编程语言，还多了两类：</p><ul>
 

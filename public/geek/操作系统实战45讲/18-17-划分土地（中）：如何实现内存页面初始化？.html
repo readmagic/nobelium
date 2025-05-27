@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是LMOS。</p><p>上节课，我们确定了用分页方式管理内存，并且一起动手设计了表示内存页、内存区相关的内存管理数据结构。不过，虽然内存管理相关的数据结构已经定义好了，但是我们还没有在内存中建立对应的<strong>实例变量</strong>。</p><p>我们都知道，在代码中实际操作的数据结构必须在内存中有相应的变量，这节课我们就去建立对应的实例变量，并初始化它们。</p><h2>初始化</h2><p>前面的课里，我们在hal层初始化中，初始化了从二级引导器中获取的内存布局信息，也就是那个<strong>e820map_t数组</strong>，并把这个数组转换成了phymmarge_t结构数组，还对它做了排序。</p><p>但是，我们Cosmos物理内存管理器剩下的部分还没有完成初始化，下面我们就去实现它。</p><p>Cosmos的物理内存管理器，我们依然要放在Cosmos的hal层。</p><p>因为物理内存还和硬件平台相关，所以我们要在cosmos/hal/x86/目录下建立一个memmgrinit.c文件，在这个文件中写入一个Cosmos物理内存管理器初始化的大总管——init_memmgr函数，并在init_halmm函数中调用它，代码如下所示。</p><pre><code>//cosmos/hal/x86/halmm.c中
 

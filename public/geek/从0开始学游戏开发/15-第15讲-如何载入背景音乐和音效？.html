@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>好的音乐总是伴随着游戏一起，一直被玩家所记忆。在游戏中播放音乐和音效并不是什么困难的事情，但是究竟什么时候播放什么音效，具体怎么实现，这恐怕就需要一些技巧了。比如，我今天要讲的，我们可以和某些函数捆绑在一起实现。</p><p>Pygame支持mp3、ogg、wav音频和音效的播放。音乐的模块都在pygame.mixer中，这里面包括音乐和音效。</p><p>我们在使用音频部分模块的时候，需要先初始化一次。</p><pre><code>pygame.mixer.init()
 

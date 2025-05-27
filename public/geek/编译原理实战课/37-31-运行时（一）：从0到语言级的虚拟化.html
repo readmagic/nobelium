@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。今天，我会带你去考察现代语言设计中的运行时特性，并讨论一下与标准库有关的话题。</p><p>你可能要问了，咱们这门课是要讲编译原理啊，为什么要学运行时呢。其实，对于一门语言来说，除了要提供编译器外，还必须提供运行时功能和标准库：一是，编译器生成的目标代码，需要运行时的帮助才能顺利运行；二是，我们写代码的时候，有一些标准的功能，像是读写文件的功能，自己实现起来太麻烦，或者根本不可能用这门语言本身来实现，这时就需要标准库的支持。</p><p>其实，我们也经常会接触到运行时和库，但可能只是停留在使用层面上，并不太会关注它们的原理等。如果真要细究起来、真要对编译原理有更透彻的理解的话，你可能就会有下面这些问题了：</p><ul>
 

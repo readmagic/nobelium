@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在上一篇文章中，我们已经对Redis有了初步的认识，了解到Redis采用Key-Value的方式进行存储，在Redis内部，使用的是redisObject对象来表示所有的key和value。同时我们还了解到Redis本身用的是单线程的机制，采用了多路I/O复用的技术，在处理多个I/O请求的时候效率很高。</p><p>今天我们来更加深入地了解一下Redis的原理，内容包括以下几方面：</p><ol>
 

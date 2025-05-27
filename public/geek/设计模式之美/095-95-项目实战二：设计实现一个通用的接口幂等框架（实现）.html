@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>上一节课，我们讲解了幂等框架的设计思路。在正常情况下，幂等框架的处理流程是比较简单的。调用方生成幂等号，传递给实现方，实现方记录幂等号或者用幂等号判重。但是，幂等框架要处理的异常情况很多，这也是设计的复杂之处和难点之处。比如，代码运行异常、业务系统宕机、幂等框架异常。</p><p>虽然幂等框架要处理的异常很多，但考虑到开发成本以及简单易用性，我们对某些异常的处理在工程上做了妥协，交由业务系统或者人工介入处理。这样就大大简化了幂等框架开发的复杂度和难度。</p><p>今天，我们针对幂等框架的设计思路，讲解如何编码实现。跟限流框架的讲解相同，对于幂等框架，我们也会还原它的整个开发过程，从V1版本需求、最小原型代码讲起，然后讲解如何review代码发现问题、重构代码解决问题，最终得到一份易读、易扩展、易维护、灵活、可测试的高质量代码实现。</p><p>话不多说，让我们正式开始今天的学习吧！</p><h2>V1版本功能需求</h2><p>上一节课给出的设计思路比较零散，重点还是在讲设计的缘由，为什么要这么设计。今天，我们再重新整理一下，经过上一节课的分析梳理最终得到的设计思路。虽然上一节课的分析很复杂、很烧脑，但思从深而行从简，最终得到的幂等框架的设计思路是很简单的，主要包含下面这样两个主要的功能开发点：</p><!-- [[[read_end]]] --><ul>
 

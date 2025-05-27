@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是郝林，今天我们继续来分享并发安全字典sync.Map的内容。</p><p>我们在上一篇文章中谈到了，由于并发安全字典提供的方法涉及的键和值的类型都是<code>interface{}</code>，所以我们在调用这些方法的时候，往往还需要对键和值的实际类型进行检查。</p><p>这里大致有两个方案。我们上一篇文章中提到了第一种方案，在编码时就完全确定键和值的类型，然后利用Go语言的编译器帮我们做检查。</p><p>这样做很方便，不是吗？不过，虽然方便，但是却让这样的字典类型缺少了一些灵活性。</p><p>如果我们还需要一个键类型为<code>uint32</code>并发安全字典的话，那就不得不再如法炮制地写一遍代码了。因此，在需求多样化之后，工作量反而更大，甚至会产生很多雷同的代码。</p><h2>知识扩展</h2><h2>问题1：怎样保证并发安全字典中的键和值的类型正确性？（方案二）</h2><p>那么，如果我们既想保持<code>sync.Map</code>类型原有的灵活性，又想约束键和值的类型，那么应该怎样做呢？这就涉及了第二个方案。</p><p><strong>在第二种方案中，我们封装的结构体类型的所有方法，都可以与<code>sync.Map</code>类型的方法完全一致（包括方法名称和方法签名）。</strong></p><p>不过，在这些方法中，我们就需要添加一些做类型检查的代码了。另外，这样并发安全字典的键类型和值类型，必须在初始化的时候就完全确定。并且，这种情况下，我们必须先要保证键的类型是可比较的。</p><!-- [[[read_end]]] --><p>所以在设计这样的结构体类型的时候，只包含<code>sync.Map</code>类型的字段就不够了。</p><p>比如：</p><pre><code>type ConcurrentMap struct {
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是聂鹏程。今天，我来继续带你打卡分布式核心技术。</p><p>到目前为止，“分布式技术原理与算法解析”专栏已经接近尾声了。在这里，我首先要感谢你坚持学习每一篇文章，以及对每一道思考题的积极思考与讨论，并在此基础上扩展了类似问题。</p><p>比如@Jackey、@Eternal、@leslie、@mt11912、@小白啊、@随心而至等同学，一直在跟着专栏的更新节奏学习，并非常积极地在留言区留言讨论、总结自己的理解，并查询相关资料补充文中未讲解到或没有深入展开的问题。</p><p>今天，我梳理了文后的留言，发现大家对最近几篇文章介绍的分布式高可靠问题特别感兴趣，特别是我没有详细展开的网络分区问题。</p><p>比如，在第4篇文章“<a href="https://time.geekbang.org/column/article/143329">分布式选举：国不可一日无君</a>”中，我给你留下的思考题是集群中是否会存在双主的场景，很多同学提到双主是网络分区导致的。</p><p>再比如，在第31篇文章“<a href="https://time.geekbang.org/column/article/175545">分布式高可用之故障恢复：知错能改，善莫大焉</a>”中，我给你留下的思考题是，如何判断以及处理网络分区。</p><p>因此，在今天这篇文章中，我将会与你深入探讨网络分区问题，以帮助你进一步理解并解决业务中的故障恢复问题。</p><h2>什么是网络分区？</h2><p>我们先来看看网络分区到底是什么吧。在<a href="https://time.geekbang.org/column/article/175545">第31篇文章</a>分享故障恢复时，我与你介绍了故障类型中的网络故障，网络分区就是其中的一种故障类型。</p><!-- [[[read_end]]] --><p>通常情况下，网络分区指的是在分布式集群中，节点之间由于网络不通，导致集群中节点形成不同的子集，子集中节点间的网络相通，而子集和子集间网络不通。也可以说，网络分区是子集与子集之间在网络上相互隔离了。</p><p>那么，应该如何判断是否发生了网络分区呢？</p><h2>如何判断是否发生了网络分区？</h2><p>在分布式集群中，不同的集群架构网络分区的形态略有不同。所以，要判断是否发生了网络分区，我们需要弄清楚不同的分布式集群架构，即<a href="https://time.geekbang.org/column/article/148187">集中式架构</a>和<a href="https://time.geekbang.org/column/article/149653">非集中式架构</a>中的网络分区形态是什么样的。</p><p>首先，我们来看一下<strong>集中式架构的网络分区形态</strong>。</p><p>集中式架构中，Master节点通常以一主多备的形式部署，Slave节点与Master节点相连接，Master节点的主和备之间会通过心跳相互通信。</p><p>以Master节点主备部署为例，如下图所示，集中式架构中的网络分区主要是主节点与备节点之间网络不通，且一部分Slave节点只能与主Master节点连通，另一部分只能与备Master节点连通。</p><p><img src="https://static001.geekbang.org/resource/image/25/b6/254574879fa04cb5194f4506cf7769b6.png" alt=""></p><center><span class="reference">图1 集中式架构中网络分区的形态</span></center><p>然后，我们再来看看<strong>非集中式架构中的网络分区形态</strong>。</p><p>如下图所示，非集中式架构中，节点是对称的，因此网络分区的形态是形成不同子集，子集内节点间可互相通信，而子集之间的节点不可通信。比如，子集群1中Node1、Node2和Node4可以相互通信，子集群2中Node3和Node5也可以相互通信，但子集群1和子集群2之间网络不通。</p><p><img src="https://static001.geekbang.org/resource/image/de/10/de9bc8d7c1ec8b7fa62eddcb2d9f5810.png" alt=""></p><center><span class="reference">图2 非集中式架构中网络分区的形态</span></center><p>从集中式和非集中式这两种分布式集群架构的网络分区形态可以看出，<strong>要判断是否形成网络分区，最朴素的方法就是判断节点之间心跳是否超时，然后将心跳可达的节点归属到一个子集中</strong>。</p><p>由于非集中式系统中，每个节点都是对等的、提供的服务相同，所以当多个子集群之间不可达，或部分节点出现故障后，尽管提供的服务质量（SLA）可能会下降，但并不影响这些剩余节点或子集群对外提供服务。所以，接下来我将与你重点讨论集中式系统的网络分区问题。</p><h2>网络分区最微妙的地方在哪里？</h2><p>在工作和生活中遇到一个问题，你的本能反应估计是，有问题就解决问题好了。而网络分区最微妙的地方在于，你很难通过程序去判断问题到底出在哪里，而只能通过心跳等手段知道部分节点的网络不可达了。</p><p>但，导致节点不可达的原因有很多，有可能是网络的原因，也有可能是节点本身的问题。也就是说，我们无法通过一些症状就判断出是否真的产生了分区。另外，你也很难通过程序去判断这个问题是不是很快就会被恢复。这也是应对网络分区问题最微妙的地方。</p><h2>网络分区出现概率较高的场景是什么？</h2><p>在<a href="https://time.geekbang.org/column/article/175545">第31篇文章</a>留言区中有同学提到：</p><blockquote>
 

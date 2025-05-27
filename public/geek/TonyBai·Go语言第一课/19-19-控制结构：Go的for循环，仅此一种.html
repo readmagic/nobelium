@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是Tony Bai。</p><p>上一节课，我们开始了对程序控制结构的学习，学习了分支结构中的if语句。上节课我们也说过，针对程序的分支结构，Go提供了if和switch-case两种语句形式。那你肯定在想，这节课肯定是要讲switch-case语句了吧！我不想按常规出牌，这一节课我们换换口味，挑战一下程序控制结构中最复杂的一款：循环结构。</p><p>为什么这么设置呢？因为我想让你能更早开始动手编写具有循环结构的Go代码。虽然switch-case分支结构也非常重要，但毕竟我们已经有了if分支语句的基础了，很多时候用if也可以替代switch-case，所以把它往后放放也没关系。</p><p>日常编码过程中，我们常常需要重复执行同一段代码，这时我们就需要循环结构来帮助我们控制程序的执行顺序。一个循环结构会执行循环体中的代码直到结尾，然后回到开头继续执行。 主流编程语言都提供了对循环结构的支持，绝大多数主流语言，包括C语言、C++、Java和Rust，甚至连动态语言Python还提供了不止一种的循环语句，但Go却只有一种，也就是for语句。</p><p>所以这节课，我们就来系统学习一下Go语言循环结构中的这一支独苗，for语句，聚焦于它的使用形式和常见坑点，让你能更快上手Go编码。</p><!-- [[[read_end]]] --><p>首先，我们就来认识一下Go语言中的for语句。</p><h2>认识for语句的经典使用形式</h2><p>C语言是很多现代编程语言的“祖先”，要学习Go语言中for语句的使用形式，我们要先看看C语言中for语句是怎么使用的。</p><p>下面这段C代码就是C语言中for语句的经典使用形式：</p><pre><code class="language-plain">int i;
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是winter。</p><p>上一期的答疑文章发布之后，同学们的热情很高，我在后台又收到了一批新的问题，今天我们继续来答疑。</p><p><strong>1. 请问前端架构中，每个逻辑页面如何可以做到独立发布呢？</strong></p><p>答：首先，我们要知道发布是什么意思，我们平时开发好一个网页，把它放到线上真实对用户服务的机器上，这个过程叫做发布。</p><p>正常来讲，前端工程师发布的原材料是HTML，产出是一个线上的URL地址。</p><p>各个公司的发布系统差异非常的大，有的是前端发HTML，有的是前端把代码给服务端同学，改成JSP之类的代码，再一起发布。</p><p>对于逻辑页面而言，我们需要发布的从HTML变成了JavaScript，这个JavaScript代码的作用就是渲染一个页面的内容。同时我们线上还需要一个公共的HTML文件来运行这些JavaScript。</p><p>最后这些JavaScript文件只要能够做到独立发布，我们就可以认为逻辑页面是独立发布了。</p><p><strong>2. 对于一个后端开发者来说，前端最困难的东西永远是CSS布局而不是JavaScript，我们对CSS有很大畏惧和恐慌在于：CSS没有很好的调试工具能解决问题，即使chrome dev这样的顶级debug工具，有时候也很难解释诸如“为什么页面上的这个盒子在这个地方”这样的问题。感觉CSS完全不符合编程的思路，老师有没有办法缓解一下这个问题？</strong></p><!-- [[[read_end]]] --><p>答：其实我在课程中已经解释过了，早期的CSS从思路上来说就很别扭， 任何人都会觉得别扭，现在有了Flex布局，我认为这个问题基本可以算解决了。</p><p><strong>3. 最近一直在研究前端性能优化和线上错误收集，收效甚微，老师可以讲解一下大厂是怎么处理的吗？</strong></p><p>答：这一部分，首先你需要一个比较通用的日志服务，能接受前端用HTTP请求的方式打一些日志进去，一般公司都会有这样的系统，如果没有，就需要新建一个，这部分比较麻烦，需要一定的专业知识。</p><p>有了这个日志服务，剩下的就是在每个前端页面插入一个JavaScript代码，监听Window.onerror可以得到错误，取window.performance可以得到性能，拿到以后，打日志就行了。</p><p>至于后续怎么去展示，展示了以后又怎么去推动执行，这块就需要你自己根据公司实际情况去找到解决方案了。</p><p><strong>4. 老师，想问一下用float排版的时候margin值在不同的浏览器中会显示不同，是什么原因导致的呢？</strong></p><p>答：我是从IE6时代过来，我还真没听说过margin值有什么兼容问题，你可以拿具体的案例来，我们一起看一看。不过我建议早日切到flex，我们不要在没价值的事情上浪费生命。</p><p><strong>5. 把链接分为超链接类和外部资源类是您自己的理解么，还是官方有这种分类呀，我没找到。老师可以说一下么？</strong></p><p>答：不是，链接这个概念来自HTML标准（4.6.1位置）。</p><ul>
 

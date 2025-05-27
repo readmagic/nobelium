@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴咏炜。</p><p>学到今天，我们已经看到了很多的 Vim 脚本，只是还没有正式地把它作为一门语言来介绍。今天，我就正式向你介绍把 Vim 的功能粘合到一起的语言——Vim 脚本（Vim script）。掌握 Vim 脚本的基本语法之后，你就可以得心应手地定制你的 Vim 环境啦。</p><h2>语法概要</h2><p>首先，我们需要知道，通过命令行模式执行的命令就是 Vim 脚本。它是一种图灵完全的脚本语言：图灵完全，说明它的功能够强大，理论上可以完成任何计算任务；脚本语言，说明它不需要编译，可以直接通过解释方式来执行。</p><p>当然，这并没有说出 Vim 脚本的真正特点。下面，我们就通过各个不同的角度，进行了解，把 Vim 脚本这头“大象”的基本形状完整地摸出来。</p><p>在这一讲里，我们改变一下惯例，除非明确说“正常模式命令”，否则用代码方式显示的都是脚本文件里的代码或者命令行模式命令，也就是说，它们前面都不会加 <code>:</code>。毕竟我们这一讲介绍的全是 Vim 脚本，而不是正常模式的快捷操作。</p><h3>打印输出和字符串</h3><p>学习任何一门语言，我们常常以“Hello world!”开始。对于 Vim 脚本，我们不妨也这样——毕竟，打印是一种重要的调试方式，尤其对于没有专门调试器的脚本语言来说。</p><p>Vim 脚本的“Hello world!”是下面这样的：</p><!-- [[[read_end]]] --><pre><code class="language-vim">echo 'Hello world!'
 

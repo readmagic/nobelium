@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是何小锋。上一讲我讲解了在RPC框架中，如何设计可扩展的、向后兼容的协议，其关键点就是利用好Header中的扩展字段以及Payload中的扩展字段，通过扩展字段向后兼容。</p><p>那么承接上一讲的一个重点，今天我会讲解下RPC框架中的序列化。要知道，在不同的场景下合理地选择序列化方式，对提升RPC框架整体的稳定性和性能是至关重要的。</p><h2>为什么需要序列化？</h2><p>首先，我们得知道什么是序列化与反序列化。</p><p>我们先回顾下<a href="https://time.geekbang.org/column/article/199650">[第 01 讲]</a> 介绍过的RPC原理的内容，在描述RPC通信流程的时候我说过：</p><p>网络传输的数据必须是二进制数据，但调用方请求的出入参数都是对象。对象是不能直接在网络中传输的，所以我们需要提前把它转成可传输的二进制，并且要求转换算法是可逆的，这个过程我们一般叫做“序列化”。 这时，服务提供方就可以正确地从二进制数据中分割出不同的请求，同时根据请求类型和序列化类型，把二进制的消息体逆向还原成请求对象，这个过程我们称之为“反序列化”。</p><p>这两个过程如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/d2/04/d215d279ef8bfbe84286e81174b4e704.jpg" alt="" title="序列化与反序列化"></p><p><strong>总结来说，</strong>序列化就是将对象转换成二进制数据的过程，而反序列就是反过来将二进制转换为对象的过程。</p><p>那么RPC框架为什么需要序列化呢？还是请你回想下RPC的通信流程：</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/82/59/826a6da653c4093f3dc3f0a833915259.jpg" alt="" title="RPC通信流程图"></p><p>不妨借用个例子帮助你理解，比如发快递，我们要发一个需要自行组装的物件。发件人发之前，会把物件拆开装箱，这就好比序列化；这时候快递员来了，不能磕碰呀，那就要打包，这就好比将序列化后的数据进行编码，封装成一个固定格式的协议；过了两天，收件人收到包裹了，就会拆箱将物件拼接好，这就好比是协议解码和反序列化。</p><p>所以现在你清楚了吗？因为网络传输的数据必须是二进制数据，所以在RPC调用中，对入参对象与返回值对象进行序列化与反序列化是一个必须的过程。</p><h2>有哪些常用的序列化？</h2><p>那这么看来，你会不会觉得这个过程很简单呢？实则不然，很复杂。我们可以先看看都有哪些常用的序列化，下面我来简单地介绍下几种常用的序列化方式。</p><h3>JDK原生序列化</h3><p>如果你会使用Java语言开发，那么你一定知道JDK原生的序列化，下面是JDK序列化的一个例子：</p><pre><code>import java.io.*;
 

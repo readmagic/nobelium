@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是石雪峰。今天，我们接着上一讲的内容，继续来聊一聊微软DevOps转型的故事。</p><p>经常有人会问，企业的DevOps转型应该由哪个团队来负责，是否要组建一个全新的DevOps团队呢？带着这个问题，我们来看看微软是怎么做的。</p><h2>1ES</h2><p>微软有一个特殊的团队，叫作1ES。1ES是One Engineering System的缩写，直译过来就是“一套工程系统”的意思。从这个名字，相信你就可以看出来，<strong>在微软内部，有一套统一的工程能力平台来支撑微软内部各种形态产品的研发交付工作</strong>。没错！这个1ES团队包含了近200名工程师，作为组织级的研发效能团队，他们的目标就是<strong>通过一整套通用的工程能力平台，来提升内部的研发交付效率</strong>。</p><p>1ES团队的工作职责可不仅仅是开发通用工具平台，他们还要负责公司的文化转型、最新的工程方法导入试验、研发过程改进、安全合规性检查、内部研发效率咨询以及在工程团队推广最佳实践等等，可以说是一个“全功能”的企业研发效能和生产力团队。截至2018年，数据显示，总共有近10万名用户在1ES提供的平台上协同办公。</p><p><img src="https://static001.geekbang.org/resource/image/41/b8/41d63ec1588a2655d75d7f55cb8ffab8.png" alt=""></p><p>但国内的现状是，很多企业对于研发效能的关注才刚刚起步。即便有人员负责类似的事情，也大多分散在各个业务内部，难以形成合力。组建了企业级统一的研发效能团队，而且规模能够跟微软的1ES相提并论的企业，基本上一只手就可以数得过来，就更别提建立一套统一的工程能力平台了。我曾见过一家大型企业，他们内部的工具平台有1700多个，殊不知，这里面有多少的重复建设和资源浪费。</p><!-- [[[read_end]]] --><p>那么，你以为微软的1ES团队天生就是这样“一统天下”的吗？还真不是这么回事。</p><p>事实上，1ES团队的历史可以追溯到2014年。当时，微软新上任的CEO萨提亚·纳德拉非常重视研发能力建设，他致力于通过最好的工具来赋能研发团队。结果，微软的每个部门都会根据自己的实际情况采购自己习惯的工具平台，这就导致整个公司内部的工具、流程和成熟度差异巨大。差异化的工具和流程进一步增强了不同团队之间的共享和协作，内部人员转岗的成本极高，因为他们到了新团队以后，要从头开始适应一切。</p><p>为了解决这个问题，1ES团队识别了三大领域：<strong>工作计划管理</strong>、<strong>版本控制</strong>和<strong>构建能力</strong>。他们先在企业内部识别哪些团队没有使用公司构建的统一工具，然后自顶向下强推。这背后的核心理念就是“Use what we ship to ship what we use”，也就是使用他们对外发布的工具来研发团队自己的工具。</p><p>不知道你发现没有，这三个领域都是软件交付的主路径，<strong>需求和任务管理、版本控制和构建系统无一不是核心系统</strong>。当你想要建立一个统一的效能平台的时候，最重要的就是抓住主路径上的核心系统。</p><p>关于“如何基于核心系统扩展一整套解决方案”，我给你推荐一篇GitHub的<a href="https://github.blog/2019-11-13-universe-day-one/">博客</a>，你可以看看他们是如何思考这个问题的。</p><p>在接下来的几年里面，1ES团队推动VSTS（也就是现在的Azure DevOps）成为了微软内部的工具平台标准，平台的用户也从最开始的几千个人增长到了后来的10万多人。</p><p>正是从2010年开始至今150个迭代的千锤百炼，才造就了后来Azure DevOps产品的大放异彩。可以说，无论是从设计理念、功能，还是用户体验等方面，微软的Azure DevOps平台在当今业界都是首屈一指的。</p><p><img src="https://static001.geekbang.org/resource/image/dd/ba/dd0189b0de10caf513fdd018e7fadbba.png" alt=""></p><h2>持续交付</h2><p>持续交付是DevOps转型的核心部分，1ES提供的统一工程能力平台让这一切成为了可能。那么，微软的持续交付做到了什么程度呢？</p><p>从2019年3月份的数据来看，他们每天部署82,000次、创建28,000个工作项，每个月有44万个提交请求、460万次构建和240万次的提交数量。</p><p>无论把这些数据的哪一项拿出来，都是非常惊人的，这体现了微软卓越的工程能力水平。</p><p><img src="https://static001.geekbang.org/resource/image/8c/c2/8c67f5153f568acd746021bbe918ebc2.png" alt=""></p><p>那么，微软是如何一步步走到今天的呢？我们先来看看DevOps中最重要的、也是“老大难”的测试部分，看看微软是如何实现在6分钟内完成6万个测试用例的。</p><p>其实，早在2014年，微软在测试中遇到的问题跟大多数公司没什么两样：测试耗时太长、测试频繁失败、主线质量不可靠、迭代周期末端的质量远远达不到发布门槛。</p><p>这些问题严重到什么程度呢？我给你列举几个数字，你就明白了。</p><ul>
 

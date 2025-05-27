@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是戴铭。今天，我要和你分享的是如何为你 App 添加酷炫的动画效果。</p><p>不论是iOS开发，还是Android开发，现在的动画库差不多都需要手动去编写动画代码。这样的话，iOS 和 Android 开发者就需要分别去编写适合自己系统的代码。而且，手动编写动画的代码也非常复杂，不容易维护，很多动画细节的调整还需要和动画设计师不断沟通打磨，尤其是千行以上的动画代码编写、维护、沟通的成本巨大。</p><p>手动编写动画代码，除了会影响到开发者外，动画设计师也难以幸免。一款产品适配的平台越多，动画设计师设计走查的周期就越长，相应的动画成本就越高。同时，动画设计师很兴奋地设计出一套炫酷地动画效果后，在要通过开发者实现出来时，却因为工时评估过长而一再被简化，甚至被直接取消。试想一下，以后他还会动力十足地去设计酷炫的动画效果吗？</p><p>所以，你会发现现在有酷炫的动画效果的 App 非常少，而且多是出自个人开发者之手。那么，这就提高了对个人开发者的要求，不但要求他代码写得好，还要能够设计出好的动画效果。但是，这样的人才也是不可多得。</p><p>那，到底有没有什么办法能够把动画制作和App开发隔离开，专人做专事，而且还能使得多个平台的动画效果保持一致呢？</p><!-- [[[read_end]]] --><p>办法总比困难多。接下来，我们就一起看看如何实现的问题吧。</p><h2>Lottie</h2><p><a href="http://airbnb.io/lottie/#/">Lottie 框架</a>就很好地解决了动画制作与开发隔离，以及多平台统一的问题。</p><p>Lottie 是 Airbnb 开源的一个动画框架。Lottie 这个名字来自于一名德国导演洛特·赖尼格尔（Lotte Reiniger），她最著名的电影叫作“阿赫迈德王子历险记（The Adventures of Prince Achmed）”。这个框架和其他的动画框架不太一样，动画的编写和维护将由动画设计师完成，完全无需开发者操心。</p><p>动画设计师做好动画以后，可以使用<a href="https://www.adobe.com/products/aftereffects.html">After Effects</a>将动画导出成JSON文件，然后由Lottie 加载和渲染这个JSON文件，并转换成对应的动画代码。由于是JSON格式，文件也会很小，可以减少 App 包大小。运行时还可以通过代码控制更改动画，比如更改颜色、位置以及任何关键值。另外，Lottie 还支持页面切换的过场动画（UIViewController Transitions）。</p><p>下面的两张动画，就是使用Lottie 做出来的效果。<br>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是蒋德钧，欢迎来到课程的加餐环节。</p><p></p><p>我们的课程到了今天，已经过了一大半了，再加上我在第一季和你分享的内容，我们已经围绕着Redis的技术原理和源代码分析学习了七十多节课。这里我想先感谢你的坚持学习，也希望在后半部分的学习旅途中，你能一如既往地同我一起深入剖析Redis源码，理解Redis的底层实现。</p><p>掌握好Redis的关键技术，对于我们的实际应用是非常重要的。不过，在真实的业务场景中，除了Redis以外，还有不少其他类型的键值数据库也被广泛使用。我自己在日常工作中，也去学习了几种其他类型的键值数据库，包括<a href="http://www.mongodb.com">MongoDB</a>、<a href="https://github.com/google/leveldb">LevelDB</a>、<a href="http://rocksdb.org">RocksDB</a>、<a href="https://tikv.org">TiKV</a>等。在学习的过程中，我经常会把这些数据库和Redis进行对比。</p><p></p><p>所以今天这节课，我想来和你聊聊，我在学习Redis和这些键值数据库的时候，对它们的使用、关键技术和发展的一些体会。如果你在学习Redis之余，也想进一步了解其他的键值数据库，我希望这些体会能帮助你扩展了解Redis和其他键值数据库的联系与区别，让你能更好地开展后端开发工作。</p><p></p><h2>体会一：不同键值数据库的数据类型差异较大</h2><p>键值数据库属于后端系统，因此我们在选择键值数据库的时候，<strong>从业务应用的角度来看，首先就会考虑键值数据库能提供的数据类型有哪些</strong>。而对于Redis和其他键值数据库来说，虽然我们都称之为键值数据库，它们在保存数据时，实际也是按照键-值的方式来保存的，但是，它们呈现出来的数据类型还是有差别的。</p><!-- [[[read_end]]] --><p></p><p>我在学习Redis时，就对它提供丰富的数据类型印象深刻。而后我又去了解了MongoDB，它的数据类型相对与Redis来说，就具有不一样的特征。</p><p></p><p><strong>MongoDB提供的数据类型是文档</strong>，所谓的文档就是指一个键值对或多个键值对的组合，这和JSON格式的数据类型很相似。比如，我们要记录一个用户的ID、姓名、年龄等信息，在MongoDB中，我们可以使用如下的文档来记录：</p><pre><code class="language-plain">{“uID”: 3032, “name”: “wang ”, “age”: 20}
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴磊。</p><p>在上一讲，我们学习了创建DataFrame的各种途径与方法，那么，有了DataFrame之后，我们该如何在DataFrame之上做数据探索、数据分析，以及各式各样的数据转换呢？在数据处理完毕之后，我们又该如何做数据展示与数据持久化呢？今天这一讲，我们就来解答这些疑问。</p><p>为了给开发者提供足够的灵活性，对于DataFrame之上的数据处理，Spark SQL支持两类开发入口：一个是大家所熟知的结构化查询语言：SQL，另一类是DataFrame开发算子。就开发效率与执行效率来说，二者并无优劣之分，选择哪种开发入口，完全取决于开发者的个人偏好与开发习惯。</p><p>与RDD类似，DataFrame支持种类繁多的开发算子，但相比SQL语言，DataFrame算子的学习成本相对要高一些。因此，本着先易后难的思路，咱们先来说说DataFrame中SQL语句的用法，然后再去理解DataFrame开发算子。</p><h2>SQL语句</h2><p>对于任意的DataFrame，我们都可以使用createTempView或是createGlobalTempView在Spark SQL中创建临时数据表。</p><p>两者的区别在于，createTempView创建的临时表，其生命周期仅限于SparkSession内部，而createGlobalTempView创建的临时表，可以在同一个应用程序中跨SparkSession提供访问。有了临时表之后，我们就可以使用SQL语句灵活地倒腾表数据。</p><!-- [[[read_end]]] --><p>通过后面这段代码，我为你演示了如何使用createTempView创建临时表。我们首先用toDF创建了一个包含名字和年龄的DataFrame，然后调用createTempView方法创建了临时表。</p><pre><code class="language-scala">import org.apache.spark.sql.DataFrame
 

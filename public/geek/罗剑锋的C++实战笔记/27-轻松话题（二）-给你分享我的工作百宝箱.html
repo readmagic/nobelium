@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是Chrono。</p><p>今天，我再来说点C++之外的话题。我来聊聊我的工作方式，给你介绍一下我用的开发环境，有快捷键、配置脚本、常用命令什么的。算不上什么“高效技巧”，但是也能从小处提高工作效率，希望能给你一点借鉴。</p><h2>Linux</h2><p>我主要是在Linux上写程序，经常要登录到内部的服务器，但我常用的笔记本或者台式机上装的还是Windows，所以就需要有一个“趁手”的客户端。</p><p>Windows上有很多这样的软件，最早我用的是PuTTY，但其他很多同事用的是XShell。不过，现在的我已经都不用这些了。</p><p>你一定想知道，难道还有什么比PuTTY、XShell更好更强大的远程终端吗？</p><p>要说有也算有，要说没有也算是没有。</p><p>因为，现在我就把Linux操作系统当成终端机来使用，就用它内置的Terminal、ssh命令来实现远程登录。</p><p>具体的做法也很简单，安装一个VirtualBox，再最小化安装一个Ubuntu，就可以了。</p><p>这么做的好处在哪里呢？</p><p>首先，这个环境完全是免费的，不需要注册或者破解。其次，它本身就是Linux，与开发环境相同，可以用来在本地做试验、“练手”。再次，Linux里有非常丰富的工具可以下载安装，能够随心所欲地定制环境，用起来非常舒心。</p><!-- [[[read_end]]] --><p>当然，把Linux转换成一个高效的终端，还是需要一点点“技巧”的，接下来，我就跟你说说我的做法，要点就是“<strong>全程键盘操作</strong>”。</p><p>第一个，用“Ctrl+Alt+T”可以直接打开命令行窗口，而不必用鼠标去点图标，然后用“Ctrl+Shift+T”可以开新标签页，这样就可以很方便地实现多窗口登录，不会像某些软件那样有数量的限制。</p><p>另外，我选择的是Ubuntu 14.04，在这个版本里，可以用鼠标右键点标签页直接改标题名，区分不同的窗口，即使开多个标签也可以轻松管理（但这个功能在后来的16.04、18.04却给去掉了，只能额外写Shell脚本来实现，有那么一点不爽）。</p><p>第二个，修改Shell的配置文件“.bashrc”或者是“.profile”，在里面加上一行“set -o vi”。</p><pre><code>#.bashrc
 

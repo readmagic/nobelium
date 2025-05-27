@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈天。</p><p>经历了基础篇和进阶篇中两讲的构建和优化，到现在，我们的KV server 核心功能已经比较完善了。不知道你有没有注意，之前一直在使用一个神秘的 <a href="https://github.com/tyrchen/async-prost">async-prost</a> 库，我们神奇地完成了TCP frame 的封包和解包。是怎么完成的呢？</p><p>async-prost 是我仿照 Jonhoo 的 <a href="https://github.com/jonhoo/async-bincode">async-bincode</a> 做的一个处理 protobuf frame 的库，它可以和各种网络协议适配，包括 TCP / WebSocket / HTTP2 等。由于考虑通用性，它的抽象级别比较高，用了大量的泛型参数，主流程如下图所示：<br>
 

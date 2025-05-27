@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是黄金。今天这期复习课，我们一起来回顾和总结下，Facebook在2009年所发表的Hive的论文。</p><h2>Hive介绍</h2><p>2008年以前，Facebook的数据仓库构建在商用的RDBMS上。随着数据量的增加，一些需要每天执行的批处理作业，单次运行时间已经超过了一天，因此优化数据仓库成为迫在眉睫的任务。后来Facebook把数据搬到了Hadoop上，原来需要花一天多才能跑完的作业，现在花几个小时就能跑完，执行速度快了很多。</p><p>不过使用Hadoop并不容易，尤其是对那些不熟悉MapReduce的人来说，即使是写一个简单的查询，也要花上几个小时。工程师们就在想，能不能把分析师熟悉的表、分区之类的SQL概念，引入Hadoop世界，一来可以让分析人员使用自己已经掌握的工具，二来可以把编写脚本的时间，从几个小时缩短成几分钟。</p><p>于是，就有了我们今天要介绍的Hive，而它所使用的查询语言就是和SQL非常类似的HiveQL。</p><h2>数据模型</h2><p>想要把MapReduce任务变成SQL语句，需要先把数据结构化，才能用SQL语句查询。像传统的RDBMS一样，Hive的数据通过<strong>表</strong>来抽象，数据由多行记录构成，一行记录包含多个字段，每个字段有特定的类型。</p><!-- [[[read_end]]] --><p>Hive天然支持的基础类型包括整数、浮点数和字符串，天然支持的复杂类型包括数组、字典和结构体，这些类型足以让我们应付大多数业务场景。同时，Hive也允许用户自定义字段类型，便于我们应付特殊的业务场景。</p><p>和RDBMS不同的地方在于，Hive通常采用宽表结构，把一个对象的所有字段保存在一张表中。这么做的目的是为了<strong>避免表与表之间的Join操作</strong>，Join操作一般需要跨服务器交互，成本高而且性能差。</p><p>Hive的数据表支持<strong>分区和分桶</strong>操作。</p><ul>
 

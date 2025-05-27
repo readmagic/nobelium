@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是尹会生。</p><p>提起图表，你一定会想到Excel和PPT中的条形图、饼状图、柱状图，这在我们进行工作汇报的时候会经常用到，是我们最经常打交道的图表了。除此之外，还有很多其他种类的图表，比如折线图、热力图等等。</p><p>但是，不管你通过哪一种图表，它们都是为了让你能够更直观、更简洁地表达自己的想法，也能让我们更好地从一堆杂乱无章的数字中找出规律。</p><p>虽然图表比直接展示数据多了这么多优势，但是也存在一个问题，那就是使用Excel制作一张精美的图表，需要消耗大量的时间。而且这些精美的图表，如果因为临时需要再加载新的数据，又要重复花费时间来制作。别担心，这些问题都可以通过Python中的seaborn库来解决。</p><p>所以在今天这节课当中，我就来教你怎么使用seaborn库实现图表的重复生成，并根据不同的场景使用不同类型的图表。</p><h2>生成统一风格的图表</h2><p>在Python的图表库中，最著名的库叫做matplotlib，它的语法简单，而且支持的图表类型丰富，是数据分析场景中经常用到的图表工具。</p><p>但是如果你直接把它应用到办公自动化场景中，虽然matplotlib的功能是强大的，不过美观程度相对就比较差了。因此，我今天就带你学习一个基于matplotlib库，并且在外观上进行了优化的扩展库，叫做seaborn，它能弥补matplotlib在外观上的不足。</p><!-- [[[read_end]]] --><p>那么接下来，我就以为鸢尾花分类为例，为你讲解一下seaborn库的安装，以及绘图的基本流程。</p><p>鸢尾花分类是深度学习用于自动分类的经典问题。我们使用它的数据集是因为它的数据量适中，而且包含了必备的花萼和花瓣的长宽数据，以及长宽数据对应的三个品种的鸢尾花。既能通过seaborn观察到分类结果，又能将用于绘图的代码应用到自己的工作场景中。</p><h3>用seaborn生成图表的基本流程</h3><p>seaborn库的安装非常简单，由于它的安装包和软件同名，所以使用pip命令安装即可。安装之后，就可以使用它来生成图表了。你可以按照导入库、设置图表样式、绘制图形三个步骤来实现图表绘制功能。我们来依次学习一下。</p><p><strong>首先是导入库</strong>。在这一步骤中，你需要格外注意<strong>导入seaborn库的名称，以及导入的方法。</strong></p><p>由于seaborn的功能是基于matplotlib实现的图表基本绘制功能，所以这两个库必须都要导入，否则就没法生成图表。</p><p>在导入的方法上，我发现导入库的名字很长，这就意味这你在调用库的时候也需要输入比较长的字符。因此我在导入的时候增加了一个“as”关键字，它可以将库的名称简写为更简单的“别名”，以此来简化代码的编写。你需要注意，别名要尽可能有意义，而且不要和保留字或当前代码中的变量重复，以免引发运行时的报错。</p><p>在导入库的代码中，我为名字比较长的两个库分别起了新的名字叫“sns”和“plt”，那么当前代码就可以利用“sns.XXX”和“plt.XXX”的方式导入这两个库的代码了，这样会比使用原始的名字更精简。</p><p>我把导入库的代码写在下方，供你参考。</p><pre><code>import seaborn as sns
 

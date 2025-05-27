@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王磊，你也可以叫我Ivan。今天，我要和你讲一讲分布式事务的原子性。</p><p>在限定“分布式”范围之前，我们先认识一下“事务的原子性”是啥。</p><p>如果分开来看的话，事务可以理解为包含一系列操作的序列，原子则代表不可分割的最小粒度。</p><p>而合起来看的话，事务的原子性就是让包含若干操作的事务表现得像一个最小粒度的操作。这个操作一旦被执行，只有“成功”或者“失败”这两种结果。这就好像比特（bit），只能代表0或者1，没有其他选择。</p><p>为什么要让事务表现出原子性呢？我想举个从ATM取款的例子。</p><p>现在，你走到一台ATM前，要从自己50,000元的账户上取1,000元现金。当你输入密码和取款金额后， ATM会吐出1,000块钱，同时你的账户余额会扣减1,000元；虽然有些时候，ATM出现故障，无法吐钞，系统会提示取款失败，但你的余额还会保持在50,000元。</p><p>总之，要么既吐钞又扣减余额，要么既不吐钞又不扣减余额，你拿到手的现金和账户余额总计始终是50,000元，这就是一个具有原子性的事务。</p><p>显然，吐钞和扣减余额是两个不同的操作，而且是分别作用在ATM和银行的存款系统上。当事务整合了两个独立节点上的操作时，我们称之为分布式事务，其达成的原子性也就是分布式事务的原子性。</p><!-- [[[read_end]]] --><p>关于事务的原子性，图灵奖得主、事务处理大师詹姆斯·格雷（Jim Gray）给出了一个更权威的定义：</p><p><em><strong>Atomicity</strong></em>: Either all the changes from the transaction occur (writes, and messages sent), or none occur.</p><p>这句话说得很精炼，我再和你解释下。</p><p>原子性就是要求事务只有两个状态：</p><ul>
 

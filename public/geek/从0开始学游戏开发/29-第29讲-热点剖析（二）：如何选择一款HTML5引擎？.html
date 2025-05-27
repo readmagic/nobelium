@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>上周六，我详细介绍了<a href="https://time.geekbang.org/column/article/9298">HTML5技术相比Flash技术的优势</a>，相信你已经对HTML5技术有一个大致的了解。下周六，我会带你编写一个HTML5游戏，在这之前，我们需要先了解几种常见的HTML5游戏引擎。</p><p>一些比较成熟的引擎，比如Cocos2d-JS、白鹭等，它们都提供有系列化的工具，比如编辑器、IDE等周边。但是其实<strong>大部分HTML5游戏引擎都只有图形引擎</strong>而已，比如legend.js。而且很多HTML5引擎只是个人编写的开源引擎，所以漏洞还是比较多的。</p><p>HTML5游戏引擎在编写的时候，除非用DOM（Document Object Model）纯原生编写，绝大部分都是使用JavaScript编写的。但是为了考虑各种程序员的需求，现在也有使用TypeScript、CoffeeScript、LiveScript等语言编写的HTML5引擎。</p><h2>几款常见的HTML5游戏引擎</h2><p>我们现在来看一下几款常见的HTML5游戏引擎。</p><h3>Construct 2</h3><p>这是一款收费的引擎，当然也有免费的版本，但是免费的版本不可用于商业用途。那么既然是商用引擎，那它一定会比免费开源的产品更加完善和易用。这里有一幅Construct 2的截图，你可以看一下它的界面。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/a7/8b/a725e6389a0636f8f0539a626de2f18b.jpg" alt=""></p><p>我们可以清晰地看到，这个界面类似Office的操作界面。左侧是物件的<strong>属性</strong>，比如长宽高等；右侧上方是物件的<strong>层</strong>，包括背景、物件；右侧下方是<strong>物件选择器</strong>，你可以选择各种物件摆放到编辑器内。这种类型的编辑器，在成熟的商业引擎中比较常见，但是由于编写编辑器的人力物力成本，所以免费的引擎一般不提供这种成熟的编辑器。</p><p>从<strong>使用</strong>角度，我总结了一下它的特点，大概有这几条，供你自己制作HTML5游戏的时候选择：</p><ul>
 

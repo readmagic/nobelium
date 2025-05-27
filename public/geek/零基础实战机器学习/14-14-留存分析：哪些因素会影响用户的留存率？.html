@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是黄佳。欢迎你来到零基础实战机器学习，今天我们正式开启留存关。</p><p>在开启这一关之前，我想给你讲一个小时候的故事。这是70年代人的回忆了，那时候，小学的校门口有两家租“小人书”摊，一毛钱看一本。小人书，就是一大堆的64开小画本，里面是西游记、水浒传、封神榜、射雕英雄传啥的。</p><p>两家的小人书其实都差不多的，那个年代也没有玄幻，也没有网络写手。可是呢，A家的生意总比B家好，我一开始不知道怎么回事，后来我想起  A家的老板记忆力很好，他总能记住我们这些孩子谁是谁，而且他每次都和我们说：“看五本送一本哈！”如果我们看了三本，他就会说：“下回再看两本就多送一本免费的。”</p><p>多年以后，我恍然大悟，原来老板在30年前就建立起了买5送一和老客户会员卡的制度。只不过他是凭借自己的记忆力来完成的。正是由于这个原因，A老板的用户留存率比较高。</p><p>什么是用户留存？留存就是让老用户一直使用你的产品。其实，谈留存，就不能不提另外一个关键概念“流失”。用户的留存和流失，是阴和阳的两极，此消彼长。收集和分析用户行为数据，有助于我们摸清用户是“留”还是“失”之间的微妙门道。</p><p><img src="https://static001.geekbang.org/resource/image/95/8b/955848c6394c66812c9a29d87d2d828b.jpg?wh=2284x1033" alt=""></p><p>那么，今天这节课我们就通过机器学习模型来显示易速鲜花的会员留存曲线，并且分析“易速鲜花”会员卡中设置的哪些机制，是对会员留存影响比较大的因子，哪些又容易造成用户的流失。学习了这些，你就掌握了一组非常实用的运营分析工具，这对于如何留客有很大的指导意义。</p><!-- [[[read_end]]] --><h2>定义问题</h2><p>现在，让我们回到易速鲜花公司的运营部，一起为提升“易速鲜花”的用户留存率而奋斗。易速鲜花其实已经建立起了一套完善的会员机制，来增加用户的黏性。不过，运营部门的老总不确定的是，在一系列的促销套餐和会员卡类型中，哪些因素和用户的留存关系更为密切。</p><p>你从运营那边拿到了这样的<a href="https://github.com/huangjia2019/geektime/tree/main/%E7%95%99%E5%AD%98%E5%85%B314">数据集</a>：</p><p><img src="https://static001.geekbang.org/resource/image/c4/8a/c44ac391fb773b147bd5e80f2c3d678a.png?wh=1064x359" alt=""></p><p>在这个数据集中，有下面一系列的字段：</p><ul>
 

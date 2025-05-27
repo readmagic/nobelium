@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是伟忠。今天我来和你聊聊正则断言（Assertion）。</p><p>什么是断言呢？简单来说，断言是指对匹配到的文本位置有要求。这么说你可能还是没理解，我通过一些例子来给你讲解。你应该知道 \d{11} 能匹配上11位数字，但这11位数字可能是18位身份证号中的一部分。再比如，去查找一个单词，我们要查找 tom，但其它的单词，比如 tomorrow 中也包含了tom。</p><p>也就是说，在有些情况下，我们对要匹配的文本的位置也有一定的要求。为了解决这个问题，正则中提供了一些结构，只用于匹配位置，而不是文本内容本身，这种结构就是断言。常见的断言有三种：单词边界、行的开始或结束以及环视。</p><p><img src="https://static001.geekbang.org/resource/image/df/db/df5f394cc3c0beaee306881704512cdb.png" alt=""></p><h2>单词边界（Word Boundary）</h2><p>在讲单词边界具体怎么使用前，我们先来看一下例子。我们想要把下面文本中的 tom 替换成 jerry。注意一下，在文本中出现了 tomorrow 这个单词，tomorrow也是以 tom 开头的。</p><blockquote>
 

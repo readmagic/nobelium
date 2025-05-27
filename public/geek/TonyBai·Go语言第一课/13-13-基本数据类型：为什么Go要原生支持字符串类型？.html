@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是Tony Bai。</p><p>在上节课中，我们讲解了在Go编程中最广泛使用的一类基本数据类型：<strong>数值类型</strong>，包括整型、浮点类型和复数类型。这一节课，我们继续来学习Go语言中另一类基本数据类型：<strong>字符串类型</strong>。</p><p>字符串类型，是现代编程语言中最常用的数据类型之一，多数主流编程语言都提供了对这个类型的原生支持，少数没有提供原生字符串的类型的主流语言（比如C语言）也通过其他形式提供了对字符串的支持。</p><p>对于这样在日常开发中高频使用的基本数据类型，我们要给予更多的关注。所以，我们这一节课，将会按照Why-What-How的逻辑，讲清楚Go对字符串类型的支持，让你对Go语言中的字符串有个完整而清晰的认识。</p><p>首先，让我们来看看为什么Go要原生支持字符串类型。</p><h2>原生支持字符串有什么好处？</h2><p>我们前面提过，Go是站在巨人的肩膀上成长起来的现代编程语言。它继承了前辈语言的优点，又改进了前辈语言中的不足。这其中一处就体现在Go对字符串类型的原生支持上。</p><p>这样的设计会有什么好处呢？作为对比，我们先来看看前辈语言之一的C语言对字符串的支持情况。</p><p>C语言没有提供对字符串类型的原生支持，也就是说，C语言中并没有“字符串”这个数据类型。在C语言中，字符串是以字符串字面值或以’\0’结尾的字符类型数组来呈现的，比如下面代码：</p><!-- [[[read_end]]] --><pre><code class="language-plain">#define GO_SLOGAN "less is more"
 

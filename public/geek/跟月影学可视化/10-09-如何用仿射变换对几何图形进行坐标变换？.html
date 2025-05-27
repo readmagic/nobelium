@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是月影。</p><p>前面两节课，我们学习了用向量表示的顶点，来描述曲线和多边形的方法。但是在实际绘制的时候，我们经常需要在画布上绘制许多轮廓相同的图形，难道这也需要我们重复地去计算每个图形的顶点吗？当然不需要。我们只需要创建一个基本的几何轮廓，然后通过<strong>仿射变换</strong>来改变几何图形的位置、形状、大小和角度。</p><p>仿射变换是拓扑学和图形学中一个非常重要的基础概念。利用它，我们才能在可视化应用中快速绘制出形态、位置、大小各异的众多几何图形。所以，这一节课，我们就来说一说仿射变换的数学基础和基本操作，它几乎会被应用到我们后面讲到的所有视觉呈现的案例中，所以你一定要掌握。</p><h2>什么是仿射变换？</h2><p>仿射变换简单来说就是“线性变换+平移”。实际上在平常的Web开发中，我们也经常会用到仿射变换，比如，对元素设置CSS的transform属性就是对元素应用仿射变换。</p><p>再说回到几何图形，针对它的仿射变换具有以下2个性质：</p><ol>
 

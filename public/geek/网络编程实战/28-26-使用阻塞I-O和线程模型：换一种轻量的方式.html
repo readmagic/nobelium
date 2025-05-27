@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是盛延敏，这里是网络编程实战第26讲，欢迎回来。</p><p>在前面一讲中，我们使用了进程模型来处理用户连接请求，进程切换上下文的代价是比较高的，幸运的是，有一种轻量级的模型可以处理多用户连接请求，这就是线程模型。这一讲里，我们就来了解一下线程模型。</p><p>线程（thread）是运行在进程中的一个“逻辑流”，现代操作系统都允许在单进程中运行多个线程。线程由操作系统内核管理。每个线程都有自己的上下文（context），包括一个可以唯一标识线程的ID（thread ID，或者叫tid）、栈、程序计数器、寄存器等。在同一个进程中，所有的线程共享该进程的整个虚拟地址空间，包括代码、数据、堆、共享库等。</p><p>在前面的程序中，我们没有显式使用线程，但这不代表线程没有发挥作用。实际上，每个进程一开始都会产生一个线程，一般被称为主线程，主线程可以再产生子线程，这样的主线程-子线程对可以叫做一个对等线程。</p><p>你可能会问，既然可以使用多进程来处理并发，为什么还要使用多线程模型呢？</p><p>简单来说，在同一个进程下，线程上下文切换的开销要比进程小得多。怎么理解线程上下文呢？我们的代码被CPU执行的时候，是需要一些数据支撑的，比如程序计数器告诉CPU代码执行到哪里了，寄存器里存了当前计算的一些中间值，内存里放置了一些当前用到的变量等，从一个计算场景，切换到另外一个计算场景，程序计数器、寄存器等这些值重新载入新场景的值，就是线程的上下文切换。</p><!-- [[[read_end]]] --><h2>POSIX线程模型</h2><p>POSIX线程是现代UNIX系统提供的处理线程的标准接口。POSIX定义的线程函数大约有60多个，这些函数可以帮助我们创建线程、回收线程。接下来我们先看一个简单的例子程序。</p><pre><code>int another_shared = 0;
 

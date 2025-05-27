@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在专栏<a href="https://time.geekbang.org/column/article/97837">第1讲</a>时我曾经说过，为了实现在互联网上构建超链接文档系统的设想，蒂姆·伯纳斯-李发明了万维网，使用HTTP协议传输“超文本”，让全世界的人都能够自由地共享信息。</p><p>“超文本”里含有“超链接”，可以从一个“超文本”跳跃到另一个“超文本”，对线性结构的传统文档是一个根本性的变革。</p><p>能够使用“超链接”在网络上任意地跳转也是万维网的一个关键特性。它把分散在世界各地的文档连接在一起，形成了复杂的网状结构，用户可以在查看时随意点击链接、转换页面。再加上浏览器又提供了“前进”“后退”“书签”等辅助功能，让用户在文档间跳转时更加方便，有了更多的主动性和交互性。</p><p>那么，点击页面“链接”时的跳转是怎样的呢？具体一点，比如在Nginx的主页上点了一下“download”链接，会发生什么呢？</p><p>结合之前的课程，稍微思考一下你就能得到答案：浏览器首先要解析链接文字里的URI。</p><pre><code>http://nginx.org/en/download.html
 

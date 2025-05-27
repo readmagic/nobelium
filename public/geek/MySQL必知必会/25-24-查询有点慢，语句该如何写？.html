@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱晓峰。这节课，我想和你聊一聊怎么对查询语句进行调优。</p><p>你肯定遇到过这样的情况：你写的SQL语句执行起来特别慢，要等好久才出结果，或者是干脆就“死”在那里，一点反应也没有。一旦遇到这种问题，你就要考虑进行优化了。</p><p>如果你开发过数据库应用，肯定会有这样的体会：<strong>让应用运行起来不难，但是要运行得又快又好，就没那么不容易了</strong>。这很考验我们的内功。</p><p>而要想提高应用的运行效率，你就必须掌握优化查询的方法。今天，我就给你讲一下MySQL的查询分析语句和2种优化查询的方法。</p><h2>查询分析语句</h2><p>虽然MySQL的查询分析语句并不能直接优化查询，但是却可以帮助你了解SQL语句的执行计划，有助于你分析查询效率低下的原因，进而有针对性地进行优化。查询分析语句的语法结构是：</p><pre><code>{ EXPLAIN | DESCRIBE | DESC }查询语句;
 

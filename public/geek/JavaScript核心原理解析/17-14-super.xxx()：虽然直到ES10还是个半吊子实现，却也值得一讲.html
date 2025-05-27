@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是周爱民，接下来我们继续讲述JavaScript中的那些奇幻代码。</p><p>今天要说的内容，打根儿里起还是得从JavaScript的1.0谈起。在此前我已经讲过了，JavaScript 1.0连继承都没有，但是它实现了以“类抄写”为基础的、基本的面向对象模型。而在此之后，才在JavaScript 1.1开始提出，并在后来逐渐完善了原型继承。</p><p>这样一来，在JavaScript中，从概念上来讲，所谓对象就是一个从原型对象衍生过来的实例，因此这个子级的对象也就具有原型对象的全部特征。</p><p>然而，既然是子级的对象，必然与它原型的对象有所不同。这一点很好理解，如果没有不同，那就没有必要派生出一级关系，直接使用原型的那一个抽象层级就可以了。</p><p>所以，有了原型继承带来的子级对象（这样的抽象层级），在这个子级对象上，就还需要有让它们跟原型表现得有所不同的方法。这时，JavaScript 1.0里面的那个“类抄写”的特性就跳出来了，它正好可以通过“抄写”往对象（也就是构造出来的那个this）上面添加些东西，来制造这种不同。</p><p>也就是说，JavaScript 1.1的面向对象系统的设计原则就是：<strong>用原型来实现继承，并在类（也就是构造器）中处理子一级的抽象差异</strong>。所以，从JavaScript 1.1开始，JavaScript有了自己的面向对象系统的完整方案，这个示例代码大概如下：</p><!-- [[[read_end]]] --><pre><code>// 这里用于处理“不同的东西”
 

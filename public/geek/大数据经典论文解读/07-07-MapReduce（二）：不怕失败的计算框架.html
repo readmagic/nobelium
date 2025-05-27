@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是徐文浩。</p><p>通过上节课的学习，现在你已经知道MapReduce的编程模型是怎么回事儿了。对于开发者来说，你只需要写一个Map函数和一个Reduce函数，就能完成数据处理过程。具体这些任务用了多少服务器，遇到了失败是怎么解决的，你并不需要关心。</p><p>不过，要想学习如何搭建和改进分布式系统，了解MapReduce的底层原理必不可少。今天，我们就一起来看看MapReduce的框架干了什么。MapReduce这个“保姆”，为什么可以让你不需要处理复杂的分布式架构的问题。</p><h2>MapReduce框架的三个挑战</h2><p>要想让写Map和Reduce函数的人不需要关心“分布式”的存在，那么MapReduce框架本身就需要解决好三个很重要的问题：</p><ul>
 

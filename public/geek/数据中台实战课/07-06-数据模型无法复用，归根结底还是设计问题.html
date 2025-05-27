@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是郭忆。</p><p>上一节课，我带你了解了数据中台如何管理指标，如果我们把指标比喻成一棵树上的果实，那模型就是这棵大树的躯干，想让果实结得好，必须让树干变得粗壮。</p><p>先来看一幕真实的场景。</p><p>大多数公司的分析师会结合业务做一些数据分析（需要用到大量的数据），通过报表的方式服务于业务部门的运营。但是在数据中台构建之前，分析师经常发现自己没有可以复用的数据，不得不使用原始数据进行清洗、加工、计算指标。</p><p>由于他们大多是非技术专业出身，写的SQL 质量比较差，我甚至见过5层以上的嵌套。这种SQL 对资源消耗非常大，会造成队列阻塞，影响其他数仓任务，会引起数据开发的不满。数据开发会要求收回分析师的原始数据读取权限，分析师又会抱怨数仓数据不完善，要啥没啥，一个需求经常要等一周甚至半个月。分析师与数据开发的矛盾从此开始。</p><p>这个矛盾的根源在于数据模型无法复用，数据开发是烟囱式的，每次遇到新的需求，都从原始数据重新计算，自然耗时。而要解决这个矛盾，就要搞清楚我们的数据模型应该设计成什么样子。</p><h2>什么才是一个好的数据模型设计？</h2><p>来看一组数据，这两个表格是基于元数据中心提供的血缘信息，分别对大数据平台上运行的任务和分析查询（Ad-hoc）进行的统计。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/19/2b/19c8925b0107dc7ad298d9bb62971d2b.jpg" alt="" title="表1 离线调度任务/表统计"></p><p><img src="https://static001.geekbang.org/resource/image/37/d3/371cfb2754297d211d9cd5b2af48fdd3.jpg" alt="" title="表2 一周内Ad-hoc 查询统计"></p><p>下图是数仓分层架构图，方便你回忆数据模型分层的设计架构：</p><p><img src="https://static001.geekbang.org/resource/image/91/d5/9199d1545ecf90454882f01868f68ed5.jpg" alt=""></p><p>我们首先来看表1。表1中有2547张未识别分层的表，占总表6049的40%，它们基本没办法复用。 重点是在已识别分层的读表任务中，ODS：DWD：DWS：ADS的读取任务分别是1072：545：187：433，直接读取ODS 层任务占这四层任务总和的47.9%，这说明有大量任务都是基于原始数据加工，中间模型复用性很差。</p><p>我们再来看看表2，在已识别的分层的查询中，ODS：DWD：DWS：ADS的命中的查询分别是892：1008：152：305，有37.8%的查询直接命中ODS层原始数据，说明DWD、DWS、ADS层数据建设缺失严重。尤其是ADS和DWS，查询越底层的表，就会导致查询扫描的数据量会越大，查询时间会越长，查询的资源消耗也越大，使用数据的人满意度会低。</p><p>最后，我们进一步对ODS层被读取的704张表进行分解，发现有382张表的下游产出是DWS，ADS，尤其是ADS达到了323张表，占ODS层表的比例45.8%，说明有大量ODS层表被进行物理深加工。</p><p><strong>通过上面的分析，我们似乎已经找到了一个理想的数仓模型设计应该具备的因素，那就是“数据模型可复用，完善且规范”。</strong></p><p><img src="https://static001.geekbang.org/resource/image/d6/b3/d6b10b27dfa4e4cff5a2ca496bd1fbb3.jpg" alt=""></p><h3>如何衡量完善度</h3><p><strong>DWD 层完善度：</strong>衡量DWD层是否完善，最好看ODS层有多少表被DWS/ADS/DM层引用。因为DWD以上的层引用的越多，就说明越多的任务是基于原始数据进行深度聚合计算的，明细数据没有积累，无法被复用，数据清洗、格式化、集成存在重复开发。因此，我提出用跨层引用率指标衡量DWD的完善度。</p><blockquote>
 

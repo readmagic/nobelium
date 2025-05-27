@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是LMOS。</p><p>在前面的课程中，我们建立了物理内存页面管理器，它既可以分配单个页面，也可以分配多个连续的页面，还能指定在特殊内存地址区域中分配页面。</p><p>但你发现没有，物理内存页面管理器一次分配至少是一个页面，而我们对内存分页是一个页面4KB，即4096字节。对于小于一个页面的内存分配请求，它无能为力。如果要实现小于一个页面的内存分配请求，又该怎么做呢？</p><p>这节课我们就一起来解决这个问题。课程配套代码，你可以从<a href="https://gitee.com/lmos/cosmos/tree/master/lesson19~21/Cosmos">这里</a>获得。</p><h2>malloc给我们的启发</h2><p>首先，我想和你说说，为什么小于一个页面的内存我们也要格外珍惜？</p><p>如果你在大学学过C程序设计语言的话，相信你对C库中的malloc函数也不会陌生，它负责完成分配一块内存空间的功能。</p><p>下面的代码。我相信你也写过，或者写过类似的，不用多介绍你也可以明白。</p><pre><code>#include &lt;stdio.h&gt;
 

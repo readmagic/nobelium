@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是蒋德钧。</p><p>上节课，我们学习了缓存和数据库的数据不一致问题和应对方法。除了数据不一致问题，我们常常还会面临缓存异常的三个问题，分别是缓存雪崩、缓存击穿和缓存穿透。这三个问题一旦发生，会导致大量的请求积压到数据库层。如果请求的并发量很大，就会导致数据库宕机或是故障，这就是很严重的生产事故了。</p><p>这节课，我就来和你聊聊这三个问题的表现、诱发原因以及解决方法。俗话说，知己知彼，百战不殆。了解了问题的成因，我们就能够在应用Redis缓存时，进行合理的缓存设置，以及相应的业务应用前端设置，提前做好准备。</p><p>接下来，我们就先看下缓存雪崩的问题和应对方案。</p><h2>缓存雪崩</h2><p>缓存雪崩是指大量的应用请求无法在Redis缓存中进行处理，紧接着，应用将大量请求发送到数据库层，导致数据库层的压力激增。</p><p>缓存雪崩一般是由两个原因导致的，应对方案也有所不同，我们一个个来看。</p><p>第一个原因是：缓存中有大量数据同时过期，导致大量请求无法得到处理。</p><p>具体来说，当数据保存在缓存中，并且设置了过期时间时，如果在某一个时刻，大量数据同时过期，此时，应用再访问这些数据的话，就会发生缓存缺失。紧接着，应用就会把请求发送给数据库，从数据库中读取数据。如果应用的并发请求量很大，那么数据库的压力也就很大，这会进一步影响到数据库的其他正常业务请求处理。我们来看一个简单的例子，如下图所示：</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/74/2e/74bb1aa4b2213e3ff29e2ee701e8f72e.jpg" alt=""></p><p>针对大量数据同时失效带来的缓存雪崩问题，我给你提供两种解决方案。</p><p>首先，我们可以避免给大量的数据设置相同的过期时间。如果业务层的确要求有些数据同时失效，你可以在用EXPIRE命令给每个数据设置过期时间时，给这些数据的过期时间增加一个较小的随机数（例如，随机增加1~3分钟），这样一来，不同数据的过期时间有所差别，但差别又不会太大，既避免了大量数据同时过期，同时也保证了这些数据基本在相近的时间失效，仍然能满足业务需求。</p><p>除了微调过期时间，我们还可以通过服务降级，来应对缓存雪崩。</p><p>所谓的服务降级，是指发生缓存雪崩时，针对不同的数据采取不同的处理方式。</p><ul>
 

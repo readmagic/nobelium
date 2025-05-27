@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是Tony Bai。</p><p>1984年图灵奖获得者、著名计算机科学家尼古拉斯·沃斯（Niklaus Wirth）提出过著名的“程序=数据结构+算法”的公式。在前面的课程中，我们花了很多时间讲解了Go语言的基本数据类型和复合数据类型，这些对应的就是公式中数据结构，通过这些数据类型我们可以建立起复杂的数据结构。</p><p>那么公式中的算法呢？算法是对真实世界运作规律的抽象，是解决真实世界中问题的步骤。在计算机世界中，再复杂的算法都可以通过顺序、分支和循环这三种基本的控制结构构造出来。</p><p>顺序结构自然不用说了，我们要关注的主要是后面两个。所以，这一节课开始的连续三节课，我们都会聚焦于Go语言中的分支和循环这两种控制结构。</p><p>那么Go语言对分支与循环两种控制结构的支持是怎么样的呢？针对程序的分支结构，Go提供了if和switch-case两种语句形式；而针对循环结构，Go只保留了for这一种循环语句形式。这节课我们就先从Go语言分支结构之一的if语句开始讲起。</p><h2>Go中的分支结构之认识if语句</h2><p>在<a href="https://time.geekbang.org/column/article/426282">01讲</a>中我们提到过，Go语言是站在C语言等的肩膀之上诞生与成长起来的。Go语言继承了C语言的很多语法，这里就包括控制结构。但Go也不是全盘照搬，而是在继承的基础上又加上了自己的一些优化与改进，比如：</p><!-- [[[read_end]]] --><ul>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是孔令飞，接下来的两讲，我们来聊聊如何设计和开发日志包。</p><p>在做Go项目开发时，除了处理错误之外，我们必须要做的另外一件事是记录日志。通过记录日志，可以完成一些基本功能，比如开发、测试期间的Debug，故障排除，数据分析，监控告警，以及记录发生的事件等。</p><p>要实现这些功能，首先我们需要一个优秀的日志包。另外，我还发现不少Go项目开发者记录日志很随意，输出的日志并不能有效定位到问题。所以，我们还需要知道怎么更好地记录日志，这就需要一个日志记录规范。</p><p>有了优秀的日志包和日志记录规范，我们就能很快地定位到问题，获取足够的信息，并完成后期的数据分析和监控告警，也可以很方便地进行调试了。这一讲，我就来详细介绍下，如何设计日志包和日志记录规范。</p><p>首先，我们来看下如何设计日志包。</p><h2>如何设计日志包</h2><p>目前，虽然有很多优秀的开源日志包可供我们选择，但在一个大型系统中，这些开源日志包很可能无法满足我们定制化的需求，这时候我们就需要自己开发日志包。</p><p>这些日志包可能是基于某个，或某几个开源的日志包改造而来，也可能是全新开发的日志包。那么在开发日志包时，我们需要实现哪些功能，又如何实现呢？接下来，我们就来详细聊聊。</p><p>先来看下日志包需要具备哪些功能。根据功能的重要性，我将日志包需要实现的功能分为<strong>基础功能</strong>、<strong>高级功能</strong>和<strong>可选功能</strong>。基础功能是一个日志包必须要具备的功能；高级功能、可选功能都是在特定场景下可增加的功能。我们先来说基础功能。</p><!-- [[[read_end]]] --><h3>基础功能</h3><p>基础功能，是优秀日志包必备的功能，能够满足绝大部分的使用场景，适合一些中小型的项目。一个日志包应该具备以下4个基础功能。</p><ol>
 

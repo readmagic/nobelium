@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是编辑王惠。</p><p>阶段性的总结复习和验证成果是非常重要的。所以，在8月7日到8月12日这为期一周的期中复习时间里，我们先来巩固一下“真实编译器解析篇”中的重点知识。你可以通过学习委员朱英达总结梳理的<strong>划重点内容，以及涵盖了关键知识点的7张思维导图</strong>，来回顾7种语言编译器的核心概念与算法。</p><p>另外，宫老师还精心策划了10道考试题，让你能在行至半程之时，做好自检，及时发现知识漏洞，到时候一起来挑战一下吧！</p><p>在期中复习周的最后，我还会邀请一位优秀的同学来做一次学习分享。通过他的学习故事，你也可以借此对照一下自己的编译原理学习之路。</p><p>好，下面我们就一起来复习这些核心的编译原理概念与算法知识吧。</p><hr><h2>Java编译器（javac）</h2><p>Java是一种广泛使用的计算机编程语言，主要应用于企业级Web应用开发、大型分布式系统以及移动应用开发（Android）。到现在，Java已经是一门非常成熟的语言了，而且它也在不断进化、与时俱进，泛型、函数式编程、模块化等特性陆续都增加了进来。与此同时，Java的编译器和虚拟机中所采用的技术，也比 20 年前发生了天翻地覆的变化。</p><p>Java的字节码编译器（javac）是用Java编写的，它实现了自举。启动Java编译器需要Java虚拟机（默认是HotSpot虚拟机，使用C++编写）作为宿主环境。</p><!-- [[[read_end]]] --><p>javac编译器的编译过程，主要涉及到了这样一些关键概念和核心算法：</p><ul>
 

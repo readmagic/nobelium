@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>曾经在15年的时候，我在WeMobileDev公众号就写过一篇文章<a href="https://mp.weixin.qq.com/s/QRIy_apwqAaL2pM8a_lRUQ">《Android安装包相关知识汇总》</a>，也开源了一个不少同学都使用过的资源混淆工具<a href="https://mp.weixin.qq.com/s/6YUJlGmhf1-Q-5KMvZ_8_Q">AndResGuard</a>。</p><p>现在再看看这篇4年前的文章，就像看到了4年前的自己，感触颇多啊。几年过去了，网上随意一搜都有大量安装包优化的文章，那还有哪些“高深”的珍藏秘笈值得分享呢？</p><p>时至今日，微信包体积也从当年的30MB增长到现在的100MB了。我们经常会想，现在WiFi这么普遍了，而且5G都要来了，包体积优化究竟还有没有意义？它对用户和应用的价值在哪里？</p><h2>安装包的背景知识</h2><p>还记得在2G时代，我们每个月只有30MB流量，那个时候安装包体积确实至关重要。当时我在做“搜狗输入法”的时候，我们就严格要求包体积在5MB以内。</p><p>几年过去了，我们对包体积的看法有什么改变吗？</p><p><strong>1. 为什么要优化包体积</strong></p><p>在2018年的Google I/O，Google透露了Google Play上安装包体积与下载转化率的关系图。</p><p><img src="https://static001.geekbang.org/resource/image/f8/68/f8a5e264dee4ee6879cd6c30d4bbf368.png" alt=""></p><p>从这张图上看，大体来说，安装包越小，转化率越高这个结论依然成立。而包体积对应用的影响，主要有下面几点：</p><ul>
 

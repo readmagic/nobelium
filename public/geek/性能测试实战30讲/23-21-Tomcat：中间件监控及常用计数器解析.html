@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在当今Spring Cloud微服务架构盛行的时代，Tomcat仍然作为应用最广的应用服务器而存在着，所以我们不得不说一说对它的性能分析。</p><p>很多时候，我们做性能测试分析时，都会把Tomcat这类的应用弄混淆。对它的监控和分析，总是会和JDK、框架代码、业务代码混合来看，这就导致了分析上的混乱。我们应该把这些分析内容分隔开来，哪些是tomcat，哪些是JDK等。</p><p>在我看来，Tomcat、WebLogic、WebSphere、JBoss等，它们都具有同样的分析思路。因为Tomcat的市场范围更大，所以，今天，我们以它为例来说明这类应用应该如何分析。</p><p>首先我们得知道它的架构是什么样的。</p><p><img src="https://static001.geekbang.org/resource/image/bb/10/bb22a5bea7abe133a8db73e2fe311f10.jpg?wh=1650*1123" alt=""></p><p>这是一个在网上随处可见的架构图，它能告诉我们Tomcat内部如何运作。如果你有兴趣，还可以看一下官方对它的架构描述。</p><p>然而，我们做性能分析的人真的要完全掌握这些细节吗？当然不是。从经验上来说，基本上有几大方面，是Tomcat优化时需要关注的。</p><p>如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/c1/90/c1c6e4a479c53a3365cbffe476ab6090.png?wh=1353*904" alt=""></p><p>最上面，我放了两个框，分别是操作系统和JDK。因为要调优Tomcat，和这两者非常相关，但是操作系统和JDK又各自有独立的分析逻辑，而在本篇中，我专门讲Tomcat类型的组件，所以上面两块的内容我将尽量不涉及，以免混乱。</p><!-- [[[read_end]]] --><p>在Tomcat的性能分析中，我将我认为重要的几个技术点列在了思维导图中，同时也对它们做了重要程度的标识。在我分析经验中，这些内容已经包括了大部分的优化场景。</p><h2>运行模式之争</h2><p>有很多人对运行模式非常敏感，大家也看到经常有文章说：“对于性能来说，显然是BIO&lt;NIO&lt;APR的。”然而也有人做过测试说，其实不见得BIO性能就最差，这取决于应用场景；也有人说在压力低的情况下，显然BIO的性能更高。</p><p>从我的经验上来说，真的没必要纠结这一点。本着对Tomcat官方的信任，我觉得最好就是用官方给的默认运行模式，它肯定是经过了更严格的测试才被选择的。这就跟相信世上好人多是一样的道理。</p><p>现在新的Tomcat版本中默认的是NIO了，你可以在启动日志中看到相应的信息，如下所示：</p><pre><code>21-Jan-2020 16:50:57.989 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler [&quot;https-jsse-nio-443&quot;]
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>作为Android工程师，我们每天都会经历无数次编译；而对于大型项目来说，每次编译就意味着要花去一杯咖啡的时间。可能我讲具体的数字你会更有体会，当时我在微信时，全量编译Debug包需要5分钟，而编译Release包更是要超过15分钟。</p><p>如果每次编译可以减少1分钟，对微信整个Android团队来说就可以节约1200分钟（团队40人 × 每天编译30次 × 1分钟）。所以说优化编译速度，对于提升整个团队的开发效率是非常重要的。</p><p>那应该怎么样优化编译速度呢？微信、Google、Facebook等国内外大厂都做了哪些努力呢？除了编译速度之外，关于编译你还需要了解哪些知识呢？</p><h2>关于编译</h2><p>虽然我们每天都在编译，那到底什么是编译呢？</p><p>你可以把编译简单理解为，将高级语言转化为机器或者虚拟机所能识别的低级语言的过程。对于Android来说，这个过程就是把Java或者Kotlin转变为Android虚拟机运行的<a href="https://source.android.com/devices/tech/dalvik/dalvik-bytecode">Dalvik字节码</a>的过程。</p><p>编译的整个过程会涉及词法分析、语法分析 、语义检查和代码优化等步骤。对于底层编译原理感兴趣的同学，你可以挑战一下编译原理的三大经典巨作：<a href="https://www.itcodemonkey.com/article/3521.html">龙书、虎书、鲸鱼书</a>。</p><p>但今天我们的重点不是底层的编译原理，而是希望一起讨论Android编译需要解决的问题是什么，目前又遇到了哪些挑战，以及国内外大厂又给出了什么样的解决方案。</p><!-- [[[read_end]]] --><p><strong>1. Android编译的基础知识</strong></p><p>无论是微信的编译优化，还是Tinker项目，都涉及比较多的编译相关知识，因此我在Android编译方面研究颇多，经验也比较丰富。Android的编译构建流程主要包括代码、资源以及Native Library三部分，整个流程可以参考官方文档的<a href="https://developer.android.com/studio/build/?hl=zh-cn">构建流程图</a>。</p><p><img src="https://static001.geekbang.org/resource/image/7e/87/7e66559bb42ce21a538ab34f596c1f87.png" alt=""></p><p><a href="https://docs.gradle.org/current/userguide/userguide.html">Gradle</a>是Android官方的编译工具，它也是GitHub上的一个<a href="https://github.com/gradle/gradle">开源项目</a>。从Gradle的<a href="https://gradle.org/releases/">更新日志</a>可以看到，当前这个项目还更新得非常频繁，基本上每一两个月都会有新的版本。对于Gradle，我感觉最痛苦的还是Gradle Plugin的编写，主要是因为Gradle在这方面没有完善的文档，因此一般都只能靠看源码或者<a href="https://fucknmb.com/2017/07/05/%E5%8F%88%E6%8E%8C%E6%8F%A1%E4%BA%86%E4%B8%80%E9%A1%B9%E6%96%B0%E6%8A%80%E8%83%BD-%E6%96%AD%E7%82%B9%E8%B0%83%E8%AF%95Gradle%E6%8F%92%E4%BB%B6/">断点调试</a>的方法。</p><p>但是编译实在太重要了，每个公司的情况又各不相同，必须强行造一套自己的“轮子”。已经开源的项目有Facebook的<a href="https://github.com/facebook/buck">Buck</a>以及Google的<a href="https://github.com/bazelbuild/bazel">Bazel</a>。</p><p>为什么要自己“造轮子”呢？主要有下面几个原因：</p><ul>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是winter。今天，我们来聊一聊HTML语言。</p><p>我们平时写HTML语言，都习惯把关注点放到各种标签上，很少去深究它的语法。我想你应该会有模糊的感觉，HTML这样的语言，跟JavaScript这样的语言会有一些本质的不同。</p><p>实际上，JavaScript语言我们把它称为“编程语言”，它最大的特点是图灵完备的，我们大致可以理解为“包含了表达一切逻辑的能力”。像HTML这样的语言，我们称为“标记语言（mark up language）”，它是纯文本的一种升级，“标记”一词的概念来自：编辑审稿时使用不同颜色笔所做的“标记”。</p><p>在上世纪80年代，“富文本”的概念在计算机领域的热门，犹如如今的“AI”和“区块链”，而Tim Berners-Lee当时去设计HTML，也并非是凭空造出来，他使用了当时已有的一种语言：SGML。</p><p>SGML是一种古老的标记语言，可以追溯到1969年IBM公司所使用的技术，SGML十分复杂，严格来说，HTML是SGML中规定的一种格式，但是实际的浏览器没有任何一个是通过SGML引擎来解析HTML的。</p><p>今天的HTML仍然有SGML的不少影子，那么接下来我们就从SGML的一些特性来学习一下HTML。这里我最想讲的是SGML留给HTML的重要的遗产：基本语法和DTD。</p><!-- [[[read_end]]] --><h2>基本语法</h2><p>首先，HTML作为SGML的子集，它遵循SGML的基本语法：包括标签、转义等。</p><p>SGML还规定了一些特殊的节点类型，在我们之前的DOM课程中已经讲过几种节点类型，它们都有与之对应的HTML语法，我们这里复习一下：</p><p><img src="https://static001.geekbang.org/resource/image/b6/bc/b6fdf08dbe47c837e274ff1bb6f630bc.jpg?wh=1016*581" alt=""></p><p>这里我们从语法的角度，再逐个具体了解一下。</p><h3>标签语法</h3><p>标签语法产生元素，我们从语法的角度讲，就用“标签”这个术语，我们从运行时的角度讲，就用“元素”这个术语。</p><p>HTML中，用于描述一个元素的标签分为开始标签、结束标签和自闭合标签。开始标签和自闭合标签中，又可以有属性。</p><ul>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>这一讲是“破冰篇”的最后一讲，我会先简单地回顾一下之前的内容，然后在Windows系统上实际操作，用几个应用软件搭建出一个“最小化”的HTTP实验环境，方便后续的“基础篇”“进阶篇”“安全篇”的学习。</p><h2>“破冰篇”回顾</h2><p>HTTP协议诞生于30年前，设计之初的目的是用来传输纯文本数据。但由于形式灵活，搭配URI、HTML等技术能够把互联网上的资源都联系起来，构成一个复杂的超文本系统，让人们自由地获取信息，所以得到了迅猛发展。</p><p>HTTP有多个版本，目前应用的最广泛的是HTTP/1.1，它几乎可以说是整个互联网的基石。但HTTP/1.1的性能难以满足如今的高流量网站，于是又出现了HTTP/2和HTTP/3。不过这两个新版本的协议还没有完全推广开。在可预见的将来，HTTP/1.1还会继续存在下去。</p><p>HTTP翻译成中文是“超文本传输协议”，是一个应用层的协议，通常基于TCP/IP，能够在网络的任意两点之间传输文字、图片、音频、视频等数据。</p><p>HTTP协议中的两个端点称为<strong>请求方</strong>和<strong>应答方</strong>。请求方通常就是Web浏览器，也叫user agent，应答方是Web服务器，存储着网络上的大部分静态或动态的资源。</p><p>在浏览器和服务器之间还有一些“中间人”的角色，如CDN、网关、代理等，它们也同样遵守HTTP协议，可以帮助用户更快速、更安全地获取资源。</p><!-- [[[read_end]]] --><p>HTTP协议不是一个孤立的协议，需要下层很多其他协议的配合。最基本的是TCP/IP，实现寻址、路由和可靠的数据传输，还有DNS协议实现对互联网上主机的定位查找。</p><p>对HTTP更准确的称呼是“<strong>HTTP over TCP/IP</strong>”，而另一个“<strong>HTTP over SSL/TLS</strong>”就是增加了安全功能的HTTPS。</p><h2>软件介绍</h2><p>常言道“实践出真知”，又有俗语“光说不练是假把式”。要研究HTTP协议，最好有一个实际可操作、可验证的环境，通过实际的数据、现象来学习，肯定要比单纯的“动嘴皮子”效果要好的多。</p><p>现成的环境当然有，只要能用浏览器上网，就会有HTTP协议，就可以进行实验。但现实的网络环境又太复杂了，有很多无关的干扰因素，这些“噪音”会“淹没”真正有用的信息。</p><p>所以，我给你的建议是：搭建一个“<strong>最小化</strong>”的环境，在这个环境里仅有HTTP协议的两个端点：请求方和应答方，去除一切多余的环节，从而可以抓住重点，快速掌握HTTP的本质。</p><p><img src="https://static001.geekbang.org/resource/image/85/0b/85cadf90dc96cf413afaf8668689ef0b.png" alt=""></p><p>简单说一下这个“最小化”环境用到的应用软件：</p><ul>
 

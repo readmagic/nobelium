@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是景霄。这节课，我们一起来学习装饰器。</p><p>装饰器一直以来都是Python中很有用、很经典的一个feature，在工程中的应用也十分广泛，比如日志、缓存等等的任务都会用到。然而，在平常工作生活中，我发现不少人，尤其是初学者，常常因为其相对复杂的表示，对装饰器望而生畏，认为它“too fancy to learn”，实际并不如此。</p><p>今天这节课，我会以前面所讲的函数、闭包为切入点，引出装饰器的概念、表达和基本用法，最后，再通过实际工程中的例子，让你再次加深理解。</p><p>接下来，让我们进入正文一起学习吧！</p><h2>函数-&gt;装饰器</h2><h3>函数核心回顾</h3><p>引入装饰器之前，我们首先一起来复习一下，必须掌握的函数的几个核心概念。</p><p>第一点，我们要知道，在Python中，函数是一等公民（first-class citizen），函数也是对象。我们可以把函数赋予变量，比如下面这段代码：</p><pre><code>def func(message):
 

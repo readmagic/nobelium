@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是何为舟。</p><p>在上一讲中，我们主要从身份认证的场景和威胁上，对身份认证进行了介绍。同时，身份认证的核心问题是身份管理，因此我们可以采用单点登录的形式，来解决复杂的身份管理问题。常用的单点登录方式包括CAS流程、JWT、OAuth和OpenID。</p><p>那听了你对身份认证的规划之后，面试官觉得很满意，接着又问道：“既然身份认证都做到这么好了，是不是就不需要所谓的‘黄金法则’了？有了身份认证，还需要授权和审计做什么呢？”</p><p>对于这个问题，你肯定要先给出否定的回答，这个很显然。接着，你可以说：“通过身份认证，我们只能够确认用户的身份，而对用户的操作和访问行为的把控，就是授权和审计的任务了。”</p><p>接着，面试官又发问了：“我理解身份认证和授权的区别了。目前，我们公司的授权机制比较随意，基本就是有什么需求就做什么。如果是你，你会怎么优化授权机制呢？”</p><p>那这一讲中，我们就来介绍几种常见授权机制的概念和原理，以及在实际工作中我们该如何去选取合适的保护机制。这些通用的机制学习起来可能比较抽象，但“磨刀不误砍柴工”，理解了宏观上的知识基础，对我们后续学习各类具体的防御机制会有很大的帮助。</p><p>我个人认为，“授权”和“访问控制”其实是同一个概念，都是允许或者禁止某个用户做某件事情。现在行业内普遍用“访问控制”这个术语来讨论相关问题。因此，后续我们都会用“访问控制”来替代“授权”。如果你看到了这两种说法，知道它们是一个意思就可以了。</p><!-- [[[read_end]]] --><h2>访问控制模型</h2><p>首先，在探讨访问控制的机制之前，我们先要来了解一下，访问控制的场景是什么。这也是你去理解访问控制机制的一个基础。我把访问控制模型抽象成了下图的模型，你可以看看。具体来说就是，一个主体请求一个客体，这个请求的授权由访问控制来完成。</p><p><img src="https://static001.geekbang.org/resource/image/5a/56/5a907be5efd5a8848f9dc5e1ccee3756.jpeg" alt=""></p><p>如何具体的理解这个模型呢？你可以这样想：在用户去读取文件的过程中，用户是主体，读取这个操作是请求，文件是客体。下面我来详细介绍一下。</p><ul>
 

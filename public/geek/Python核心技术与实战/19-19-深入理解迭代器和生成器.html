@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是景霄。</p><p>在第一次接触 Python 的时候，你可能写过类似 <code>for i in [2, 3, 5, 7, 11, 13]: print(i)</code> 这样的语句。for in 语句理解起来很直观形象，比起 C++ 和 java 早期的 <code>for (int i = 0; i &lt; n; i ++) printf("%d\n", a[i])</code> 这样的语句，不知道简洁清晰到哪里去了。</p><p>但是，你想过 Python 在处理 for in 语句的时候，具体发生了什么吗？什么样的对象可以被 for in 来枚举呢？</p><p>这一节课，我们深入到  Python 的容器类型实现底层去走走，了解一种叫做迭代器和生成器的东西。</p><h2>你肯定用过的容器、可迭代对象和迭代器</h2><p>容器这个概念非常好理解。我们说过，在Python 中一切皆对象，对象的抽象就是类，而对象的集合就是容器。</p><p>列表（list: [0, 1, 2]），元组（tuple: (0, 1, 2)），字典（dict: {0:0, 1:1, 2:2}），集合（set: set([0, 1, 2])）都是容器。对于容器，你可以很直观地想象成多个元素在一起的单元；而不同容器的区别，正是在于内部数据结构的实现方法。然后，你就可以针对不同场景，选择不同时间和空间复杂度的容器。</p><p>所有的容器都是可迭代的（iterable）。这里的迭代，和枚举不完全一样。迭代可以想象成是你去买苹果，卖家并不告诉你他有多少库存。这样，每次你都需要告诉卖家，你要一个苹果，然后卖家采取行为：要么给你拿一个苹果；要么告诉你，苹果已经卖完了。你并不需要知道，卖家在仓库是怎么摆放苹果的。</p><!-- [[[read_end]]] --><p>严谨地说，迭代器（iterator）提供了一个 next 的方法。调用这个方法后，你要么得到这个容器的下一个对象，要么得到一个 StopIteration 的错误（苹果卖完了）。你不需要像列表一样指定元素的索引，因为字典和集合这样的容器并没有索引一说。比如，字典采用哈希表实现，那么你就只需要知道，next 函数可以不重复不遗漏地一个一个拿到所有元素即可。</p><p>而可迭代对象，通过 iter() 函数返回一个迭代器，再通过 next() 函数就可以实现遍历。for in 语句将这个过程隐式化，所以，你只需要知道它大概做了什么就行了。</p><p>我们来看下面这段代码，主要向你展示怎么判断一个对象是否可迭代。当然，这还有另一种做法，是 isinstance(obj, Iterable)。</p><pre><code>def is_iterable(param):
 

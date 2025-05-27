@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是于航。</p><p>在上一讲中，我介绍了有关 Linux 下静态链接的内容。而这一讲，我们将继续程序的“链接”之旅，来看看我之前提到的另外两种链接类型，加载时链接与运行时链接。</p><p>实际上，加载时链接与运行时链接均可归为动态链接，只是在这两种方式中，程序进行链接的具体时刻有所不同。其中，加载时链接发生在程序代码被真正执行之前；而运行时链接则可发生在程序运行过程中的任意时刻。</p><h2>为什么要使用动态链接？</h2><p>在上一讲中，我已经简单介绍了静态链接与动态链接两者的区别。其实，动态链接技术出现的最重要目的，便是为了解决静态链接具有的一些明显缺点。试想，假设一个应用程序依赖于多个第三方模块提供的函数实现，而这些模块均以静态库（包含有多个目标文件）的方式提供。那么，每次想要使用它们的最新版本时，我们都需要显式地将程序与它们重新进行链接。对于大多数普通的应用使用者来说，这个过程所花费的成本当然是无法接受的。</p><p>另外，使用完全静态链接也会导致那些本可以被多次重用的通用功能函数，无法被统一“提取出来”，这便会导致程序的二进制可执行文件体积变大。并且，这些通用代码的副本会随着多个进程的运行，被多次加载到内存中，而这也极大地浪费了宝贵的内存资源。而动态链接技术的出现，便可以解决上述这些问题。</p><!-- [[[read_end]]] --><p>能够使用动态链接加载的库被称为“共享库（Shared Library）”。在 Linux 中，这类库文件通常以 “.so” 后缀结尾。在深入介绍动态链接的基本原理之前，我们先来看看如何在真实项目中使用它。</p><h2>使用共享库</h2><p>回顾<a href="https://time.geekbang.org/column/article/487944"> 25 讲</a> 中的内容，我们能够知道，动态库本身也是 ELF 格式的一种具体文件类型，它对应着 elf.h 中的宏常量 ET_DYN。接下来，我仍以上一讲中的两段代码为例，来带你看看如何在实际项目中使用动态库。</p><p>这里，我们将把 sum.c 文件编译成动态库，并让 main.c 对应的应用程序使用。整个过程可以分为如下几步：</p><ol>
 

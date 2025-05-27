@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是轩脉刃。</p><p>不管你是前端页面开发，还是后端服务开发，你一定经历过前后端联调的场景，前后端联调最痛苦的事情，莫过于没有完善的接口文档、没有可以调用调试的接口返回值了，所以一般都会采用形如Postman这样的第三方工具，来进行接口的调用和联调。</p><p>但是这一节课，我们要做的事情，就是为自己的Web应用集成swagger，使用swagger自动生成一个可以查看接口、可以调用执行的页面。</p><h3>swagger</h3><p>说到swagger，可能有的同学还比较陌生，我来简要介绍一下。swagger框架在2009年启动，之前是Reverb公司内部开发的一个项目，他们的工程师在与第三方调试REST接口的过程中，为了解决大量的接口与文档问题，就设计了swagger这个项目。</p><p>项目最终成型的方案是，先设计一个JSON规则，开发工程师把所有服务接口按照这种规则来写成一个JSON文件，<strong>这个JSON文件可以直接生成一个交互式UI，可以提供调用者查看、调用调试</strong>。</p><p>swagger的应用是非常广泛的。非常多的开源项目在提供对外接口的时候都使用swagger来进行描述。比如目前最火的Kubernetes项目，每次在发布版本的时候，都会在项目根目录上，带上符合swagger规则的<a href="https://github.com/kubernetes/kubernetes/blob/master/api/openapi-spec/swagger.json">JSON文件</a>，用来向使用者提供内部接口。</p><!-- [[[read_end]]] --><p>swagger的产品有两类。</p><p>一个是前面说的JSON规则，就是OpenAPI的文档，它说明了我们要写一个接口说明文档的每个字段含义和要求。</p><p>OpenAPI的规则也是有版本的，目前最新版本是3.0，但是3.0版本目前市场上相应的配套支持还不成熟，比如Golang版本的SDK库<a href="https://github.com/go-openapi/spec">spec</a>还不支持。目前市面上对OpenAPI2.0的支持还是最全的。所以我们的hade框架就使用swagger2.0版本。</p><p>swagger的另外一类产品是工具，包括swagger-ui、swagger-editor和swagger-codegen。</p><p><a href="https://editor.swagger.io/">swagger-editor</a>提供一个开源网站，在线编辑swagger文件。<a href="https://swagger.io/tools/swagger-codegen/download/">swagger-codegen</a>提供一个Java命令行工具，通过swagger文件生成client端代码。而<a href="https://petstore.swagger.io/">swagger-ui</a>，通过提供一个开源网站，将swagger接口在线展示出来，并且可以让调用者查看、调试。我们的目标是生成一个可以查看接口，进行调用调试的页面，所以要将swagger-ui集成进hade框架。</p><h3>命令设计</h3><p>了解了swagger，结合框架，我们照例先思考下希望如何使用它。</p><p>按照swagger的定义，我们应该在业务项目中维护一个JSON文件，这个文件描述了这个业务的所有接口。但是你想过没有，<strong>随着项目的接口数越来越大，维护swagger的JSON描述文档本身，就是一个很大很繁杂的工作量</strong>。</p><p>由于每个接口在代码开发的时候，我们都会有注释，而更新代码的时候，我们是会去更新注释的。所以能不能有一个方法，通过代码的注释，自动生成这个JSON文件呢？</p><p>好，这个就是我们希望定义的一个swagger命令，<code>./hade swagger gen</code> ，能通过注释生成swagger.json文件。</p><p>但是考虑具体的实现设计，怎么用Golang的代码，注释生成swagger.json呢？既然swagger.json是有一定的规则的，那么注释的写法也是有一定规则的吧？是的。目前有一个最流行的将Golang注释转化为swagger.json 的开源项目<a href="https://github.com/swaggo/swag">swag</a>。</p><h3>swag项目</h3><p>这个swag项目是MIT 协议，目前已经有4.9k 个star了。它的用法和我们想要的一样，生成swagger.json分三步：</p><ul>
 

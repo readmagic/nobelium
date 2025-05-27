@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是唐扬。</p><p>从今天开始，我们正式进入最后的实战篇。在之前的课程中，我分别从数据库、缓存、消息队列和分布式服务化的角度，带你了解了面对高并发的时候要如何保证系统的高性能、高可用和高可扩展。课程中虽然有大量的例子辅助你理解理论知识，但是没有一个完整的实例帮你把知识串起来。</p><p>所以，为了将我们提及的知识落地，在实战篇中，我会以微博为背景，用两个完整的案例带你从实践的角度应对高并发大流量的冲击，期望给你一个更加具体的感性认识，为你在实现类似系统的时候提供一些思路。今天我要讲的第一个案例是如何设计一个支持高并发大存储量的计数系统。</p><p><strong>来看这样一个场景：</strong> 在地铁上，你也许会经常刷微博、点赞热搜，如果有抽奖活动，再转发一波，而这些与微博息息相关的数据，其实就是微博场景下的计数数据，细说起来，它主要有几类：</p><ol>
 

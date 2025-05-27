@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>我们在前一节，学习了精灵的变形、放大和缩小，并且学习了如何使用精灵类和组的概念来管理精灵，制成动画。今天，我将带你学习淡入淡出和碰撞热点的判断。</p><p>所谓的<strong>淡入淡出</strong>，就是英文的<strong>fade-in</strong>和<strong>fade-out</strong>。淡入淡出在电影、游戏、CG、操作系统、手机UI、应用等等各种地方随处可见。那究竟什么是淡入淡出呢？它在游戏中究竟如何实现呢？在我们的打飞机游戏中，什么时候会用到这个操作呢？</p><h2>什么是淡入淡出？</h2><p>不知道你有没有注意，在我们玩过的打飞机游戏中，当每一关游戏开始的时候，都会有个游戏画面逐渐出现的过程。短短几秒，从无到有，整个画面就呈现在你眼前了。同样，每一关结束的时候，也会有个画面逐渐消失的过程。</p><p>从<strong>画面效果</strong>讲，这个画面从有到逐渐屏幕变暗，直到消失，或者反过来，由暗逐渐变亮，到完全进入画面的过程，就叫做淡入淡出。从<strong>声音</strong>角度讲，也存在淡入淡出，比如音乐从无声到逐渐有声，或者从有声到逐渐无声。</p><p><strong>在Pygame中并不存在“画面的淡入淡出”这样的函数，需要我们自己去实现这样的功能。</strong></p><p>首先，如果我们想给这张图片进行淡入淡出的处理的话，就需要对它进行alpha混合处理。我们在前面谈到过alpha混合，你可以理解成半透明，但是alpha混合究竟是什么呢？</p><!-- [[[read_end]]] --><p><strong>alpha混合</strong>就是将一部分被遮盖的图像进行半透明处理。在游戏引擎或者游戏库中，图像的alpha值是可以被修改的。每动态修改一次alpha值，就会让图像更透明或者更不透明。通过制作出alpha效果，我们可以在游戏中实现各种绚丽的效果。</p><p>一般来讲，底层图形接口的颜色为32位的值，包含RGB以及A（alpha），其中红色R、绿色G和蓝色B各为8位，alpha也为8位，所以合起来是32位的颜色值。</p><p>但是如果不存在A通道，那么就是24位的颜色值。每个颜色值都有256个级别的值，从程序角度是从0到255，而支持alpha通道的图片格式有png、tiff等。但是如果没有带alpha透明通道的图，我们也可以在程序中设置它的alpha值来做透明。</p><p>如果是Pygame，在load image函数的时候，不要处理alpha，也就是不要调用convert_alpha函数。具体为什么呢？我后面给你揭晓。</p><h2>如何做出淡入淡出效果？</h2><p>我们在没有背景图片载入的时候，做淡入淡出效果，就不是使用alpha通道了，而是需要用<strong>fill函数</strong>来填充背景色。</p><p>如果背景色是（0,0,0），也就是纯黑的话，那么就需要将（0,0,0）逐渐变成（255,255,255）来变成纯白，或者你自己定义一个RGB值来完成最终淡出后的背景色。</p><p>我们现在来看一下这段代码。</p><pre><code>pln = pygame.image.load(plane).convert()
 

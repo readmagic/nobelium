@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是郑晔。</p><p>前面两讲，我们讨论了命名中的坏味道。今天，我们来讨论另外一个常见的坏味道：重复代码。</p><p>记得我刚开始工作的时候，有人开玩笑说，编程实际上就是 CVS（CVS是当时流行的一个版本控制工具，相当于今天的 Git），也就是 Ctrl+C、Ctrl+V、Ctrl+S，或许你已经听出来了，这是在调侃很多程序员写程序依靠的是复制粘贴。</p><p>时至今日，很多初级程序员写代码依然规避不了复制粘贴，基本的做法就是把一段代码复制过来，改动几个地方，然后，跑一下没有太大问题就万事大吉了。殊不知，这种做法就是在给未来挖坑。</p><p>通常情况下，只要这些复制代码其中有一点逻辑要修改，就意味着所有复制粘贴的地方都要修改。所以，我们在实际的项目中，常常看见这样的情况：明明是一个简单的需求，你却需要改很多的地方，需要花费很长的时间，结果无论是项目经理，还是产品经理，对进度都很不满意。</p><p>更可怕的是，只要你少改了一处，就意味着留下一处潜在的问题。问题会在不经意间爆发出来，让人陷入难堪的境地。</p><p>复制粘贴是最容易产生重复代码的地方，所以，一个最直白的建议就是，不要使用复制粘贴。<strong>真正应该做的是，先提取出函数，然后，在需要的地方调用这个函数。</strong></p><p>其实，复制粘贴的重复代码是相对容易发现的，但有一些代码是有类似的结构，这也是重复代码，有些人对这类坏味道却视而不见。</p><!-- [[[read_end]]] --><h2>重复的结构</h2><p>我们看一下下面的几段代码：</p><pre><code>@Task
 

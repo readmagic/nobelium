@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱晔。今天，我要和你分享的主题是，空值处理：分不清楚的null和恼人的空指针。</p><p>有一天我收到一条短信，内容是“尊敬的null你好，XXX”。当时我就笑了，这是程序员都能Get的笑点，程序没有获取到我的姓名，然后把空格式化为了null。很明显，这是没处理好null。哪怕把null替换为贵宾、顾客，也不会引发这样的笑话。</p><p>程序中的变量是null，就意味着它没有引用指向或者说没有指针。这时，我们对这个变量进行任何操作，都必然会引发空指针异常，在Java中就是NullPointerException。那么，空指针异常容易在哪些情况下出现，又应该如何修复呢？</p><p>空指针异常虽然恼人但好在容易定位，更麻烦的是要弄清楚null的含义。比如，客户端给服务端的一个数据是null，那么其意图到底是给一个空值，还是没提供值呢？再比如，数据库中字段的NULL值，是否有特殊的含义呢，针对数据库中的NULL值，写SQL需要特别注意什么呢？</p><p>今天，就让我们带着这些问题开始null的踩坑之旅吧。</p><h2>修复和定位恼人的空指针问题</h2><p><strong>NullPointerException是Java代码中最常见的异常，我将其最可能出现的场景归为以下5种</strong>：</p><!-- [[[read_end]]] --><ul>
 

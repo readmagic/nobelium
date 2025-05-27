@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是程远。从这一讲开始，我们进入容器存储这个模块。</p><p>这一模块我们所讲的内容，都和容器里的文件读写密切相关。因为所有的容器的运行都需要一个容器文件系统，那么我们就从容器文件系统先开始讲起。</p><p>那我们还是和以前一样，先来看看我之前碰到了什么问题。</p><p>这个问题具体是我们在宿主机上，把Linux从ubuntu18.04升级到ubuntu20.04之后发现的。</p><p>在我们做了宿主机的升级后，启动了一个容器，在容器里用fio这个磁盘性能测试工具，想看一下容器里文件的读写性能。结果我们很惊讶地发现，在ubuntu 20.04宿主机上的容器中文件读写的性能只有ubuntu18.04宿主机上的1/8左右了，那这是怎么回事呢？</p><h2>问题再现</h2><p>这里我提醒一下你，因为涉及到两个Linux的虚拟机，问题再现这里我为你列出了关键的结果输出截图，不方便操作的同学可以重点看其中的思路。</p><p>我们可以先启动一个ubuntu18.04的虚拟机，它的Linux内核版本是4.15的，然后在虚拟机上用命令 <code>docker run -it ubuntu:18.04 bash</code> 启动一个容器，接着在容器里运行fio这条命令，看一下在容器中读取文件的性能。</p><pre><code># fio -direct=1 -iodepth=64 -rw=read -ioengine=libaio -bs=4k -size=10G -numjobs=1  -name=./fio.test
 

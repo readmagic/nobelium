@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是盛延敏，这里是网络编程实战的第15讲，欢迎回来。</p><p>上一讲我们讲到UDP也可以像TCP一样，使用connect方法，以快速获取异步错误的信息。在今天的内容里，我们将讨论服务器端程序重启时，地址被占用的原因和解决方法。</p><p>我们已经知道，网络编程中，服务器程序需要绑定本地地址和一个端口，然后就监听在这个地址和端口上，等待客户端连接的到来。在实战中，你可能会经常碰到一个问题，当服务器端程序重启之后，总是碰到“Address in use”的报错信息，服务器程序不能很快地重启。那么这个问题是如何产生的？我们又该如何避免呢？</p><p>今天我们就来讲一讲这个“地址已经被使用”的问题。</p><h2>从例子开始</h2><p>为了引入讨论，我们从之前讲过的一个TCP服务器端程序开始说起：</p><pre><code>static int count;
 

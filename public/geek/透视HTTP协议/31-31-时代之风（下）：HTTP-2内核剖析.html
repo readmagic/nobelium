@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>今天我们继续上一讲的话题，深入HTTP/2协议的内部，看看它的实现细节。</p><p><img src="https://static001.geekbang.org/resource/image/89/17/8903a45c632b64c220299d5bc64ef717.png" alt=""></p><p>这次实验环境的URI是“/31-1”，我用Wireshark把请求响应的过程抓包存了下来，文件放在GitHub的“wireshark”目录。今天我们就对照着抓包来实地讲解HTTP/2的头部压缩、二进制帧等特性。</p><h2>连接前言</h2><p>由于HTTP/2“事实上”是基于TLS，所以在正式收发数据之前，会有TCP握手和TLS握手，这两个步骤相信你一定已经很熟悉了，所以这里就略过去不再细说。</p><p>TLS握手成功之后，客户端必须要发送一个“<strong>连接前言</strong>”（connection preface），用来确认建立HTTP/2连接。</p><p>这个“连接前言”是标准的HTTP/1请求报文，使用纯文本的ASCII码格式，请求方法是特别注册的一个关键字“PRI”，全文只有24个字节：</p><pre><code>PRI * HTTP/2.0\r\n\r\nSM\r\n\r\n
 

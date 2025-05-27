@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是轩脉刃。</p><p>之前我们从零开始研发了一个有控制器、路由、中间件等组件的 Web 服务器框架，这个服务器框架可以说是麻雀虽小，但五脏俱全。上节课我们还介绍了目前最主流的一些框架 Gin、Echo 和Beego。</p><p>这里不知道你有没有这些疑问，我们的框架和这些顶级的框架相比，差了什么呢？如何才能快速地把我们的框架可用性，和这些框架提升到同一个级别？我们做这个框架除了演示每个实现细节，它的优势是什么呢？</p><p>不妨带着这些问题，把我们新出炉的框架和GitHub上star数最高的<a href="https://github.com/gin-gonic/gin">Gin框架</a>比对一下，思考下之间的差距到底是什么。</p><h2>和Gin对比</h2><p>Gin 框架无疑是现在最火的框架，你能想出很多它的好处，但是在我看来，它之所以那么成功，<strong>最主要的原因在于两点：细节和生态</strong>。</p><p>其实框架之间的实现原理都差不多，但是生产级别的框架和我们写的示例级别的框架相比，差别就在于细节，这个细节是需要很多人、很多时间去不断打磨的。</p><p>如果你的 Golang 经验积累到一定时间，那肯定能很轻松实现一个示例级别的框架，但是往往是没有开源市场的，因为你的框架，在细节上的设计没有经过很多人验证，也没有经过在生产环境中的实战。这些都需要一个较为庞大的使用群体和较长时间才能慢慢打磨出来。</p><!-- [[[read_end]]] --><p>Gin 里面的每一行代码，基本都是在很长时间里，经过各个贡献者的打磨，才演变至今的。我们看 Gin 框架的代码优化和提交频率，从这一讲落笔算起（2021 年 8 月 9 日），最近的一次提交改进是 6 天前（2021 年 8 月 3 日），Gin 框架升级到了 v1.7.3 版本。</p><p>我们也可以统计一下Gin 的 master 分支，从 2014 开始至今已经有 1475 次优化提交。这里的每一次优化提交，都是对 Gin 框架细节的再一次打磨。</p><h3>Recovery 的错误捕获</h3><p>光放数字说服力不明显，我们直接比较代码，看看之前实现的各个逻辑在 Gin 框架中是如何实现的，你就可以感受到在细节上的差距了。</p><p>还记得在第四课的时候，我们实现了一个 Recovery 中间件么？放在框架middleware文件夹的recovery.go中：</p><pre><code class="language-go">// recovery 机制，将协程中的函数异常进行捕获
 

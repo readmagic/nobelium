@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是孔令飞。今天，我们更新一期特别放送作为“加餐”，希望日常催更的朋友们食用愉快。</p><p>在第 <a href="https://time.geekbang.org/column/article/388920"><strong>14讲</strong></a>  里<strong>，</strong>我强调了熟练掌握Makefile语法的重要性，还推荐你去学习陈皓老师编写的<a href="https://github.com/seisman/how-to-write-makefile">《跟我一起写 Makefile》 (PDF 重制版)</a>。也许你已经点开了链接，看到那么多Makefile语法，是不是有点被“劝退”的感觉？</p><p>其实在我看来，虽然Makefile有很多语法，但不是所有的语法都需要你熟练掌握，有些语法在Go项目中是很少用到的。要编写一个高质量的Makefile，首先应该掌握一些核心的、最常用的语法知识。这一讲我就来具体介绍下Go项目中常用的Makefile语法和规则，帮助你快速打好最重要的基础。</p><p>Makefile文件由三个部分组成，分别是Makefile规则、Makefile语法和Makefile命令（这些命令可以是Linux命令，也可以是可执行的脚本文件）。在这一讲里，我会介绍下Makefile规则和Makefile语法里的一些核心语法知识。在介绍这些语法知识之前，我们先来看下如何使用Makefile脚本。</p><h2>Makefile的使用方法</h2><p>在实际使用过程中，我们一般是先编写一个Makefile文件，指定整个项目的编译规则，然后通过Linux make命令来解析该Makefile文件，实现项目编译、管理的自动化。</p><!-- [[[read_end]]] --><p>默认情况下，make命令会在当前目录下，按照GNUmakefile、makefile、Makefile文件的顺序查找Makefile文件，一旦找到，就开始读取这个文件并执行。</p><p>大多数的make都支持“makefile”和“Makefile”这两种文件名，但<strong>我建议使用“Makefile”</strong>。因为这个文件名第一个字符大写，会很明显，容易辨别。make也支持 <code>-f</code> 和 <code>--file</code> 参数来指定其他文件名，比如 <code>make -f golang.mk</code> 或者 <code>make --file golang.mk</code> 。</p><h2>Makefile规则介绍</h2><p>学习Makefile，最核心的就是学习Makefile的规则。规则是Makefile中的重要概念，它一般由目标、依赖和命令组成，用来指定源文件编译的先后顺序。Makefile之所以受欢迎，核心原因就是Makefile规则，因为Makefile规则可以自动判断是否需要重新编译某个目标，从而确保目标仅在需要时编译。</p><p>这一讲我们主要来看Makefile规则里的规则语法、伪目标和order-only依赖。</p><h3>规则语法</h3><p>Makefile的规则语法，主要包括target、prerequisites和command，示例如下：</p><pre><code>target ...: prerequisites ...
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>上两节，我们讲了内存管理的三个方面，虚拟内存空间的管理、物理内存的管理以及内存映射。你现在对进程内存空间的整体布局应该有了一个大致的了解。今天我们就来详细看看第一个方面，进程的虚拟内存空间是如何管理的。</p><p>32位系统和64位系统的内存布局有的地方相似，有的地方差别比较大，接下来介绍的时候，请你注意区分。好，我们现在正式开始！</p><h2>用户态和内核态的划分</h2><p>进程的虚拟地址空间，其实就是站在项目组的角度来看内存，所以我们就从task_struct出发来看。这里面有一个struct mm_struct结构来管理内存。</p><pre><code>struct mm_struct		*mm;
 

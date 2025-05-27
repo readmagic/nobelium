@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是程远。</p><p>从这一讲开始，我们进入到了容器网络这个模块。容器网络最明显的一个特征就是它有自己的Network Namespace了。你还记得，在我们这个课程的<a href="https://time.geekbang.org/column/article/308108">第一讲</a>里，我们就提到过Network Namespace负责管理网络环境的隔离。</p><p>今天呢，我们更深入地讨论一下和Network Namespace相关的一个问题——容器中的网络参数。</p><p>和之前的思路一样，我们先来看一个问题。然后在解决问题的过程中，更深入地理解容器的网络参数配置。</p><h2>问题再现</h2><p>在容器中运行的应用程序，如果需要用到tcp/ip协议栈的话，常常需要修改一些网络参数（内核中网络协议栈的参数）。</p><p>很大一部分网络参数都在/proc文件系统下的<a href="https://www.kernel.org/doc/Documentation/sysctl/net.txt">/proc/sys/net/</a>目录里。</p><p><strong>修改这些参数主要有两种方法：一种方法是直接到/proc文件系统下的"/proc/sys/net/"目录里对参数做修改；还有一种方法是使用<a href="https://man7.org/linux/man-pages/man8/sysctl.8.html">sysctl</a>这个工具来修改。</strong></p><p>在启动容器之前呢，根据我们的需要我们在宿主机上已经修改过了几个参数，也就是说这些参数的值已经不是内核里原来的缺省值了.</p><p>比如我们改了下面的几个参数：</p><pre><code class="language-shell"># # The default value:
 

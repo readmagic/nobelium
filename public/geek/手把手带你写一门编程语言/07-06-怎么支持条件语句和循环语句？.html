@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。</p><p>我们现在的语言已经支持表达式、变量和函数了。可是你发现没有，到现在为止，我们还没有支持流程控制类的语句，比如条件语句和循环语句。如果再加上这两类语句的话，我们的语言就能做很复杂的事情了，甚至你会觉得它已经是一门比较完整的语言了。</p><p>那么今天，我们就来加上条件语句和循环语句。在这个过程中，我们会加深对作用域和栈桢的理解，包括跨作用域的变量引用、词法作用域的概念，以及如何在运行时访问其他作用域的变量。这些知识点会帮助你加深对计算机语言的运行机制的理解。</p><p>而这些理解和认知，会有助于我们后面把基于AST的解释器升级成基于字节码的解释器，也有助于我们理解编译成机器码后的运行时机制。</p><p>好了，首先我们先从语法层面支持一下这两种语句。</p><h2>语法分析：支持一元表达式</h2><p>按照惯例，我们首先要写下新的语法规则，然后使用LL算法来升级语法分析程序。新的语法规则如下：</p><pre><code class="language-plain">ifStatement
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是蒋德钧。</p><p>我们知道，Redis除了使用内存快照RDB来保证数据可靠性之外，还可以使用AOF日志。不过，RDB文件是将某一时刻的内存数据保存成一个文件，而AOF日志则会记录接收到的所有写操作。如果Redis server的写请求很多，那么AOF日志中记录的操作也会越来越多，进而就导致AOF日志文件越来越大。</p><p>所以，为了避免产生过大的AOF日志文件，Redis会对AOF文件进行重写，也就是针对当前数据库中每个键值对的最新内容，记录它的插入操作，而不再记录它的历史写操作了。这样一来，重写后的AOF日志文件就能变小了。</p><p><strong>那么，AOF重写在哪些时候会被触发呢？以及AOF重写需要写文件，这个过程会阻塞Redis的主线程，进而影响Redis的性能吗？</strong></p><p>今天这节课，我就来给你介绍下AOF重写的代码实现过程，通过了解它的代码实现，我们就可以清楚地了解到AOF重写过程的表现，以及它对Redis server的影响。这样，当你再遇到Redis server性能变慢的问题时，你就可以排查是否是AOF重写导致的了。</p><p>好，接下来，我们先来看下AOF重写函数以及它的触发时机。</p><h2>AOF重写函数与触发时机</h2><p>首先，实现AOF重写的函数是<strong>rewriteAppendOnlyFileBackground</strong>，它是在<a href="https://github.com/redis/redis/tree/5.0/src/aof.c">aof.c</a>文件中实现的。在这个函数中，会调用fork函数创建一个AOF重写子进程，来实际执行重写操作。关于这个函数的具体实现，我稍后会给你详细介绍。这里呢，我们先来看看，这个函数会被哪些函数调用，这样我们就可以了解AOF重写的触发时机了。</p><!-- [[[read_end]]] --><p>实际上，rewriteAppendOnlyFileBackground函数一共会在三个函数中被调用。</p><p><strong>第一个是bgrewriteaofCommand函数。</strong>这个函数是在aof.c文件中实现的，对应了我们在Redis server上执行bgrewriteaof命令，也就是说，我们手动触发了AOF rewrite的执行。</p><p>不过，即使我们手动执行了bgrewriteaof命令，bgrewriteaofCommand函数也会根据以下两个条件，来判断是否实际执行AOF重写。</p><ul>
 

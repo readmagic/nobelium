@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王磊，你也可以叫我Ivan。</p><p>我在<a href="https://time.geekbang.org/column/article/274200">第4讲</a>介绍架构风格时曾经提到过，分布式数据库的主体架构是朝着计算和存储分离的方向发展的，这一点在NewSQL架构中体现得尤其明显。但是计算和存储是一个完整的过程，架构上的分离会带来一个问题：是应该将数据传输到计算节点(Data Shipping)，还是应该将计算逻辑传输到数据节点(Code Shipping)？</p><p>从直觉上说，肯定要选择Code Shipping，因为Code的体量远小于Data，因此它能传输得更快，让系统的整体性能表现更好。</p><p>这个将code推送到存储节点的策略被称为“计算下推”，是计算存储分离架构下普遍采用的优化方案。</p><h2>计算下推</h2><p>将计算节点的逻辑推送到存储节点执行，避免了大量的数据传输，也达到了计算并行执行的效果。这个思路还是很好理解的，我们用一个例子来具体说明下。</p><p>假如有一张数据库表test，目前有四条记录。</p><p><img src="https://static001.geekbang.org/resource/image/59/82/5963d1c56f0bf56349a5769f5414d882.jpg" alt=""></p><p>我们在客户端执行下面这条查询SQL。</p><pre><code>select value from test where cond=’C1’；
 

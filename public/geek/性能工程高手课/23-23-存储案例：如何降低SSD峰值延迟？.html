@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是庄振运。</p><p>我们之前讲过，存储系统的性能很关键（参见<a href="https://time.geekbang.org/column/article/185154">第17讲</a>）。我们这一讲就探讨存储方面的优化案例，是关于SSD性能的。</p><p>现在很多公司里面的高性能存储系统，一般都是基于SSD的，这主要归功于SSD价格在近几年的大幅度下降。但是，<span class="orange">SSD也不是包治百病的灵丹妙药，也有自己的特殊性能问题</span>。我们今天就重点讲述两点：<strong>SSD的损耗</strong>和<strong>IO访问延迟偶尔过大</strong>的问题。</p><p>这里的第二个问题可能听起来很让人吃惊：不是说SSD延迟很低吗？</p><p>一般情况下，是的。但是特殊情况下就不一定了，这个就说来话长了，它和SSD的内部原理有关。我们会一步步地探讨问题形成的原因和解决的策略。</p><h2>SSD为什么会损耗？</h2><p>我们的<a href="https://time.geekbang.org/column/article/185154">第17讲</a>是关于存储系统的，讲过SSD的工作原理和性能。为了防止你忘记，我们就在这里快速地回顾一下其中的一个重要概念：<strong>写入放大</strong>。</p><p>什么是写入放大呢？当写入SSD的物理数据量，大于应用程序打算写入SSD的逻辑数据量时，就会造成“写入放大”。</p><p>如果是传统硬盘HDD，就不会有写入放大的问题。那么SSD为什么会有写入放大呢？这是因为SSD内部的工作原理和硬盘很不一样。</p><p>我们知道，HDD是可以直接写入覆盖的。和HDD不同，SSD里面的页面只能写入一次，要重写的话，必须先回收擦除，而且只能在“块”这个级别进行擦除。因此呢，SSD内部就需要不断地移动所存储的数据，来清空需要回收的块。也就是说，SSD内部需要进行块级别的“垃圾回收”。垃圾收集器必须有效地在SSD内部不断地回收块，回收以前使用的页面空间，然后才能在这个块上写入新数据。</p><!-- [[[read_end]]] --><p>因此，对SSD的写入需求，比对HDD的写入需求更高。</p><p>写入放大的缺点是什么？就是<strong>会更快地损耗SSD的生命</strong>。</p><p>每个SSD都有固定数量的擦除周期，如果在很短时间内写到SSD太多数据，就会导致SSD损耗太快，有可能过早烧坏SSD。换句话说，很高的写入速率，可能会导致SSD在到达其预期使用寿命之前就发生故障。</p><p>所以，我们要注意一个常用的指标叫：年损耗率（Burn Rate）。这个指标是怎么定义的呢？是用SSD的预期寿命推导出来的。比如一个SSD预期寿命是4年。那么每年可以损耗25%，这就是年损耗率。</p><h2>如何减少SSD损耗？</h2><p>前面讲的“写入放大”，其实也可以用一个相应的具体指标来衡量，就是“<strong>写入放大系数</strong>”；它代表物理写入SSD的数据与应用程序写入的逻辑数据之比。比如，如果写入放大系数是2，就表示写入每10KB的逻辑数据，SSD实际上写了20KB。为了控制SSD的年损耗率，我们需要尽量降低写入放大系数。</p><p>那么如何减少写入放大系数呢？常见的方法有两种：</p><ol>
 

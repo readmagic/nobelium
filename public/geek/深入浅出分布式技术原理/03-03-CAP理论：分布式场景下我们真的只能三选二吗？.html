@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈现麟。</p><p>通过学习分布式场景下面临的新挑战，你已经了解了从集中式系统演进到分布式系统时，分布式系统在部分故障、异步网络、时钟同步和共识协调这四个方面的新挑战，以及它们对分布式系统设计原则的影响。了解了这些之后，当你在面对分布式系统各种实现的时候，能更深刻地思考这些系统的取舍与权衡了。</p><p>经过不断地思考，人们在实践分布式系统架构的时候，从系统可用性和数据一致性的权衡中总结出来了 CAP 理论，它是指导人们在面对架构分布式系统时，进行取舍的设计原则。同时，CAP 理论深刻影响着分布式系统的设计与发展，是我们在学习分布式系统时不能绕过的知识。</p><p>所以在这节课中，我将和你一起来讨论什么是 CAP 理论以及它产生的影响，并且我们还会讨论在当前这个时间点，业界对于 CAP 理论的重新思考与理解。</p><h2>什么是 CAP 理论</h2><p>CAP 理论是加州理工大学伯克利分校的 Eric Brewer 教授在 2000 年 7 月的 ACM PODC  会议上首次提出的，它是 Eric Brewer 在 Inktomi 期间研发搜索引擎、分布式 Web 缓存时得出的关于数据一致性（ C：Consistency ）、服务可用性（ A：Availability ）、分区容错性（ P：Partition-tolerance ）的一个著名猜想：</p><!-- [[[read_end]]] --><blockquote>
 

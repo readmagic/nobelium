@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是LMOS。</p><p>上节课，我们一起了解了套接字的工作机制和数据结构，但套接字有哪些基本接口实现呢？相信学完这节课，你就能够解决这个问题了。</p><p>今天我会和你探讨套接字从创建、协议接口注册与初始化过程，还会为你深入分析套接字系统，是怎样调用各个功能函数的。通过这节课，相信你可以学会基于套接字来编写网络应用程序。有了之前的基础，想理解这节课并不难，让我们正式开始吧。</p><h2>套接字接口</h2><p>套接字接口最初是BSD操作系统的一部分，在应用层与TCP/IP协议栈之间接供了一套标准的独立于协议的接口。</p><p>Linux内核实现的套接字接口，将UNIX的“一切都是文件操作”的概念应用在了网络连接访问上，让应用程序可以用常规文件操作API访问网络连接。</p><p>从TCP/IP协议栈的角度来看，传输层以上的都是应用程序的一部分，Linux与传统的UNIX类似，TCP/IP协议栈驻留在内核中，与内核的其他组件共享内存。传输层以上执行的网络功能，都是在用户地址空间完成的。</p><p>Linux使用内核套接字概念与用户空间套接字通信，这样可以让实现和操作变得更简单。Linux提供了一套API和套接字数据结构，这些服务向下与内核接口，向上与用户空间接口，应用程序正是使用这一套API访问内核中的网络功能。</p><!-- [[[read_end]]] --><h3>套接字的创建</h3><p>在应用程序使用TCP/IP协议栈的功能之前，我们必须调用套接字库函数API创建一个新的套接字，创建好以后，对库函数创建套接字的调用，就会转换为内核套接字创建函数的系统调用。</p><p>这时，完成的是通用套接字创建的初始化功能，跟具体的协议族并不相关。</p><p>这个过程具体是这样的，在应用程序中执行socket函数，socket产生系统调用中断执行内核的套接字分路函数sys_socketcall，在sys_socketcall套接字函数分路器中将调用传送到sys_socket函数，由sys_socket函数调用套接字的通用创建函数sock_create。</p><p>sock_create函数完成通用套接字创建、初始化任务后，再调用特定协议族的套接字创建函数。</p><p>这样描述你可能还没有直观感受，我特意画了图，帮你梳理socket创建的流程，你可以对照图片仔细体会调用过程。</p><p><img src="https://static001.geekbang.org/resource/image/31/ef/313d5d8c3b3224633fab2bd121006aef.jpg?wh=2655x2255" alt="" title="socket创建示意图"></p><p>结合图解，我再用一个具体例子帮你加深理解，比如由AF_INET协议族的inet_create函数完成套接字与特定协议族的关联。</p><p>一个新的struct socket数据结构起始由sock_create函数创建，<strong>该函数直接调用__sock_create函数，__sock_create函数的任务是为套接字预留需要的内存空间，由sock_alloc函数完成这项功能。</strong></p><p>这个sock_alloc函数不仅会为struct socket数据结构实例预留空间，也会为struct inode数据结构实例分配需要的内存空间，这样可以使两个数据结构的实例相关联。__sock_create函数代码如下。</p><pre><code>static int __sock_create(struct net *net, int family, int type, int protocol,
 

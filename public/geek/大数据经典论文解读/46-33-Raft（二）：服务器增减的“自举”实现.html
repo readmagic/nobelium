@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是徐文浩。</p><p>在上节课里，我们了解了Raft算法，知道了它是怎么把“状态机复制”这样一个问题，拆解成了Leader选举、日志同步以及安全性三个子问题。那么，今天这节课，我们会进一步深入来了解Raft算法的另外几个问题。</p><p>这些问题，虽然在实践中我们必然会遇到，但是之前讲解各类分布式系统的时候，我们很少提到。正好，趁此机会，我们可以对在Raft集群中如何动态增减服务器，以及如何为Raft的状态机创建快照加以学习，并予以掌握。</p><h1>成员变更（Membership Change）</h1><p>无论是上节课我们讲解Raft的算法，还是之前我们在Chubby的论文里介绍的Paxos算法，我们都没有讲解往集群里增减服务器会发生什么情况。但是，这种情况其实是运维这些系统时，必然会遇到的情况。</p><p>比如，我们遇到某台服务器硬件故障了，需要往集群里增加一台服务器，并把坏了的服务器去掉。或者，我们为了系统的可用性考虑，往原先3台服务器组成的Raft集群里，加两台变成5台服务器，这样我们可以容忍集群里挂掉两台服务器，而不是原先的一台。</p><p>最简单的增减服务器的方式，当然是把整个集群停机，修改配置然后重启。但是，我们使用Raft这样的算法就是为了高可用性，所以显然我们不能这么做。</p><!-- [[[read_end]]] --><p>那么，<strong>我们能不能直接增加两台服务器，然后修改各个服务器的配置呢？</strong>答案依然是不行的，因为我们没法做到多台服务器的配置同时生效，我们会遇到这样的情况：</p><ul>
 

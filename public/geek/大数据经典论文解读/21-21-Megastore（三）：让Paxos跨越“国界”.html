@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是徐文浩。</p><p>过去的两讲，我们分别了解了Megastore的整体架构设计，以及它对应的数据模型是怎么样的。Megastore在这两点的设计上都非常注重实用性。</p><p><strong>在架构设计上</strong>，它把一个大数据库分区，拆分成了很多小数据库，互相之间相互独立。这样可以并行通过多组Paxos来复制每一个分区的事务日志，来解决单个Paxos集群的性能瓶颈问题。</p><p><strong>在数据模型里</strong>，Megastore更是进一步地引入了“实体组”这个概念，Megastore的一阶段事务，只发生在单个实体组这样一个“迷你”数据库里。这些设计，都大大缓解了大型分布式数据库可能会遇到的各种单个节点的极限压力。</p><p>不过，在Megastore里我们还有一个非常重要的问题需要解决，那就是<strong>跨数据中心的延时问题</strong>。我们在解读<a href="https://time.geekbang.org/column/article/428116">Chubby的论文</a>里已经了解过Paxos算法了，任何一个共识的达成，都需要一个Prepare阶段和一个Accept阶段。如果我们每一个事务都要这样两个往返的网络请求，我们的数据库性能一定好不到哪里去。所以，Megastore专门在原始的Paxos算法上做了改造和优化。</p><p>那么，今天我们就一起来看看Megastore具体是怎么做的。通过这一讲的学习，你可以了解这样两点：</p><!-- [[[read_end]]] --><ol>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是盛延敏，这里是网络编程实战第32讲，欢迎回来。</p><p>从这一讲开始，我们进入实战篇，开启一个高性能HTTP服务器的编写之旅。</p><p>在开始编写高性能HTTP服务器之前，我们先要构建一个支持TCP的高性能网络编程框架，完成这个TCP高性能网络框架之后，再增加HTTP特性的支持就比较容易了，这样就可以很快开发出一个高性能的HTTP服务器程序。</p><h2>设计需求</h2><p>在第三个模块性能篇中，我们已经使用这个网络编程框架完成了多个应用程序的开发，这也等于对网络编程框架提出了编程接口方面的需求。综合之前的使用经验，TCP高性能网络框架需要满足的需求有以下三点。</p><p>第一，采用reactor模型，可以灵活使用poll/epoll作为事件分发实现。</p><p>第二，必须支持多线程，从而可以支持单线程单reactor模式，也可以支持多线程主-从reactor模式。可以将套接字上的I/O事件分离到多个线程上。</p><p>第三，封装读写操作到Buffer对象中。</p><p>按照这三个需求，正好可以把整体设计思路分成三块来讲解，分别包括反应堆模式设计、I/O模型和多线程模型设计、数据读写封装和buffer。今天我们主要讲一下主要的设计思路和数据结构，以及反应堆模式设计。</p><!-- [[[read_end]]] --><h2>主要设计思路</h2><h3>反应堆模式设计</h3><p>反应堆模式，按照性能篇的讲解，主要是设计一个基于事件分发和回调的反应堆框架。这个框架里面的主要对象包括：</p><ul>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是李玥。</p><p>通过前面几节课的学习，相信你对MySQL这类关系型数据库的能力，已经有了定量的认知。</p><p>我们知道，大部分面向公众用户的互联网系统，它的并发请求数量是和在线用户数量正相关的，而MySQL能承担的并发读写的量是有上限的，当系统的在线用户超过几万到几十万这个量级的时候，单台MySQL就很难应付了。</p><p>绝大多数互联网系统，都使用MySQL加上Redis这对儿经典的组合来解决这个问题。Redis作为MySQL的前置缓存，可以替MySQL挡住绝大部分查询请求，很大程度上缓解了MySQL并发请求的压力。</p><p>Redis之所以能这么流行，非常重要的一个原因是，它的API非常简单，几乎没有太多的学习成本。但是，要想在生产系统中用好Redis和MySQL这对儿经典组合，并不是一件很简单的事儿。我在《<a href="https://time.geekbang.org/column/article/211008">08 | 一个几乎每个系统必踩的坑儿：访问数据库超时</a>》举的社交电商数据库超时故障的案例，其中一个重要的原因就是，对缓存使用不当引发了缓存穿透，最终导致数据库被大量查询请求打死。</p><p>今天这节课，我们就来说一下，在电商的交易类系统中，如何正确地使用Redis这样的缓存系统，以及如何正确应对使用缓存过程中遇到的一些常见的问题。</p><!-- [[[read_end]]] --><h2>更新缓存的最佳方式</h2><p>要正确地使用好任何一个数据库，你都需要先了解它的能力和弱点，扬长避短。Redis是一个使用内存保存数据的高性能KV数据库，它的高性能主要来自于：</p><ol>
 

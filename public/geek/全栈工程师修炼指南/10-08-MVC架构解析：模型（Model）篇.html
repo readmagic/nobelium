@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是四火。</p><p>在上一讲中，我们了解了 MVC 这个老而弥坚的架构模式，而从这一讲开始，连同第  09、10  讲共计 3 篇，我将分别展开介绍 MVC 三大部分内容。今天我要讲的就是第一部分——模型（Model）。</p><h2>概念</h2><p>首先我们要了解的是，我们总在谈“模型”，那到底什么是模型？</p><p>简单说来，<strong>模型就是当我们使用软件去解决真实世界中各种实际问题的时候，对那些我们关心的实际事物的抽象和简化</strong>。比如我们在软件系统中设计“人”这个事物类型的时候，通常只会考虑姓名、性别和年龄等一些系统用得着的必要属性，而不会把性格、血型和生辰八字等我们不关心的东西放进去。</p><p>更进一步讲，我们会谈领域模型（Domain Model）。“领域”两个字显然给出了抽象和简化的范围，不同的软件系统所属的领域是不同的，比如金融软件、医疗软件和社交软件等等。如今领域模型的概念包含了比其原本范围定义以外更多的内容，<strong>我们会更关注这个领域范围内各个模型实体之间的关系</strong>。</p><p>MVC 中的“模型”，说的是“模型层”，它正是由上述的领域模型来实现的，可是当我们讲这一层的时候，它包含了模型上承载的实实在在的业务数据，还有不同数据间的关联关系。因此，<strong>我们在谈模型层的时候，有时候会更关心领域模型这一抽象概念本身，有时候则会更关心数据本身</strong>。</p><!-- [[[read_end]]] --><h2>贫血模型和充血模型</h2><p>第一次听到“贫血模型”“充血模型”这两个词的时候，可能你就会问了，什么玩意儿？领域模型还有贫血和充血之说？</p><p>其实，这两兄弟是 Martin Fowler 造出来的概念。要了解它们，得先知道这里讲的“血”是什么。</p><p>这里的“血”，就是逻辑。它既包括我们最关心的业务逻辑，也包含非业务逻辑 。因此，<strong>贫血模型（Anemic Domain Model），意味着模型实体在设计和实现上，不包含或包含很少的逻辑。</strong>通常这种情况下，逻辑是被挪了出去，由其它单独的一层代码（比如这层代码是“Service”）来完成。</p><p>严格说起来，贫血模型不是面向对象的，因为对象需要数据和逻辑的结合，这也是贫血模型反对者的重要观点之一。如果主要逻辑在 Service 里面，这一层对外暴露的接口也在 Service 上，那么事实上它就变成了面向“服务”的了，而模型实体，实际只扮演了 Service API 交互入参出参的角色，或者从本质上说，它只是遵循了一定封装规则的容器而已。</p><p><strong>这时的模型实体，不包含逻辑，但包含状态，而逻辑被解耦到了无状态 Service 中。</strong>既然没有了状态，Service 中的方法，就成为过程式代码的了。请注意，不完全面向对象并不代表它一定“不好”，事实上，在互联网应用设计中，贫血模型和充血模式都有很多成功的使用案例，且非常常见。</p><p>比如这样的一个名为 Book 的类：</p><pre><code>public class Book {
 

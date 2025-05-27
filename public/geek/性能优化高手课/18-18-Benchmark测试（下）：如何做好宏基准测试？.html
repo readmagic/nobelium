@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是尉刚强。在上节课，我给你介绍了如何才能做好微基准性能测试，而这节课的主要关注点则是如何才能做好宏基准级别的性能测试。</p><p>现在我们已经知道，<strong>宏基准性能测试的目标是获取软件系统级的性能基线水平，以此支撑系统基于性能去弹性扩展、部署运维等，或是指导系统设计层面的性能优化。</strong>比如说，针对互联网在线数据产品或在线视频直播产品，当为某个跨年晚会提供服务时，我们就可以根据性能基线水平提前扩容，部署对应规模的服务集群，应对流量峰值，以此避免由于瞬间峰值而导致整个业务瘫痪的尴尬情况。</p><p>然而，对大型软件系统进行宏基准测试，其实是一件非常复杂的软件工程活动，我举几个例子你就明白了。</p><p>比如，针对互联网服务，其用户服务很多样、复杂，所以很难模拟用户行为；而针对一些大型嵌入式设备，在业务场景中需要与很多具体设备进行连网，但我们知道，测试设备是非常昂贵的资源。</p><p>所以在这堂课上，我会来帮你分析系统级别的性能测试，都面临着哪些问题与挑战，以及要如何使用比较低的成本并正确获取系统的关键性能指标，从而更好地支撑你的宏基准性能测试能力。</p><h2>系统级性能基准测试挑战分析</h2><p>那么首先，我就来带你分析下对于系统级的性能基准测试来说，目前都存在哪些问题和挑战，以此帮助你理解做好宏基准测试方法论的背后原因。</p><!-- [[[read_end]]] --><ul>
 

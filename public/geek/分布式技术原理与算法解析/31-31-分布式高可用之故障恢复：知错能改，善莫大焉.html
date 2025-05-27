@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是聂鹏程。今天，我来继续带你打卡分布式核心技术。</p><p>在上一篇文章，我带你学习了故障隔离。故障隔离的目的是，对故障组件进行隔离，以避免其影响系统中的其他组件，尽可能保证分布式系统的可用性。</p><p>在分布式系统中，故障在所难免，发生故障后仅仅进行隔离还远远不够，还需要进行故障恢复。比如，现在集群中有3个节点，节点1故障后，对节点1进行隔离，如果节点2、节点3紧接着故障了，又隔离了这两个节点。那么，整个集群就无法继续提供服务了，何谈分布式系统的高可用呢？</p><p>为了解决这种问题，分布式领域还有一个关键技术来保证系统的高可用，即故障恢复。</p><p>接下来，我们就一起打卡分布式系统的故障恢复技术吧。</p><h2>分布式故障基础知识</h2><p>在介绍故障恢复之前，我先与你说说分布式系统中会有哪些故障类型。</p><h3>故障类型</h3><p>在任何一个分布式系统中，故障都是不可避免的。这里的故障，通常包括两类：</p><ul>
 

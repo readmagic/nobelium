@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王沛。今天这节课我们来学习如何对 Hooks 进行单元测试。</p><p>在课程的一开始，我想首先强调一下单元测试的重要性。因为我发现很多同学在实现业务功能的时候，干劲十足，非常感兴趣。但是一旦要去写测试用例，就顿时觉得枯燥和无趣。</p><p>产生这种现象的原因，正是因为<strong>没有意识到测试的重要性</strong>，以及测试能给你带来的好处。要知道，最终应用的质量和稳定性在很大程度上决定着项目的成败，而<strong>为了保证软件的质量，唯一的途径其实就是测试</strong>。</p><p>当然，测试带来的好处不仅体现在能够保证最终发布的应用的质量，更为重要的是，它能**让你在开发新功能，或者修复 Bug 时，<strong>对自己做的改动更有信心</strong>。只要有足够的测试覆盖率，那么你就不用太担心自己的改动可能会破坏已有的功能。同时，单元测试还能够帮助你在开发过程中，更好地组织代码，追求模块的松耦合。</p><p>因为如果你时刻有意识地去思考自己的每一段代码该如何去测试，那么在实现代码时，就会自觉地去做模块的隔离，反过来提升了代码的质量。这也是为什么很多团队会推崇测试驱动开发的原因。</p><p>好了，测试的重要性就不多说了。接下来我们就进入正题，看看对于自定义Hooks，应该怎么进行单元测试。课程的学习目标仍然是以总体把握为目标，更多地还是思考测试代码是如何运行的，以及测试框架提供了哪些能力帮助我们运行单元测试。</p><!-- [[[read_end]]] --><h2>如何使用 Jest 和 React Testing Library 进行单元测试</h2><p>工欲善其事，必先利其器。要开始单元测试，要做的第一件事就是<strong>选择你的测试框架</strong>。这其实包括两个部分的选择：</p><ul>
 

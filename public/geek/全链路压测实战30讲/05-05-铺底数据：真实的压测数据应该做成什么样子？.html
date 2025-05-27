@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是高楼。</p><p>这节课，我们来聊一下怎么准备全链路压测的铺底数据。</p><p>做测试少不了与测试数据打交道，做性能测试更不是几条数据就能简单概括的事情。</p><p>在全链路压测过程中，测试数据是必须计算清楚的。通常，测试数据分为<strong>铺底数据</strong>与<strong>参数化数据（流量数据）</strong>，不管是平时的业务功能测试、自动化测试，还是全链路压测等都需要有铺底数据，它们的区别只在于数据量级。另外，铺底数据还是压测清单与压测报告必须说明的内容。</p><p>那么铺底数据与参数化数据从什么地方获取呢？获取的数据又是否符合真实分布？下面我介绍几种构造数据的方法与思路，希望你能有所收获。</p><h1>数据来源分析</h1><p>刚才已经提到了，测试数据分为铺底数据与参数化数据。古人常说，“圣人千虑，必有一失；愚人千虑，必有一得。”我们也来思考一下，铺底数据是怎么获取的？</p><p>造数据这个事情对于工作时间不久的同学来说是一个棘手的事情，但对于一个工作很长时间的老鸟来说，这不是什么大问题。（对于压测数据要造多少量，分析逻辑你可以参考《<a href="https://time.geekbang.org/column/article/359221">性能场景的数据到底应该做成什么样子？</a>》）</p><h3></h3><p>既然想要做铺底数据，就得知道要使用哪些表和字段。在做全链路压测之前，这些内容都要提前梳理出来。</p><p>你可以先把业务场景梳理完，再把相关接口整理出来。做完这些，就可以开始查找证据链了。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/d1/ec/d1ab72974027decff144205fac06e2ec.jpg?wh=1788x440" alt=""></p><p>我把使用表的链路画成了一个流程图，在图中，我标示出了通过接口找到服务，进而找到 SQL和表的全过程。总之，查找思路就是层层追踪，一直找到表为止。造数据就是体力活。</p><p>现在你可以回想一下，这次链路涉及哪些服务、哪些表？表之间的关系又是什么？你可以复习一下上节课的内容，这里我就不再重复说了。</p><p>下面，我们通过实例演示怎么层层分析查找表。</p><h2>表链路追踪示例</h2><p>先追踪首页链路，打开首页 JMeter 脚本，观察下图文本框。</p><p><img src="https://static001.geekbang.org/resource/image/7e/97/7e0d27yy165aef5f2a6dae0b525b1397.png?wh=1318x808" alt="图片"></p><p>当前接口路径为【 /api/portal/home/content 】，可以知道目前请求的服务为 Portal 服务。</p><p>通过架构图，我们可以很清晰地知道当前在什么位置。</p><p><img src="https://static001.geekbang.org/resource/image/46/32/46ae02d0f31af5831382216700a75632.jpg?wh=1920x1453" alt=""></p><p>上图是用户从网关到应用再到数据库的调用逻辑。</p><p>我在这里用一个电商系统做案例演示。在分析代码之前，我们先回顾下 MVC （Model、View、Controller）开发模式。下图是最常见的一种开发模式，在 PaaS 化平台开发（Platform-as-a-Service，统一提供的平台类服务）中会稍有变动，需要根据实际项目调整分析步骤。</p><p><img src="https://static001.geekbang.org/resource/image/ce/25/cebec3ec1942da42efa4637ebeecc525.jpg?wh=1920x651" alt=""></p><p>有了这种开发模式做基础，我们就可以很轻松地根据请求 url 一步一步分析了。</p><p>首先找到网关服务，再找到服务对应的 controller 层。在这里，你可以很清晰、直观地看到当前的请求，当前的服务。</p><p><img src="https://static001.geekbang.org/resource/image/6f/1b/6ff83d5c08fb6a6c88yy985fc5d2291b.png?wh=1514x485" alt="图片"></p><p>思路参考：</p><p>1、找到接口请求的服务（本次是：Portal 服务）。</p><p>2、打开 Idea，然后打开 mall 源码，找到资源路径为 /content ，接口为：</p><pre><code class="language-java"> @ApiOperation("首页内容页信息展示")
 

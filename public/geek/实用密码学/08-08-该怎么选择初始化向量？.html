@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是范学雷。</p><p>上一讲，我们讨论了对称密钥的常见算法，还讲到了序列算法和分组算法。还记得吗？当时，我建议你优先使用序列算法，因为它有着良好的性能和皮实的用法。另外，我还向你推荐了AES-256和AES-128。</p><p>但是，由于我们还没有考虑数据分组等因素的影响，所以这个建议的实用性还有待商榷。那么，这一讲，我们就来看看对于分组算法，到底有哪些麻烦？我们又该怎么避免这些麻烦？</p><p>其实，这是一个解决起来很复杂的问题。不过，今天我们可以先对问题建立一个初步的认知。</p><p>要知道分组算法有哪些麻烦，就要先知道该怎么计算分组算法。</p><h2>分组算法怎么计算？</h2><p>我们在上一讲说过，分组算法要对输入数据进行分组，然后按数据分组来进行运算。一个典型的分组算法，一般要由三个部分组成，数据分组、分组运算和链接模式。</p><p><img src="https://static001.geekbang.org/resource/image/55/2f/55e1d4yy57f6c0afbe91a45ed792192f.jpeg" alt=""></p><p>我们先来看看数据分组是怎么一回事。</p><p>数据分组在加密时，会把明文的输入数据分割成加密函数能够处理的数据块。比如，AES算法能够处理的数据块大小是128位，那么，输入数据就要被分割成一个或者多个128位的小数据块。</p><p>如果不能整分，就要把最后一个分组补齐成128位。这些分组数据的运算结果，组合起来就是<strong>密文数据</strong>。解密时，执行相反的操作，把补齐数据去掉，再把数据分组组合成完整的明文数据。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/3e/e4/3eee1786e229e6fb3867931cb43010e4.jpeg" alt=""></p><p>理解了数据分组，我们再来看分组运算和链接模式。</p><p><strong>分组运算</strong>，意思就是把每一个明文数据分组通过加密函数，转换成密文数据分组。而<strong>链接模式</strong>，指的是如何把上一个分组运算和下一个分组运算联系起来。</p><p>有一点需要说，第一个分组运算并没有上一个分组运算可以使用，这时候，我们就需要引入一个初始化的数据，来承担“上一个分组运算”向下链接的功能。这个初始化的数据，我们一般称为<strong>初始化向量</strong>。</p><p>那你有没有想过，我们为什么要把上一个分组运算和下一个分组运算联系起来呢？其实，我们在前面讨论过单向散列函数的链接模式，我们说它是为了确保雪崩效应能够延续。</p><p>在分组运算里，链接模式也承担类似的功能：</p><ul>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>“我的后羿怎么动不了！”，在玩《王者荣耀》的时候最怕遇到团战时卡得跟幻灯片一样。对于应用也是这样，我们经常会听到用户抱怨：“这个应用启动怎么那么慢？”“滑动的时候怎么那么卡？”。</p><p>对用户来说，内存占用高、耗费电量、耗费流量可能不容易被发现，但是用户对卡顿特别敏感，很容易直观感受到。另一方面，对于开发者来说，卡顿问题又非常难以排查定位，产生的原因错综复杂，跟CPU、内存、磁盘I/O都可能有关，跟用户当时的系统环境也有很大关系。</p><p>那到底该如何定义卡顿呢？在本地有哪些工具可以帮助我们更好地发现和排查问题呢？这些工具之间的差异又是什么呢？今天我来帮你解决这些困惑。</p><h2>基础知识</h2><p>在具体讲卡顿工具前，你需要了解一些基础知识，它们主要都和CPU相关。造成卡顿的原因可能有千百种，不过最终都会反映到<strong>CPU时间</strong>上。我们可以把CPU时间分为两种：用户时间和系统时间。用户时间就是执行用户态应用程序代码所消耗的时间；系统时间就是执行内核态系统调用所消耗的时间，包括I/O、锁、中断以及其他系统调用的时间。</p><p><strong>1. CPU性能</strong></p><p>我们先来简单讲讲CPU的性能，考虑到功耗、体积这些因素，移动设备和PC的CPU会有不少的差异。但近年来，手机CPU的性能也在向PC快速靠拢，华为Mate 20的“麒麟980”和iPhone XS的“A12”已经率先使用领先PC的7纳米工艺。</p><!-- [[[read_end]]] --><p>评价一个CPU的性能，需要看主频、核心数、缓存等参数，具体表现出来的是计算能力和指令执行能力，也就是每秒执行的浮点计算数和每秒执行的指令数。</p><p>当然还要考虑到架构问题， “麒麟980”采用三级能效架构，2个2.6GHz主频的A76超大核 + 2个1.92GHz主频的A76大核 + 4个1.8GHz主频的A55小核。相比之下，“A12”使用2个性能核心 + 4个能效核心的架构，这样设计主要是为了在日常低负荷工作时，使用低频核心更加节省电量。在开发过程中，我们可以通过下面的方法获得设备的CPU信息。</p><pre><code>// 获取 CPU 核心数
 

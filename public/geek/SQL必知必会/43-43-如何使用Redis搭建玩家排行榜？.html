@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>上一篇文章中，我们使用Redis模拟了多用户抢票的问题，这里再回顾一下原理。我们通过使用WATCH+MULTI的方式实现乐观锁机制，对ticket_count这个键进行监视，当这个键发生变化的时候事务就会被打断，重新请求，这样做的好处就是可以保证事务对键进行操作的原子性，当然我们也可以使用Redis的incr和decr来实现键的原子性递增或递减。</p><p>今天我们用Redis搭建一个玩家的排行榜，假设一个服务器存储了10万名玩家的数据，我们想给这个区（这台服务器）上的玩家做个全区的排名，该如何用Redis实现呢？</p><p>不妨一起来思考下面几个问题：</p><ol>
 

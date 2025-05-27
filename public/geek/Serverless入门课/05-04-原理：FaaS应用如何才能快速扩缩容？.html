@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是秦粤。上一讲我们介绍了FaaS的两种进程模型：用完即毁型和常驻进程型，这两种进程模型最大的区别就是在函数执行阶段，函数执行完之后函数实例是否直接结束。同时，我还给你演示了用完即毁型的应用场景，数据编排和服务编排。</p><p>这里我估计你可能会有点疑虑，这两个场景用常驻进程型，应该也可以实现吧？当然可以，但你还记得不，我多次强调用完即毁型是FaaS最纯正的用法。那既然介绍了两种进程模型，为什么我要说用完即毁型FaaS模型比常驻进程型纯正？它背后的逻辑是什么？你可以停下来自己想想。</p><p>要真正理解这个问题，我们需要引入进来复杂互联网应用架构演进的一个重要知识点：扩缩容，这也是我们这节课的重点。</p><p>为了授课需要，我还是会搬出我们之前提到的创业项目“待办任务”Web网站。这一次，需要你动动手，在自己本地的机器上运行下这个项目。项目的代码我已经写好了，放到GitHub上了，你需要把它下载到本地，然后阅读README.md安装和启动我们的应用。</p><p>GitHub地址：<a href="https://github.com/pusongyang/todolist-backend">https://github.com/pusongyang/todolist-backend</a></p><p>我给你简单介绍下我们目前这个项目的功能。这是一个后端项目，前端代码不是我们的重点，当然如果你有兴趣，我的REAME.md里面也有前端代码地址，你可以在待办任务列表里面创建、删除、完成任务。</p><!-- [[[read_end]]] --><p>技术实现上，待办任务数据就存储在了数组里。宏观上看，它是个典型的Node.js传统MVC应用，Control函数就是app.get和app.post；Model我们放在内存里，就是Todos对象；View是纯静态的单页应用代码，在public目录。</p><p>你先想一下，假如我们让200个用户<strong>同时并发访问</strong>你本地开发环境的“待办任务”Web网站首页index.html，你本地的Web网站实例，会出现什么样的场景？如果方便的话，你可以用Apache<span class="orange">[1]</span> 提供的ab工具，压测一下我们的项目。</p><pre><code># 模拟1000个请求，由200个用户并发访问我们启动的本地3001端口
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是徐昊。今天我们来聊聊如何有效地分离领域模型中的上下文。</p><p>上节课我们介绍了关联对象，以及如何通过关联对象建模聚合/关联关系，从而在不影响性能的情况下，更好地维持领域模型与软件实现的统一。</p><p>今天，我们来看另一个在关联领域模型与软件实现时经常遇到的问题：上下文过载（Context Overloading）。所谓<strong>上下文过载</strong>，就是指<strong>领域模型中的某个对象会在多个上下文中发挥重要作用，甚至是聚合根</strong>。一来这个对象本身会变得很复杂，造成模型僵化；二来可能会带来潜在的性能问题。</p><p>于是，将过载的上下文进行有效的分离，就成了我们现在需要面对的问题。方法上也有很多不同的选择，我主要介绍<strong>角色对象</strong>（Role Object）和<strong>上下文对象</strong>（Context Object）这两种。这两个方法与我们上节课讲的关联对象一脉相承，都是通过将隐含概念显式建模来解决问题。</p><p>同样地，在看到具体的解决方法之前，我们需要深入了解上下文过载会产生哪些问题。</p><h2>因富含逻辑而产生的过大类</h2><p>为了帮助你理解上下文过载会产生哪些问题，我还是借助极客时间专栏的例子来说明一下。当然，首先我们需要扩展这个领域模型。</p><p><img src="https://static001.geekbang.org/resource/image/4d/6e/4d4ee511209b887c1efeec251fce366e.jpg?wh=7538x4208" alt=""></p><p>在这个扩展了的模型中，包含了三个不同的上下文。</p><ol>
 

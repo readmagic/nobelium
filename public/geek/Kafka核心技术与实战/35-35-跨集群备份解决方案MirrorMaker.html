@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是胡夕。今天我要和你分享的主题是：Kafka的跨集群数据镜像工具MirrorMaker。</p><p>一般情况下，我们会使用一套Kafka集群来完成业务，但有些场景确实会需要多套Kafka集群同时工作，比如为了便于实现灾难恢复，你可以在两个机房分别部署单独的Kafka集群。如果其中一个机房出现故障，你就能很容易地把流量打到另一个正常运转的机房下。再比如，你想为地理相近的客户提供低延时的消息服务，而你的主机房又离客户很远，这时你就可以在靠近客户的地方部署一套Kafka集群，让这套集群服务你的客户，从而提供低延时的服务。</p><p>如果要实现这些需求，除了部署多套Kafka集群之外，你还需要某种工具或框架，来帮助你实现数据在集群间的拷贝或镜像。</p><p>值得注意的是，<strong>通常我们把数据在单个集群下不同节点之间的拷贝称为备份，而把数据在集群间的拷贝称为镜像</strong>（Mirroring）。</p><p>今天，我来重点介绍一下Apache Kafka社区提供的MirrorMaker工具，它可以帮我们实现消息或数据从一个集群到另一个集群的拷贝。</p><h2>什么是MirrorMaker？</h2><p>从本质上说，MirrorMaker就是一个消费者+生产者的程序。消费者负责从源集群（Source Cluster）消费数据，生产者负责向目标集群（Target Cluster）发送消息。整个镜像流程如下图所示：</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/a7/e2/a771601d702eb35187a0a8894307eee2.jpg" alt=""></p><p>MirrorMaker连接的源集群和目标集群，会实时同步消息。当然，你不要认为你只能使用一套MirrorMaker来连接上下游集群。事实上，很多用户会部署多套集群，用于实现不同的目的。</p><p>我们来看看下面这张图。图中部署了三套集群：左边的源集群负责主要的业务处理；右上角的目标集群可以用于执行数据分析；而右下角的目标集群则充当源集群的热备份。</p><p><img src="https://static001.geekbang.org/resource/image/03/70/036955f42db6fe759849fb24a0d16070.jpg" alt=""></p><h2>运行MirrorMaker</h2><p>Kafka默认提供了MirrorMaker命令行工具kafka-mirror-maker脚本，它的常见用法是指定生产者配置文件、消费者配置文件、线程数以及要执行数据镜像的主题正则表达式。比如下面的这个命令，就是一个典型的MirrorMaker执行命令。</p><pre><code>$ bin/kafka-mirror-maker.sh --consumer.config ./config/consumer.properties --producer.config ./config/producer.properties --num.streams 8 --whitelist &quot;.*&quot;
 

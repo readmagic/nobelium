@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是博伟。</p><p>前面聊了很多A/B测试的准备工作，我们确定了目标和指标，也选取了实验单位，那么，现在可以正式开始测试了吗?</p><p>先别着急，我们还需要解决正式测试前的最后一个问题：<strong>到底多少样本量是合适的呢？</strong></p><h2>打破误区：样本量并不是越多越好</h2><p>如果我问你，做A/B测试时多少样本量合适，你的第一反应肯定是，那当然是越多越好啊。样本量越多，实验结果才会越准确嘛！</p><p>从统计理论上来说，确实是这样。因为样本量越大，样本所具有的代表性才越强。但在实际业务中，样本量其实是越少越好。</p><p>为什么会这样说呢？我来带你分析一下。</p><p>要弄明白这个问题，你首先要知道A/B需要做多长时间，我给你一个公式：<strong>A/B测试所需的时间 = 总样本量 / 每天可以得到的样本量。</strong></p><p>你看，从公式就能看出来，样本量越小，意味着实验所进行的时间越短。在实际业务场景中，时间往往是最宝贵的资源，毕竟，快速迭代贵在一个“快”字。</p><p>另外，我们做A/B测试的目的，就是为了验证某种改变是否可以提升产品、业务，当然也可能出现某种改变会对产品、业务造成损害的情况，所以<strong>这就有一定的试错成本</strong>。那么，实验范围越小，样本量越小，试错成本就会越低。</p><p>你看，实践和理论上对样本量的需求，其实是一对矛盾。所以，我们就要在统计理论和实际业务场景这两者中间做一个平衡：<strong>在A/B测试中，既要保证样本量足够大，又要把实验控制在尽可能短的时间内</strong>。</p><!-- [[[read_end]]] --><p>那么，样本量到底该怎么确定呢？</p><p>你可能会说，网上有很多计算样本量的网站，我用这些网站来计算出合适的样本量，难道不可以吗？这当然也是一种方法，但你有没有想过，这些网上的计算器真的适用于所有的A/B测试吗？如果不适用的话，应该怎么计算呢？</p><p>事实上，我们只有掌握了样本量计算背后的原理，才能正确地计算出样本量。</p><p>所以，这节课，我会先带你熟悉统计学上的理论基础，再带你进行实际的计算，让你学会计算不同评价指标类型所需的样本量大小。最后，我再通过一个案例来给你串讲下，帮助你掌握今天的内容。</p><h2><strong>样本量计算背后的原理</strong></h2><p>这里咱们开门见山，我先把样本量的计算公式贴出来，然后再来详细讲解：</p><p>$$<br>
 

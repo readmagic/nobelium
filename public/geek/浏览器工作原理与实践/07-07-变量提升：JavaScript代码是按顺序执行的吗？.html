@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>讲解完宏观视角下的浏览器后，从这篇文章开始，我们就进入下一个新的模块了，这里我会对JavaScript执行原理做深入介绍。</p><p>今天在该模块的第一篇文章，我们主要讲解<strong>执行上下文</strong>相关的内容。那为什么先讲执行上下文呢？它这么重要吗？可以这么说，<strong>只有理解了JavaScrip的执行上下文，你才能更好地理解JavaScript语言本身</strong>，比如变量提升、作用域和闭包等。不仅如此，理解执行上下文和调用栈的概念还能助你成为一名更合格的前端开发者。</p><p>不过由于我们专栏不是专门讲JavaScript语言的，所以我并不会对JavaScript语法本身做过多介绍。本文主要是从JavaScript的顺序执行讲起，然后<strong>一步步带你了解JavaScript是怎么运行的</strong>。</p><p>接下来咱们先看段代码，你觉得下面这段代码输出的结果是什么？</p><pre><code>showName()
 

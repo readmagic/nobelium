@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在<a href="https://time.geekbang.org/column/article/129596">上一篇文章</a>中，我们提到了JavaScript中的数据是如何存储的，并通过例子分析了<strong>原始数据类型是存储在栈空间中的，引用类型的数据是存储在堆空间中的</strong>。通过这种分配方式，我们解决了数据的内存分配的问题。</p><p>不过有些数据被使用之后，可能就不再需要了，我们把这种数据称为<strong>垃圾数据</strong>。如果这些垃圾数据一直保存在内存中，那么内存会越用越多，所以我们需要<strong>对这些垃圾数据进行回收，以释放有限的内存空间</strong>。</p><h2>不同语言的垃圾回收策略</h2><p>通常情况下，垃圾数据回收分为<strong>手动回收</strong>和<strong>自动回收</strong>两种策略。</p><p>如C/C++就是使用手动回收策略，<strong>何时分配内存、何时销毁内存都是由代码控制的</strong>，你可以参考下面这段C代码：</p><pre><code>//在堆中分配内存
 

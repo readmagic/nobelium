@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是周爱民。</p><p>在运行期，语句执行和特殊的可执行结构都不是JavaScript的主角，多数情况下，它们都只充当过渡角色而不为开发人员所知。我相信，你在JavaScript中最熟悉的执行体一定是<strong>全局代码</strong>，以及<strong>函数</strong>。</p><p>而今天，我要为你解析的就是<span class="orange">函数的执行过程</span>。</p><p>如同在之前分析语句执行的时候与你谈到过的，语句执行是命令式范型的体现，而函数执行代表了JavaScript中对函数式范型的理解。厘清这样的基础概念，对于今天要讨论的内容来说，是非常重要和值得的。</p><p>很多人会从<strong>对象</strong>的角度来理解JavaScript中的函数，认为“函数就是具有[[Call]]私有槽的对象”。这并没有错，但是这却是从静态视角来观察函数的结果。</p><p>要知道函数是执行结构，那么执行过程发生了什么呢？这个问题从对象的视角是既观察不到，也得不到答案的。并且，事实上如果上面这个问题问得稍稍深入一点，例如“对象的方法是怎么执行的呢”，那么就必须要回到“函数的视角”，或者运行期的、动态的角度来解释这一切了。</p><h2>函数的一体两面</h2><p>用静态的视角来看函数，它就是一个函数对象（函数的实例）。如果不考虑它作为对象的那些特性，那么函数也无非就是“用三个语义组件构成的实体”。这三个语义组件是指：</p><!-- [[[read_end]]] --><ol>
 

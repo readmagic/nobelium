@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是姚秋辰。</p><p>工欲善其事，必先利其器。在你跃跃欲试想要进入实战环节前，让我先带你把实战项目需要用到的十八般兵器准备好，也就是搭建好项目的开发环境。</p><p>为了避免在项目实战环节碰到一些棘手的兼容性问题，在你开始写代码前就要约定好各个组件的安装版本，包括Java、Maven和各个中间件的版本。</p><p>我们的微服务实战项目会用到很多中间件，其中也包括了Spring Cloud的中心化组件，如Nacos、Sentinel、Zipkin和Seata等等，这些Spring Cloud组件我会放在后面的实战环节边讲解边搭建。</p><p>今天我们主要来看下集成开发环境的搭建、数据库的安装和DB脚本的导入，此外，我还会手把手带你安装几个通用的中间件。这节课要安装的工具比较多，你一定要耐心看完，不然后面的课程可能会卡壳哦。</p><p>闲话少叙，我们现在就开工吧。</p><h2>环境准备</h2><p>我推荐你使用<strong>Mac笔记本或者是Linux系统</strong>来编写、运行本课程的实战项目，如果你使用的是Windows系统，可以尝试做个双系统，或者用Cygwin、Ubuntu虚拟机等方式尽量模拟Linux环境的开发。一来可以学习Linux命令，二来可以尽量保持本地开发环境与线上生产环境的一致，毕竟工作中你所开发的Java程序最终还是部署在Linux服务器环境。</p><!-- [[[read_end]]] --><p>以下是我在本地Mac系统上的安装方式，如果你使用的是Windows系统，我也提供了相关组件的官网下载地址，相信对于程序员来说，安装软件是小菜一碟。因为安装的工具比较多，所以我建议你按照课程中介绍的顺序来安装。</p><h2>Homebrew</h2><p>Homebrew是Mac系统上的一款非常便利的软件安装工具，可以帮你安装大部分开发工作所需的各种工具软件。这节课中的很多工具，我们也可以使用它来安装。你可以在<a href="https://brew.sh/index_zh-cn">Homebrew的官网</a>查看Homebrew的详细安装方法。</p><p>你可能发现在国内网络下安装Homebrew比较缓慢，这里我给你提供两种解决办法：一种是使用VPN连接，也就是我们俗称的翻墙，可以大幅提高安装速度；另一种方式是将Homebrew指向国内镜像获取安装脚本，替换镜像的命令可以在官方的<a href="https://docs.brew.sh/Installation">安装文档</a>中找到。</p><p>安装完成之后，你可以在命令行输入brew -v命令查看版本信息，来验证安装是否成功：</p><pre><code>vincent@LM-SHB-40513998 ~ % brew -v
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王喆。</p><p>我在留言区看到，很多同学对TensorFlow的用法还不太熟悉，甚至可能还没接触过它。但我们必须要熟练掌握TensorFlow，因为接下来，它会成为我们课程主要使用的工具和平台。为此，我特意准备了两堂模型实战准备课，来帮助你掌握TensorFlow的基础知识，以及为构建深度学习模型做好准备。</p><p>这节课，我们先来学习TensorFlow的环境配置，讲讲什么是TensorFlow，怎么安装TensorFlow，以及怎么在TensorFlow上构建你的第一个深度学习模型。下节课，我们再来学习模型特征和训练样本的处理方法。</p><h2>什么是TensorFlow？</h2><p>TensorFlow 是由 Google Brain团队开发的深度学习平台，于2015年11月首次发布，目前最新版本是2.3。因为TensorFlow自从2.0版本之后就发生了较大的变化，所以咱们这门课程会使用TensorFlow2.3作为实践版本。</p><p>TensorFlow这个名字还是很有意思的，翻译过来是“张量流动”，这非常准确地表达了它的基本原理，就是根据深度学习模型架构构建一个有向图，让数据以<a href="https://www.youtube.com/watch?v=f5liqUk0ZTw">张量</a>的形式在其中流动起来。</p><p>这里的张量（Tensor）其实是指向量的高维扩展，比如向量可以看作是张量的一维形式，矩阵可以看作张量在二维空间上的特例。在深度学习模型中，大部分数据是以矩阵甚至更高维的张量表达的，为了让这些张量数据流动起来，每一个深度学习模型需要根据模型结构建立一个由点和边组成的有向图，图里面的点代表着某种操作，比如某个激活函数、某种矩阵运算等等，而边就定义了张量流动的方向。</p><!-- [[[read_end]]] --><p>这么说还是太抽象，我们来看一个简单TensorFlow任务的有向图。从图中我们可以看出，向量b、矩阵W和向量x是模型的输入，紫色的节点MatMul、Add和ReLU是操作节点，分别代表了矩阵乘法、向量加法、ReLU激活函数这样的操作。模型的输入张量W、b、x经过操作节点的变形处理之后，在点之间传递，这就是TensorFlow名字里所谓的张量流动。</p><p><img src="https://static001.geekbang.org/resource/image/b8/f7/b80df3e43650d81ebca2608de27fdff7.jpeg" alt="" title="图1 一个简单的TensorFlow有向图"></p><p>事实上，任何复杂模型都可以抽象为操作有向图的形式。这样做不仅有利于操作的模块化，还可以厘清各操作间的依赖关系，有利于我们判定哪些操作可以并行执行，哪些操作只能串行执行，为并行平台能够最大程度地提升训练速度打下基础。</p><p>说起TensorFlow的并行训练，就不得不提GPU，因为GPU拥有大量的计算核心，所以特别适合做矩阵运算这类易并行的计算操作。业界主流的TensorFlow平台都是建立在CPU+GPU的计算环境之上的。但咱们这门课程因为考虑到大多数同学都是使用个人电脑进行学习的，所以所有的项目实践都建立在TensorFlow CPU版本上，我在这里先给你说明一下。</p><h2>TensorFlow的运行环境如何安装？</h2><p>知道了TensorFlow的基本概念之后，我们就可以开始着手配置它的运行环境了。我先把这门课使用的环境版本告诉你，首先，<a href="https://www.tensorflow.org/">TensorFlow我推荐2.3版本</a>也就是目前的最新版本 ，<a href="https://www.python.org/">Python我推荐3.7版本</a>，其实3.5-3.8都可以，我建议你在学习过程中不要随意更换版本，尽量保持一致。</p><p>虽然<a href="https://www.tensorflow.org/install/pip">Python环境</a>和<a href="https://www.tensorflow.org/install">TensorFlow环境</a>有自己的官方安装指南，但是安装起来也并不容易，所以接下来，我会带你梳理一遍安装中的重点步骤。一般来说，安装TensorFlow有两种方法，一种是采用Docker+Jupyter的方式，另一种是在本地环境安装TensorFlow所需的python环境和所需依赖库。其中，Docker+Jupyter的方式比较简单，我们先来看看它。</p><h3>最简单的方法，Docker+Jupyter</h3><p>经过<a href="https://time.geekbang.org/column/article/303430">第13讲</a>模型服务的实践，我们已经把Docker安装到了自己的电脑上。这里，它就可以再次派上用场了。因为TensorFlow官方已经为我们准备好了它专用的Docker镜像，你只要运行下面两行代码，就可以拉取并运行最新的TensorFlow版本，还能在<a href="http://localhost:8888/">http://localhost:8888/</a> 端口运行起 Jupyter Notebook。</p><pre><code>docker pull tensorflow/tensorflow:latest  # Download latest stable image
 

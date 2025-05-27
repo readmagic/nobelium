@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是任杰。这一讲我想和你聊一聊，怎么理解最简单的分布式一致性算法Raft。</p><p>在<a href="https://time.geekbang.org/column/article/336686">第14节课</a>里，我们学习了在有容灾的分布式环境下的各种不同一致性情况，其中最重要的是线性一致性。线性一致性有非常多的好处，但是它的实现却非常困难。20多年前，计算机科学家终于找到了一个算法，但是非常晦涩难懂。</p><p>直到2014年，才出现了一个通俗易懂的算法，它就是Raft。从此以后，各种具有分布式一致性能力的数据系统便层出不穷，普通人也有能力和大型互联网公司一样，设计出一个在分布式环境下正确的系统。</p><p>既然Raft算法通俗易懂，实现细节我就不展开了，这节课我们重点来看看，Raft算法究竟能做什么，以及它应该怎么使用。</p><h2>分布式一致性能解决的问题</h2><h3>文件同步</h3><p>能实现分布式一致性的算法也叫作共识（Consensus）算法。我们在<a href="https://time.geekbang.org/column/article/337308">前一节课</a>说过，共识需要满足以下3个条件：</p><p>1.终止性（termination）<br>
 

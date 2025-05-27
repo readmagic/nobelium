@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱涛。今天我们来讲讲协程的并发。</p><p>在大型软件的架构当中，并发也是一个不可避免的问题。然而，在传统的Java编程当中，并发却是个令人生畏的话题。因为Java的线程模型、内存模型、同步机制太复杂了，而当复杂的业务逻辑与复杂的并发模型混合在一起的时候，情况就更糟糕了！如果你用Java做过中大型软件，对此一定会深有体会。</p><p>我们都知道，Kotlin的协程仍然是基于线程运行的。但是，经过一层封装以后，Kotlin协程面对并发问题的时候，它的处理手段其实跟Java就大不一样。所以这节课，我们就来看看协程在并发问题上的处理，一起来探究下Kotlin协程的并发思路，从而真正解决并发的难题。</p><h2>协程与并发</h2><p>在Java世界里，并发往往需要多个线程一起工作，而多线程往往就会有共享的状态，这时候程序就要处理同步问题了。很多初学者在这一步，都会把协程与线程的概念混淆在一起。比如你可以来看看下面这段代码，你觉得有多线程同步的问题吗？</p><pre><code class="language-plain">// 代码段1
 

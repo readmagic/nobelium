@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在 WebRTC 中， NAT 穿越是非常重要的一部分内容，也是比较有深度、比较难以理解的一部分知识。当然，等你学完本文，并完全理解了这部分知识后，你也会特别有成就感！</p><p>在我们真实的网络环境中，NAT 随处可见，而它的出现主要是出于两个目的。<strong>第一个是解决 IPv4 地址不够用的问题</strong>。在 IPv6 短期内无法替换 IPv4 的情况下，如何能解决 IP 地址不够的问题呢？人们想到的办法是，让多台主机共用一个公网 IP 地址，然后在内部使用内网 IP 进行通信，这种方式大大减缓了 IPv4 地址不够用的问题。<strong>第二个是解决安全问题</strong>，也就是主机隐藏在内网，外面有NAT挡着，这样的话黑客就很难获取到该主机在公网的IP地址和端口，从而达到防护的作用。</p><p>不过凡事有利也有弊，NAT 的引入确实带来了好处，但同时也带来了坏处。如果没有NAT，那么每台主机都可以有一个自己的公网IP地址，这样每台主机之间都可以相互连接。可以想象一下，如果是那种情况的话，互联网是不是会更加繁荣？因为有了公网IP地址后，大大降低了端与端之间网络连接的复杂度，我们也不用再费这么大力气在这里讲 NAT 穿越的原理了。</p><p>如果从哲学的角度来讲，“世上的麻烦都是自己找的”，这句话还是蛮有道理的。</p><!-- [[[read_end]]] --><h2>在WebRTC处理过程中的位置</h2><p>下面我们来看一下本文在 WebRTC 处理过程中所处的位置吧。通过下面这张图，你可以清楚地了解到本文我们主要讲解的是传输相关的内容。</p><p><img src="https://static001.geekbang.org/resource/image/38/b9/3885178d5747a92ef95819fd0fe618b9.png" alt=""></p><center><span class="reference">WebRTC 处理过程图</span></center><h2>NAT 的种类</h2><p>随着人们对 NAT 使用的深入，NAT 的设置也越来越复杂。尤其是各种安全的需要，对 NAT 的复杂性起到了推波助澜的作用。</p><p>经过大量研究，现在NAT基本上可以总结成 4 种类型：<strong>完全锥型、IP限制锥型、端口限制锥型和对称型</strong>。</p><p>下面我们就对这 4 种类型的 NAT 做下详细介绍。</p><h3>1. 完全锥型 NAT</h3><p><img src="https://static001.geekbang.org/resource/image/88/af/8836f91edfcc9a2420e3fd11098f95af.png" alt=""></p><center><span class="reference">完全锥型 NAT 图</span></center><p>完全锥型 NAT 的特点是，当 host 主机通过 NAT 访问外网的 B 主机时，就会在 NAT 上打个“洞”，所有知道这个“洞”的主机都可以通过它与内网主机上的侦听程序通信。</p><p>实际上，这里<strong>所谓的“打洞”就是在 NAT 上建立一个内外网的映射表</strong>。你可以将该映射表简单地认为是一个 4 元组，即：</p><pre><code>{
 

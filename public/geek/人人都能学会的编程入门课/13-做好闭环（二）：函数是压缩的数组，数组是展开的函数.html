@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是胡光。</p><p>不知不觉，我们已经学完了语言基础篇的全部内容。其实还有很多东西想给你讲，可限于篇幅，所以咱们整个语言基础篇中的内容，都是那些，我认为你自学容易忽视的，容易学错的知识点。有道是，授之以鱼，不如授之以渔，我也相信只要你跟着课程学习，一定会感觉到自己收获到了“渔具”。如果能引发你的主动思考，进而触类旁通，举一反三，那这场学习过程就更加有意义啦。</p><p>我也非常高兴，看到很多同学都在紧跟着专栏更新节奏，坚持学习。每每在专栏上线的第一时间，这些同学就给我留言，提出自己的疑惑。大部分留言，我都在相对应的文章中回复过了，而对于文章中的思考题呢，由于要给你充足的思考时间，所以我选择在今天这样一篇文章中，给你进行一一的解答。</p><p>看一看我的参考答案，和你的思考结果之间，有什么不同吧。也欢迎你在留言区中，给出一些你感兴趣的题目的思考结果，我希望我们能在这个过程中，碰撞出更多智慧的火花。</p><h2>函数：自己动手实现低配版 scanf 函数</h2><p>在这一节里面呢<a href="https://time.geekbang.org/column/article/192053">《函数：自己动手实现低配版 scanf 函数》</a>，我们讲了函数的基本概念，明确了“实参”和“形参”两个概念，并且知道了函数传参的过程，就是“实参”给“形参”赋值的过程。</p><p>还有，我们介绍了“传入参数”和“传出参数”两个概念，弄懂这两个概念，对于设计一个函数来说，还是非常重要的。“传入参数”是从外部，传入到函数内部，影响函数内部执行逻辑的参数，“传出参数”呢，就是由函数内部，传出到函数外部的参数，一般是以传送地址为主要形式。</p><!-- [[[read_end]]] --><p>最后呢，我留了两个开放性的思考题，我选择其中一个你可能会不知所措的题目，来讲解一下如何完成这个题目。下面就看看我的答案吧。</p><h4>思考题（1）：数组和函数的思考</h4><p>关于这个问题呢，我们首先来具象化一下，我们设想一种具体的问题情况，比如说：arr 数组里面，arr[i] 存储的是 2 * i 的值，你可以认为是第 i 个偶数的值；func 函数的功能呢，func(x) = 2*x，就是计算得到第 x 个偶数的值。如下述示意代码所示：</p><pre><code>int arr[100] = {0, 2, 4, 6, 8, 10, ...};
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱晔。</p><p>今天，我们继续一起分析这门课第7~12讲的课后思考题。这些题目涉及了数据库索引、判等问题、数值计算、集合类、空值处理和异常处理的12道问题。</p><p>接下来，我们就一一具体分析吧。</p><h3><a href="https://time.geekbang.org/column/article/213342">07 | 数据库索引：索引并不是万能药</a></h3><p><strong>问题1：</strong>在介绍二级索引代价时，我们通过EXPLAIN命令看到了索引覆盖和回表的两种情况。你能用optimizer trace来分析一下这两种情况的成本差异吗？</p><p>答：如下代码所示，打开optimizer_trace后，再执行SQL就可以查询information_schema.OPTIMIZER_TRACE表查看执行计划了，最后可以关闭optimizer_trace功能：</p><pre><code>SET optimizer_trace=&quot;enabled=on&quot;;
 

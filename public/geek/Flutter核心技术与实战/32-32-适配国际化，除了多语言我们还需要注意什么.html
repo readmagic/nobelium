@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈航。今天，我们来聊聊Flutter应用的国际化。</p><p>借助于App Store与Google Play，我们能够把应用发布到全世界的任何一个应用商店里。应用的（潜在）使用者可能来自于不同国家、说着不同的语言。如果我们想为全世界的使用者提供统一而标准的体验，那么首先就需要让App能够支持多种语言。而这一过程，一般被称为“国际化”。</p><p>提起国际化，你可能会认为这等同于翻译App内所有用户可见的文本。其实，这个观点不够精确。<strong>更为准确地描述国际化的工作职责，应该是“涉及语言及地区差异的适配改造过程”。</strong></p><p>比如，如果我们要显示金额，同样的面值，在中国会显示为￥100，而在美国则会显示为$100；又比如，App的引导图，在中国我们可能会选用长城作为背景，而在美国我们则可能会选择金门大桥作为背景。</p><p>因此，对一款App做国际化的具体过程，除了翻译文案之外，还需要将货币单位和背景图等资源也设计成可根据不同地区自适应的变量。这也就意味着，我们在设计App架构时，需要提前将语言与地区的差异部分独立出来。</p><p>其实，这也是在Flutter中进行国际化的整体思路，即语言差异配置抽取+国际化代码生成。而在语言差异配置抽取的过程中，文案、货币单位，以及背景图资源的处理，其实并没有本质区别。所以在今天的分享中，我会以多语言文案为主，为你讲述在Flutter中如何实现语言与地区差异的独立化，相信在学习完这部分的知识之后，对于其他类型的语言差异你也能够轻松搞定国际化了。</p><!-- [[[read_end]]] --><h2>Flutter i18n</h2><p>在Flutter中，国际化的语言和地区的差异性配置，是应用程序代码的一部分。如果要在Flutter中实现文本的国际化，我们需要执行以下几步：</p><ul>
 

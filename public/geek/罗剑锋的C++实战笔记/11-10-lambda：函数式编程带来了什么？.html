@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是Chrono。</p><p>在<a href="https://time.geekbang.org/column/article/231454">第1节课</a>的时候，我就说到过“函数式编程”，但只是简单提了提，没有展开讲。</p><p>作为现代C++里的五种基本编程范式之一，“函数式编程”的作用和地位正在不断上升，而且在其他语言里也非常流行，很有必要再深入研究一下。</p><p>掌握了函数式编程，你就又多了一件“趁手的兵器”，可以更好地运用标准库里的容器和算法，写出更灵活、紧凑、优雅的代码。</p><p>所以，今天我就和你聊聊函数式编程，看看它给C++带来了什么。</p><h2>C++函数的特殊性</h2><p>说到“函数式编程”，那肯定就要先从函数（function）说起。</p><p>C++里的函数概念来源于C，是面向过程编程范式的基本部件。但严格来说，它其实应该叫“子过程”（sub-procedure）、“子例程”（sub-routine），是命令的集合、操作步骤的抽象。</p><p>函数的目的是封装执行的细节，简化程序的复杂度，但因为它有入口参数，有返回值，形式上和数学里的函数很像，所以就被称为“函数”。</p><p>在语法层面上，C/C++里的函数是比较特别的。虽然有函数类型，但不存在对应类型的变量，不能直接操作，只能用指针去间接操作（即函数指针），这让函数在类型体系里显得有点“格格不入”。</p><p>函数在用法上也有一些特殊之处。在C/C++里，所有的函数都是全局的，没有生存周期的概念（static、名字空间的作用很弱，只是简单限制了应用范围，避免名字冲突）。而且函数也都是平级的，不能在函数里再定义函数，也就是<strong>不允许定义嵌套函数、函数套函数</strong>。</p><!-- [[[read_end]]] --><pre><code>void my_square(int x)           // 定义一个函数
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王庆友。在上一讲中，我和你介绍了高可用系统的设计原则和常见手段。今天呢，我会通过一个实际的案例，告诉你具体如何落地一个高可用的架构，让你能够深入理解和运用这些高可用手段。</p><h2>项目背景介绍</h2><p>先说下项目的背景。这是一个小程序点餐平台，用户在小程序上点餐并支付完成后，订单会先落到订单库，然后进一步推送到门店的收银系统；收银系统接单后，推送给后厨系统进行生产；同时返回小程序取餐码，用户可以凭取餐码去门店取餐或收取外卖。</p><p>这个项目服务于一家大型的餐饮公司，公司在全国有大量的门店，他们准备搞一个长期的大型线上促销活动，促销的力度很大：用户可以在小程序上先领取优惠券，然后凭券再支付1元，就可以购买价值数十元的套餐。</p><p>结合以往的经验，以及这次的促销力度，我们预计在高峰时，前端小程序请求将会达到<strong>每秒10万QPS</strong>，并且预计<strong>首日的订单数量会超过500万</strong>。在这种高并发的情况下，我们为了保证用户的体验，<strong>系统整体的可用性要达到99.99%</strong>。</p><p>你可以先了解一下这个点餐平台的具体架构：</p><p><img src="https://static001.geekbang.org/resource/image/f0/de/f0767d06f06e5166687d54b2c4b7a4de.jpg" alt=""></p><p>这里呢，我具体说下系统主要的调用过程，以便于你更好地理解它：</p><ol>
 

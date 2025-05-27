@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在大部分的性能项目中，当系统调优到一定程度的时候，性能的瓶颈往往会体现在两类计数器上：一个是CPU，另一个就是磁盘I/O了。所以我们也经常会在一些性能优化的文章中看到两个分类，分别是CPU密集型和磁盘I/O密集型。</p><p>有人说为什么不说内存呢？内存是那么重要。不是说内存不会成为瓶颈，只不过内存的瓶颈基本上都可以转嫁给CPU和磁盘I/O。当内存不够的时候，大不了就是清理得快一点。内存能表现出来的，就是满不满，而谁去清理呢？那就是CPU了。清理得快就得CPU转得快。</p><p>我们经常会听到有人说什么性能优化到最后就是“空间转时间、时间转空间的优化”。如此带有禅意的一句话，其实意思就是，CPU不够用，就扩大内存；内存不够，就让CPU计算得更快一些。</p><p>举个例子，当我们需要在内存中使用很多变量时，如果内存不够，就会导致CPU不断清理内存中没被引用的变量来释放内存，这就导致了释放内存的动作会消耗更多的CPU。而这时，我们就可以用增加内存的方式，让CPU不那么繁忙。</p><p>但这个“空间、时间转化”的论点并不会在所有的场景下成立。比如说一个应用并不需要多大内存，就是纯计算型的，那你加内存也没啥用。另外这里提到的“空间”也不是硬盘，因为如果CPU不够用，拿再多磁盘补也无济于事。</p><!-- [[[read_end]]] --><p>所以这句话只能是做为高深谒语让初入性能的小白们仰望，实际上适用的场景非常少。</p><p>而磁盘I/O和内存有很大的区别。只要系统需要保存运行过程中留下的数据，那就必然会用到磁盘I/O。分析磁盘I/O的时候，相对于其他的分析环节还是要复杂一些，因为磁盘I/O栈是比较长的。有了Direct I/O技术之后，磁盘I/O栈短了一段，速度快了，但是同样也没有给性能测试分析人员带来什么福音，因为从分析的角度来说，我们看计数器并没有减少什么。</p><p>在性能分析过程中，操作系统是绕不过去的一个环节。在当前的技术栈中，我们仍然要把操作系统当成一个非常重要的环节。</p><p>现在对于I/O的分析和判断，大部分还停留在磁盘百分比、队列、磁盘延时之类上。可是这样的计数器的值多了，少了，你要干什么呢？怎么解决它呢？是磁盘参数有问题，还是应用有问题？还是磁盘硬件能力就那样了？</p><p>这是性能分析人员应该给出的答案,可是有很多性能测试工程师还真的给不出来这样的答案，甚至有些人连哪个线程导致的I/O高都判断不出来。至少现在的状态说明了，性能测试行业还远远不够成熟，我们还有很多的机会。</p><p>现在我们所说的I/O，基本上把File I/O和Disk I/O都说进去了，所以在分析上，层级更是非常模糊。如下图所示的一个I/O栈：</p><p><img src="https://static001.geekbang.org/resource/image/6f/ee/6fee04695be068f0622fbf67e55f01ee.png" alt=""></p><p>(此图来自于：<a href="https://www.thomas-krenn.com/de/wikiDE/images/b/ba/Linux-storage-stack-diagram_v4.0.png">https://www.thomas-krenn.com/de/wikiDE/images/b/ba/Linux-storage-stack-diagram_v4.0.png</a>)</p><p>在这个图中，我们可以明确看到磁盘I/O栈有多长。从应用层开始，产生系统调用，再通过visual FS Layer → FS Layer → Block Layer这样一层一层地调用下去，最后才写到了硬件存储里。</p><p>当然还有一层，我们需要关注的就是从系统的全局状态到具体的线程，这个我在操作系统那一篇的I/O部分已经描述过。</p><p>下面我们来看一个I/O高的分析案例。</p><h2>案例现象</h2><p>在这个项目的压力测试过程当中，发现了经典的现象：</p><ol>
 

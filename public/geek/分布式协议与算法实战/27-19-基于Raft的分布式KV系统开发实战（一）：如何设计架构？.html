@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是韩健。</p><p>学完前面2讲之后，相信你已经大致了解了Raft算法的代码实现（Hashcorp Raft），也掌握了常用API接口的用法，对Raft算法的理解也更深刻了。那么，是不是掌握这些，就能得心应手的处理实际场景的问题了呢？</p><p>在我看来，掌握的还不够，因为Raft算法的实现只是工具。而掌握了工具的用法，和能使用工具得心应手地处理实际场景的问题，是两回事。也就是说，我们还需要掌握使用Raft算法开发分布式系统的实战能力，然后才能游刃有余的处理实际场景的问题。</p><p>我从这个角度出发，在接下来的2节课中，我会分别从架构和代码实现的角度，以一个基本的分布式KV系统为例，具体说一说，如何基于Raft算法构建一个分布式KV系统。<strong>那么我希望你能课下多动手，自己写一遍，不给自己留下盲区。</strong>如果条件允许的话，你还可以按需开发实现需要的功能，并将这套系统作为自己的“配置中心”“名字路由”维护下去，不断在实战中加深自己对技术的理解。</p><p>可能有同学会问：“老韩，为什么不以Etcd为例呢？它不是已经在生产环境中落地了吗？”</p><p>我是这么考虑的，这个基本的分布式KV系统的代码比较少，相对纯粹聚焦在技术本身，涉及的KV业务层面的逻辑少，适合入门学习（比如你可以从零开始，动手编程实现），是一个很好的学习案例。</p><!-- [[[read_end]]] --><p>另外，对一些有经验的开发者来说，这部分知识能够帮助你掌握Raft算法中，一些深层次的技术实现，比如如何实现多种读一致性模型，让你更加深刻地理解Raft算法。</p><p>今天这节课，我会具体说一说如何设计一个基本的分布式KV系统，也就是需要实现哪些功能，以及在架构设计的时候，你需要考虑哪些点（比如跟随者是否要转发写请求给领导者？或者如何设计接入访问的API？）</p><p>好了，话不多说，一起进入今天的课程吧！</p><p>在我看来，基于技术深度、开发工作量、学习复杂度等综合考虑，一个基本的分布式KV系统，至少需要具备这样几块功能，就像下图的样子。</p><p><img src="https://static001.geekbang.org/resource/image/1e/6d/1e8e7cac5c9159aa1dbf9a72cd90416d.jpg" alt=""></p><ul>
 

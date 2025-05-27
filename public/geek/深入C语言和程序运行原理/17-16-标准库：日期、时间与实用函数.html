@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是于航。</p><p>在前面的几讲中，我都以较大的篇幅介绍了 C 标准库中的一些重要概念，和相关接口的使用方式。除此之外，标准库中还有一些功能十分明确，使用方式也十分简单的常用接口，这些接口也为日常的 C 应用开发提供了重要支持。因此，在接下来的两讲中，我将围绕这部分内容展开介绍。</p><p>今天，我们先来看看标准库中与日期、时间以及实用函数有关的内容。其中，日期与时间的相关接口由<strong>头文件 time.h</strong> 提供；而实用函数的功能则可被进一步细分为字符串与数值转换、随机数生成、动态内存管理，以及进程控制等不同的几类，这些功能对应的编程接口均由<strong>头文件 stdlib.h</strong> 提供。</p><p>下面，我们就来分别看看这两类接口的使用方式，以及它们背后的一些基本原理。</p><h2>日期与时间</h2><p>首先来看由头文件 time.h 提供的日期与时间相关接口。那么，在 C 语言中，日期与时间的概念是怎样体现的？又应该如何对它们进行操作和转换呢？</p><p>在构建应用程序时，我们经常会用到日期与时间这两种概念。比如，在记录日志时，通常需要保存每个事件的确切发生日期和时间；在进行优化时，则需要通过测量代码的运行时间来寻找性能痛点；而在生成随机数时，甚至需要使用当前时间，作为不同的随机种子。</p><p>看到这里，你可能已经发现了：这一讲中我们提到的“时间”，有两种不同的含义。一种是指时间上的跨度，而另一种则指以小时、分钟、秒组成的确切时间点。至于具体是哪一种含义，需要你结合上下文来理解。当然，在可能会引起误解的地方，我也会特别说明下。</p><!-- [[[read_end]]] --><h3>日历时间</h3><p>在 C 语言中，时间可以被分为“日历时间（Calendar Time）”与“处理器时间（Processor Time）”。其中，前者是指从世界协调时间（UTC）1970 年 1 月 1 日 00 时 00 分 00 秒，到当前 UTC 时间所经历的秒数，其中不包括闰秒。在 C 标准库中，该值由自定义的类型关键字 <code>time_t</code> 表示。该类型通常对应于一个整数类型，在某些老版本的标准库中，可能被实现为 32 位有符号整型。</p><p>同时，time.h 头文件也提供了一个非常直观的，名称为 time 的方法，可用于获取这个值。来看下面这个例子：</p><pre><code class="language-c++">#include &lt;stdio.h&gt;
 

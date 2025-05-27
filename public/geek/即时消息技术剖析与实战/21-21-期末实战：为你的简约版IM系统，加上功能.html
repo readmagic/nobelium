@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是袁武林。</p><p>在期中实战中，我们一起尝试实现了一个简易版的聊天系统，并且为这个聊天系统增加了一些基本功能。比如，用户登录、简单的文本消息收发、消息存储设计、未读数提示、消息自动更新等。</p><p>但是期中实战的目的，主要是让你对IM系统的基本功能构成有一个直观的了解，所以在功能的实现层面上比较简单。比如针对消息的实时性，期中采用的是基于HTTP短轮询的方式来实现。</p><p>因此，在期末实战中，我们主要的工作就是针对期中实战里的消息收发来进行功能优化。</p><p>比如，我们会采用WebSocket的长连接，来替代之前的HTTP短轮询方式，并且会加上一些课程中有讲到的相对高级的功能，如应用层心跳、ACK机制等。</p><p>希望通过期末整体技术实现上的升级，你能更深刻地体会到IM系统升级前后，对使用方和服务端压力的差异性。相应的示例代码我放在了<a href="https://github.com/coldwalker/Sample">GitHub</a>里，你可以作为参考来学习和实现。</p><h2>功能介绍</h2><p>关于这次期末实战，希望你能够完成的功能主要包括以下几个部分：</p><ol>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>上一篇文章我主要分析了带宽消耗，今天，我们来看一下分析的第二和第三阶段，也就是Swap分析和数据库分析。</p><h2>分析的第二阶段</h2><h3>Swap的原理和对TPS的影响</h3><p>前面有一个扣，是说swap多的问题。要理解swap为什么是黄的，得先知道什么是swap。我先画个简易的示意图。</p><p><img src="https://static001.geekbang.org/resource/image/1f/e5/1fd061cbf986f9cea3509bd4699ddbe5.jpg" alt=""></p><p>这里先解释一下，对于一个Linux系统来说，如果配置并开启了swap分区，那么默认的swappiness参数是60。</p><p>swappiness是在内存reclaim的时候生效的，而reclaim方式同时有两个动作：1. 将file相关内存进行回收；2. 将anon内存交换到swap分区。</p><p>所以swapiness值越大，swap分区就用得越多。</p><p>对我们现在分析的这个系统来说，来看一下：</p><p><img src="https://static001.geekbang.org/resource/image/e2/7f/e29ec84d980fb9e667e41010b209427f.png" alt=""></p><p>我们看到这里配置了一个内存为8G左右，已经使用了7G多了，swappiness配置为30%。</p><p>通过free看到现在只有145M的物理内存剩余，可用内存也只有254M了。<br>
 

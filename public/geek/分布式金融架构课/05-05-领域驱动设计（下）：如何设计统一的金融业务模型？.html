@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是任杰。这节课我想和你聊一聊怎么设计统一的金融模型。</p><p><a href="https://time.geekbang.org/column/article/325378">上节课</a>我带你了解了，如何通过领域驱动设计的方法来设计金融软件的顶层架构。我们知道了金融软件的核心原则之后，今天我们来学习实际的金融架构设计和建模，看看金融行业的一些通用的软件设计和分析方法。</p><p>这节课会涉及到一些英文专有名词。我用表格形式做了梳理，你可以在进入正文之前先了解一下：</p><p><img src="https://static001.geekbang.org/resource/image/eb/42/ebdf4a7b0820c529ee11ecd516145142.jpg" alt=""></p><h2>金融业务背景假设</h2><p>在上节课我们说过领域驱动设计的过程非常耗时耗力，所以从性价比角度考虑的话，尽量只用这个方法来解决复杂金融业务的问题。</p><p>那么这节课，我要先选择一个既容易让你理解，又足够复杂的金融业务例子。</p><p>也许你还记得，我们在<a href="https://time.geekbang.org/column/article/324871">第3节课</a>里给你说到了很多金融业务。其中交易类业务和场内交易业务都相对简单。所以我们如果想要找复杂的例子，就需要定位在场外交易的产品类型。场外交易最简单的类型就是期权（Option），所以我们可以选择<strong>债券期权</strong>（Bond Option）这个金融业务的例子。</p><p>正式分析系统架构之前，我们先来看看需要解决的金融业务细节。</p><p>债券期权本身也是一个期权（Option）。你购买了期权之后就有了一个<strong>选择的权利</strong>。在期权到期日那天，你可以选择用期权规定的价格来购买债券。</p><!-- [[[read_end]]] --><p>如果这时候期权价格比市场价低，你可以用低的期权价格来购买债券，同时以更高的价格卖出去，这样一买一卖就能马上获利。但是如果期权价格比市场价格高，你可以选择什么都不做，就当没有买过这个期权一样。</p><p>当然了，你也可以选择买了债券之后不卖出去。这时候你就拥有了这个债券。债券的发行人会定期给你利息，比如半年一次或者一年一次。</p><p>你可能已经发现了，期权给你的选择权力可以让你永赚不赔。金融行业都是聪明人，这么好的事情显然不可能是免费的。你需要花钱来买债券期权，所以债券期权本身是有价格的。</p><p>由于不知道未来债券价格会怎么波动，所以我们只能根据自己对各种未来概率的假设来估算债券期权的价格。这个估算的过程就是<strong>债券期权的定价过程</strong>。如果你认为的债券期权的真正价格比券商卖的要高，就可以从券商那里买入这个债券期权。</p><p>定价过程有两个最重要的输入，一个是债券的<strong>所有未来现金流</strong>，另一个是债券<strong>价格的历史数据</strong>。还有一些比较重要的数据，比如<strong>无风险利率</strong>和债券发行方的<strong>信用数据</strong>等，我们都归类于<strong>市场数据</strong>。</p><p>你如果在金融行业有一定经验，就会发现这里对业务做了很大的简化。比如我们举例的债券期权其实是叫看涨期权（Call Option），类似的还有看跌期权（Put Option）。只能在到期日行权的期权类型叫作欧式期权（European Option），类似的还有美式期权（American Option）。</p><p>这些简化是为了方便你理解，并不会影响后面架构分析的正确性。你如果对金融业务有兴趣，可以自行研究各种不同的场外金融业务。</p><p>例子选完了，接下来我们从建模逻辑和生命周期两个方面进行分析。</p><h2>建模逻辑</h2><h3>实体（Entity）</h3><p>在进行领域驱动设计建模的时候，首先要确认的是有哪些是<strong>实体</strong>。</p><p><strong>实体是具有唯一标识符的业务对象</strong>。你可以<strong>用唯一标识符来区分不同的业务对象。</strong>如果你见过债券的话，会发现它和人民币很像，都是在角落里印上一串数字。这个就是债券的唯一标识符。</p><p>债券期权虽然是一个纯电子合同，但是它也有唯一标识。对开发人员来说，唯一标识符就是一串字符串，比如UUID。债券期权这个实体的示意图如下，图中“待补充”的内容后面我们会逐渐补全：</p><p><img src="https://static001.geekbang.org/resource/image/5d/b2/5de67befb71c5e15029ae0c3b47b08b2.jpg" alt=""></p><p>债券和债券期权这两个实体有一个共同点，它们都不会凭空产生和消失。它们都有一个日期叫作<strong>发行日期</strong>，这就是它们出现的一天。它们也有<strong>到期日期</strong>。</p><p>金融合同在发行日期和到期日期之间，还会规定一些其他的资金行为。我们把金融合同从产生到消失的整个过程叫作<strong>生命周期</strong>。另外，这个金融合同我们会通过唯一标识符进行管理。</p><p>说到这里我们总结一下，实体有这样三个特点：</p><p>1.有唯一标识符。<br>
 

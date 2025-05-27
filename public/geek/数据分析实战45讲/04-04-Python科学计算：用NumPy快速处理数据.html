@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>上一节我讲了Python的基本语法，今天我来给你讲下Python中一个非常重要的第三方库NumPy。</p><p>它不仅是Python中使用最多的第三方库，而且还是SciPy、Pandas等数据科学的基础库。它所提供的数据结构比Python自身的“更高级、更高效”，可以这么说，NumPy所提供的数据结构是Python数据分析的基础。</p><p>我上次讲到了Python数组结构中的列表list，它实际上相当于一个数组的结构。而NumPy中一个关键数据类型就是关于数组的，那为什么还存在这样一个第三方的数组结构呢？</p><p>实际上，标准的Python中，用列表list保存数组的数值。由于列表中的元素可以是任意的对象，所以列表中list保存的是对象的指针。虽然在Python编程中隐去了指针的概念，但是数组有指针，Python的列表list其实就是数组。这样如果我要保存一个简单的数组[0,1,2]，就需要有3个指针和3个整数的对象，这样对于Python来说是非常不经济的，浪费了内存和计算时间。</p><h2>使用NumPy让你的Python科学计算更高效</h2><p>为什么要用NumPy数组结构而不是Python本身的列表list？这是因为列表list的元素在系统内存中是分散存储的，而NumPy数组存储在一个均匀连续的内存块中。这样数组计算遍历所有的元素，不像列表list还需要对内存地址进行查找，从而节省了计算资源。</p><!-- [[[read_end]]] --><p>另外在内存访问模式中，缓存会直接把字节块从RAM加载到CPU寄存器中。因为数据连续的存储在内存中，NumPy直接利用现代CPU的矢量化指令计算，加载寄存器中的多个连续浮点数。另外NumPy中的矩阵计算可以采用多线程的方式，充分利用多核CPU计算资源，大大提升了计算效率。</p><p>当然除了使用NumPy外，你还需要一些技巧来提升内存和提高计算资源的利用率。一个重要的规则就是：<strong>避免采用隐式拷贝，而是采用就地操作的方式</strong>。举个例子，如果我想让一个数值x是原来的两倍，可以直接写成x*=2，而不要写成y=x*2。</p><p>这样速度能快到2倍甚至更多。</p><p>既然NumPy这么厉害，你该从哪儿入手学习呢？在NumPy里有两个重要的对象：ndarray（N-dimensional array object）解决了多维数组问题，而ufunc（universal function object）则是解决对数组进行处理的函数。下面，我就带你一一来看。</p><p><strong>ndarray对象</strong></p><p>ndarray实际上是多维数组的含义。在NumPy数组中，维数称为秩（rank），一维数组的秩为1，二维数组的秩为2，以此类推。在NumPy中，每一个线性的数组称为一个轴（axes），其实秩就是描述轴的数量。</p><p>下面，你来看ndarray对象是如何创建数组的，又是如何处理结构数组的呢？</p><p><strong>创建数组</strong></p><pre><code>import numpy as np
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是韩健。</p><p>提到ACID，我想你并不陌生，很多同学也会觉得它容易理解，在单机上实现ACID也不难，比如可以通过锁、时间序列等机制保障操作的顺序执行，让系统实现ACID特性。但是，一说要实现分布式系统的ACID特性，很多同学就犯难了。那么问题来了，为什么分布式系统的ACID特性在实现上，比较难掌握呢？</p><p>在我看来，ACID理论是对事务特性的抽象和总结，方便我们实现事务。你可以理解成：如果实现了操作的ACID特性，那么就实现了事务。而大多数人觉得比较难，是因为分布式系统涉及多个节点间的操作。加锁、时间序列等机制，只能保证单个节点上操作的ACID特性，无法保证节点间操作的ACID特性。</p><p>那么怎么做才会让实现不那么难呢？答案是你要掌握分布式事务协议，比如二阶段提交协议和TCC（Try-Confirm-Cancel）。这也是我接下来重点和你分享的内容。</p><p>不过在带你了解二阶段提交协议和TCC之前，咱们先继续看看苏秦的故事，看这回苏秦又遇到了什么事儿。</p><p>最近呢，秦国按捺不住自己躁动的心，开始骚扰魏国边境，魏王头疼，向苏秦求助，苏秦认为“三晋一家亲”，建议魏王联合赵、韩一起对抗秦国。但是这三个国家实力都很弱，需要大家都同意联合，一致行动，如果有任何一方不方便行动，就取消整个计划。</p><!-- [[[read_end]]] --><p>根据侦查情况，明天发动反攻胜算比较大。苏秦想协调赵、魏、韩，明天一起行动。<strong>那么对苏秦来说，他面临的问题是，如何高效协同赵、魏、韩一起行动，并且保证当有一方不方便行动时，取消整个计划。</strong></p><p><img src="https://static001.geekbang.org/resource/image/09/55/0951213850cbf7a9f6db1d99511bd455.jpg" alt=""></p><p>苏秦面对的这个新问题，就是典型的如何实现分布式事务的问题，<strong>赵、魏、韩明天攻打秦国，这三个操作组成一个分布式事务，要么全部执行，要么全部不执行。</strong></p><p>了解了这个问题之后，我们看看如何通过二阶段提交协议和TCC，来帮助苏秦解决这个难题。</p><h2>二阶段提交协议</h2><p>二阶段提交协议，顾名思义，就是通过二阶段的协商来完成一个提交操作，那么具体是怎么操作的呢？</p><p>首先，苏秦发消息给赵，赵接收到消息后就扮演协调者（Coordinator）的身份，由赵联系魏和韩，发起二阶段提交：</p><p><img src="https://static001.geekbang.org/resource/image/c4/2b/c43a3bffad5dee2d4f465df3fc22c52b.jpg" alt=""></p><p>赵发起二阶段提交后，先进入<strong>提交请求阶段（又称投票阶段）。</strong> 为了方便演示，我们先假设赵、魏、韩明天都能去攻打秦国：</p><p><img src="https://static001.geekbang.org/resource/image/72/af/72f1414c2d4f2e7a66b8dd246165a8af.jpg" alt=""></p><p>也就是说，第一步，赵分别向魏、韩发送消息：“明天攻打秦国，方便吗？”</p><p>第二步，赵、魏、韩，分别评估明天能否去攻打秦国，如果能，就预留时间并锁定，不再安排其他军事活动。</p><p>第三步，赵得到全部的回复结果（包括他自己的评估结果），都是YES。</p><p>赵收到所有回复后，进入<strong>提交执行阶段（又称完成阶段），</strong> 也就是具体执行操作了，大致步骤如下：</p><p><img src="https://static001.geekbang.org/resource/image/f5/dc/f5deb827fd03e10106ed6b6839f1d7dc.jpg" alt=""></p><p>首先，赵按照“要么全部执行，要么放弃”的原则，统计投票结果，因为所有的回复结果都是YES，所以赵决定执行分布式事务，明天攻打秦国。</p><p>然后，赵通知魏、韩：“明天攻打秦国。”</p><p>接到通知之后，魏、韩执行事务，明天攻打秦国。</p><p>最后，魏、韩将执行事务的结果返回给赵。</p><p>这样一来，赵就将事务执行的结果（也就是赵、魏、韩明天一起攻打秦国），返回给苏秦，那么，这时苏秦就解决了问题，协调好了明天的作战计划。</p><p>在这里，赵采用的方法就是二阶段提交协议。在这个协议中：</p><ul>
 

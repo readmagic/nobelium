@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是何小锋，好久不见！咱们专栏结课有段时间了，这期间我和编辑冬青一起对整个课程做了复盘，也认真挨个逐字看了结课问卷中的反馈，其中呼声最高的是“想看RPC代码实例”，今天我就带着你的期待来了。</p><p>还记得我在<a href="https://time.geekbang.org/column/article/226573">[结束语]</a>提到过，我在写这个专栏之前，把公司内部我负责的RPC框架重新写了一遍。口说无凭，现在这个RPC框架已经<a href="https://github.com/joyrpc/joyrpc">开源</a>，接受你的检阅。</p><p>下面我就针对这套代码做一个详细的解析，希望能帮你串联已学的知识点，实战演练，有所收获。</p><h2>RPC框架整体结构</h2><p>首先说我们RPC框架的整体架构，这里请你回想下<a href="https://time.geekbang.org/column/article/207137">[第 07 讲]</a>，在这一讲中我讲解了如何设计一个灵活的RPC框架，其关键点就是插件化，我们可以利用插件体系来提高RPC的扩展性，使其成为一个微内核架构，如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/a3/a6/a3688580dccd3053fac8c0178cef4ba6.jpg" alt="" title="插件化RPC"></p><p>这里我们可以看到，我们将RPC框架大体分为了四层，分别是入口层、集群层、协议层和传输层，而这四层中分别包含了一系列的插件，而在实际的RPC框架中插件会更多。在我所开源的RPC框架中就超过了50个插件，其中涉及到的代码量也是相当大的，下面我就通过<strong>服务端启动流程、调用端启动流程、RPC调用流程</strong>这三大流程来将RPC框架的核心模块以及核心类串联起来，理解了这三大流程会对你阅读代码有非常大的帮助。</p><!-- [[[read_end]]] --><h2>服务端启动流程</h2><p>在讲解服务启动流程之前，我们先看下服务端启动的代码示例，如下：</p><pre><code>public static void main(String[] args) throws Exception {
 

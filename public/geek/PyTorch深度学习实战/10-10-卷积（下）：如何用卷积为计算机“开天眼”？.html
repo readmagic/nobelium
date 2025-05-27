@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是方远。</p><p>经过上一节课的学习，相信你已经对标准的卷积计算有所了解。虽然标准卷积基本上可以作为主力Carry全场，但是人们还是基于标准卷积，提出了一些其它的卷积方式，这些卷积方式在应对不同问题时能够发挥不同的作用，这里我为你列举了一些。</p><p><img src="https://static001.geekbang.org/resource/image/8a/4b/8a3f6bba138f36c1b31e52aeb3e2604b.jpg?wh=1920x977" alt="图片"></p><p>在上一节课中，我们学习了conv2d的in_channels、out_channels、kernel_size、stride、padding与bias参数。</p><p>其中，PyTorch中conv2d中剩余的两个参数，它们分别对应着两种不同的卷积，分别是深度可分离卷积和空洞卷积，让我们一起来看看。</p><h2>深度可分离卷积（Depthwise Separable Convolution）</h2><p>我们首先看看依托groups参数实现的深度可分离卷积。</p><p>随着深度学习技术的不断发展，许多很深、很宽的网络模型被提出，例如，VGG、ResNet、SENet、DenseNet等，这些网络利用其复杂的结构，可以更加精确地提取出有用的信息。同时也伴随着硬件算力的不断增强，可以将这些复杂的模型直接部署在服务器端，在工业中可以落地的项目中都取得了非常优秀的效果。</p><p>但这些模型具有一个通病，就是速度较慢、参数量大，这两个问题使得这些模型无法被直接部署到移动终端上。而移动端的各种应用无疑是当今最火热的一个市场，这种情况下这些深而宽的复杂网络模型就不适用了。</p><!-- [[[read_end]]] --><p>因此，很多研究将目光投入到寻求更加轻量化的模型当中，这些轻量化模型的要求是速度快、体积小，精度上允许比服务器端的模型稍微降低一些。</p><p>深度可分离卷积就是谷歌在MobileNet v1中提出的一种轻量化卷积。<strong>简单来说，深度可分离卷积就是我们刚才所说的在效果近似相同的情况下，需要的计算量更少</strong>。接下来，我们先来看看深度可分离卷积是如何计算的，然后再对比一下计算量到底减少了多少。</p><p>深度可分离卷积（Depthwise Separable Convolution）由 <strong>Depthwise</strong>（DW）和 <strong>Pointwise</strong>（PW）这两部分卷积组合而成的。</p><p>我们先来复习一下标准卷积，然后再来讲解一下获得同样输出特征图的深度可分离卷积是如何工作的。</p><p>你还记得下面这张图吗？这是我们<a href="https://shimowendang.com/docs/SU6kWF8uTdkYIL7q">上节课</a>讲到的标准卷积计算方式，它描述的是：输入m个尺寸为h, w的特征图，通过卷积计算获得n个通道尺寸为$h^{\prime}$与$w^{\prime}$的特征图的计算过程。</p><p><img src="https://static001.geekbang.org/resource/image/62/12/62fd6c269cee17e778f8d5acf085be12.jpeg?wh=1920x1080" alt=""></p><p>我们将特征图与一个卷积核计算的过程展开一下，请看下图。一个卷积核中的m个卷积分别与输入特征图的m个通道数据进行卷积计算，生成一个中间结果，然后m个中间结果按位求和，最终就能获得n个输出特征图中的一个特征图。<br>
 

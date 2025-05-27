@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈天。</p><p>通过上两讲的学习，相信你已经意识到，虽然并发原语看上去是很底层、很神秘的东西，但实现起来也并不像想象中的那么困难，尤其是在 Rust 下，在<a href="https://time.geekbang.org/column/article/442216">第 33 讲</a>中，我们用了几十行代码就实现了一个简单的 SpinLock。</p><p>你也许会觉得不太过瘾，而且 SpinLock 也不是经常使用的并发原语，那么今天，我们试着实现一个使用非常广泛的 MPSC channel 如何？</p><p>之前我们谈论了如何在搜索引擎的 Index writer 上使用 MPSC channel：要更新 index 的上下文有很多（可以是线程也可以是异步任务），而 IndexWriter 只能是唯一的。为了避免在访问 IndexWriter 时加锁，我们可以使用 MPSC channel，在多个上下文中给 channel 发消息，然后在唯一拥有 IndexWriter 的线程中读取这些消息，非常高效。</p><p>好，来看看今天要实现的 MPSC channel 的基本功能。为了简便起见，我们只关心 unbounded MPSC channel。也就是说，当队列容量不够时，会自动扩容，所以，<strong>任何时候生产者写入数据都不会被阻塞，但是当队列中没有数据时，消费者会被阻塞</strong>：<br>
 

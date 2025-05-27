@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是蔡元楠。</p><p>今天我要与你分享的主题是“为什么Beam要如此抽象封装数据”。</p><p>很多人在刚开始接触Apache Beam的时候，都会觉得这里面的概念太抽象了。什么PCollection、PValue、Transform……这都是些什么？尤其是PCollection，完全和先前的技术知识找不到对应。</p><p>确实如此。同样作为数据的容器，PCollection却并不像Python/Java的List或者C++的vector。<span class="orange">PCollection是无序的</span>，Beam对于PCollection中元素的处理顺序不作任何保证。所以，你不可能说“我想处理PCollection中的第二个元素”，因为它就没有“第几个”这种概念。</p><p>PCollection也不像Python/Java的Set，或者C++的unordered_set，<span class="orange">PCollection不一定有固定的边界</span>。所以，你也不能指望去查找一个PCollection的大小。在PCollection的世界里，也没有“固定大小”这样的概念。</p><p>作为程序员，我很讨厌重复造轮子，尤其是新瓶装旧酒。的确，有很多开发者为了体现自己项目的复杂度，故意强行引进了很多概念，让大家都似懂非懂的。这就像是为了体现自己知道茴香豆的“茴”有几种写法一样，故意用另一种写法来体现自己“有文化”。</p><!-- [[[read_end]]] --><p>那么Apache Beam引进这么多概念，是不是也是故意强行造轮子呢？答案是否定的。这一讲，我们就要分析PCollection为什么会如此设计。</p><p>在之前的章节中，我们已经讲到了Apache Beam的“爷爷”——FlumeJava产生的背景。</p><p>当时Google的工程师们发现MapReduce使用起来并没有很方便。如果计算过程都能够分解成map、shuffle、reduce步骤的话，MapReduce是非常能胜任的。</p><p>但是，很多现实世界中的问题，往往需要一系列的map或reduce步骤。这样的数据流水线就需要额外的代码用来协调这些map或reduce步骤。也需要一些额外的代码去管理分步的map/reduce步骤产生的一些中间结果。以至于新的开发者很难理解复杂的流水线。</p><p>清楚这样的背景对于理解Apache Beam的PCollection起源很有帮助。因为，这个项目起源只是为了提供比MapReduce更好的开发体验，最终的运算引擎仍然是MapReduce。</p><h2>为什么需要PCollection？</h2><p>那么，为什么Beam需要PCollection这样一个全新的抽象数据结构呢？</p><p>我们知道，不同的技术系统有不同的数据结构。比如，C++里有vector、unordered_map，安卓有ListView。相比它们而言，其实Beam的数据结构体系是很单调的，几乎所有数据都能表达为PCollection。</p><p><span class="orange">PCollection，就是Parallel Collection，意思是可并行计算的数据集。</span>如果你之前学习了Spark的章节，就会发现PCollection和RDD十分相似。</p><p>在一个分布式计算系统中，我们作为架构设计者需要为用户隐藏的实现细节有很多，其中就包括了<strong>数据是怎样表达和存储的</strong>。</p><p>这个数据可能是来自于内存的数据（内部可能只是由一个C++ array存储）；也有可能是来自外部文件（由几个文件存储）；或者是来自于MySQL数据库（由数据库的行来表达）。</p><p>如果没有一个统一的数据抽象的话，开发者就需要不停地更改代码。比如，在小规模测试的时候用C++ vector，等到了真实的生产环境，我再换MySQL row。沉溺于这样的实现细节会让开发者无法集中注意力在真正重要的事情上，那就是“你想怎样处理数据”。</p><p>清楚了这些，你就能明白我们需要一层抽象来表达数据，而这层抽象就是PCollection。</p><p>PCollection的创建完全取决于你的需求。比如，在测试中PCollection往往来自于代码生成的伪造数据，或者从文件中读取。</p><p>Python</p><pre><code>lines = (p
 

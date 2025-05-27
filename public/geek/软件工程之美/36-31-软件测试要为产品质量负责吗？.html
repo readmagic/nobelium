@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宝玉。从这一篇开始，我们将进入软件工程中的测试模块的学习。</p><p>说到软件测试，你一定不会陌生，尤其是如果你做开发相关岗位的话，一定是对测试又爱又恨，一方面测试从你的程序找出Bug，然后你还要费心去修复；另一方面测试帮你发现Bug，修复后能很好的提升质量。</p><p>正因为测试能发现软件中的质量问题，通过测试能有效提升软件质量，慢慢的大家就觉得软件测试能保障质量，所以测试要对质量负责。开发也会对测试产生依赖心理，很多功能模块实现后，就扔给测试人员去测试。</p><p>上线后，如果因为有测试漏测导致的Bug，测试人员还要为质量问题背锅，受到责备。上面这样的场景到现在也还在很多软件项目中上演。但这对测试人员其实是不公平的。</p><p>因为软件开发是多个环节组成的，从最开始的需求，到后面的设计、开发，每个环节都可能会导致质量问题，<strong>而测试只能对已经开发完成的软件产品进行检测，并不能干预整个过程。</strong></p><p>比如说测试是无法对开发写的代码直接测试的，只能基于软件功能去测试，也就是说对于代码的质量，测试人员其实是没有什么办法的。</p><p>那到底谁应该为产品质量负责呢？在回答这个问题之前，你不妨先思考一个更本质的问题：什么是软件产品质量？</p><h2>什么是软件产品质量？</h2><!-- [[[read_end]]] --><p>我以前以为，软件质量就是由Bug数量、性能高低、安全性等指标决定的，现在看来这样划分其实并不全面。</p><p>因为不同的人对软件质量好坏的评判角度是不同的。比如对用户来说，更看重产品是不是满足需求，是不是美观好用；对开发来说，看重的是代码质量是不是高，是不是好维护；对于软件测试人员而言，看重的是Bug数量、安全、性能等指标；对于项目负责人，看重的是整个开发过程的质量，是不是成本可控、如期完成。</p><p>在这个问题上，我比较认同《The Three Aspects of Software Quality: Functional, Structural, and Process》这篇文章作者David Chappell的观点，他把软件质量分成了三个考量方面：功能、结构和流程。对于他提的“结构质量”，我认为定义为“代码质量”更贴切，也就是说，<strong>功能质量、代码质量和过程质量这三个方面组合在一起，很好地概括了软件质量。</strong></p><p>所有的软件开发都是从一个想法开始的，用户需要一个软件，有人出钱，然后开发团队实施，把想法变成需求，需求变成设计，设计变成代码，代码变成软件。</p><ul>
 

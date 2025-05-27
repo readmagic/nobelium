@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是于航。</p><p>看到这里的你，应该已经完成了本课程前两个模块的学习。随着课程的不断推进，我陆续收到了很多反馈。很高兴看到你在评论区积极留言，和大家一起讨论思考题。并且，还有很多同学提出了一些非常有意义的问题。那么，在继续学习后面更深入的内容之前，让我们先暂缓脚步，从问题出发，进行一次整体性的回顾。</p><p>在这一讲中，我会以加餐的形式，为你剖析一些值得讨论的思考题，以及你们提出的有代表性的问题。</p><p><strong>问题一：</strong>在 <a href="https://time.geekbang.org/column/article/464550">01 讲</a> 的最后，我留给你的问题是：在这一讲第一部分的 C 代码实例中，我们为何要给函数 findAddr 添加 <code>static</code> 关键字？不添加这个关键字的话，程序是否可以编译运行？</p><p>这里，我将那段代码简化了一下，只提取出与问题相关的部分，放到了下面。因此，问题也变成了：对于下面这段代码来说，将函数 foo 定义中使用的 <code>static</code> 关键字去掉，是否会影响程序的正常编译和运行呢？</p><pre><code class="language-c++">#include &lt;stdio.h&gt;
 

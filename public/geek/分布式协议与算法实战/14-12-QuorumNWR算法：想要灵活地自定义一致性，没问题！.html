@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是韩健。</p><p>不知道你在工作中有没有遇到这样的事儿：你开发实现了一套AP型的分布式系统（我在<a href="https://time.geekbang.org/column/article/200717">04讲</a>提到了AP型系统的特点，你可以回顾一下），实现了最终一致性。业务也接入了，运行正常，一起看起来都那么美好。</p><p>可是，突然有同事说，我们要拉这几个业务的数据做实时分析，希望数据写入成功后，就能立即读取到新数据，也就是要实现强一致性（<a href="https://www.allthingsdistributed.com/2008/12/eventually_consistent.html">Werner Vogels提出的客户端侧一致性模型</a>，不是指线性一致性），数据更改后，要保证用户能立即查询到。这时你该怎么办呢？首先你要明确最终一致性和强一致性有什么区别。</p><ul>
 

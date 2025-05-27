@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是张磊。今天我和你分享的主题是：深入理解StatefulSet之有状态应用实践。</p><p>在前面的两篇文章中，我详细讲解了StatefulSet的工作原理，以及处理拓扑状态和存储状态的方法。而在今天这篇文章中，我将通过一个实际的例子，再次为你深入解读一下部署一个StatefulSet的完整流程。</p><p>今天我选择的实例是部署一个MySQL集群，这也是Kubernetes官方文档里的一个经典案例。但是，很多工程师都曾向我吐槽说这个例子“完全看不懂”。</p><p>其实，这样的吐槽也可以理解：相比于Etcd、Cassandra等“原生”就考虑了分布式需求的项目，MySQL以及很多其他的数据库项目，在分布式集群的搭建上并不友好，甚至有点“原始”。</p><p>所以，这次我就直接选择了这个具有挑战性的例子，和你分享如何使用StatefulSet将它的集群搭建过程“容器化”。</p><blockquote>
 

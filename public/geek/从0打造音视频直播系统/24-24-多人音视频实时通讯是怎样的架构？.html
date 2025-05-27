@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在前面的章节里，我们通过大量的篇幅介绍了WebRTC 在浏览器上对实时通信的各种支持。WebRTC 本身提供的是1对1的通信模型，在 STUN/TURN 的辅助下，如果能实现 NAT 穿越，那么两个浏览器是可以直接进行媒体数据交换的；如果不能实现 NAT 穿越，那么只能通过 TURN服务器进行数据转发的方式实现通信。目前来看，Google 开源的用于学习和研究的项目基本都是基于 STUN/TURN 的1对1通信。</p><p>如果你想要通过 WebRTC 实现多对多通信，该如何做呢？其实，基于 WebRTC 的多对多实时通信的开源项目也有很多，综合来看，多方通信架构无外乎以下三种方案。</p><ul>
 

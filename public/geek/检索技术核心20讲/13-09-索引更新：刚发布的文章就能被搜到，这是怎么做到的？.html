@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈东。</p><p>在前面的课程中，我们讲到，倒排索引是许多检索系统的核心实现方案。比如，搜索引擎对万亿级别网页的索引，就是使用倒排索引实现的。我们还讲到，对于超大规模的网页建立索引会非常耗时，工业界往往会使用分布式技术来并行处理。</p><p>对于发布较久的网页，搜索引擎可以有充足的时间来构建索引。但是一些新的网页和文章，往往发布了几分钟就可以被用户搜索到。这又是怎么做到的呢？今天，我们就来聊一聊这个问题。</p><h2>工业界如何更新内存中的索引？</h2><p>我们先来看这么一个问题：如果现在有一个小规模的倒排索引，它能完全加载在内存中。当有新文章进入内存的时候，倒排索引该如何更新呢？这个问题看似简单，但是实现起来却非常复杂。</p><p>我们能想到最直接的解决思路是，只要解析新文章有哪些关键词，然后将文章ID加入倒排表中关键词对应的文档列表即可。没错，在没有其他用户使用的情况下，这样的方法是可行的。但如果你有过一定的工程经验，你就会知道，在实际应用中，必然会有多个用户同时访问这个索引。</p><p>这个时候，如果我们直接更新倒排索引，就可能造成用户访问错误，甚至会引发程序崩溃。因此，一般来说，我们会对倒排表加上“读写锁”，然后再更新。但是，加上“锁”之后会带来频繁的读写锁切换，整个系统的检索效率会比无锁状态有所下降。</p><!-- [[[read_end]]] --><p>因此，为了使得系统有更好的性能，在工业界的实现中，我们会使用一种叫做“<strong>Double Buffer（双缓冲）机制</strong>”的解决方案，使得我们可以在无锁状态下对索引完成更新。</p><p>所谓“Double Buffer”，就是在内存中同时保存两份一样的索引，一个是索引A，一个是索引B。我们会使用一个指针p指向索引A，表示索引A是当前可访问的索引。那么用户在访问时就会通过指针p去访问索引A。这个时候，如果我们要更新，只更新索引B。这样，索引A和索引B之间就不存在读写竞争的问题了。因此，在这个过程中，索引A和索引B都可以保持无锁的状态。</p><p>那更新完索引B之后，我们该如何告知用户应该来访问索引B呢？这时候，我们可以将指针p通过<a href="https://www.infoq.cn/article/atomic-operations-and-contention">原子操作</a>（即无法被打断的最细粒度操作，在Java和C++11等语言中都有相应实现）从A直接切换到B上。接着，我们就把索引B当作“只读索引”，然后更新索引A。</p><p>通过这样的机制，我们就能同时维护两个倒排索引，保持一个读、一个写，并且来回切换，最终完成高性能的索引更新。不过，为了避免切换太频繁，我们并不是每来一条新数据就更新，而是积累一批新数据以后再批量更新。这就是工业界常用的Double Buffer机制。<br>
 

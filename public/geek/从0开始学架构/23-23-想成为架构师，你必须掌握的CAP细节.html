@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>理论的优点在于清晰简洁、易于理解，但缺点就是高度抽象化，省略了很多细节，导致在将理论应用到实践时，由于各种复杂情况，可能出现误解和偏差，CAP理论也不例外。如果我们没有意识到这些关键的细节点，那么在实践中应用CAP理论时，就可能发现方案很难落地。</p><p>而且当谈到数据一致性时，CAP、ACID、BASE难免会被我们拿出来讨论，原因在于这三者都是和数据一致性相关的理论，如果不仔细理解三者之间的差别，则可能会陷入一头雾水的状态，不知道应该用哪个才好。</p><p>今天，我来讲讲<span class="orange">CAP的具体细节，简单对比一下ACID、BASE几个概念的关键区别点。</span></p><h2>CAP关键细节点</h2><p>埃里克·布鲁尔（Eric Brewer）在《CAP理论十二年回顾：“规则”变了》（<a href="http://www.infoq.com/cn/articles/cap-twelve-years-later-how-the-rules-have-changed">http://www.infoq.com/cn/articles/cap-twelve-years-later-how-the-rules-have-changed</a>）一文中详细地阐述了理解和应用CAP的一些细节点，可能是由于作者写作风格的原因，对于一些非常关键的细节点一句话就带过了，这里我特别提炼出来重点阐述。</p><ul>
 

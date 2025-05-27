@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是DS Hunter，反爬虫专家，又见面了。</p><p>前面，我们讲了反爬虫的前置操作，例如快速下线的保命技巧，key生成的相关知识。那么这一讲，我们就谈谈反爬虫最终的核心诉求：验证爬虫。</p><p>实际上，在上一讲的规则引擎里面，我们已经对爬虫做了一些验证操作。但是，那里的验证只是简单的规则校验，还属于比较初级的校验。高级校验就要考虑得更多一些。</p><p>两者之间有什么不同呢？我们可以试试用不同的英文单词来区分两者。上一讲的验证，更多是validate，而这一讲，则更多是test or confirm。也就是说，这一讲的验证，并非单纯的校验客观上是否符合某种规定，更多的是检测、确认主观上是否是我们想要的。</p><p>那我们直接从规则组合的部分开始吧。</p><h2>规则组合</h2><p>相信现在的你已经知道了，规则引擎是由多个规则构成的。而这些规则较为通用，并不是针对指定场景的。因此，针对不同的场景，我们可以对规则进行组合使用。这里，我们要讨论的就是组合过程中需要注意的地方。</p><p>例如，价格页面可能会存在对商品ID的判定，但是通用促销页面则可能是判定用户属性，他们使用的规则会有所不同。价格页面用A和B的组合，促销页面用B和C的组合。这就像游戏中，每个装备都有自己的属性以及作用。而不同的玩家根据自己的需要，会对装备进行组合，寻找更匹配自己的“套装”。</p><!-- [[[read_end]]] --><h3>规则整合</h3><p>上一讲我们提到了规则判定本来是策略模式，但是如果是多条一起判定，就可能成了职责链模式。其实那个时候就已经开始使用这种整合思想了。</p><p>职责链就相当于把职责串联成一个链条，让规则顺着链条走下去，最后走出结果。</p><p>我们抄一下上一讲的代码：</p><pre><code class="language-c#">interface IContext;
 

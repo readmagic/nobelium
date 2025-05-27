@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是LMOS。</p><p>上节课，我们学习了解决数据同步问题的思路与方法。Linux作为成熟的操作系统内核，当然也有很多数据同步的机制，它也有原子变量、开启和关闭中断、自旋锁、信号量。</p><p>那今天我们就来探讨一下这些机制在Linux中的实现。看看Linux的实现和前面我们自己的实现有什么区别，以及Linux为什么要这么实现，这么实现背后的机理是什么。</p><h2>Linux的原子变量</h2><p>首先，我们一起来看看Linux下的原子变量的实现，在Linux中，有许多共享的资源可能只是一个简单的整型数值。</p><p>例如在文件描述符中，需要包含一个简单的计数器。这个计数器表示有多少个应用程序打开了文件。在文件系统的open函数中，将这个计数器变量加1；在close函数中，将这个计数器变量减1。</p><p>如果单个进程执行打开和关闭操作，那么这个计数器变量不会出现问题，但是Linux是支持多进程的系统，如果有多个进程同时打开或者关闭文件，那么就可能导致这个计数器变量多加或者少加，出现错误。</p><p>为了避免这个问题，Linux提供了<strong>一个原子类型变量atomic_t</strong>。该变量的定义如下。</p><pre><code>typedef struct {
 

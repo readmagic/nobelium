@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>我们已经学习了20节内容，你有没有发现，有两种数据结构，散列表和链表，经常会被放在一起使用。你还记得，前面的章节中都有哪些地方讲到散列表和链表的组合使用吗？我带你一起回忆一下。</p><p>在链表那一节，我讲到如何用链表来实现LRU缓存淘汰算法，但是链表实现的LRU缓存淘汰算法的时间复杂度是O(n)，当时我也提到了，通过散列表可以将这个时间复杂度降低到O(1)。</p><p>在跳表那一节，我提到Redis的有序集合是使用跳表来实现的，跳表可以看作一种改进版的链表。当时我们也提到，Redis有序集合不仅使用了跳表，还用到了散列表。</p><p>除此之外，如果你熟悉Java编程语言，你会发现LinkedHashMap这样一个常用的容器，也用到了散列表和链表两种数据结构。</p><p>今天，我们就来看看，在这几个问题中，散列表和链表都是如何组合起来使用的，以及为什么散列表和链表会经常放到一块使用。</p><h2>LRU缓存淘汰算法</h2><p>在链表那一节中，我提到，借助散列表，我们可以把LRU缓存淘汰算法的时间复杂度降低为O(1)。现在，我们就来看看它是如何做到的。</p><p>首先，我们来回顾一下当时我们是如何通过链表实现LRU缓存淘汰算法的。</p><p>我们需要维护一个按照访问时间从大到小有序排列的链表结构。因为缓存大小有限，当缓存空间不够，需要淘汰一个数据的时候，我们就直接将链表头部的结点删除。</p><!-- [[[read_end]]] --><p>当要缓存某个数据的时候，先在链表中查找这个数据。如果没有找到，则直接将数据放到链表的尾部；如果找到了，我们就把它移动到链表的尾部。因为查找数据需要遍历链表，所以单纯用链表实现的LRU缓存淘汰算法的时间复杂很高，是O(n)。</p><p>实际上，我总结一下，一个缓存（cache）系统主要包含下面这几个操作：</p><ul>
 

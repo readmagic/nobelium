@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是周爱民。</p><p>今天这一讲的标题呢，比较长。它是我这个专栏中最长的标题了。不过说起来，这个标题的意义还是很简单的，就是返回一个用<code>Object.create()</code>来创建的对象。</p><p>因为用到了<code>return</code>这个子句，所以它显然应该是一个函数中的退出代码，是不能在函数外单独使用的。</p><p>这个函数呢，必须是一个构造器。更准确地说，标题中的代码必须工作在构造过程之中。因为除了<code>return</code>，它还用到了一个称为元属性（<em>meta property</em>）的东西，也就是<code>new.target</code>。</p><p>迄今为止，<code>new.target</code>是JavaScript中唯一的一个元属性。</p><h2>为什么需要定义自己的构建过程</h2><p>通过之前的课程，你应该知道：JavaScript使用原型继承来搭建自己的面向对象的继承体系，在这个过程中诞生了两种方法：</p><ol>
 

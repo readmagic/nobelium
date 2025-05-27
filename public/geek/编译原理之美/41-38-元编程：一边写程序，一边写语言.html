@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>今天，我再带你讨论一个很有趣的话题：元编程。把这个话题放在这一篇的压轴位置，也暗示了这个话题的重要性。</p><p>我估计很多同学会觉得元编程（Meta Programming）很神秘。编程，你不陌生，但什么是元编程呢？</p><p><strong>元编程是这样一种技术：</strong>你可以让计算机程序来操纵程序，也就是说，用程序修改或生成程序。另一种说法是，具有元编程能力的语言，能够把程序当做数据来处理，从而让程序产生程序。</p><p>而元编程也有传统编程所不具备的好处：比如，可以用更简单的编码来实现某个功能，以及可以按需产生、完成某个功能的代码，从而让系统更有灵活性。</p><p><strong>某种意义上，</strong>元编程让程序员拥有了语言设计者的一些权力。是不是很酷？你甚至可以说，普通程序员自己写程序，文艺程序员让程序写程序。</p><p>那么本节课，我会带你通过实际的例子，详细地来理解什么是元编程，然后探讨带有元编程能力的语言的特性，以及与编译技术的关系。通过这样的讨论，我希望你能理解元编程的思维，并利用编译技术和元编程的思维，提升自己的编程水平。</p><h2>从Lisp语言了解元编程</h2><p>说起元编程，追溯源头，应该追到Lisp语言。这门语言其实没有复杂的语法结构，仅有的语法结构就是一个个函数嵌套的调用，就像下面的表达式，其中“+”和“*”也是函数，并不是其他语言中的操作符：</p><!-- [[[read_end]]] --><pre><code>(+ 2 (* 3 5))   //对2和3求和，这里+是一个函数，并不是操作符
 

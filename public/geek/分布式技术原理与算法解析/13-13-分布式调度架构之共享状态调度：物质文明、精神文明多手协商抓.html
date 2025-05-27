@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是聂鹏程。今天，我来继续带你打卡分布式核心技术。</p><p>在上一篇文章中，我们一起学习了两层调度。在两层调度架构中，第二层调度只知道集群中的部分资源，无法进行全局最优调度。那么，是否有办法解决全局最优调度的问题呢？</p><p>答案是肯定的，解决办法就是我今天要带你打卡的共享状态调度。</p><p>接下来，我们就一起看看共享状态调度到底是什么，以及它的架构和工作原理吧。</p><h2>什么是共享状态调度？</h2><p>通过我们前两篇文章的讲述，不难发现，集群中需要管理的对象主要包括两种：</p><ul>
 

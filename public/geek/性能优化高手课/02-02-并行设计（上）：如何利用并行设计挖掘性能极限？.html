@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是尉刚强。</p><p>在计算机领域，由于CPU单核性能的增⻓逐渐停滞，而我们面临的业务问题复杂度却在不断地上升，为了更好地解决这个冲突，在CPU中增加核数就成为了一种默认的应对方案。而通常来说，我们会借助并行设计来充分发挥硬件多核上的运行性能。</p><p>不过，在CPU多核的场景下，要想通过并行设计将计算负载均衡到每个CPU核上，以此减少业务处理的时延，将软件性能提升至最大化，<strong>依然存在着很大的挑战</strong>。</p><p>为什么这么说呢？不知道你在实际的业务场景中有没有发现，由于并行拆分不合理，而导致产品性能不可控，甚至是恶化的现象非常普遍。另外，由于程序员普遍会存在串行编程的惯性思维，在并发同步互斥实现中引入的故障难以定位，也很容易导致产品在较长时间里处于不可用状态。而这些问题，都会对我们的软件性能产生直接影响。</p><p>所以这节课，我就来给你介绍6种针对不同业务问题的典型并行设计架构模式，以此让你在面对实际的业务问题时，能快速准确地挖掘业务中的并发性，找到适合产品的并行设计架构。而同步互斥作为并行设计中的一个难点，如果你希望能高效解决，需要对其有很深入的理解认识，我将在下一节课单独介绍。</p><h2>并行计算模型</h2><p>在开始讲解具体的并行设计架构模式之前，我想先带你了解一下并行计算模型。</p><!-- [[[read_end]]] --><p>因为当面对具体的业务问题时，如何将复杂的领域问题拆分成可并行的逻辑单元，并实现同步交互，是并行架构设计的关键。而并行计算模型，可以帮助我们建立起对并发系统抽象模型，以及各种基本概念的认识，从而更容易去理解后续的并行设计架构模式。</p><p>我们知道，在CPU多核运行的场景下，不同的并行计算单元如果共享相同的内存地址单元，就可能会导致各种同步互斥的问题，比如脏数据、死锁等。所以，在并行计算模型中，我们就需要隔离不同并发计算单元的内存数据，以尽量减少引入同步互斥的问题。</p><p>那么具体要怎么做呢？我们可以把并行计算模型抽象为两个层次：</p><ol>
 

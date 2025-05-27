@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在<a href="https://time.geekbang.org/column/article/128405">上一篇文章</a>中，我向你介绍了保证数据传输安全的一些<strong>基本概念</strong>，如非对称加密、数字证书等等。那本文我们就结合这些基本概念，来一起看看 <strong>WebRTC 是如何保障数据安全的</strong>。</p><p>WebRTC的一个重要应用就是在浏览器上实现音视频实时通信，正如<a href="https://time.geekbang.org/column/article/128405">上一篇文章</a>中所讲到的，在浏览器上由于用户量巨大，所以对于音视频的通信必须要有一套机制来保证音视频数据的安全性。</p><p>实际上，在浏览器上对于音视频数据的安全最终还是由 WebRTC 库自己保证的。它是通过使用 SDP、STUN、DTLS、SRTP等几个协议的结合来达到数据安全的。</p><h2>WebRTC 数据安全机制</h2><p>为了保障音频数据的安全，WebRTC使用了一整套机制来进行保护，下面我们就来看一下 WebRTC 是如何保障数据安全的吧！</p><p>我们来假设一个场景， A 与 B 通信，为了保障数据的安全，我们只需要在 A 端发送数据前将要发送的数据进行加密，B端收到数据之后再进行解密就好了，这样看起来保证数据的安全还是蛮简单的事情。</p><p>但这里有一个问题，<strong>B端是如何知道 A 端使用的哪种加密算法进行加密的呢</strong>？另外，加密算法还分对称加密和非对称加密，我们应该选择哪个呢？实际上在<a href="https://time.geekbang.org/column/article/128405">上一篇文章</a>中我已经向你做了介绍，对于加密来说，使用非对称加密是最安全的，因此<strong>选择非对称加密是必然的选择</strong>。</p><!-- [[[read_end]]] --><p>既然选择非对称加密，那么 A 端与 B 端就要交换各自的公钥，这样当 A 端使用私钥加密时，B端才能用 A 的公钥进行解密。同样的道理，B 端使用自己的私钥进行加密时，A 端可以使用 B 端的公钥进行解密。</p><p>按照上面的描述，你会发现其逻辑上有个安全漏洞，即 A 与 B 交换公钥时，并没有进行任何防护。黑客完全可以用各种手段在A与B 交换公钥时获取到这些公钥，这样他们就可以轻而易举地将传输的音视频数据进行解密了。</p><p>为了解决这个问题，WebRTC引入了 <strong>DTLS</strong>（Datagram Transport Layer Security），至于DTLS 的实现细节，你暂时不用关心，后面我们会对它做详细的讲解。你现在只要知道<strong>通过 DTLS 协议就可以有效地解决 A 与 B 之间交换公钥时可能被窃取的问题</strong>就好了。</p><p>A 与 B 交换公钥时被窃取的问题解决后，是不是双方通信就安全了呢？</p><p>我们再来想像一个场景，还是 A 与 B 通信，但此时 B 并不是真正的 B ，而是冒充的，这样 A 与 B 通信时，冒充的B 就获得了 A 的重要信息。其实这种情况更多发生在会议系统或在线教育的小班课中，此时会议中有多人进行互动，如果黑客进入了会议中，他只需听别人说话，自己不发言，这样就将关键的信息窃取走了。所以现在的问题又来了，我们该<strong>如何辨别对方的身份是否合法呢</strong>？</p><p>看到辨别身份的问题是不是似曾相识？在<a href="https://time.geekbang.org/column/article/128405">上一篇文章</a>中我向你介绍过通过数字签名的方式可以防止内容被窜改。WebRTC 也是使用的这种方式，它首先通过信令服务器交换 SDP，SDP 信息中包括了以下几个重要信息：</p><pre><code>...
 

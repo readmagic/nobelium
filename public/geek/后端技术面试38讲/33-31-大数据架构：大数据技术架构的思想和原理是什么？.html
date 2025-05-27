@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>我在开篇词讲到，任何新技术都不是凭空产生的，都是在既有技术的基础之上，进行了一些创新性的组合扩展，应用到一些合适的场景之中，然后爆发出来巨大的生产力。后面几篇我要讲的大数据技术，区块链技术都是如此。</p><p>大数据技术其实是分布式技术在数据处理领域的创新性应用，本质和我们此前讲到的分布式技术思路一脉相承：用更多的计算机组成一个集群，提供更多的计算资源，从而满足更大的计算压力要求。</p><p>前面我们讨论的各种分布式缓存、负载均衡、分布式存储等都是讲如何在高并发的访问压力下，利用更多的计算机满足用户的请求访问压力。而大数据技术讨论的是，如何利用更多的计算机满足大规模的数据计算要求。</p><p>大数据就是将各种数据统一收集起来进行计算，发掘其中的价值。这些数据，既包括数据库的数据，也包括日志数据，还包括专门采集的用户行为数据；既包括企业内部自己产生的数据，也包括从第三方采购的数据，还包括使用网络爬虫获取的各种互联网公开数据。</p><p>面对如此庞大的数据，如何存储，如何利用大规模的服务器集群处理计算大量的数据，就是大数据技术的核心关键。</p><h2>分布式文件存储HDFS架构</h2><p>大规模数据计算首先要解决的是大规模数据的存储问题。如何将数百T，数百P的数据存储起来，通过一个文件系统统一管理，这本身就是一个极大的挑战。</p><!-- [[[read_end]]] --><p>我曾在专栏<a href="https://time.geekbang.org/column/article/169533">第5篇</a>讲过，分布式文件系统HDFS的架构。</p><p>HDFS可以将数千台服务器组成一个统一的文件存储系统，其中NameNode服务器充当文件控制块的角色，进行文件元数据管理，即记录文件名、访问权限、数据存储地址等信息，而真正的文件数据则存储在DataNode服务器上。</p><p>DataNode以块为单位存储数据，所有的块信息，比如块ID、块所在的服务器IP地址等，都记录在NameNode，而具体的块数据则存储在DataNode上。理论上，NameNode可以将所有DataNode服务器上的所有数据块都分配给一个文件，也就是说，一个文件可以使用所有服务器的硬盘存储空间，达到数百P的大小。</p><p>此外，HDFS为了保证不会因为硬盘或者服务器损坏而导致文件损坏，还会对数据块进行复制，每个数据块都会存储在多台服务器上，甚至多个机架上。</p><h2>大数据计算MapReduce架构</h2><p>数据存储在HDFS上的最终目标还是为了计算，进行数据分析或者机器学习，从而获得有益的结果。但是如果像传统的应用程序那样，把HDFS当做普通文件，从文件读取数据，进行计算，那么对于需要一次计算数百T数据的大数据计算场景，就不知道要算到什么时候了。</p><p>大数据处理的经典计算框架是MapReduce。MapReduce的核心思想是对数据进行分片计算。既然数据是以块为单位分布存储在很多台服务器组成的集群上，那么能不能就在这些服务器上针对每个数据块进行分布式计算呢？</p><p>事实上，MapReduce将同一个计算程序启动在分布式集群的多台服务器上，每个服务器上的程序进程都读取本服务器上要处理的数据块进行计算，因此，大量的数据就可以同时进行计算了。但是这样的话，每个数据块的数据都是独立的，如果这些数据块需要进行关联计算怎么办？</p><p>MapReduce将计算过程分成两个部分，一个是map过程，每个服务器上会启动多个map进程，map优先读取本地数据进行计算，计算后输出一个&lt;key, value&gt;集合。另一个是reduce过程，MapReduce在每个服务器上都启动多个reduce进程，然后对所有map输出的&lt;key, value&gt;集合进行shuffle操作。所谓shuffle就是将相同的key发送到同一个reduce进程，在reduce中完成数据关联计算。</p><p>我们以经典的WordCount，也就是统计所有数据中相同单词的词频数据为例，看看map和reduce的处理过程。</p><p><img src="https://static001.geekbang.org/resource/image/1b/5b/1b7b317b5863743112b3f45f7ae9025b.png" alt=""></p><p>假设原始数据有两个数据块，MapReduce框架启动两个map进程进行处理，分别读入数据。map函数对输入数据进行分词处理，然后针对每个单词输出&lt;单词, 1&gt;这样的&lt;key, value&gt;结果。然后，MapReduce框架进行shuffle操作，相同的key发送给同一个reduce进程，reduce的输入就是&lt;key, value列表&gt;这样的结构，即相同key的value合并成一个value列表。</p><p>在这个例子中，这个value列表就是很多个1组成的列表。reduce对这些1进行求和操作，就得到每个单词的词频结果了。具体的MapReduce程序如下：</p><pre><code>public class WordCount {
 

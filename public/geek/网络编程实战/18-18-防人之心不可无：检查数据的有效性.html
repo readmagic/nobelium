@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是盛延敏，这里是网络编程实战第18讲，欢迎回来。</p><p>在前面一讲中，我们仔细分析了引起故障的原因，并且已经知道为了应对可能出现的各种故障，必须在程序中做好防御工作。</p><p>在这一讲里，我们继续前面的讨论，看一看为了增强程序的健壮性，我们还需要准备什么。</p><h2>对端的异常状况</h2><p>在前面的第11讲以及第17讲中，我们已经初步接触过一些防范对端异常的方法，比如，通过read等调用时，可以通过对EOF的判断，随时防范对方程序崩溃。</p><pre><code>int nBytes = recv(connfd, buffer, sizeof(buffer), 0);
 

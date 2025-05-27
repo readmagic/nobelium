@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是范学雷。今天，我们来讨论Java的外部内存接口。</p><p>Java的外部内存接口这个新特性，现在还在孵化期，还没有发布预览版。我之所以选取了这样一个还处于孵化期的技术，主要是因为这个技术太重要了。我们需要提前认识它；然后在这项技术出来的时候，尽早地使用它。</p><p>我们从阅读案例开始，看一看Java在没有外部内存接口的时候，是怎么支持本地内存的；然后，我们再看看外部内存接口能够给我们的代码带来什么样的变化。</p><h2>阅读案例</h2><p>在我们讨论代码性能的时候，内存的使用效率是一个绕不开的话题。像TensorFlow、 Ignite、 Flink以及Netty这样的类库，往往对性能有着偏执的追求。为了避免Java垃圾收集器不可预测的行为以及额外的性能开销，这些产品一般倾向于使用JVM之外的内存来存储和管理数据。这样的数据，就是我们常说的堆外数据（off-heap data）。</p><p>使用堆外存储最常用的办法，就是使用ByteBuffer这个类来分配直接存储空间（direct buffer）。JVM虚拟机会尽最大努力直接在直接存储空间上执行IO操作，避免数据在本地和JVM之间的拷贝。</p><p>由于频繁的内存拷贝是性能的主要障碍之一。所以为了极致的性能，应用程序通常也会尽量避免内存的拷贝。理想的状况下，一份数据只需要一份内存空间，这就是我们常说的零拷贝。</p><!-- [[[read_end]]] --><p>下面的这段代码，就是用ByteBuffer这个类来分配直接存储空间的方法。</p><pre><code class="language-java">public static ByteBuffer allocateDirect(int capacity);
 

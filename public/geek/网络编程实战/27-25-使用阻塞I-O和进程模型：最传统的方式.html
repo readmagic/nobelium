@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是盛延敏，这里是网络编程实战第25讲，欢迎回来。</p><p>上一讲中，我们讲到了C10K问题，并引入了解决C10K问题的各种解法。其中，最简单也是最有效的一种解决方法就是为每个连接创建一个独立的进程去服务。那么，到编辑侧运营方案，如第一季资源等（如有底如何为每个连接客户创建一个进程来服务呢？在这其中，又需要特别注意什么呢？今天我们就围绕这部分内容展开，期望经过今天的学习，你对父子进程、僵尸进程、使用进程处理连接等有一个比较直观的理解。</p><h2>父进程和子进程</h2><p>我们知道，进程是程序执行的最小单位，一个进程有完整的地址空间、程序计数器等，如果想创建一个新的进程，使用函数fork就可以。</p><pre><code>pid_t fork(void)
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是李智慧。</p><p>网盘，又称云盘，是提供文件托管和文件上传、下载服务的网站（File hosting service）。人们通过网盘保管自己拍摄的照片、视频，通过网盘和他人共享文件，已经成为了一种习惯。我们准备开发一个自己的网盘应用系统，应用名称为“DBox”。</p><p>十几年前曾经有个段子，技术人员对老板说：您不能在公司电脑打开您家里电脑的文件，再贵的电脑也不能。事实上，随着网盘技术的成熟，段子中老板的需求已经成为现实：网盘可以自动将家里电脑的文件同步到公司电脑，老板可以在公司的电脑打开家里电脑的文件了。</p><p>网盘的主要技术挑战是<strong>海量数据的高并发读写访问</strong><strong>。</strong>用户上传的海量数据如何存储？如何避免部分用户频繁读写文件，消耗太多资源，而导致其他的用户体验不佳？我们看下DBox的技术架构以及如何解决这些问题。</p><h2>需求分析</h2><p>DBox的核心功能是提供文件上传和下载服务。基于核心功能，DBox需要在服务器端保存这些文件，并在下载和上传过程中实现断点续传。也就是说，如果上传或下载过程被中断了，恢复之后，还能从中断的地方重新上传或者下载，而不是从头再来。</p><p>DBox还需要实现文件共享的需求。使用DBox的不同用户之间可以共享文件，一个用户上传的文件共享给其他用户后，其他用户也可以下载这个文件。</p><!-- [[[read_end]]] --><p>此外，网盘是一个存储和网络密集型的应用，用户文件占据大量<strong>硬盘资源</strong>，上传、下载需要占用大量网络带宽，并因此产生较高的运营成本。所以用户体验需要向付费用户倾斜，DBox需要对上传和下载进行<strong>流速控制</strong>，保证付费用户得到更多的网络资源。DBox用例图如下。</p><p><img src="https://static001.geekbang.org/resource/image/c8/07/c817188e7a3436b1a0b545d7972e4707.jpg?wh=1920x1037" alt="图片"></p><h4>负载指标估算</h4><p>DBox的设计目标是支持10亿用户注册使用，免费用户最大可拥有1TB存储空间。预计日活用户占总用户的20%，即2亿用户。每个活跃用户平均每天上传、下载4个文件。</p><p>DBox的<strong>存储量</strong>、<strong>吞吐量</strong>、<strong>带宽负载</strong>估算如下。</p><ul>
 

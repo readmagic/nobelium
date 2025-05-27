@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是胜辉。</p><p>在上节课里，我们回顾了一个与HTTP协议相关的Nginx 499的案例。在应用层的众多“明星”里，HTTP协议无疑是“顶流”了，可以说目前互联网上的大部分业务（电商、社交等），都是基于HTTP协议，当然也包括我们用极客时间学习的时候，也是在用HTTP。那么相应的，<strong>HTTP方面的排查能力</strong>，对于我们做开发和运维技术工作来说，就更加重要了。因为不少现实场景中的故障和难题，就与我们对HTTP的理解以及排查能力，有着密切的联系。</p><p>所以这一讲，我们会来看一个HTTP相关的报错案例，深入学习这其中的排查技巧。同时，我也会带你学习HTTP这个重要协议的规范部分。这样，以后你处理类似的像HTTP 4xx、5xx的报错，或者其他跟HTTP协议本身相关的问题时，就有分寸，知道问题大概的方向在哪里、如何开展排查了。</p><p>那么在介绍案例之前，我们先简单地回顾一下HTTP协议。</p><h2>HTTP协议的前世今生</h2><p>HTTP的英文全称是Hypertext Transfer Protocol，中文是超文本传输协议，它的奠基者是英国计算机科学家蒂姆·博纳斯·李（Tim Berners-Lee）。1990年，他为了解决任职的欧洲核子研究组织（CERN）里，科学家们无法方便地分享文件和信息的问题，由此创造了HTTP协议。</p><!-- [[[read_end]]] --><p>实际上，在当时也有其他一些协议能实现信息共享的功能，比如FTP、SMTP、NNTP等，为什么还要另外创造HTTP呢？这是因为这些协议并不满足博纳斯·李的需求，比如：</p><ul>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>我们采集的数据经常会有冗余重复的情况。举个简单的例子，假设你是一个网络综艺节目的制片人，一共有12期节目，你一共打算邀请30位明星作为节目的嘉宾。你知道这些明星影响力都很大，具体在微博上的粉丝数都有标记。于是你想统计下，这些明星一共能直接影响到微博上的多少粉丝，能产生多大的影响力。</p><p>然后你突然发现，这些明星的粉丝数总和超过了20亿。那么他们一共会影响到中国20亿人口么？显然不是的，我们都知道中国人口一共是14亿，这30位明星的影响力总和不会覆盖中国所有人口。</p><p>那么如何统计这30位明星真实的影响力总和呢？这里就需要用到数据集成的概念了。</p><p>数据集成就是将多个数据源合并存放在一个数据存储中（如数据仓库），从而方便后续的数据挖掘工作。</p><p>据统计，大数据项目中80%的工作都和数据集成有关，这里的数据集成有更广泛的意义，包括了数据清洗、数据抽取、数据集成和数据变换等操作。这是因为数据挖掘前，我们需要的数据往往分布在不同的数据源中，需要考虑字段表达是否一样，以及属性是否冗余。</p><h2>数据集成的两种架构：ELT和ETL</h2><p>数据集成是数据工程师要做的工作之一。一般来说，数据工程师的工作包括了数据的ETL和数据挖掘算法的实现。算法实现可以理解，就是通过数据挖掘算法，从数据仓库中找到“金子“。</p><!-- [[[read_end]]] --><p>什么是ETL呢？ETL是英文Extract、Transform和Load的缩写，顾名思义它包括了数据抽取、转换、加载三个过程。ETL可以说是进行数据挖掘这项工作前的“备菜”过程。</p><p>我来解释一下数据抽取、转换、加载这三个过程。</p><p>抽取是将数据从已有的数据源中提取出来。</p><p>转换是对原始数据进行处理，例如将表输入1和 表输入2 进行连接形成一张新的表。</p><p><img src="https://static001.geekbang.org/resource/image/31/68/31a88246298e317c90412bc9c03eee68.png" alt=""></p><p>如果是三张表连接的话，可以怎么操作呢？先将表输入1和表输入2进行连接形成表输入1-2，然后将表输入1-2和表输入3进行连接形成新的表。然后再将生成的新表写入目的地。</p><p><img src="https://static001.geekbang.org/resource/image/bd/f7/bd39e4f480f92a1794ccc43f51acf9f7.png" alt=""></p><p>根据转换发生的顺序和位置，数据集成可以分为 ETL 和 ELT 两种架构。</p><p>ETL 的过程为提取(Extract)——转换(Transform)——加载(Load)，在数据源抽取后首先进行转换，然后将转换的结果写入目的地。</p><p>ELT 的过程则是提取(Extract)——加载(Load)——变换(Transform)，在抽取后将结果先写入目的地，然后利用数据库的聚合分析能力或者外部计算框架，如Spark来完成转换的步骤。</p><p><img src="https://static001.geekbang.org/resource/image/90/c2/90df6593871fa5974e744907bb145bc2.jpg" alt=""></p><p>目前数据集成的主流架构是ETL，但未来使用ELT作为数据集成架构的将越来越多。这样做会带来多种好处：</p><ul>
 

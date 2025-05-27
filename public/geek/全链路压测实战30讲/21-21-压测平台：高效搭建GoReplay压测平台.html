@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是高楼。</p><p>从这里开始，我们就进入全链路压测的第三部分“实践环境”了。</p><p>在接下来的三讲，我会详细讲讲如何搭建压测平台。要搭建压测平台，首先，我们就要选择一款适合自己项目的流量工具。在第 6 讲，我们已经详细了解了流量工具的选型。综合对比评估后，最后我们这个项目选择了老牌流量回放工具 GoReplay，因为它简单、轻量、热度够，而且完全能满足我们目前项目的要求。</p><p>所以这节课，我们就来聊一聊怎样搭建 GoReplay 压测平台。如果你对GoReplay非常熟悉，那可以跳过下面的概念讲解，如果你之前没有接触过 GoReplay，可以跟着我一起先大概了解下这个工具。</p><h2>GoReplay 是什么？</h2><p><a href="https://github.com/buger/goreplay">GoReplay</a> 的简称是 Gor，它是一个简单的 TCP/HTTP 流量录制和回放的工具，主要用 Golang 语言编写。</p><p>GoReplay 的<a href="https://github.com/buger/goreplay">工作原理图</a>可以参考下面这张：</p><p><img src="https://static001.geekbang.org/resource/image/3e/55/3e135a37319e7e926f1ac2d410ea1b55.jpg?wh=1082x663" alt="图片"></p><p>GoReplay 可以在服务器上启动一个 Gor 进程，它负责的工作包括<strong>监听、过滤、转发、回放</strong>等。通过监听网卡，它可以直接录制请求。后续它还支持实现<strong>流量回放、压力测试、性能监控</strong>等功能。</p><p>如果我们简化一下核心流程图，它会是下面这个样子：</p><p><img src="https://static001.geekbang.org/resource/image/c4/99/c4eb7cb7c07de1f45212e45bf4897099.jpg?wh=1920x773" alt="图片"></p><p>GoReplay 从数据流中抽象出了两个概念，即<strong>输入（Input）<strong>和</strong>输出（Output ）</strong>，它用这两个概念来表示数据来源与去向，统称为 Plugin。</p><!-- [[[read_end]]] --><p>GoReplay 用介于输入和输出模块之间的 Middleware（中间件）实现拓展机制，而 Emitter 则是核心处理器，实现对于 Input 输入流的读取，并判断是否需要进行 Middleware 的处理、请求修改等。完成这一步后，Emitter会异步复制流量到所有 Output，同时将所有 Output  中有 Response 的数据复制到所有 Outputs 中。</p><h2>Golang 环境安装</h2><p>好了，理清 GoReplay 的工作原理之后，我们来看下Golang的环境安装。只有安装好Golang才能运行 GoReplay。</p><p>第一步，安装 Golang 及相关依赖环境，你可以在<a href="https://golang.org/dl">官网</a>或者 Go 的一些<a href="https://studygolang.com/dl">中文网站</a>上下载安装包。</p><p>我这里下载的是: go1.15.5.linux-amd64.tar.gz。</p><p>第二步，解压到服务器 /usr/local 目录下。</p><pre><code class="language-bash">rm -rf /usr/local/go &amp;&amp; tar -C /usr/local -xzf go1.15.5.linux-amd64.tar.gz
 

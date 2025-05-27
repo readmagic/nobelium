@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>我们知道，词法分析和语法分析阶段，进行的处理都是上下文无关的。可仅凭上下文无关的处理，是不能完成一门强大的语言的。比如先声明变量，再用变量，这是典型的上下文相关的情况，我们肯定不能用上下文无关文法表达这种情况，所以语法分析阶段处理不了这个问题，只能在语义分析阶段处理。<strong>语义分析的本质，就是针对上下文相关的情况做处理。</strong></p><p>我们之前讲到的作用域，是一种上下文相关的情况，因为如果作用域不同，能使用的变量也是不同的。类型系统也是一种上下文相关的情况，类型推导和类型检查都要基于上下文中相关的AST节点。</p><p>本节课，我们再讲两个这样的场景：<strong>引用的消解、左值和右值，</strong>然后再介绍上下文相关情况分析的一种方法：<strong>属性计算。</strong>这样，你会把语义分析就是上下文处理的本质掌握得更清楚，并掌握属性计算这个强大的方法。</p><p>我们先来说说引用的消解这个场景。</p><h2>语义分析场景：引用的消解</h2><p>在程序里使用变量、函数、类等符号时，我们需要知道它们指的是谁，要能对应到定义它们的地方。下面的例子中，当使用变量a时，我们需要知道它是全局变量a，还是fun()函数中的本地变量a。因为不同作用域里可能有相同名称的变量，所以必须找到正确的那个。这个过程，可以叫引用消解。</p><!-- [[[read_end]]] --><pre><code>/*
 

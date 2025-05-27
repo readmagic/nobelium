@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是李智慧。</p><p>交友与婚恋是人们最基本的需求之一。随着互联网时代的不断发展，移动社交软件已经成为了人们生活中必不可少的一部分。然而，熟人社交并不能完全满足年轻人的社交与情感需求，于是陌生人交友平台悄然兴起。</p><p>我们决定开发一款基于地理位置服务（LBS）的应用，为用户匹配邻近的、互相感兴趣的好友，应用名称为“Liao”。</p><p>Liao面临的技术挑战包括：面对海量的用户，如何为其快速找到邻近的人，可以选择的地理空间邻近算法有哪些？Liao如何在这些算法中选择出最合适的那个？</p><h2>需求分析</h2><p>Liao的客户端是一个移动App，用户打开App后，上传、编辑自己的基本信息，然后系统（推荐算法）根据其地理位置和个人信息，为其推荐位置邻近的用户。用户在手机上查看对方的照片和资料，如果感兴趣，希望进一步联系，就向右滑动照片；如果不感兴趣，就向左滑动照片。</p><p>如果两个人都向右滑动了对方，就表示他们互相感兴趣。系统就通知他们配对成功，并为他们开启聊天功能，可以更进一步了解对方，决定是否建立更深入的关系。</p><p>Liao的功能用例图如下。</p><p><img src="https://static001.geekbang.org/resource/image/ea/f3/ea2b93d940d97a069661b2eba296abf3.jpg?wh=1920x1276" alt="图片"></p><p><strong>用户规模分析</strong></p><p>Liao的目标用户是全球范围内的中青年单身男女，预估目标用户超过10亿，系统按10亿用户进行设计。</p><!-- [[[read_end]]] --><h2>概要设计</h2><p>Liao的系统架构采用典型的<strong>微服务架构</strong>设计方案，用户通过网关服务器访问具体的微服务，如下图。</p><p><img src="https://static001.geekbang.org/resource/image/e0/63/e00ce4d11671abb596561c5103636363.jpg?wh=1920x1276" alt="图片"></p><p>由上图可知，首先，用户所有请求都通过统一的<strong>网关服务器</strong>处理。网关服务器负责限流、防攻击、用户身份识别及权限验证、微服务调用及数据聚合封装等，而真正的业务逻辑则通过访问微服务来完成。Liao的关键微服务有：用户微服务、图片微服务、配对微服务、聊天微服务、推荐微服务、邻近算法微服务等。Liao的网关预计将承担每天百亿次规模的访问压力。</p><p><strong>用户微服务</strong>管理用户的个人信息、兴趣爱好以及交友偏好等，此外也负责用户登录服务，只有登录用户才能访问系统。因为需要存储十亿条用户数据，所以用户数据库采用分片的MySQL数据库。</p><p><strong>图片微服务</strong>用于管理用户照片，提供用户照片存储及展示的功能。Liao需要存储的图片数大约几百亿张。我们使用Nginx作为图片服务器，图片服务器可以线性扩容，每写满一台服务器（及其Slave服务器），就继续写入下一台服务器。服务器IP、图片路径则记录在用户数据库中。同时，购买CDN服务，缓存热门的用户照片。</p><p><strong>配对<strong><strong>微</strong></strong>服务</strong>负责将互相喜欢的用户配对，通知用户，并加入彼此的通讯录中。用户每次右划操作都调用该微服务。系统设置一个用户每天可以喜欢（右划）的人是有上限的，但是，对于活跃用户而言，长期积累下来，喜欢的人的数量还是非常大的，因此配对微服务会将数据发送给一个流式大数据引擎进行计算。</p><p><strong>推荐微服务</strong>负责向用户展示其可能感兴趣的、邻近的用户。因此，一方面，推荐微服务需要根据用户操作、个人兴趣、交友偏好调用协同过滤等推荐算法进行推荐，另一方面必须保证推荐的用户在当前用户的附近。</p><h2>详细设计</h2><p>详细设计主要关注邻近位置算法，也就是，如何根据用户的地理位置寻找距其一定范围内的其他用户。</p><p>我们可以通过Liao App获取用户当前经、纬度坐标，然后根据经、纬度，计算两个用户之间的距离，距离计算公式采用半正矢公式：</p><p><img src="https://static001.geekbang.org/resource/image/68/f4/68e7b8215ab87f9b6c631ee9bc0bbbf4.png?wh=562x100" alt="图片"></p><p>其中 r 代表地球半径，$\small \varphi$表示纬度，$\small \lambda$表示经度。</p><p>但是，当我们有10亿用户的时候，如果每次进行当前用户匹配都要和其他所有用户做一次距离计算，然后再进行排序，那么需要的计算量至少也是千亿级别，这样的计算量是我们不能承受的。通常的空间邻近算法有以下4种，我们一一进行分析，最终选择出最合适的方案。</p><h4><strong>SQL邻近算法</strong></h4><p>我们可以将用户经、纬度直接记录到数据库中，纬度记录在latitude字段，经度记录在longitude字段，用户当前的纬度和经度为X，Y，如果我们想要查找和当前用户经、纬度距离D之内的其他用户，可以通过如下SQL实现。</p><pre><code class="language-sql">select * from users where latitude between X-D and X+D and longtitude between Y-D and Y+D;
 

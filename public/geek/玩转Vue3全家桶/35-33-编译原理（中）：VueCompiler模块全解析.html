@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是大圣。</p><p>上一讲我带你手写了一个迷你的Vue compiler，还学习了编译原理的基础知识。通过实现这个迷你Vue compiler，我们知道了tokenizer可以用来做语句分析，而parse负责生成抽象语法树AST。然后我们一起分析AST中的Vue语法，最后通过generate函数生成最终的代码。</p><p>今天我就带你深入Vue的compiler源码之中，看看Vue内部到底是怎么实现的。有了上一讲编译原理的入门基础，你会对Compiler执行全流程有更深的理解。</p><h2>Vue compiler入口分析</h2><p>Vue 3内部有4个和compiler相关的包。compiler-dom和compiler-core负责实现浏览器端的编译，这两个包是我们需要深入研究的，compiler-ssr负责服务器端渲染，我们后面讲ssr的时候再研究，compiler-sfc是编译.vue单文件组件的，有兴趣的同学可以自行探索。</p><p>首先我们进入到vue-next/packages/compiler-dom/index.ts文件下，在<a href="https://github.com/vuejs/vue-next/blob/master/packages/compiler-dom/src/index.ts#L40">GitHub</a>上你可以找到下面这段代码。</p><p>compiler函数有两个参数，第一个参数template，它是我们项目中的模板字符串；第二个参数options是编译的配置，内部调用了baseCompile函数。我们可以看到，这里的调用关系和runtime-dom、runtime-core的关系类似，compiler-dom负责传入浏览器Dom相关的API，实际编译的baseCompile是由compiler-core提供的。</p><!-- [[[read_end]]] --><pre><code class="language-javascript">export function compile(
 

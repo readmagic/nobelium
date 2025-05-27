@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴咏炜。</p><p>上一讲我们讨论了多文件的编辑。不过，迄今为止，我们即使编辑多个文件，也是在单个窗口里进行的。这样做的局限在于，我们既不能同时修改两个文件，也不能在单个 Vim 会话里对比显示两个文件。当然了，在两个 Vim 会话里倒是可以做到，但有很多不足之处，其中之一就是容易出现“已经存在交换文件”这样的冲突。</p><p>所以，这一讲我们就来讨论一下如何利用多窗口、多标签页编辑来实现这些功能。</p><h2>多窗口编辑</h2><p>Vim 有窗口的概念。事实上，如果你使用过 Vim 的帮助功能的话，那你就已经见过 Vim 的多窗口界面了。在那种情况下，Vim 自动打开了一个水平分割的帮助窗口。</p><p>那如果我们想要自己同时查看、编辑多个文件呢？最基本的命令就是 <code>:split</code>（缩写 <code>:sp</code>）了。这个命令后面如果有文件名，表示分割窗口并打开指定的文件；如果没有文件名，那就表示仅仅把当前窗口分割开，当前编辑的文件在两个窗口里都显示。跟显示帮助文件一样，<code>:split</code> 默认使用水平分割的方式。</p><p>既然我说了“水平分割”，聪明如你，一定想到了还有竖直分割。</p><p>确实如此。由于 Vim 经常是在终端窗口里打开，而终端宽度常常不能允许在竖直分割时显示两个文件，所以 Vim 默认分割是水平方式。竖直分割要求屏幕比较宽，但如果你想对比两个文件时，竖直分割就会更方便了。</p><!-- [[[read_end]]] --><p>我们可以在会产生分割的命令（如 <code>help</code> 和 <code>split</code>）之前加上 <code>vertical</code>（缩写 <code>vert</code>），来进行竖直分割。对于最常见的竖直分割操作，我们则可以直接写成 <code>:vsplit</code>（缩写 <code>:vs</code>）。</p><p>下面的动画展示了我们进行一次竖直分割后，再进行水平分割的过程：</p><p><img src="https://static001.geekbang.org/resource/image/e0/db/e0ea398be76e787d9f06b22d62756bdb.gif" alt="Fig6.1" title="窗口分割演示"></p><p>多窗口编辑是一个比较适宜使用鼠标的情况。你可以使用鼠标来激活想要使用的窗口，也可以使用鼠标来拖拉窗口的大小——只要启用了鼠标支持，终端窗口（包括远程连接的 mintty、PuTTY 等）里的 Vim 的窗口分割线也是可以拖动的（上面动画里的分割线拖动就是在一个终端窗口里）。</p><p>当然，作为 Vim 用户，基本的键盘使用肯定是少不了的：</p><ul>
 

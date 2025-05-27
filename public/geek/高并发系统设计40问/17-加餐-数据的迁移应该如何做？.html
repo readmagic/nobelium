@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是唐扬。</p><p>在“<a href="https://time.geekbang.org/column/article/145480">数据库优化方案（二）：写入数据量增加时，如何实现分库分表？</a>”中我曾经提到，由于MySQL不像MongoDB那样支持数据的Auto Sharding（自动分片），所以无论是将MySQL单库拆分成多个数据库，还是由于数据存储的瓶颈，不得不将多个数据库拆分成更多的数据库时你都要考虑如何做数据的迁移。</p><p>其实在实际工作中，不只是对数据库拆分时会做数据迁移，<strong>很多场景都需要你给出数据迁移的方案，</strong>比如说某一天，你的老板想要将应用从自建机房迁移到云上，那么你就要考虑将所有自建机房中的数据，包括MySQL、Redis、消息队列等组件中的数据全部迁移到云上，这无论对哪种规模的公司来说都是一项浩瀚的工程，所以你需要在迁移之前准备完善的迁移方案。</p><p>“数据的迁移”的问题比较重要和繁琐，也是开发和运维同学关注的重点。在课程更新的过程中，我看到有很多同学，比如@每天晒白牙，@枫叶11，@撒旦的堕落等等，在留言区询问如何做数据迁移，所以我策划了一期加餐，准备从数据库迁移和缓存迁移两个方面带你掌握数据迁移的方法，也带你了解数据迁移过程中需要注意的关键点，尽量让你避免踩坑。</p><h2>如何平滑地迁移数据库中的数据</h2><p>你可能会认为：数据迁移无非是将数据从一个数据库拷贝到另一个数据库，可以通过MySQL 主从同步的方式做到准实时的数据拷贝；也可以通过mysqldump工具将源库的数据导出再导入到新库，<strong>这有什么复杂的呢？</strong></p><!-- [[[read_end]]] --><p>其实这两种方式只能支持单库到单库的迁移，无法支持单库到多库多表的场景。而且即便是单库到单库的迁移，迁移过程也需要满足以下几个目标：</p><ul>
 

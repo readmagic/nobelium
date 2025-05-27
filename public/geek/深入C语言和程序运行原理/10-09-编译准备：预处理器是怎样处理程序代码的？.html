@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是于航。</p><p>C 预处理器是 C 标准中的另一块重要内容。对代码进行预处理，是 C 源代码在被“真正”编译，并生成机器代码前的重要一环。合理使用预处理指令，可以让源代码根据不同的环境信息进行动态变化，并生成适合在当前环境下编译的 C 代码。这里我们提到的“环境”，一般与目标操作系统、CPU 体系架构，以及当前平台上各系统库的支持情况有关。</p><p>除此之外，预处理器还为我们提供了一定的能力，可以更加高效、灵活地组织 C 源代码。比如，我们可以对一个完整的 C 程序进行结构化拆分，根据代码在语法结构或功能定位上的不同，将它们分别整理在独立的 C 源文件中。而在包含有程序入口 main 函数的源文件内，我们便可以通过 #include 预处理指令，在编译器开始真正处理 C 代码前，将程序运行所需要的其他代码依赖包含进来。</p><p>那么今天，我们就来看看有关 C 预处理器的内容。接下来，我将介绍 C 预处理器的相关背景知识、预处理的基本流程，以及宏编写技巧和使用注意事项。</p><h2>C 预处理器的相关背景知识</h2><p>预处理器被引入 C 标准的时间比 C 语言诞生晚了大约一年。1973 年左右，在贝尔实验室研究员 Alan Snyder 的敦促下，预处理器被正式整合至 C 语言中。它的最初版本只拥有基本的文件包含和字符串替换能力。而在此后不久，它被进一步扩展，加入了带参数的宏以及条件编译等功能。在随后发布的 ANSI C 标准中，预处理器的能力再次得到了加强。</p><!-- [[[read_end]]] --><p>另外你需要知道的是，C 预处理器并不仅仅可以用在 C 语言上，在 C++、Objective-C 等基于 C 的“后继语言”中，这套预处理器语法仍然适用。</p><p>除此之外，也许你也还并不清楚这一点：为什么使用预处理器语法 #define 定义出来的符号被称为宏（macro）？而那是因为在希腊语中，macro 通常会被作为一个单词前缀，用来表示体积或数量上的“大”和“多”。而在 C 代码中，当一个宏被展开和替换时，不是也有类似的效果吗？</p><p>到这里，有关 C 预处理器的一些背景知识我就介绍完了。下面，就让我们来看看编译器是如何对 C 代码进行预处理的。</p><h2>预处理是怎样进行的？</h2><p>对代码进行预处理是整个 C 程序编译流程中的第一环。在这一步中，编译器会对源代码进行分析，并通过查找以 “#” 字符开头的代码行，来确定预处理器指令的所在位置。接下来，通过下面这些步骤，编译器可以完成对代码的预处理工作：</p><ol>
 

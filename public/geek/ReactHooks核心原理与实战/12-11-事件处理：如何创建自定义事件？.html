@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王沛。今天我们来聊聊 React 中的事件处理。</p><p>我们知道，在 React 中，父子组件的交互是通过 props。这个机制其实是双向的，父组件通过 props 把值传递给子组件，而子组件则通过暴露一些事件，给父组件反馈到一些状态或数据。这两个环节是<strong>组件之间通信的基础</strong>，所以都需要熟练掌握。</p><p>我们前面的课程已经有很多通过 props 从父组件传递参数的子组件的场景了，那么今天这节课，我们就来看看在 React 中事件的机制是怎样的，从原理出发，帮助你深入理解。同时呢，也来学习一下对于自定义事件，一般都有哪些典型的应用场景，帮助你学以致用。</p><h2>在 React 中使用原生事件</h2><p>在 React 中进行事件监听的语法，和原生 DOM 事件的写法是非常类似的，都是在一个节点上加一个回调函数的属性来实现。比如下面的方式：</p><pre><code>&lt;button onClick={handler}&gt;Hello&lt;/button&gt;
 

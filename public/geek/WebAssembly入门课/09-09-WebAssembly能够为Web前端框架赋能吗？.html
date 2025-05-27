@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是于航。</p><p>相信现在你已经知道，“WebAssembly” 是由 “Web” 与 “Assembly” 两个单词组成的。前面的 “Web” 代指 Web 平台；后面的 “Assembly” 在我们所熟悉的编程语言体系中，可以理解为“汇编”。</p><p>通常来说，汇编语言给人的第一感觉便是“底层，外加高性能”。而这，也正是第一次听说 Wasm 这门技术的开发者们的第一感受。</p><p>说到 Web 开发，那我们不得不提到层出不穷的 Web 前端开发框架。以 React、Vue.js 及 Angular 为代表的三大框架的出现，使得 Web 前端应用的开发模式，自 2013 年后便开始逐渐从“旧时代”的 jQuery、Prototype.js 走向了以 “MVVM” 框架为主的“新时代”。</p><p>既然我们说 Wasm 起源于 Web，并且它的出现会给未来的 Web 应用开发模式，带来一系列变化。那么，对于这些现阶段在我们日常工作中承担“主力”角色的 Web 前端框架来说，Wasm 会给它们带来怎样的变化呢？未来的 Web 前端开发框架会以怎样的方式与 Wasm 紧密融合呢？</p><p>相信这些问题，是每一个 Web 前端开发同学在接触 Wasm 这项技术之后，都会存在的疑问。今天，我们就来看一看，在如今的 Wasm MVP 标准下，对于这些基于 JavaScript 编写的现代 Web 前端框架我们能够做些什么。</p><!-- [[[read_end]]] --><h2>几种方案的思考</h2><p>在上一章的“核心原理篇”中，我们从不同的角度讲解了 Wasm 究竟是什么。那这里我们还是用最精简的方式来概括一下：“Wasm 是一种基于堆栈式虚拟机的二进制指令集，它被设计成为编程语言的可移植编译目标。借助 Web 平台提供的相关接口，我们可以在 Web 浏览器中高效地调用从 Wasm 模块中导出的函数”。</p><p>那我们就根据 Wasm 现阶段所具有的这些能力，来讨论一下 Wasm 对现代 Web 前端开发框架可以产生怎样的影响。我将会根据 Wasm 与框架之间的可能融合程度，来从不同的角度加以讨论。相应的，我们可以总结出如下四种方案：</p><ul>
 

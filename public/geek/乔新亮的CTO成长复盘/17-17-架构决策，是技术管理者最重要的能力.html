@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，欢迎来到我的专栏：「乔新亮的 CTO 成长复盘」第三章 —— 也是最后一章：「对专业成长的复盘」，我是乔新亮，很高兴能见到你。</p><p>说起来真的有点感慨，自从 10 月 26 日专栏上线起，眨眼间，我们共同度过了一月有余的时光。</p><p>在这段时间里，有超过 3500 人加入课程，与你我一起成长。专栏共发布了 17 篇文章，收到了超过 500 条留言，有好多同学是篇篇都留言，一路相随。基本上，每一条留言我都回复了，收获了许多感动与启发。</p><p>感谢你！</p><p>接下来，我们将以技术和架构思维为抓手，夯实管理者的成长基础，争取做一个底子打得扎实、向上生长快的优秀技术管理人才。最终，我们的目标是，成为一名优秀的 CTO。如果你觉得有收获，不妨把文章分享给其他人。不同的声音越多、交流的价值越大，成长的速度就越快。</p><p>好，我们言归正传，聊一聊如何理解和提升架构决策能力。</p><h2>决策失误，是“技术债”的主要来源</h2><p>你可能会想，老乔是在吊人胃口吗？在「专业成长」部分，不赶紧讲架构设计，反而去讲所谓的架构决策能力。</p><p>事实上，回顾这些年的管理经验和见闻，我认为架构决策能力不但非常关键，而且是技术管理者最重要的能力之一，而且职级越高就越重要。</p><p>2012 年初，我身在 IBM，为苏宁提供顾问服务。</p><!-- [[[read_end]]] --><p>当时，苏宁面临一个重大的架构决策问题：是继续沿用 ESB（企业服务总线）架构，还是转向分布式架构。</p><p>在今天看来，这个问题或许不需要讨论 —— 很多企业都在拥抱分布式架构，放弃 ESB 架构。但在当时，苏宁是更倾向于继续沿用 ESB 架构的。</p><p>因为在苏宁的技术架构内，是存在 SAP 服务和一些异构系统的，不能直接弃用 ESB，选择分布式等于同时维护两套系统。</p><p>但我坚定地支持采用分布式架构，理由有很多：</p><ol>
 

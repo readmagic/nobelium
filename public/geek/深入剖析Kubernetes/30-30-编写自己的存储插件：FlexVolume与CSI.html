@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是张磊。今天我和你分享的主题是：编写自己的存储插件之FlexVolume与CSI。</p><p>在上一篇文章中，我为你详细介绍了Kubernetes里的持久化存储体系，讲解了PV和PVC的具体实现原理，并提到了这样的设计实际上是出于对整个存储体系的可扩展性的考虑。</p><p>而在今天这篇文章中，我就和你分享一下如何借助这些机制，来开发自己的存储插件。</p><p>在Kubernetes中，存储插件的开发有两种方式：FlexVolume和CSI。</p><p>接下来，我就先为你剖析一下<span class="orange">Flexvolume的原理和使用方法</span>。</p><p>举个例子，现在我们要编写的是一个使用NFS实现的FlexVolume插件。</p><p>对于一个FlexVolume类型的PV来说，它的YAML文件如下所示：</p><pre><code>apiVersion: v1
 

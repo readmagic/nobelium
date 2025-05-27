@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>前18节课，我们主要探讨了编译器的前端技术，它的重点，是让编译器能够读懂程序。无结构的代码文本，经过前端的处理以后，就变成了Token、AST和语义属性、符号表等结构化的信息。基于这些信息，我们可以实现简单的脚本解释器，这也从另一个角度证明了我们的前端处理工作确实理解了程序代码，否则程序不可能正确执行嘛。</p><p>实际上，学完前端技术以后，我们已经能做很多事情了，比如让软件有自定义功能，就像我们在<a href="https://time.geekbang.org/column/article/136557">15讲</a>中提到的报表系统，这时，不需要涉及编译器后端技术。</p><p>但很多情况下，我们需要继续把程序编译成机器能读懂的代码，并高效运行。<strong>这时，我们就面临了三个问题：</strong></p><p>1.我们必须了解计算机运行一个程序的原理（也就是运行期机制），只有这样，才知道如何生成这样的程序。<br>
 

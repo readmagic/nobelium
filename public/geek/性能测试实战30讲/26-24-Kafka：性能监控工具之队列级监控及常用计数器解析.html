@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在我看来队列服务器是最简单的一种组件了。因为队列给我们下手的机会实在是并不多。我们只是用它，如果想改变它就只能去改代码，其他的都只是配置问题。</p><p>在当前的市场中，Kafka算是用得非常火的一个队列服务器了，所以今天，我选择它来做一些解读。</p><p>虽然我在前面一直在强调分析的思路，但在这一篇中，我打算换个思路，不是像以前那样，直接给你一个结论型的思维导图，而是一起来分析一个组件，让我们看看从哪里下手，来观察一个被分析对象的相关配置。</p><h2>了解Kafka的基本知识</h2><p>我们先看一下这张图，以便更好地了解一个队列服务器。</p><p><img src="https://static001.geekbang.org/resource/image/65/87/659043d7a680bd0cb5df070e0ecec687.jpg" alt=""></p><p>这是Kafka官网上的一个图。从这个图中可以看到，对Kafka来说，这就像一个典型的集线器。那它里面的结构是什么样子的呢？根据我的理解，我画了一个如下的示意图：</p><p><img src="https://static001.geekbang.org/resource/image/d5/30/d59231449717009067723332de568130.png" alt=""></p><p>在这个图中，有三个Broker，也就是三个集群节点。每个消息有一个leader partition，还有两个follower partition。我没有画更多的Producer和Consumer、Consumer Group，是觉得线太多了容易乱。</p><p>因为Producer和Consumer肯定会从leader partition中读写数据，而Kafka也保证了leader在不同broker上的均衡，所以Kafka的集群能力很好。</p><!-- [[[read_end]]] --><p>我们再看一下消息是如何在Kafka中被存储的。</p><p><img src="https://static001.geekbang.org/resource/image/20/72/2047c0b11c63407a8ebfb696398b0272.png" alt=""></p><p>上图是Kafka数据的存储方式，也就是每个分区都是一直往后面加的。</p><p>我们再来看一下它的数据存储方式。</p><p>首先是目录：</p><pre><code>drwxr-xr-x 2 root root 4096 Feb  7 23:39 test-0
 

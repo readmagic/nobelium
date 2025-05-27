@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是李玥。</p><p>上节课我们一起实现了一个流计算的例子，并通过这个例子学习了流计算的实现原理。我们知道，流计算框架本身是个分布式系统，一般由多个节点组成一个集群。我们的计算任务在计算集群中运行的时候，会被拆分成多个子任务，这些子任务也是分布在集群的多个计算节点上的。</p><p>大部分流计算平台都会采用存储计算分离的设计，将计算任务的状态保存在HDFS等分布式存储系统中。每个子任务将状态分离出去之后，就变成了无状态的节点，如果某一个计算节点发生宕机，使用集群中任意一个节点都可以替代故障节点。</p><p>但是，对流计算来说，这里面还有一个问题没解决，就是在集群中流动的数据并没有被持久化，所以它们就有可能由于节点故障而丢失，怎么解决这个问题呢？办法也比较简单粗暴，就是直接重启整个计算任务，并且从数据源头向前回溯一些数据。计算任务重启之后，会重新分配计算节点，顺便就完成了故障迁移。</p><p>回溯数据源，可以保证数据不丢失，这和消息队列中，通过重发未成功的消息来保证数据不丢的方法是类似的。所以，它们面临同样的问题：可能会出现重复的消息。消息队列可以通过在消费端做幂等来克服这个问题，但是对于流计算任务来说，这个问题就很棘手了。</p><p>对于接收计算结果的下游系统，它可能会收到重复的计算结果，这还不是最糟糕的。像一些统计类的计算任务，就会有比较大的影响，比如上节课中统计访问次数的例子，本来这个IP地址在统计周期内被访问了5次，产生了5条访问日志，正确的结果应该是5次。如果日志被重复统计，那结果就会多于5次，重复的数据导致统计结果出现了错误。怎么解决这个问题呢？</p><!-- [[[read_end]]] --><p>我们之前提到过，Kafka支持Exactly Once语义，它的这个特性就是为了解决这个问题而生的。这节课，我们就来通过一个例子学习一下，如何使用Kafka配合Flink，解决数据重复的问题，实现端到端的Exactly Once语义。</p><h2>Flink是如何保证Exactly Once语义的？</h2><p>我们所说的端到端Exactly Once，这里面的“端到端”指的是，数据从Kafka的A主题消费，发送给Flink的计算集群进行计算，计算结果再发给Kafka的B主题。在这整个过程中，无论是Kafka集群的节点还是Flink集群的节点发生故障，都不会影响计算结果，每条消息只会被计算一次，不能多也不能少。</p><p>在理解端到端Exactly Once的实现原理之前，我们需要先了解一下，Flink集群本身是如何保证Exactly Once语义的。为什么Flink也需要保证Exactly Once呢？Flink集群本身也是一个分布式系统，它首先需要保证数据在Flink集群内部只被计算一次，只有在这个基础上，才谈得到端到端的Exactly Once。</p><p>Flink通过CheckPoint机制来定期保存计算任务的快照，这个快照中主要包含两个重要的数据：</p><ol>
 

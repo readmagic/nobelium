@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈皓，网名左耳朵耗子。</p><p>控制反转（<a href="https://en.wikipedia.org/wiki/Inversion_of_control">Inversion of Control</a><a href="https://en.wikipedia.org/wiki/Inversion_of_control">，loC</a>  ）是一种软件设计的方法，它的主要思想是把控制逻辑与业务逻辑分开，不要在业务逻辑里写控制逻辑，因为这样会让控制逻辑依赖于业务逻辑，而是反过来，让业务逻辑依赖控制逻辑。</p><p>我之前在《<a href="https://coolshell.cn/articles/9949.html">IoC/DIP其实是一种管理思想</a>》这篇文章中，举过一个开关和电灯的例子。其实，这里的开关就是控制逻辑，电器是业务逻辑。我们不要在电器中实现开关，而是要把开关抽象成一种协议，让电器都依赖它。这样的编程方式可以有效降低程序复杂度，并提升代码重用度。</p><p>面向对象的设计模式我就不提了，我们来看看Go语言使用Embed结构的一个示例。</p><h2>嵌入和委托</h2><h3>结构体嵌入</h3><p>在Go语言中，我们可以很轻松地把一个结构体嵌到另一个结构体中，如下所示：</p><pre><code>type Widget struct {
 

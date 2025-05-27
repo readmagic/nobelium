@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是Tony Bai。</p><p>时间过得真快！转眼间我们已经完成了这门课基础篇Go语法部分的学习。在这一部分中，我们从变量声明开始，一直学到了Go函数与方法的设计，不知道你掌握得怎么样呢？基础篇的重点是<strong>对Go基础语法部分的理解</strong>，只有理解透了，我们才能在动手实践的环节运用自如。</p><p>同时，基础篇也是整个课程篇幅最多的部分，想必学到这里，你差不多也进入了一个“疲劳期”。为了给你的大脑“充充电”，我在这一讲，也就是基础篇的最后一讲中安排了一个小实战项目，适当放松一下，也希望你在实现这个实战项目的过程中，能对基础篇所学的内容做一个回顾与总结，夯实一下Go的语法基础。</p><h2>引子</h2><p>在前面的<a href="https://time.geekbang.org/column/article/464273">第23讲</a>中，我曾留过这样的一道思考题：“除了捕捉panic、延迟释放资源外，我们日常编码中还有哪些使用defer的小技巧呢？”</p><p>这个思考题得到了同学们的热烈响应，有同学在留言区提到：<strong>使用defer可以跟踪函数的执行过程</strong>。没错！这的确是defer的一个常见的使用技巧，很多Go教程在讲解defer时也会经常使用这个用途举例。那么，我们具体是怎么用defer来实现函数执行过程的跟踪呢？这里，我给出了一个最简单的实现：</p><pre><code class="language-plain">// trace.go
 

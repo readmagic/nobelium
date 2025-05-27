@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是姚秋辰。</p><p>在上节课中，我们通过一系列谓词和过滤器的组合为三个微服务模块配置了路由规则，这套方案足以应对大部分线上业务的需求，但在可扩展性方面还不够完美。为什么这么说呢？因为这些路由规则是以yml文件或者Java代码配置在项目中的静态规则。随着项目启动，这些路由规则会被加载到应用上下文并生效。但在程序运行期，如果我们想要改变这些预定义的路由规则，或者创建新的路由规则，似乎只有提交改动到Gateway组件-&gt;编译项目-&gt;重新部署这一条路子。</p><p>那么，如果我们希望不重新部署网关，就能更改路由规则，可以有哪些途径呢？</p><p>有一种“临时性”的方案，是借助Gateway网关的actuator endpoiont进行CRUD。Gateway组件内定义了一套内置的actuator endpoints，当满足下面两个条件时，我们就可以借助actuator提供的能力对路由表进行修改了。</p><ul>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是倪朋飞。</p><p>上一节，我们一起学习了如何分析网络丢包的问题，特别是从链路层、网络层以及传输层等主要的协议栈中进行分析。</p><p>不过，通过前面这几层的分析，我们还是没有找出最终的性能瓶颈。看来，还是要继续深挖才可以。今天，我们就来继续分析这个未果的案例。</p><p>在开始下面的内容前，你可以先回忆一下上节课的内容，并且自己动脑想一想，除了我们提到的链路层、网络层以及传输层之外，还有哪些潜在问题可能会导致丢包呢？</p><h3>iptables</h3><p>首先我们要知道，除了网络层和传输层的各种协议，iptables 和内核的连接跟踪机制也可能会导致丢包。所以，这也是发生丢包问题时，我们必须要排查的一个因素。</p><p>我们先来看看连接跟踪，我已经在 <a href="https://time.geekbang.org/column/article/83189">如何优化NAT性能</a>  文章中，给你讲过连接跟踪的优化思路。要确认是不是连接跟踪导致的问题，其实只需要对比当前的连接跟踪数和最大连接跟踪数即可。</p><p>不过，由于连接跟踪在 Linux 内核中是全局的（不属于网络命名空间），我们需要退出容器终端，回到主机中来查看。</p><p>你可以在容器终端中，执行 exit ；然后执行下面的命令，查看连接跟踪数：</p><pre><code># 容器终端中执行exit
 

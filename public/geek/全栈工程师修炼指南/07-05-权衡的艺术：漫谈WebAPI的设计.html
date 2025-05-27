@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是四火。</p><p>今天，我们该根据之前所学，来谈谈具体怎样设计 Web API 接口了。我们围绕的核心，是<strong>“权衡”（trade-off）</strong>这两个字，事实上，它不只是 Web API 接口设计的核心，还是软件绝大多数设计问题的核心。</p><p>我们说“没有银弹”，是因为没有一种技术可以百搭，没有一种解决方案是完美的，但一个优秀的全栈工程师，是可以从琳琅满目的同类技术中，因地制宜地选择出最适合的那一个。</p><h2>概念</h2><p>在一切开始之前，我们先来明确概念。什么是 Web API？</p><p>你应该很熟悉 API，即 Application Programming Interface，应用程序的接口。它指的就是一组约定，不同系统之间的沟通必须遵循的协议。使用者知道了 API，就知道该怎样和它沟通，使用它的功能，而不关心它是怎么实现的。</p><p>Web API 指的依然是应用程序接口，只不过它现在暴露在了 Web 的环境里。并且，我们通常意义上讲 Web API 的时候，无论是在 B/S（浏览器/服务器）模型还是 C/S（客户端/服务器）模型下，往往都心照不宣地默认它在服务端，并被动地接受请求消息，返回响应。</p><p>通常一个 Web API 需要包括哪些内容呢？</p><p>回答这个问题前，让我们先闭上眼想一想，如果没有“Web”这个修饰词，普通的 API 要包括哪些内容呢？嗯，功能、性能、入参、返回值……它们都对，看起来几乎是所有普通 API 的特性，在 Web API 中也全都存在。而且，因为 Web 的特性，它还具备我们谈论普通 API 时不太涉及的内容：</p><!-- [[[read_end]]] --><ul>
 

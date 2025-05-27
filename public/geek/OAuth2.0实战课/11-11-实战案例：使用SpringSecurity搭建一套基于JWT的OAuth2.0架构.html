@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我朱晔，是<a href="https://time.geekbang.org/column/intro/294">《Java业务开发常见错误100例》</a>专栏课程的作者。</p><p>《OAuth 2.0实战课》上线之后，我也第一时间关注了这门课。在开篇词中，我看到有一些同学留言问道：“如何使用Spring Security来实现OAuth 2.0？”这时，我想到之前自己写过一篇相关的文章，于是就直接在开篇词下留了言。后面我很快收到了不少用户的点赞和肯定，紧接着极客时间编辑也邀请我从自己的角度为专栏写篇加餐。好吧，功不唐捐，于是我就将之前我写的那篇老文章再次迭代、整理为今天的这一讲内容，希望可以帮助你掌握OAuth 2.0。</p><p>如果你熟悉Spring Security的话，肯定知道它因为功能多、组件抽象程度高、配置方式多样，导致了强大且复杂的特性。也因此，Spring Security的学习成本几乎是Spring家族中最高的。但不仅于此，在结合实际的复杂业务场景使用Spring Security时，我们还要去理解一些组件的工作原理和流程，不然需要自定义和扩展框架的时候就会手足无措。这就让使用Spring Security的门槛更高了。</p><p>因此，在决定使用Spring Security搭建整套安全体系（授权、认证、权限、审计）之前，我们还需要考虑的是：将来我们的业务会多复杂，徒手写一套安全体系来得划算，还是使用Spring Security更好？我相信，这也是王老师给出课程配套代码中，并没有使用Spring Security来演示OAuth 2.0流程的原因之一。</p><!-- [[[read_end]]] --><p>反过来说，如果你的应用已经使用了Spring Security来做鉴权、认证和权限管理的话，那么仍然使用Spring Security来实现OAuth的成本是很低的。而且，在学习了OAuth 2.0的流程打下扎实的基础之后，我们再使用Spring Security来配置OAuth 2.0就不会那么迷茫了。这也是我在工作中使用Spring Security来实现OAuth 2.0的直观感受。</p><p>所以，我就结合自己的实践和积累，带你使用Spring Security来一步一步地搭建一套基于JWT的OAuth 2.0授权体系。这些内容会涉及OAuth 2.0的三角色（客户端、授权服务、受保护资源），以及资源拥有者凭据许可、客户端凭据许可和授权码许可这三种常用的授权许可类型（隐式许可类型，不太安全也不太常用）。同时，我还会演示OAuth 2.0的权限控制，以及使用OAuth 2.0实现SSO单点登录体系。</p><p>这样一来，今天这一讲涉及到的流程就会比较多，内容也会很长。不过不用担心，我会手把手带你从零开始，完成整个程序的搭建，并给出所有流程的演示。</p><h2>项目准备工作</h2><p>实战之前，我们先来搭建项目父依赖和初始化数据库结构，为后面具体的编码做准备。</p><p>首先，我们来创建一个父POM，内含三个模块：</p><ul>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是七牛云许式伟。</p><p>上一讲我们介绍了存储中间件的由来。今天我们就聊一下应用最为广泛的存储中间件：数据库。</p><h2>数据库的种类</h2><p>从使用界面（接口）的角度来说，通常我们接触的数据库有以下这些。</p><p>使用最为广泛的，是关系型数据库（Relational Database），以 MySQL、Oracle、SQLSever 为代表。</p><p>这类数据库把数据每个条目（row）的数据分成多个项目（column），如果某个项目比较复杂，从数据结构角度来说是一个结构体，那么就搞一个新的表（table）来存储它，在主表只存储一个 ID 来引用。</p><p>这类数据库的特点是强 schema，每个项目（column）有明确的数据类型。从业务状态的角度看，可以把一个表（table）理解为一个结构体，当遇到结构体里面套结构体，那么就定义一个子表。</p><p>第二类是文档型数据库（Document Database），以 MongoDB 为代表。这类数据库把数据每个条目（row）称为文档（document），每个文档用 JSON或其他文档描述格式表示。</p><p>当前文档型数据库大部分是无 schema 的，也就是在插入文档时并不对文档的数据格式的有效性进行检查。</p><p>这有好有坏。好处是使用门槛低，升级数据格式方便。不好之处在于，质量保障体系弱化，数据可能被弄脏而不自知。可以预见的是，未来也会诞生强 schema 的文档型数据库。</p><!-- [[[read_end]]] --><p>第三类是键值存储（KV Storage），以 Cassandra 为代表。</p><p>键值存储从使用的角度来说，可以认为是数据库的特例。数据库往往是允许设定多个索引字段的，而键值存储明确只有唯一索引。</p><p>从实现角度来说，键值存储是数据库的基础。每一组数据库的索引，往往背后就是一组键值存储。</p><h2>事务</h2><p>无论是何种数据库，都面临一个重大选择：是否支持事务。这是一个艰难选择。从需求角度来说，事务功能非常强大，没道理不去支持。从实现角度来说，事务支持带来极大的负担，尤其是在分布式数据库的场景。</p><p>什么是事务？简单来说，事务就是把一系列数据库操作变成原子操作的能力。展开来说，事务的特性我们往往简称为 ACID，详细如下。</p><ul>
 

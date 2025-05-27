@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是高楼。</p><p>上节课，我们讲解了稳定性场景的两个要点：运行时长和压力量级，并通过课程的示例系统，带你具体操作了稳定性场景。</p><p>在定向分析的第一个阶段中，我们分析了虚拟机内存超分导致的操作系统OOM的问题，发现是配置的超分过大导致的。在我们降低了虚拟机的内存之后，稳定性场景的运行时间超过了12个小时，累积业务量达到7200多万，这样的结果已经达到了我们的目标。</p><p>可是，由于贪心，我并没有停止场景，就在它继续运行的时候，又出现了新问题……因此，我们今天就进入到定向分析的第二阶段，看看还有什么问题在等着我们。</p><h2>定向监控分析</h2><h3>定向分析第二阶段</h3><p>当场景继续运行的时候，我看到了这样的数据：</p><p><img src="https://static001.geekbang.org/resource/image/eb/8f/eb84fbb4e1105ce58dd9e45f849b768f.png" alt=""></p><p>从图中我们可以很明显地看到，在场景持续运行的过程中，TPS掉下来了，响应时间则是蹭蹭往上涨。</p><p>我们看一下这时候的总业务累积量：</p><p><img src="https://static001.geekbang.org/resource/image/c9/92/c9855e4f7cdb3b0d18d222f44bf50692.png" alt=""></p><p>也就是说，多了20多万的业务累积量。</p><p>见到问题，不分析总是觉得不那么舒服，那我们就来分析一下。</p><p>还是按照性能分析决策树，我们把计数器一个一个查过去。在我查看MySQL的Pod日志时，发现它一直在被删掉重建：</p><p><img src="https://static001.geekbang.org/resource/image/75/43/75aa8e663d3a3a8959d4443de60ba043.png" alt=""></p><p>请注意，我们这是一个示例系统，为了方便重建，我把MySQL放到Pod中了。如果是在真实的环境中，我建议你最好根据生产的实际配置来做数据库的配置。</p><!-- [[[read_end]]] --><p>讲到这里，我稍微回应一下行业里的一种声音：数据库不应该放到Kubernetes的Pod中去。我不清楚持这样观点的人，只是在感觉上认为不安全，还是真正遇到了问题。在我的经验中，很多系统对数据库的性能要求其实并不高，业务量也不大。而用容器来管理便于迁移和重建，并且性能上也完全跟得上。所以，在这种场景下用Pod也没有关系。</p><p>当然，也有一些系统用数据库比较狠，为了保障更高的性能，会在物理机上直接部署。如果你面对的系统，确实需要用到物理机来创建数据库，那就选择物理机。如果Pod可以满足需求，我觉得不用纠结，直接用Pod就可以了。</p><p>因为MySQL的Pod被删掉重建，而MySQL又位于worker-1中，那我们就来看一下worker-1的操作系统日志：</p><pre><code>Feb 22 00:43:16 k8s-worker-1 kubelet: I0222 00:43:16.085214    1082 image_gc_manager.go:304] [imageGCManager]: Disk usage on image filesystem is at 95% which is over the high threshold (85%). Trying to free 7213867827 bytes down to the low threshold (80%).
 

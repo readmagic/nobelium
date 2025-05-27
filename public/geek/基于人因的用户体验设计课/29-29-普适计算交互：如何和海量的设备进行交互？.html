@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是Rocky。</p><p>今天我们来聊聊普适计算（Ubiquitous Computing）交互。之前我们课上讲的所有交互，都是和某一个设备之间的交互。但是你不难发现，现在随着我们身边的智能设备越来越多，这些设备之间还可以相互配合着给我们提供服务，人类的生活已经逐渐进入到多设备体验的时代。</p><p>据估算，到2021年底，全球约有348亿台智能设备连接到互联网（其中物联网设备116亿台，非物联网设备232亿台），平均每个人就有5台设备。</p><p><img src="https://static001.geekbang.org/resource/image/ed/f5/ed51857038c19b92b004db993c0b4df5.jpg" alt=""></p><p>那如何进行多设备的交互设计呢？这里面的复杂度远远超过单设备的情况。你至少要从四个维度去思考，分别是<strong>用户、设备类型、使用场景变化以及3C的设计及业务种类</strong>。</p><p><img src="https://static001.geekbang.org/resource/image/82/05/826d41da2cd2d859bf566b995e695605.png" alt=""></p><h2>用户特点</h2><p>在剖析这种复杂度之前，最先应该切入的点就是<strong>对人的理解</strong>。不同的人对多设备使用的习惯千差万别。在你急于设计之前，先要搞清楚你是在为谁，或者是在为哪些人做多设备交互设计。</p><p><img src="https://static001.geekbang.org/resource/image/32/d8/32ecc373f249f0c0yy1fe029417a9cd8.png" alt=""></p><p>我之所以说是“哪些人”，而不是“哪个人”，是因为以前是一个人对应一个或者多个设备的情况，而现在有些设备并非清晰地带着私人属性，所以会存在更加复杂的多人对应多个设备的情况，再加上社交距离的考量，这种关系会是复杂并且动态变化的。<strong>用户或者用户群画像，是我们在进行多设备交互设计时要做的首要动作。</strong></p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/e6/94/e64bf505898336177f968783a4c03b94.png" alt=""></p><h2>3C框架模型</h2><p>人已经分析好了，那我们怎么知道哪些最佳业务和最佳实践适合于我们分析的用户呢？在下面这个图中，我给你归纳了一些多设备一起配合给用户提供服务的种类，有些是多个设备同时提供服务，有些是做某些业务的连续性迁移。</p><p><img src="https://static001.geekbang.org/resource/image/b5/66/b5b2ee8191yybcfe861c8f3cae2a2b66.png" alt=""></p><p>如果再次提炼上述业务的特点，可以用3个C来概括。也就是<strong>一致性</strong>（Consistent）、<strong>连续性</strong>（Continuous）和<strong>互补性</strong>（Complementary）。</p><p><img src="https://static001.geekbang.org/resource/image/31/59/3199f929d4eaa3784b9ce6f6eea96b59.png" alt=""></p><h3>一致性</h3><p><strong>一致性说的是业务需要根据设备的自身属性（主要是屏幕尺寸、形状、以及交互模式差别）进行相应的调整和映射，确保整体体验的一致性。</strong>响应式布局就是典型的一致性运用。</p><p><img src="https://static001.geekbang.org/resource/image/f4/0e/f45fd117f4149fe3db96265fcff6820e.jpg" alt=""></p><p>一致性绝对不是根据不同设备屏幕大小和比例做适应性的缩放或拉伸。因为分辨率的差异、人眼的视力局限以及千变万化的屏幕形状，如果我们只是简单地缩放内容，实际上就等于放弃了易读性和舒适性。好的一致性设计要保证不管是在什么尺寸的屏幕上，人眼看起来都应该是舒适自然的。</p><p><img src="https://static001.geekbang.org/resource/image/31/9c/3108465f5f52c6185dda830eb959d39c.jpg" alt=""></p><p>以响应式界面的布局调整为例，你要确保显示的一致性是有套路和规律的。下面我列出了比较常用的一些示例：</p><ul>
 

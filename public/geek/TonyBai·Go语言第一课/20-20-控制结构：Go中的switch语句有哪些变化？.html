@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是Tony Bai。</p><p>经过前两节课的学习，我们已经掌握了控制结构中的分支结构以及循环结构。前面我们也提到过，在计算机世界中，再复杂的算法都可以通过顺序、分支和循环这三种基本的控制结构构造出来。所以，理论上讲，我们现在已经具备了实现任何算法的能力了。</p><p>不过理论归理论，我们还是要回到现实中来，继续学习Go语言中的控制结构，现在我们还差一种分支控制结构没讲。除了if语句之外，Go语言还提供了一种更适合多路分支执行的分支控制结构，也就是<strong>switch语句</strong>。</p><p>今天这一节课，我们就来系统学习一下switch语句。Go语言中的switch语句继承自它的先祖C语言，所以我们这一讲的重点是Go switch语句相较于C语言的switch，有哪些重要的改进与创新。</p><p>在讲解改进与创新之前，我们先来认识一下switch语句。</p><h2>认识switch语句</h2><p>我们先通过一个例子来直观地感受一下switch语句的优点。在一些执行分支较多的场景下，使用switch分支控制语句可以让代码更简洁，可读性更好。</p><p>比如下面例子中的readByExt函数会根据传入的文件扩展名输出不同的日志，它使用了if语句进行分支控制：</p><pre><code class="language-plain">func readByExt(ext string) {
 

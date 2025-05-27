@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是微扰君。</p><p>Webpack是现在最流行的前端构建工具，见证了前端工程化在过去十年里的繁荣发展。如果你是前端工程师，相信你在日常工作中应该会经常使用到。</p><p>Webpack让我们可以模块化地进行现代Web应用的前端开发，并基于我们的简单配置，从入口开始，递归地自动构建出复杂的依赖关系图，最终把所有的模块打包成若干个浏览器可理解的bundle。</p><p>整个过程比较复杂，但是其中显然会有一个构建顺序的问题需要处理。以 <code>html-webpack-plugin v3.2.0</code> 为例，我们用Webpack打包HTML文件的时候，文件之间会有一定的引用依赖关系，因而所构建的chunk之间也会有相应的依赖关系。</p><p>那问题就来了，打包的时候，<strong>按照什么样的顺序去打包才更合理呢？这就是拓扑排序需要解决</strong>。</p><p>我的第一份工作就是前端工程师，对前端开发感情挺深，也一直觉得其实前端里用到算法的地方绝对不在少数。所以今天我们就以Webpack为例，一起来学习拓扑排序在实战中所发挥的威力。</p><p>当然，如果你对Webpack了解不多，也不用担心，完全可以把这个问题看成如何在一堆有依赖关系的源文件中找到合适的加载或者编译的顺序，和你常用的maven、makefile这类编译和依赖管理工具，去编译项目的原理并无二致。</p><!-- [[[read_end]]] --><p>好，我们马上开始今天的学习，首先我们得来讲解一下拓扑排序的依据——拓扑序是什么。</p><h2>拓扑排序</h2><p>“拓扑”序，光听名字你是不是感觉很抽象不好懂，我们看一个生活中的例子。</p><p>在大学，学生往往有更大的选课自由，可以按照自己的兴趣选择不同的课程、在不同的时间修读。但是，显然许多课程，和代码之间的依赖一样，也有着修读顺序的先后要求；有些课程还可能有不止一门先修课程，比如电磁场就要求先修读大学物理和数理方法两门课。</p><p>所以请问如果给了你一张这样的必修课表，每一行包含了课程本身的信息和它所依赖的其他课，你应该怎么安排你的课程学习顺序呢？这也是力扣上出镜率非常高的一道面试题<a href="https://leetcode-cn.com/problems/course-schedule">课程表</a>。</p><p><img src="https://static001.geekbang.org/resource/image/69/fa/6981f2f8046fe18194ac92270022a5fa.jpg?wh=1920x1145" alt="图片"></p><p>看表格不太清晰，这些课程之间的修读关系，<strong>显然可以用有向图来抽象，节点就是课程本身，边代表了两门课程的依赖关系</strong>。把课程表的信息用图的方式表示出来就会是这个样子：</p><p><img src="https://static001.geekbang.org/resource/image/c4/64/c4b676f07539c261165c2d0965739164.jpg?wh=1920x1145" alt="图片"></p><p>照着图去选择修读顺序就会容易很多，你会优先选择没有入边也就是没有先修要求的课程，所以，等修读完线性代数和高等数学之后你就会发现，诶这个时候数理方法和大学物理的先修课程已经全部被你解锁了；继而你就可以继续修读这两门课程；最后再修读电磁场这门。</p><p>当然你会发现修读顺序依旧不只一种，比如：</p><pre><code class="language-python">线性代数、高等数学、数理方法、大学物理、电磁场
 

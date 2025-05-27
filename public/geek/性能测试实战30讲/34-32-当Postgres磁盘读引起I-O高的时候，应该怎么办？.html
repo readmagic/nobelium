@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在性能分析的人眼里，性能瓶颈就是性能瓶颈。无论这个性能瓶颈出现在代码层、操作系统层、数据库层还是其他层，最终的目的只有一个结果：解决掉！</p><p>有人可能会觉得这种说法过于霸道。</p><p>事实上，我要强调的性能分析能力，是一套分析逻辑。在这一套分析逻辑中，不管是操作系统、代码还是数据库等，所涉及到的都只是基础知识。如果一个人都掌握这些内容，那确实不现实，但如果是对一个性能团队的要求，我觉得一点也不高。</p><p>在性能测试和性能分析的项目中，没有压力发起，就不会有性能瓶颈，也就谈不上性能分析了。所以每个问题的前提，都是要有压力。</p><p>但不是所有的压力场景都合理，再加上即使压力场景不合理，也能压出性能瓶颈，这就会产生一种错觉：似乎一个错误的压力场景也是有效的。</p><p>我是在介入一个项目时，首先会看场景是否有效。如果无效，我就不会下手去调了，因为即使优化好了，可能也给不出生产环境应该如何配置的结论，那工作就白做了。</p><p>所以要先调场景。</p><p>我经常会把一个性能测试项目里的工作分成两大阶段：</p><h3>整理阶段</h3><p>在这个阶段中，要把之前项目中做错的内容纠正过来。不止有技术里的纠正，还有从上到下沟通上的纠正。</p><h3>调优阶段</h3><p>这才真是干活的阶段。</p><p>在这个案例中，同样，我还是要表达一个分析的思路。</p><!-- [[[read_end]]] --><h2>案例问题描述</h2><p>这是一个性能从业人员问的问题：为什么这个应用的update用了这么长时间呢？他还给了我一个截图：</p><p><img src="https://static001.geekbang.org/resource/image/fe/ac/fe83f42fd8b130b561e2a8f79c7cabac.png?wh=1569*507" alt=""></p><p>从这个图中可以看到时间在100毫秒左右。根据我的经验，一个SQL执行100ms，对实时业务来说，确实有点长了。</p><p>但是这个时间是长还是短，还不能下结论。要是业务需要必须写成这种耗时的SQL呢？</p><p>接着他又给我发了TPS图。如下所示：</p><p><img src="https://static001.geekbang.org/resource/image/ee/24/ee0ec6e2a7038611ccb30d7b5bf66824.png?wh=1435*737" alt=""></p><p>这个TPS图确实……有点乱！还记得前面我对TPS的描述吧，在一个场景中，TPS是要有阶梯的。</p><p>如果你在递增的TPS场景中发现了问题，然后为了找到这个问题，用同样的TPS级别快速加起来压力，这种方式也是可以的。只是这个结果不做为测试报告，而是应该记录到调优报告当中。</p><p>而现在我们看到的这个TPS趋势，那真是哪哪都挨不上呀。如此混乱的TPS，那必然是性能有问题。</p><p>他还告诉了我两个信息。</p><ol>
 

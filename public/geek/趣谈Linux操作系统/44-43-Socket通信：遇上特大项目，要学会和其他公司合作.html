@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>上一篇预习文章说了这么多，现在我们终于可以来看一下，在应用层，我们应该如何使用socket的接口来进行通信。</p><p>如果你对socket相关的网络协议原理不是非常了解，建议你先去看一看上一篇的预习文章，再来看这一篇的内容，就会比较轻松。</p><p>按照前一篇文章说的分层机制，我们可以想到，socket接口大多数情况下操作的是传输层，更底层的协议不用它来操心，这就是分层的好处。</p><p>在传输层有两个主流的协议TCP和UDP，所以我们的socket程序设计也是主要操作这两个协议。这两个协议的区别是什么呢？通常的答案是下面这样的。</p><ul>
 

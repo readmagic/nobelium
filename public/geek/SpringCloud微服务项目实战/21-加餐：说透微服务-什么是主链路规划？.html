@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是姚秋辰，今天想跟你聊聊主链路规划在微服务中的应用。</p><p>说起微服务改造，我们第一个想到的就是要对各个服务进行拆分，微服务拆分的合理性很大程度上决定了整个业务链路的可用性。在微服务拆分的过程中，我们的首要任务是识别出核心服务，那么核心服务为何如此重要呢？</p><p>如果把所有线上服务比喻为一个大军团，那么“核心服务”就是这个军团当中战斗力最强的精锐部队，是完成战略目标的攻坚力量。比如在双11这类大战役中，所有的后勤资源（虚拟机、磁盘、网络资源等）都要优先供给给精锐部队，保证整个军团的集体作战能力（业务高可用性）。</p><p>如果能精准<strong>识别核心服务场景</strong>，将这些核心服务拆分成独立的微服务模块，我们就可以在核心微服务链路上应用弹性机房水位调拨、流量整形和熔断降级等技术手段，构建核心服务与边缘服务之间的隔离带，在极端洪峰流量场景下保证核心业务的高可用性。</p><p>那如何才能识别核心服务场景呢？这就要讲到今天的主题：<strong>主链路规划</strong>。主链路规划是一种非常直观的方法论，帮助我们快速识别核心链路。今天我就来和你探讨两个“主链路规划”相关的话题：</p><ul>
 

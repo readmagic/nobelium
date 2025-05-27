@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是卢誉声。</p><p>在上节课中，我们用动态规划解法，成功解决了动态规划领域中的 Hello World 问题。这个问题虽然比较初级，但却很有代表性，它比较全面地展示了动归解题的套路。</p><p>但光解决一个0-1背包问题显然不够过瘾。如果你觉得应用动态规划的解题套路还不太熟练，没关系。现在我们就趁热打铁，继续刨根问底，讨论背包问题。</p><p>首当其冲的就是完全背包问题。它仍然是动态规划领域的经典问题，但是比0-1背包问题要复杂一些。不过嘛，我们之前总结的解题套路还是比较具有普适性的，因此我们仍然可以将其套用在完全背包问题上。</p><p>在开始今天的课程前，请你思考这样一个问题：<strong>既然都是背包问题，那么完全背包跟0-1背包问题会如何影响状态转移方程呢？</strong></p><p>你不妨带着这个问题，有针对性地学习今天的内容。</p><h2>完全背包问题</h2><p>我们先来看看完全背包问题的描述。</p><p>问题：给你一个可放总重量为 $W$ 的背包和 $N$ 个物品，对每个物品，有重量 $w$ 和价值 $v$ 两个属性，那么第 $i$ 个物品的重量为 $w[i]$，价值为 $v[i]$。现在让你用这个背包装物品，每种物品都可以选择任意多个，问这个背包最多能装的价值是多少？</p><!-- [[[read_end]]] --><p>示例：</p><pre><code>示例：
 

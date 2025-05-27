@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是winter，今天我们来谈谈架构。</p><p>在传统桌面软件开发中，架构师是一种通过设计架构保证团队能够良好分工和有序工作的岗位。</p><p>在工程领域，我们凡是要做点什么事儿，都会有明确的目的性，这个目的性，一定是为了完成生产服务业务的。</p><p>为什么桌面软件开发需要架构师和架构设计呢？因为桌面软件开发具有高度的复杂性，如果没有架构，就没法分解成互相耦合低的模块来分工。</p><p>所以一般来说，架构是为了分工而存在的。但是到了前端领域，这个问题是否还存在呢？答案是，不存在。</p><p>前端是个天然按照页面解耦的技术，在多页面架构中，页面的复杂度大约刚好适合一个人的工作量。（所以，我们的结论是，前端根本不需要架构设计。当然，我这句话是开玩笑的。）</p><p>前端不存在分工问题，但是在多人协同时，仍然要解决质量和效率的问题，这就需要组件化了。除此之外还有前端特有的兼容性问题，也是需要从架构的角度去解决的。</p><p>对于一些追求极致的团队来说，会挑战“单页面应用”，通过单页面应用来提升用户体验，单页面应用的升级版本是谷歌提出的PWA，PWA既是业务方案也是技术方案，在技术层面，它近乎苛刻地规定了网页的各方面的体验标准。</p><p>前端领域还有一个特有的生态：框架，第一代前端框架（如jQuery, PrototypeJS）重点解决了兼容问题和API的易用性问题，在现代浏览器普及之后，这些问题逐渐变得不存在或者不重要，所以第二代前端框架（如Vue，Angular，React）重点解决了组件化问题。选择合适的框架，可以节约架构的成本，还能够享受社区资源。</p><!-- [[[read_end]]] --><p>本节课，我会围绕前端架构的几个核心问题，为你介绍前端架构工作。</p><p>首先我们来讲讲组件化。</p><h2>组件化</h2><p>组件化讲起来是个非常简单的概念，前端主要的开发工作是UI开发，而把UI上的各种元素分解成组件，规定组件的标准，实现组件运行的环境就是组件化了。</p><p>现行的组件化方案，目前有五种主流选择：</p><ul>
 

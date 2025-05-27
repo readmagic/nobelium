@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是蔡元楠。</p><p>今天我要分享的主题是Kappa架构。</p><p>同样身为大规模数据处理架构，Kappa架构这把利用Kafka锻造的“屠龙刀”，它与Lambda架构的不同之处在哪里呢？</p><p>上一讲中，我讲述了在处理大规模数据时所用到经典架构，Lambda架构。我先来带你简要回顾一下。</p><p><img src="https://static001.geekbang.org/resource/image/8f/23/8fe667211309978b2dd6cb6948939923.jpg" alt=""></p><p>Lambda架构结合了批处理和流处理的架构思想，将进入系统的大规模数据同时送入这两套架构层中，分别是批处理层（Batch Layer）和速度层（Speed Layer），同时产生两套数据结果并存入服务层。</p><p>批处理层有着很好的容错性，同时也因为保存着所有的历史记录，使产生的数据集具有很好的准确性。速度层可以及时地处理流入的数据，因此具有低延迟性。最终服务层将这两套数据结合，并生成一个完整的数据视图提供给用户。</p><p>Lambda架构也具有很好的灵活性，你可以将现有开源生态圈中不同的平台套入这个架构，具体请参照上一讲内容。</p><h2>Lambda架构的不足</h2><p>虽然Lambda架构使用起来十分灵活，并且可以适用于很多的应用场景，但在实际应用的时候，Lambda架构也存在着一些不足，主要表现在它的维护很复杂。</p><p>使用Lambda架构时，架构师需要维护两个复杂的分布式系统，并且保证他们逻辑上产生相同的结果输出到服务层中。</p><!-- [[[read_end]]] --><p>举个例子吧，我们在部署Lambda架构的时候，可以部署Apache Hadoop到批处理层上，同时部署Apache Flink到速度层上。</p><p>我们都知道，在分布式框架中进行编程其实是十分复杂的，尤其是我们还会针对不同的框架进行专门的优化。所以几乎每一个架构师都认同，Lambda架构在实战中维护起来具有一定的复杂性。</p><p>那要怎么解决这个问题呢？我们先来思考一下，造成这个架构维护起来如此复杂的根本原因是什么呢？</p><p>维护Lambda架构的复杂性在于我们要同时维护两套系统架构：批处理层和速度层。我们已经说过了，在架构中加入批处理层是因为从批处理层得到的结果具有高准确性，而加入速度层是因为它在处理大规模数据时具有低延时性。</p><p>那我们能不能改进其中某一层的架构，让它具有另外一层架构的特性呢？</p><p>例如，改进批处理层的系统让它具有更低的延时性，又或者是改进速度层的系统，让它产生的数据视图更具准确性和更加接近历史数据呢？</p><p>另外一种在大规模数据处理中常用的架构——Kappa架构（Kappa Architecture），便是在这样的思考下诞生的。</p><h2>Kappa架构</h2><p>Kappa架构是由LinkedIn的前首席工程师杰伊·克雷普斯（Jay Kreps）提出的一种架构思想。克雷普斯是几个著名开源项目（包括Apache Kafka和Apache Samza这样的流处理系统）的作者之一，也是现在Confluent大数据公司的CEO。</p><p>克雷普斯提出了一个改进Lambda架构的观点：</p><blockquote>
 

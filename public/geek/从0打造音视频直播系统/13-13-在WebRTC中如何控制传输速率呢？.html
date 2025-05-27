@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在上一篇<a href="https://time.geekbang.org/column/article/116324">《12 | RTCPeerConnection：音视频实时通讯的核心》</a>一文中，我向你介绍了RTCPeerConnection 对象是如何在端与端之间建立连接的，以及音视频数据又是如何通过它进行传输的。而本文则更进一步，向你介绍如何使用 RTCPeerConnection 来控制音视频数据的传输速率。</p><p>通过 RTCPeerConnection 进行传输速率的控制实际上还是蛮简单的一件事儿，但在学习相关知识的时候，你不仅要能知其然，还要知其所以然。对于本文来讲，就是你不但要学习如何控制传输速率，同时还应该清楚为什么要对传输速率进行控制。</p><p>其实，之所以要进行传输速率的控制，是因为它会对<strong>音视频服务质量</strong>产生比较大的影响，对于音视频服务质量这部分知识，接下来我就与你一起做详细探讨。</p><h2>在WebRTC处理过程中的位置</h2><p>在此之前，我们依旧先来看看本文的内容在整个 WebRTC 处理过程中的位置。</p><p><img src="https://static001.geekbang.org/resource/image/0b/c5/0b56e03ae1ba9bf71da6511e8ffe9bc5.png" alt=""></p><center><span class="reference">WebRTC 处理过程图</span></center><p>通过上图你可以知道，本文所讲的内容仍然属于<strong>传输</strong>的范畴。</p><h2>音视频服务质量</h2><p>像上面所说的，虽然通过 RTCPeerConnection 在端与端之间建立连接后，音视频数据可以互通了，但你还应对传输速率有所控制。之所以要对传输速率进行控制，主要是为了提高音视频服务质量。</p><!-- [[[read_end]]] --><p>举个简单的例子，假设你的带宽是 1Mbps，你想与你的朋友进行音视频通话，使用的视频分辨率为720P，帧率是15帧/秒，你觉得你们通话时的音视频质量会好吗？</p><p>咱们来简单计算一下，根据经验值，帧率为15帧/秒、分辨率为720P的视频，每秒钟大约要产生1.2～1.5Mbps的流量。由此可知，你和你朋友在 1M 带宽的网络上进行通话，那通话质量一定会很差。因为你的“马路”就那么宽，却要跑超出它宽度的数据，这样超出带宽的数据会被直接丢弃掉，从而造成大量视频帧无法解码，所以最终效果一定会很差。</p><p>由此可知，如果你不对音视频传输速率进行限制的话，它一定会对音视频服务质量产生严重的影响。除了传输速率，还有哪些因素会对音视频质量产生影响呢？下面我从网络质量和数据两个方面列举了一些对音视频服务质量产生影响的因素：</p><ul>
 

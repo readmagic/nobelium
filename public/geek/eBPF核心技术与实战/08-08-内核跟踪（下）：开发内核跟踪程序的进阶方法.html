@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是倪朋飞。</p><p>上一讲，我带你梳理了查询 eBPF 跟踪点的常用方法，并以短时进程的跟踪为例，通过 bpftrace 实现了内核跟踪点的跟踪程序。</p><p>bpftrace 简单易用，非常适合入门，可以带初学者轻松体验 eBPF 的各种跟踪特性。但在上一讲的案例中，你也发现 bpftrace 并不适用于所有的 eBPF 应用，它本身的限制导致我们无法在需要复杂 eBPF 程序的场景中使用它。在复杂的应用中，我还是推荐你使用 BCC 或者 libbpf 进行开发。</p><p>那么，今天我就带你看看，如何使用 BCC 和 libbpf 这两个进阶方法来开发内核跟踪程序。</p><h2><strong>BCC 方法</strong></h2><p>我们先来看看如何使用 BCC 来开发上一讲中短时进程的跟踪程序。这里先说明下，由于&nbsp;execveat&nbsp;的处理逻辑同&nbsp;execve&nbsp;基本相同，限于篇幅的长度，接下来的 BCC 和 libbpf 程序都以&nbsp;execve&nbsp;为例。</p><p>这里我们先回顾下 <a href="https://time.geekbang.org/column/article/481090">03讲</a> 的内容，使用 BCC 开发的 eBPF 程序包含两部分：</p><ul>
 

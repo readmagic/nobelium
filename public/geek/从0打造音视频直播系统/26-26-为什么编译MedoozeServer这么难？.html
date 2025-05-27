@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在<a href="https://time.geekbang.org/column/article/134284">上一篇文章</a>中，我们对 Licode、Janus、Mediasoup以及Medooze 四个 WebRTC 开源流媒体服务器的实现进行对比，对于想研究音视频多方会议、录制回放、直播等流媒体技术的开发人员来说，Medooze 是很好的选择。因为它支持所有这些功能，通过它的源码及其 Demo 就可以对 Medooze 进行深入学习了。</p><p>从本文开始，在接下来的四篇文章我会向你详细讲述 Medooze 的架构、实现以及应用。而本文主要介绍Medooze是如何编译和构建的。</p><p>也许你会觉得Linux下的程序编译有什么可讲的呢，直接在Linux系统下执行一下 build 命令不就行了，还需要专门理解系统的编译过程和构建工具的使用吗？实际上，根据我多年的工作经验来看，理解项目的编译过程、熟悉各种构建工具的使用是非常有必要的。下面我就举几个例子，通过这几个例子，我想你就会对它们有一个深刻感悟了。</p><p>第一个例子，伴随着技术的飞速发展，构建工具也有了很大的变化，从最早的手动编写 Makefile，逐渐过渡到使用 Autotools、CMake、GYP 等构建工具来生成 Makefile，这些构建工具可以大大提高你的工作效率。比如，通过Andorid Studio 创建JNI程序时，在 Android Studio 底层会使用 CMake 来构建项目，你会发现使用 CMake 构建 JNI 非常方便。然而像Chrome浏览器这种大型项目也用 CMake构建就很不合适了，因为Chrome浏览器的代码量巨大，使用 CMake 构建它会花费特别长的时间（好几个小时），为了解决这个问题 Chrome 团队自己开发了一个新的构建工具，即GYP，来构建这种大型项目，从而大大提高了构建的效率。由此可见，不同的项目使用不同的构建工具对开发效率的提升是巨大的。</p><!-- [[[read_end]]] --><p>第二个例子，当你研究某个开源项目的源代码时，如果你对 Makefile语法非常熟悉的话，它对你研读项目的源码会起到事半功倍的效果。因为通过 Makefile 你可以了解到项目中引入了哪些第三方库、源文件编译的先后顺序是怎样的、都定义了那些宏等信息，这些信息都可以帮助你更好地理解源码中的实现逻辑。</p><p>第三个例子，对于某些开源项目，很多时候其构建文档并不完整，因此在构建过程中经常会出现各种失败，而这种失败会让人不知所措。但如果你对Makefile特别熟悉的话，你就可以去阅读它里面的内容，很多时候通过这种方法就可以很快找到编译失败的真正原因。</p><p>通过上面的描述，我相信你应该已经知道理解项目的构建过程，熟悉各种构建工具的使用对开发人员有多重要了。</p><p>那接下来我们言归正传，来看看该如何编译Media-server-node 。</p><h2>Media-server-node 项目</h2><p>Media-server-node 是一个 Node.js 项目，其目录结构如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/1b/2e/1b7e5aa7de762d7bd1606c0dbc14382e.png" alt=""></p><center><span class="reference">目录结构图</span></center><p>通过上图你可以看到，在 Media-server-node 项目中，用红框框出来的四个目录比较重要。其中<strong>src 目录</strong>中存放的是 C++ 语言实现的 Native 代码，用于生成 JavaScript 脚本可以调用的 C++ 接口，从而使 JavaScript 编写的业务层代码可以调用 Medooze 核心层的 C++代码；<strong>lib 目录</strong>里存放的是在 Node.js 端执行的，控制 Medooze 业务逻辑的 JavaScript 代码；<strong>external 目录</strong>中存放的是 Medooze 使用的第三方库，如 MP4v2 和 SRTP；<strong>media-server 目录</strong>是一个比较重要的目录，它里面存放的是 <strong>Medooze 的核心代码，即 C++ 实现的流媒体服务器代码</strong>。</p><p>这里需要注意的是，Media-server-node 中的 media-server 目录是一个独立的项目，它是通过外部链接引用到Media-server-node项目中的。它既可以随 Media-server-node 一起编译，也可以自己单独编译。对于这一点我们后面还会做详细介绍。</p><h3>1. 构建Media-server-node项目</h3><p>构建 Media-server-node 项目非常简单，只需要执行下面的命令即可构建成功：</p><pre><code>npm install medooze-media-server --save
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是卢誉声。从今天开始，我们正式进入动态规划套路模块。</p><p>不知道你是否跟我有过相似的经历，那就是提起动态规划，最先想到的就是背包问题。事实上，背包问题分很多种，大多数人首先遇到的一般是背包中的0-1背包问题。</p><p>因此，我把这个问题称作 Hello World，这跟我们学习一门新的编程语言十分相似。它很经典，又极具代表性，能很好地展示动态规划思想，对于你掌握动态规划面试题来说，也十分有帮助。</p><p>在“初识动态规划”模块中，相信你已经对动态规划问题有了一个比较全面的认识和了解。今天，就让我们用一用前面所学的解题思路，其实就是把总结出来的套路，套用在0-1背包问题上，看看能不能解决这道题。</p><p>那在开始前呢，我还是先提出一个简单的问题，那就是：<strong>为什么将它称作0-1背包问题，0-1代表什么？</strong>你不妨带着这个小问题，来学习今天的内容。</p><h2>0-1 背包问题</h2><p>我们先来看看0-1背包问题的描述。</p><p>问题：给你一个可放总重量为 $W$ 的背包和 $N$ 个物品，对每个物品，有重量 $w$ 和价值 $v$ 两个属性，那么第 $i$ 个物品的重量为 $w[i]$，价值为 $v[i]$。现在让你用这个背包装物品，问最多能装的价值是多少？</p><!-- [[[read_end]]] --><p>示例：</p><pre><code>示例：
 

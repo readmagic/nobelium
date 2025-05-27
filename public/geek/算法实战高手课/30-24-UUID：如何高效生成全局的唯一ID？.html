@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是微扰君。</p><p>今天我们来聊一聊在生产环境中非常常用的一个算法——全局唯一ID生成算法，也就是我们通常说的UUID。</p><p>就和我们在社会中都有自己的身份证号作为自己的唯一标示一样，在互联网的应用中，很多时候，我们需要能生成一个全局唯一的ID，去区别不同业务场景下的不同数据，比如消息ID、用户ID、微博内容ID等等。</p><p>因为我们往往<strong>需要通过这个ID去索引某个业务数据，所以一定要保证生成的ID在全局范围内是唯一的</strong>，这也是identifier的本意，在部分情况下，冲突概率很小可能也是可以接受的。另外，这个ID通常需要按照某种规则有序排列，最常用的就是基于时间进行排序。</p><p>所以全局唯一ID的两个核心需求就是：</p><ol>
 

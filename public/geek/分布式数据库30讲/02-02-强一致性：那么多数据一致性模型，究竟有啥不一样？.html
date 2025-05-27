@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王磊，你也可以叫我Ivan。</p><p>我们经常会听到说，分布式数据库的一个优势在于，它能够支持NoSQL做不到的强一致性。你怎么看待这件事儿呢？</p><p>显然，要来分析这个问题，我们首先得明白“强一致性”意味着什么。</p><p>我也问过很多身边的朋友，他们的答案都不太一样。有人说，只要使用了Paxos或者Raft算法，就可以实现强一致性；也有人说，根据CAP原理只能三选二，分区容忍性和高可用性又是必不可少的，所以分布式数据库是做不到强一致性的。可是，这些观点或多或少都是有问题的。</p><p>那么，今天我们就来讲讲什么是“强一致性”。</p><p>一直以来，在“分布式系统”和“数据库”这两个学科中，一致性（Consistency）都是重要概念，但它表达的内容却并不相同。</p><p>对于分布式系统而言，一致性是在探讨当系统内的一份逻辑数据存在多个物理的数据副本时，对其执行读写操作会产生什么样的结果，这也符合CAP理论对一致性的表述。</p><p>而在数据库领域，“一致性”与事务密切相关，又进一步细化到ACID四个方面。其中，I所代表的隔离性（Isolation），是“一致性”的核心内容，研究的就是如何协调事务之间的冲突。</p><p>因此，当我们谈论分布式数据库的一致性时，实质上是在谈论<strong>数据一致性</strong>和<strong>事务一致性</strong>两个方面。这一点，从Google Spanner对其外部一致性（External Consistency）的<a href="https://cloudplatform.googleblog.com/2018/01/why-you-should-pick-strong-consistency-whenever-possible.html">论述</a>中也可以得到佐证。</p><!-- [[[read_end]]] --><h2>数据一致性</h2><p>今天，我会先介绍数据一致性，下一讲中，我再为你讲解事务一致性以及它们之间的关系。</p><p>包括分布式数据库在内的分布式存储系统，为了避免设备与网络的不可靠带来的影响，通常会存储多个数据副本。逻辑上的一份数据同时存储在多个物理副本上，自然带来了数据一致性问题。</p><p>讨论数据一致性还有一个前提，就是同时存在读操作和写操作，否则也是没有意义的。把两个因素加在一起，就是多副本数据上的一组读写策略，被称为“一致性模型”（Consistency Model）。一致性模型数量很多，让人难以分辨。为了便于你理解，我先建立一个简单的分析框架。</p><p>这里，我要借用论文“The many faces of consistency”中的两个概念，状态一致性（State Consistency）和操作一致性（Operation Consistency）。不要慌，这不是新的一致性模型，它们只是观察数据一致性的两个视角。</p><ul>
 

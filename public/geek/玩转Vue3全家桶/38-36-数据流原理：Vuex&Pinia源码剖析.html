@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是大圣。</p><p>上一讲我们分析了Vite原理，今天我们来剖析Vuex的原理。其实在之前的课程中，我们已经实现过一个迷你的Vuex，整体代码逻辑比较简单，基于Vue提供的响应式函数reactive和computed的能力，我们封装了一个独立的共享数据的store，并且对外暴露了commit和dispatch方法修改和更新数据，这些原理就不赘述了。</p><p>今天我们探讨一下下一代Vuex5的提案，并且看一下实际的代码是如何实现的，你学完之后可以对比之前gvuex mini版本，感受一下两者的区别。</p><h2>Vuex5提案</h2><p>由于Vuex有模块化namespace的功能，所以模块user中的mutation add方法，我们需要使用 <code>commit('user/add')</code> 来触发。这样虽然可以让Vuex支持更复杂的项目，但是<strong>这种字符串类型的拼接功能，在TypeScript4之前的类型推导中就很难实现</strong>。然后就有了Vuex5相关提案的讨论，整个讨论过程都是在GitHub的issue里推进的，你可以访问<a href="https://github.com/vuejs/rfcs/pull/271">GitHub链接</a>去围观。</p><p>Vuex5的提案相比Vuex4有很大的改进，解决了一些Vuex4中的缺点。Vuex5能够同时支持Composition API和Option API，并且去掉了namespace模式，使用组合store的方式更好地支持了TypeScript的类型推导，还去掉了容易混淆的Mutation和Action概念，只保留了Action，并且<strong>支持自动的代码分割</strong>。</p><!-- [[[read_end]]] --><p>我们也可以通过对这个提案的研究，来体验一下在一个框架中如何讨论新的语法设计和实现，以及如何通过API的设计去解决开发方式的痛点。你可以在Github的提案RFCs中看到<a href="https://github.com/vuejs/rfcs/blob/34a8b0d541a361a37d05de8d67cb44a7b6f6fd12/active-rfcs/0000-vuex-5.md">Vuex5的设计文稿</a>，而Pinia正是基于Vuex5设计的框架。</p><p>现在Pinia已经正式合并到Vue组织下，成为了Vue的官方项目，尤雨溪也在多次分享中表示<strong>Pinia就是未来的Vuex</strong>，接下来我们就好好学习一下Pinia的使用方式和实现的原理。</p><h2>Pinia</h2><p>下图是Pinia官网的介绍，可以看到类型安全、Vue 的Devtools支持、易扩展、只有1KB的体积等优点。快来看下Pinia如何使用吧。</p><p><img src="https://static001.geekbang.org/resource/image/41/6c/41f8301ee6610c3892f6530f6061ff6c.png?wh=1941x736" alt=""></p><p>首先我们在项目根目录下执行下面的命令去<strong>安装Pinia的最新版本</strong>。</p><pre><code class="language-javascript">npm install pinia@next
 

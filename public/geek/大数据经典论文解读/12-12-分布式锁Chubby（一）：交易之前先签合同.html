@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是徐文浩。</p><p>在过去的十几讲课程里，我带你一起学习完了GFS、MapReduce，以及Bigtable这三篇被称之为Google的“三驾马车”的论文。不知道你有没有发现，这三篇论文有一个共同点，那就是这三个系统<strong>都是一个单Master系统</strong>。而这就带来了一个问题，就是这个Master会成为整个系统的单点，一旦Master出现硬件故障，或者遇到Master网络不通的情况，整个集群就不能提供完整的服务了。</p><p>MapReduce里的Master我们可以暂且不论，毕竟这个Master的生命周期只是一个MapReduce任务执行的时间，即使Master出了问题，简单地重跑一下任务就好了。但是GFS和Bigtable，都是要长时间提供在线服务的系统。从概率的角度来讲，它们的Master也一定会遇到故障。</p><p>所以，在GFS和Bigtable的论文里，我们看到它们都有对应的Backup Master机制。通过一个监控机制，当发现Master出现问题的时候，就自动切换到数据和Master完全同步的Backup Master，作为系统的“灾难恢复”机制。</p><p>乍一听，这个做法简单直接。不过如果仔细想一想，这个操作可没有那么容易实现。我们至少会遇到两个问题：</p><!-- [[[read_end]]] --><ul>
 

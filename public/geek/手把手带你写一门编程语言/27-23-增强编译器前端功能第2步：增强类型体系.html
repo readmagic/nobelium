@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。</p><p>你可能也注意到了，我们在第二部分的主要任务，是要让PlayScript扩展到支持更多的类型。在这个任务中，对类型的处理能力就是一个很重要的功能。</p><p>其实在第一部分，我们已经实现了一定的类型处理功能，包括类型检查、类型自动推断等，但其实还有更多的类型处理能力需要支持。</p><p>对于一门语言来说，类型系统是它的核心。语言之间的差别很多时候都体现在类型系统的设计上，程序员们通常也会对类型处理的内部机制很感兴趣。而TypeScript比JavaScript语言增强的部分，恰恰就是一个强大而又灵活的类型系统，所以我们就更有必要讨论一下与类型有关的话题了。</p><p>那么通过今天这节课，我们就来增强一下PlayScript的类型处理能力，在这过程中，我们也能学习到更多与类型系统有关的知识点，特别是能对类型计算的数学实质有所认知。</p><p>首先，我们来看看TypeScript的类型系统有什么特点。</p><h2>TypeScript的类型系统</h2><p>从TypeScript的名字上，你就可以看出来，这门语言在类型系统的设计上，一定是下了功夫的。也确实是这样，TypeScript在设计之初，就想弥补JavaScript弱类型、动态类型所带来的缺点。特别是，当程序规模变大的时候，弱类型、动态类型很容易不经意地引入一些错误，而且还比较难以发现。</p><!-- [[[read_end]]] --><p>所以TypeScript的设计者，希望通过提供一个强类型体系，让编译器能够检查出程序中潜在的错误，这也有助于IDE工具提供更友好的特性，比如准确提示类的属性和方法，从而帮助程序员编写更高质量的程序。</p><p>而TypeScript也确实实现了这个设计目标。它的类型系统功能很强大，表达能力很强，既有利于提高程序的正确性，同时又没有削弱程序员自由表达各种设计思想的能力。</p><p>那么我们现在就来看一看TypeScript的类型系统到底有什么特点。</p><p><strong>首先，TypeScript继承了JavaScript的几个预定义的类型，比如number、string和boolean等。</strong></p><p>在JavaScript中，我们不需要声明类型，比如下面两句代码就是。在程序运行的时候，系统会自动给age和name1分别关联一个number和string类型的值。</p><pre><code class="language-plain">var age = 18;
 

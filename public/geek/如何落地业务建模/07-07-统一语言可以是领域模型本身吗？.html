@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是徐昊。今天我们来聊聊如何把领域模型作为统一语言。</p><p>在<a href="https://time.geekbang.org/column/article/387945">第二讲</a>，我们谈论到为什么统一语言是必要的：一是因为业务维度在领域模型中被隐藏了；二是我们需要一个缓冲，去发现模型中不存在的概念。不过这里有一个隐藏的前提假设：最终建模结果将是原味面向对象范型的模型。</p><p>而我们在介绍上下文对象的<a href="https://time.geekbang.org/column/article/389089">第五讲</a>里，已经见到一种不同于原味面向对象模型范型的思路：DCI范型。围绕角色与上下文对业务进行分解，而不仅仅是实体与关系。那么我们是不是可以通过不同的建模范型，将领域模型本身当作统一语言呢？</p><p>答案是肯定的，而且其中最关键的就是<strong>如何将隐藏在模型中的业务维度展开</strong>。不同的建模范式，展开业务维度的方式与逻辑也不尽相同。我们首先需要更仔细地理解一下业务维度是如何被隐藏在模型中的，然后再看看不同的建模方法将会如何展开业务维度。</p><h2>业务是模型的隐藏维度</h2><p>我们仍然以你已经很熟悉的极客时间专栏领域模型为例，看看在订阅这个上下文中（模型如下图所示），原味对象范型的模型是如何将业务维度隐藏的：</p><p><img src="https://static001.geekbang.org/resource/image/63/05/6352bab06085d785eafbf44d2247e405.jpg?wh=7733x3973" alt=""></p><p>作为技术人员，我们可以很容易地从数据角度理解业务行为：当用户订阅了一个专栏之后，就会产生一个新的 Subscription 对象，它会记录用户具体订阅了哪个专栏。而我们通过对Subscription对象的检视，就能知道用户一共订阅了多少个专栏。下图展示的是我们将模型实例化后的结果：</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/66/ef/6600b40cd476a4d5abc99767964659ef.jpg?wh=7754x3793" alt=""></p><p>需要说明的是，在这个过程中，我们并不关心Subscription是如何产生的。无论是用户自行购买的、朋友送的、抽奖中的、首单减免白得的，只要最终产生了Subscription对象，用户就能访问专栏内对应的内容。</p><p>比如，在2020年10月16日，用户“爱学习的鱼玄机”自行购买了专栏《用户体验设计》，就会产生一个Subscription实例，将用户与专栏关联起来。而只要这个Subscription对象存在，用户就可以访问专栏内的课程内容。</p><p>同样，在2021年4月2日，“爱学习的鱼玄机”接受朋友“会聊骚的黄庭坚”的馈赠，得到了专栏《Harmony OS 应用开发》，这样也会产生一个Subscription实例。它将用户与专栏关联起来，让“爱学习的鱼玄机”可以看到这个专栏里的内容。</p><p>从数据变化的角度看，自行购买、朋友送、抽奖中、首单减免白得等流程，都被隐藏在模型的抽象之中了。一方面，这正体现了模型抽象能力的强大。只要产生相似的数据关联，业务逻辑就可以被保证，而细节则可以被忽略。而另一方面，其实也增加了业务方理解模型的难度。</p><p>如果订阅专栏的流程如下图所示，包含不同的步骤与操作，业务方要如何才能明白模型是怎么支撑这个流程的呢？</p><p><img src="https://static001.geekbang.org/resource/image/b6/fe/b660712b7f29yy36a582092f760f8bfe.jpg?wh=8000x3885" alt=""></p><p>可以看到，业务方很难从领域模型中感受到业务维度（流程、交互、功能、规则、价值等），所以这也正是我们<strong>需要额外构造统一语言</strong>的原因。</p><p>但是如果有办法可以将隐藏在领域模型中的业务维度展开（哎呀呀，低维展开了呢），使得业务方能够理解<strong>不同的业务流程是如何作用于领域模型的。</strong>那么，业务方就能够判断领域模型是否准确捕捉了业务概念，以及领域模型是否能够有效支撑整个系统（也就是判断技术方是否真正理解了需求）。这时候我们就不再需要额外的统一语言了，因为模型本身就能起到统一语言的作用。</p><p>那么我们将业务方可以理解的领域模型称作<strong>业务友好与可读</strong>（Business friendly and readable）<strong>的模型</strong>，这类模型可以作为统一语言使用。于是将隐藏在领域模型中的业务维度展开，最终的目标就是通过在模型中还原业务维度，使得模型变得业务友好与可读，从而将模型变成统一语言。</p><p>将模型变得业务友好与可读的方法有很多，但总体而言主要有两个方向：</p><ol>
 

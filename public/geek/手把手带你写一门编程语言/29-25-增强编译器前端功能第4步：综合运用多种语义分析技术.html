@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。</p><p>在上一节课，我们比较全面地分析了怎么用集合运算的算法思路实现类型计算。不过，在实际的语义分析过程中，我们往往需要综合运用多种技术。</p><p>不知道你还记不记得，我们上一节课举了一个例子，里面涉及了数据流分析和类型计算技术。不过这还不够，今天这节课，我们还要多举几个例子，来看看如何综合运用各种技术来达到语义分析的目的。在这个过程中，你还会加深对类型计算的理解、了解常量折叠和常量传播技术，以及实现更精准的类型推导。</p><p>好，我们首先接着上一节课的思路，看一看怎么把数据流分析与类型计算结合起来。</p><h2>在类型计算中使用数据流分析技术</h2><p>我们再用一下上节课的示例程序foo7。在这个程序中，age的类型是number|null，age1的类型是string|number。我们先让age=18，这时候把age赋给age1是合法的。之后又给age赋值为null，然后再把age赋给age1，这时编译器就会报错。</p><pre><code class="language-plain">function foo7(age : number|null){
 

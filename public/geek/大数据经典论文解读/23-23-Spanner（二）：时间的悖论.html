@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是徐文浩。</p><p>在上节课里，我们一起了解了Spanner的整体架构。Spanner的整个架构并不会让人有什么意外之喜，遵循的仍然是标准的分布式数据库的架构设计，通过对于数据分区、Paxos同步复制等一系列的机制来实现一个超大规模的全球数据库。而对于网络延时，则是选择了对数据分区进行“调度”的策略，让数据尽可能接近读写它的用户，而不是让一份数据在所有的Zone里出现一份。</p><p>不过，其实对于Spanner这样的系统来说，<strong>最有挑战的问题</strong>并不是如何调度数据，而是在这样一个“全球”数据库里，如何实现事务。这个问题，也就是我们这节课的主题了。这节课，我会主要带你学习这两个知识点：</p><ul>
 

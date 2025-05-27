@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是胡光，欢迎回来。</p><p>上节课中，我们通过参考 gtest 的输出，完善了我们自己的测试框架的输出信息，也就是添加了测试用例的名称、运行结果以及运行时间。并且，我提到了在一般情况下，项目中的功能开发原则：<strong>功能迭代，数据先行</strong>。就是要开发新的功能之前，我们应该先考虑清楚实现这部分功能相关的数据，在系统中的存储与使用的情况，只有这样，才能更好地完成功能的实现与迭代优化。</p><p>今天迎来我们整个测试框架项目的最后一节课。这节课的目的，一是对前几节课内容进行一个总结，二是向你说明我们现在开发的测试框架代码，其实还有很多优化的空间。至于这个优化空间是什么呢？这次我将带着你结合之前学习的“链表”知识，对测试框架进行一个具体的优化改进。</p><p>关于测试框架的优化，是一个不断学习的过程。在这个过程中，你深刻体会到“知不足，然后能自反也”这句话的含义。就是在优化代码的过程中，你会发现自己的不足，然后努力提高自己的能力去弥补不足；当你提升了自己之后，你又会看到自己在其他方面的不足，进而继续提高自己。</p><p>好了，废话不多说，我们正式开始今天的学习。</p><h2>揭晓答案：EXPECT_EQ 宏究竟是如何实现的</h2><p>在对测试框架进行优化之前呢，我先来回答一下，可能困扰了你两节课的一个问题：就是 EXPECT_EQ 宏究竟是如何实现的？这个问题的答案呢，我给出一个可行的实现，仅供参考。</p><!-- [[[read_end]]] --><p>首先，EXPECT_EQ(a, b) 在a，b 两部分值相等的时候，不会产生额外的输出信息，而当 a，b 两部分不相等的时候，就会输出相应的提示信息。如下所示：</p><pre><code>gtest_test.cpp:25: Failure
 

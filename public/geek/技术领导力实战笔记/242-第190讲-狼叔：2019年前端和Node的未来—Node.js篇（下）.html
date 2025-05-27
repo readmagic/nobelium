@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是阿里巴巴前端技术专家狼叔，今天是咱们大前端趋势系列的最后一篇文章，我将主要分享一些Node.js的新特性，以及我对大前端、Node.js未来的一点看法，但在开始之前，我想先聊一聊Serverless这个当下很火，同时未来可期的技术。</p><h3>Serverless</h3><p>简单地说，Serverless = FAAS + BaaS ，服务如果被认为是Serverless的，它必须无需显式地配置，并能自动调整扩缩容以及根据使用情况进行计费。云function是当今无Serverless计算中的通用元素，并引领着云的简化和通用编程模型发展的方向。2015年亚马逊推出了一项名为AWS Lambda服务的新选项。Node.js领域TJ大神去创业，开发了<a href="http://apex.run/">http://apex.run</a>。目前，各大厂都在Serverless上发力，比如Google、AWS、微软，阿里云等。</p><p><img src="https://static001.geekbang.org/resource/image/4b/72/4bb32cc24f1581b7158859b4f5906e72.png" alt=""></p><p>这里不得不提一下Eventloop，Node.js成也Eventloop，败也Eventloop，本身Eventloop是黑盒，开发将什么样的代码放进去你是很难全部覆盖的，偶尔会出现Eventloop阻塞的情况，排查起来极为痛苦。</p><p>而利用Serverless，可以有效的防止Eventloop阻塞。比如加密，加密是常见场景，但本身的执行效率非常慢。如果加解密和你的其他任务放到一起，很容易导致Eventloop阻塞。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/4a/d8/4a5451353a1dcc0d68b91aa5ba304ed8.png" alt=""></p><p>如果加解密服务是独立的服务呢？比如在AWS的Lambda上发布上面的代码，它自身是独立的，按需来动态扩容机器，可以去除 CPU 密集操作对 Node.js 的影响，快速响应流量变化。</p><p>这是趋势，对于活动类的尤其划算。你不知道什么时候是峰值，需要快速动态扩容能力，你也不会一直使用，按需付费更好。就算这个服务挂了，对其他业务也不会有什么影响，更不会出现阻塞Eventloop导致雪崩的情况。</p><ul>
 

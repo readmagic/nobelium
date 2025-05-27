@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是Tony Bai。</p><p>我们的专栏在06和07讲对Go Module构建模式的原理，以及如何使用Go Module构建模式做了详细的讲解，在课后留言中，我看到很多同学直呼过瘾，表示终于搞清楚Go Module构建模式了。</p><p>不过，之前的讲解更多是从Go Module的使用者角度出发的。在这篇加餐中，我们再从Go Module的作者或维护者的视角，来聊聊在规划、发布和维护Go Module时需要考虑和注意什么事情，包括go项目仓库布局、Go Module的发布、升级module主版本号、作废特定版本的module，等等。</p><p>我们先来看看作为Go Module作者在规划module时遇到的第一个问题：一个代码仓库（repo）管理一个module，还是一个仓库管理多个module？</p><h2>仓库布局：是单module还是多module</h2><p>如果没有单一仓库（monorepo）的强约束，那么在默认情况下，你选择一个仓库管理一个module是不会错的，这是管理Go Module的最简单的方式，也是最常用的标准方式。这种方式下，module维护者维护起来会很方便，module的使用者在引用module下面的包时，也可以很容易地确定包的导入路径。</p><!-- [[[read_end]]] --><p>举个简单的例子，我们在github.com/bigwhite/srsm这个仓库下管理着一个Go Module（srsm是single repo single module的缩写）。</p><p>通常情况下，module path与仓库地址保持一致，都是github.com/bigwhite/srsm，这点会体现在go.mod中：</p><pre><code class="language-plain">// go.mod
 

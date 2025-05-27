@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>前面咱们接项目的时候，主要强调项目之间的隔离性。这是因为，我们刚开始接的都是小项目。随着我们接的项目越来越多，就难免遇到大项目，这就需要多个项目组进行合作才能完成。</p><p>两个项目组应该通过什么样的方式进行沟通与合作呢？作为老板，你应该如何设计整个流程呢？</p><h2>管道模型</h2><p>好在有这么多成熟的项目管理流程可以参考。最最传统的模型就是软件开发的<strong>瀑布模型</strong>（Waterfall Model）。所谓的瀑布模型，其实就是将整个软件开发过程分成多个阶段，往往是上一个阶段完全做完，才将输出结果交给下一个阶段。就像下面这张图展示的一样。</p><p><img src="https://static001.geekbang.org/resource/image/ed/c9/ed1fd2ede7a8fef5508c877e722345c9.png" alt=""></p><p>这种模型类似进程间通信的<strong>管道模型</strong>。还记得咱们最初学Linux命令的时候，有下面这样一行命令：</p><pre><code>ps -ef | grep 关键字 | awk '{print $2}' | xargs kill -9
 

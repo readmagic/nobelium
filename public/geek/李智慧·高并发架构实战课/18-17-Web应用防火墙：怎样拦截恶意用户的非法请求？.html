@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是李智慧。</p><p>Web应用防火墙（Web Application Firewall， WAF）通过对HTTP(S)请求进行检测，识别并阻断SQL注入、跨站脚本攻击、跨站请求伪造等攻击，保护Web服务安全稳定。</p><p>Web安全是所有互联网应用必须具备的功能，没有安全防护的应用犹如怀揣珠宝的儿童独自行走在盗贼环伺的黑夜里。我们准备开发一个Web应用防火墙，该防火墙可作为Web插件，部署在Web应用或者微服务网关等HTTP服务的入口，拦截恶意请求，保护系统安全。我们准备开发的Web应用防火墙名称为“Zhurong（祝融）”。</p><h2>需求分析</h2><p>HTTP请求发送到Web服务器时，请求首先到达Zhurong防火墙，防火墙判断请求中是否包含恶意攻击信息。如果包含，防火墙根据配置策略，可选择拒绝请求，返回418状态码；也可以将请求中的恶意数据进行消毒处理，也就是对恶意数据进行替换，或者插入某些字符，从而使请求数据不再具有攻击性，然后再调用应用程序处理。如下图：</p><p></p><p><img src="https://static001.geekbang.org/resource/image/c6/27/c62b0c3517c9yy2ce9e556a75a44a427.jpg?wh=1920x588" alt="图片"></p><p>Zhurong需要处理的攻击和安全漏洞列表：</p><p><img src="https://static001.geekbang.org/resource/image/ec/e2/ec061c371c83170cbdb4254332319ee2.jpg?wh=1920x884" alt="图片"></p><h2>概要设计</h2><p>Zhurong能够发现恶意攻击请求的主要手段，是对HTTP请求内容进行正则表达式匹配，将各种攻击类型可能包含的恶意内容构造成正则表达式，然后对HTTP请求头和请求体进行匹配。如果匹配成功，那么就触发相关的处理逻辑，直接拒绝请求；或者将请求中的恶意内容进行消毒，即进行字符替换，使攻击无法生效。</p><!-- [[[read_end]]] --><p>其中，恶意内容正则表达式是通过远程配置来获取的。如果发现了新的攻击漏洞，远程配置的漏洞攻击正则表达式就会进行更新，并在所有运行了Zhurong防火墙的服务器上生效，拦截新的攻击。组件图如下：</p><p><img src="https://static001.geekbang.org/resource/image/42/f5/420c438eda5328c627e1957aabbd20f5.jpg?wh=1920x1227" alt="图片"></p><p>HTTP请求先到达请求过滤器，请求过滤器提取HTTP请求头和HTTP请求体中的数据，这个过滤器其实就是Java中的Filter。过滤器调用漏洞策略处理器进行处理，而漏洞策略处理器需要调用漏洞定义文件加载模块获得漏洞定义规则，漏洞定义文件加载模块缓存了各种漏洞定义规则文件，如果缓存超时，就从远程配置中心重新加载漏洞定义规则。</p><p>漏洞定义规则文件是Zhurong的核心，该文件定义了攻击的正则表达式，过滤器正是通过使用这些正则表达式匹配HTTP请求头和HTTP请求体的方式，识别出HTTP请求中是否存在攻击内容。同时，漏洞定义规则文件中还定义了发现攻击内容后的处理方式：是拒绝请求，跳转到出错页面，还是采用消毒的方式，将攻击内容字符进行替换。</p><p>漏洞规则定义文件采用XML格式，示例如下：</p><pre><code class="language-xml">&lt;?xml version="1.0"?&gt;
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈东。欢迎来到检索专栏的第二次加餐时间。</p><p>在上一篇加餐中，我们讲了工业界中，倒排索引是怎么利用基础的数据结构来加速“求交集”过程的。现在，相信你已经对跳表、哈希表和位图的实际使用，有了更深刻的理解和认识了。然而，在日常的检索中，我们往往会面临更复杂的联合查询需求。这个时候，又该如何加速呢？</p><p>我们先来看一个例子：在一个系统的倒排索引中，有4个不同的key，分别记录着“北京”“上海”“安卓”“学生”，这些标签分别对应着4种人群列表。如果想分析用户的特点，我们需要根据不同的标签来选择不同的人群。这个时候，我们可能会有以下的联合查询方式：</p><ol>
 

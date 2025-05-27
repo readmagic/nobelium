@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是胡夕。今天我要和你分享的内容是：Kafka中神秘的内部主题（Internal Topic）__consumer_offsets。</p><p>__consumer_offsets在Kafka源码中有个更为正式的名字，叫<strong>位移主题</strong>，即Offsets Topic。为了方便今天的讨论，我将统一使用位移主题来指代__consumer_offsets。需要注意的是，它有两个下划线哦。</p><p>好了，我们开始今天的内容吧。首先，我们有必要探究一下位移主题被引入的背景及原因，即位移主题的前世今生。</p><p>在上一期中，我说过老版本Consumer的位移管理是依托于Apache ZooKeeper的，它会自动或手动地将位移数据提交到ZooKeeper中保存。当Consumer重启后，它能自动从ZooKeeper中读取位移数据，从而在上次消费截止的地方继续消费。这种设计使得Kafka Broker不需要保存位移数据，减少了Broker端需要持有的状态空间，因而有利于实现高伸缩性。</p><p>但是，ZooKeeper其实并不适用于这种高频的写操作，因此，Kafka社区自0.8.2.x版本开始，就在酝酿修改这种设计，并最终在新版本Consumer中正式推出了全新的位移管理机制，自然也包括这个新的位移主题。</p><!-- [[[read_end]]] --><p>新版本Consumer的位移管理机制其实也很简单，就是<strong>将Consumer的位移数据作为一条条普通的Kafka消息，提交到__consumer_offsets中。可以这么说，__consumer_offsets的主要作用是保存Kafka消费者的位移信息。</strong>它要求这个提交过程不仅要实现高持久性，还要支持高频的写操作。显然，Kafka的主题设计天然就满足这两个条件，因此，使用Kafka主题来保存位移这件事情，实际上就是一个水到渠成的想法了。</p><p>这里我想再次强调一下，和你创建的其他主题一样，位移主题就是普通的Kafka主题。你可以手动地创建它、修改它，甚至是删除它。只不过，它同时也是一个内部主题，大部分情况下，你其实并不需要“搭理”它，也不用花心思去管理它，把它丢给Kafka就完事了。</p><p>虽说位移主题是一个普通的Kafka主题，但<strong>它的消息格式却是Kafka自己定义的</strong>，用户不能修改，也就是说你不能随意地向这个主题写消息，因为一旦你写入的消息不满足Kafka规定的格式，那么Kafka内部无法成功解析，就会造成Broker的崩溃。事实上，Kafka Consumer有API帮你提交位移，也就是向位移主题写消息。你千万不要自己写个Producer随意向该主题发送消息。</p><p>你可能会好奇，这个主题存的到底是什么格式的消息呢？所谓的消息格式，你可以简单地理解为是一个KV对。Key和Value分别表示消息的键值和消息体，在Kafka中它们就是字节数组而已。想象一下，如果让你来设计这个主题，你觉得消息格式应该长什么样子呢？我先不说社区的设计方案，我们自己先来设计一下。</p><p>首先从Key说起。一个Kafka集群中的Consumer数量会有很多，既然这个主题保存的是Consumer的位移数据，那么消息格式中必须要有字段来标识这个位移数据是哪个Consumer的。这种数据放在哪个字段比较合适呢？显然放在Key中比较合适。</p><p>现在我们知道该主题消息的Key中应该保存标识Consumer的字段，那么，当前Kafka中什么字段能够标识Consumer呢？还记得之前我们说Consumer Group时提到的Group ID吗？没错，就是这个字段，它能够标识唯一的Consumer Group。</p><p>说到这里，我再多说几句。除了Consumer Group，Kafka还支持独立Consumer，也称Standalone Consumer。它的运行机制与Consumer Group完全不同，但是位移管理的机制却是相同的。因此，即使是Standalone Consumer，也有自己的Group ID来标识它自己，所以也适用于这套消息格式。</p><p>Okay，我们现在知道Key中保存了Group ID，但是只保存Group ID就可以了吗？别忘了，Consumer提交位移是在分区层面上进行的，即它提交的是某个或某些分区的位移，那么很显然，Key中还应该保存Consumer要提交位移的分区。</p><p>好了，我们来总结一下我们的结论。<strong>位移主题的Key中应该保存3部分内容：&lt;Group ID，主题名，分区号&gt;</strong>。如果你认同这样的结论，那么恭喜你，社区就是这么设计的！</p><p>接下来，我们再来看看消息体的设计。也许你会觉得消息体应该很简单，保存一个位移值就可以了。实际上，社区的方案要复杂得多，比如消息体还保存了位移提交的一些其他元数据，诸如时间戳和用户自定义的数据等。保存这些元数据是为了帮助Kafka执行各种各样后续的操作，比如删除过期位移消息等。但总体来说，我们还是可以简单地认为消息体就是保存了位移值。</p><p>当然了，位移主题的消息格式可不是只有这一种。事实上，它有3种消息格式。除了刚刚我们说的这种格式，还有2种格式：</p><ol>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p><span class="orange">今天是大年初二，在开始我们今天的学习之前，我要先和你道一声春节快乐！</span></p><p>在<a href="https://time.geekbang.org/column/article/73479">第16</a>和<a href="https://time.geekbang.org/column/article/79700">第34</a>篇文章中，我分别和你介绍了sort buffer、内存临时表和join buffer。这三个数据结构都是用来存放语句执行过程中的中间数据，以辅助SQL语句的执行的。其中，我们在排序的时候用到了sort buffer，在使用join语句的时候用到了join buffer。</p><p>然后，你可能会有这样的疑问，MySQL什么时候会使用内部临时表呢？</p><p>今天这篇文章，我就先给你举两个需要用到内部临时表的例子，来看看内部临时表是怎么工作的。然后，我们再来分析，什么情况下会使用内部临时表。</p><h1>union 执行流程</h1><p>为了便于量化分析，我用下面的表t1来举例。</p><pre><code>create table t1(id int primary key, a int, b int, index(a));
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是傅健。</p><p>从导读中我们已知，Spring 的核心是围绕 Bean 进行的。不管是 Spring Boot 还是 Spring Cloud，只要名称中带有Spring关键字的技术都脱离不了 Bean，而要使用一个 Bean 少不了要先定义出来，所以<strong>定义一个Bean 就变得格外重要了</strong>。</p><p>当然，对于这么重要的工作，Spring 自然给我们提供了很多简单易用的方式。然而，这种简单易用得益于 Spring 的“<strong>约定大于配置</strong>”，但我们往往不见得会对所有的约定都了然于胸，所以仍然会在 Bean 的定义上犯一些经典的错误。</p><p>接下来我们就来了解下那些经典错误以及它们背后的原理，你也可以对照着去看看自己是否也曾犯过，后来又是如何解决的。</p><h2>案例 1：隐式扫描不到 Bean 的定义</h2><p>在构建 Web 服务时，我们常使用 Spring Boot 来快速构建。例如，使用下面的包结构和相关代码来完成一个简易的 Web 版 HelloWorld：</p><p><img src="https://static001.geekbang.org/resource/image/63/48/63f7d08fb89653e12b9946c4dca31c48.png?wh=375*93" alt=""></p><p>其中，负责启动程序的 Application 类定义如下：</p><pre><code>package com.spring.puzzle.class1.example1.application
 

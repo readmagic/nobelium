@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是鸟窝。</p><p>在前面的四节课中，我们学习了第一个同步原语，即Mutex，我们使用它来保证读写共享资源的安全性。不管是读还是写，我们都通过Mutex来保证只有一个goroutine访问共享资源，这在某些情况下有点“浪费”。比如说，在写少读多的情况下，即使一段时间内没有写操作，大量并发的读访问也不得不在Mutex的保护下变成了串行访问，这个时候，使用Mutex，对性能的影响就比较大。</p><p>怎么办呢？你是不是已经有思路了，对，就是区分读写操作。</p><p>我来具体解释一下。如果某个读操作的goroutine持有了锁，在这种情况下，其它读操作的goroutine就不必一直傻傻地等待了，而是可以并发地访问共享变量，这样我们就可以<strong>将串行的读变成并行读</strong>，提高读操作的性能。当写操作的goroutine持有锁的时候，它就是一个排外锁，其它的写操作和读操作的goroutine，需要阻塞等待持有这个锁的goroutine释放锁。</p><p>这一类并发读写问题叫作<a href="https://en.wikipedia.org/wiki/Readers%E2%80%93writers_problem">readers-writers问题</a>，意思就是，同时可能有多个读或者多个写，但是只要有一个线程在执行写操作，其它的线程都不能执行读写操作。</p><p><strong>Go标准库中的RWMutex（读写锁）就是用来解决这类readers-writers问题的</strong>。所以，这节课，我们就一起来学习RWMutex。我会给你介绍读写锁的使用场景、实现原理以及容易掉入的坑，你一定要记住这些陷阱，避免在实际的开发中犯相同的错误。</p><!-- [[[read_end]]] --><h1>什么是RWMutex？</h1><p>我先简单解释一下读写锁RWMutex。标准库中的RWMutex是一个 reader/writer 互斥锁。RWMutex在某一时刻只能由任意数量的reader持有，或者是只被单个的writer持有。</p><p>RWMutex的方法也很少，总共有5个。</p><ul>
 

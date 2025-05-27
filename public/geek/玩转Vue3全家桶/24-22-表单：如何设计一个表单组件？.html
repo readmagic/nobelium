@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是大圣。</p><p>上一讲我们详细讲解了如何使用Jest框架对组件库进行测试，TypeScript和Jest都为我们的代码质量和研发效率保驾护航。之前我们实现的Container和Button组件都是以渲染功能为主，可以根据不同的属性渲染不同的样式去实现布局和不同格式的按钮。</p><p>那么今天我再带你实现一个非常经典的表单组件，这个组件除了要渲染页面组件之外，还得支持很好的页面交互，下面我们先从Element3的表单组件开始讲解。</p><h2>表单组件</h2><p>在<a href="https://e3.shengxinjing.cn/#/component/form">Element表单组件</a>的页面里，我们能看到表单种类的组件类型有很多，我们常见的输入框、单选框和评分组件等都算是表单组件系列的。</p><p>下面这段代码是Element3官方演示表单的Template，整体表单页面分三层：</p><ul>
 

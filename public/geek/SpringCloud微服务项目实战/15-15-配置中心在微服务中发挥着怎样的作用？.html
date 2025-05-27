@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是姚秋辰。</p><p>在微服务架构中，我们会使用一个分布式的“配置中心”来管理所有的配置文件和配置项。相比于传统的基于文件的配置管理方式，配置中心有什么独特的功能和优势呢？今天这节课，我就带你了解Nacos配置中心的特性，以及这些特性在微服务体系中所发挥的作用。</p><p>在Spring Boot应用中，我们习惯于使用传统的配置管理方式，将各种配置项都维护在application.yml或application.properties文件中。从完成业务逻辑的角度来看，这样做是没问题的。但在微服务架构中，我们可以采取一种更“优雅”的方式组织配置文件，实现高效灵活的配置管理。</p><p>我要先带你回想一下传统的配置管理途径都有哪些，这些途径在使用上有哪些弊端。然后，我们再来了解微服务架构下的“配置中心”是如何解决这些问题的。</p><h2>传统配置管理的弊端</h2><p>我们通常可以采用四种途径在程序中指定配置项，它们分别是硬编码、配置文件、环境/启动变量、数据库动态获取，我们先来了解一下这四种配置管理方式是如何实现的。</p><ul>
 

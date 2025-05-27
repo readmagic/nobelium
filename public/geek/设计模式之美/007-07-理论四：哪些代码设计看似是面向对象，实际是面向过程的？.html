@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>上一节课，我们提到，常见的编程范式或者说编程风格有三种，面向过程编程、面向对象编程、函数式编程，而面向对象编程又是这其中最主流的编程范式。现如今，大部分编程语言都是面向对象编程语言，大部分软件都是基于面向对象编程这种编程范式来开发的。</p><p>不过，在实际的开发工作中，很多同学对面向对象编程都有误解，总以为把所有代码都塞到类里，自然就是在进行面向对象编程了。实际上，这样的认识是不正确的。有时候，从表面上看似是面向对象编程风格的代码，从本质上看却是面向过程编程风格的。</p><p>所以，今天，我结合具体的代码实例来讲一讲，有哪些看似是面向对象，实际上是面向过程编程风格的代码，并且分析一下，为什么我们很容易写出这样的代码。最后，我们再一起辩证思考一下，面向过程编程是否就真的无用武之地了呢？是否有必要杜绝在面向对象编程中写面向过程风格的代码呢？</p><p>好了，现在，让我们正式开始今天的学习吧！</p><h2>哪些代码设计看似是面向对象，实际是面向过程的？</h2><p>在用面向对象编程语言进行软件开发的时候，我们有时候会写出面向过程风格的代码。有些是有意为之，并无不妥；而有些是无意为之，会影响到代码的质量。下面我就通过三个典型的代码案例，给你展示一下，什么样的代码看似是面向对象风格，实际上是面向过程风格的。我也希望你通过对这三个典型例子的学习，能够做到举一反三，在平时的开发中，多留心一下自己编写的代码是否满足面向对象风格。</p><!-- [[[read_end]]] --><h3>1.滥用getter、setter方法</h3><p>在之前参与的项目开发中，我经常看到，有同事定义完类的属性之后，就顺手把这些属性的getter、setter方法都定义上。有些同事更加省事，直接用IDE或者Lombok插件（如果是Java项目的话）自动生成所有属性的getter、setter方法。</p><p>当我问起，为什么要给每个属性都定义getter、setter方法的时候，他们的理由一般是，为了以后可能会用到，现在事先定义好，类用起来就更加方便，而且即便用不到这些getter、setter方法，定义上它们也无伤大雅。</p><p>实际上，这样的做法我是非常不推荐的。它违反了面向对象编程的封装特性，相当于将面向对象编程风格退化成了面向过程编程风格。我通过下面这个例子来给你解释一下这句话。</p><pre><code>public class ShoppingCart {
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱晓峰。今天，我们来聊一聊视图。</p><p>视图是一种虚拟表，我们可以把一段查询语句作为视图存储在数据库中，在需要的时候，可以把视图看做一个表，对里面的数据进行查询。</p><p>举个小例子，在学校的信息系统里面，为了减少冗余数据，学生档案（包括姓名、年龄等）和考试成绩（包括考试时间、科目、分数等）是分别存放在不同的数据表里面的，但是，我们经常需要查询学生的考试成绩（包括学生姓名、科目、分数）。这个时候，我们就可以把查询学生考试成绩的这个关联查询，用视图的形式保存起来。这样一来，我们不仅可以从视图中直接查询学生考试成绩，让查询变得简单，而且，视图没有实际存储数据，还避免了数据存储过程中可能产生的冗余，提高了存储的效率。</p><p>今天，我就结合超市的项目，来具体讲解一下怎么创建和操作视图，来帮助你提高查询效率。</p><h2>视图的创建及其好处</h2><p>首先，我们来学习下创建视图的方法，以及使用视图的一些好处。</p><p>创建视图的语法结构：</p><pre><code>CREATE [OR REPLACE]
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是胡夕。日志模块我们已经讲完了，你掌握得怎样了呢？如果你在探索源码的过程中碰到了问题，记得在留言区里写下你的困惑，我保证做到知无不言。</p><p>现在，让我们开启全新的“请求处理模块”的源码学习之旅。坦率地讲，这是我自己给Kafka源码划分的模块，在源码中可没有所谓的“请求处理模块”的提法。但我始终觉得，这样划分能够帮助你清晰地界定不同部分的源码的作用，可以让你的阅读更有针对性，学习效果也会事半功倍。</p><p>在这个模块，我会带你了解请求处理相关的重点内容，包括请求处理通道、请求处理全流程分析和请求入口类分析等。今天，我们先来学习下Kafka是如何实现请求队列的。源码中位于core/src/main/scala/kafka/network下的RequestChannel.scala文件，是主要的实现类。</p><p>当我们说到Kafka服务器端，也就是Broker的时候，往往会说它承担着消息持久化的功能，但本质上，它其实就是<strong>一个不断接收外部请求、处理请求，然后发送处理结果的Java进程</strong>。</p><p>你可能会觉得奇怪，Broker不是用Scala语言编写的吗，怎么这里又是Java进程了呢？这是因为，Scala代码被编译之后生成.class文件，它和Java代码被编译后的效果是一样的，因此，Broker启动后也仍然是一个普通的Java进程。</p><!-- [[[read_end]]] --><p><strong>高效地保存排队中的请求，是确保Broker高处理性能的关键</strong>。既然这样，那你一定很想知道，Broker上的请求队列是怎么实现的呢？接下来，我们就一起看下<strong>Broker底层请求对象的建模</strong>和<strong>请求队列的实现原理</strong>，以及Broker<strong>请求处理方面的核心监控指标</strong>。</p><p>目前，Broker与Clients进行交互主要是基于<span class="orange">Request/Response机制</span>，所以，我们很有必要学习一下源码是如何建模或定义Request和Response的。</p><h2>请求（Request）</h2><p>我们先来看一下RequestChannel源码中的Request定义代码。</p><pre><code>sealed trait BaseRequest
 

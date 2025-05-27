@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是尉刚强。</p><p>通过上节课的学习，我们现在已经了解并发设计和实现的相关技术和方法，而所有这些技术方法的目的，都是为了能最大程度地发挥CPU多核的性能。但我们还要知道的是，CPU体系架构在解决单核性能瓶颈问题、提升处理软件性能的过程中，其实并不是只可以采用增加核数这一种方式。</p><p>现在主流的CPU体系架构，为了提升计算速度，实际上都借鉴了GPU中的向量计算特点，在硬件上引入了<strong>向量寄存器</strong>，并支持利用向量级指令来提升软件的性能。</p><p>这种利用单条指令执行多条数据的机制，我们通常称之为<strong>SIMD</strong>（Single Instruction  Multiple Data）技术，比如MMX、SSE、AVX、FMA等支持SIMD技术的指令集。另外像英特尔、AMD等生产的不同款型的CPU，也都会选择支持部分指令集技术，来帮助提升计算速度。就以ClickHouse为例，它之所以在分析数据上有卓越的性能表现，其中一部分原因就在于其底层大量地使用了SIMD技术。</p><p>那么，基于向量的SIMD技术的原理是什么，为什么它可以提升计算速度呢？我们在软件开发的过程中，要如何使用这种技术来提升性能呢？</p><p>今天这节课，我就根据目前比较主流的AVX技术的工作原理和具体实现，来帮你解答以上提出的这些问题。这样一来，你在C/C++和Java语言的开发项目中，就知道如何使用这种技术来开发高性能的软件了。</p><!-- [[[read_end]]] --><h2>基于向量的SIMD技术是如何提升计算速度的？</h2><p>首先，我们需要搞清楚一个问题，就是基于AVX的SIMD技术为什么计算速度会比较快？</p><p>这里我们可以先来看看下面这张图，其中对比了SIMD指令与传统的SISD（Single Instruction Single Data）指令，执行4个数字的求和计算操作过程：</p><p><img src="https://static001.geekbang.org/resource/image/cc/0e/ccdb4a18cf59204d532yy5178a775e0e.jpg?wh=2000x1125" alt=""></p><p>图的左边，代表的是单条指令执行单条数据的实现方式，我们可以看到，针对两组包含4个元素的数据，在进行两两相加的操作时，最少需要12条指令（8条mov指令，4条add指令）才能完成业务。</p><p>而图的右边，因为在CPU芯片中集成了比较大的寄存器，从而就<strong>实现了多条数据导入和多条数据相加操作都可以在一条指令周期内完成</strong>，减少了执行CPU的指令数，进一步也就提升了计算速度。</p><p>目前支持AVX的CPU芯片，最高已经可以支持512位的寄存器，从而可以实现一个寄存器中保存16个浮点数的能力。因此，相比传统的单个浮点数的计算来说，其计算速度最高可以提升16倍，所以对计算密集型的软件性能提升帮助很大。而对于GPU来说，也正是因为它可以实现通过单条指令来运行矩阵或向量计算，才可以在数据处理和人工智能领域有比较大的性能优势。</p><h2>如何使用SIMD技术来提升软件性能？</h2><p>在了解了AVX向量指令集技术后，接下来我们要解决的问题就是：如何在软件开发的过程中，使用这种技术来提升软件性能呢？</p><p>实际上，目前很多的编程语言都可以支持基于SIMD的编码开发。所以接下来，我会针对C/C++和Java这两种使用广泛的编程语言，来带你掌握SIMD技术的具体实现。</p><h3>基于C/C++的SIMD实现</h3><p>事实上，针对AVX指令集，目前的CPU硬件厂商已经把它的基本功能封装成了C函数库，所以对于C/C++的编程用户来说，就可以比较方便地使用AVX指令集开发程序。那接下来，我们就先来看一下在C/C++语言中，是如何使用AVX优化执行性能的吧。</p><p>首先，我们来看一个具体的例子。在如下所示的函数中，是使用传统的指令实现的两个double类型的数组求和操作：</p><pre><code>void vectorAdd(double* a, double* b, double* c){
 

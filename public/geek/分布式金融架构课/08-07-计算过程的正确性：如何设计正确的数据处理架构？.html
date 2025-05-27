@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是任杰。这节课我和你聊一聊怎么设计一个能正确处理数据的架构。</p><p>只把一件事情做正确很容易，难的是把所有的事情都做正确。当然了，绝对的完美是很难达到的，那退而求其次，我们有没有可能设计出一种架构来减少犯错误的可能性呢？或者再退一步，如果出现了错误，我们能不能准确地知道错误出在什么地方呢？</p><p>金融行业是有强监管要求的。金融系统不仅仅要求你正确地实现系统，而且还要求你能解释系统为什么是正确的。</p><p>所以这节课我会带你掌握<strong>事件溯源</strong>（Event Sourcing）的核心设计。这个架构是金融行业多年来沉淀下来的行之有效的正确性解决方案。你掌握了这个架构，金融行业正确性的问题也就基本解决了。</p><h2>基本概念</h2><h3>游戏举例</h3><p>不知道你有没有玩过联网的5v5即时对战手游。10个人通过手机玩游戏，每个人都能看到其他人在游戏里的情况。虽然手机信号不太稳定，可能还会临时断网，但不管网络条件怎么恶劣，所有人手机里的游戏情况都是一样的。这就是多人游戏的正确性。</p><p>金融系统和游戏一样，对正确性都有很高的要求，这两个行业的架构也有类似之处。所以接下来我在介绍事件溯源设计的时候也会举一些游戏的例子，方便你理解。</p><h3>关键术语</h3><p>我们在<a href="https://time.geekbang.org/column/article/325378">第4节课</a>和<a href="https://time.geekbang.org/column/article/327137">第5节课</a>介绍了领域驱动设计。事件溯源是领域驱动设计理论关于正确性的重要内容。在事件溯源里有三个重要的术语：</p><!-- [[[read_end]]] --><p>1.命令（command）<br>
 

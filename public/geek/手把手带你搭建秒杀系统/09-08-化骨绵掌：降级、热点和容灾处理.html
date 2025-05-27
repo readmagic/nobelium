@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是志东，欢迎和我一起从零打造秒杀系统。</p><p>上节课我们介绍了秒杀的削峰，你在手写秒杀系统的时候，可以采用验证码/问答题、异步消息队列或者限流的方式进行削峰，以此平滑流量峰值，减轻单位时间分片内的系统压力。这节课我们将把重点放在其他高可用的方面——降级、热点数据和容灾，<strong>持续打造秒杀系统的高可用</strong>。</p><p>当秒杀活动开启，流量洪峰来临时，交易系统压力陡增，具体表现一般会包括CPU升高，IO等待变长，请求响应时间TP99指标变差，整个系统变得越来越不稳定。为了力保核心交易流程，我们需要对非核心的一些服务进行降级，减轻系统负担，这种降级一般是有损的，属于“弃卒保帅”。</p><p>而秒杀的核心问题，是要解决单个商品的高并发读和高并发写的问题，这是典型的热点数据问题，我们需要有相应的机制，避免热点数据打垮系统。</p><p><strong>机房容灾其实不仅仅是秒杀系统需要思考的</strong>，重要的软件系统，不管是互联网应用，还是传统应用，比如银行系统等，都需要考虑机房容灾的问题。不同的场景，容灾的设计也不尽相同，这节课我们将从常见的互联网公司的角度，看看他们一般会怎么搭建交易系统的容灾。</p><h2>降级</h2><p>我们先说说“降级”，其实和削峰一样，降级解决的也是有限的机器资源和超大的流量需求之间的矛盾。如果你的资源够多，或者你的流量不够大，就不需要对系统进行降级了；只有当资源和流量的矛盾突出时，我们才需要考虑系统的降级。</p><!-- [[[read_end]]] --><p>前面已经介绍了，降级一般是有损的，那么必然要有所牺牲，下面介绍几种常见的降级：</p><ul>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是大圣。</p><p>上一讲我们学习了不少组件库里的经典组件，用TypeScript搭建起了TypeScript + Vite + Sass的组件库开发基础环境，并且实现了Container布局组件。</p><p>今天我们来聊另外一个大幅提升组件库代码可维护性的手段：单元测试。在理解单元测试来龙去脉的基础上，我还会给你演示，如何使用测试驱动开发的方式实现一个组件，也就是社区里很火的TDD开发模式。</p><h2>单元测试</h2><p>单元测试（Unit Testing），是指对软件中的最小可测试单元进行检查和验证，这是百度百科对单元测试的定义。而我的理解是，在我们日常代码开发中，会经常写Console来确认代码执行效果是否符合预期，这其实就算是测试的雏形了，我们把代码中的某个函数或者功能，传入参数后，校验输出是否符合预期。</p><p>下面的代码中我们实现了一个简单的add函数,  并且使用打印3和add(1,2)的结果来判断函数输出。</p><p>add函数虽然看起来很简单，但实际使用时可能会遇到很多情况。比如说x如果是字符串，或者对象等数据类型的时候，add结果是否还可以符合预期？而且add函数还有可能被你的同事不小心加了其他逻辑，这都会干扰add函数的行为。</p><pre><code class="language-javascript">function add(x,y){
 

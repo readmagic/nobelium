@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是海纳。</p><p>在前面的课程里，我们讲解了进程内部的具体布局，以及每一个部分的功能和作用。你会发现，所有的例子都是用C/C++写的，我相信你在学习的过程中，心里可能会产生这样的疑问：<strong>那Java和Python语言是怎么运行起来的呢？</strong></p><p>有这个疑问非常合理。我曾经讲过C/C++编译的结果，它在linux上是ELF文件，在windows上是exe文件，这两种文件都可以直接被操作系统加载运行的二进制文件。另外，C/C++源代码也可以被编译成动态链接库文件。</p><p>而在Java语言里，程序员都知道Java源代码被javac编译以后，生成的是字节码文件，也就是class文件，而且不管编译所使用的操作系统是什么，相同的Java源码必然得到相同的class文件。class文件显然与上面C/C++编译的二进制文件都不相同，因为它与编译的平台无关。</p><p>这节课，我们就围绕着Java是怎么运行起来的这个问题逐层展开，在这个过程中，我会教你如何阅读和分析字节码，以及猜测它的JIT结果。所以通过这节课的学习，你不仅能了解到Java字节码的核心知识、JVM中的解释器和JIT编译器的原理，而且，还能进一步理解JVM虚拟机。在这个基础上，你就能写出更高效、对编译器更友好的程序，而且碰到桥接方法这一类Java中非常抽象和难以理解的概念时，也能着手分析。</p><!-- [[[read_end]]] --><p>既然Java源代码都被编译成了字节码文件，那我们就从Java字节码讲起吧。</p><h2>Java字节码</h2><p>我们先在某个目录下创建一个名为Main.java的Java源文件：</p><pre><code>import java.lang.Math;
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是周爱民。</p><p>上一讲的<code>for</code>语句为你揭开了JavaScript执行环境的一角。在执行系统的厚重面纱之下，到底还隐藏了哪些秘密呢？那些所谓的执行环境、上下文、闭包或块与块级作用域，到底有什么用，或者它们之间又是如何相互作用的呢？</p><p>接下来的几讲，我就将重点为你讲述这些方面的内容。</p><h2>用中断（Break）代替跳转</h2><p>在Basic语言还很流行的时代，许多语言的设计中都会让程序代码支持带地址的“语句”。例如，Basic就为每行代码提供一个标号，你可以把它叫做“<strong>行号</strong>”，但它又不是绝对物理的行号，通常为了增减程序的方便，会使用“1，10，20…...”等等这样的间隔。如果想在第10行后追加1行，就可以将它的行号命名为“11”。</p><p>行号是一种很有历史的程序逻辑控制技术，更早一些可以追溯到汇编语言，或可以手写机器代码的时代（确实存在这样的时代）。那时由于程序装入位置被标定成内存的指定位置，所以这个位置也通常就是个地址偏移量，可以用数字化或符号化的形式来表达。</p><p>所有这些“为代码语句标示一个位置”的做法，其根本目的都是<span class="orange">为了实现“GOTO跳转”</span>，任何时候都可以通过“GOTO 标号”的语法来转移执行流程。</p><p>然而，这种黑科技在20世纪的60~70年代就已经普遍地被先辈们批判过了。这样的编程方式只会大大地降低程序的可维护性，其正确性或正确性验证都难以保障。所以，后面的故事想必你都知道了，半个多世纪之前开始的<strong>“结构化”运动</strong>一直影响至今，包括现在我与你讨论的这个JavaScript，都是“结构化程序设计”思想的产物。</p><!-- [[[read_end]]] --><p>所以，简单地说：JavaScript中没有GOTO语句了。取而代之的，是<strong>分块代码</strong>，以及<strong>基于代码分块的流程控制技术</strong>。这些控制逻辑基于一个简单而明了的原则：<span class="orange">如果代码分块中需要GOTO的逻辑，那么就为它设计一个“自己的GOTO”</span>。</p><p>这样一来，所有的GOTO都是“块（或块所在语句）自己知道的”。这使得程序可以在“自己知情的前提下自由地GOTO”。整体看起来还不错，很酷。然而，问题是那些“标号”啊，或者“程序地址”之类的东西已经被先辈们干掉了，因此就算设计了GOTO也找不到去处，那该怎么办呢？</p><h3>第一种中断</h3><p>第一种处理方法最为简洁，就是<strong>约定“可以通过GOTO到达的位置”</strong>。</p><p>在这种情况下，JavaScript将GOTO的“离开某个语句”这一行为理解为“中断（Break）该语句的执行”。由于这个中断行为是明确针对于该语句的，所以“GOTO到达的位置”也就可以毫无分歧地约定为该语句（作为代码块）的结束位置。这是“break”作为子句的由来。它用在某些“可中断语句（<em>BreakableStatement</em>）”的内部，用于中断并将程序流程“跳转（GOTO）到语句的结束位置”。</p><p>在语法上，这表示为（该语法只作用于对“可中断语句”的中断）：</p><blockquote>
 

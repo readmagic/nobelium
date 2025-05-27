@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。</p><p>作为一名技术人员，我想你肯定知道什么是编程，那你有没有听说过“<strong>元编程（Meta-Programming）</strong>”这个概念呢？</p><p>元编程是计算机语言提供的一项重要能力。这么说吧，如果你要编写一些比较厉害的程序，像是Java世界里的Spring、Hibernate这样的库，以及C++的STL库等这样级别的程序，也就是那些通用性很强、功能强大的库，元编程功能通常会给予你巨大的帮助。</p><p>我还可以从另一个角度来评价元编程功能。那就是善用计算机语言的元编程功能，某种意义上能让你修改这门语言，让它更满足你的个性化需求，为你量身打造！</p><p>是不是觉得元编程还挺有意思的？今天这一讲，我就带你来理解元编程的原理，并一起探讨如何用编译技术来支持元编程功能的实现。</p><p>首先，我们需要透彻地了解一下什么是元编程。</p><h2>什么是元编程（Meta-Programming）？</h2><p>元编程是一种把程序当做数据来处理的技术。因此，采用元编程技术，你可以把一个程序变换成另一个程序。</p><p><img src="https://static001.geekbang.org/resource/image/b7/80/b760b926a4f4b5ab81ed55d1b5039c80.jpg" alt=""></p><center><span class="reference">图1：元编程处理的对象是程序</span></center><p>那你可能要问了，既然把程序作为处理对象的技术就是元编程技术，那么编译器不就是把程序作为处理对象的吗？经过处理，编译器会把源代码转换成目标代码。类似的还有对源代码的静态分析工具、代码生成工具等，都算是采用了元编程技术。</p><!-- [[[read_end]]] --><p>不过，我们在计算机语言里说的元编程技术，通常是指用这门语言本身提供的功能，就能处理它自己的程序。</p><p>比如说，在C语言中，你可以用<strong>宏功能</strong>。经过C语言的预处理器处理以后，那些宏就被转换成了另外的代码。下面的MUL宏，用起来像一个函数，但其实它只是做了一些字符串的替换工作。它可以说是最原始的元编程功能了。你在阅读像Python和Julia的编译器时，就会发现有不少地方采用了宏的功能，能让代码更简洁、可读性更好。</p><pre><code>#define MUL(a,b) (a*b)
 

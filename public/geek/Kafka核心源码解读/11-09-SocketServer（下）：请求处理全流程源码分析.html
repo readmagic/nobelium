@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是胡夕。前几节课，我们花了很多时间学习SocketServer核心组件的源代码，包括Acceptor线程、Processor线程，也研究了Data plane和Control plane针对不同类型请求的处理方案。</p><p>今天，我带你完整地梳理一下Kafka请求处理的全流程。这个全流程涉及到多个源码文件，为了弄懂其中的原理，我们必须在不同的方法间“跳来跳去”。比起学习单个源码文件，将多个文件中的方法组合在一起串成完整流程要难得多，因此，你最好多花一些时间，仔细研读一下跟这套流程相关的所有方法。</p><p>当然了，你可能有这样的疑问：“我为什么要关心请求被处理的流程呢？阅读这部分源码的意义是什么呢？”其实，<strong>弄明白这部分原理，非常有助于我们有针对性地调优Broker端请求处理的性能</strong>。</p><p>举个例子，Broker端有两个参数与这个流程相关，分别是num.network.threads和num.io.threads。如果我们不掌握请求被处理的流程，是没有办法有的放矢地调整这些参数的。</p><p>要知道，Kafka官网可没有告诉我们，什么是网络线程和I/O线程。如果不明白“请求是被网络线程接收并放入请求队列的”这件事，我们就很可能犯这样的错误——当请求队列快满了的时候，我们会以为是网络线程处理能力不够，进而盲目地增加num.network.threads值，但最终效果很可能是适得其反的。我相信，在今天的课程结束之后，你就会知道，碰到这种情况的时候，我们更应该增加的是num.io.threads的值。</p><!-- [[[read_end]]] --><p>num.io.threads参数表征的就是I/O线程池的大小。所谓的I/O线程池，即KafkaRequestHandlerPool，也称请求处理线程池。这节课我会先讲解<strong>KafkaRequestHandlerPool源码</strong>，再具体解析<strong>请求处理全流程的代码</strong>。</p><h2>KafkaRequestHandlerPool</h2><p><strong>KafkaRequestHandlerPool是真正处理Kafka请求的地方</strong>。切记，Kafka中处理请求的类不是SocketServer，也不是RequestChannel，而是KafkaRequestHandlerPool。</p><p>它所在的文件是KafkaRequestHandler.scala，位于core包的src/main/scala/kafka/server下。这是一个不到400行的小文件，掌握起来并不难。</p><p>我先用一张图给你展示下这个文件里都有哪些组件：</p><p><img src="https://static001.geekbang.org/resource/image/d3/f9/d3e7713bab984782dec557c534c558f9.jpg" alt=""></p><ul>
 

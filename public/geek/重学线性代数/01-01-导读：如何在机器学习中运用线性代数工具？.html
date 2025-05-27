@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱维刚。欢迎你跟我一起重学线性代数！</p><p>在开篇词中，我和你大致讲过我自己的经历，从2006年开始到现在14年的时间里，我都专注于机器学习领域。对于<strong>线性代数</strong>在机器学习中的应用，我非常了解。而这也是线性代数最主要的应用场景之一。因此，今天第一节课，我想先和你聊一聊，如何在机器学习中运用线性代数工具，在我们开始自下而上的学习之前，先从上层来看一看。</p><p>我们都知道，“数据”是机器学习的前提，机器学习的第一步就是要进行<strong>数据</strong>的收集、预处理和特征提取；而<strong>模型</strong>就是通过数据来学习的算法；<strong>学习</strong>则是一个循环过程，一个自动在数据中寻找模式，并不停调优模型参数的过程。那我们就从机器学习的三个核心概念：数据、模型和学习说起。</p><p><img src="https://static001.geekbang.org/resource/image/3a/32/3a2a7433d5d13b676abe05041a1bcd32.png" alt=""></p><p>你看，不论是模型，还是学习，都涉及数据，而数据加上模型和学习，就是数学的一般过程了，也就是：观察、实验、推理和抽象。所以，我认为学好数学，不仅有利于理解复杂的机器学习系统，还能调优算法参数，甚至能帮助你创建新的机器学习解决方案。</p><h2>从机器学习到线性代数</h2><p>那机器学习和线性代数之间到底有着怎样的关系呢？我想，用一个实际的机器学习算法的例子来解释，你可能更容易搞清楚。接下来，我使用KNN（K-Nearest Neighbor，K最近邻分类算法）来让你简单了解一下机器学习，以及它和线性代数之间的关系。</p><!-- [[[read_end]]] --><p>之所以选KNN分类算法，因为它是一个理论上比较成熟的方法，也是最简单的机器学习算法之一。这个方法的思路是：如果一个样本在特征空间中的K个最相似（即特征空间中最邻近）的样本中的大多数属于某一个类别，则该样本也属于这个类别。</p><p>这里有个前提，KNN算法中，所选择的“邻居”都是已经正确分类的对象。KNN分类算法在分类决策上只依据最邻近的一个或者几个样本的类别，来决定待分样本所属的类别。我们通过图来理解的话或许更容易一些。</p><p><img src="https://static001.geekbang.org/resource/image/43/aa/439cefee464eb01ed110e70515f94eaa.png" alt=""></p><p>假设图片中那个绿色圆就要是我们要决策的对象，那么根据KNN算法它属于哪一类？是红色三角形还是蓝色四方形？</p><p>如果K=3（实线圆），也就是包含离绿色圆最近的3个，由于红色三角形所占比例为2/3，绿色圆就属于红色三角形那个类。但如果K=5（虚线圆），就是包含离绿色圆最近的5个，由于蓝色四方形比例为3/5，绿色圆就属于蓝色四方形那个类。</p><h2>鸢尾花分类问题中的线性代数</h2><p>通过前面这个小例子，你应该已经理解了KNN算法的概念。那么接下来，我们就试着使用KNN在给定鸢尾花特征值的情况下，给鸢尾花做花种分类，带你来实际看一下线性代数在这里起到的作用。</p><p>特别说明一下，<strong>鸢尾花分类问题</strong>是一个国际上通用的案例，一般都被作为机器学习入门来使用，所以它的数据集也是公开的。</p><h3>1.数据集的收集、加载和分析</h3><p>首先，我们要做的是数据集的收集、加载和分析，你也可以点击<a href="https://www.kaggle.com/notlir/iriscsv">这里</a>下载原始数据集，来看看原始数据长什么样，下面是获取和加载数据的代码，sklearn数据集已经包含了样本数据，你可以直接用。</p><pre><code>import pandas as pd
 

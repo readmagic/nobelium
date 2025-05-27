@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是欧创新。</p><p>在DDD分层架构和微服务代码模型里，我们根据领域对象的属性和依赖关系，将领域对象进行分层，定义了与之对应的代码对象和代码目录结构。分层架构确定了微服务的总体架构，微服务内的主要对象有服务和实体等，它们一起协作完成业务逻辑。</p><p>那在运行过程中，这些服务和实体在微服务各层是如何协作的呢？今天我们就来解剖一下基于DDD分层架构的微服务，看看它的内部结构到底是什么样的。</p><h2>服务的协作</h2><h3>1. 服务的类型</h3><p>我们先来回顾一下分层架构中的服务。按照分层架构设计出来的微服务，其内部有Facade服务、应用服务、领域服务和基础服务。各层服务的主要功能和职责如下。</p><p><strong>Facade服务：</strong>位于用户接口层，包括接口和实现两部分。用于处理用户发送的Restful请求和解析用户输入的配置文件等，并将数据传递给应用层。或者在获取到应用层数据后，将DO组装成DTO，将数据传输到前端应用。</p><p><strong>应用服务：</strong>位于应用层。用来表述应用和用户行为，负责服务的组合、编排和转发，负责处理业务用例的执行顺序以及结果拼装，对外提供粗粒度的服务。</p><p><strong>领域服务：</strong>位于领域层。领域服务封装核心的业务逻辑，实现需要多个实体协作的核心领域逻辑。它对多个实体或方法的业务逻辑进行组合或编排，或者在严格分层架构中对实体方法进行封装，以领域服务的方式供应用层调用。</p><!-- [[[read_end]]] --><p><strong>基础服务：</strong>位于基础层。提供基础资源服务（比如数据库、缓存等），实现各层的解耦，降低外部资源变化对业务应用逻辑的影响。基础服务主要为仓储服务，通过依赖倒置提供基础资源服务。领域服务和应用服务都可以调用仓储服务接口，通过仓储服务实现数据持久化。</p><h3>2. 服务的调用</h3><p>我们看一下下面这张图。微服务的服务调用包括三类主要场景：微服务内跨层服务调用，微服务之间服务调用和领域事件驱动。</p><p><img src="https://static001.geekbang.org/resource/image/e5/db/e5d025a6fd69d1f2cf2a1af53253abdb.png" alt=""></p><p><strong>微服务内跨层服务调用</strong></p><p>微服务架构下往往采用前后端分离的设计模式，前端应用独立部署。前端应用调用发布在API网关上的Facade服务，Facade定向到应用服务。应用服务作为服务组织和编排者，它的服务调用有这样两种路径：</p><ul>
 

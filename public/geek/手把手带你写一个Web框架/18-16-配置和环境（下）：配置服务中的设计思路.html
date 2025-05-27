@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是轩脉刃。</p><p>上一节课，我们已经定义好了配置文件服务的接口，这节课就来实现这些接口。先来规划配置文件服务目录，按照上一节课分析的，多个配置文件按类别放在不同配置文件夹中，在框架文件夹中，我们将配置文件接口代码写在框架文件夹下的contract/config.go文件中，将具体实现放在provider/config/目录中。</p><h2>配置服务的设计</h2><p>不过设计优于实现，动手之前我们先思考下实现这个接口要如何设计。</p><p>首先，要读取一下配置文件夹中的文件。上节课说了，最终的配置文件夹地址为，应用服务的 ConfigFolder 下的环境变量对应的文件夹，比如 ConfigFolder/development。但是还有一个问题，就是配置文件的格式的选择。</p><p><strong>目前市面上的配置文件格式非常多，但是很难说哪种配置文件比较好，完全是不同平台、不同时代下的产物</strong>。比如Windows开发的配置常用INI、Java开发配置常用Properties，我这里选择了使用YAML格式。</p><h3>配置文件的读取</h3><p>YAML格式是在Golang的项目中比较通用的一种格式，比如Kubernetes、Docker、Swagger等项目，都是使用YAML作为其配置文件的。YAML配置文件除了能表达基础类型比如string、int、float 之外，也能表达复杂的数组、结构等数据类型。</p><!-- [[[read_end]]] --><p>目前最新的YAML版本为1.2版本，配置的说明文档在<a href="https://yaml.org/">官网</a>上。它提供多种语言的解析库，其中<a href="https://github.com/go-yaml/yaml">go-yaml</a> 就是非常通用的一个Go解析库，这个库的封装性非常好。</p><p>我们通过第一节课讲的快速阅读一个库的命令 <code>go doc github.com/go-yaml/yaml |grep '^func'</code>，可以看出来这个库对外提供的方法非常明确，一共三个方法：</p><ul>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是蒋德钧。</p><p>在实际应用Redis缓存时，我们经常会遇到一些异常问题，概括来说有4个方面：缓存中的数据和数据库中的不一致；缓存雪崩；缓存击穿和缓存穿透。</p><p>只要我们使用Redis缓存，就必然会面对缓存和数据库间的一致性保证问题，这也算是Redis缓存应用中的“必答题”了。最重要的是，如果数据不一致，那么业务应用从缓存中读取的数据就不是最新数据，这会导致严重的错误。比如说，我们把电商商品的库存信息缓存在Redis中，如果库存信息不对，那么业务层下单操作就可能出错，这当然是不能接受的。所以，这节课我就重点和你聊聊这个问题。关于缓存雪崩、穿透和击穿等问题，我会在下一节课向你介绍。</p><p>接下来，我们就来看看，缓存和数据库之间的数据不一致是怎么引起的。</p><h2>缓存和数据库的数据不一致是如何发生的？</h2><p>首先，我们得清楚“数据的一致性”具体是啥意思。其实，这里的“一致性”包含了两种情况：</p><ul>
 

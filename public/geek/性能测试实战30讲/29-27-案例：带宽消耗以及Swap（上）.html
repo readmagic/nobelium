@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>今天我们来看一个真实的案例。事情是这样的，之前有人在微信上问我一个问题，这个问题的现象很典型：典型的TPS上不去，响应时间增加，资源用不上。</p><p>大概的情况是这样的：有两台4C8G的服务器，一台服务器上有2个Tomcat，一台服务器上是DB。压测的混合场景有4个功能模块，其中3个访问一个Tomcat，另外一个访问一个Tomcat。</p><p>Tomcat的监控页面如下：</p><p><img src="https://static001.geekbang.org/resource/image/53/0b/532bbd1525be0ad0d08da7335645260b.png" alt=""></p><p>应用服务器系统资源监控页面如下：</p><p><img src="https://static001.geekbang.org/resource/image/19/e5/1944bc692902fed979815a538d879be5.png" alt=""></p><p>数据库服务器系统资源监控如下：</p><p><img src="https://static001.geekbang.org/resource/image/50/f0/50a996ac196dbfd2b9a23858e87dc8f0.png" alt=""></p><p>JMeter结果如下：</p><p><img src="https://static001.geekbang.org/resource/image/f8/33/f8b228a61b980c338046fbb3c8875033.png" alt=""></p><p>综上现象就是，单业务场景执行起来并不慢，但是一混合起来就很慢，应用服务器和数据库服务器的系统资源使用率并不高。请问慢在哪？</p><p>这是非常典型的询问性能问题的方式，虽然多给了系统资源信息，但是这些信息也不足以说明瓶颈在哪。</p><p>为什么呢？在现在多如牛毛的监控工具中，除非我们在系统中提前做好分析算法或警告，否则不会有监控工具主动告诉你， 监控出的某个数据有问题，而这个只能靠做性能分析的人来判断。</p><p>我在很多场合听一些“专家”说：性能分析判断要遵守木桶原理。但是在做具体技术分析的时候，又不给人说明白木桶的短板在哪里。这就好像，一个赛车手说要是有一个各方面都好的车，我肯定能得第一名，但是，我没有车。</p><!-- [[[read_end]]] --><p>话说出来轻而易举，但是请问木桶的短板怎么判断呢？因为CPU高，所以CPU就是短板吗？所以就要加CPU吗？这肯定是不对的。</p><p>因为这个例子并不大，所以可以细细地写下去。今天文章的目的就是要告诉你，性能问题分析到底应该是个什么分析思路。</p><h2>分析的第一阶段</h2><h3>画架构图</h3><p>做性能测试时，我们需要先画一个架构图，虽然简单，但是让自己脑子里时时记得架构图，是非常有必要的。因为架构级的分析，就是要胸怀架构，在看到一个问题点时，可以从架构图中立即反应出来问题的相关性。</p><p><img src="https://static001.geekbang.org/resource/image/fe/2c/fe8abb747bdeebfefd833ae8a5f4e12c.jpg" alt=""></p><p>上面这张图是自己脑子里的逻辑图，数据在网络中的流转并不是这样，而是像下图这样。</p><p><img src="https://static001.geekbang.org/resource/image/72/8c/72fdc9310d5678fc1988f96f3026b28c.jpg" alt=""></p><p>数据流是从压力机到应用服务器，应用服务器再到网络设备，再到数据库服务器；数据库把数据返回给应用服务器，应用服务器再通过网络设备给压力机。</p><p>如果把里面的Redis、ActiveMQ和MySQL的逻辑再细说明白，那么这个小小的应用都可以描述好一会。所以这里，我先大概描述一下，如果后面的分析中涉及到了相应的逻辑，再一点点加进来。</p><p>应用服务器只有一台，上面有两个Tomcat实例；数据库服务器有三个应用。混合场景中有四个业务，其中三个访问Tomcat1，第四个访问Tomcat2。</p><h3>场景描述</h3><p>有了场景大概的画像之后，我们再来看场景。根据测试工程师描述：</p><ol>
 

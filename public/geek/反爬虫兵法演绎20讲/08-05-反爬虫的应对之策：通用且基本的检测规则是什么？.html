@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是DS Hunter。</p><p>上节课，我通过爬虫方的一整个抓取流程，给你讲了爬虫是如何低调地爬取站点，闷声发大财的。那么今天，我们就要看看反爬虫方要如何应对爬虫的抓取了。</p><p>我们都知道，当爬虫诞生的时候，反爬虫的需求就诞生了，而反爬虫这个职业，也就水到渠成，自然而然地出现了。那么我们要想进行反爬虫，要做的第一件事是什么呢？</p><p>没错，就是<strong>识别爬虫</strong>。爬虫如果无法被识别出来，那么剩下的所有架构设计以及扩展性都是在瞎扯。爬虫识别，可以说是整个反爬虫的核心。</p><p>这节课是反爬虫的第一课，因此我们只会聚焦一个问题：反爬虫通用且基本的检测规则，是什么？</p><h2>通用检测规则</h2><p>考虑到是通用且基础，我们先排除一些定制化的拦截检测，总结出如下几种检测方式：</p><ol>
 

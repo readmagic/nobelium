@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在写今天这篇文章前，我又翻了翻三年前我在WeMobileDev公众号写过的<a href="http://mp.weixin.qq.com/s/Z7oMv0IgKWNkhLon_hFakg">《Android内存优化杂谈》</a>，今天再看，对里面的一句话更有感触：“我们并不能将内存优化中用到的所有技巧都一一说明，而且随着Android版本的更替，可能很多方法都会变的过时”。</p><p>三年过去了，4GB内存的手机都变成了主流。那内存优化是不是变得不重要了？如今有哪些技巧已经淘汰，而我们又要升级什么技能呢？</p><p>今天在4GB内存时代下，我就再来谈谈“内存优化”这个话题。</p><h2>移动设备发展</h2><p>Facebook有一个叫<a href="http://github.com/facebook/device-year-class">device-year-class</a>的开源库，它会用年份来区分设备的性能。可以看到，2008年的手机只有可怜的140MB内存，而今年的华为Mate 20 Pro手机的内存已经达到了8GB。</p><p><img src="https://static001.geekbang.org/resource/image/8d/f1/8d1367526799c38d525910bfb5a618f1.png" alt=""></p><p>内存看起来好像是我们都非常熟悉的概念，那请问问自己，手机内存和PC内存有哪什么差异呢？8GB内存是不是就一定会比4GB内存更好？我想可能很多人都不一定能回答正确。</p><p>手机运行内存（RAM）其实相当于我们的PC中的内存，是手机中作为App运行过程中临时性数据暂时存储的内存介质。不过考虑到体积和功耗，手机不使用PC的DDR内存，采用的是LPDDR RAM，全称是“低功耗双倍数据速率内存”，其中LP就是“Lower Power”低功耗的意思。</p><!-- [[[read_end]]] --><p>以LPDDR4为例，带宽 = 时钟频率 × 内存总线位数 ÷ 8，即1600 × 64 ÷ 8 = 12.8GB/s，因为是DDR内存是双倍速率，所以最后的带宽是12.8 × 2 = 25.6GB/s。</p><p><img src="https://static001.geekbang.org/resource/image/2f/44/2f26e93ac941f30bb4037648640aca44.png" alt=""></p><p>目前市面上的手机，主流的运行内存有LPDDR3、LPDDR4以及LPDDR4X。可以看出LPDDR4的性能要比LPDDR3高出一倍，而LPDDR4X相比LPDDR4工作电压更低，所以也比LPDDR4省电20%～40%。当然图中的数据是标准数据，不同的生成厂商会有一些低频或者高频的版本，性能方面高频要好于低频。</p><p>那手机内存是否越大越好呢？</p><p>如果一个手机使用的是4GB的LPDDR4X内存，另外一个使用的是6GB的LPDDR3内存，那么无疑选择4GB的运行内存手机要更加实用一些。</p><p>但是内存并不是一个孤立的概念，它跟操作系统、应用生态这些因素都有关。同样是1GB内存，使用Android 9.0系统会比Android 4.0系统流畅，使用更加封闭、规范的iOS系统也会比“狂野”的Android系统更好。今年发布的iPhone XR和iPhone XS使用的都是LPDDR4X的内存，不过它们分别只有3GB和4GB的大小。</p><h2>内存问题</h2><p>在前面所讲的崩溃分析中，我提到过“内存优化”是崩溃优化工作中非常重要的一部分。类似OOM，很多的“异常退出”其实都是由内存问题引起。那么内存究竟能引发什么样的问题呢？</p><p>1.两个问题</p><p><img src="https://static001.geekbang.org/resource/image/c2/ce/c26a9351868bb82abd7ada028275f5ce.png" alt=""></p><p>内存造成的第一个问题是<strong>异常</strong>。在前面的崩溃分析我提到过“异常率”，异常包括OOM、内存分配失败这些崩溃，也包括因为整体内存不足导致应用被杀死、设备重启等问题。不知道你平时是否在工作中注意过，如果我们把用户设备的内存分成2GB以下和2GB以上两部分，你可以试试分别计算他们的异常率或者崩溃率，看看差距会有多大。</p><p>内存造成的第二个问题是<strong>卡顿</strong>。Java内存不足会导致频繁GC，这个问题在Dalvik虚拟机会更加明显。而ART虚拟机在内存管理跟回收策略上都做大量优化，内存分配和GC效率相比提升了5～10倍。如果想具体测试GC的性能，例如暂停挂起时间、总耗时、GC吞吐量，我们可以通过发送<strong>SIGQUIT信号获得ANR日志</strong>。</p><pre><code>adb shell kill -S QUIT PID
 

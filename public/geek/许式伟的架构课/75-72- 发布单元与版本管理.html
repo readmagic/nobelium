@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是七牛云许式伟。</p><p>前面我们在 “<a href="https://time.geekbang.org/column/article/182924">68 | 软件工程的宏观视角</a>” 一讲中谈到：一个软件工程往往是生命周期以数年甚至数十年计的工程。对于传统工程，我们往往把一个工程同时也称之为项目，项目工程。但软件工程不同，虽然我们平常也有项目的概念，但软件工程并不是一个项目，而是无数个项目。每个项目只是软件工程中的一个里程碑（Milestone）。</p><p>这意味着软件工程终其完整的生命周期中，是在反复迭代与演进的。这种反复迭代演进的工程，要保证其质量实际上相当困难。</p><h2>源代码版本管理</h2><p>怎么确保软件工程的质量？</p><p>很容易想到的一个思路是，万一出问题了，就召回，换用老版本。</p><p>这便是版本管理的来由。当然，如果仅仅只是为了召回，只需要对软件的可执行程序进行版本管理就好了。但我们如果要进一步定位软件质量问题的原因，那就需要找到一个方法能够稳定再现它。</p><p>这意味着我们需要对软件的源代码也进行版本管理，并且它的版本与可执行程序的版本保持一一对应。</p><p>但实际上这事并没有那么简单。</p><p>从软件的架构设计可知，软件是分模块开发的，不同模块可能由不同团队开发，甚至有些模块是外部第三方团队开发。这意味着，从细粒度的视角来看，一个软件工程的生命周期中，包含着很多个彼此完全独立的子软件工程。这些子软件工程它们有自己独立的迭代周期，我们软件只是它们的 “客户”。</p><!-- [[[read_end]]] --><p>这种拥有独立的迭代周期的软件实体，我们称之为 “发布单元”。你可能直觉认为它就是模块，但是实际上两者有很大的不同。</p><p>对于一个发布单元，我们直观的一个感受是它有自己独立的源代码仓库（repo）。</p><p>发布单元的输出不一定是可执行程序，它有如下可能：</p><ul>
 

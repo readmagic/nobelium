@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是郭朝斌。</p><p>在上一讲，我们打造了自己的联网智能电灯，你可以通过手机小程序来控制它的打开和关闭，也就是实现远程控制。</p><p>其实，我们还可以进一步提高体验，让智能电灯可以基于环境的明暗来自动地打开和关闭。要做到这一点并不难，可以分为两个阶段，第一阶段是打造传感器设备来感知光照的强弱，判断出环境的明暗状态，第二阶段是创建一个场景联动，根据传感器的数值来控制智能电灯的状态。</p><p>这一讲，我先带你一步一步地实现第一阶段的工作（如有需要，你可以根据<a href="https://shimo.im/sheets/D3VVPdwcYRhhQRXh/MODOC">这份文档</a>自行采购相关硬件）。</p><h2>第一步：通信技术</h2><p>首先，我们为光照传感器设备选择通信技术。</p><p>因为光照传感器设备的部署位置比较灵活，不太可能像智能电灯一样连接房间里的电源线，所以我们要用一种比Wi-Fi功耗更低的通信技术。这样的话，就算使用电池供电，也可以长时间（一年以上）持续工作。</p><p>经过对比，我建议选择 BLE 低功耗蓝牙技术（关于通信技术的选择策略，你可以参考<a href="https://time.geekbang.org/column/article/306976">第2讲</a>）。随着智能手机的发展，蓝牙早已成为手机标配的通信技术，蓝牙芯片和协议栈的成熟度非常高，而且在设备的供应链方面，蓝牙芯片可以选择的供应商也非常多。</p><p>不过在正式开发之前，我还得为你补充说明一些BLE的相关知识。</p><p>BLE设备可以在4种模式下工作：</p><!-- [[[read_end]]] --><ol>
 

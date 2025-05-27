@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是程远。从今天这一讲，我们进入到了容器安全的模块。</p><p>容器安全是一个很大的话题，容器的安全性很大程度是由容器的架构特性所决定的。比如容器与宿主机共享Linux内核，通过Namespace来做资源的隔离，通过shim/runC的方式来启动等等。</p><p>这些容器架构特性，在你选择使用容器之后，作为使用容器的用户，其实你已经没有多少能力去对架构这个层面做安全上的改动了。你可能会说用<a href="https://katacontainers.io/">Kata Container</a>、<a href="https://gvisor.dev/">gVisor</a> 就是安全“容器”了。不过，Kata或者gVisor只是兼容了容器接口标准，而内部的实现完全是另外的技术了。</p><p>那么对于使用容器的用户，在运行容器的时候，在安全方面可以做些什么呢？我们主要可以从这两个方面来考虑：第一是赋予容器合理的capabilities，第二是在容器中以非root用户来运行程序。</p><p>为什么是这两点呢？我通过两讲的内容和你讨论一下，这一讲我们先来看容器的capabilities的问题。</p><h2>问题再现</h2><p>刚刚使用容器的同学，往往会发现用缺省 <code>docker run</code>的方式启动容器后，在容器里很多操作都是不允许的，即使是以root用户来运行程序也不行。</p><p>我们用下面的<a href="https://github.com/chengyli/training/tree/main/security/capability">例子</a>来重现一下这个问题。我们先运行<code>make image</code> 做个容器镜像，然后运行下面的脚本：</p><!-- [[[read_end]]] --><pre><code class="language-shell"># docker run --name iptables -it registry/iptables:v1 bash
 

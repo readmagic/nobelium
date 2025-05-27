@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是尹会生。</p><p>打印，是办公中必不可少的一步，比如在会议上，我们需要通过Excel表格向客户/领导展示工作成果。</p><p>但在使用Python对Excel进行打印的时候，我们还得给Python安装上Excel、Windows和硬件设备管理的库，过程极其复杂，远远达不到我们自动化办公的需要。尤其是面对类似的临时性需求，就更没必要使用Python了。</p><p>庆幸的是，Excel自带了打印功能，而我们可以利用Excel的扩展——“宏”来实现打印，并且通过VBA脚本增强“宏”的功能，从而实现批量打印，满足我们自动化办公的要求。</p><p>那么在今天这节课，我就带着你学习Excel的另一个自动化功能：“宏”和VBA脚本。</p><h3>宏和VBA脚本的用途</h3><p>宏是Excel自带的扩展功能，可以记录的内容包括对Excel格式和文字的修改，它会像录像机一样记录下你在Excel中的操作。当你有一系列的动作需要多次执行，并且每次执行动作的顺序又完全相同，就可以重新播放，把这些操作自动再执行一遍。所以对于办公中临时性的需求，使用宏要比掌握每个Excel操作对应的Python函数要更简单。</p><p>你可以使用宏的录制功能，把格式调整、复制粘贴、打印等重复操作记录下来，并保存成一个<strong>快捷键</strong><strong>。</strong>当你需要重复执行这条流水线作业时，就可以通过执行快捷键实现自动化操作。</p><!-- [[[read_end]]] --><p>不过，虽然宏能够像录像机一样通过重放功能实现自动化，但是它默认情况下只能实现部分功能的录制，也就是半自动化，要想把另一部分也自动化，就要使用宏的底层实现VBA脚本，例如像批量打印这些需求，就需要VBA脚本的循环扩充宏来实现自动化。</p><p>所以我在这节课，还会带你学习宏的底层实现VBA脚本，利用VBA脚本可以扩展宏的功能，把手动操作部分实现自动化。</p><p>那么接下来，我就通过对Excel的任意一个工作表进行打印的案例，给你具体讲解一下宏的录制和执行。</p><h3>如何实现Excel的批量打印</h3><h4>使用宏，实现单个工作表的打印</h4><p>为了方便你学习，我准备了一个包含6个工作表的Excel文件，这6个工作表命名分别为sheet1-sheet6。要想基于宏实现自动化打印，需要通过这个步骤来实现：</p><ol>
 

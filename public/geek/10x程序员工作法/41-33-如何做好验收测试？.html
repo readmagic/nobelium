@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是郑晔。</p><p>经过前面三讲的讲解，相信你对一个项目自动化应该是什么样子有了一个相对完整的认识：程序员写好程序，用构建脚本执行检查，提交代码，在服务器上打出一个发布镜像，部署到各个环境进行检查，检查好了，随时可以发布上线。</p><p>我们在前面的内容中只说了该检查，但怎么检查呢？这就轮到测试发挥作用了。</p><p>在“任务分解”的模块，我给你完整地介绍了一下开发者测试的概念，但在那个部分讲解的测试基本上还停留在单元测试和集成测试的范畴。对于整个应用该怎么测，我们并没有仔细讨论。</p><p>今天我们就来说说应用测试的话题：验收测试。</p><h2>验收测试</h2><p>验收测试（Acceptance Testing），是确认应用是否满足设计规范的测试。这种测试往往是站在用户的角度，看整个应用能否满足业务需求。</p><p>从名字上来看，验收应该是业务人员的事，但业务人员能做的最多只是验收，测试是他们无论如何也不太可能做仔细的。</p><p>所以，验收测试这件事，往往还是由技术团队自己完成，而且在很多公司，这就是测试人员的事。</p><p>时至今日，很多测试团队都拥有自动化的能力。所以，自动化验收测试自然是重点考虑对象。今天，我们的重点就是怎么做好自动化的验收测试。</p><p>其实，验收测试应该是人们最早想到的自动化测试，早在单元测试还不流行的年代，人们就开始了对自动化验收测试的探索。有不少团队甚至还构建了自己的框架，只不过，这种框架不是我们今天理解的测试框架，而是针对着一个应用的测试框架。</p><!-- [[[read_end]]] --><p>比如，我曾经见过有人为通信软件构建的一套完整的测试框架，甚至构建了属于自己的语言，测试人员的工作就是用这种特定的语言，对系统进行设置、运行，看它是否满足自己的预期。</p><p>相对来说，他们的这种做法已经非常成熟了。但更多团队的现实情况是，自己把对应用的访问做一个简单的封装，然后，写测试就是编写代码调用这个封装。</p><p>让验收测试从各自为战的混乱中逐渐有了体系的是行为驱动开发（Behavior Driven Development）这个概念的诞生，也就是很多人知道的 BDD。</p><h2>行为驱动开发</h2><p>行为驱动开发中的行为，指的是业务行为。BDD 希望促进业务人员与开发团队之间的协作，换句话说，<strong>如果你想做 BDD，就应该用业务语言进行描述。</strong></p><p>这与我们传统上理解的系统测试有着很大的差别，传统意义上的系统测试是站在开发团队的角度，所以，更多的是在描述系统与外部系统之间的交互，用的都是计算机的术语。</p><p>而 BDD 则让我们换了一个视角，用业务语言做系统测试，所以，它是一个更高级别的抽象。</p><p>BDD 是2003年由 Dan North 提出了来的。Dan North 不仅仅提出了概念，为了践行他的想法，他还创造了第一个 BDD 的框架：<a href="http://jbehave.org">JBehave</a>。后来又改写出基于 <a href="http://www.ruby-lang.org/en/">Ruby</a> 的版本<a href="http://dannorth.net/2007/06/17/introducing-rbehave/"> RBehave</a>，这个项目后来被并到 <a href="http://rspec.info">RSpec</a> 中。</p><p>今天最流行的 BDD 框架应该是 <a href="http://cucumber.io">Cucumber</a>，它的作者就是 RSpec 的作者之一 Aslak Hellesøy。</p><p>Cucunber 从最开始的 Ruby BDD 框架发展成今天支持很多不同程序设计语言的 BDD 测试框架，比如，常见的 Java、JavaScript、PHP 等等。</p><p>BDD 框架给我们最直观的感受就是它给我们提供的一套语言体系，供我们描述应用的行为，下面是一个例子，它描述了一个交易场景，应用需要根据交易结果判定是否要发出警告。你可以感受一下：</p><pre><code>Scenario:  trader is not alerted below threshold
 

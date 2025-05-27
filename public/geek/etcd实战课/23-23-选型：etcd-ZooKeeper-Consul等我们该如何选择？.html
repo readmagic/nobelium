@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是唐聪。</p><p>在软件开发过程中，当我们需要解决配置、服务发现、分布式锁等业务痛点，在面对<a href="https://github.com/etcd-io/etcd">etcd</a>、<a href="https://github.com/apache/zookeeper">ZooKeeper</a>、<a href="https://github.com/hashicorp/consul">Consul</a>、<a href="https://github.com/alibaba/nacos">Nacos</a>等一系列候选开源项目时，我们应该如何结合自己的业务场景，选择合适的分布式协调服务呢？</p><p>今天，我就和你聊聊主要分布式协调服务的对比。我将从基本架构、共识算法、数据模型、重点特性、容灾能力等维度出发，带你了解主要分布式协调服务的基本原理和彼此之间的差异性。</p><p>希望通过这节课，让你对etcd、ZooKeeper、Consul原理和特性有一定的理解，帮助你选型适合业务场景的配置系统、服务发现组件。</p><h2>基本架构及原理</h2><p>在详细和你介绍对比etcd、ZooKeeper、Consul特性之前，我们先从整体架构上来了解一下各开源项目的核心架构及原理。</p><h3>etcd架构及原理</h3><p>首先是etcd，etcd我们知道它是基于复制状态机实现的分布式协调服务。如下图所示，由Raft共识模块、日志模块、基于boltdb持久化存储的状态机组成。</p><p><img src="https://static001.geekbang.org/resource/image/5c/4f/5c7a3079032f90120a6b309ee401fc4f.png" alt=""></p><p>以下是etcd基于复制状态机模型的写请求流程：</p><ul>
 

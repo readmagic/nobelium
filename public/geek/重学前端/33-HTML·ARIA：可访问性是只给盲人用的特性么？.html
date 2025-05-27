@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是winter。</p><p>我们都知道，HTML已经是一个完整的语义系统。在前面的课程中，我们围绕着HTML本身做了讲解，但是在实际应用中，我们还会用到一些它的扩展。今天我们要讲的ARIA就是其中重要的一部分。</p><p>ARIA全称为Accessible Rich Internet Applications，它表现为一组属性，是用于可访问性的一份标准。关于可访问性，它被提到最多的，就是它可以为视觉障碍用户服务，但是，这是一个误解。</p><p>实际上，可访问性其实是一个相当大的课题，它的定义包含了各种设备访问、各种环境、各种人群访问的友好性。不单单是永久性的残障人士需要用到可访问性，健康的人也可能在特定时刻处于需要可访问性的环境。</p><p>我们今天讲的ARIA，是以交互形式来标注各种元素的一类属性，所以，在ARIA属性中，你可以看到很多熟悉的面孔，交互形式往往跟我们直觉中的“控件”非常相似。</p><p>所以我们的课程，特意把ARIA加入还有一个原因：ARIA的角色对于我们UI系统的设计有重要的参考意义。</p><h2>综述</h2><p>我们先整体来看看，ARIA给HTML元素添加的一个核心属性就是role，我们来看一个例子：</p><pre><code class="language-HTML">&lt;span role="checkbox" aria-checked="false" tabindex="0" aria-labelledby="chk1-label"&gt;
 

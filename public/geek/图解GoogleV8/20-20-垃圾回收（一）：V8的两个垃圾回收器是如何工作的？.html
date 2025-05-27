@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是李兵。</p><p>我们都知道，JavaScript是一门自动垃圾回收的语言，也就是说，我们不需要去手动回收垃圾数据，这一切都交给V8的垃圾回收器来完成。V8为了更高效地回收垃圾，引入了两个垃圾回收器，它们分别针对着不同的场景。</p><p>那这两个回收器究竟是如何工作的呢，这节课我们就来分析这个问题。</p><h2>垃圾数据是怎么产生的？</h2><p>首先，我们看看垃圾数据是怎么产生的。</p><p>无论是使用什么语言，我们都会频繁地使用数据，这些数据会被存放到栈和堆中，通常的方式是在内存中创建一块空间，使用这块空间，在不需要的时候回收这块空间。</p><p>比如下面这样一句代码：</p><pre><code>window.test = new Object()
 

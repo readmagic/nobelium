@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是姚秋辰。</p><p>在上一课里，我们对coupon-template-serv和coupon-calculation-serv这两个服务做了微服务化改造，通过服务注册流程将它们注册到了Nacos Server。这两个服务是以服务提供者的身份注册的，它们之间不会发生相互调用。为了发起一次完整的服务调用请求，我们还需要构建一个服务消费者去访问Nacos上的已注册服务。</p><p>coupon-customer-serv就扮演了服务消费者的角色，它需要调用coupon-template-serv和coupon-calculation-serv完成自己的业务流程。今天我们就来动手改造coupon-customer-serv服务，借助Nacos的服务发现功能从注册中心获取可供调用的服务列表，并发起一个远程服务调用。</p><p>通过今天的内容，你可以了解如何使用Webflux发起远程调用，并熟练掌握如何搭建一套基于Nacos的服务治理方案。</p><h2>添加Nacos依赖项和配置信息</h2><p>在开始写代码之前，你需要将以下依赖项添加到customer-customer-impl子模块的pom.xml文件中。</p><pre><code>&lt;!-- Nacos服务发现组件 --&gt;
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>管理内存，不管是什么编程语言，向来都是一个难题。Java语言能够长期领先的一个重要原因，就是它拥有强大的内存管理能力，并且这种能力还在不断地进化。然而，只依靠Java内在的内存管理能力，是远远不够的。</p><p>2018年9月，亚马逊向OpenJDK社区提交了一个改进请求。这个改进涉及到一个问题，如果一个服务的缓存数量巨大，比如说有10万个连接会话，Java的垃圾处理器要停滞几分钟，才能清理完这么巨大的缓存。而这几分钟的停滞，是不可忍受的事故。</p><p>这是一个值得我们关注的细节。缓存的本意，就是为了提高效率。然而，拥有过多的用户，过多的缓存，反而会让效率变低。</p><p>随着大数据、云计算以及物联网的不断演进，很多技术都面临着巨大的挑战。七八年前（2010年左右），能解决C10K（同时处理1万个用户连接）问题，感觉就可以高枕无忧了。现在有不少应用，需要开始考虑C10M（同时处理1千万个用户连接）问题，甚至是更多的用户连接，以便满足用户需求。很多以前不用担心的问题，也会冒出来算旧账。</p><p>要想让内存使用得更有效率，我们还需要掌握一些成熟的实践经验。</p><h2>使用更少的内存</h2><p>提高内存使用最有效率的办法，就是使用更少的内存。这听起来像是废话，却也是最简单直接、最有用的办法。减少内存的使用，意味着更少的内存分配、更少的内存填充、更少的内存释放、更轻量的垃圾回收。内存的使用减少一倍，代码的效率会成倍地提升，这不是简单的线性关系。</p><!-- [[[read_end]]] --><p>减少内存的使用，办法有且只有两个。第一个办法是减少实例的数量。第二个办法是减小实例的尺寸。</p><h2>减少实例数量</h2><p>还记得以前我们用到的，在不同的语言环境下，该怎么打招呼的代码吗？上一次，我们把它改成了不可变的类，避免了线程同步的问题。我把这段代码重新抄录在下面。</p><p><img src="https://static001.geekbang.org/resource/image/7e/ea/7ef80d04c5d8da0aeac59bafac557dea.png" alt=""><br>
 

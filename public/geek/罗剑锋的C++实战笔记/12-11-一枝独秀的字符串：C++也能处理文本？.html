@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是Chrono。</p><p>在第一个单元里，我们学习了C++的生命周期和编程范式。在第二个单元里，我们学习了自动类型推导、智能指针、lambda表达式等特性。今天，我们又要开始进入一个新的单元了，这就是C++标准库。</p><p>以前，“C++”这个词还只是指编程语言，但是现在，“C++”早已变成了一个更大的概念——不单是词汇、语法，还必须要加上完备工整的标准库。只有语言、标准库“双剑合璧”，才能算是真正的C++。反过来说，如果只单纯用语言，拒绝标准库，那就成了“天残地缺”。</p><p>看一下官方发布的标准文档吧（C++14，可以参考<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3797.pdf">这份资料</a>）， 全文有1300多页，而语言特性只有400出头，不足三分之一，其余的篇幅全是在讲标准库，可见它的份量有多重。</p><p>而且，按照标准委员会的意思，今后C++也会更侧重于扩充库而不是扩充语言，所以将来标准库的地位还会不断上升。</p><p>C++标准库非常庞大，里面有各式各样的精巧工具，可谓是“琳琅满目”。但是，正是因为它的庞大，很多人在学习标准库时会感觉无从下手，找不到学习的“突破口”。</p><p>今天我就先来讲和空气、水一样，最常用，也是最容易被忽视的字符串，看看在C++里该怎么处理文本数据。</p><h2>认识字符串</h2><p>对于C++里的字符串类string，你可能最熟悉不过了，几乎是天天用。但你知道吗？string其实并不是一个“真正的类型”，而是模板类basic_string的特化形式，是一个typedef：</p><!-- [[[read_end]]] --><pre><code>using string = std::basic_string&lt;char&gt;;  // string其实是一个类型别名
 

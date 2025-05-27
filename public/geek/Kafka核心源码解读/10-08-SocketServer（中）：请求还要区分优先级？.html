@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是胡夕。</p><p>在上节课，我给你详细地介绍了Kafka网络层的架构，以及SocketServer组件中的Acceptor线程和Processor线程是如何利用Java NIO实现网络通信的，还简单提到了请求队列和响应队列。</p><p>今天，我们接着说SocketServer源码，重点学习下社区是如何对不同类型的请求进行优先级划分的。</p><h2>案例分享</h2><p>在Kafka中，处理请求是不区分优先级的，Kafka对待所有请求都一视同仁。<strong>这种绝对公平的策略有时候是有问题的</strong>。我跟你分享一个真实的案例，你就明白了。我敢保证，你在真实的线上系统中一定遇到过类似的问题。</p><p>曾经，我们在生产环境中创建过一个单分区双副本的主题，当时，集群中的Broker A机器保存了分区的Leader副本，Broker B保存了Follower副本。某天，外部业务量激增，导致Broker A瞬间积压了大量的未处理PRODUCE请求。更糟的是，运维人员“不凑巧”地执行了一次Preferred Leader选举，将Broker B显式地调整成了Leader。</p><p>这个时候，问题就来了：如果Producer程序把acks设置为all，那么，在LeaderAndIsr请求（它是负责调整副本角色的，比如Follower和Leader角色转换等）之前积压的那些PRODUCE请求就无法正常完成了，因为这些请求要一直等待ISR中所有Follower副本同步完成。</p><!-- [[[read_end]]] --><p>但是，此时，Broker B成为了Leader，它上面的副本停止了拉取消息，这就可能出现一种结果：这些未完成的PRODUCE请求会一直保存在Broker A上的Purgatory缓存中。Leader/Follower的角色转换，导致无法完成副本间同步，所以这些请求无法被成功处理，最终Broker A抛出超时异常，返回给Producer程序。</p><p>值得一提的是，Purgatory缓存是Broker端暂存延时请求的地方。课程后面我会详细介绍这个组件。</p><p>这个问题就是对请求不区分优先级造成的，后来，我们在SocketServer源码中确认了此事。同时，结合阅读源码得到的知识，我在Jira官网搜到了对应的<a href="https://issues.apache.org/jira/browse/KAFKA-4453">Jira ticket</a>，进而完整地了解了社区是如何解决该问题的。</p><p>其实，这也是我非常推荐你深入学习Kafka的一个方法：<strong>根据实际环境中碰到的问题找到对应的源码，仔细阅读它，形成自己的解决思路，然后去社区印证自己方案的优劣</strong>。在不断地循环这个过程的同时，你会发现，你对Kafka的代码越来越了解了，而且能够很轻松地解决线上环境的各种问题。</p><p>说了这么多，相信你已经迫不及待地想要跟我一起阅读这部分源码了，那我们就正式开始吧。</p><h2>必要术语和概念</h2><p>在阅读SocketServer代码、深入学习请求优先级实现机制之前，我们要先掌握一些基本概念，这是我们理解后面内容的基础。</p><p><strong>1.Data plane和Control plane</strong></p><p>社区将Kafka请求类型划分为两大类：<strong>数据类请求和控制类请求</strong>。Data plane和Control plane的字面意思是数据面和控制面，各自对应数据类请求和控制类请求，也就是说Data plane负责处理数据类请求，Control plane负责处理控制类请求。</p><p>目前，Controller与Broker交互的请求类型有3种：<strong>LeaderAndIsrRequest</strong>、<strong>StopReplicaRequest</strong>和<strong>UpdateMetadataRequest</strong>。这3类请求属于控制类请求，通常应该被赋予高优先级。像我们熟知的PRODUCE和FETCH请求，就是典型的数据类请求。</p><p><strong>对这两大类请求区分处理，是SocketServer源码实现的核心逻辑</strong>。</p><p><strong>2.监听器（Listener）</strong></p><p>目前，<strong>源码区分数据类请求和控制类请求不同处理方式的主要途径，就是通过监听器</strong>。也就是说，创建多组监听器分别来执行数据类和控制类请求的处理代码。</p><p>在Kafka中，Broker端参数<strong>listeners</strong>和<strong>advertised.listeners</strong>就是用来配置监听器的。在源码中，监听器使用EndPoint类来定义，如下面代码所示：</p><pre><code>case class EndPoint(host: String, port: Int, listenerName: ListenerName, securityProtocol: SecurityProtocol) {
 

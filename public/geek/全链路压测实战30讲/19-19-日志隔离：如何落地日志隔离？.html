@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是高楼。</p><p>这节课，我们详细来讲讲如何基于微服务技术落地日志隔离。</p><p>在全链路压测的隔离中，有一个很重要的部分就是日志隔离，即区分对应的日志。之所以要将正常日志和压测日志都进行隔离，是为了不影响正常日志存储和方便线上问题排查。</p><p>在当前的技术市场上，主流的日志框架是Log4j、Log4j2（Log4j的升级版）和Logback。</p><p>Logback 是Log4j的改良版，拥有更多的特性，性能也更好，天然支持 SLF4J（ Simple Logging Facade for Java，日志输出门面，非日志框架）。Slf4j可以支持不同的日志框架，实现对日志框架的一层抽象，可以整理不同的日志框架的输出。我们这个电商项目也是使用的 Logback 的方式。</p><p>在具体的方案选择上，我们选择改写 Logback 的 Appender，然后根据压测标记将日志写入对应目录中。</p><p>既然已经选定了Logback日志框架做日志隔离改造，那么我们就可以直接上手进行技术预演了。</p><h2>技术预演</h2><p>首先我们还是先在本地开发环境做一下日志隔离的技术预演。预演通过之后，再把相关代码移植到demo系统中去验证。</p><p>在第 14-18 讲，我们已经通过 Sleuth 把压测标记透传到了每个服务中，下面只需要从对应服务的数据上下文获取标记，然后完成逻辑判断就能实现日志的分离了。</p><!-- [[[read_end]]] --><p>考虑到日志打印一般是无序的，在一个用户的使用过程中，可能有多个不同的线程来进行处理。典型的例子是当用户访问某个页面时，应用服务可能会创建一个新的线程来处理该请求，也可能从线程池中复用已有的线程。在一个用户 session 存续期间，可能有多个线程处理过该用户的请求。当需要追踪某个用户在系统中的相关日志记录时，就会变得很麻烦。</p><p>解决办法就是引入 MDC（Mapped Diagnostic Context，映射调试上下文）。而 <a href="http://www.slf4j.org/">SLF4J </a>提供了<a href="http://www.slf4j.org/api/org/slf4j/MDC.html"> MDC</a> ( Mapped Diagnostic Contexts )功能，它的实现也是利用了 ThreadLocal 机制。改造代码只需要将指定的值 put 到线程上下文的 Map 中，然后在对应的地方使用 get 方法获取对应的值，从而达到自定义和修改日志输出格式内容的目的。</p><p>考虑到压测流量比较大，产生的日志也非常多，压测流量的日志很容易覆盖正常流量的日志。我们选择改写 Logback&nbsp;的 Appender，根据流量标记将日志写入对应的影子目录中，并且配置默认的删除策略，日志只保存三天。</p><p>整体方案设计可以参考下面这张图：</p><p><img src="https://static001.geekbang.org/resource/image/ca/32/ca406e7313aeb885b55acfcbbb2db632.jpg?wh=1764x1920" alt="图片"></p><p>下面我们来看一下详细的操作步骤。</p><h3>通过 MDC 实现日志分离</h3><p>​<strong>第一步，创建测试接口。</strong></p><p>在 Controller 中添加下面的代码，请求资源路径为 <a href="http://localhost:8080/mdc/1">/mdc/1</a>  。其中，我们通过 {id} 来判断要不要把 MDC 信息写入日志中。</p><pre><code class="language-java">    @GetMapping("/mdc/{id}")
 

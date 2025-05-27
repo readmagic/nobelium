@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是徐文浩。</p><p>在前面课程中，我们了解过的这些大数据处理系统，其实都属于分布式系统。所以，它们也都需要解决分布式一致性，或者说分布式共识的问题。</p><p>我们之前已经介绍过Chubby，这个Google开发的分布式锁。正是通过Chubby这样的系统，使得我们可以确保系统里始终只有一个Master，以及所有的数据分区在一个时间点只有一个所有者。而Chubby的底层，就是<strong>Paxos</strong>这样的分布式共识（Distributed Consensus）算法。另外在后面的Spanner这样的分布式数据库里，我们也看到了Paxos也可以直接拿来作为分布式数据库的解决方案。</p><p>在之前的这些论文里，我们对Paxos的算法做了一些简单的介绍。不过，我们并没有对Paxos的算法做非常深入地剖析。一方面，Paxos算法其实并不容易理解，这也是为什么Paxos的论文第一次发表的时候，并没有得到足够的关注。另一方面，目前市场上实际的开源项目，大部分也并不是采用了Paxos或者Multi-Paxos算法，而是往往采取了简化和变形。Google的Chubby并没有开源，而开源的ZooKeeper实现的是自家的ZAB算法，对Paxos做了改造。</p><!-- [[[read_end]]] --><p>事实上，在2021年的今天，最常被使用的分布式共识算法，已经从Paxos变成了<strong>Raft</strong>。这要归功于来自斯坦福大学，在2013年发表的一篇论文《In Search of an Understandable Consensus Algorithm》。</p><p>这一篇论文，也是我们接下来两讲的主题。这两讲的目标，是帮助你掌握这样两点：</p><ul>
 

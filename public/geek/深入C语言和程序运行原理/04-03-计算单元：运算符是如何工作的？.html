@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是于航。</p><p>运算符（operator）、表达式（expression）和语句（statement）是组成 C 程序的三个最基本的语法结构。在 C 语言中，这三种概念之间一般呈“包含”关系，即表达式中通常含有运算符，而语句中也可以包含有表达式。最终，众多的语句便组成了一个完整的 C 程序。</p><p>可见，一个完整的 C 程序是由不同粒度的语法单元自下而上一层层构建出来的。而在这层语法形式之下，运算符、表达式和语句究竟是怎样被编译，并通过机器指令表达的呢？</p><p>作为 C 语言中用于提供计算能力的核心语法结构，运算符在支持应用核心功能的构建过程中，起着不可或缺的作用。那么这一讲，我们就先来看看，C 语言中的运算符究竟是如何被编译器实现的。</p><h2>C 运算符的分类</h2><p>在目前最新的 C17 标准中，C 语言一共有 48 个运算符。按照这些运算符功能的不同，我们可以将它们分为七类（分类方式并不唯一），如下表所示：</p><p><img src="https://static001.geekbang.org/resource/image/ef/38/efc411637eefb4cf8b05213d8a4d4238.jpg?wh=1920x945" alt="图片"></p><p>这七类运算符在功能上均有所不同，因此，使用机器指令进行表达的具体方式和复杂程度也不同。其中，算数、关系、位与赋值运算符由于功能较为基础，可以与某些机器指令一一对应，因此我们会放在一起进行介绍。而逻辑运算符、成员访问运算符及其他运算符，由于实现相对复杂，我会分开讲解。</p><!-- [[[read_end]]] --><h2>算数、关系、位、赋值运算符</h2><p>算数、关系、位、赋值这四类运算符在经过编译器处理后，一般都可以<strong>直接对应到由目标平台上相应机器指令组成的简单计算逻辑</strong>。</p><p>比如，在下面这段示例代码中，我们在 foo 函数的内部使用到了加法运算符 “+”、大于运算符 “&gt;”，以及按位或运算符 “|”。你可以通过右侧的输出内容，查看默认情况下（即不使用任何编译优化）左侧 C 源代码对应的汇编结果。</p><p><img src="https://static001.geekbang.org/resource/image/49/a8/49ce8cab93065b2d8d9d27b8520e7ea8.png?wh=1920x1085" alt="图片"></p><p>这里为了便于观察，我将代码中关键的三行 C 语句，以及它们对应的汇编代码用相同颜色的框标注了出来。<strong>下面我们来分别看看它们的实现方式。</strong></p><p>先来看左侧代码中用红色框标注的内容，这是一个使用了加法运算符 “+” 的 C 语句。在它对应的汇编代码中，前两行代码分别从栈内存中将变量 x 与 y 的值放入到了寄存器 <em>edx</em> 与 <em>eax</em> 里。紧接着，程序通过 <code>add</code> 机器指令计算这两个寄存器中的数字之和。随后，通过 <code>mov</code> 指令，程序将计算得到的结果值从寄存器 <em>eax</em> 移动到了局部变量 arithmetic 对应的栈内存中。至此，这行 C 代码便执行结束了。</p><p>实际上，这行 C 语句同时包含了对算数运算符 “+” 和赋值运算符 “=” 的使用过程。其中，汇编指令 <code>add</code> 直接对应于 C 代码中加法运算符的操作。而 <code>mov</code> 指令则对应于等号赋值运算符的操作。</p><p>在这门课后面的内容中，你还会多次看到编译器对 <code>mov</code> 指令的使用。这里我们采用的是 Intel 的汇编代码格式，因此，当该指令的源或目的操作数中涉及到某个具体的内存位置时，汇编代码中会出现类似 “DWORD PTR [rbp-8]” 的参数形式。</p><p>对此，你可以这样解读：将寄存器 <em>rbp</em> 中的值减去 8 得到的结果作为一个地址，然后在这个地址上读取/写入大小为 DWORD 的值。在 Intel 体系中，一个 WORD 表示 16 位，一个 DWORD 为 32 位，而一个 QWORD 表示 64 位。</p><p>接下来，我们继续观察另外两条 C 语句对应的汇编代码，你可以得到类似的结论。其中，绿色框标注的关系运算符大于号 “&gt;” 对应汇编指令 <code>cmp</code>。这个指令在被执行时，会首先比较变量 x 与 y 值的大小，并根据比较结果，动态调整 CPU 上 FLAGS 寄存器中的相应位。</p><p>为了帮你深入理解接下来的内容，我们先来熟悉一些相关概念。这里提到的 <strong>FLAGS 寄存器是一组用于反映程序当前运行状态的标志寄存器</strong>。许多机器指令在执行完毕时，都会同时调整 FLAGS 寄存器中对应位的值，以响应程序状态的变化。</p><p>比如，在上面这段代码中，汇编指令 <code>cmp</code> 的下一条汇编指令 <code>setg</code> 便会通过查看 FLAGS 寄存器中的 ZF 位是否为 0，且 SF 与 OF 位的值是否相等，来决定将寄存器 <em>al</em> 中的值置 1，还是置 0。而该寄存器中存放的数字值，便为变量 relational 的最终结果。</p><p>那么，ZF 位、SF 位、OF 位又是什么呢？它们其实都是 FLAGS 寄存器中的常用标志位，用来反映当前指令执行后引起的 CPU 状态变化。我把 FLAGS 寄存器中的常用标志位整理在了下面的表格中，你可以参考。<br>
 

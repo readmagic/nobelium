@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是李玥。</p><p>在这个系列课程中，我们讲的都是如何解决生产系统中面临的一些存储系统相关的问题。在最后两节课里面，我们来说点儿新东西，看一下存储这个技术领域，可能会有哪些值得关注的新技术。当然，技术圈每天都有很多新的技术出现，也会经常发很多论文，出现很多的开源项目，这些大多数都不太靠谱儿。</p><p>今天我给你要说的这个New SQL，它是我个人认为非常靠谱，甚至在未来可能会取代MySQL这样的关系型数据库的一个技术。MySQL是几乎每一个后端开发人员必须要精通的数据库，既然New SQL非常有可能在将来替代MySQL，那我们就非常有必要提前去了解一下了。</p><h2>什么是New SQL？</h2><p>什么是New SQL？这个说来话长了，还要从存储技术发展的历史来解读。我们知道，早期只有像MySQL这样的关系数据库，这种关系型数据库因为支持SQL语言，后来被叫做SQL或者Old SQL。</p><p>然后，出现了Redis和很多KV存储系统，性能上各种吊打MySQL，而且因为存储结构简单，所以比较容易组成分布式集群，并且能够做到水平扩展、高可靠、高可用。因为这些KV存储不支持SQL，为了以示区分，被统称为No SQL。</p><p>No SQL本来希望能凭借高性能和集群的优势，替代掉Old SQL。但用户是用脚投票的，这么多年实践证明，你牺牲了SQL这种强大的查询能力和ACID事务支持，用户根本不买账，直到今天，Old SQL还是生产系统中最主流的数据库。</p><!-- [[[read_end]]] --><p>这个时候，大家都开始明白了，无论你其他方面做的比Old SQL好再多，SQL和ACID是刚需，这个命你革不掉的。你不支持SQL，就不会有多少人用。所以你看，近几年很多之前不支持SQL的数据库，都开始支持SQL了，甚至于像Spark、Flink这样的流计算平台，也都开始支持SQL。当然，虽然说支持SQL，但这里面各个产品的支持程度是参差不齐的，多多少少都有一些缩水。对于ACID的支持，基本上等同于就没有。</p><p>这个时候，New SQL它来了！简单地说，New SQL就是兼顾了Old SQL和No SQL的优点：</p><ul>
 

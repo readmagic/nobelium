@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。</p><p>在前面的4讲当中，我们已经解析了OpenJDK中的Java编译器，它是把Java源代码编译成字节码，然后交给JVM运行。</p><p>用过Java的人都知道，在JVM中除了可以解释执行字节码以外，还可以通过即时编译（JIT）技术生成机器码来执行程序，这使得Java的性能很高，甚至跟C++差不多。反之，如果不能达到很高的性能，一定会大大影响一门语言的流行。</p><p>但是，对很多同学来说，对于编译器中后端的了解，还是比较模糊的。比如说，你已经了解了中间代码、优化算法、指令选择等理论概念，<strong>那这些知识在实际的编译器中是如何落地的呢？</strong></p><p>所以从今天开始，我会花4讲的时间，来带你了解Java的JIT编译器的组成部分和工作流程、它的IR的设计、一些重要的优化算法，以及生成目标代码的过程等知识点。在这个过程中，你还可以印证关于编译器中后端的一些知识点。</p><p>今天这一讲呢，我首先会带你理解JIT编译的基本原理；然后，我会带你进入Graal编译器的代码内部，一起去修改它、运行它、调试它，让你获得第一手的实践经验，消除你对JIT编译器的神秘感。</p><h2>认识Java的JIT编译器</h2><p>我们先来探究一下JIT编译器的原理。</p><p>在<a href="https://time.geekbang.org/column/article/246281">第5讲</a>中，我讲过程序运行的原理：把一个指令指针指向一个内存地址，CPU就可以读取其中的内容，并作为指令来执行。</p><!-- [[[read_end]]] --><p>所以，Java后端的编译器只要生成机器码就行了。如果是在运行前一次性生成，就叫做提前编译（AOT）；如果是在运行时按需生成机器码，就叫做即时编译（JIT）。Java以及基于JVM的语言，都受益于JVM的JIT编译器。</p><p>在JDK的源代码中，你能找到src/hotspot目录，这是JVM的运行时，它们都是用C++编写的，其中就包括JIT编译器。标准JDK中的虚拟机呢，就叫做HotSpot。</p><p>实际上，HotSpot带了两个JIT编译器，一个叫做<strong>C1</strong>，又叫做<strong>客户端编译器</strong>，它的编译速度快，但优化程度低。另一个叫做<strong>C2</strong>，又叫做<strong>服务端编译器</strong>，它的编译速度比较慢，但优化程度更高。这两个编译器在实际的编译过程中，是被结合起来使用的。而<strong>字节码解释器</strong>，我们可以叫做是<strong>C0</strong>，它的运行速度是最慢的。</p><p>在运行过程中，HotSpot首先会用C0解释执行；接着，HotSpot会用C1快速编译，生成机器码，从而让运行效率提升。而对于运行频率高的热点（HotSpot）代码，则用C2深化编译，得到运行效率更高的代码，这叫做<strong>分层编译</strong>（Tiered Compilation）。</p><p><img src="https://static001.geekbang.org/resource/image/98/ba/984004f06874e5a28571082c72c080ba.jpg" alt=""></p><center><span class="reference">图1：分层编译</span></center><p>由于C2会做一些激进优化，比如说，它会根据程序运行的统计信息，认为某些程序分支根本不会被执行，从而根本不为这个分支生成代码。不过，有时做出这种激进优化的假设其实并不成立，那这个时候就要做一个<strong>逆优化（Deoptimization）</strong>，退回到使用C1的代码，或退回到用解释器执行。</p><p>触发即时编译，需要检测<strong>热点代码</strong>。一般是以方法为单位，虚拟机会看看该方法的运行频次是否很高，如果运行特别频繁，那么就会被认定为是热点代码，从而就会被触发即时编译。甚至如果一个方法里，有一个循环块是热点代码（比如循环1.5万次以上），这个时候也会触发编译器去做即时编译，在这个方法还没运行完毕的时候，就被替换成了机器码的版本。由于这个时候，该方法的栈帧还在栈上，所以我们把这个技术叫做<strong>栈上替换</strong>（On-stack Replacement，OSR）。栈上替换的技术难点，在于让本地变量等数据无缝地迁移，让运行过程可以正确地衔接。</p><h2>Graal：用Java编写的JIT编译器</h2><p>如果想深入地研究Java所采用的JIT编译技术，我们必须去看它的源码。可是，对于大多数Java程序员来说，如果去阅读C++编写的编译器代码，肯定会有些不适应。</p><p>一个好消息是，Oracle公司推出了一个完全用Java语言编写的JIT编译器：Graal，并且也有开放源代码的社区版，你可以<a href="https://github.com/graalvm/graalvm-ce-builds/releases">下载</a>安装并使用。</p><p>用Java开发一款编译器的优点是很明显的。</p><ol>
 

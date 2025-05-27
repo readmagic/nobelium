@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴磊。</p><p>一提到Shuffle，你能想到什么？我想很多人的第一反应都是应用中最顽固、最难解决的性能瓶颈。</p><p>在之前的课程中，我们也不止一次地提到Shuffle，尤其是在开发原则那一讲，我还建议你遵循“能省则省、能拖则拖”的原则，在应用中尽量去避免Shuffle，如果受业务逻辑所限确实不能避免，就尽可能地把Shuffle往后拖。</p><p>那么，为什么我们一谈Shuffle就色变，提到它就避之唯恐不及呢？今天这一讲，我就通过实现一个仙女散花游戏的过程，来和你深入探讨Shuffle是如何工作的，说说它为什么是分布式应用一时无两的性能杀手。毕竟，只有了解Shuffle的工作原理，我们才能更好地避免它。</p><h2>如何理解Shuffle？</h2><p>假设，你的老板今天给你安排一个开发任务，让你用Spark去实现一个游戏需求。这个实现需求来自一个小故事：仙女散花。</p><p>很久以前，燕山脚下有个小村庄，村子里有所“七色光”小学，方圆百里的孩子都来这里上学。这一天，一年级2班的黄老师和班里的五个孩子正在做一个游戏，叫做“仙女散花”。</p><p>黄老师的背包里装满了五种不同颜色的花朵，五种颜色分别是红、橙、黄、紫、青。她把背包里的花朵随机地分发给五个小同学：小红、橙橙、黄小乙、阿紫和小青。花朵发完之后，每个同学分到的花朵数量差不多，颜色各有不同。</p><!-- [[[read_end]]] --><p>接着，黄老师开始宣布游戏规则：“你们要一起协作，在最短的时间内，把花朵按照颜色收集在一起。游戏完成的标志是，课桌上有5堆花朵，每堆花朵的颜色都是一样的。”</p><p><img src="https://static001.geekbang.org/resource/image/7c/yc/7cb3906ecd19fa0521c4a161f079dyyc.jpg" alt="" title="仙女散花的游戏"></p><p>大家跃跃欲试，黄小乙说：“先别急，我们来制定个策略。先在前面摆上5张课桌，然后每个人需要做两件事情，先把自己手里的花朵按照颜色归类分为5堆，再把分好颜色的花朵，分别放到相应的课桌上！”于是，几个小同学按照黄小乙说的策略，不一会儿就完成了游戏。</p><p>事实上，仙女散花的游戏过程和Shuffle的工作流程大同小异。当然，Shuffle过程中涉及的步骤和环节，要比“仙女散花”复杂一些。</p><p>Shuffle的本意是“洗牌”，在分布式计算环境中，它有两个阶段。一般来说，前一个阶段叫做“Map阶段”，后一个阶段叫做“Reduce阶段”。当然，也有人把它们叫做Shuffle Write阶段和Shuffle Read阶段。</p><p><img src="https://static001.geekbang.org/resource/image/c4/d7/c4062c2a0d6fd31b425034a8f53159d7.jpg" alt="" title="仙女散花中的Map和Reduce阶段"></p><p><strong>在仙女散花的游戏中，从老师分发花朵，到5个小同学把花朵按照颜色归类，对应的是Shuffle的Map阶段，而大家把归类的花朵分发到相应的课桌，这个过程类似于Shuffle的Reduce阶段。</strong></p><p>接下来，我们就借助这个故事来深入探讨Shuffle的两个阶段：Map阶段和Reduce阶段。</p><p>自2.0版本之后，Spark将Shuffle操作统一交由Sort shuffle manager来管理。因此，今天这一讲，我们专注于Sort shuffle manager实现的Shuffle分发过程。</p><h2>Map阶段是如何输出中间文件的？</h2><p>以终为始、以结果为导向的学习往往效率更高，在深入探讨Map阶段如何生产数据之前，我们不妨先来明确：<strong>Map阶段的输出到底是什么？</strong></p><p>之前我们也说过，Map阶段最终生产的数据会以中间文件的形式物化到磁盘中，这些中间文件就存储在spark.local.dir设置的文件目录里。中间文件包含两种类型：一类是后缀为data的数据文件，存储的内容是Map阶段生产的待分发数据；另一类是后缀为index的索引文件，它记录的是数据文件中不同分区的偏移地址。这里的分区是指Reduce阶段的分区，<strong>因此，分区数量与Reduce阶段的并行度保持一致。</strong></p><p><img src="https://static001.geekbang.org/resource/image/85/c5/85f8e918e65792527889a71e2ca55dc5.jpg" alt="" title="Map阶段输出的数据文件和索引文件"></p><p>这样一来，我们就可以把问题进一步聚焦在，Spark在Map阶段是如何生产这些中间文件的。不过，我们首先需要明确的是，Map阶段每一个Task的执行流程都是一样的，每个Task最终都会生成一个数据文件和一个索引文件。<strong>因此，中间文件的数量与Map阶段的并行度保持一致。</strong>换句话说，有多少个Task，Map阶段就会生产相应数量的数据文件和索引文件。</p><p>接下来，我带你用Spark来实现“仙女散花”的游戏，咱们一边做游戏，一边来分析Map阶段的中间文件是如何产生的。</p><h3>用groupByKey实现“仙女散花”</h3><p>在“仙女散花”的游戏中，黄老师要求大家把同一种花色的花朵<strong>收集</strong>到一起。那么，在Spark的分布式开发框架内，与这个游戏最相仿的计算过程非groupByKey莫属，所以我们不妨用groupByKey来实现游戏。</p><p>首先是flowers.txt文件：</p><pre><code>黄色花朵
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是庄振运。</p><p>前面两讲中，我介绍了性能优化的六大原则和十大策略。从今天开始，我们来通过具体案例的解决方案讲解，了解这些原则和策略是如何应用的。</p><p>首先，我们要来探讨的是一个CPU相关的性能优化案例。</p><p>这个性能案例，是关于<span class="orange">CPU的最后一级缓存</span>的。你应该知道，最后一级缓存（一般也就是L3），如果命中率不高的话，对系统性能会有极坏的影响（相关基础知识建议回顾<a href="https://time.geekbang.org/column/article/183357">第15讲</a>）。所以对这一问题，我们要及时准确地监测、暴露出来。</p><p>至于具体解决方案，我这里建议采取三种性能优化策略，来提高最后一级缓存的命中率。分别是：<strong>紧凑化数据结构</strong>、<strong>软件预取数据</strong>和<strong>去除伪共享缓存</strong>。它们分别适用于不同的情况。</p><h2>性能问题：最后一级缓存（LLC）不命中率太高</h2><p>一切问题的解决都要从性能问题开始入手，我们首先来看看<strong>最后一级缓存不命中率太高</strong>这个性能问题本身。</p><p>缓存的命中率，是CPU性能的一个关键性能指标。我们知道，CPU里面有好几级缓存（Cache），每一级缓存都比后面一级缓存访问速度快。最后一级缓存叫LLC（Last Level Cache）；LLC的后面就是内存。</p><p>当CPU需要访问一块数据或者指令时，它会首先查看最靠近的一级缓存（L1）；如果数据存在，那么就是缓存命中（Cache Hit），否则就是不命中（Cache Miss），需要继续查询下一级缓存。</p><!-- [[[read_end]]] --><p>缓存不命中的比例对CPU的性能影响很大，尤其是最后一级缓存的不命中时，对性能的损害尤其严重。这个损害主要有两方面的性能影响：</p><p>第一个方面的影响很直白，就是<strong>CPU的速度</strong>受影响。我们前面讲过，内存的访问延迟，是LLC的延迟的很多倍（比如五倍）；所以LLC不命中对计算速度的影响可想而知。</p><p>第二个方面的影响就没有那么直白了，这方面是关于<strong>内存带宽</strong>。我们知道，如果LLC没有命中，那么就只能从内存里面去取了。LLC不命中的计数，其实就是对内存访问的计数，因为CPU对内存的访问总是要经过LLC，不会跳过LLC的。所以每一次LLC不命中，就会导致一次内存访问；反之也是成立的：每一次内存访问都是因为LLC没有命中。</p><p>更重要的是，我们知道，一个系统的内存带宽是有限制的，很有可能会成为性能瓶颈。从内存里取数据，就会占用内存带宽。因此，如果LLC不命中很高，那么对内存带宽的使用就会很大。内存带宽使用率很高的情况下，内存的存取延迟会急剧上升。更严重的是，最近几年计算机和互联网发展的趋势是，后台系统需要对越来越多的数据进行处理，因此<strong>内存带宽越来越成为性能瓶颈</strong>。</p><h2>LLC不命中率的测量</h2><p>针对LLC不命中率高的问题，我们需要衡量一下问题的严重程度。在Linux系统里，可以用Perf这个工具来测量LLC的不命中率（在<a href="https://time.geekbang.org/column/article/183357">第15讲</a>中提到过）。</p><p>那么Perf工具是怎么工作的呢？</p><p>它是在内部使用性能监视单元，也就是PMU（Performance Monitoring Units）硬件，来收集各种相关CPU硬件事件的数据（例如缓存访问和缓存未命中），并且不会给系统带来太大开销。 这里需要你注意的是，PMU硬件是针对每种处理器特别实现的，所以支持的事件集合以及具体事件原理，在处理器之间可能有所不同。</p><p>PMU尤其可以监测LLC相关的指标数据，比如LLC读写计数、LLC不命中计数、LLC预先提取计数等指标。具体用Perf来测量LLC各种计数的命令格式是：</p><pre><code>perf stat -e LLC-loads,LLC-load-misses,LLC-stores,LLC-store-misses
 

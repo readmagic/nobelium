@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是姚秋辰。</p><p>在上一节中我们已经搭建了Seata Server，这节课我们就来动手落地一套Seata AT方案。Seata AT不仅是官方最推荐的一套分布式事务解决方案，也是大多数Seata使用者选用的方案。AT方案备受推崇，一个最主要的原因就在于省心。</p><p>Seata AT可以给你带来一种“无侵入”式的编程体验，你不需要改动任何业务代码，只需要一个注解和少量的配置信息，就可以实现分布式事务。这似乎听上去有那么点玄幻，如果一个分布式方案既不依赖XA协议的长事务方案，又不依赖代码补偿逻辑，那碰到Rollback的时候它怎么知道该回滚哪些内容呢？</p><p>下面我就通过一个实际的业务模型，带你了解一下AT方案的底层原理。</p><h2>Seata AT底层原理</h2><p>我们以“删除券模板”作为落地案例，它需要Customer和Template两个服务的共同参与。其中Customer服务是整个业务的起点，它先是调用了Template服务注销券模板，然后再调用本地方法注销了由该模板生成的优惠券。说白了，我们就是在两个不同的微服务中，分别使用Update SQL语句修改了底层数据。</p><p>我们接下来就基于“删除券模板”场景，看一下Seata AT背后的业务流程。在开始之前，我需要先花点时间带你认识下Seata框架的三个重要角色，TC、TM和RM。</p><!-- [[[read_end]]] --><p>TC全称是Transaction Coordinator，你一定非常熟悉了，它就是上节课我们介绍过的Seata Server。TC扮演了一个中心化的事务协调者的角色，负责协调全局事务的提交和回滚，并维护全局和分支事务的状态。</p><p>TM全称是Transaction Manager，它是事务管理器，主要作用是发起一个全局事务，对全局事务的提交和回滚做出决议。在AT方案中，TM通常是由发起全局事务的那个微服务所扮演的，比如在“删除券模板”这个场景里，TM的扮演者就是Customer服务。</p><p>RM全称是Resource Manager，它是资源管理器，向TC注册分支事务并上报事务状态，同时负责对当前分支事务进行提交和回滚。每一个分支事务都是全局事务的参与者，这些分支事务的所属应用扮演了RM的角色。</p><p>介绍完了这三个重要角色之后，让我们结合下面这张图来看看Seata AT的业务流程吧。</p><p><img src="https://static001.geekbang.org/resource/image/58/3a/580e50d523067f4eedb69edca017433a.jpg?wh=1920x827" alt="图片"></p><p>Seata AT的业务流程分为两个阶段来执行。</p><ul>
 

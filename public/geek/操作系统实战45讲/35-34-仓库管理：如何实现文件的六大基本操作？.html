@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是LMOS。</p><p>我们在上一节课中，已经建立了仓库，并对仓库进行了划分，就是文件系统的格式化。有了仓库就需要往里面存取东西，对于我们的仓库来说，就是存取应用程序的文件。</p><p>所以今天我们要给仓库增加一些相关的操作，这些操作主要用于新建、打开、关闭、读写文件，它们也是文件系统的标准功能，自然即使我们这个最小的文件系统，也必须要支持。</p><p>好了，话不多说，我们开始吧。这节课的配套代码，你可以从<a href="https://gitee.com/lmos/cosmos/tree/master/lesson34/Cosmos">这里</a>下载。</p><h2>辅助操作</h2><p>通过上一节课的学习，我们了解了文件系统格式化操作，不难发现文件系统格式化并不复杂，但是它们需要大量的辅助函数。同样的，完成文件相关的操作，我们也需要大量的辅助函数。为了让你更加清楚每个实现细节，这里我们先来实现文件操作相关的辅助函数。</p><h3>操作根目录文件</h3><p>根据我们文件系统的设计，不管是新建、删除、打开一个文件，首先都要找到与该文件对应的rfsdir_t结构。</p><p>在我们的文件系统中，一个文件的rfsdir_t结构就储存在根目录文件中，所以想要读取文件对应的rfsdir_t结构，首先就要获取和释放根目录文件。</p><p>下面我们来实现获取和释放根目录文件的函数，代码如下所示。</p><pre><code>//获取根目录文件
 

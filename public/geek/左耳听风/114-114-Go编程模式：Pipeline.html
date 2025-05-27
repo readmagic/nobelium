@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈皓，网名左耳朵耗子。</p><p>这节课，我着重介绍一下Go编程中的Pipeline模式。对于Pipeline，用过Unix/Linux命令行的人都不会陌生，<strong>它是一种把各种命令拼接起来完成一个更强功能的技术方法</strong>。</p><p>现在的流式处理、函数式编程、应用网关对微服务进行简单的API编排，其实都是受Pipeline这种技术方式的影响。Pipeline可以很容易地把代码按单一职责的原则拆分成多个高内聚低耦合的小模块，然后轻松地把它们拼装起来，去完成比较复杂的功能。</p><h2>HTTP 处理</h2><p>这种Pipeline的模式，我在<a href="https://time.geekbang.org/column/article/332608">上节课</a>中有过一个示例，我们再复习一下。</p><p>上节课，我们有很多  <code>WithServerHead()</code> 、<code>WithBasicAuth()</code> 、<code>WithDebugLog()</code>这样的小功能代码，在需要实现某个HTTP API 的时候，我们就可以很轻松地把它们组织起来。</p><p>原来的代码是下面这个样子：</p><pre><code>http.HandleFunc(&quot;/v1/hello&quot;, WithServerHeader(WithAuthCookie(hello)))
 

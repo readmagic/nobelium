@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是LMOS。</p><p>前面三节课，我们为调用Cosmos的<strong>第一个C函数hal_start做了大量工作。</strong>这节课我们要让操作系统Cosmos里的第一个C函数真正跑起来啦，也就是说，我们会真正进入到我们的内核中。</p><p>今天我们会继续在这个hal_start函数里，首先执行板级初始化，其实就是hal层（硬件抽象层，下同）初始化，其中执行了平台初始化，hal层的内存初始化，中断初始化，最后进入到内核层的初始化。</p><p>这节课的配套代码，你可以从<a href="https://gitee.com/lmos/cosmos/tree/master/lesson13/Cosmos">这里</a>下载。</p><h2>第一个C函数</h2><p>任何软件工程，第一个函数总是简单的，因为它是总调用者，像是一个管理者，坐在那里发号施令，自己却是啥活也不干。</p><p>由于这是第一个C函数，也是初始化函数，我们还是要为它单独建立一个文件，以显示对它的尊重，依然在Cosmos/hal/x86/下建立一个hal_start.c文件。写上这样一个函数。</p><pre><code>void hal_start()
 

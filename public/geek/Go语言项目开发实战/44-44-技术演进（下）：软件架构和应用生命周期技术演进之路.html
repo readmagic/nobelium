@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是孔令飞。</p><p>应用、系统资源、应用生命周期管理这 3 个维度，构成了我们对云的所有诉求。上一讲，我从系统资源维度，介绍了虚拟化技术的演进之路。这一讲，我会介绍下应用维度和应用生命周期管理维度的技术演进。</p><p>应用软件架构是用来构建应用的，不同的软件架构，构建应用的方式、效率，以及所构建应用的可维护度、性能都是不同的。随着技术的不断更新迭代，应用软件架构也在不断往前演进。这一讲我们就来看看，应用软件架构都有哪些，这些软件架构都有什么特点，以及它们之间是如何演进的。</p><p>至于应用生命周期管理维度，我在 <a href="https://time.geekbang.org/column/article/384021">09讲</a> 中已经介绍了应用生命周期管理技术的演进，这一讲也会再补充一些核心的技术，比如日志、监控告警、调用链等。</p><p>接下来，我们就先来看下软件架构的演进之路。</p><h2>软件架构的演进</h2><p>软件架构技术演进如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/f1/cd/f17c948f69e84efef776ee367a145dcd.jpg?wh=2248x618" alt=""></p><p>最开始，我们使用单体架构来构建应用，后面逐渐演进为SOA架构。不管是单体架构，还是SOA架构，都很难满足互联网时代应用快速迭代的诉求。所以，在互联网时代，应用软件架构又演进成了微服务架构。当前我们正处在微服务架构阶段，也有很多团队的业务正在尝试使用Service Mesh替代微服务架构中的一些功能。</p><p>随着Serverless云函数的诞生，也诞生了一种新的软件架构，FaaS架构。这里我先简单介绍下它，后面再详细讲。FaaS架构因为限制多、使用场景局限，目前还仅仅适用于云函数这种系统资源形态，我个人认为它不会成为未来主流的软件架构。还要说明下，业界目前并没有FaaS软件架构这个说法，大家说到FaaS，一般指的都是云函数这种技术形态。这里为了方便描述，我们先这样表达。</p><!-- [[[read_end]]] --><p>接下来，我仍然以技术演进的思路，来介绍下这些软件架构。首先来看下最早的单体架构。</p><h3>单体架构</h3><p>在最早的时候，我们用的软件架构是单体架构。在单体架构中，我们会将应用程序的所有功能都存放在一个代码仓库中，并且发布时，也是发布整个代码仓库的代码和功能。</p><p>在单体架构中，应用软件一般会包含四层，分别是表示层、业务逻辑层、数据访问层、数据库，如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/cd/a9/cde65byyc639286dbb27ac6a6abd8da9.jpg?wh=2248x3110" alt=""></p><p>这里简单介绍下每层的功能。</p><ul>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱晓峰。今天，我来和你聊一聊怎么进行空间定位。</p><p>我们每天都会用到空间数据，比如你在网上购买一件商品，你手机上的App就能够算出你是不是需要负担运费，负担多少运费。这其实就是因为手机获取到了你的空间位置信息，发送到网购平台，然后根据你所在的位置是否属于偏远地区，来决定你是否需要负担运费，如果需要的话，应该负担多少。</p><p>而从应用开发者的角度出发，我们需要知道怎么进行空间定位，获取用户的空间位置信息，以及如何计算发货点与客户地址的距离，这些都要借助与空间数据相关的技术才能解决。</p><p>今天，我还是借助一个真实的项目，来给你介绍下空间数据类型、空间数据处理函数，以及如何为空间数据创建索引，帮助你提升开发基于空间数据应用的能力。</p><p>在我们超市项目的实施过程中，超市经营者提出了这样一个要求：要给距离门店5公里范围内的、从线上下单的客户提供送货上门的服务。要想解决这个问题，就需要用到空间数据了。</p><h2>空间数据类型与空间函数</h2><p>我先给你介绍下空间数据类型和空间函数。</p><p>MySQL支持的空间数据类型分为2类：</p><ul>
 

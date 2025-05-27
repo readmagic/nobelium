@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈天。今天我们打卡Rust学习的第一讲。</p><p>你是不是已经迫不及待想要了解Rust了，但是别着急，我们不会按常规直接开始介绍语法，<strong>而会先来回顾那些你平时认为非常基础的知识，比如说内存、函数</strong>。</p><p>提到基础知识，你是不是已经有点提不起兴趣了，这些东西我都知道，何必浪费时间再学一次呢？其实不然，这些年我接触过的资深工程师里，基础知识没学透，工作多年了，还得回来补课的大有人在。</p><p>以最基础的内存为例，很多人其实并没有搞懂什么时候数据应该放在栈上，什么时候应该在堆上，直到工作中实际出现问题了，才意识到数据的存放方式居然会严重影响并发安全，无奈回头重新补基础，时间精力的耗费都很大。</p><p>其实作为开发者，我们一辈子会经历很多工具、框架和语言，但是这些东西无论怎么变，底层逻辑都是不变的。</p><p>所以今天我们得<strong>回头重新思考，编程中那些耳熟能详却又似懂非懂的基础概念，搞清楚底层逻辑</strong>。而且这些概念，对我们后面学习和理解 Rust 中的知识点非常重要，之后，我们也会根据需要再穿插深入讲解。</p><p>代码中最基本的概念是变量和值，而存放它们的地方是内存，所以我们就从内存开始。</p><h2>内存</h2><p>我们的程序无时无刻不在跟内存打交道。在下面这个把 “hello world!” 赋值给 s 的简单语句中，就跟只读数据段（RODATA）、堆、栈分别有深度交互：</p><!-- [[[read_end]]] --><pre><code class="language-rust">let s = "hello world".to_string();
 

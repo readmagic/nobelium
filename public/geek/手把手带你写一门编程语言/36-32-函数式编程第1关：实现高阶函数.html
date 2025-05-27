@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。</p><p>前面三节课，我们探讨了怎么在现代语言中实现面向对象编程的特性。面向对象是一种重要的编程范式。还有另一种编程范式，也同样重要，并且近年来使用得很多，这就是函数式编程。从今天这节课开始，我们就来实现一下函数式编程。</p><p>函数式编程思想其实比面向对象编程思想的历史更长，早期的Lisp等语言都是函数式编程语言。像JavaScript等后来的语言，也继承了Lisp语言在函数式编程方面的思想，对函数式编程也有不错的支持。</p><p>近年，函数式编程思想得到了一定程度的复兴，部分原因是由于函数式编程能够更好地应对大规模的并发处理。我自己最近参与的项目，也在全面使用一门函数式编程语言，这也是对函数式编程的优势的认可。此外，像Erlang这种能够开发高可靠性系统的函数式编程语言，也一直是我感兴趣的研究对象。</p><p>对于函数式编程这个话题，很多书和文章都对它有过讲解。我在《编译原理实战课》的<a href="https://time.geekbang.org/column/article/285636">第39节</a>，也对函数式编程特性的一些技术点做了分析。在我们的这门课里，因为要动手实现出来，所以目标不能太大，我们就挑几个最核心的技术点来实现一下，让你对函数式编程的底层机制有一次穿透性的了解。</p><p>今天这节课，我们主要来实现高阶函数的特性。对于函数式编程来说，高阶函数是实现其他功能的基础，属于最核心的技术点。那么，我们就先分析一下什么是高阶函数。</p><!-- [[[read_end]]] --><h2>高阶函数的例子</h2><p>高阶函数的核心思想，是<strong>函数本身可以当做数据来使用</strong>，就像number数据和string数据那样。那既然可以当做数据使用，那自然可以用它来声明变量、作为参数传递给另一个函数，以及作为返回值从另一个函数中返回。如果一门计算机语言把函数和数据同等对待，这时候我们说函数是一等公民（First-class Citizen）。</p><p>我用TypeScript写了一个reduce函数的例子，带你来感受一下高阶函数的特性。这个函数能够遍历一个number数组，并且返回一个number值。</p><pre><code class="language-plain">//reduce函数：遍历数组中的每个元素，最后返回一个值
 

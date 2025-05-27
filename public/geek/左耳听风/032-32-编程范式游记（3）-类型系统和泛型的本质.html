@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈皓，网名左耳朵耗子。</p><p>前面，我们讨论了从C到C++的泛型编程方法，并且初探了更为抽象的函数式编程。正如在上一讲中所说的，泛型编程的方式并不只有C++这一种类型，我们只是通过这个过程了解一下，底层静态类型语言的泛型编程原理。这样能够方便我们继续后面的历程。</p><p>是的，除了C++那样的泛型，如果你了解其它编程语言一定会发现，在动态类型语言或是某些有语法糖支持的语言中，那个<code>swap()</code> 或 <code>search()</code> 函数的泛型其实可以很简单地就实现了。</p><p>比如，你甚至可以把<code>swap()</code>函数简单地写成下面这个样子（包括Go语言也有这样的语法）：</p><pre><code>b, a = a, b;
 

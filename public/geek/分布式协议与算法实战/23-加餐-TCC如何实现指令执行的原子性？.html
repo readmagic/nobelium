@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是韩健。</p><p>在上一讲我提到，虽然MySQL XA能实现数据层的分布式事务，解决多个MySQL操作的事务问题，但我现在负责的这套业务系统还面临别的问题：在接收到外部的指令后，我需要访问多个内部系统，执行指令约定的操作，而且，还必须保证指令执行的原子性（也就是事务要么全部成功，要么全部失败）。</p><p>那么我是如何实现指令执行的原子性呢？答案是TCC。</p><p>在我看来，上一讲中，基于二阶段提交协议的XA规范，实现的是数据层面操作的事务，而TCC能实现业务层面操作的事务。</p><p>对你来说，理解了二阶段提交协议和TCC后，你可以从数据层面到业务层面，更加全面理解如何实现分布式事务了，这样一来，当你在日常工作中，需要实现操作的原子性或者系统状态的一致性时，就知道该如何处理了。</p><p>那么为了帮助你更好地理解TCC，咱们还是先来看一道思考题。</p><p>我以如何实现订票系统为例，假设现在要实现一个企鹅订票系统，给内部员工提供机票订购服务，但在实现订票系统时，我们需要考虑这样的情况：</p><p>我想从深圳飞北京，但这时没有直达的机票，要先定深圳航空的航班，从深圳去上海，然后再定上海航空的航班，从上海去北京。</p><p>因为我的目的地是北京，所以如果只有一张机票订购成功，肯定是不行的，这个系统必须保障2个订票操作的事务要么全部成功，要么全部不成功。那么该如何实现2个订票操作的事务呢？</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/7c/3b/7ca6e1def38b2ba6873711d8f283dc3b.jpg?wh=1142*418" alt=""></p><p>带着这个问题，我们进入今天的学习，先来了解一下什么是TCC。</p><h2>什么是TCC？</h2><p>在<a href="https://time.geekbang.org/column/article/200717">04讲</a>，我们介绍了TCC，你如果对TCC不熟悉，或者忘记了，那么可以回过头复习一下。在这里，我只想补充一点，那就是：你可以对比二阶段提交协议来理解，TCC包含的预留、确认或撤销这 2 个阶段，比如：</p><ul>
 

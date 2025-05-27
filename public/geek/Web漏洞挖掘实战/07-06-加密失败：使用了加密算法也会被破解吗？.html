@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王昊天。</p><p>从这节课开始我们开启了新的模块——加密失败的学习。这是2021 OWASP TOP 10的排名第二的风险种类，与失效的访问控制相比，<strong>加密失败更多地体现为一种单点技术问题，通常是由于开发人员对加密过程使用不合理造成的</strong>。</p><p>先来分享一个我的小故事：</p><p>作为一个Dota 2玩家，我有一台自己的Windows台式机，配置是i7-4790k + 16GB内存 + 256GB SSD。相信你能看出来，虽然这台机器在当时也算小“高端”配置，但到现在已经稍微有点力不从心了。</p><p>于是我便产生了更新硬件的想法——经过多次测试，我觉得性能下降的主要问题在于CPU温度，这一想法在我百度了“4790k 散热”之后更加坚定，于是我决定用水冷取代原来CPU自带的小风扇。在某东购置了水冷设备后，经过简单的安装，顺利开机。令人惊讶的一幕出现了：原来开机之后CPU温度是70℃，现在是99℃，由于温度过高开机不到20分钟就会自动关机。</p><p>为什么水冷会比风冷效果还差呢？是不是水冷设备没有工作？但我是按照说明书安装的，看起来呼吸灯也是亮的。看着一体化的水冷设备，没有任何有效的判断方式，我的内心是崩溃的。经过接近半天时间的不断调试和开机测试，最终我找到了问题——螺丝没有拧紧导致接触不严密，散热效果没有发挥出来。</p><!-- [[[read_end]]] --><p>分享这个故事，我是想说的是，<strong>在面对一个我们完全不了解的黑盒产品时，使用过程中出问题的可能性是很大的，加密失败这种安全风险往往就因此产生</strong>。</p><p>加密是一个数学问题，应用到了开发场景。事实上，加密函数就像一个黑盒，开发人员能够考虑的只有输入和输出，其中输出还是非常复杂的。加密是否成功，极大地影响着系统的安全性，但是很多开发人员，对加密却没有深入研究。因此，<strong>只验证加密结果的正确性，却不验证加密结果的质量是不行的</strong>。接下来的几节课我们会重点讨论加密结果的质量问题。</p><h2>加密失败</h2><p>在国内的信息安全建设大背景下，系统的数据安全已经愈加重要，其中首先要考虑的就是数据的传输层和存储层的安全。这些环节中主要采用的保护方案就是加密，目前加密已经渗透到了开发的方方面面。也许这样描述你没有直观的感受，那么我们来看一些场景：</p><ul>
 

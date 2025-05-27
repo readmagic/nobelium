@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱晔，贝壳金服的资深架构师。</p><p>我先和你说说我这15年的工作经历吧，以加深彼此的了解。前7年，我专注于.NET领域，负责业务项目的同时，也做了很多社区工作。在CSDN做版主期间，我因为回答了大量有关.NET的问题，并把很多问题的答案总结成了博客，获得了3次微软MVP的称号。</p><p>后来，我转到了Java领域，也从程序员变为了架构师，更关注开源项目和互联网架构设计。在空中网，我整体负责了百万人在线的大型MMO网游《激战》技术平台的架构设计，期间和团队开发了许多性能和稳定性都不错的Java框架；在饿了么，我负责过日千万订单量的物流平台的开发管理和架构工作，遇到了许多只有高并发下才会出现的问题，积累了大量的架构经验；现在，我在贝壳金服的基础架构团队，负责基础组件、中间件、基础服务开发规划，制定一些流程和规范，带领团队自研Java后端开发框架、微服务治理平台等，在落地Spring Cloud结合Kubernetes容器云平台技术体系的过程中，摸索出了很多适合公司项目的基础组件和最佳实践。</p><p>这15年来，我一直没有脱离编码工作，接触过大大小小的项目不下400个，自己亲身经历的、见别人踩过的坑不计其数。我感触很深的一点是，业务代码中真的有太多的坑：有些是看似非常简单的知识点反而容易屡次踩坑，比如Spring声明式事务不生效的问题；而有些坑因为“潜伏期”长，引发的线上事故造成了大量的人力和资金损失。因此，我系统梳理了这些案例和坑点，最终筛选出100个案例，涉及130多个坑点，组成了这个课程。</p><!-- [[[read_end]]] --><h2>意识不到业务代码的坑，很危险</h2><p>我想看到100、130这两个数字，你不禁要问了：“我写了好几年的业务代码了，遇到问题时上网搜一下就有答案，遇到最多的问题就是服务器不稳定，重启一下基本就可以解决，哪里会有这么多坑呢？”带着这个问题，你继续听我往下说吧。</p><p>据我观察，很多开发同学没意识到这些坑，有以下三种可能：</p><ul>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。</p><p>上一节课，我们用了一些例子，讨论了如何用基于图的IR来实现一些优化，包括公共子表达式删除、拷贝传播和死代码删除。但这些例子，都属于本地优化的场景。也就是说，在未来生成的汇编代码中，这些代码其实都位于同一个基本块。</p><p>不过，复杂一点的程序，都会有if语句和循环语句这种流程控制语句，所以程序就会存在多个基本块。那么就会存在跨越多个基本块的优化工作，也就是全局优化。</p><p>所以，今天这节课，我们就来讨论一下如何基于当前的IR做全局优化。同时，为了达到优化效果，我们这一节课还需要把浮动的数据节点划分到具体的基本块中去，实现指令的调度。</p><p>但在讨论全局优化的场景之前，我还要先给你补充一块知识点，就是变量的版本和控制流的关系，让你能更好地理解全局优化。</p><h2>变量的版本和控制流的关系</h2><p>通过前几节课我们已经知道，我们的IR生成算法能够对一个变量产生多个版本的定义，从而让IR符合SSA格式。可是，我们是如何来表示不同版本的定义的，又是如何确定程序中到底引用的是变量的哪个版本呢？</p><p>在IR的模型中，我引入了一个VarProxy类，来引用变量的一个版本，就像d0、d1和d2，也有的文献把变量的一个定义叫做变量的一个定值。VarProxy里面保存了一个VarSymbol，还包括了一个下标：</p><!-- [[[read_end]]] --><pre><code class="language-plain">//代表了变量的一次定义。每次变量重新定义，都会生成一个新的Proxy，以便让IR符合SSA格式
 

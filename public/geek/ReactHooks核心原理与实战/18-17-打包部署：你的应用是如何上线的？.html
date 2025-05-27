@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王沛。今天我们来聊聊React 应用的打包和部署。</p><p>从这节课开始，我们就进入了扩展篇的学习。通过基础篇和实战篇的学习，你应该对如何开发一个 React 应用已经心中有数了。但是我们也要知道，仅仅学会开发是不够的。在此基础之上，掌握打包部署、单元测试，以及了解React 生态圈的一些常用项目，才能真正完成一个应用的开发。</p><p>所以在扩展篇我会对上述内容做一个整体的介绍，让你使用React 进行开发时，没有知识盲区，能够完整应对应用的整个开发过程。</p><p>同时，我需要强调的是，我们在扩展篇的学习目标是<strong>总体把握，消除知识盲区。</strong>所以我会以介绍重要知识点为主，将我认为最重要或者最常用的概念、机制拎出来，让你有的放矢地进行学习。当然，每一篇的内容如果你想要深入学习，还需要去官方文档或者专门的教程去详细了解。</p><p>今天这节课，我将介绍最主流的打包工具 Webpack，通过了解它的基本概念和常用配置，让你能在完成 React 的应用开发之后，知道该怎么打包成可部署的应用。</p><h2>为什么需要了解 Webpack？</h2><p>我个人一直认为，每个前端开发者不一定要精通Webpack，但有必要进行了解，至少要能看得懂一个 Webpack 的配置文件，以及遇到问题时能知道是 Webpack 的问题，还是自己代码的问题。</p><!-- [[[read_end]]] --><p>通常来说，我们都是通过脚手架工具创建一个应用，或者加入到一个已有的项目开发中。这个时候，我们并不需要知道该怎么配置 Webpack ，只要能开发业务逻辑就可以了。这与使用 Java、Swift 等等编程语言是有些类似的，我们不太需要关注源代码是通过什么编译器如何打包成最后的应用程序的，因为 IDE 已经帮我们把这些事情做好了。</p><p>所以说，我们可以不精通 Webpack，但要知道它是什么，帮我们做了哪些事情。这样的话，在遇到问题的时候，我们就能知道是哪个环节出了问题，以便进一步寻找解决问题的方案。</p><p>举个例子，在进行 React 开发时，如果遇到下面的错误，如果是你，会从哪里着手解决呢？<br>
 

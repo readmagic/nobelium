@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是徐文浩，今天是第二期FAQ，我搜集了第3讲到第6讲，大家在留言区问的比较多的问题，来做一次集中解答。</p><p>有些问题，可能你已经知道了答案，不妨看看和我的理解是否一样；如果这些问题刚好你也有，那可要认真看啦！</p><p>希望今天的你，也同样有收获！</p><hr></hr><h2>Q1：为什么user + sys运行出来会比real time多呢？</h2><p><img src="https://static001.geekbang.org/resource/image/36/4c/3665db1602c971c2cad1932ee8d0804c.png" alt=""></p><p>我们知道，实际的计算机运行的过程中，CPU会在多个不同的进程里面切换，分配不同的时间片去执行任务。所以，运行一个程序，在现实中走过的时间，并不是实际CPU运行这个程序所花费的时间。前者在现实中走过的时间，我们叫作real time。有时候叫作wall clock time，也就是墙上挂着的钟走过的时间。</p><p>而实际CPU上所花费的时间，又可以分成在操作系统的系统调用里面花的sys time和用户态的程序所花的user time。如果我们只有一个CPU的话，那real time &gt;= sys time + user time 。所以，我当时在文章里给大家看了对应的示例。</p><p>不过，有不少同学运行出来的结果不是这样的。这是因为现在大家都已经用上多核的CPU了。也就是同一时间，有两个CPU可以同时运行任务。</p><p>你在一台多核或者多CPU的机器上运行，seq和wc命令会分配到两个CPU上。虽然seq和wc这两个命令都是单线程运行的，但是这两个命令在多核CPU运行的情况下，会分别分配到两个不同的CPU。</p><!-- [[[read_end]]] --><p>于是，user和sys的时间是两个CPU上运行的时间之和，这就可能超过real的时间。而real只是现实时钟里走过的时间，极端情况下user+sys可以到达real的两倍。</p><p>你可以运行下面这个命令，快速验证。让这个命令多跑一会儿，并且在后台运行。</p><pre><code>time seq 100000000 | wc -l &amp;
 

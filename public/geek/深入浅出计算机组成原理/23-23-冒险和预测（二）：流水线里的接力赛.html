@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>上一讲，我为你讲解了结构冒险和数据冒险，以及应对这两种冒险的两个解决方案。一种方案是增加资源，通过添加指令缓存和数据缓存，让我们对于指令和数据的访问可以同时进行。这个办法帮助CPU解决了取指令和访问数据之间的资源冲突。另一种方案是直接进行等待。通过插入NOP这样的无效指令，等待之前的指令完成。这样我们就能解决不同指令之间的数据依赖问题。</p><p>着急的人，看完上一讲的这两种方案，可能已经要跳起来问了：“这也能算解决方案么？”的确，这两种方案都有点儿笨。</p><p>第一种解决方案，好比是在软件开发的过程中，发现效率不够，于是研发负责人说：“我们需要双倍的人手和研发资源。”而第二种解决方案，好比你在提需求的时候，研发负责人告诉你说：“来不及做，你只能等我们需求排期。” 你应该很清楚地知道，“堆资源”和“等排期”这样的解决方案，并不会真的提高我们的效率，只是避免冲突的无奈之举。</p><p>那针对流水线冒险的问题，我们有没有更高级或者更高效的解决方案呢？既不用简单花钱加硬件电路这样“堆资源”，也不是纯粹等待之前的任务完成这样“等排期”。</p><p>答案当然是有的。这一讲，我们就来看看计算机组成原理中，一个更加精巧的解决方案，<strong>操作数前推</strong>。</p><h2>NOP操作和指令对齐</h2><!-- [[[read_end]]] --><p>要想理解操作数前推技术，我们先来回顾一下，<a href="https://time.geekbang.org/column/article/93359">第5讲</a>讲过的，MIPS体系结构下的R、I、J三类指令，以及<a href="https://time.geekbang.org/column/article/99523">第20讲</a>里的五级流水线“取指令（IF）-指令译码（ID）-指令执行（EX）-内存访问（MEM）-数据写回（WB） ”。</p><p>我把对应的图片放进来了，你可以看一下。如果印象不深，建议你先回到这两节去复习一下，再来看今天的内容。</p><p><img src="https://static001.geekbang.org/resource/image/b1/bf/b1ade5f8de67b172bf7b4ec9f63589bf.jpeg" alt=""><img src="https://static001.geekbang.org/resource/image/1e/ad/1e880fa8b1eab511583267e68f0541ad.jpeg" alt=""></p><p>在MIPS的体系结构下，不同类型的指令，会在流水线的不同阶段进行不同的操作。</p><p>我们以MIPS的LOAD，这样从内存里读取数据到寄存器的指令为例，来仔细看看，它需要经历的5个完整的流水线。STORE这样从寄存器往内存里写数据的指令，不需要有写回寄存器的操作，也就是没有数据写回的流水线阶段。至于像ADD和SUB这样的加减法指令，所有操作都在寄存器完成，所以没有实际的内存访问（MEM）操作。</p><p><img src="https://static001.geekbang.org/resource/image/b6/d4/b66ea9ca3300c7f71e91aaa6b6428fd4.jpg" alt=""></p><p>有些指令没有对应的流水线阶段，但是我们并不能跳过对应的阶段直接执行下一阶段。不然，如果我们先后执行一条LOAD指令和一条ADD指令，就会发生LOAD指令的WB阶段和ADD指令的WB阶段，在同一个时钟周期发生。这样，相当于触发了一个结构冒险事件，产生了资源竞争。</p><p><img src="https://static001.geekbang.org/resource/image/9e/5f/9e62ab3b42e445d65accf0549badf45f.jpeg" alt=""></p><p>所以，在实践当中，各个指令不需要的阶段，并不会直接跳过，而是会运行一次NOP操作。通过插入一个NOP操作，我们可以使后一条指令的每一个Stage，一定不和前一条指令的同Stage在一个时钟周期执行。这样，就不会发生先后两个指令，在同一时钟周期竞争相同的资源，产生结构冒险了。</p><p><img src="https://static001.geekbang.org/resource/image/c1/42/c16643d83dd534d3d97d0d7ad8e30d42.jpg" alt=""></p><h2>流水线里的接力赛：操作数前推</h2><p>通过NOP操作进行对齐，我们在流水线里，就不会遇到资源竞争产生的结构冒险问题了。除了可以解决结构冒险之外，这个NOP操作，也是我们之前讲的流水线停顿插入的对应操作。</p><p>但是，插入过多的NOP操作，意味着我们的CPU总是在空转，干吃饭不干活。那么，我们有没有什么办法，尽量少插入一些NOP操作呢？不要着急，下面我们就以两条先后发生的ADD指令作为例子，看看能不能找到一些好的解决方案。</p><pre><code>add $t0, $s2,$s1
 

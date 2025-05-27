@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在掌握内存相关的背景知识后，下一步你肯定想着手开始优化内存的问题了。不过在真正开始做内存优化之前，需要先评估内存对应用性能的影响，我们可以通过崩溃中“异常退出” 和OOM的比例进行评估。另一方面，低内存设备更容易出现内存不足引起的异常和卡顿，我们也可以通过查看应用中用户的手机内存在2GB以下所占的比例来评估。</p><p>所以在优化前要先定好自己的目标，这一点非常关键。比如针对512MB的设备和针对2GB以上的设备，完全是两种不同的优化思路。如果我们面向东南亚、非洲用户，那对内存优化的标准就要变得更苛刻一些。</p><p>铺垫了这么多，下面我们就来看看内存优化都有哪些方法吧。</p><h2>内存优化探讨</h2><p>那要进行内存优化，应该从哪里着手呢？我通常会从设备分级、Bitmap优化和内存泄漏这三个方面入手。</p><p><strong>1. 设备分级</strong></p><p>相信你肯定遇到过，同一个应用在4GB内存的手机运行得非常流畅，但在1GB内存的手机就不一定可以做到，而且在系统空闲和繁忙的时候表现也不太一样。</p><p><strong>内存优化首先需要根据设备环境来综合考虑</strong>，专栏上一期我提到过很多同学陷入的一个误区：“内存占用越少越好”。其实我们可以让高端设备使用更多的内存，做到针对设备性能的好坏使用不同的内存分配和回收策略。</p><!-- [[[read_end]]] --><p>当然这需要有一个良好的架构设计支撑，在架构设计时需要做到以下几点。</p><ul>
 

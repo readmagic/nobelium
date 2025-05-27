@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈天。</p><p>在上一讲里，我们已经接触了 Rust 的基本语法。你是不是已经按捺不住自己的洪荒之力，想马上用 Rust 写点什么练练手，但是又发现自己好像有点“拔剑四顾心茫然”呢？</p><p>那这周我们就来玩个新花样，<strong>做一周“learning by example”的挑战</strong>，来尝试用 Rust 写三个非常有实际价值的小应用，感受下 Rust 的魅力在哪里，解决真实问题的能力到底如何。</p><p>你是不是有点担心，我才刚学了最基本语法，还啥都不知道呢，这就能开始写小应用了？那我碰到不理解的知识怎么办？</p><p>不要担心，因为你肯定会碰到不太懂的语法，但是，<strong>先不要强求自己理解，当成文言文抄写就可以了</strong>，哪怕这会不明白，只要你跟着课程节奏，通过撰写、编译和运行，你也能直观感受到 Rust 的魅力，就像小时候背唐诗一样。</p><p>好，我们开始今天的挑战。</p><h2>HTTPie</h2><p>为了覆盖绝大多数同学的需求，这次挑选的例子是工作中普遍会遇到的：写一个 CLI 工具，辅助我们处理各种任务。</p><p>我们就以实现 <a href="https://httpie.io/">HTTPie</a> 为例，看看用 Rust 怎么做 CLI。HTTPie 是用 Python 开发的，一个类似 cURL 但对用户更加友善的命令行工具，它可以帮助我们更好地诊断 HTTP 服务。</p><p>下图是用 HTTPie 发送了一个 post 请求的界面，你可以看到，相比 cURL，它在可用性上做了很多工作，包括对不同信息的语法高亮显示：</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/e0/b7/e0f1238d1efe338a33f4bec5318a48b7.png?wh=1762x1130" alt="图片"></p><p>你可以先想一想，如果用你最熟悉的语言实现 HTTPie ，要怎么设计、需要用到些什么库、大概用多少行代码？如果用 Rust 的话，又大概会要多少行代码？</p><p>带着你自己的这些想法，开始动手用 Rust 构建这个工具吧！我们的目标是，<strong>用大约 200 行代码</strong>实现这个需求。</p><h3>功能分析</h3><p>要做一个 HTTPie 这样的工具，我们先梳理一下要实现哪些主要功能：</p><ul>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴磊。</p><p>在前面的几讲中，咱们不止一次提到，就数据源来说，Kafka是Structured Streaming最重要的Source之一。在工业级的生产系统中，Kafka与Spark这对组合最为常见。因此，掌握Kafka与Spark的集成，对于想从事流计算方向的同学来说，是至关重要的。</p><p>今天这一讲，咱们就来结合实例，说一说Spark与Kafka这对“万金油”组合如何使用。随着业务飞速发展，各家公司的集群规模都是有增无减。在集群规模暴涨的情况下，资源利用率逐渐成为大家越来越关注的焦点。毕竟，不管是自建的Data center，还是公有云，每台机器都是真金白银的投入。</p><h2>实例：资源利用率实时计算</h2><p>咱们今天的实例，就和资源利用率的实时计算有关。具体来说，我们首先需要搜集集群中每台机器的资源（CPU、内存）利用率，并将其写入Kafka。然后，我们使用Spark的Structured Streaming来消费Kafka数据流，并对资源利用率数据做初步的分析与聚合。最后，再通过Structured Streaming，将聚合结果打印到Console、并写回到Kafka，如下图所示。</p><p><img src="https://static001.geekbang.org/resource/image/29/45/2968c988151de68798233229842c7e45.jpg?wh=1920x576" alt="图片" title="资源利用率实时计算流程图"></p><p>一般来说，在工业级应用中，上图中的每一个圆角矩形，在部署上都是独立的。绿色矩形代表待监测的服务器集群，蓝色矩形表示独立部署的Kafka集群，而红色的Spark集群，也是独立部署的。所谓独立部署，它指的是，集群之间不共享机器资源，如下图所示。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/8c/c7/8cba5a71a01c64a1dae52b13fc5144c7.jpg?wh=1920x970" alt="图片" title="独立部署示意图"></p><p>如果你手头上没有这样的部署环境，也不用担心。要完成资源利用率实时计算的实例，咱们不必非要依赖独立部署的分布式集群。实际上，仅在单机环境中，你就可以复现今天的实例。</p><h2>课程安排</h2><p>今天这一讲涉及的内容比较多，在正式开始课程之前，咱们不妨先梳理一下课程内容，让你做到心中有数。</p><p><img src="https://static001.geekbang.org/resource/image/29/45/2968c988151de68798233229842c7e45.jpg?wh=1920x576" alt="图片" title="资源利用率实时计算流程图"></p><p>对于上图的1、2、3、4这四个步骤，我们会结合代码实现，分别讲解如下这四个环节：</p><p>1.生成CPU与内存消耗数据流，写入Kafka；<br>
 

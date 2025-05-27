@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是袁武林。</p><p>我在前面第一篇文章中，从使用场景的需求方面，讲到了IM系统的几个比较重要的特性。其中之一就是“消息到达的实时性”。</p><p>实时性场景是所有的IM系统绕不开的话题，为了支持互联网的“实时互联”的概念，大部分的App都需要实时技术的支持。</p><p>我们现在使用的聊天类App、直播互动类App都已经在实时性方面做得很好了，消息收发延迟基本都能控制在毫秒级别。</p><p>当然这一方面得益于快速发展的移动网络，让网络延迟越来越低、网络带宽越来越高；另一个重要原因是：社交网络App在实时性提升方面的技术，也在不断升级迭代。</p><p>实时性主要解决的问题是：当一条消息发出后，我们的系统如何确保这条消息最快被接收人感知并获取到，并且尽量让耗费的资源较少。这里关键的几个点是：最快触达，且耗费资源少。</p><p>想好了吗？下面我们来看一看，IM在追求“消息实时性”的架构上，所经历过的几个代表性阶段。</p><h2>短轮询场景</h2><p>在PC Web的早期时代，对于数据的获取，大部分应用采用一问一答的“请求响应”式模式，实际上，像现在我们浏览大部分门户网站的新闻，以及刷微博其实都是采用的“请求响应”模式。</p><p>但这种依赖“手动”触发的模式，在即时消息系统中当有新消息产生时并不能很好地感知并获取到，所以明显不适用于对实时性要求高的场景。</p><!-- [[[read_end]]] --><p>因此，这个时期的IM软件很多采用了一种“短轮询”的模式，来定期、高频地轮询服务端的新消息。</p><p>在短轮询模式中，服务器接到请求后，如果有新消息就会将新消息返回给客户端，如果没有新消息就返回空列表，并关闭连接。</p><p>这种短轮询的方式就好像一位焦急等待重要信件的人，每天骑车跑到家门口的邮局去问是否有自己的信件，有就拿回家，没有第二天接着去邮局问。</p><p><img src="https://static001.geekbang.org/resource/image/f0/db/f0de61adecb8925483517cb5df2aecdb.png" alt=""></p><p>作为从一问一答的请求响应模式孵化出来的短轮询模式，具有较低的迁移升级成本，比较容易落地。但劣势也很明显：</p><ul>
 

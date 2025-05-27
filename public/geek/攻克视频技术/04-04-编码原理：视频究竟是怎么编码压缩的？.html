@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是李江。今天我们一起来聊一聊视频编码。</p><p>说到视频，我们首先想到的可能就是占内存。我们知道一个视频是由一连串图像序列组成的，视频中图像一般是YUV格式。现在，我们假设有一个电影视频，分辨率是1080P，帧率是25fps，并且时长是2小时，如果不做视频压缩的话，它的大小是1920 x 1080 x 1.5 x 25 x 2 x 3600 = 521.4G。而我们的电脑一般是500G的硬盘，那就连2部电影都放不下了。如果是在视频通话场景下的话，按照这个大小去传输视频数据，对流量和带宽资源的消耗也是非常大的，并且如此大的数据发送对网络要求也非常高，很显然我们是接受不了的。因此，做视频编码压缩就非常有必要。</p><p>那么，接下来我就深入讲讲视频编码，带你从预测编码、变换编码、熵编码等方面，系统了解下视频编码的原理。相信这节课过后，你会对视频编码有一个全面的了解。</p><h2>视频编码的原理</h2><p>视频编码是对一帧帧图像来进行的。一般我们所熟知的彩色图像的格式是RGB的，即用红绿蓝三个分量的组合来表示所有颜色。但是，RGB三个颜色是有相关性的，为了去掉这个相关性，减少需要编码的信息量，我们通常会把RGB转换成YUV，也就是 <strong>1个亮度分量和2个色度分量</strong>。</p><!-- [[[read_end]]] --><p>另外，人眼对于亮度信息更加敏感，而对于色度信息稍弱，所以视频编码是将Y分量和UV分量分开来编码的。</p><p>而对于每一帧图像，又是划分成一个个块来进行编码的，<strong>这一个个块在H264中叫做宏块</strong>，而在VP9、AV1中称之为超级块，其实概念是一样的。宏块大小一般是16x16（H264、VP8），32x32（H265、VP9），64x64（H265、VP9、AV1），128x128（AV1）这几种。这里提到的H264、H265、VP8、VP9和AV1都是市面上常见的编码标准，下面我会介绍，这里就不再详细讲述。</p><p><strong>图像一般都是有数据冗余的</strong>，主要包括以下4种：</p><ul>
 

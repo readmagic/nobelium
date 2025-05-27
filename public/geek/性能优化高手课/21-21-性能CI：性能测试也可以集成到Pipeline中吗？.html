@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是尉刚强。这节课，我们来讲讲如何利用Pipeline来实现更好的性能测试效果。</p><p>如果你用过开源数据库MongoDB，那你可能会遇到或者是听说过一个比较典型的性能问题，也就是<strong>N+1性能问题</strong>。</p><p>这个问题描述是：本来业务实现中需要查询N条数据项，因此最佳的性能实现方式，当然是通过1条查询语句返回所有数据。但是，如果编码人员对MongoDB客户端的API接口不太熟悉，或者是编码过程中不小心，都有可能导致最后实现的查询代码，执行了N+1次数据库查询请求，从而造成性能浪费。而如果N的数字比较大，可能还会对软件性能造成更严重的影响。</p><p>那么针对这类性能问题，有没有什么好的解决办法呢？</p><p>当然是有的，我们可以<strong>把组件或者微服务级的性能测试集成到Pipeline（流水线）上</strong>，让它成为CI（持续集成）中的一部分，就可以很好地解决这类问题。</p><p>而至于具体的原因，今天这节课我就会先带你一起探究下。然后，我还会针对不同种类的性能测试，给你分享一些实用的集成到Pipeline中的策略和思路。你可以根据今天学习的内容，将自己产品中的一些关键性能测试也集成到Pipeline上，来帮助团队更早地发现性能问题，从而提升研发效率。</p><p>好，下面我们就先来了解下Pipeline的工作原理，看看为什么可以把性能测试集成到Pipeline上。</p><!-- [[[read_end]]] --><h3>为什么性能测试可以集成到Pipeline上？</h3><p>首先，我这里所说的Pipeline，其实指的是DevOps软件开发方法中提出CI/CD的一种技术实现手段。</p><blockquote>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是李玥。</p><p>这节课我们一起来聊一聊数据压缩。我在前面文章中提到过，我曾经在一台配置比较高的服务器上，对Kafka做过一个极限的性能压测，想验证一下Kafka到底有多快。我使用的种子消息大小为1KB，只要是并发数量足够多，不开启压缩时，可以打满万兆网卡的全部带宽，TPS接近100万。开启压缩时，TPS可以达到2000万左右，吞吐量提升了大约20倍！</p><p>算术好的同学可能会立刻反驳我说，2000万TPS乘以1KB的消息大小，再把字节Byte转换成比特bit，换算成网络传输的带宽是200Gb/s，服务器网卡根本达不到这么大的传输带宽！</p><p>我们的测试服务器的网卡就是普通的万兆网卡，极限带宽也就是10Gb/s，压测时候的实际网络流量大概在7Gb/s左右。这里面，最重要的原因就是，我在测试的时候开启了Kafka的压缩功能。可以看到，对于Kafka来说，使用数据压缩，提升了大概几十倍的吞吐量。当然，在实际生产时，不太可能达到这么高的压缩率，但是合理地使用数据压缩，仍然可以做到提升数倍的吞吐量。</p><p>所以，<strong>数据压缩不仅能节省存储空间，还可以用于提升网络传输性能。</strong>这种使用压缩来提升系统性能的方法，不仅限于在消息队列中使用，我们日常开发的应用程序也可以使用。比如，我们的程序要传输大量的数据，或者要在磁盘、数据库中存储比较大的数据，这些情况下，都可以考虑使用数据压缩来提升性能，还能节省网络带宽和存储空间。</p><!-- [[[read_end]]] --><p>那如何在你的程序中使用压缩？应该选择什么样的压缩算法更适合我们的系统呢？这节课，我带你一起学习一下，使用数据压缩来提升系统性能的方法。</p><h2>什么情况适合使用数据压缩？</h2><p>在使用压缩之前，首先你需要考虑，当前这个场景是不是真的适合使用数据压缩。</p><p>比如，进程之间通过网络传输数据，这个数据是不是需要压缩呢？我和你一起来对比一下：</p><ul>
 

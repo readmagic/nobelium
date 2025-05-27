@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在这一章的第一节里，我们大致讲了管道的使用方式以及相应的命令行。这一节，我们就具体来看一下管道是如何实现的。</p><p>我们先来看，我们常用的<strong>匿名管道</strong>（Anonymous Pipes），也即将多个命令串起来的竖线，背后的原理到底是什么。</p><p>上次我们说，它是基于管道的，那管道如何创建呢？管道的创建，需要通过下面这个系统调用。</p><pre><code>int pipe(int fd[2])
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是欧创新。</p><p>上一讲我们完成了领域模型的设计，接下来我们就要开始微服务的设计和落地了。那<span class="orange">微服务落地时首先要确定的就是微服务的代码结构</span>，也就是我今天要讲的微服务代码模型。</p><p>只有建立了标准的微服务代码模型和代码规范后，我们才可以将领域对象所对应的代码对象放在合适的软件包的目录结构中。标准的代码模型可以让项目团队成员更好地理解代码，根据代码规范实现团队协作；还可以让微服务各层的逻辑互不干扰、分工协作、各据其位、各司其职，避免不必要的代码混淆。另外，标准的代码模型还可以让你在微服务架构演进时，轻松完成代码重构。</p><p>那在DDD里，微服务的代码结构长什么样子呢？我们又是依据什么来建立微服务代码模型？这就是我们今天重点要解决的两个问题。</p><h2>DDD分层架构与微服务代码模型</h2><p>我们参考DDD分层架构模型来设计微服务代码模型。没错！微服务代码模型就是依据DDD分层架构模型设计出来的。那为什么是DDD分层架构模型呢？</p><p><img src="https://static001.geekbang.org/resource/image/a3/01/a308123994f87a5ce99adc85dd9b4d01.jpg" alt=""></p><p>我们先简单回顾一下 <a href="https://time.geekbang.org/column/article/156849">[第 07 讲]</a> 介绍过的DDD分层架构模型。它包括用户接口层、应用层、领域层和基础层，分层架构各层的职责边界非常清晰，又能有条不紊地分层协作。</p><ul>
 

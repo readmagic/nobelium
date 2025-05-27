@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈东。</p><p>在搜索引擎和推荐引擎中，往往有很多文章的内容是非常相似的，它们可能只有一些修饰词不同。如果在搜索结果或者推荐结果中，我们将这些文章不加过滤就全部展现出来，那用户可能在第一页看到的都是几乎相同的内容。这样的话，用户的使用体验就会非常糟糕。因此，在搜索引擎和推荐引擎中，对相似文章去重是一个非常重要的环节。</p><p>对相似文章去重，本质上就是把相似的文章都检索出来。今天，我们就来聊聊如何快速检索相似的文章。</p><h2>如何在向量空间中进行近邻检索？</h2><p>既然是要讨论相似文章的检索，那我们就得知道，一篇文章是怎么用计算机能理解的形式表示出来的，以及怎么计算两篇文章的相似性。最常见的方式就是使用<strong>向量空间模型</strong>（Vector Space Model）。所谓向量空间模型，就是将所有文档中出现过的所有关键词都提取出来。如果一共有n个关键词，那每个关键词就是一个维度，这就组成了一个n维的向量空间。</p><p>那一篇文档具体该如何表示呢？我们可以假设，一篇文章中有k（0&lt;k&lt;=n）个关键词，如果第k个关键词在这个文档中的权重是w，那这个文档在第k维上的值就是w。一般来说，我们会以一个关键词在这篇文档中的TF-IDF值作为w的值。而如果文章不包含第k个关键词，那它在第k维上的值就是0，那我们也可以认为这个维度的权重就是0。这样，我们就可以用一个n维的向量来表示一个文档了，也就是&lt;w<sub>1</sub>,w<sub>2</sub>,w<sub>3</sub>,……w<sub>n</sub>&gt;。这样一来，每一个文档就都是n维向量空间中的一个点。<br>
 

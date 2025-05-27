@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱晔。</p><p>在<a href="https://time.geekbang.org/column/article/224816">上一篇加餐</a>中，我们介绍了使用JDK内置的一些工具、网络抓包工具Wireshark去分析、定位Java程序的问题。很多同学看完这一讲，留言反馈说是“打开了一片新天地，之前没有关注过JVM”“利用JVM工具发现了生产OOM的原因”。</p><p>其实，工具正是帮助我们深入到框架和组件内部，了解其运作方式和原理的重要抓手。所以，我们一定要用好它们。</p><p>今天，我继续和你介绍如何使用JVM堆转储的工具MAT来分析OOM问题，以及如何使用全能的故障诊断工具Arthas来分析、定位高CPU问题。</p><h2>使用MAT分析OOM问题</h2><p>对于排查OOM问题、分析程序堆内存使用情况，最好的方式就是分析堆转储。</p><p>堆转储，包含了堆现场全貌和线程栈信息（Java 6 Update 14开始包含）。我们在上一篇加餐中看到，使用jstat等工具虽然可以观察堆内存使用情况的变化，但是对程序内到底有多少对象、哪些是大对象还一无所知，也就是说只能看到问题但无法定位问题。而堆转储，就好似得到了病人在某个瞬间的全景核磁影像，可以拿着慢慢分析。</p><p>Java的OutOfMemoryError是比较严重的问题，需要分析出根因，所以对生产应用一般都会这样设置JVM参数，方便发生OOM时进行堆转储：</p><!-- [[[read_end]]] --><pre><code>-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=.
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是温铭。</p><p>专栏更新到现在，OpenResty第三版块 OpenResty 测试篇，我们就已经学完了。恭喜你没有掉队，仍然在积极学习和实践操作，并且热情地留下了你的思考。</p><p>很多留言提出的问题很有价值，大部分我都已经在App里回复过，一些手机上不方便回复的或者比较典型、有趣的问题，我专门摘了出来，作为今天的答疑内容，集中回复。另一方面，也是为了保证所有人都不漏掉任何一个重点。</p><p>下面我们来看今天的这 5 个问题。</p><h2>问题一：如何搭建测试的网络结构？</h2><p>Q：跑 wrk 的客户端，是应该放在外网上的机器上，还是和服务端同一局域网内的机器上呢？这两者，哪个更有性能测试意义？</p><p>A：其实，对于测试 web 相关的服务来说，选择正确的测试工具，只能算得上是一个好的开端，如何搭建测试的网络结构，也是后续的重要一环。</p><p>一般来说，我们肯定希望排除所有网络的干扰，单独测试出服务的性能极限来。出于这个目的，我们可以有两种搭建网络的方法来做压测。</p><ul>
 

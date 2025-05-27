@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。</p><p>在上一节课里，我们已经实现了一个简单的虚拟机。不过，这个虚拟机也太简单了，实在是不够实用啊。</p><p>那么，今天这节课，我们就来增强一下当前的虚拟机，让它的特性更丰富一些，也为我们后续的工作做好铺垫，比如用C语言实现一个更强的虚拟机。</p><p>我们在这一节课有两项任务要完成：</p><p>首先，要支持if语句和for循环语句。这样，我们就能熟悉与程序分支有关的指令，并且还能让虚拟机支持复杂一点的程序，比如我们之前写过的生成斐波那契数列的程序。</p><p>第二，做一下性能比拼。既然我们已经完成了字节码虚拟机的开发，那就跟AST解释器做一些性能测试，看看性能到底差多少。</p><p>话不多说，开干！首先，我们来实现一下if语句和for循环语句。而实现这两个语句的核心，就是要支持跳转指令。</p><h2>了解跳转指令</h2><p>if语句和for循环语句，有一个特点，就是让程序根据一定的条件执行不同的代码。这样一个语法，比较适合我们人类阅读，但是对于机器执行并不方便。机器执行的代码，都是一条条指令排成的直线型的代码，但是可以根据需要跳转到不同的指令去执行。</p><p>针对这样的差异，编译器就需要把if和for这样结构化编程的代码，转变成通过跳转指令跳转的代码，其中的关键是<strong>计算出正确的跳转地址</strong>。</p><!-- [[[read_end]]] --><p>我们举个例子来说明一下，下面是我用Java写的一个示例程序，它有一个if语句。</p><pre><code class="language-plain">public static int foo3(int a){
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是李江。</p><p>在前面几节课里面我们对<a href="https://time.geekbang.org/column/article/459554">视频编码的原理</a>、<a href="https://time.geekbang.org/column/article/462268">帧内编码</a>和<a href="https://time.geekbang.org/column/article/463775">帧间编码</a>都做了详细的介绍。我们知道，通过帧内编码可以去除空间冗余，通过帧间编码可以去除时间冗余，而为了分离图像块的高频和低频信息从而去除视觉冗余，我们需要做DCT变换和量化。</p><p>为了让你更透彻地了解视频编码中的DCT变换和量化的原理，在这节课里面，我们会对DCT变换和量化的过程做一个深入的探讨。通过下图你可以很清楚地看到视频编码的过程，并且能够更直观地感受DCT变换和量化在整个视频编码过程中的重要性。</p><p><img src="https://static001.geekbang.org/resource/image/06/78/064a2356cc7bbf4c1c43d2856e186f78.jpg?wh=1280x572" alt=""></p><p>由于DCT变换和量化过程是一个跟数学比较相关的过程，且大多数是数学计算。因此今天的课程中数学公式和计算过程相对会多一些。但是总体来说难度不是很大。</p><p>下面我们就先来讨论一下常规的视频编码中的DCT变换和量化，看看它是怎么去除一部分高频信息来达到去除视觉冗余的。并且，由于H264中用到的DCT变换和量化跟常规的DCT变换和量化有一些区别，其主要在于H264使用整数变换代替常规的DCT变换，并将DCT变换中的一部分计算整合到量化中，从而减少浮点运算漂移问题。因此，我们还会对H264中的DCT变换和量化做一下介绍，最后对比一下H264中的变换和量化与常规的变换和量化的区别。</p><!-- [[[read_end]]] --><h2>常规视频编码中的DCT变换和量化</h2><p>通过前面的学习，我们知道DCT变换和量化的目的是去除视觉冗余。接下来让我们看一下常规视频编码中DCT变换和量化是如何实现这一目的的。</p><h3>DCT变换</h3><p><strong>DCT变换，就是离散余弦变换。它能够将空域的信号（对于图像来说，空域就是你平时看到的图像）转换到频域（对于图像来说，就是将图像做完DCT变换之后的数据）上表示，并能够比较好的去除相关性。</strong>其主要用于视频压缩领域。现在常用的视频压缩算法中基本上都有DCT变换。</p><p>在视频编码原理那节课中我们也讲过，图片经过DCT变换之后，低频信息集中在左上角，而高频信息则分散在其它的位置。通常情况下，图片的高频信息多但是幅值比较小。高频信息主要描述图片的边缘信息。</p><p>由于人眼的视觉敏感度是有限的，有的时候我们去除了一部分高频信息之后，人眼看上去感觉区别并不大。因此，我们可以先将图片DCT变换到频域，然后再去除一些高频信息。这样我们就可以减少信息量，从而达到压缩的目的。</p><p><strong>DCT变换本身是无损的，同时也是可逆的。</strong>我们可以通过DCT变换将图片从空域转换到频域，也可以通过DCT反变换将图片从频域转回到空域。下面我们来看一下DCT变换的公式。</p><p>一维DCT变换公式如下，其中f(i)是指第i个样点的信号值，N代表信号样点的总个数。</p><p><img src="https://static001.geekbang.org/resource/image/b7/34/b767c40657b6758aff71fb148ce4da34.jpg?wh=1280x474" alt=""></p><p>二维DCT变换公式如下，其中f(i, j)是指第(i, j)位置的样点的信号值，N代表信号样点的总个数。</p><p><img src="https://static001.geekbang.org/resource/image/d3/bd/d310a208e95a8d439bb806c6aa10ddbd.jpg?wh=1280x484" alt=""><br>
 

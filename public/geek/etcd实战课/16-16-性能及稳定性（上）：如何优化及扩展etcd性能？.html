@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是唐聪。</p><p>在使用etcd的过程中，你是否吐槽过etcd性能差呢？ 我们知道，etcd社区线性读<a href="https://etcd.io/docs/v3.4.0/op-guide/performance/">压测结果</a>可以达到14w/s，那为什么在实际业务场景中有时却只有几千，甚至几百、几十，还会偶发超时、频繁抖动呢？</p><p>我相信不少人都遇到过类似的问题。要解决这些问题，不仅需要了解症结所在，还需要掌握优化和扩展etcd性能的方法，对症下药。因为这部分内容比较多，所以我分成了两讲内容，分别从读性能、写性能和稳定性入手，为你详细讲解如何优化及扩展etcd性能及稳定性。</p><p>希望通过这两节课的学习，能让你在使用etcd的时候，设计出良好的业务存储结构，遵循最佳实践，让etcd稳定、高效地运行，获得符合预期的性能。同时，当你面对etcd性能瓶颈的时候，也能自己分析瓶颈原因、选择合适的优化方案解决它，而不是盲目甩锅etcd，甚至更换技术方案去etcd化。</p><p>今天这节课，我将重点为你介绍如何提升读的性能。</p><p>我们说读性能差，其实本质是读请求链路中某些环节出现了瓶颈。所以，接下来我将通过一张读性能分析链路图，为你从上至下分析影响etcd性能、稳定性的若干因素，并给出相应的压测数据，最终为你总结出一系列的etcd性能优化和扩展方法。</p><!-- [[[read_end]]] --><h2>性能分析链路</h2><p>为什么在你的业务场景中读性能不如预期呢？ 是读流程中的哪一个环节出现了瓶颈？</p><p>在下图中，我为你总结了一个开启密码鉴权场景的读性能瓶颈分析链路图，并在每个核心步骤数字旁边，标出了影响性能的关键因素。我之所以选用密码鉴权的读请求为案例，是因为它使用较广泛并且请求链路覆盖最全，同时它也是最容易遇到性能瓶颈的场景。</p><p><img src="https://static001.geekbang.org/resource/image/7f/52/7f8c66ded3e151123b18768b880a2152.png" alt=""></p><p>接下来我将按照这张链路分析图，带你深入分析一个使用密码鉴权的线性读请求，和你一起看看影响它性能表现的核心因素以及最佳优化实践。</p><h2>负载均衡</h2><p>首先是流程一负载均衡。在<a href="https://time.geekbang.org/column/article/335932">02节</a>时我和你提到过，在etcd 3.4以前，client为了节省与server节点的连接数，clientv3负载均衡器最终只会选择一个sever节点IP，与其建立一个长连接。</p><p>但是这可能会导致对应的server节点过载（如单节点流量过大，出现丢包）， 其他节点却是低负载，最终导致业务无法获得集群的最佳性能。在etcd 3.4后，引入了Round-robin负载均衡算法，它通过轮询的方式依次从endpoint列表中选择一个endpoint访问(长连接)，使server节点负载尽量均衡。</p><p>所以，如果你使用的是etcd低版本，那么我建议你通过Load Balancer访问后端etcd集群。因为一方面Load Balancer一般支持配置各种负载均衡算法，如连接数、Round-robin等，可以使你的集群负载更加均衡，规避etcd client早期的固定连接缺陷，获得集群最佳性能。</p><p>另一方面，当你集群节点需要替换、扩缩容集群节点的时候，你不需要去调整各个client访问server的节点配置。</p><h2>选择合适的鉴权</h2><p>client通过负载均衡算法为请求选择好etcd server节点后，client就可调用server的Range RPC方法，把请求发送给etcd server。在此过程中，如果server启用了鉴权，那么就会返回无权限相关错误给client。</p><p>如果server使用的是密码鉴权，你在创建client时，需指定用户名和密码。etcd clientv3库发现用户名、密码非空，就会先校验用户名和密码是否正确。</p><p>client是如何向sever请求校验用户名、密码正确性的呢？</p><p>client是通过向server发送Authenticate RPC鉴权请求实现密码认证的，也就是图中的流程二。</p><p><img src="https://static001.geekbang.org/resource/image/9e/61/9e1fb86567b351641db9586081c0e361.png" alt=""></p><p>根据我们<a href="https://time.geekbang.org/column/article/338524">05</a>介绍的密码认证原理，server节点收到鉴权请求后，它会从boltdb获取此用户密码对应的算法版本、salt、cost值，并基于用户的请求明文密码计算出一个hash值。</p><p>在得到hash值后，就可以对比db里保存的hash密码是否与其一致了。如果一致，就会返回一个token给client。 这个token是client访问server节点的通行证，后续server只需要校验“通行证”是否有效即可，无需每次发起昂贵的Authenticate RPC请求。</p><p>讲到这里，不知道你有没有意识到，若你的业务在访问etcd过程中未复用token，每次访问etcd都发起一次Authenticate调用，这将是一个非常大的性能瓶颈和隐患。因为正如我们05所介绍的，为了保证密码的安全性，密码认证（Authenticate）的开销非常昂贵，涉及到大量CPU资源。</p><p>那这个Authenticate接口究竟有多慢呢？</p><p>为了得到Authenticate接口的性能，我们做过这样一个测试：</p><ul>
 

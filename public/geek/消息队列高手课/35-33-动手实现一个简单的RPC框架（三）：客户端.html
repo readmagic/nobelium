@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是李玥。</p><p>上节课我们已经一起实现了这个RPC框架中的两个基础组件：序列化和网络传输部分，这节课我们继续来实现这个RPC框架的客户端部分。</p><p>在《<a href="https://time.geekbang.org/column/article/144320">31 | 动手实现一个简单的RPC框架（一）：原理和程序的结构</a>》这节课中我们提到过，在RPC框架中，最关键的就是理解“桩”的实现原理，桩是RPC框架在客户端的服务代理，它和远程服务具有相同的方法签名，或者说是实现了相同的接口，客户端在调用RPC框架提供的服务时，实际调用的就是“桩”提供的方法，在桩的实现方法中，它会发请求到服务端获取调用结果并返回给调用方。</p><p><strong>在RPC框架的客户端中，最关键的部分，也就是如何来生成和实现这个桩。</strong></p><h2>如何来动态地生成桩？</h2><p>RPC框架中的这种桩的设计，它其实采用了一种设计模式：“代理模式”。代理模式给某一个对象提供一个代理对象，并由代理对象控制对原对象的引用，被代理的那个对象称为委托对象。</p><p>在RPC框架中，代理对象都是由RPC框架的客户端来提供的，也就是我们一直说的“桩”，委托对象就是在服务端，真正实现业务逻辑的服务类的实例。</p><p><img src="https://static001.geekbang.org/resource/image/6c/48/6ca3f88f1a6c06513d5adfe976efcc48.jpg" alt=""></p><p>我们最常用Spring框架，它的核心IOC（依赖注入）和AOP（面向切面）机制，就是这种代理模式的一个实现。我们在日常开发的过程中，可以利用这种代理模式，在调用流程中动态地注入一些非侵入式业务逻辑。</p><!-- [[[read_end]]] --><p>这里的“非侵入”指的是，在现有的调用链中，增加一些业务逻辑，而不用去修改调用链上下游的代码。比如说，我们要监控一个方法A的请求耗时，普通的方式就是在方法的开始和返回这两个地方各加一条记录时间的语句，这种方法就需要修改这个方法的代码，这是一种“侵入式”的方式。</p><p>我们还可以给这个方法所在的类创建一个代理类，在这个代理类的A方法中，先记录开始时间，然后调用委托类的A方法，再记录结束时间。把这个代理类加入到调用链中，就可以实现“非侵入式”记录耗时了。同样的方式，我们还可以用在权限验证、风险控制、调用链跟踪等等这些场景中。</p><p>下面我们来看下，在我们这个RPC框架的客户端中，怎么来实现的这个代理类，也就是“桩”。首先我们先定一个StubFactory接口，这个接口就只有一个方法：</p><pre><code>public interface StubFactory {
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/floating-menu.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
     <link rel="stylesheet" href="../assets/beautify.css">
-    <script src="../assets/floating-menu.js" defer></script>
-
-
+    <script src="../assets/responsive.js" defer></script>
+    <link rel="stylesheet" href="../assets/tts.css">
+    <script src="../assets/tts.js" defer></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是胡夕。 今天，我们来学习下Controller的单线程事件处理器源码。</p><p>所谓的单线程事件处理器，就是Controller端定义的一个组件。该组件内置了一个专属线程，负责处理其他线程发送过来的Controller事件。另外，它还定义了一些管理方法，用于为专属线程输送待处理事件。</p><p>在0.11.0.0版本之前，Controller组件的源码非常复杂。集群元数据信息在程序中同时被多个线程访问，因此，源码里有大量的Monitor锁、Lock锁或其他线程安全机制，这就导致，这部分代码读起来晦涩难懂，改动起来也困难重重，因为你根本不知道，变动了这个线程访问的数据，会不会影响到其他线程。同时，开发人员在修复Controller Bug时，也非常吃力。</p><p>鉴于这个原因，自0.11.0.0版本开始，社区陆续对Controller代码结构进行了改造。其中非常重要的一环，就是将<strong>多线程并发访问的方式改为了单线程的事件队列方式</strong>。</p><p>这里的单线程，并非是指Controller只有一个线程了，而是指<strong>对局部状态的访问限制在一个专属线程上</strong>，即让这个特定线程排他性地操作Controller元数据信息。</p><p>这样一来，整个组件代码就不必担心多线程访问引发的各种线程安全问题了，源码也可以抛弃各种不必要的锁机制，最终大大简化了Controller端的代码结构。</p><!-- [[[read_end]]] --><p>这部分源码非常重要，<strong>它能够帮助你掌握Controller端处理各类事件的原理，这将极大地提升你在实际场景中处理Controller各类问题的能力</strong>。因此，我建议你多读几遍，彻底了解Controller是怎么处理各种事件的。</p><h2>基本术语和概念</h2><p>接下来，我们先宏观领略一下Controller单线程事件队列处理模型及其基础组件。</p><p><img src="https://static001.geekbang.org/resource/image/67/31/67fbf8a12ebb57bc309188dcbc18e231.jpg" alt=""></p><p>从图中可见，Controller端有多个线程向事件队列写入不同种类的事件，比如，ZooKeeper端注册的Watcher线程、KafkaRequestHandler线程、Kafka定时任务线程，等等。而在事件队列的另一端，只有一个名为ControllerEventThread的线程专门负责“消费”或处理队列中的事件。这就是所谓的单线程事件队列模型。</p><p>参与实现这个模型的源码类有4个。</p><ul>
 
