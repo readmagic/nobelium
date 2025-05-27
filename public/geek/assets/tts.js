@@ -1,7 +1,5 @@
 // TTS功能实现脚本
 document.addEventListener('DOMContentLoaded', function() {
-  // 移除原有的返回顶部按钮
-  removeBackToTopButton();
   
   // 创建TTS按钮和控制面板
   createTTSButton();
