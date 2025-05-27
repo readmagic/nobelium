@@ -20,13 +20,6 @@ let ttsState = {
   volume: 1.0
 };
 
-// 移除原有的返回顶部按钮
-function removeBackToTopButton() {
-  const backToTopButton = document.querySelector('.back-to-top');
-  if (backToTopButton) {
-    backToTopButton.remove();
-  }
-}
 
 // 创建TTS按钮和控制面板
 function createTTSButton() {

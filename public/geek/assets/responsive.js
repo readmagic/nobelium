@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // 创建返回顶部按钮
   // createBackToTopButton();
-  createBackToPreviousPageButton();
+  // createBackToPreviousPageButton();
   
   // 处理图片响应式
   makeImagesResponsive();
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // 处理iframe响应式
   makeIframesResponsive();
-  addDarkModeToggle()
+  // addDarkModeToggle()
 });
 
 // 将主要内容包装在容器中
