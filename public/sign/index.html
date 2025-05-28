@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日打卡</title>
+    <link rel="stylesheet" href="./sign/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>每日打卡</h1>
+            <p id="current-date"></p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="today">今日打卡</button>
+            <button class="tab-btn" data-tab="history">历史记录</button>
+            <button class="tab-btn" data-tab="categories">分类管理</button>
+        </div>
+
+        <div class="tab-content active" id="today">
+            <div class="add-task">
+                <input type="text" id="new-task" placeholder="添加新的打卡目标...">
+                <select id="task-category">
+                    <option value="默认">默认</option>
+                    <!-- 分类将通过JS动态添加 -->
+                </select>
+                <button id="add-task-btn"><i class="fas fa-plus"></i></button>
+            </div>
+
+            <div class="task-filters">
+                <button class="filter-btn active" data-filter="all">全部</button>
+                <button class="filter-btn" data-filter="completed">已完成</button>
+                <button class="filter-btn" data-filter="uncompleted">未完成</button>
+            </div>
+
+            <div class="tasks-container">
+                <ul id="tasks-list">
+                    <!-- 任务将通过JS动态添加 -->
+                </ul>
+            </div>
+        </div>
+
+        <div class="tab-content" id="history">
+            <div class="history-filters">
+                <div class="date-filter">
+                    <label for="history-date">选择日期：</label>
+                    <input type="date" id="history-date">
+                </div>
+                <div class="category-filter">
+                    <label for="history-category">选择分类：</label>
+                    <select id="history-category">
+                        <option value="all">全部分类</option>
+                        <!-- 分类将通过JS动态添加 -->
+                    </select>
+                </div>
+            </div>
+            <div class="history-stats">
+                <div class="stat-card">
+                    <h3>完成率</h3>
+                    <p id="completion-rate">0%</p>
+                </div>
+                <div class="stat-card">
+                    <h3>连续打卡</h3>
+                    <p id="streak-days">0天</p>
+                </div>
+            </div>
+            <div class="history-list">
+                <h3>打卡记录</h3>
+                <ul id="history-list">
+                    <!-- 历史记录将通过JS动态添加 -->
+                </ul>
+            </div>
+        </div>
+
+        <div class="tab-content" id="categories">
+            <div class="add-category">
+                <input type="text" id="new-category" placeholder="添加新分类...">
+                <button id="add-category-btn"><i class="fas fa-plus"></i></button>
+            </div>
+            <div class="categories-list">
+                <ul id="categories-list">
+                    <!-- 分类将通过JS动态添加 -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="./sign/app.js"></script>
+</body>
+</html>
