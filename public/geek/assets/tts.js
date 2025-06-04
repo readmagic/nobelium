@@ -31,6 +31,16 @@ function createTTSButton() {
     </svg>
   `;
   
+  // 创建返回按钮
+  const backButton = document.createElement('div');
+  backButton.className = 'tts-button back-button'; // 使用 tts-button 的样式，并添加 back-button 类用于额外样式
+  backButton.setAttribute('aria-label', '回到上一页');
+  backButton.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" />
+    </svg>
+  `;
+
   // 创建TTS控制面板
   const ttsPanel = document.createElement('div');
   ttsPanel.className = 'tts-panel';
@@ -62,8 +72,14 @@ function createTTSButton() {
   `;
   
   // 添加到DOM
+  document.body.appendChild(backButton);
   document.body.appendChild(ttsButton);
   document.body.appendChild(ttsPanel);
+  
+  // 添加返回按钮事件监听器
+  backButton.addEventListener('click', function() {
+    window.history.back();
+  });
   
   // 添加事件监听器
   ttsButton.addEventListener('click', function() {
