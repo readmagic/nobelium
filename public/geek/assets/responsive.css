@@ -39,6 +39,35 @@ img {
   margin: 1rem auto;
 }
 
+/* 响应式视频 */
+video {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+  background-color: #000;
+}
+
+/* 视频容器样式 */
+.video-responsive {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 的宽高比 */
+  height: 0;
+  overflow: hidden;
+  margin: 1rem auto;
+}
+
+.video-responsive video,
+.video-responsive iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
 /* 响应式排版 */
 p, ul, ol, blockquote {
   margin-bottom: 1rem;
@@ -143,6 +172,11 @@ iframe {
   h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote {
     padding: 0;
   }
+  
+  /* 平板设备视频大小 */
+  video:not(.video-responsive video) {
+    max-width: 90%;
+  }
 }
 
 /* 媒体查询 - 桌面设备 */
@@ -155,12 +189,22 @@ iframe {
   html {
     font-size: 18px;
   }
+  
+  /* 桌面设备视频大小 */
+  video:not(.video-responsive video) {
+    max-width: 80%;
+  }
 }
 
 /* 媒体查询 - 大屏设备 */
 @media (min-width: 1280px) {
   .container {
     max-width: 1140px;
+  }
+  
+  /* 大屏设备视频大小 */
+  video:not(.video-responsive video) {
+    max-width: 70%;
   }
 }
 

@@ -13,6 +13,9 @@ document.addEventListener('DOMContentLoaded', function() {
   // 处理图片响应式
   makeImagesResponsive();
   
+  // 处理视频响应式
+  makeVideosResponsive();
+  
   // 处理表格响应式
   makeTablesResponsive();
   
@@ -167,6 +170,43 @@ function makeImagesResponsive() {
     // 如果图片没有样式，添加响应式类
     if (!img.hasAttribute('style')) {
       img.classList.add('responsive-img');
+    }
+  });
+}
+
+// 处理视频响应式
+function makeVideosResponsive() {
+  const videos = document.querySelectorAll('video');
+  videos.forEach(video => {
+    // 为视频添加响应式属性
+    video.controls = true;
+    video.style.maxWidth = '100%';
+    
+    // 如果是HTML5视频，添加更多属性
+    if (video.tagName === 'VIDEO') {
+      // 保存视频宽高比
+      const aspectRatio = video.videoWidth / video.videoHeight || 16/9;
+      
+      // 创建视频包装器
+      const wrapper = document.createElement('div');
+      wrapper.className = 'video-responsive';
+      
+      // 设置包装器的样式
+      if (aspectRatio !== 16/9) {
+        // 如果不是标准16:9，调整padding-bottom
+        wrapper.style.paddingBottom = (1 / aspectRatio * 100) + '%';
+      }
+      
+      // 将视频包装在div中
+      video.parentNode.insertBefore(wrapper, video);
+      wrapper.appendChild(video);
+      
+      // 添加加载属性
+      video.setAttribute('loading', 'lazy');
+      
+      // 确保视频在移动设备上正确播放
+      video.setAttribute('playsinline', '');
+      video.setAttribute('webkit-playsinline', '');
     }
   });
 }
