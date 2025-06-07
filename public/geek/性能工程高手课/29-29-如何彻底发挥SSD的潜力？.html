@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是庄振运。</p><p>今天是“性能工程实践”这个模块的最后一讲，我们来讨论一种“软硬件结合”的性能工程优化实践，与SSD（硬件）有关。现在SSD用的越来越普遍的情况你一定非常清楚，但是<span class="orange">你设计的应用程序（软件）真的充分利用了SSD的特点，并发挥SSD的潜力了吗？</span></p><p>要知道，SSD可不仅仅是“更快的HDD”。</p><p>SSD的好处显而易见，它作为存储时，应用程序可以获得更好的I/O性能。但是这些收益，主要归因于SSD提供的更高的IOPS和带宽。如果你因此只将SSD视为一种“更快的HDD”，那就真是浪费了SSD的潜力。</p><p>如果你在设计软件时，能够充分考虑SSD的工作特点，把应用程序和文件系统设计为“对SSD友好”，会使服务性能有个质的飞跃。</p><p>今天我们就来看看，<strong>如何在软件层进行一系列SSD友好的设计更改</strong>。</p><h2>为什么要设计SSD友好的软件？</h2><p>设计对SSD友好的软件有什么好处呢？简单来说，你可以获得三种好处：</p><ol>
 

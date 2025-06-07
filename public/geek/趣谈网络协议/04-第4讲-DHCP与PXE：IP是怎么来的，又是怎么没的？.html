@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>上一节，我们讲了IP的一些基本概念。如果需要和其他机器通讯，我们就需要一个通讯地址，我们需要给网卡配置这么一个地址。</p><h2>如何配置IP地址？</h2><p>那如何配置呢？如果有相关的知识和积累，你可以用命令行自己配置一个地址。可以使用ifconfig，也可以使用ip addr。设置好了以后，用这两个命令，将网卡up一下，就可以开始工作了。</p><p><strong>使用net-tools：</strong></p><pre><code>$ sudo ifconfig eth1 10.0.0.1/24
 

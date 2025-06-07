@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是大圣。</p><p>在讲组件化的进阶开发篇之前，我想在全家桶实战篇的最后，用一讲的篇幅，来专门聊一下TypeScript。希望你在学完这一讲之后，能对TypeScript有一个全面的认识。</p><p>另外，今天我会设置很多实战练习，一边阅读一边敲代码的话，学习效果更好。而且，这次加餐中的全部代码都是可以在线完成的，建议你打开<a href="https://www.typescriptlang.org/play?#code/FAehAJC+9Q66MA3lHnrQMhGGO5QgB6F+E9gnU0AByhZBKA">这个链接</a>，把下面的每行代码都跟着敲一遍。</p><h2>TypeScript入门</h2><p>对于TypeScript，你首先要了解的是，TypeScript 可以在JavaScript的基础上，对变量的数据类型加以限制。TypeScript 中最基本的数据类型包括布尔、数字、字符串、null、undefined，这些都很好理解。</p><p>在下面的代码中，我们分别定义了这几个数据类型的变量，你能看到，当我们把number类型的变量price赋值字符串时，就会报错，当我们把数组 me 的第一个元素 me[0] 的值修改为数字时，也会报错。</p><pre><code class="language-typescript">let courseName:string = '玩转Vue 3全家桶'
 

@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是鸟窝。</p><p>Go官方文档里专门介绍了Go的<a href="https://golang.org/ref/mem">内存模型</a>，你不要误解这里的内存模型的含义，它并不是指Go对象的内存分配、内存回收和内存整理的规范，它描述的是并发环境中多goroutine读相同变量的时候，变量的可见性条件。具体点说，就是指，在什么条件下，goroutine在读取一个变量的值的时候，能够看到其它goroutine对这个变量进行的写的结果。</p><p>由于CPU指令重排和多级Cache的存在，保证多核访问同一个变量这件事儿变得非常复杂。毕竟，不同CPU架构（x86/amd64、ARM、Power等）的处理方式也不一样，再加上编译器的优化也可能对指令进行重排，所以编程语言需要一个规范，来明确多线程同时访问同一个变量的可见性和顺序（ Russ Cox在麻省理工学院 <a href="https://pdos.csail.mit.edu/6.824/">6.824 分布式系统Distributed Systems课程</a> 的一课，专门介绍了相关的<a href="http://nil.csail.mit.edu/6.824/2016/notes/gomem.pdf">知识</a>）。在编程语言中，这个规范被叫做内存模型。</p><p>除了Go，Java、C++、C、C#、Rust等编程语言也有内存模型。为什么这些编程语言都要定义内存模型呢？在我看来，主要是两个目的。</p><ul>
 

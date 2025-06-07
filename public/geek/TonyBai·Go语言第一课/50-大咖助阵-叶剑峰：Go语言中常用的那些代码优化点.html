@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是轩脉刃，是<a href="https://time.geekbang.org/column/intro/100090601">《手把手带你写一个Web框架》</a>专栏的作者。</p><p>很高兴应编辑邀请，为 Tony Bai 老师的专栏写一篇加餐文章。Tony Bai大佬是我很早在微博关注的一名Go先行者。他的《Gopher Daily》也是我经常学习阅读的Go语言资料之一。很高兴看到Tony Bai老师在极客时间也开了一个专栏，将他的经验分享出来。</p><p>这篇加餐，我主要想和你聊一聊Go语言中常用的一些代码优化点。在Go语言中，如果你不断地在一线写代码，一定多多少少都会有一些写代码的套路和经验。这些套路和经验可以帮助你在实际工作中遇到类似问题时，更成竹在胸。</p><p>所以这里，我想和你分享一下我个人在开发过程中看到和使用到的一些常用的代码优化点，希望能给你日常编码带来一些帮助。</p><h2>第一点：使用pkg/errors而不是官方error库</h2><p>其实我们可以思考一下，我们在一个项目中使用错误机制，最核心的几个需求是什么？我觉得主要是这两点：</p><ul>
 

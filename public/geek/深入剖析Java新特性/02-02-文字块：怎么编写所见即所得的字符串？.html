@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是范学雷。今天，我们聊一聊Java的文字块（text blocks）。</p><p>文字块这个特性，首先在JDK 13中以预览版的形式发布。在JDK 14中，改进的文字块再次以预览版的形式发布。最后，文字块在JDK 15正式发布。</p><p>文字块的概念很简单，它是一个由多行文字构成的字符串。既然是字符串，为什么还需要文字块这个新概念呢？文字块和字符串又有什么区别呢？我们还是通过案例和代码，来弄清楚这些问题吧。</p><h2>阅读案例</h2><p>我们在编写代码的时候，总是或多或少地要和字符串打交道。有些字符串很简单，比如我们都知道的"Hello，World！"字符串。有些字符串很复杂，里面可能有换行、对齐、转义字符、占位符、连接符等。</p><p>比如下面的例子中，我们要构造一个简单的表示"Hello，World！"的HTML字符串，就需要处理好文本对齐、换行字符、连接符以及双引号的转义字符。这就使得这段代码既不美观、也不简约，一点都不自然。</p><pre><code class="language-java">String stringBlock =
 

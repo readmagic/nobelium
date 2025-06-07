@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是轩脉刃。</p><p>上一讲，我们封装了框架的Context， 将请求结构 request 和返回结构 responseWriter 都封装在 Context 中。利用这个 Context， 我们将控制器简化为带有一个参数的函数FooControllerHandler，这个控制器函数的输入和输出都是固定的。在框架层面，我们也定义了对应关于控制器的方法结构ControllerHandler来代表这类控制器的函数。</p><p>每一个请求逻辑，都有一个控制器ControllerHandler与之对应。那么一个请求，如何查找到指定的控制器呢？这就是今天要研究的内容：路由，我将带你理解路由，并且实现一个高效、易用的路由模块。</p><h2>路由设计思路</h2><p>相信你对路由是干啥的已经有大致了解，具体来说就是让 Web 服务器根据规则，理解 HTTP 请求中的信息，匹配查找出对应的控制器，再将请求传递给控制器执行业务逻辑，<strong>简单来说就是制定匹配规则</strong>。</p><p><img src="https://static001.geekbang.org/resource/image/11/7b/11dee96201a6f32358d8cceced0f137b.jpg?wh=1920x1080" alt=""></p><p>但是就是这么简单的功能，<strong>路由的设计感不同，可用性有天壤之别</strong>。为什么这么说呢，我们带着这个问题，先来梳理一下制定路由规则需要的信息。</p><p>路由可以使用HTTP请求体中的哪些信息，得回顾我们第一节课讲 HTTP 的内容。</p><p>一个 HTTP 请求包含请求头和请求体。请求体内一般存放的是请求的业务数据，是基于具体控制业务需要的，所以，我们不会用来做路由。</p><!-- [[[read_end]]] --><p>而请求头中存放的是和请求状态有关的信息，比如User-Agent 代表的是请求的浏览器信息，Accept代表的是支持返回的文本类型。以下是一个标准请求头的示例：</p><pre><code class="language-xml">GET /home.html HTTP/1.1
 

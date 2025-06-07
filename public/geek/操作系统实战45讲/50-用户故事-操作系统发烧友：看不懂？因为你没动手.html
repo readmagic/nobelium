@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是spring Xu。我平时的工作就是做实时嵌入式系统，坐标上海。</p><p>写操作系统这件事一直是我的兴趣，我之前写过引导器，也有移植过uboot的基础，还读了不少操作系统的书。作为一名操作系统“发烧友”，我是怎样跟操作系统、跟LMOS这门课程结缘的呢？请你听我慢慢道来。</p><h2>我是怎样与操作系统结缘的？</h2><p>其实我并非计算机专业出身，也没有系统地学过操作系统。不过出于兴趣，我早在大学时就自学了微机原理，当时记得还在x86实模式下写了些汇编程序，但还是有很多迷惑的地方。</p><p>于是，我跑到图书馆找了本Intel的芯片手册自己随意翻看，发现x86的保护模式寻址方式好奇怪，还有调用权限的知识也弄不太懂。后来我还试着询问老师，结果当时没得到什么满意的答案，这事儿也就不了了之了。</p><p>直到我工作了，接触的是嵌入式系统ucos-II。感觉这样的系统有点简单，因为它无法动态加载外部应用程序，还是想搞个更高级点的，<strong>自己写一个操作系统的想法从此埋下种子</strong>。</p><p>于是我购买了潘爱民老师的《程序员的自我修养》阅读。潘老师的那本书是讲C语言的编译链接和运行环境，也就是C语言文件如何编译、如何链接到生成程序的过程，还有该程序如何在操作系统上加载和运行以及程序加载的知识，都可以从这本书里学到。</p><!-- [[[read_end]]] --><p>我还根据于渊老师的《一个操作系统的实现》这本书，试着写了一个开机引导程序。这次再看到x86的保护模式，我觉得更容易看懂了，脑子里出现了一个念头，这是<strong>用硬件提供应用程序与操作系统内核之间的隔离</strong>。其实这并不是我的阅读理解水平有了多快的“飞升”，而是因为许多知识的领悟，都要经历大量的实践才会产生。</p><p><img src="https://static001.geekbang.org/resource/image/ab/ff/ab5b75c7b53195bda63de6fa6d5bacff.jpg?wh=847x620" alt=""></p><p>二级引导器的编写需要包含文件系统，还要有硬盘或者软盘的读取操作。工作一忙，时间久了自己也渐渐热情冷却，只是开了个头，就这样停工了。</p><p>但我的写操作系统梦想，并没有止步。后来偶然的机会，我看到周自恒老师翻译了一位日本人川合秀实写的《30天自制操作系统》。</p><p><img src="https://static001.geekbang.org/resource/image/af/c8/affc077859d1f878319589efa92eafc8.jpg?wh=4204x3171" alt=""><br>
 

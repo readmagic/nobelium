@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴咏炜。</p><p>上一讲，我们描述了一个某种程度上可以当成智能指针用的类 <code>shape_wrapper</code>。使用那个智能指针，可以简化资源的管理，从根本上消除资源（包括内存）泄漏的可能性。这一讲我们就来进一步讲解，如何将 <code>shape_wrapper</code> 改造成一个完整的智能指针。你会看到，智能指针本质上并不神秘，其实就是 RAII 资源管理功能的自然展现而已。</p><p>在学完这一讲之后，你应该会对 C++ 的 <code>unique_ptr</code> 和 <code>shared_ptr</code> 的功能非常熟悉了。同时，如果你今后要创建类似的资源管理类，也不会是一件难事。</p><h2>回顾</h2><p>我们上一讲给出了下面这个类：</p><pre><code class="language-c++">class shape_wrapper {
 

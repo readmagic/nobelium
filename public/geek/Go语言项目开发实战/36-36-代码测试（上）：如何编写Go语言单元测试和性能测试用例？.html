@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是孔令飞。</p><p>从今天开始，我们就进入了服务测试模块，这一模块主要介绍如何测试我们的Go项目。</p><p>在Go项目开发中，我们不仅要开发功能，更重要的是确保这些功能稳定可靠，并且拥有一个不错的性能。要确保这些，就要对代码进行测试。开发人员通常会进行单元测试和性能测试，分别用来测试代码的功能是否正常和代码的性能是否满足需求。</p><p>每种语言通常都有自己的测试包/模块，Go语言也不例外。在Go中，我们可以通过<code>testing</code>包对代码进行单元测试和性能测试。这一讲，我会用一些示例来讲解如何编写单元测试和性能测试用例，下一讲则会介绍如何编写其他的测试类型，并介绍 IAM 项目的测试用例。</p><h2>如何测试 Go 代码？</h2><p>Go语言有自带的测试框架<code>testing</code>，可以用来实现单元测试（T类型）和性能测试（B类型），通过<code>go test</code>命令来执行单元测试和性能测试。</p><p>go test 执行测试用例时，是以go包为单位进行测试的。执行时需要指定包名，比如<code>go test 包名</code>，如果没有指定包名，默认会选择执行命令时所在的包。go test在执行时，会遍历以<code>_test.go</code>结尾的源码文件，执行其中以<code>Test</code>、<code>Benchmark</code>、<code>Example</code>开头的测试函数。</p><p>为了演示如何编写测试用例，我预先编写了4个函数。假设这些函数保存在test目录下的<code>math.go</code>文件中，包名为<code>test</code>，math.go代码如下：</p><!-- [[[read_end]]] --><pre><code class="language-go">package test
 

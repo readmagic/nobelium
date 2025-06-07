@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是盛延敏，今天是网络编程实战性能篇的答疑模块，欢迎回来。</p><p>在性能篇中，我主要围绕C10K问题进行了深入剖析，最后引出了事件分发机制和多线程。可以说，基于epoll的事件分发能力，是Linux下高性能网络编程的不二之选。如果你觉得还不过瘾，期望有更深刻的认识和理解，那么在性能篇的答疑中，我就带你一起梳理一下epoll的源代码，从中我们一定可以有更多的发现和领悟。</p><p>今天的代码有些多，建议你配合文稿收听音频。</p><h2>基本数据结构</h2><p>在开始研究源代码之前，我们先看一下epoll中使用的数据结构，分别是eventpoll、epitem和eppoll_entry。</p><p>我们先看一下eventpoll这个数据结构，这个数据结构是我们在调用epoll_create之后内核侧创建的一个句柄，表示了一个epoll实例。后续如果我们再调用epoll_ctl和epoll_wait等，都是对这个eventpoll数据进行操作，这部分数据会被保存在epoll_create创建的匿名文件file的private_data字段中。</p><pre><code>/*
 

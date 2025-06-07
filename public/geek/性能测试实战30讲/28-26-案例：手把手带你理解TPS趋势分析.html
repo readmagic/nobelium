@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在性能分析中，前端的性能工具，我们只需要关注几条曲线就够了：TPS、响应时间和错误率。这是我经常强调的。</p><p>但是关注TPS到底应该关注什么内容，如何判断趋势，判断了趋势之后，又该如何做出调整，调整之后如何定位原因，这才是我们关注TPS的一系列动作。</p><p>今天，我们就通过一个实际的案例来解析什么叫TPS的趋势分析。</p><h2>案例描述</h2><p>这是一个案例，用一个2C4G的Docker容器做服务器。结构简单至极，如下所示：</p><p><img src="https://static001.geekbang.org/resource/image/17/1d/177cd65abdaaba1e8056e676cdf96b1d.jpg" alt=""></p><p>当用个人电脑（上图中压力工具1）测试云端服务器时，达到200多TPS。但是当用云端同网段压力机（上图中压力工具2）测试时，TPS只有30多，并且内网压力机资源比本地压力机要高出很多，服务器资源也没有用完。</p><p>在这样的问题面前，我通常都会有一堆的问题要问。</p><ul>
 

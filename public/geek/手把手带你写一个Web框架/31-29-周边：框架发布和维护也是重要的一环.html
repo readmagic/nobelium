@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是轩脉刃。</p><p>终于来到框架设计与完善的最后一节课了。在前面的章节中，我们基本上把框架的功能都开发完成了，但是这只是万里长征的第一步。一个工业级的Web框架一定是经过长时间千锤百炼的迭代升级的。在这门课编写完成的时候，我为hade框架锁定了v 1.0.0版本，后续我们会继续为框架增加更多的功能和特性。</p><p>那么随着框架的不断更新和升级，随之而来的问题就是如何为一个开源项目设计一套发布和使用机制，并且为每个发布版本维护一套准确的框架说明文档？这就是我们今天要讨论的内容。</p><h3>版本</h3><p>每个框架发布都需要有一个版本号，这个版本号如何定义，我们在前面的课程中已经不止一次提到过了，这里再正式说明一下。</p><p>所有开源软件的版本号基本上都遵循“<a href="https://semver.org/lang/zh-CN">语义化版本规范</a>”的约定，这份语义化版本规范是由Gravatars 创办者兼 GitHub 共同创办者&nbsp;Tom Preston-Werner&nbsp;所建立的，它定义了三段式的版本规范，格式如下：</p><pre><code class="language-plain">主版本号.次版本号.修订号
 

@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是程远。今天我们聊一聊磁盘读写不稳定的问题。</p><p>上一讲，我给你讲了如何通过XFS Quota来限制容器文件系统的大小，这是静态容量大小的一个限制。</p><p>你也许会马上想到，磁盘除了容量的划分，还有一个读写性能的问题。</p><p>具体来说，就是如果多个容器同时读写节点上的同一块磁盘，那么它们的磁盘读写相互之间影响吗？如果容器之间读写磁盘相互影响，我们有什么办法解决呢？</p><p>接下来，我们就带着问题一起学习今天的内容。</p><h2>场景再现</h2><p>我们先用这里的<a href="https://github.com/chengyli/training/tree/master/filesystem/blkio">代码</a>，运行一下 <code>make image</code> 来做一个带fio的容器镜像，fio在我们之前的课程里提到过，它是用来测试磁盘文件系统读写性能的工具。</p><p>有了这个带fio的镜像，我们可以用它启动一个容器，在容器中运行fio，就可以得到只有一个容器读写磁盘时的性能数据。</p><pre><code class="language-shell">mkdir -p /tmp/test1
 

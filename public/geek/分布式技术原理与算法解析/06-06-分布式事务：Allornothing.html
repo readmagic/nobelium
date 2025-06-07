@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是聂鹏程。今天，我来继续带你打卡分布式核心技术。</p><p>对于网上购物的每一笔订单来说，电商平台一般都会有两个核心步骤：一是订单业务采取下订单操作，二是库存业务采取减库存操作。</p><p>通常，这两个业务会运行在不同的机器上，甚至是运行在不同区域的机器上。针对同一笔订单，当且仅当订单操作和减库存操作一致时，才能保证交易的正确性。也就是说一笔订单，只有这两个操作都完成，才能算做处理成功，否则处理失败，充分体现了“All or nothing”的思想。</p><p>在分布式领域中，这个问题就是分布式事务问题。那么今天，我们就一起打卡分布式事务吧。</p><h2>什么是分布式事务？</h2><p>在介绍分布式事务之前，我们首先来看一下什么是事务。</p><p>事务（Transaction）提供一种机制，将包含一系列操作的工作序列纳入到一个不可分割的执行单元。只有所有操作均被正确执行才能提交事务；任意一个操作失败都会导致整个事务回滚（Rollback）到之前状态，即所有操作均被取消。简单来说，事务提供了一种机制，使得工作要么全部都不做，要么完全被执行，即all or nothing。</p><p>通常情况下，我们所说的事务指的都是本地事务，也就是在单机上的事务。而事务具备四大基本特征ACID，具体含义如下。</p><!-- [[[read_end]]] --><ul>
 

@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在面向对象编程中，抽象类和接口是两个经常被用到的语法概念，是面向对象四大特性，以及很多设计模式、设计思想、设计原则编程实现的基础。比如，我们可以使用接口来实现面向对象的抽象特性、多态特性和基于接口而非实现的设计原则，使用抽象类来实现面向对象的继承特性和模板设计模式等等。</p><p>不过，并不是所有的面向对象编程语言都支持这两个语法概念，比如，C++这种编程语言只支持抽象类，不支持接口；而像Python这样的动态编程语言，既不支持抽象类，也不支持接口。尽管有些编程语言没有提供现成的语法来支持接口和抽象类，我们仍然可以通过一些手段来模拟实现这两个语法概念。</p><p>这两个语法概念不仅在工作中经常会被用到，在面试中也经常被提及。比如，“接口和抽象类的区别是什么？什么时候用接口？什么时候用抽象类？抽象类和接口存在的意义是什么？能解决哪些编程问题？”等等。</p><p>你可以先试着回答一下，刚刚我提出的几个问题。如果你对某些问题还有些模糊不清，那也没关系，今天，我会带你把这几个问题彻底搞清楚。下面我们就一起来看！</p><h2>什么是抽象类和接口？区别在哪里？</h2><p>不同的编程语言对接口和抽象类的定义方式可能有些差别，但差别并不会很大。Java这种编程语言，既支持抽象类，也支持接口，所以，为了让你对这两个语法概念有比较直观的认识，我们拿Java这种编程语言来举例讲解。</p><!-- [[[read_end]]] --><p><strong>首先，我们来看一下，在Java这种编程语言中，我们是如何定义抽象类的。</strong></p><p>下面这段代码是一个比较典型的抽象类的使用场景（模板设计模式）。Logger是一个记录日志的抽象类，FileLogger和MessageQueueLogger继承Logger，分别实现两种不同的日志记录方式：记录日志到文件中和记录日志到消息队列中。FileLogger和MessageQueueLogger两个子类复用了父类Logger中的name、enabled、minPermittedLevel属性和log()方法，但因为这两个子类写日志的方式不同，它们又各自重写了父类中的doLog()方法。</p><pre><code>// 抽象类
 

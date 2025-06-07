@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是郭朝斌。</p><p>在上一讲，我们基于NodeMCU ESP32开发板，开发了一款光照传感器。考虑到低功耗的需求，它是基于低功耗蓝牙技术来实现的。但是蓝牙设备本身无法直接联网上报数据，那么我们要怎么根据光照强度数据来联动控制智能电灯呢？</p><p>不知道你还记不记得<a href="https://time.geekbang.org/column/article/313631">第9讲</a>的内容？对于蓝牙设备，我们需要借助<strong>网关</strong>来实现联网的目的。所以在这一讲中，我会带你用树莓派打造蓝牙网关，最终实现光照传感器和智能电灯的场景联动（如有需要，你可以根据<a href="https://shimo.im/sheets/D3VVPdwcYRhhQRXh/MODOC">这份文档</a>自行采购相关硬件）。</p><h2>网关系统架构</h2><p>首先，我们先看一下网关的系统架构。</p><p>网关的主要功能是<strong>协议转换</strong>，一方面它需要接收低功耗蓝牙技术的光照传感器的广播数据，另一方面，它需要把解析的数据上传到云平台。</p><p>具体的架构图如下所示。</p><p><img src="https://static001.geekbang.org/resource/image/e4/44/e44a8bfe765e535f320568f57a3cfa44.jpg?wh=2700*1335" alt="19.01"></p><h2>南向蓝牙通信</h2><p>在树莓派上进行蓝牙开发，你可以使用<a href="https://github.com/IanHarvey/bluepy">bluepy</a>软件包。它提供了一个Python语言版本的低功耗蓝牙API接口，而且对树莓派的适配非常好。</p><h3>通过终端登录树莓派</h3><p>在学习<a href="https://time.geekbang.org/column/article/320675">第15讲</a>的时候，你应该已经在树莓派上部署好了包含Gladys Assistant系统的Raspbian操作系统，现在你可以直接使用这个系统。安装软件包之前，我们在电脑终端上输入下面的命令，通过SSH协议登录到树莓派系统中。</p><!-- [[[read_end]]] --><pre><code>$ ssh pi@gladys.local
 

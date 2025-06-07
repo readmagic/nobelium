@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是鸟窝。</p><p>共享资源保护、任务编排和消息传递是Go并发编程中常见的场景，而<strong>分组执行一批相同的或类似的任务则是任务编排中一类情形</strong>，所以，这节课，我专门来介绍一下分组编排的一些常用场景和并发原语，包括ErrGroup、gollback、Hunch和schedgroup。</p><p>我们先来学习一类非常常用的并发原语，那就是ErrGroup。</p><h1>ErrGroup</h1><p><a href="https://github.com/golang/sync/tree/master/errgroup">ErrGroup</a>是Go官方提供的一个同步扩展库。我们经常会碰到需要将一个通用的父任务拆成几个小任务并发执行的场景，其实，将一个大的任务拆成几个小任务并发执行，可以有效地提高程序的并发度。就像你在厨房做饭一样，你可以在蒸米饭的同时炒几个小菜，米饭蒸好了，菜同时也做好了，很快就能吃到可口的饭菜。</p><p>ErrGroup就是用来应对这种场景的。它和WaitGroup有些类似，但是它提供功能更加丰富：</p><ul>
 

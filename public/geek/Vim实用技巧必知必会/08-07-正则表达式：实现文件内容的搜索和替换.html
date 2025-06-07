@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴咏炜。</p><p>上面两讲里我们讨论了如何找到你想要查看/编辑的文件，及如何处理多个文件。今天我们来看一下如何在一个文件中搜索和替换内容，其核心主题就是正则表达式。</p><h2>正则表达式搜索</h2><p>通过 Vim 教程，你已经学到了搜索命令 <code>/</code> 和替换命令 <code>:s</code> 的基本用法。教程里没有提到的是，你输入的待查找的内容是被 Vim 当成正则表达式来看待的。正则表达式的学习资料很多（极客时间上就有专门的课程），完整学习也相当复杂，我们就不从头学习了。下面我们会简单讨论的，是 Vim 里的正则表达式，重点是它和其他常用正则表达式（正则表达式还是有很多种不同的风格的）的区别之处。如果你之前对正则表达式完全没有了解，建议你这儿暂停一下，先在网上搜索一下关于正则表达式的资料，了解它的基本概念和用法，然后继续阅读。</p><p>在一个搜索表达式里，或者称为模式（pattern；注意不要和 Vim 的 mode 混淆）里，<code>.</code>、<code>*</code>、<code>^</code>、<code>$</code>、<code>~</code>、<code>[]</code>、<code>\</code> 是有特殊含义的字符：</p><ul>
 

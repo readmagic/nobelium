@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是范学雷。</p><p>上一讲，我们讨论了怎么利用解密端攻击CBC模式的对称密钥分组算法。那么，加密端的攻击方案是怎么进行的？有什么办法可以规避加密端的攻击？这是我们这一次要解决的问题。</p><p>虽然我们之前说，CBC模式应该退休了，但是现实中，它还有广泛的应用。我们花了很多篇幅来讨论CBC模式，除了提醒你CBC模式的缺陷外，还希望你了解缺陷修补的办法，这样你就可以修复现有的应用了。</p><p>这一次的讨论，比起上一次，稍显烧脑。因为，这是一个相对较新的攻击技术。不过，我可以保证，如果你了解了这种攻击技术，将会有一个巨大的收获。</p><h2>怎么利用加密端攻击？</h2><p>我们先来看看是怎么利用加密端攻击的？其实，CBC模式针对加密端的攻击，和针对解密端的攻击方案一样，最常见的攻击方式也是通过异或运算展开的。</p><h3>攻击面应该怎么选？</h3><p>要想了解针对加密端的攻击方案，我们先来回顾一下CBC模式的加密过程。在这个过程中，一个明文分组的加密，需要如下的输入数据：</p><ul>
 

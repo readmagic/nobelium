@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是黄佳。欢迎来到零基础实战机器学习。</p><p>我常常说，一旦你踏进了机器学习领域，就等同于踏进了“终身学习”之旅。因为机器学习领域庞大而繁杂，我们这20多讲的内容仅仅是一个开始。除了我们讲过的监督学习、无监督学习、半监督学习、强化学习、深度学习和集成学习之外，还有迁移学习、自动化机器学习、联邦学习、图神经网络等多种学习类型和研究方向。</p><p>那么，作为机器学习使用者的我们，面对机器学习领域里众多的“新热点”和种类繁多的研究方向，应该怎么去找准关注点和发力点，更高效地赋能自己的个人发展呢？在这一讲中，我将结合机器学习最新发展现状和技术演进趋势，来带你探讨这个问题。</p><h2>迁移学习</h2><p>我这里给你的第一个建议就是<strong>不要重复造轮子</strong>。要知道，人类的知识大厦都是经年累月，逐层搭建起来的，机器学习发展到今天，不仅有非常多的包供我们调用，甚至也已经有越来越多的模型，我们可以直接使用。在上一讲中，我们就预训练了一个模型，然后在Web应用中直接把这个训练好的模型拿过来使用。其实，对于别人已经预训练成功的大型模型，我们也可以做个微调，然后应用到自己的业务场景中。这个思路，就是“迁移学习”。</p><p>迁移学习（Transfer Learning）是把为任务 A 开发的模型作为初始点，重新使用在为任务 B 开发模型的过程中。在深度学习的计算机视觉任务和自然语言处理任务里，迁移学习特别常见。因为大型神经网络模型的训练、调试、优化的过程会消耗巨大的时间资源和计算资源，为了避免资源浪费，很多公司会找到开源发布出来的模型，通过迁移学习将这些模型已习得的强大技能迁移到相关的的问题上。</p><!-- [[[read_end]]] --><p>举例来说，我们在<a href="https://time.geekbang.org/column/article/420372">第11讲</a>中，创建了一个简单的CNN神经网络的鲜花分类器，准确率达到了80%左右。而这种深度学习图像分类神经网络，许多知名机构其实也在不断地发布，它们更复杂，精度也更高，比如<a href="http://www.robots.ox.ac.uk/~vgg/research/very_deep/">牛津 VGG 模型</a>、<a href="https://cloud.google.com/tpu/docs/inception-v3-advanced">谷歌 Inception 模型</a>、<a href="https://docs.microsoft.com/zh-cn/azure/machine-learning/algorithm-module-reference/resnet">微软 ResNet 模型</a>等。下面两张图，展示的就是Google Inception V3模型和VGG19模型的网络结构。</p><p><img src="https://static001.geekbang.org/resource/image/fc/93/fc0dc1997b0e068a743302d882af4e93.jpg?wh=2000x794" alt="" title="Google Inception V3 结构
 

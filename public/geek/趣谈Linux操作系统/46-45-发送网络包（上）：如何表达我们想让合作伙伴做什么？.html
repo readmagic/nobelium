@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>上一节，我们通过socket函数、bind函数、listen函数、accept函数以及connect函数，在内核建立好了数据结构，并完成了TCP连接建立的三次握手过程。</p><p>这一节，我们接着来分析，发送一个网络包的过程。</p><h2>解析socket的Write操作</h2><p>socket对于用户来讲，是一个文件一样的存在，拥有一个文件描述符。因而对于网络包的发送，我们可以使用对于socket文件的写入系统调用，也就是write系统调用。</p><p>write系统调用对于一个文件描述符的操作，大致过程都是类似的。在文件系统那一节，我们已经详细解析过，这里不再多说。对于每一个打开的文件都有一个struct file结构，write系统调用会最终调用stuct file结构指向的file_operations操作。</p><p>对于socket来讲，它的file_operations定义如下：</p><pre><code>static const struct file_operations socket_file_ops = {
 

@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是周爱民。</p><p>如果你听过上一讲的内容，心里应该会有一个问题，那就是——在规范中存在的“引用”到底有什么用？它对我们的编程有什么实际的影响呢？</p><p>当然，除了已经提及过的<code>delete 0</code>和<code>obj.x</code>之外，在今后的课程中，我还会与你讨论这个“引用”的其它应用场景。而今天的内容，就从标题来看，若是我要说与这个“引用”有关，你说不定得跳起来说我无知；但若说是跟“引用”无关的话呢，我觉得又不能把标题中的这一行代码解释清楚。</p><p>为什么这行代码看起来与规范类型中的“引用”无关呢？因为这行代码出现的时候，连ECMAScript这个规范都不存在。</p><p>我大概是在JavaScript 1.2左右的时代就接触到这门语言，在我写的最早的一些代码中就使用过它，并且——没错，你一定知道的：它能执行！</p><p>有很多的原因会促使你在JavaScript写出表达式连等这样的代码。从C/C++走过来的程序员对这样的一行代码是不会陌生的。它能用，而且结果也与你的预期会一致，例如：</p><pre><code>var x = y = 100;
 

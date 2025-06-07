@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是范学雷。今天，我们聊一聊Java的档案类。</p><p>档案类这个特性，首先在JDK 14中以<a href="https://openjdk.java.net/jeps/359">预览版</a>的形式发布。在JDK 15中，改进的档案类再次以<a href="https://openjdk.java.net/jeps/384">预览版</a>的形式发布。最后，档案类在JDK 16<a href="https://openjdk.java.net/jeps/395">正式发布</a>。</p><p>那么，什么是档案类呢？档案类的英文，使用的词汇是“record”。官方的说法，Java档案类是用来表示不可变数据的透明载体。这样的表述，有两个关键词，一个是不可变的数据，另一个是透明的载体。</p><p>该怎么理解“不可变的数据”和“透明的载体”呢？我们还是通过案例和代码，一步一步地来拆解、理解这些概念。</p><h2>阅读案例</h2><p>在面向对象的编程语言中，研究表示形状的类是一个常用的教学案例。今天的评审案例，我们从形状的子类圆形开始，来看一看面向对象编程实践中，这个类的设计和演化。</p><p>下面的这段代码，就是一个简单的、典型的圆形类的定义。这个抽象类的名字是<strong>Circle</strong>。它有一个私有的变量<strong>radius</strong>，用来表示圆的半径。有一个构造方法，用来生成圆形的实例。有一个设置半径的方法<strong>setRadius</strong>，一个读取半径的方法<strong>getRadius</strong>。还有一个重写的方法<strong>getArea</strong>，用来计算圆形的面积。</p><pre><code class="language-java">package co.ivi.jus.record.former;
 

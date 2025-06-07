@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴磊。</p><p>在日常的开发工作中，我发现有个现象很普遍。很多开发者都认为Spark的执行性能已经非常强了，实际工作中只要按部就班地实现业务功能就可以了，没有必要进行性能调优。</p><p>你是不是也这么认为呢？确实，Spark的核心竞争力就是它的执行性能，这主要得益于Spark基于内存计算的运行模式和钨丝计划的锦上添花，以及Spark SQL上的专注与发力。</p><p>但是，真如大家所说，<strong>开发者只要把业务逻辑实现了就万事大吉了吗</strong>？这样，咱们先不急于得出结论，你先跟着我一起看两个日常开发中常见的例子，最后我们再来回答这个问题。</p><p>在数据应用场景中，ETL（Extract Transform Load）往往是打头阵的那个，毕竟源数据经过抽取和转换才能用于探索和分析，或者是供养给机器学习算法进行模型训练，从而挖掘出数据深层次的价值。我们今天要举的两个例子，都取自典型ETL端到端作业中常见的操作和计算任务。</p><h2>开发案例1：数据抽取</h2><p>第一个例子很简单：给定数据条目，从中抽取特定字段。这样的数据处理需求在平时的ETL作业中相当普遍。想要实现这个需求，我们需要定义一个函数extractFields：它的输入参数是Seq[Row]类型，也即数据条目序列；输出结果的返回类型是Seq[(String, Int)]，也就是（String, Int）对儿的序列；函数的计算逻辑是从数据条目中抽取索引为2的字符串和索引为4的整型。</p><!-- [[[read_end]]] --><p>应该说这个业务需求相当简单明了，实现起来简直是小菜一碟。在实际开发中，我观察到有不少同学一上来就迅速地用下面的方式去实现，干脆利落，代码写得挺快，功能也没问题，UT、功能测试都能过。</p><pre><code>//实现方案1 —— 反例
 

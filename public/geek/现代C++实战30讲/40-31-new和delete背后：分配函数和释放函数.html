@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴咏炜。</p><p>有一个我之前没讲、但挺有意思的话题是 <code>new</code> 和 <code>delete</code> 行为的定制。这件事情我很久很久以前就做过 <span class="orange">[1]</span>，没往专栏里写的最主要原因是，这实际是 C++98 就有的高级技巧，不属于现代 C++。不过，在目前续写的内容里，我就不再拘泥必须新了，既然这是 C++ 里现在仍然需要的技巧，那就还是介绍一下。何况，这部分在现代 C++ 里还是有点新内容的。</p><h2>最常用的分配和释放函数</h2><p>在<a href="https://time.geekbang.org/column/article/169225">第 1 讲</a>，我提到过，当我们使用 <code>new</code> 和 <code>delete</code> 来创建和销毁对象时，实际发生的事情还是比较多的（如果忘了的话，可以去复习一下）。其中，分配内存和释放内存的操作是通过 <code>operator new</code> 和 <code>operator delete</code> 函数完成的。在最简单的 <code>new</code> 和 <code>delete</code> 形式里，我们使用的是以下两个函数：</p><pre><code class="language-cpp">void* operator new(size_t size);
 

@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。</p><p>上一节课，我们用了很简单的方法就实现了语法分析。但当时，我们省略了词法分析的任务，使用了一个Token的列表作为语法分析阶段的输入，而这个Token列表呢，就是词法分析的结果。</p><p>其实，编译器的第一项工作就是词法分析，也是你实现一门计算机语言的头一项基本功。今天，我们就来补补课，学习一下怎么实现词法分析功能，词法分析也就是把程序从字符串转换成Token串的过程。</p><p>词法分析难不难呢？我们来对比一下，语法分析的结果是一棵AST树，而词法分析的结果是一个列表。直观上看，列表就要比树结构简单一些，所以你大概会猜想到，词法分析应该会更简单一些。</p><p>那么，具体来说，<strong>词法分析要用什么算法呢？词法是不是也像语法一样有规则？词法规则又是如何表达的？这一节课，我会带着你实现一个词法分析器，来帮你掌握这些技能。</strong></p><p>在这里，我有个好消息告诉你。你在上一节课学到的语法分析的技能，很多可以用在词法分析中，这会大大降低你的学习难度。好了，我们开始了。</p><h2>词法分析的任务</h2><p>你已经知道，词法分析的任务就是把程序从字符串转变成Token串，那它该怎么实现呢？我们这里先不讲具体的算法，先来看看下面这张示意图，分析一下，我们人类的大脑是如何把这个字符串断成一个个Token的？<br>
 

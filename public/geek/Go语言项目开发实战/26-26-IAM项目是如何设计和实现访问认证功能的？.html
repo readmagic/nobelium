@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是孔令飞。</p><p>上一讲，我们学习了应用认证常用的四种方式：Basic、Digest、OAuth、Bearer。这一讲，我们再来看下IAM项目是如何设计和实现认证功能的。</p><p>IAM项目用到了Basic认证和Bearer认证。其中，Basic认证用在前端登陆的场景，Bearer认证用在调用后端API服务的场景下。</p><p>接下来，我们先来看下IAM项目认证功能的整体设计思路。</p><h2>如何设计IAM项目的认证功能？</h2><p>在认证功能开发之前，我们要根据需求，认真考虑下如何设计认证功能，并在设计阶段通过技术评审。那么我们先来看下，如何设计IAM项目的认证功能。</p><p>首先，我们要<strong>梳理清楚认证功能的使用场景和需求</strong>。</p><ul>
 

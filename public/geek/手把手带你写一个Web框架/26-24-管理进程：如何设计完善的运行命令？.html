@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是轩脉刃。</p><p>在<a href="https://time.geekbang.org/column/article/426765">第13章</a>我们引入命令行的时候，将Web启动方式改成了一个命令行。但是当时只完成了一个最简单的启动Web服务的命令，这节课，我们要做的是完善这个Web服务运行命令，让Web服务的运行有完整的启动、停止、重启、查询的进程管理功能。</p><p>这套完整的进程管理功能，能让应用管理者非常方便地通过一套命令来统一管控一个应用，降低应用管理者的管理成本，后续也能为实现应用自动化部署到远端服务的工具提供了基础。下面我们来具体看下如何设计这套命令并且实现它吧。</p><h3>运行命令的设计</h3><p>首先照惯例需要设计一下运行命令，一级命令为 app，二级命令设计如下：</p><ul>
 

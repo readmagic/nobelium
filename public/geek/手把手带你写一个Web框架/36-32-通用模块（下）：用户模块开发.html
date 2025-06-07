@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是轩脉刃。</p><p>上一节课我们设计好用户模块的需求后，开始了后端开发。在后端开发中我们明确了开发流程的四个步骤，先将接口swaggger化，再定义用户服务协议，接着开发模块接口，最后实现用户服务协议。而且上节课已经完成了接口swagger化，以及用户服务协议设计的模型部分。</p><p>这节课，我们就继续完成用户服务协议的定义，再开发模块接口和实现用户服务协议。</p><h2>用户服务协议</h2><p>前面我们设计好了一个模型User了，“接口优于实现”，来设计这个服务的接口，看看要提供哪些能力。</p><p>首先用户服务一定要提供的是预注册能力，所以提供了一个Register方法。预注册之后，我们还要提供发送邮件的能力，再提供一个发送邮件的接口SendRegisterMail。当然最后要提供一个确认注册用户的接口VerfityRegister。</p><p>在登录这块，用户服务一定要提供登录、登出的接口Login和Logout。同时由于所有业务请求，比如创建问题等逻辑，我们需要使用token来获取用户信息，所以我们也要提供验证登录的接口VerifyLogin。</p><p>于是整体的接口设计如下，详细信息都写在注释中了：</p><pre><code class="language-go">// Service 用户相关的服务
 

@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是张磊。今天我和你分享的主题是：容器存储实践之CSI插件编写指南。</p><p>在上一篇文章中，我已经为你详细讲解了CSI插件机制的设计原理。今天我将继续和你一起实践一个CSI插件的编写过程。</p><p>为了能够覆盖到CSI插件的所有功能，我这一次选择了DigitalOcean的块存储（Block Storage）服务，来作为实践对象。</p><p>DigitalOcean是业界知名的“最简”公有云服务，即：它只提供虚拟机、存储、网络等为数不多的几个基础功能，其他功能一概不管。而这，恰恰就使得DigitalOcean成了我们在公有云上实践Kubernetes的最佳选择。</p><p><span class="orange">我们这次编写的CSI插件的功能，就是：让我们运行在DigitalOcean上的Kubernetes集群能够使用它的块存储服务，作为容器的持久化存储。</span></p><blockquote>
 

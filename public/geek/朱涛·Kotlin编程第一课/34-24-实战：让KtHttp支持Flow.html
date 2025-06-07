@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱涛。又到了熟悉的实战环节，这一次我们接着来改造KtHttp，让它能够支持协程的Flow API。</p><p>有了前面两次实战的基础，这次我们应该就轻车熟路了。在之前的<a href="https://time.geekbang.org/column/article/488985">4.0版本</a>中，为了让KtHttp支持挂起函数，我们有两种思路，一种是<strong>改造内部</strong>，另一种是<strong>扩展外部</strong>。同理，为了让KtHttp支持Flow，这次的实战也是这两种思路。</p><p>因此，这节课我们仍然会分为两个版本。</p><ul>
 

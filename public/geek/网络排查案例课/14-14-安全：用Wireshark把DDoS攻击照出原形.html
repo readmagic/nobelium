@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是胜辉。</p><p>在过去几节课里，我们集中学习了TCP传输相关的知识，无论是<a href="https://time.geekbang.org/column/article/484667">第8讲</a>的MTU、<a href="https://time.geekbang.org/column/article/484923">第9讲</a>和<a href="https://time.geekbang.org/column/article/485689">第10讲</a>的传输速度、<a href="https://time.geekbang.org/column/article/486281">第11讲</a>的拥塞控制，还是第12和13讲的各种重传，我们可以说是把TCP传输相关的核心概念全部过了一遍。一方面学习了RFC规范和具体的Linux实现，一方面也通过案例，把这些知识灵活运用了起来。想必现在的你，再去处理TCP传输问题的时候，已经强大很多了。</p><p>不过，上面的种种，其实还是在协议规范这个大框架内的讨论和学习，默认前提就是通信两端是遵照了TCP规定而展开工作的，都可谓是谦谦君子，道德楷模。</p><p>但是，有明就有暗。不遵照TCP规范，甚至寻找漏洞、发起攻击，这种“小人”乃至“强盗”的行为，也并非少见，比如我们熟知的 <strong>DDoS攻击</strong>。</p><p>那么这节课，我们就不来学习怎么做君子了，当然，也不是教你做“小人”，而是我们要<strong>了解“小人”可能有的各种伎俩，通过Wireshark把这种种攻击行为照个彻底，认个清楚</strong>。这样，以后你如果遇到这类情况，就心里有数，也有对策了。</p><h2>NTP反射攻击案例</h2><p>我在公有云做技术工作的时候，发现游戏类业务遭到DDoS的情况比较多见。有一次，一个游戏客户就发现，他们的游戏服务器无法登录，被玩家投诉，可以说是十万火急。客户的工程师做了tcpdump抓包，然后赶紧把抓包文件传给我们一起分析。</p><!-- [[[read_end]]] --><blockquote>
 

@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。从这一讲开始，我们就进入另一个非常重要的编译器：V8编译器。</p><p>V8是谷歌公司在2008年推出的一款JavaScript编译器，它也可能是世界上使用最广泛的编译器。即使你不是编程人员，你每天也会运行很多次V8，因为JavaScript是Web的语言，我们在电脑和手机上浏览的每个页面，几乎都会运行一点JavaScript脚本。</p><p><span class="reference">扩展：V8这个词，原意是8缸的发动机，换算成排量，大约是4.0排量，属于相当强劲的发动机了。它的编译器，叫做Ignition，是点火装置的意思。而它最新的JIT编译器，叫做TurboFan，是涡轮风扇发动机的意思。</span></p><p>在浏览器诞生的早期，就开始支持JavaScript了。但在V8推出以后，它重新定义了Web应用可以胜任的工作。到今天，在浏览器里，我们可以运行很多高度复杂的应用，比如办公套件等，这些都得益于以V8为代表的JavaScript引擎的进步。2008年V8发布时，就已经比当时的竞争对手快10倍了；到目前，它的速度又已经提升了10倍以上。从中你可以看到，编译技术有多大的潜力可挖掘！</p><p>对JavaScript编译器来说，它最大的挑战就在于，当我们打开一个页面的时候，源代码的下载、解析（Parse）、编译（Compile）和执行，都要在很短的时间内完成，否则就会影响到用户的体验。</p><!-- [[[read_end]]] --><p><strong>那么，V8是如何做到既编译得快，又要运行得快的呢？</strong>所以接下来，我将会花两讲的时间，来带你一起剖析一下V8里面的编译技术。在这个过程中，你能了解到V8是如何完成前端解析、后端优化等功能的，它都有哪些突出的特点；另外，了解了V8的编译原理，对你以后编写更容易优化的程序，也会非常有好处。</p><p>今天这一讲，我们先来透彻了解一下V8的编译过程，以及每个编译阶段的工作原理，看看它跟我们已经了解的其他编译器相比，有什么不同。</p><h2>初步了解V8</h2><p>首先，按照惯例，我们肯定要下载V8的源代码。按照<a href="https://v8.dev/docs/build">官方文档</a>中的步骤，你可以下载源代码，并在本地编译。注意，你最好把它编译成Debug模式，这样便于用调试工具去跟踪它的执行，所以你要使用下面的命令来进行编译。</p><pre><code>tools/dev/gm.py x64.debug
 

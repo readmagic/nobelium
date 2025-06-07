@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是海纳。</p><p>在<a href="https://time.geekbang.org/column/article/431904">第3节课</a>，我们讲到线性地址空间按照功能的不同，可以分为不同的区域。同时，我们还简单介绍了，如何使用sbrk和mmap这两个系统调用，向操作系统申请堆内存。</p><p>其实，堆内存是程序员打交道最多的一块区域，无论是哪种编程语言，正确合理并高效地使用堆内存，都是极具挑战的一件事情。对程序调优是系统程序员常见的工作任务，而堆内存的管理和分配恰恰是最容易出现性能瓶颈的模块。</p><p>不过，sbrk和mmap这两个系统调用分配内存效率比较低，我们在<a href="https://time.geekbang.org/column/article/435493">第5节课</a>讲过，进程的内核态和用户态的区别，执行系统调用是要进入内核态的，运行态的切换会耗费不少时间。为了解决这个问题，人们倾向于使用系统调用来分配大块内存，然后再把这块内存分割成更小的块，以方便程序员使用，这样可以提升分配的效率。</p><p>在C语言的运行时库里，这个工作是由malloc函数负责的。但有时候C语言的原生malloc实现还是不能满足特定应用的性能要求，这就需要程序员来实现符合自己应用要求的内存池，以便自己进行内存的分配和释放。</p><p>这节课，我们就一起来学习，如何对通过系统调用申请来的大块内存进行更精细化的管理。通过这节课的学习，你将了解到堆内存管理的常用方法，以及内存泄露、double free等常见的内存问题产生的原因和排查方法，从而提高自己分析和解决内存问题的能力。</p><!-- [[[read_end]]] --><h2>malloc的基本功能</h2><p>正如这节课开头讲的，向操作系统申请来的大块内存，需要分割成合适的大小，才能让程序员正常使用，其实这个任务是由glibc承担的。</p><p>glibc是C语言的运行时库，C语言中常用的函数，例如printf、scanf、memcpy和strcat等等，它们的实现都在glibc.so中。通过后缀名，你可能也猜到了，glibc是一种动态链接库，它的工作原理与<a href="https://time.geekbang.org/column/article/437653">第7节课</a>和<a href="https://time.geekbang.org/column/article/440471">第8节课</a>里所讲的动态链接库是一样的，与普通的动态库相比，它并没有什么特别之处。</p><p>我们今天要讲的就是glibc中用于内存管理的两个重要函数：malloc和free。我们先展示一下malloc和free的用法，请看下面这段C代码：</p><pre><code>#include &lt;stdio.h&gt;
 

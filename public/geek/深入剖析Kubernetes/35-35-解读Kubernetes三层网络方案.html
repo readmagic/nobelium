@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是张磊。今天我和你分享的主题是：解读Kubernetes三层网络方案。</p><p>在上一篇文章中，我以网桥类型的Flannel插件为例，为你讲解了Kubernetes里容器网络和CNI插件的主要工作原理。不过，除了这种模式之外，还有一种纯三层（Pure Layer 3）网络方案非常值得你注意。其中的典型例子，莫过于Flannel的host-gw模式和Calico项目了。</p><p><span class="orange">我们先来看一下Flannel的host-gw模式。</span></p><p>它的工作原理非常简单，我用一张图就可以和你说清楚。为了方便叙述，接下来我会称这张图为“host-gw示意图”。</p><p><img src="https://static001.geekbang.org/resource/image/3d/25/3d8b08411eeb49be2658eb4352206d25.png" alt="" title="图1 Flannel host-gw示意图"></p><p>假设现在，Node 1上的Infra-container-1，要访问Node 2上的Infra-container-2。</p><p>当你设置Flannel使用host-gw模式之后，flanneld会在宿主机上创建这样一条规则，以Node 1为例：</p><pre><code>$ ip route
 

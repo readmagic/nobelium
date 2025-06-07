@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王庆友。前面的课程，我们从单体架构开始，讲到了微服务，今天我们就接着讲最新的中台架构。</p><p>关于中台，最近比较火，你可能也听到过不少关于它的讨论，但中台究竟是什么？它能解决什么问题？相信你不一定非常清楚。今天，我就为你解决这些困惑。</p><p>讲中台之前，我们先来理解下前台和后台，这样，你才能更清楚中台的定位。</p><p><img src="https://static001.geekbang.org/resource/image/7e/b2/7e8f2b10eba1efbe492ca6b10d080ab2.jpg" alt=""></p><p><strong>前台</strong>比较好理解，指的是<strong>面向C端的应用</strong>，比如像微信、淘宝这样的应用。不过，你要注意，前台不仅仅是指前端，它还包含和前端配套的服务端。</p><p><strong>后台</strong>指的是<strong>企业内部系统</strong>，比如ERP、CRM、仓库管理系统等等，主要是面向企业内部人员使用。对于传统企业来说，之前只有线下场景，通过内部的后台就能完成所有业务流程；而对于互联网企业，或者逐步开展线上业务的传统企业来说，同时需要前台和后台，一起协作，完成业务的闭环。</p><p>但问题是，前台和后台的特性是不一样的。<strong>前台对外</strong>，我们知道，消费者的需求快速多变，所以前台需要能快速响应，做到低成本试错；而<strong>后台对内</strong>，企业内部的业务流程不能经常变，所以后台需要稳定，不能随意调整，一旦改动，影响面广，成本很高。</p><p>简单地说，前台要快，后台要稳，因此在业务扩展时，我们经常会遇到以下两类挑战：</p><ul>
 

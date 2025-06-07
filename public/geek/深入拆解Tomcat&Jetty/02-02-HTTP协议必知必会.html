@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在开始学习Web容器之前，我想先问你一个问题：HTTP和HTML有什么区别？</p><p>为什么我会问这个问题？你可以把它当作一个入门测试，检测一下自己的对HTTP协议的理解。因为Tomcat和Jetty本身就是一个“HTTP服务器 + Servlet容器”，如果你想深入理解Tomcat和Jetty的工作原理，我认为理解HTTP协议的工作原理是学习的基础。</p><p>如果你对这个问题还稍有迟疑，那么请跟我一起来回顾一下HTTP协议吧。</p><h2>HTTP的本质</h2><p>HTTP协议是浏览器与服务器之间的数据传送协议。作为应用层协议，HTTP是基于TCP/IP协议来传递数据的（HTML文件、图片、查询结果等），HTTP协议不涉及数据包（Packet）传输，主要规定了客户端和服务器之间的通信格式。</p><p>下面我通过一个例子来告诉你HTTP的本质是什么。</p><p>假如浏览器需要从远程HTTP服务器获取一个HTML文本，在这个过程中，浏览器实际上要做两件事情。</p><ul>
 

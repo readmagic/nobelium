@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是LMOS。</p><p>今天，我们继续研究操作系统如何实现虚拟内存。在上节课，我们已经建立了虚拟内存的初始流程，这节课我们来实现虚拟内存的核心功能：写出分配、释放虚拟地址空间的代码，最后实现虚拟地址空间到物理地址空间的映射。</p><p>这节课的配套代码，你可以点击<a href="https://gitee.com/lmos/cosmos/tree/master/lesson19~21/Cosmos">这里</a>下载。</p><h2>虚拟地址的空间的分配与释放</h2><p>通过上节课的学习，我们知道整个虚拟地址空间就是由一个个虚拟地址区间组成的。那么不难猜到，分配一个虚拟地址空间就是在整个虚拟地址空间分割出一个区域，而释放一块虚拟地址空间，就是把这个区域合并到整个虚拟地址空间中去。</p><h3>虚拟地址空间分配接口</h3><p>我们先来研究地址的分配，依然从虚拟地址空间的分配接口开始实现，一步步带着你完成虚拟 空间的分配。</p><p>在我们的想像中，分配虚拟地址空间应该有大小、有类型、有相关标志，还有从哪里开始分配等信息。根据这些信息，我们在krlvadrsmem.c文件中设计好分配虚拟地址空间的接口，如下所示。</p><pre><code>adr_t vma_new_vadrs_core(mmadrsdsc_t *mm, adr_t start, size_t vassize, u64_t vaslimits, u32_t vastype)
 

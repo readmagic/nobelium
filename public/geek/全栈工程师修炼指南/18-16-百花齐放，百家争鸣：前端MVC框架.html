@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是四火。</p><p>我在上一章讲到了 MVC 的原理，今天我来讲讲前端的 MVC 框架。这部分发展很快，它们比后端 MVC 框架出现得更晚，但是社区普遍更活跃。</p><p>我们在学习的过程中，需要继续保持深度和广度的均衡，既要对自己熟悉的那一款框架做深入了解，知道它的核心特性，明白其基本实现原理，对于其优劣有自己的想法；也要多了解了解这个技术的百花园，看看别的框架是什么，想想有什么优势和缺点，拓宽视野，为自己能够做出合理的技术选型而打下扎实的基础。</p><h2>前端 MVC 的变革</h2><p>让我们来回想一下，在 <a href="https://time.geekbang.org/column/article/140196">[第 07 讲]</a> 中，介绍过的 MVC 架构。实际上，我们可以把前端的部分大致归纳到视图层内，可它本身，却还可以按照 MVC 的基本思想继续划分。这个划分，有些遵循着 MVC 两个常见形式之一，有些则遵循着 MVC 的某种变体，比如  MVVM。</p><p>我们都知道前端技术的基础是 HTML、CSS 和 JavaScript，可随着技术的发展，它们在前端技术分层中的位置是不断变化的。</p><p>在前端技术发展的早期，Ajax 技术尚未被发明或引进，页面是一次性从服务端生成的，即便有视图层的解耦，页面聚合也是在服务端生成的（如果忘记了服务端的页面聚合，请回看 <a href="https://time.geekbang.org/column/article/141817">[第 09 讲]</a>）。也就是说，整个页面一旦生成，就可以认为是静态的了。</p><!-- [[[read_end]]] --><p>在这种情况下，如果单独把前端代码的组织也按照 MVC 架构来划分，你觉得 HTML 到底算模型层还是视图层？</p><ul>
 

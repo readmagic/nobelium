@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是李智慧。</p><p>在互联网早期，网络爬虫仅仅应用在搜索引擎中。随着大数据时代的到来，数据存储和计算越来越廉价和高效，越来越多的企业开始利用网络爬虫来获取外部数据。例如：获取政府公开数据以进行统计分析；获取公开资讯以进行舆情和热点追踪；获取竞争对手数据以进行产品和营销优化等等。</p><p>网络爬虫有时候也被称为网络机器人，或者网络蜘蛛。我们准备开发一个全网爬虫，爬取全（中文）互联网的公开网页，以构建搜索引擎和进行数据分析。爬虫名称为“Bajie（八戒）”。</p><p>Bajie的技术挑战包括：如何不重复地获取并存储全网海量URL？如何保证爬虫可以快速爬取全网网页但又不会给目标网站带来巨大的并发压力？接下来我们就来看看Bajie的需求与技术架构。</p><h2>需求分析</h2><p>Bajie的功能比较简单，这里不再赘述。</p><h4>性能指标估算</h4><p>因为互联网网页会不断产生，所以全网爬虫Bajie也是一个持续运行的系统。根据设计目标，Bajie需要每个月从互联网爬取的网页数为20亿个，平均每个页面500KB，且网页需存储20年。</p><p>Bajie的存储量和TPS（系统吞吐量）估算如下。</p><ul>
 

@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是方远。</p><p>欢迎来跟我一起学习情感分析，今天我们要讲的就是机器学习里的文本情感分析。文本情感分析又叫做观点提取、主题分析、倾向性分析等。光说概念，你可能会觉得有些抽象，我们一起来看一个生活中的应用，你一看就能明白了。</p><p>比方说我们在购物网站上选购一款商品时，首先会翻阅一下商品评价，看看是否有中差评。这些评论信息表达了人们的各种情感色彩和情感倾向性，如喜、怒、哀、乐和批评、赞扬等。像这样根据评价文本，由计算机自动区分评价属于好评、中评或者说差评，背后用到的技术就是情感分析。</p><p>如果你进一步观察，还会发现，在好评差评的上方还有一些标签，比如“声音大小合适”、“连接速度快”、“售后态度很好”等。这些标签其实也是计算机根据文本，自动提取的主题或者观点。</p><p><img src="https://static001.geekbang.org/resource/image/ef/6f/ef69caa72565c50d98b63e20f499ea6f.jpg?wh=2572x2473" alt=""></p><p>情感分析的快速发展得益于社交媒体的兴起，自2000年初以来，情感分析已经成长为自然语言处理（NLP）中最活跃的研究领域之一，它也被广泛应用在个性化推荐、商业决策、舆情监控等方面。</p><p>今天这节课，我们将完成一个情感分析项目，一起来对影评文本做分析。</p><h2>数据准备</h2><p>现在我们手中有一批影评数据（IMDB数据集），影评被分为两类：正面评价与负面评价。我们需要训练一个情感分析模型，对影评文本进行分类。</p><!-- [[[read_end]]] --><p>这个问题本质上还是一个文本分类问题，研究对象是电影评论类的文本，我们需要对文本进行二分类。下面我们来看一看训练数据。</p><p>IMDB（Internet Movie Database）是一个来自互联网电影数据库，其中包含了50000条严重两极分化的电影评论。数据集被划分为训练集和测试集，其中训练集和测试集中各有25000条评论，并且训练集和测试集都包含50%的正面评论和50%的消极评论。</p><h3>如何用Torchtext读取数据集</h3><p>我们可以利用Torchtext工具包来读取数据集。</p><p>Torchtext是一个包含<strong>常用的文本处理工具</strong>和<strong>常见自然语言数据集</strong>的工具包。我们可以类比之前学习过的Torchvision包来理解它，只不过，Torchvision包是用来处理图像的，而Torchtext则是用来处理文本的。</p><p>安装Torchtext同样很简单，我们可以使用pip进行安装，命令如下：</p><pre><code class="language-plain">pip install torchtext
 

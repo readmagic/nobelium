@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是LMOS。</p><p>通过前面两节课的学习，我们已经组织好了内存页，也初始化了内存页和内存区。我们前面做了这么多准备工作，就是为了实现分配和释放内存页面，达到内存管理的目的。</p><p>那有了前面的基础，我想你自己也能大概实现这个分配和释放的代码。但是，根据前面我们设计的数据结构和对其初始化的工作，估计你也可以隐约感觉到，我们的内存管理的算法还是有一点点难度的。</p><p>今天这节课，就让我们一起来实现这项富有挑战性的任务吧！这节课的配套代码，你可以通过<a href="https://gitee.com/lmos/cosmos/tree/master/lesson16~18/Cosmos">这里</a>下载。</p><h2>内存页的分配</h2><p>如果让你实现一次只分配一个页面，我相信这个问题很好解决，因为你只需要写一段循环代码，在其中遍历出一个空闲的msadsc_t结构，就可以返回了，这个算法就可以结束了。</p><p>但现实却不容许我们这么简单地处理问题，我们内存管理器要为内核、驱动，还有应用提供服务，它们对请求内存页面的多少、内存页面是不是连续，内存页面所处的物理地址都有要求。</p><p>这样一来，问题就复杂了。不过你也不必担心，我们可以从<strong>内存分配的接口函数</strong>下手。</p><p>下面我们根据上述要求来设计实现内存分配接口函数。我们还是先来建立一个新的C语言代码文件，在cosmos/hal/x86目录中建立一个memdivmer.c文件，在其中写一个内存分配接口函数，代码如下所示。</p><!-- [[[read_end]]] --><pre><code>//内存分配页面框架函数
 

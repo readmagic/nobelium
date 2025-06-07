@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈航。</p><p>在上一篇文章中，我带你一起学习了Flutter中实现页面路由的两种方式：基本路由与命名路由，即手动创建页面进行切换，和通过前置路由注册后提供标识符进行跳转。除此之外，Flutter还在这两种路由方式的基础上，支持页面打开和页面关闭传递参数，可以更精确地控制路由切换。</p><p>通过前面第<a href="https://time.geekbang.org/column/article/110292">12</a>、<a href="https://time.geekbang.org/column/article/110859">13</a>、<a href="https://time.geekbang.org/column/article/110848">14</a>和<a href="https://time.geekbang.org/column/article/111673">15</a>篇文章的学习，我们已经掌握了开发一款样式精美的小型App的基本技能。但当下，用户对于终端页面的要求已经不再满足于只能实现产品功能，除了样式美观之外，还希望交互良好、有趣、自然。</p><p>动画就是提升用户体验的一个重要方式，一个恰当的组件动画或者页面切换动画，不仅能够缓解用户因为等待而带来的情绪问题，还会增加好感。Flutter既然完全接管了渲染层，除了静态的页面布局之外，对组件动画的支持自然也不在话下。</p><p>因此在今天的这篇文章中，我会向你介绍Flutter中动画的实现方法，看看如何让我们的页面动起来。</p><h2>Animation、AnimationController与Listener</h2><p>动画就是动起来的画面，是静态的画面根据事先定义好的规律，在一定时间内不断微调，产生变化效果。而动画实现由静止到动态，主要是靠人眼的视觉残留效应。所以，对动画系统而言，为了实现动画，它需要做三件事儿：</p><!-- [[[read_end]]] --><ol>
 

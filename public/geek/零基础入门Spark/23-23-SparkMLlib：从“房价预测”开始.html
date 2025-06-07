@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴磊。</p><p>从今天这一讲开始，我们进入课程的第三个模块：Spark MLlib机器学习。在数据科学、机器学习与人工智能火热的当下，积累一些机器学习的知识储备，有利于我们拓展视野，甚至为职业发展提供新的支点。</p><p>在这个模块中，我们首先从一个“房价预测”的小项目入手，来初步了解机器学习以及Spark MLlib的基本用法。接下来，我们会着重讲解机器学习的两个关键环节：特征工程与模型调优，在深入学习Spark MLlib的同时，进一步优化“房价预测”的模型效果，从而让房价的预测越来越准。</p><p>熟悉了关键环节之后，我们再去探讨，在Spark MLlib的框架之下，高效构建机器学习流水线的一般方法。好啦，话不多说，让我们先来一起看看“房价预测”这个小项目吧。</p><p>为兼顾项目的权威性与代表性，这里我选择了Kaggle（数据科学竞赛平台）的“<a href="https://www.kaggle.com/c/house-prices-advanced-regression-techniques/overview">House Prices - Advanced Regression Techniques</a>”竞赛项目。这个项目的要求是，给定房屋的79个属性特征以及历史房价，训练房价预测模型，并在测试集上验证模型的预测效果。</p><h2>数据准备</h2><p>虽然项目的要求相当清晰明了，不过你可能会说：“我没有机器学习背景，上面提到这些什么特征啊、模型啊，还有测试集、效果验证，我都没有概念，那接下来的课程，要怎么学呢？”别担心，随着课程的推进，我会逐渐把这些概念给你讲清楚。</p><!-- [[[read_end]]] --><p>接下来，我们先直观了解一下项目中的房屋数据。</p><p>房屋数据记录着美国爱荷华州2006年到2010年的房屋交易数据，其中包含着79个房屋属性以及当时的成交价格，你可以通过<a href="https://www.kaggle.com/c/house-prices-advanced-regression-techniques/data">竞赛项目的data页面</a>进行下载。</p><p>数据下载、解压之后，我们会得到4个文件，分别是data_description.txt、train.csv、test.csv和sample_submission.csv。这4个文件的体量很小，总大小不超过5MB，它们的内容与含义如下表所示。</p><p><img src="https://static001.geekbang.org/resource/image/08/07/08f32643a5145a2c612296c76ea7ba07.jpg?wh=1920x681" alt="图片" title="房屋数据中的不同文件"></p><p>其中，train.csv与test.csv的Schema完全一致，都包含79个房屋属性字段以及一个交易价格字段，描述文件则详细地记录着79个字段的含义与取值范围。二者的唯一区别在于用途，<strong>train.csv用于训练模型，而test.csv用于验证模型效果</strong>。<br>
 

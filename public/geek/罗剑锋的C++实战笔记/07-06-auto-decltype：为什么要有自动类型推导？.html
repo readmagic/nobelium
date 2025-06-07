@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是Chrono。</p><p>前两周我们从宏观的层面上重新认识了C++，从今天开始，我们将进入一个新的“语言特性”单元，“下沉”到微观的层面去观察C++，一起去见一些老朋友、新面孔，比如const、exception、lambda。</p><p>这次要说的，就是C++11里引入的一个很重要的语言特性：自动类型推导。</p><h2>自动类型推导</h2><p>如果你有过一些C++的编程经验，了解过C++11，那就一定听说过“<strong>自动类型推导</strong>”（auto type deduction）。</p><p>它其实是一个非常“老”的特性，C++之父Bjarne Stroustrup（B·S )早在C++诞生之初就设计并实现了它，但因为与早期C语言的语义有冲突，所以被“雪藏”了近三十年。直到C99消除了兼容性问题，C++11才让它再度登场亮相。</p><p>那为什么要重新引入这个“老特性”呢？为什么非要有“自动类型推导”呢？</p><p>我觉得，你可以先从字面上去理解，把这个词分解成三个部分：“自动”“类型”和“推导”。</p><ul>
 

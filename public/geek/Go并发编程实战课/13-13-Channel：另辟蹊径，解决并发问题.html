@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是鸟窝。</p><p>Channel是Go语言内建的first-class类型，也是Go语言与众不同的特性之一。Go语言的Channel设计精巧简单，以至于也有人用其它语言编写了类似Go风格的Channel库，比如<a href="https://github.com/docker/libchan">docker/libchan</a>、<a href="https://github.com/tylertreat/chan">tylertreat/chan</a>，但是并不像Go语言一样把Channel内置到了语言规范中。从这一点，你也可以看出来，Channel的地位在编程语言中的地位之高，比较罕见。</p><p>所以，这节课，我们就来学习下Channel。</p><h1>Channel的发展</h1><p>要想了解Channel这种Go编程语言中的特有的数据结构，我们要追溯到CSP模型，学习一下它的历史，以及它对Go创始人设计Channel类型的影响。</p><p>CSP是Communicating Sequential Process 的简称，中文直译为通信顺序进程，或者叫做交换信息的循序进程，是用来描述并发系统中进行交互的一种模式。</p><p>CSP最早出现于计算机科学家Tony Hoare 在1978年发表的<a href="https://www.cs.cmu.edu/~crary/819-f09/Hoare78.pdf">论文</a>中（你可能不熟悉Tony Hoare这个名字，但是你一定很熟悉排序算法中的Quicksort算法，他就是Quicksort算法的作者，图灵奖的获得者）。最初，论文中提出的CSP版本在本质上不是一种进程演算，而是一种并发编程语言，但之后又经过了一系列的改进，最终发展并精炼出CSP的理论。<strong>CSP允许使用进程组件来描述系统，它们独立运行，并且只通过消息传递的方式通信。</strong></p><!-- [[[read_end]]] --><p>就像Go的创始人之一Rob Pike所说的：“每一个计算机程序员都应该读一读Tony Hoare 1978年的关于CSP的论文。”他和Ken Thompson在设计Go语言的时候也深受此论文的影响，并将CSP理论真正应用于语言本身（Russ Cox专门写了一篇文章记录这个<a href="https://swtch.com/~rsc/thread/">历史</a>），通过引入Channel这个新的类型，来实现CSP的思想。</p><p><strong>Channel类型是Go语言内置的类型，你无需引入某个包，就能使用它</strong>。虽然Go也提供了传统的并发原语，但是它们都是通过库的方式提供的，你必须要引入sync包或者atomic包才能使用它们，而Channel就不一样了，它是内置类型，使用起来非常方便。</p><p>Channel和Go的另一个独特的特性goroutine一起为并发编程提供了优雅的、便利的、与传统并发控制不同的方案，并演化出很多并发模式。接下来，我们就来看一看Channel的应用场景。</p><h1>Channel的应用场景</h1><p>首先，我想先带你看一条Go语言中流传很广的谚语：</p><blockquote>
 

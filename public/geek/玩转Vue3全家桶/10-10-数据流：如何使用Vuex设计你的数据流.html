@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是大圣，欢迎进入课程的第10讲。</p><p>前面的基础入门篇中的几讲，都是针对Vue本身的进阶内容。通过这几讲，我们巩固和进阶了Composition API、组件化和动画等关键知识，Vue本身的知识点已经掌握得差不多了。那么从这一讲开始，我们进入课程的全家桶实战篇。</p><p>在全家桶实战篇，我们将一同学习Vue 3的生态，包括Vuex、vue-router、Vue Devtools等生态库，以及实战开发中需要用到的库。这⼀模块学完，你就能全副武装，应对复杂的项目开发也会慢慢得心应手。</p><p>今天，我先来带你认识一下Vue全家桶必备的工具：Vuex，有了这个神兵利器，复杂项目设计也会变得条理更清晰。接下来，让我们先从Vuex解决了什么问题说起。</p><h2>前端数据管理</h2><p>首先，我们需要掌握前端的数据怎么管理，现代Web应用都是由三大件构成，分别是：组件、数据和路由。关于组件化开发，在前面的<a href="https://time.geekbang.org/column/article/435439">第8讲</a>中，已经有详细的讲解了。这一讲我们思考一个这样的场景，就是有一些数据组件之间需要共享的时候，应该如何实现？</p><p>解决这个问题的最常见的一种思路就是：专门定义一个全局变量，任何组件需要数据的时候都去这个全局变量中获取。一些通用的数据，比如用户登录信息，以及一个跨层级的组件通信都可以通过这个全局变量很好地实现。在下面的代码中我们使用_store这个全局变量存储数据。</p><!-- [[[read_end]]] --><pre><code class="language-xml">window._store = {}
 

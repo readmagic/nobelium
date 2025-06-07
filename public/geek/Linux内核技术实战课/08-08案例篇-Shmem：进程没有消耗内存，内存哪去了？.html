@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是邵亚方。</p><p>在前一节课，我们讲述了进程堆内存的泄漏以及因为内存泄漏而导致的OOM的危害。这节课我们继续讲其他类型的内存泄漏，这样你在发现系统内存越来越少时，就能够想到会是什么在消耗内存。</p><p>有的内存泄漏会体现在进程内存里面，这种相对好观察些；而有的内存泄漏就很难观察了，因为它们无法通过观察进程消耗的内存来进行判断，从而容易被忽视，比如Shmem内存泄漏就属于这种容易被忽视的，这节课我们重点来讲讲它。</p><h2>进程没有消耗内存，内存哪去了？</h2><p>我生产环境上就遇到过一个真实的案例。我们的运维人员发现某几台机器used（已使用的）内存越来越多，但是通过top以及其他一些命令，却检查不出来到底是谁在占用内存。随着可用内存变得越来越少，业务进程也被OOM killer给杀掉，这给业务带来了比较严重的影响。于是他们向我寻求帮助，看看产生问题的原因是什么。</p><p>我在之前的课程中也提到过，在遇到系统内存不足时，我们首先要做的是查看/proc/meminfo中哪些内存类型消耗较多，然后再去做针对性分析。但是如果你不清楚/proc/meminfo里面每一项的含义，即使知道了哪几项内存出现了异常，也不清楚该如何继续去分析。所以你最好是记住/proc/meminfo里每一项的含义。</p><!-- [[[read_end]]] --><p>回到我们这个案例，通过查看这几台服务器的/proc/meminfo，发现是Shmem的大小有些异常：</p><pre><code>$ cat /proc/meminfo
 

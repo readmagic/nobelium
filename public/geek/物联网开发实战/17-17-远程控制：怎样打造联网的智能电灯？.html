@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是郭朝斌。</p><p>在上一讲，我们把智能电灯开发的实验环境搭好了。今天，我们就一起去完成智能电灯的开发工作，并且连接到腾讯云的<a href="https://console.cloud.tencent.com/iotexplorer">物联网平台</a>吧（如有需要，你可以根据<a href="https://shimo.im/sheets/D3VVPdwcYRhhQRXh/MODOC">这份文档</a>自行采购相关硬件）。</p><p>那为什么一定要连接到一个物联网平台呢？这是因为物联网平台提供了基本的设备管理功能，可以帮助我们更快速地实现设备的远程控制功能。比如说，我们可以通过“腾讯连连”小程序，来控制电灯的状态，而不用自己花费时间和精力去写相应的代码等工作。</p><h2>物联网平台上需要做什么准备？</h2><p>那为什么要选择腾讯云的物联网平台呢？</p><p>主要是两个原因。一方面是，它的平台是开放注册的，我们普通的用户也可以注册来使用，不像很多平台那样需要企业用户才能注册。另一方面是，腾讯云提供的交互方式非常方便，不需要编译，或者下载其他App，在微信上用小程序就可以进行。</p><h3>注册与登录</h3><p>确定了要接入腾讯云的物联网平台以后，我们就需要先在这个平台上做一些准备工作了。准备工作的第一步，当然就是你得先注册个账号并且登录。注册和登录的流程非常简单，你打开<a href="https://console.cloud.tencent.com/iotexplorer">这个链接</a>，一眼就能看明白。</p><p><img src="https://static001.geekbang.org/resource/image/a8/4f/a8a8c11d4be7c1e1c6fd69b2febed24f.png" alt=""></p><h3>创建项目和产品</h3><p>登录之后，我们直接进入准备工作的第二步，创建项目和产品。我们先在物联网开发平台创建一个新项目“智能家居”。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/bc/81/bc6d5d04e08bae0939c3a783775fd281.png" alt=""></p><p>然后，进入这个“智能家居”项目，创建一个新产品“智能电灯”。到这里，我们需要简单设置几个参数：</p><ul>
 

@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是Tony Bai。</p><p>上一节课，我们学习了Go语言中最常用的两个复合类型：数组与切片。它们代表<strong>一组连续存储的同构类型元素集合。</strong>不同的是，数组的长度是确定的，而切片，我们可以理解为一种“动态数组”，它的长度在运行时是可变的。</p><p>这一节课，我们会继续前面的脉络，学习另外一种日常Go编码中比较常用的复合类型，这种类型可以让你将一个值（Value）唯一关联到一个特定的键（Key）上，可以用于实现特定键值的快速查找与更新，这个复合数据类型就是<strong>map</strong>。很多中文Go编程语言类技术书籍都会将它翻译为映射、哈希表或字典，但在我的课程中，<strong>为了保持原汁原味，我就直接使用它的英文名，map</strong>。</p><p>map是我们既切片之后，学到的第二个由Go编译器与运行时联合实现的复合数据类型，它有着复杂的内部实现，但却提供了十分简单友好的开发者使用接口。这一节课，我将从map类型的定义，到它的使用，再到map内部实现机制，由浅到深地让你吃透map类型。</p><h2>什么是map类型？</h2><p>map是Go语言提供的一种抽象数据类型，它表示一组无序的键值对。在后面的讲解中，我们会直接使用key和value分别代表map的键和值。而且，map集合中每个key都是唯一的：</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/f6/28/f6ac7392831455d3cf85f189a9dc9528.jpg?wh=1920x1047" alt="图片"></p><p>和切片类似，作为复合类型的map，它在Go中的类型表示也是由key类型与value类型组成的，就像下面代码：</p><pre><code class="language-plain">map[key_type]value_type
 

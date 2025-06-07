@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴磊。</p><p>从今天开始，我们就进入通用性能调优篇的学习了。这一篇，我们会从基本的开发原则、配置项、Shuffle以及硬件资源这四个方面，去学习一些通用的调优方法和技巧，它们会适用于所有的计算场景。</p><p>今天这一讲，我们先从应用开发的角度入手，去探讨开发阶段应该遵循的基础原则。<strong>如果能在开发阶段就打好基础、防患于未然，业务应用的执行性能往往会有个不错的起点</strong>。开发阶段就像学生时代的考卷，虽然有很难的拔高题，但只要我们稳扎稳打，答好送分的基础题，成绩往往不会太差。</p><p>这些“基础题”对应的就是工作中一些“常规操作”，比如Filter + Coalesce和用mapPartitions代替map，以及用ReduceByKey代替GroupByKey等等。我相信，你在日常的开发工作中肯定已经积累了不少。但是据我观察，很多同学在拿到这些技巧之后，都会不假思索地“照葫芦画瓢”。不少同学反馈：“试了之后怎么没效果啊？算了，反正能试的都试了，我也实在没有别的调优思路了，就这样吧”。</p><p>那么，这种情况该怎么办呢？我认为，最重要的原因可能是你积累的这些“常规操作”还没有形成体系。结合以往的开发经验，我发现这些“常规操作”可以归纳为三类：</p><!-- [[[read_end]]] --><ul>
 

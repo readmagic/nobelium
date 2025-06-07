@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是胜辉。</p><p>在上一讲里，我们排查了一个跟操作系统紧密相关的性能问题。我们结合top和strace这两个工具，抓住了关键点，从而解决了问题。性能问题，确实也是我们日常技术工作中的一个重要话题。在出现性能问题以后，我们要有能力搞定它；而在出现性能问题之前，最好能提前预见到它。而要“预见”性能瓶颈，最好的方法就是做<strong>压力测试</strong>。</p><p>但是，我们在做压力测试的过程中也时常出现预料不到的情况。比如在离预期的瓶颈值还很远的时候，系统就出现了各种意外，影响到压力测试的继续进行。</p><p>那么在这节课里，我们会回顾几个典型的压力测试场景中的网络问题，一起来学习其中的关键要点。同时，我们还会学习一系列跟网络性能相关的压测工具和检测工具，这样以后你遇到类似的问题时，就有所准备了。</p><h2>压测要做什么？</h2><p>压力测试的诉求实际上多种多样，不过大体上可以分为这几种。</p><p><strong>应用的承受能力</strong>：这主要在第七层应用层，比如发起了压测，把服务端的CPU打到95%甚至100%，观察这时候的请求的TPS、请求耗时、并发量等等。而这些对于不同的业务场景，又会有不同的侧重点。比如：</p><ul>
 

@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈天。</p><p>一门编程语言的能力，语言本身的设计占了四成，围绕着语言打造的生态系统占了六成。</p><p><a href="https://time.geekbang.org/column/article/411089">之前</a>我们对比过 Golang 和 Rust，在我看来，Golang 是一门优点和缺点同样突出的语言，Golang 的某些缺点甚至是很严重的，然而，在 Google 的大力加持下，借助微服务和云原生的春风，Golang 构建了一个非常宏大的生态系统。基本上，如果你要做微服务，Golang 完善的第三方库能够满足你几乎所有的需求。</p><p>所以，生态可以弥补语言的劣势，<strong>编程语言对外展现出来的能力是语言+生态的一个合集</strong>。</p><p>举个例子，由于不支持宏编程，Golang 在开发很多项目时不得不引入大量的脚手架代码，这些脚手架代码如果自己写，费时费力，但是社区里会有一大票优秀的框架，帮助你生成这些脚手架代码。</p><p>典型的比如 <a href="https://github.com/kubernetes-sigs/kubebuilder">kubebuilder</a>，它直接把开发 Kubernetes 下 operator 的门槛降了一大截，如果没有类似的工具，用 Golang 开发 Kubernetes 并不比 Python 来得容易。反之，承蒙在 data science 和 machine learning 上无比优秀且简洁实用的生态系统，Python 才得以在这两个领域笑傲江湖，独孤求败。</p><p>那么，Rust 的生态是什么样子呢？我们可以用 Rust 做些什么事情呢？为什么我说 Rust 生态系统已经不错，且潜力无穷、后劲很足呢？我们就聊聊这个话题。</p><!-- [[[read_end]]] --><p>今天的内容主要是丰富你对Rust生态系统的了解，方便你在做不同的项目时，可以快速找到适合的库和工具。当然，我无法把所有重要的 crate 都罗列出来，如果本文中的内容无法涵盖到你的需求，也可以去 <a href="https://crates.io/">crates.io</a> 自行查找。</p><h2>基础库</h2><p>首先我们来介绍一些在各类应用中可能都会用到的库。</p><p>先按照重要程度依次简单说一下，方便你根据需要自行跳转：序列化和反序列化工具 serde、网络和高性能 I/O 库 tokio、用于错误处理的 thiserror 和 anyhow、用于命令行处理的 clap 以及其他、用于处理异步的 futures 和 async-trait、用于提供并发相关的数据结构和算法的 crossbeam，以及用于撰写解析器的 nom 及其他。<br>
 

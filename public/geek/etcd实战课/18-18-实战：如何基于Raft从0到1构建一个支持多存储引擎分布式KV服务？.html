@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是唐聪。</p><p>通过前面课程的学习，我相信你已经对etcd基本架构、核心特性有了一定理解。如果让你基于Raft协议，实现一个简易的类etcd、支持多存储引擎的分布式KV服务，并能满足读多写少、读少写多的不同业务场景诉求，你知道该怎么动手吗？</p><p>纸上得来终觉浅，绝知此事要躬行。</p><p>今天我就和你聊聊如何实现一个类etcd、支持多存储引擎的KV服务，我们将基于etcd自带的<a href="https://github.com/etcd-io/etcd/tree/v3.4.9/contrib/raftexample">raftexample</a>项目快速构建它。</p><p>为了方便后面描述，我把它命名为metcd（表示微型的etcd），它是raftexample的加强版。希望通过metcd这个小小的实战项目，能够帮助你进一步理解etcd乃至分布式存储服务的核心架构、原理、典型问题解决方案。</p><p>同时在这个过程中，我将详细为你介绍etcd的Raft算法工程实现库、不同类型存储引擎的优缺点，拓宽你的知识视野，为你独立分析etcd源码，夯实基础。</p><h2>整体架构设计</h2><p>在和你深入聊代码细节之前，首先我和你从整体上介绍下系统架构。</p><p>下面是我给你画的metcd整体架构设计，它由API层、Raft层的共识模块、逻辑层及存储层组成的状态机组成。</p><p>接下来，我分别和你简要分析下API设计及复制状态机。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/5e/03/5e9f6882a6f6e357e5c2c5yyffda4e03.png" alt=""></p><h3>API设计</h3><p>API是软件系统对外的语言，它是应用编程接口的缩写，由一组接口定义和协议组成。</p><p>在设计API的时候，我们往往会考虑以下几个因素：</p><ul>
 

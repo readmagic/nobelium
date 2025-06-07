@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在性能测试分析中，有一部分人存在着一个思路上的误解，那就是一开始就一头扎进代码里，折腾代码性能。这是我非常反对的一种做法。</p><p>事实上，要想这么做，有一个前提，那就是架构中的其他组件都经过了千锤百炼，出现问题的可能性极低。</p><p>实际上，我凭着十几年的经验来看，大部分时候，代码出现严重性能瓶颈的情况还真是不多。再加上现在成熟的框架那么多，程序员们很多情况下只写业务实现。在这种情况下，代码出现性能瓶颈的可能性就更低了。</p><p>但我们今天终归要说代码级的监控及常用的计数器。如何去评估一个业务系统的代码性能呢？在我看来，分析的思路是下面这个样子的。</p><p><img src="https://static001.geekbang.org/resource/image/ee/e3/eebce7bd7cab91685baf4a9a526be9e3.jpg" alt=""></p><p>从上图可以看到，分析的时候有两个关键点：执行时间和执行空间。我相信很多人都清楚，我们要很快找到执行时间耗在哪一段和空间耗在哪里。</p><p>现在我们来实际操作一下，看如何判断。</p><h2>Java类应用查找方法执行时间</h2><p>首先你得选择一个合适的监控工具。Java方法类的监控工具有很多，这里我选择JDK里自带的jvisualvm。</p><p>顺便说一下，我的Java版本号是这个：</p><pre><code>(base) GaoLouMac:~ Zee$ java -version
 

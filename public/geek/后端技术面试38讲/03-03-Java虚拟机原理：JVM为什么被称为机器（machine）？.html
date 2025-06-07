@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>人们常说，Java是一种跨平台的语言，这意味着Java开发出来的程序经过编译后，可以在Linux上运行，也可以在Windows上运行；可以在PC、服务器上运行，也可以在手机上运行；可以在X86的CPU上运行，也可以在ARM的CPU上运行。</p><p>因为不同操作系统，特别是不同CPU架构，是不可能执行相同的指令的。而Java之所以有这种神奇的特性，就是因为Java编译的字节码文件不是直接在底层的系统平台上运行的，而是在Java虚拟机JVM上运行，JVM屏蔽了底层系统的不同，为Java字节码文件构造了一个统一的运行环境。JVM本质上也是一个应用程序，启动以后加载执行Java字节码文件。JVM的全称是Java Virtual Machine，你有没有想过，这样一个程序为什么被称为机器（Machine）呢？</p><p>其实，如果回答了这个问题，也就了解了JVM的底层构造了。这样在进行Java开发的时候，如果遇到各种问题，都可以思考一下在JVM层面是如何的？然后进一步查找资料、分析问题，直至真正地解决问题。</p><h2>JVM的组成构造</h2><p>要想知道这个问题的答案，我们首先需要了解JVM的构造。JVM主要由类加载器、运行时数据区、执行引擎三个部分组成。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/62/0a/62faabeecafe565cbd806022b2aa9c0a.jpg" alt=""><br>
 

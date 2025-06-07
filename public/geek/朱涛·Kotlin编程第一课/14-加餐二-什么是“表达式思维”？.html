@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱涛。</p><p>在<a href="https://time.geekbang.org/column/article/472129">开篇词</a>当中，我曾经说过，学好Kotlin的关键在于<strong>思维的转变</strong>。在上一次<a href="https://time.geekbang.org/column/article/478106">加餐课程</a>当中，我给你介绍了Kotlin的函数式编程思想，相信你对Kotlin的“函数思维”已经有了一定的体会。那么今天这节课，我们就来聊聊Kotlin的<strong>表达式思维</strong>。</p><p>所谓编程思维，其实是一种非常抽象的概念，很多时候是只可意会不可言传的。不过，从某种程度上看，学习编程思维，比学习编程语法还要重要。因为<strong>编程思维决定着我们的代码整体的架构与风格</strong>，而具体的某个语法反而没那么大的影响力。当然，如果对Kotlin的语法没有一个全面的认识，编程思维也只会是空中楼阁。</p><p>所以，准确地来说，掌握Kotlin的编程思维，是在掌握了Kotlin语法基础上的一次升华。这就好比是，我们学会了基础的汉字以后开始写作文一样。学了汉字以后，如果不懂得写作的技巧，是写不出优美的文章的。同理，如果学了Kotlin语法，却没有掌握它的编程思维，也是写不出优雅的Kotlin代码的。</p><p>好，那么接下来，我们就来看看Kotlin的表达式思维。</p><h2>表达式思维</h2><p>在正式开始学习表达式思维之前，我们先来看一段简单的Kotlin代码。</p><pre><code class="language-plain">var i = 0
 

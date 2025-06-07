@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是蒋德钧。</p><p>在切片集群中，数据会按照一定的分布规则分散到不同的实例上保存。比如，在使用Redis Cluster或Codis时，数据都会先按照CRC算法的计算值对Slot（逻辑槽）取模，同时，所有的Slot又会由运维管理员分配到不同的实例上。这样，数据就被保存到相应的实例上了。</p><p>虽然这种方法实现起来比较简单，但是很容易导致一个问题：数据倾斜。</p><p>数据倾斜有两类。</p><ul>
 

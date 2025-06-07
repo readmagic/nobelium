@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱涛。今天我们来学习Kotlin协程的Context。</p><p>协程的Context，在Kotlin当中有一个具体的名字，叫做CoroutineContext。它是我们理解Kotlin协程非常关键的一环。</p><p>从概念上讲，CoroutineContext很容易理解，它只是个<a href="https://zh.wikipedia.org/zh-hans/%E4%B8%8A%E4%B8%8B%E6%96%87_(%E8%AE%A1%E7%AE%97%E6%9C%BA)">上下文</a>而已，实际开发中它最常见的用处就是切换线程池。不过，CoroutineContext背后的代码设计其实比较复杂，如果不能深入理解它的设计思想，那我们在后面阅读协程源码，并进一步建立复杂并发结构的时候，都将会困难重重。</p><p>所以这节课，我将会从应用的角度出发，带你了解CoroutineContext的使用场景，并会对照源码带你理解它的设计思路。另外，知识点之间的串联也是很重要的，所以我还会带你分析它跟我们前面学的Job、Deferred、launch、async有什么联系，让你能真正理解和掌握协程的上下文，并建立一个<strong>基于CoroutineContext的协程知识体系</strong>。</p><h2>Context的应用</h2><p>前面说过，CoroutineContext就是协程的上下文。你在前面的第14~16讲里其实就已经见过它了。在<a href="https://time.geekbang.org/column/article/486305">第14讲</a>我介绍launch源码的时候，CoroutineContext其实就是函数的第一个参数：</p><!-- [[[read_end]]] --><pre><code class="language-plain">// 代码段1
 

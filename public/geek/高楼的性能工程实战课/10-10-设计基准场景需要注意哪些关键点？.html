@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是高楼。</p><p>在前面的课程中我们提到过，在RESAR性能工程中，场景分为四类：基准、容量、稳定性、异常。每一类场景都对应着不同的目标。</p><p>其中，基准场景是为了找到系统中明显的配置及软件Bug，同时也为容量场景提供可对比的基准数据。在RESAR性能工程的逻辑中，基准场景是非常重要、非常重要的部分，而不是随意试验一下场景能不能跑起来，是要有确定的结论的。</p><p>在这节课中，我要给你解释几个基本的问题，比如线程数应该如何确定，压力线程的连续递增的重要性，以及如何将之前所讲的分析思路应用在具体的分析案例中。</p><p>下面我们一起来看一看。</p><h2>性能场景分类</h2><p>在设计性能场景时，我们首先要清楚场景的目标是什么。在一些项目中，我们通常会拿到这样的需求：</p><ol>
 

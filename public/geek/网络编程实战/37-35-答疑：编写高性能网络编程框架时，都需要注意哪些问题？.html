@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是盛延敏，这里是网络编程实战的第35讲，欢迎回来。</p><p>这一篇文章是实战篇的答疑部分，也是本系列的最后一篇文章。非常感谢你的积极评论与留言，让每一篇文章的留言区都成为学习互动的好地方。在今天的内容里，我将针对评论区的问题做一次集中回答，希望能帮助你解决前面碰到的一些问题。</p><p>有关这部分内容，我将采用Q&amp;A的形式来展开。</p><h2>为什么在发送数据时，会先尝试通过socket直接发送，再由框架接管呢？</h2><p>这个问题具体描述是下面这样的。</p><p>当应用程序需要发送数据时，比如下面这段，在完成数据读取和回应的编码之后，会调用tcp_connection_send_buffer方法发送数据。</p><pre><code>//数据读到buffer之后的callback
 

@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈航。</p><p>俗话说，工欲善其事，必先利其器。任何一门新技术、新语言的学习，都需要从最基础的工程环境搭建开始，学习Flutter也不例外。所以，作为专栏的第一篇文章，我会与你逐一介绍Flutter的开发环境配置，并通过一个Demo为你演示Flutter项目是如何运行在Andorid和iOS的模拟器和真机上的。如果你已经掌握了这部分内容，那可以跳过这篇预习文章，直接开始后面内容的学习。</p><p>由于是跨平台开发，所以为了方便调试，你需要一个可以支持Android和iOS运行的操作系统，也就是macOS，因此后面的内容主要针对的是在macOS系统下如何配置Flutter开发环境。</p><p>如果你身边没有macOS系统的电脑也没关系，在Windows或Linux系统上配置Flutter也是类似的方法，一些关键的区别我也会重点说明。但这样的话，你就只能在Android单平台上开发调试了。</p><h2>准备工作</h2><h3>安装Android Studio</h3><p>Android Studio是基于IntelliJ IDEA的、Google官方的Android应用集成开发环境(IDE)。</p><p>我们在<a href="https://developer.android.com/studio/index.html?hl=zh-cn">官网</a>上找到最新版（截止至本文定稿，最新版为3.4），下载后启动安装文件，剩下的就是按照系统提示进行SDK的安装和工程配置工作了。</p><!-- [[[read_end]]] --><p>配置完成后，我们打开AVD Manager，点击“Create Virtual Device”按钮创建一台Nexus 6P模拟器，至此Android Studio的安装配置工作就完成了。</p><h3>安装Xcode</h3><p>Xcode是苹果公司官方的iOS和macOS应用集成开发环境(IDE)。它的安装方式非常简单，直接在macOS系统的App Store搜索Xcode，然后安装即可。</p><p>安装完成后，我们会在Launchpad看到Xcode图标，打开它，按照提示接受Xcode许可协议，以及安装配置组件就可以了。</p><p>配置完成后，我们打开Terminal，输入命令<strong>open -a Simulator</strong>打开iOS模拟器，检查 <strong>Hardware&gt;Device</strong> 菜单项中的设置，并试着在不同的模拟器之间做切换。</p><p>至此，Xcode的安装配置工作也就顺利完成了。</p><h2>安装Flutter</h2><p>Flutter源站在国内可能不太稳定，因此谷歌中国开发者社区（GDG）专门搭建了临时镜像，使得我们的Flutter 命令行工具可以到该镜像站点下载所需资源。</p><p>接下来，我们需要配置镜像站点的环境变量。对于macOS和Linux系统来说，我们通过文本编辑器，打开~/.bash_profile文件，在文件最后添加以下代码，来配置镜像站点的环境变量：</p><pre><code>export PUB_HOSTED_URL=https://pub.flutter-io.cn
 

@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是鸟窝。</p><p>这节课，我来给你介绍两个非常重要的扩展并发原语：SingleFlight和CyclicBarrier。SingleFlight的作用是将并发请求合并成一个请求，以减少对下层服务的压力；而CyclicBarrier是一个可重用的栅栏并发原语，用来控制一组请求同时执行的数据结构。</p><p>其实，它们两个并没有直接的关系，只是内容相对来说比较少，所以我打算用最短的时间带你掌握它们。一节课就能掌握两个“武器”，是不是很高效？</p><h1>请求合并SingleFlight</h1><p>SingleFlight是Go开发组提供的一个扩展并发原语。它的作用是，在处理多个goroutine同时调用同一个函数的时候，只让一个goroutine去调用这个函数，等到这个goroutine返回结果的时候，再把结果返回给这几个同时调用的goroutine，这样可以减少并发调用的数量。</p><p>这里我想先回答一个问题：标准库中的sync.Once也可以保证并发的goroutine只会执行一次函数f，那么，SingleFlight和sync.Once有什么区别呢？</p><p>其实，sync.Once不是只在并发的时候保证只有一个goroutine执行函数f，而是会保证永远只执行一次，而SingleFlight是每次调用都重新执行，并且在多个请求同时调用的时候只有一个执行。它们两个面对的场景是不同的，<strong>sync.Once主要是用在单次初始化场景中，而SingleFlight主要用在合并并发请求的场景中</strong>，尤其是缓存场景。</p><!-- [[[read_end]]] --><p>如果你学会了SingleFlight，在面对秒杀等大并发请求的场景，而且这些请求都是读请求时，你就可以把这些请求合并为一个请求，这样，你就可以将后端服务的压力从n降到1。尤其是在面对后端是数据库这样的服务的时候，采用 SingleFlight可以极大地提高性能。那么，话不多说，就让我们开始学习SingleFlight吧。</p><h2>实现原理</h2><p>SingleFlight使用互斥锁Mutex和Map来实现。Mutex提供并发时的读写保护，Map用来保存同一个key的正在处理（in flight）的请求。</p><p>SingleFlight的数据结构是Group，它提供了三个方法。</p><p><img src="https://static001.geekbang.org/resource/image/2a/da/2a260ccce4e06ea1be2cf3f7abbe84da.png" alt=""></p><ul>
 

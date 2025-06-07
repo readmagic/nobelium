@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是程远。今天我想聊一聊平均负载（Load Average）的话题。</p><p>在上一讲中，我们提到过CPU Cgroup可以限制进程的CPU资源使用，但是CPU Cgroup对容器的资源限制是存在盲点的。</p><p>什么盲点呢？就是无法通过CPU Cgroup来控制Load Average的平均负载。而没有这个限制，就会影响我们系统资源的合理调度，很可能导致我们的系统变得很慢。</p><p>那么今天这一讲，我们要来讲一下为什么加了CPU Cgroup的配置后，即使保证了容器的CPU资源，容器中的进程还是会运行得很慢？</p><h2>问题再现</h2><p>在Linux的系统维护中，我们需要经常查看CPU使用情况，再根据这个情况分析系统整体的运行状态。有时候你可能会发现，明明容器里所有进程的CPU使用率都很低，甚至整个宿主机的CPU使用率都很低，而机器的Load Average里的值却很高，容器里进程运行得也很慢。</p><p>这么说有些抽象，我们一起动手再现一下这个情况，这样你就能更好地理解这个问题了。</p><p>比如说下面的top输出，第三行可以显示当前的CPU使用情况，我们可以看到整个机器的CPU Usage几乎为0，因为"id"显示99.9%，这说明CPU是处于空闲状态的。</p><p>但是请你注意，这里1分钟的"load average"的值却高达9.09，这里的数值9几乎就意味着使用了9个CPU了，这样CPU Usage和Load Average的数值看上去就很矛盾了。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/50/be/507d6732efd350d47161174bc0a8e9be.png" alt=""></p><p>那问题来了，我们在看一个系统里CPU使用情况时，到底是看CPU Usage还是Load Average呢？</p><p>这里就涉及到今天要解决的两大问题：</p><ol>
 

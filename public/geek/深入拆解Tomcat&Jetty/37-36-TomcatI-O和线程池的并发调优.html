@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>上一期我们谈到了如何监控Tomcat的性能指标，在这个基础上，今天我们接着聊如何对Tomcat进行调优。</p><p>Tomcat的调优涉及I/O模型和线程池调优、JVM内存调优以及网络优化等，今天我们来聊聊I/O模型和线程池调优，由于Web应用程序跑在Tomcat的工作线程中，因此Web应用对请求的处理时间也直接影响Tomcat整体的性能，而Tomcat和Web应用在运行过程中所用到的资源都来自于操作系统，因此调优需要将服务端看作是一个整体来考虑。</p><p>所谓的I/O调优指的是选择NIO、NIO.2还是APR，而线程池调优指的是给Tomcat的线程池设置合适的参数，使得Tomcat能够又快又好地处理请求。</p><h2>I/O模型的选择</h2><p>I/O调优实际上是连接器类型的选择，一般情况下默认都是NIO，在绝大多数情况下都是够用的，除非你的Web应用用到了TLS加密传输，而且对性能要求极高，这个时候可以考虑APR，因为APR通过OpenSSL来处理TLS握手和加/解密。OpenSSL本身用C语言实现，它还对TLS通信做了优化，所以性能比Java要高。</p><p>那你可能会问那什么时候考虑选择NIO.2？我的建议是如果你的Tomcat跑在Windows平台上，并且HTTP请求的数据量比较大，可以考虑NIO.2，这是因为Windows从操作系统层面实现了真正意义上的异步I/O，如果传输的数据量比较大，异步I/O的效果就能显现出来。</p><!-- [[[read_end]]] --><p>如果你的Tomcat跑在Linux平台上，建议使用NIO，这是因为Linux内核没有很完善地支持异步I/O模型，因此JVM并没有采用原生的Linux异步I/O，而是在应用层面通过epoll模拟了异步I/O模型，只是Java NIO的使用者感觉不到而已。因此可以这样理解，在Linux平台上，Java NIO和Java NIO.2底层都是通过epoll来实现的，但是Java NIO更加简单高效。</p><h2>线程池调优</h2><p>跟I/O模型紧密相关的是线程池，线程池的调优就是设置合理的线程池参数。我们先来看看Tomcat线程池中有哪些关键参数：</p><p><img src="https://static001.geekbang.org/resource/image/a4/e2/a48106c3893862fc826e7b7ffaa461e2.jpg" alt=""></p><p>这里面最核心的就是如何确定maxThreads的值，如果这个参数设置小了，Tomcat会发生线程饥饿，并且请求的处理会在队列中排队等待，导致响应时间变长；如果maxThreads参数值过大，同样也会有问题，因为服务器的CPU的核数有限，线程数太多会导致线程在CPU上来回切换，耗费大量的切换开销。</p><p>那maxThreads设置成多少才算是合适呢？为了理解清楚这个问题，我们先来看看什么是利特尔法则（Little’s Law）。</p><p><strong>利特尔法则</strong></p><blockquote>
 

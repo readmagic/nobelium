@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈天。</p><p>上一讲我们了解了内存的基本运作方式，简单回顾一下：栈上存放的数据是静态的，固定大小，固定生命周期；堆上存放的数据是动态的，不固定大小，不固定生命周期。</p><p>今天我们来继续梳理，编程开发中经常接触到的其它基本概念。需要掌握的小概念点比较多，为了方便你学习，我把它们分为四大类来讲解：<strong>数据</strong>（值和类型、指针和引用）、<strong>代码</strong>（函数、方法、闭包、接口和虚表）、<strong>运行方式</strong>（并发并行、同步异步和 Promise / async / await ），以及<strong>编程范式</strong>（泛型编程）。</p><p><img src="https://static001.geekbang.org/resource/image/41/ee/41bd5a23d4a7ba61c4477bb8699320ee.jpg?wh=1920x1068" alt="图片"></p><p>希望通过重温这些概念，你能够夯实软件开发领域的基础知识，这对你后续理解 Rust 里面的很多难点至关重要，比如所有权、动态分派、并发处理等。</p><p>好了，废话不多说，我们马上开始。</p><h2>数据</h2><p>数据是程序操作的对象，不进行数据处理的程序是没有意义的，我们先来重温和数据有关的概念，包括值和类型、指针和引用。</p><h3>值和类型</h3><p>严谨地说，类型是对值的区分，它包含了值在内存中的<strong>长度</strong>、<strong>对齐以及值可以进行的操作等信息</strong>。一个值是符合一个特定类型的数据的某个实体。比如 64u8，它是 u8 类型，对应一个字节大小、取值范围在 0～255 的某个整数实体，这个实体是 64。</p><p>值以类型规定的表达方式（representation）被存储成一组字节流进行访问。比如 64，存储在内存中的表现形式是 0x40，或者 0b 0100 0000。</p><!-- [[[read_end]]] --><p>这里你要注意，<strong>值是无法脱离具体的类型讨论的</strong>。同样是内存中的一个字节 0x40，如果其类型是 ASCII char，那么其含义就不是 64，而是 @ 符号。</p><p>不管是强类型的语言还是弱类型的语言，语言内部都有其类型的具体表述。一般而言，编程语言的类型可以分为原生类型和组合类型两大类。</p><p>原生类型（primitive type）是编程语言提供的最基础的数据类型。比如字符、整数、浮点数、布尔值、数组（array）、元组（tuple）、指针、引用、函数、闭包等。<strong>所有原生类型的大小都是固定的，因此它们可以被分配到栈上</strong>。</p><p>组合类型（composite type）或者说复合类型，是指由一组原生类型和其它类型组合而成的类型。组合类型也可以细分为两类：</p><ul>
 

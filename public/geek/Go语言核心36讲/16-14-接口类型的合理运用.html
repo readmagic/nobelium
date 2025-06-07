@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是郝林，今天我们来聊聊接口的相关内容。</p><h2>前导内容：正确使用接口的基础知识</h2><p>在Go语言的语境中，当我们在谈论“接口”的时候，一定指的是接口类型。因为接口类型与其他数据类型不同，它是没法被实例化的。</p><p>更具体地说，我们既不能通过调用<code>new</code>函数或<code>make</code>函数创建出一个接口类型的值，也无法用字面量来表示一个接口类型的值。</p><p>对于某一个接口类型来说，如果没有任何数据类型可以作为它的实现，那么该接口的值就不可能存在。</p><p>我已经在前面展示过，通过关键字<code>type</code>和<code>interface</code>，我们可以声明出接口类型。</p><p>接口类型的类型字面量与结构体类型的看起来有些相似，它们都用花括号包裹一些核心信息。只不过，结构体类型包裹的是它的字段声明，而接口类型包裹的是它的方法定义。</p><p>这里你要注意的是：接口类型声明中的这些方法所代表的就是该接口的方法集合。一个接口的方法集合就是它的全部特征。</p><p>对于任何数据类型，只要它的方法集合中完全包含了一个接口的全部特征（即全部的方法），那么它就一定是这个接口的实现类型。比如下面这样：</p><pre><code>type Pet interface {
 

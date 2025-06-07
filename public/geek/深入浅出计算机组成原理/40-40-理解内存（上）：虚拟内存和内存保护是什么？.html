@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>我们在专栏一开始说过，计算机有五大组成部分，分别是：运算器、控制器、存储器、输入设备和输出设备。如果说计算机最重要的组件，是承担了运算器和控制器作用的CPU，那内存就是我们第二重要的组件了。内存是五大组成部分里面的存储器，我们的指令和数据，都需要先加载到内存里面，才会被CPU拿去执行。</p><p>专栏<a href="https://time.geekbang.org/column/article/95223">第9讲</a>，我们讲了程序装载到内存的过程。可以知道，在我们日常使用的Linux或者Windows操作系统下，程序并不能直接访问物理内存。</p><p><img src="https://static001.geekbang.org/resource/image/0c/f0/0cf2f08e1ceda473df71189334857cf0.png" alt=""></p><p>我们的内存需要被分成固定大小的页（Page），然后再通过虚拟内存地址（Virtual Address）到物理内存地址（Physical Address）的地址转换（Address Translation），才能到达实际存放数据的物理内存位置。而我们的程序看到的内存地址，都是虚拟内存地址。</p><p>既然如此，这些虚拟内存地址究竟是怎么转换成物理内存地址的呢？这一讲里，我们就来看一看。</p><h2>简单页表</h2><p>想要把虚拟内存地址，映射到物理内存地址，最直观的办法，就是来建一张映射表。这个映射表，能够实现虚拟内存里面的页，到物理内存里面的页的一一映射。这个映射表，在计算机里面，就叫作<strong>页表</strong>（Page Table）。</p><!-- [[[read_end]]] --><p>页表这个地址转换的办法，会把一个内存地址分成<strong>页号</strong>（Directory）和<strong>偏移量</strong>（Offset）两个部分。这么说太理论了，我以一个32位的内存地址为例，帮你理解这个概念。</p><p>其实，前面的高位，就是内存地址的页号。后面的低位，就是内存地址里面的偏移量。做地址转换的页表，只需要保留虚拟内存地址的页号和物理内存地址的页号之间的映射关系就可以了。同一个页里面的内存，在物理层面是连续的。以一个页的大小是4K字节（4KB）为例，我们需要20位的高位，12位的低位。</p><p><img src="https://static001.geekbang.org/resource/image/22/0f/22bb79129f6363ac26be47b35748500f.jpeg" alt=""></p><p>总结一下，对于一个内存地址转换，其实就是这样三个步骤：</p><ol>
 

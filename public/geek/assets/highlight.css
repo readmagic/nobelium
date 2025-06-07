@@ -1,0 +1,321 @@
+/* 笔记高亮样式 */
+.highlight-container {
+  position: relative;
+  display: inline;
+}
+
+.text-highlight {
+  background-color: rgba(255, 230, 0, 0.4);
+  border-radius: 2px;
+  padding: 0 2px;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+.text-highlight:hover {
+  background-color: rgba(255, 230, 0, 0.6);
+}
+
+.text-highlight.active {
+  background-color: rgba(255, 165, 0, 0.5);
+}
+
+/* 高亮闪烁效果 */
+.highlight-flash {
+  animation: flash 2s ease;
+}
+
+@keyframes flash {
+  0%, 100% {
+    background-color: rgba(255, 230, 0, 0.4);
+  }
+  25%, 75% {
+    background-color: rgba(255, 165, 0, 0.8);
+  }
+  50% {
+    background-color: rgba(255, 140, 0, 0.9);
+  }
+}
+
+/* 自定义右键菜单 */
+.custom-context-menu {
+  position: absolute;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  padding: 8px 0;
+  z-index: 1000;
+  min-width: 150px;
+  animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.custom-context-menu-item {
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  transition: background-color 0.2s ease;
+}
+
+.custom-context-menu-item:hover {
+  background-color: #f0f0f0;
+}
+
+/* 笔记操作菜单 */
+.highlight-menu {
+  position: absolute;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  padding: 8px;
+  z-index: 1000;
+  display: flex;
+  gap: 8px;
+}
+
+.highlight-menu button {
+  border: none;
+  background-color: #f0f0f0;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.2s ease;
+}
+
+.highlight-menu button:hover {
+  background-color: #e0e0e0;
+}
+
+.highlight-menu button.delete {
+  background-color: #ffebee;
+  color: #d32f2f;
+}
+
+.highlight-menu button.delete:hover {
+  background-color: #ffcdd2;
+}
+
+/* 笔记面板样式 */
+.notes-panel {
+  position: fixed;
+  top: 20%;
+  right: 0;
+  width: 300px;
+  max-height: 60%;
+  background-color: white;
+  border-radius: 8px 0 0 8px;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  z-index: 999;
+  overflow-y: auto;
+}
+
+.notes-panel.open {
+  transform: translateX(0);
+}
+
+.notes-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 2;
+}
+
+.notes-panel-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.notes-panel-header button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+.notes-panel-header button:hover {
+  color: #333;
+}
+
+.notes-panel-content {
+  padding: 16px;
+}
+
+.note-item {
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f0f0f0;
+  position: relative;
+}
+
+.note-text {
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 8px;
+  color: #333;
+  word-break: break-word;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.note-text:hover {
+  background-color: #f5f5f5;
+  color: #000;
+}
+
+.note-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #757575;
+}
+
+.note-meta span {
+  color: #999;
+  font-style: italic;
+}
+
+.note-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.note-actions button {
+  background: none;
+  border: none;
+  padding: 4px 8px;
+  color: #757575;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.note-actions button.delete-note:hover {
+  color: #d32f2f;
+  background-color: #ffebee;
+}
+
+.note-actions button.view-full-note {
+  color: #2196f3;
+}
+
+.note-actions button.view-full-note:hover {
+  color: #0d6efd;
+  background-color: #e3f2fd;
+}
+
+/* 笔记弹窗样式 */
+.note-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100;
+  animation: fadeIn 0.2s ease;
+}
+
+.note-modal-content {
+  width: 90%;
+  max-width: 500px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.note-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.note-modal-header h4 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.note-modal-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #666;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.note-modal-close:hover {
+  color: #333;
+}
+
+.note-modal-body {
+  padding: 16px;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.note-modal-body p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  white-space: pre-wrap;
+}
+
+.empty-notes {
+  padding: 20px;
+  text-align: center;
+  color: #999;
+  font-style: italic;
+}
+
+.loading {
+  padding: 20px;
+  text-align: center;
+  color: #666;
+}
+
+/* 笔记按钮 - 作为菜单的一部分 */
+.sub-button.notes-button {
+  background-color: #fd7e14; /* 橙色 */
+}
+
+.sub-button.notes-button:hover {
+  background-color: #e76b00; /* 深橙色 */
+}
+
+/* 选择文本时的样式 */
+::selection {
+  background-color: rgba(255, 230, 0, 0.4);
+} 

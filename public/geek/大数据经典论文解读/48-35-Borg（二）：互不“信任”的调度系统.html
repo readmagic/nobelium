@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是徐文浩。</p><p>在上节课里，我们一起学习了Borg的整体架构。从架构层面来看，Borg和其他的Master-Slave系统，其实都是类似的。其中比较大的一个挑战，是Borg需要管理万级别的机器。虽然Borg的Master集群，仍然是一个会选举出master的Paxos实现。但是除了master之外的其他副本，也需要去承担和Borglet通信的职责，而不仅仅是一个同步数据的副本。不过除此之外，在整体架构上，Borg就没有太多的特殊之处了。</p><p>而对于Borg来说，真正的挑战还是在对于一个个Task的调度上。Borg需要回答三个问题：</p><ul>
 

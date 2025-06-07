@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是尉刚强，今天我们一起来聊一聊高性能编码技术。</p><p>在做软件设计咨询工作的时候，我经常发现有很多高性能软件产品的研发团队，在软件开发阶段只关注和实现业务的特性功能，然后等功能交付之后，再开始花费很长的时间，对软件代码进行调整优化。</p><p>而且我在跟这些程序员接触的过程中，还观察到了一个比较有趣的现象，就是大家普遍认为在软件编码实现阶段，过早地考虑代码优化意义不大，而是应该等到功能开发完成后，再基于打点Profiling（数据分析）去优化代码实现。</p><p>其实这个想法是否可取，曾经也困扰过我，但当我经历了很多低级编码所导致的性能问题之后，我发现原来高性能编码实现是有很大价值的，而且这能让我更好地处理编码实现优化与Profiling优化之间的关系。</p><p>所以今天这节课，我会和你一起探讨下应该如何去看待高性能编码这件事，然后我会给你具体讲讲，实现高性能编码的出发点和典型的最佳实践。通过今天课程的学习，你就可以建立起一套高性能编码实现的价值观，同时也会掌握实现高性能编码的思路和方法，从而支撑你开发出高性能的软件代码。</p><h2>建立正确的高性能编码价值观</h2><p>首先，提到高性能编码，你肯定听说过现代计算机科学的鼻祖高德纳（Donald Knuth）的那句名言：</p><!-- [[[read_end]]] --><blockquote>
 

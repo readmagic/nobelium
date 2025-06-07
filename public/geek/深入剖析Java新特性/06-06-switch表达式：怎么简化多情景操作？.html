@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是范学雷。今天，我们聊一聊Switch表达式。</p><p>switch表达式这个特性，首先在JDK 12中以预览版的形式发布。在JDK 13中，改进的switch表达式再次以预览版的形式发布。最后，switch表达式在JDK 14正式发布。</p><p>不论你学习什么样的编程语言，合理地分析、判断、处理不同的情况都是必备的基本功。比如我们使用的if-else语句，还有switch语句，都是用来处理种种不同的情况的。 我们都知道switch语句，那么switch表达式又是什么呢？switch语句和switch表达式又有什么不同呢？</p><p>如果你了解了Java的语句和表达式这两个基本概念，你的困扰也许会少一点。Java规范里，表达式完成对数据的操作。一个表达式的结果可以是一个数值（i * 4）；或者是一个变量（i = 4）；或者什么都不是（void类型）。</p><p>Java语句是Java最基本的可执行单位，它本身不是一个数值，也不是一个变量。Java语句的标志性符号是分号（代码）和双引号（代码块），比如if-else语句，赋值语句等。这样再来看，就很简单了：switch表达式就是一个表达式，而switch语句就是一个语句。</p><p>switch表达式是什么样子的？为什么需要switch表达式？我们还是通过案例和代码，一点一点地来学习switch表达式吧。</p><!-- [[[read_end]]] --><h2>阅读案例</h2><p>在讲解或者学习switch语句时，每年的十二个月或者每周的七天，是我们经常使用的演示数据。在这个案例里，我们也使用这样的数据，来看看传统的switch语句有哪些需要改进的地方。</p><p>下面，我们要讨论的，也是一个传统的问题:  该怎么用代码计算一个月有多少天？生活中，我们熟悉这样的顺口溜，“一三五七八十腊，三十一天永不差，四六九冬三十整，平年二月二十八，闰年二月把一加”。</p><p>下面的这段代码，就是按照这个顺口溜的逻辑来计算了一下，今天所在的这个月，一共有多少天。</p><pre><code class="language-java">package co.ivi.jus.swexpr.former;
 

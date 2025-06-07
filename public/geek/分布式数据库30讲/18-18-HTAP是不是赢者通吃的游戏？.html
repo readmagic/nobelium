@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王磊，你也可以叫我Ivan。</p><p>这一讲的关键词是HTAP，在解释这个概念前，我们先要搞清楚它到底能解决什么问题。</p><p>有关OLTP和OLAP的概念，我们在<a href="https://time.geekbang.org/column/article/271373">第1讲</a>就已经介绍过了。OLTP是面向交易的处理过程，单笔交易的数据量很小，但是要在很短的时间内给出结果；而OLAP场景通常是基于大数据集的运算。</p><p><img src="https://static001.geekbang.org/resource/image/38/1a/382508db9c5e251760d2eb443ebcc41a.jpg" alt=""></p><p>OLAP和OLTP通过ETL进行衔接。为了提升OLAP的性能，需要在ETL过程中进行大量的预计算，包括数据结构的调整和业务逻辑处理。这样的好处是可以控制OLAP的访问延迟，提升用户体验。但是，因为要避免抽取数据对OLTP系统造成影响，所以必须在日终的交易低谷期才能启动ETL过程。这样一来， OLAP与OLTP的数据延迟通常就在一天左右，习惯上大家把这种时效性表述为T+1。其中，T日就是指OLTP系统产生数据的日期，T+1日是OLAP中数据可用的日期，两者间隔为1天。</p><p>你可能已经发现了，这个体系的主要问题就是OLAP系统的数据时效性，T+1太慢了。是的，进入大数据时代后，商业决策更加注重数据的支撑，而且数据分析也不断向一线操作渗透，这都要求OLAP系统更快速地反映业务的变化。</p><h2>两种解决思路</h2><p>说到这，你应该猜到了，HTAP要解决的就是OLAP的时效性问题，不过它也不是唯一的选择，这个问题有两种解决思路：</p><!-- [[[read_end]]] --><ol>
 

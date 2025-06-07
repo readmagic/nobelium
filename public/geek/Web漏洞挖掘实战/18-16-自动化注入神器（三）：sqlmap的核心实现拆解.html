@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王昊天。</p><p>在上节课，我们学习了sqlmap中一个非常重要的函数——start函数。我们了解到，它既可以为每个目标配置请求参数，也会对目标进行一些必要的检测，例如判断目标是否存在waf的保护等。</p><p>在讲到如何检测waf时，我们遇到了一个比较陌生的概念，页面相似度。上节课，我给出了一个简单的示例，来帮助你理解它的含义，但是并没有告诉你，页面相似度是如何计算出来的。相信经过这节课的学习，你就可以解决这个问题。</p><h2>再看checkWaf函数</h2><p><strong>为了研究页面相似度算法，我们首先需要找到计算页面相似度的代码。</strong>回顾一下上节课的内容，我们在checkwaf函数中学习了页面相似度的概念，但是并未深入研究这一点。现在让我们回到sqlmap的checkWaf函数，着重观察下面这段代码。在这段代码中，系统会判断Request.queryPage函数的返回值是否小于sqlmap设定的默认页面相似度阈值（IPS_WAF_CHECK_RATIO），如果小于，那么就认为存在waf，否则就会认为不存在waf。我们可以从<code>lib.core.settings.py</code>中得出该阈值的大小为 0.5。</p><pre><code class="language-python">try:
 

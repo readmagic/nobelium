@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是倪朋飞。</p><p>上一节，我们研究了一个狂打日志引发 I/O 性能问题的案例，先来简单回顾一下。</p><p>日志，是了解应用程序内部运行情况，最常用也是最有效的工具。日志一般会分为调试、信息、警告、错误等多个不同级别。</p><p>通常，生产环境只用开启警告级别的日志，这一般不会导致 I/O 问题。但在偶尔排查问题时，可能需要我们开启调试日志。调试结束后，很可能忘了把日志级别调回去。这时，大量的调试日志就可能会引发 I/O 性能问题。</p><p>你可以用 iostat ，确认是否有 I/O 性能瓶颈。再用 strace 和 lsof ，来定位应用程序以及它正在写入的日志文件路径。最后通过应用程序的接口调整日志级别，完美解决 I/O 问题。</p><p>不过，如果应用程序没有动态调整日志级别的功能，你还需要修改应用配置并重启应用，以便让配置生效。</p><p>今天，我们再来看一个新的案例。这次案例是一个基于 Python Flask 框架的 Web 应用，它提供了一个查询单词热度的 API，但是API 的响应速度并不让人满意。</p><p>非常感谢携程系统研发部资深后端工程师董国星，帮助提供了今天的案例。</p><h2><strong>案例准备</strong></h2><p>本次案例还是基于 Ubuntu 18.04，同样适用于其他的 Linux 系统。我使用的案例环境如下所示：</p><ul>
 

@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在上一篇文章，我们一直都在围绕着可重名变量，也就是不同代码块中的重名变量，进行了讨论。</p><p>还记得吗？最后我强调，如果可重名变量的类型不同，那么就需要引起我们的特别关注了，它们之间可能会存在“屏蔽”的现象。</p><p>必要时，我们需要严格地检查它们的类型，但是怎样检查呢？咱们现在就说。</p><p><strong>我今天的问题是：怎样判断一个变量的类型？</strong></p><p>我们依然以在上一篇文章中展示过的demo11.go为基础。</p><pre><code>package main
 

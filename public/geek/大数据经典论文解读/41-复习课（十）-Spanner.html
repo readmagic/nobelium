@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是黄金。今天这期复习课，咱们来回顾和总结思考下Spanner这篇论文的内容。</p><h2>Spanner介绍</h2><p>Spanner，是第一个同时支持外部一致性分布式事务和全球部署的分布式数据库，它能够伸缩至百万台服务器、横跨数百个数据中心、存储万亿条记录。那么，在这么大规模的分布式系统中，<strong>如何高效地支持外部一致性事务</strong>，就是我们需要关注的重点。</p><h2>课程内容回顾</h2><p>我们先来回顾下徐老师所讲的课程内容。</p><p><a href="https://time.geekbang.org/column/article/446551">第一讲</a>谈了Spanner的架构与实现。在架构上，Spanner由多个Zone构成，所有的Zone由一个Universe管理。Zone负责读写数据，它的结构类似Bigtable，由Zonemaster、Spanserver和Location Proxy构成；Universe负责管理Zone的状态，在Zone与Zone之间调度数据。</p><p>在实现上，数据是通过(key:string, timestamp:int64) -&gt; value:string这样的映射关系来表示的，TimeStamp，也就是版本是在整行数据上，而不是像Bigtable那样在列上。数据的组织顺序像Megastore的EntityGroup，关联在一起的数据在Spanner中被称为目录。</p><!-- [[[read_end]]] --><p>多个目录构成一个Tablet，Tablet和它的所有副本构成了Paxos Group。目录可以在Tablet之间调度，频繁共同访问的目录可以调度到在物理上相邻的位置。多个Tablet构成一个Spanserver，Spanserver上管理了事务。</p><p><a href="https://time.geekbang.org/column/article/447669">第二讲</a>谈了不可靠的时钟，主要由三个问题构成。</p><p><strong>第一个问题，不同机器上的时间为什么会存在差异？</strong>这是因为机器的时间通过石英振荡器来计时，但是石英振荡器存在误差，一天的误差会在1秒上下。</p><p><strong>第二个问题，这种差异对分布式事务会造成什么样的影响？</strong>不同服务器的时间是不同的，那么分布式事务提交时间应该用哪台服务器的时间，徐老师给我们分析了三种情况：</p><ul>
 

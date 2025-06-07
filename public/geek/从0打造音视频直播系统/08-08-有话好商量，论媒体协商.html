@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在<a href="https://time.geekbang.org/column/article/111337">《07 | 你竟然不知道SDP？它可是WebRTC的驱动核心！》</a>一文中，我向你详细介绍了标准 SDP 规范，以及 WebRTC 与标准 SDP 规范的一些不同，而本文我们将重点学习一下 WebRTC 究竟是如何使用 SDP 规范进行<strong>媒体协商</strong>的。</p><p>我们平时所说的<strong>协商</strong>你应该清楚是什么意思，说白了就是讨价还价。以买白菜为例，商家说 5元一颗，买家说身上只有 4.5元卖不卖？商家同意卖，这样一次协商就完成了。</p><p>而<strong>媒体协商</strong>也是这个意思，只不过它们讨价还价的不是一般商品，而是与媒体相关的能力。那<strong>媒体能力</strong>是什么呢？实际就是你的设备所支持的音视频编解码器、使用的传输协议、传输的速率是多少等信息。</p><p>所以简单地说，<strong>媒体协商</strong>就是看看你的设备都支持那些编解码器，我的设备是否也支持？如果我的设备也支持，那么咱们双方就算协商成功了。</p><h2>在WebRTC 处理过程中的位置</h2><p>在正式进入主题之前，我们还是来看看本文在整个 WebRTC 处理过程中的位置，如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/f5/de/f5a65fd87dc667af6761ba7e25abe1de.png" alt=""></p><center><span class="reference">WebRTC处理过程图</span></center><p>通过这张图你可以了解到，本文所涉及的内容包括<strong>创建连接</strong>和<strong>信令</strong>两部分。</p><ul>
 

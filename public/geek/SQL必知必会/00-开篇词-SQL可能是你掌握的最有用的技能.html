@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>1946年，世界上第一台电脑诞生，如今，借由这台电脑发展起来的互联网已经自成江湖。在这几十年里，无数的技术、产业在这片江湖里沉浮，有的方兴未艾，有的已经几幕兴衰。</p><p>但在这片浩荡的波动里，有一门技术从未消失，甚至“老当益壮”，那就是SQL。</p><p>SQL作为与数据直接打交道的语言，是与各种前端、后端语言进行交互的“中台”语言。</p><p>不论是前端工程师，还是后端算法工程师，都一定会和数据打交道，都需要了解如何又快又准确地提取自己想要的数据。更别提数据分析师了，他们的工作就是和数据打交道，整理不同的报告，以便指导业务决策。</p><p>尽管技术人员或多或少地会使用SQL，但不同的人编写出来的SQL的效率是不同的，比如说一份好的SQL执行计划就会尽量减少I/O操作，因为I/O是DBMS最容易出现瓶颈的地方，可以说数据库操作中有大量的时间都花在了I/O上。</p><p>此外，你还需要考虑如何降低CPU的计算量，在SQL语句中使用GROUP BY、ORDER BY等这些语句会消耗大量的CPU计算资源，因此我们需要从全局出发，不仅需要考虑数据库的I/O性能，还需要考虑CPU计算、内存使用情况等。</p><p>比如EXISTS查询和IN查询在某些情况下可以得到相同的结果，但是具体执行起来，哪个效率更高呢？</p><!-- [[[read_end]]] --><p>假设我把这个模式抽象为下面这样：</p><pre><code>SELECT * FROM A WHERE cc IN (SELECT cc FROM B)
 

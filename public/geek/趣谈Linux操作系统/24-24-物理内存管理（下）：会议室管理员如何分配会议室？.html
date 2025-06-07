@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>前一节，前面我们解析了整页的分配机制。如果遇到小的对象，物理内存是如何分配的呢？这一节，我们一起来看一看。</p><h2>小内存的分配</h2><p>前面我们讲过，如果遇到小的对象，会使用slub分配器进行分配。那我们就先来解析它的工作原理。</p><p>还记得咱们创建进程的时候，会调用dup_task_struct，它想要试图复制一个task_struct对象，需要先调用alloc_task_struct_node，分配一个task_struct对象。</p><p>从这段代码可以看出，它调用了kmem_cache_alloc_node函数，在task_struct的缓存区域task_struct_cachep分配了一块内存。</p><pre><code>static struct kmem_cache *task_struct_cachep;
 

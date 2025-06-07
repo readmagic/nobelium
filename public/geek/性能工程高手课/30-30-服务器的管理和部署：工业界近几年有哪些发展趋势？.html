@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是庄振运。</p><p>说起服务器，你一定不陌生。那你知道Facebook的服务器是什么样的吗？要知道，Facebook同时使用着很多不同的服务器。</p><p>在应对需要高速缓存的Facebook新闻、广告投放和搜索时，Facebook使用的是有比较大内存和较强CPU的服务器。现在使用的每台服务器都有256GB的主内存和两个处理器的CPU。</p><p>而在需要存储大量照片和视频的时候，Facebook就选择了适用于数据和对象存储的服务器，这种服务器只有很少的内存，但是却有几百TB的硬盘存储空间。</p><p>今天，我们就从“服务器”入手，进入一个新的专题：容量管理工程。<span class="orange">我们一起来看，要如何针对服务器设计、规划和部署的特点，开发出性能优越，能充分利用硬件资源的应用程序和服务。</span></p><h2>如何设计一种新的服务器？</h2><p>就像我前面用来举例的Facebook一样，大规模互联网公司的服务器，和我们家里以及办公室用的电脑可不一样，一般不是直接从市场上买的，而是自己设计的。</p><p>那么这些服务器是怎么设计出来的呢？其实服务器的设计和其他的硬件设计一样，也需要经过好几个阶段，你可以看一下它们的设计路线图（如下图所示）。</p><p><img src="https://static001.geekbang.org/resource/image/d4/5d/d46d0710af39a5fb02b16cda0ddff85d.png" alt=""></p><p>在最终进入大规模批量生产MP阶段之前，服务器的设计需要经历四个阶段，也就是：</p><!-- [[[read_end]]] --><ul>
 

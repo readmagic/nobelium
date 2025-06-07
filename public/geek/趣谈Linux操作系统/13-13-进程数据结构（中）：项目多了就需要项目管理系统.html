@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>上一节我们讲了，task_struct这个结构非常长。由此我们可以看出，Linux内核的任务管理是非常复杂的。上一节，我们只是讲了一部分，今天我们接着来解析剩下的部分。</p><h2>运行统计信息</h2><p>作为项目经理，你肯定需要了解项目的运行情况。例如，有的员工很长时间都在做一个任务，这个时候你就需要特别关注一下；再如，有的员工的琐碎任务太多，这会大大影响他的工作效率。</p><p>那如何才能知道这些员工的工作情况呢？在进程的运行过程中，会有一些统计量，具体你可以看下面的列表。这里面有进程在用户态和内核态消耗的时间、上下文切换的次数等等。</p><pre><code>u64				utime;//用户态消耗的CPU时间
 

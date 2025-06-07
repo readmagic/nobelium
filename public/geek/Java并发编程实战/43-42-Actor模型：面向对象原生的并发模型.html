@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>上学的时候，有门计算机专业课叫做面向对象编程，学这门课的时候有个问题困扰了我很久，按照面向对象编程的理论，对象之间通信需要依靠<strong>消息</strong>，而实际上，像C++、Java这些面向对象的语言，对象之间通信，依靠的是<strong>对象方法</strong>。对象方法和过程语言里的函数本质上没有区别，有入参、有出参，思维方式很相似，使用起来都很简单。那面向对象理论里的消息是否就等价于面向对象语言里的对象方法呢？很长一段时间里，我都以为对象方法是面向对象理论中消息的一种实现，直到接触到Actor模型，才明白消息压根不是这个实现法。</p><h2>Hello Actor模型</h2><p>Actor模型本质上是一种计算模型，基本的计算单元称为Actor，换言之，<strong>在Actor模型中，所有的计算都是在Actor中执行的</strong>。在面向对象编程里面，一切都是对象；在Actor模型里，一切都是Actor，并且Actor之间是完全隔离的，不会共享任何变量。</p><p>当看到“不共享任何变量”的时候，相信你一定会眼前一亮，并发问题的根源就在于共享变量，而Actor模型中Actor之间不共享变量，那用Actor模型解决并发问题，一定是相当顺手。的确是这样，所以很多人就把Actor模型定义为一种<strong>并发计算模型</strong>。其实Actor模型早在1973年就被提出来了，只是直到最近几年才被广泛关注，一个主要原因就在于它是解决并发问题的利器，而最近几年随着多核处理器的发展，并发问题被推到了风口浪尖上。</p><!-- [[[read_end]]] --><p>但是Java语言本身并不支持Actor模型，所以如果你想在Java语言里使用Actor模型，就需要借助第三方类库，目前能完备地支持Actor模型而且比较成熟的类库就是<strong>Akka</strong>了。在详细介绍Actor模型之前，我们就先基于Akka写一个Hello World程序，让你对Actor模型先有个感官的印象。</p><p>在下面的示例代码中，我们首先创建了一个ActorSystem（Actor不能脱离ActorSystem存在）；之后创建了一个HelloActor，Akka中创建Actor并不是new一个对象出来，而是通过调用system.actorOf()方法创建的，该方法返回的是ActorRef，而不是HelloActor；最后通过调用ActorRef的tell()方法给HelloActor发送了一条消息 “Actor” 。</p><pre><code>//该Actor当收到消息message后，
 

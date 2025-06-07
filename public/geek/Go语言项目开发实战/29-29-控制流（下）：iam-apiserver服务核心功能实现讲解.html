@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是孔令飞。</p><p><a href="https://time.geekbang.org/column/article/401190">上一讲</a>，我介绍了 iam-apiserver 是如何构建 Web 服务的。这一讲，我们再来看下 iam-apiserver 中的核心功能实现。在对这些核心功能的讲解中，我会向你传达我的程序设计思路。</p><p>iam-apiserver 中包含了很多优秀的设计思想和实现，这些点可能比较零碎，但我觉得很值得分享给你。我将这些关键代码设计分为 3 类，分别是应用框架相关的特性、编程规范相关的特性和其他特性。接下来，我们就来详细看看这些设计点，以及它们背后的设计思想。</p><h2>应用框架相关的特性</h2><p>应用框架相关的特性包括三个，分别是优雅关停、健康检查和插件化加载中间件。</p><h3>优雅关停</h3><p>在讲优雅关停之前，先来看看不优雅的停止服务方式是什么样的。</p><p>当我们需要重启服务时，首先需要停止服务，这时可以通过两种方式来停止我们的服务：</p><ul>
 

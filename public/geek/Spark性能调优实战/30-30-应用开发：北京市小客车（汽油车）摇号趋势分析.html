@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴磊。</p><p>如果你也在北京生活，那小汽车摇号这件事大概率也和你息息相关。我身边很多人也一直都和我抱怨说：“小汽车摇号这件事太难了，遥遥无期，完全看不到希望，感觉还没买彩票靠谱呢”。</p><p>实不相瞒，我自己也在坚持小汽车摇号，在享受8倍概率的情况下，还是没能中签。因此，包括我在内的很多人都想知道，为什么摇号这么费劲？一个人平均需要参与多少次摇号才会中签？中签率的变化趋势真的和官方宣布的一致吗？倍率这玩意儿，真的能提高中签的概率吗？</p><p>这些问题，我们都能通过开发一个北京市小汽车摇号趋势分析的应用来解答。我会用两讲的时间带你完成这个应用的开发，在这个过程中，我们可以把前面学过的原理篇、通用调优篇和Spark SQL调优篇的大部分知识都上手实践一遍，是不是一听就很期待呢？</p><p>话不多说，我们赶紧开始吧！</p><h2>课前准备</h2><p>既然是做开发，那我们就需要做一些准备工作。准备工作分为3部分，分别是准备数据、准备开发环境和准备运行环境。</p><h3>准备数据</h3><p>应用所需的数据，我已经帮你准备好，也上传到了网盘，你可以点击<a href="https://pan.baidu.com/s/1Vys1Z1mofQFoU52ye7SKuw">这个地址</a>，输入提取码<strong>ajs6</strong>  进行下载。</p><p>数据的文件名是“2011-2019小汽车摇号数据.tar.gz”，解压之后的目录结构如下图所示。根目录下有apply和lucky两个子目录，apply的目录内容是2011-2019年各个批次参与摇号的申请编号，lucky目录包含的是各个批次中签的申请编号。方便起见，我们把参与过摇号的人叫“申请者”，把中签的人叫“中签者”。apply和lucky的下一级子目录是各个摇号批次，而摇号批次目录下包含的是Parquet格式的数据分片。<br>
 

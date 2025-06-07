@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是倪朋飞。</p><p>上一节，我们学习了碰到分布式拒绝服务（DDoS）的缓解方法。简单回顾一下，DDoS 利用大量的伪造请求，导致目标服务要耗费大量资源，来处理这些无效请求，进而无法正常响应正常用户的请求。</p><p>由于 DDoS 的分布式、大流量、难追踪等特点，目前确实还没有方法，能够完全防御 DDoS 带来的问题，我们只能设法缓解 DDoS 带来的影响。</p><p>比如，你可以购买专业的流量清洗设备和网络防火墙，在网络入口处阻断恶意流量，只保留正常流量进入数据中心的服务器。</p><p>在 Linux 服务器中，你可以通过内核调优、DPDK、XDP 等多种方法，增大服务器的抗攻击能力，降低 DDoS 对正常服务的影响。而在应用程序中，你可以利用各级缓存、 WAF、CDN 等方式，缓解 DDoS 对应用程序的影响。</p><p>不过要注意，如果 DDoS 的流量，已经到了 Linux 服务器中，那么，即使应用层做了各种优化，网络服务的延迟一般还是会比正常情况大很多。</p><p>所以，在实际应用中，我们通常要让 Linux 服务器，配合专业的流量清洗以及网络防火墙设备，一起来缓解这一问题。</p><p>除了 DDoS 会带来网络延迟增大外，我想，你肯定见到过不少其他原因导致的网络延迟，比如</p><ul>
 

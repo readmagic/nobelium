@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是张磊。今天我和你分享的主题是：Kubernetes一键部署利器之kubeadm。</p><p>通过前面几篇文章的内容，我其实阐述了这样一个思想：<strong>要真正发挥容器技术的实力，你就不能仅仅局限于对Linux容器本身的钻研和使用。</strong></p><p>这些知识更适合作为你的技术储备，以便在需要的时候可以帮你更快地定位问题，并解决问题。</p><p>而更深入地学习容器技术的关键在于，<strong>如何使用这些技术来“容器化”你的应用。</strong></p><p>比如，我们的应用既可能是Java Web和MySQL这样的组合，也可能是Cassandra这样的分布式系统。而要使用容器把后者运行起来，你单单通过Docker把一个Cassandra镜像跑起来是没用的。</p><p>要把Cassandra应用容器化的关键，在于如何处理好这些Cassandra容器之间的编排关系。比如，哪些Cassandra容器是主，哪些是从？主从容器如何区分？它们之间又如何进行自动发现和通信？Cassandra容器的持久化数据又如何保持，等等。</p><p>这也是为什么我们要反复强调Kubernetes项目的主要原因：这个项目体现出来的容器化“表达能力”，具有独有的先进性和完备性。这就使得它不仅能运行Java Web与MySQL这样的常规组合，还能够处理Cassandra容器集群等复杂编排问题。所以，对这种编排能力的剖析、解读和最佳实践，将是本专栏最重要的一部分内容。</p><!-- [[[read_end]]] --><p>不过，万事开头难。</p><p>作为一个典型的分布式项目，Kubernetes的部署一直以来都是挡在初学者前面的一只“拦路虎”。尤其是在Kubernetes项目发布初期，它的部署完全要依靠一堆由社区维护的脚本。</p><p>其实，Kubernetes作为一个Golang项目，已经免去了很多类似于Python项目要安装语言级别依赖的麻烦。但是，除了将各个组件编译成二进制文件外，用户还要负责为这些二进制文件编写对应的配置文件、配置自启动脚本，以及为kube-apiserver配置授权文件等等诸多运维工作。</p><p>目前，各大云厂商最常用的部署的方法，是使用SaltStack、Ansible等运维工具自动化地执行这些步骤。</p><p>但即使这样，这个部署过程依然非常繁琐。因为，SaltStack这类专业运维工具本身的学习成本，就可能比Kubernetes项目还要高。</p><p><strong>难道Kubernetes项目就没有简单的部署方法了吗？</strong></p><p>这个问题，在Kubernetes社区里一直没有得到足够重视。直到2017年，在志愿者的推动下，社区才终于发起了一个独立的部署工具，名叫：<a href="https://github.com/kubernetes/kubeadm">kubeadm</a>。</p><p>这个项目的目的，就是要让用户能够通过这样两条指令完成一个Kubernetes集群的部署：</p><pre><code># 创建一个Master节点
 

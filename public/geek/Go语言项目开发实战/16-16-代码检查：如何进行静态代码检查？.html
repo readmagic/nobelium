@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是孔令飞。上一讲中，我在讲代码开发的具体步骤时，提到了静态代码检查，今天我就来详细讲讲如何执行静态代码检查。</p><p>在做Go项目开发的过程中，我们肯定需要对Go代码做静态代码检查。虽然Go命令提供了go vet和go tool vet，但是它们检查的内容还不够全面，我们需要一种更加强大的静态代码检查工具。</p><p>其实，Go生态中有很多这样的工具，也不乏一些比较优秀的。今天我想给你介绍的golangci-lint，是目前使用最多，也最受欢迎的静态代码检查工具，我们的IAM实战项目也用到了它。</p><p>接下来，我就从golangci-lint的优点、golangci-lint提供的命令和选项、golangci-lint的配置这三个方面来向你介绍下它。在你了解这些基础知识后，我会带着你使用golangci-lint进行静态代码检查，让你熟悉操作，在这个基础上，再把我使用golangci-lint时总结的一些经验技巧分享给你。</p><h2>为什么选择golangci-lint做静态代码检查？</h2><p>选择golangci-lint，是因为它具有其他静态代码检查工具不具备的一些优点。在我看来，它的核心优点至少有这些：</p><ul>
 

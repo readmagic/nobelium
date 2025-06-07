@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是袁武林。</p><p>到上一讲为止，IM的相关课程已经进行过半，在前面的课程中，我们讨论的大部分内容都比较偏理论，你理解起来可能会比较抽象。为了让你对前面讲到的知识有更深入的理解，今天我们就来回顾、梳理近期学习的内容，一起尝试搭建一个简单的IM聊天系统。</p><p><strong>在开始之前呢，我先来说明一下IM课程的期中、期末实战的课程计划和设计思路。</strong></p><p>期中和期末实战是希望你以自己动手实现为主，提供的Demo主要作为参考，在设计层面上，并不能让你直接用于线上使用。</p><p>本次期中实战Demo的主要关注点是：消息的存储、未读数的设计，并以“短轮询”的方式来实现消息的实时触达。希望你能从用户的使用场景出发，来理解消息存储设计的思路，以及未读数独立两套存储的必要性。</p><p>另外，在期末实战中，我会从“短轮询”方式调整为WebSocket长连接的方式，并且加上ACK机制、应用层心跳等特性。希望你能在两次实战中，通过对比，真正理解长连接方式相比“短轮询”方式的优势，并且通过ACK机制和应用层心跳，真正理解为什么它们能够解决“数据丢失”和“连接可靠性”的问题。</p><p>OK，下面我们说回本次实战。</p><p>这个聊天系统要求并不复杂，只需要构建简单的Web界面（没有界面通过命令行能实现也行）。我在这里写了一个简易版的Demo，供你参考。</p><!-- [[[read_end]]] --><p>示例代码你可以在<a href="https://github.com/coldwalker/Sample">GitHub</a>上下载。</p><h2>需求梳理</h2><p>这个简易聊天系统的大概要求有以下几点：</p><ul>
 

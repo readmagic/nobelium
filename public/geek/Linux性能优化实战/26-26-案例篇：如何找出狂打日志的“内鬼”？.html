@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是倪朋飞。</p><p>前两节，我们学了文件系统和磁盘的 I/O 原理，我先带你复习一下。</p><p>文件系统，是对存储设备上的文件进行组织管理的一种机制。为了支持各类不同的文件系统，Linux在各种文件系统上，抽象了一层虚拟文件系统VFS。</p><p>它定义了一组所有文件系统都支持的数据结构和标准接口。这样，应用程序和内核中的其他子系统，就只需要跟 VFS 提供的统一接口进行交互。</p><p>在文件系统的下层，为了支持各种不同类型的存储设备，Linux又在各种存储设备的基础上，抽象了一个通用块层。</p><p>通用块层，为文件系统和应用程序提供了访问块设备的标准接口；同时，为各种块设备的驱动程序提供了统一的框架。此外，通用块层还会对文件系统和应用程序发送过来的 I/O 请求进行排队，并通过重新排序、请求合并等方式，提高磁盘读写的效率。</p><p>通用块层的下一层，自然就是设备层了，包括各种块设备的驱动程序以及物理存储设备。</p><p>文件系统、通用块层以及设备层，就构成了 Linux 的存储 I/O 栈。存储系统的 I/O ，通常是整个系统中最慢的一环。所以，Linux 采用多种缓存机制，来优化 I/O 的效率，比方说，</p><ul>
 

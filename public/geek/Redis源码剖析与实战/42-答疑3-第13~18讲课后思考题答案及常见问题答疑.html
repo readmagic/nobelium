@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是蒋德钧。</p><p></p><p>今天这节课，我们继续来解答第13讲到第18讲的课后思考题。这些思考题除了涉及Redis自身的开发与实现机制外，还包含了多线程模型使用、系统调用优化等通用的开发知识，希望你能掌握这些扩展的通用知识，并把它们用在自己的开发工作中。</p><p></p><h2><a href="https://time.geekbang.org/column/article/410666">第13讲</a></h2><p><strong>问题：</strong>Redis 多IO线程机制使用startThreadedIO函数和stopThreadedIO函数，来设置IO线程激活标识io_threads_active为1和为0。此处，这两个函数还会对线程互斥锁数组进行解锁和加锁操作，如下所示。那么，你知道为什么这两个函数要执行解锁和加锁操作吗？</p><pre><code class="language-plain">void startThreadedIO(void) {
 

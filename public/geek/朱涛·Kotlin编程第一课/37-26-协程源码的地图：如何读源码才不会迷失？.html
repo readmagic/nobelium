@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱涛。</p><p>在前面学习协程的时候，我们说过协程是Kotlin里最重要、最难学的特性。之所以说协程重要，是因为它有千般万般的好：挂起函数、结构化并发、非阻塞、冷数据流，等等。不过协程也真的太抽象、太难学了。即使我们学完了前面的协程篇，知道了协程的用法，但也仍然远远不够，这种“知其然，不知其所以然”的感觉，总会让我们心里不踏实。</p><p>所以，我们必须搞懂Kotlin协程的源代码。</p><p>可问题是，协程的源码也非常复杂。如果你尝试研究过协程的源代码，那你对此一定深有体会。在Kotlin协程1.6.0版本中，仅仅是协程跟JVM相关的源代码，就有27789行。如果算上JavaScript平台、Native平台，以及单元测试相关的代码，Kotlin协程库当中的源代码有接近10万行。面对这么多的源代码，我们根本不可能一行一行去分析。</p><p>因此，我们在研究Kotlin协程的源代码的时候，要有一定的技巧。这里给你分享我的两个小技巧：</p><ul>
 

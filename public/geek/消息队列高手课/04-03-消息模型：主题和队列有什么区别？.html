@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是李玥。这节课我们来学习消息队列中像队列、主题、分区等基础概念。这些基础的概念，就像我们学习一门编程语言中的基础语法一样，你只有搞清楚它们，才能进行后续的学习。</p><p>如果你研究过超过一种消息队列产品，你可能已经发现，每种消息队列都有自己的一套消息模型，像队列（Queue）、主题（Topic）或是分区（Partition）这些名词概念，在每个消息队列模型中都会涉及一些，含义还不太一样。</p><p>为什么出现这种情况呢？因为没有标准。曾经，也是有一些国际组织尝试制定过消息相关的标准，比如早期的JMS和AMQP。但让人无奈的是，标准的进化跟不上消息队列的演进速度，这些标准实际上已经被废弃了。</p><p>那么，到底什么是队列？什么是主题？主题和队列又有什么区别呢？想要彻底理解这些，我们需要从消息队列的演进说起。</p><h2>主题和队列有什么区别？</h2><p>在互联网的架构师圈儿中间，流传着这样一句不知道出处的名言，我非常认同和喜欢：好的架构不是设计出来的，而是演进出来的。 现代的消息队列呈现出的模式，一样是经过之前的十几年逐步演进而来的。</p><p>最初的消息队列，就是一个严格意义上的队列。在计算机领域，“队列（Queue）”是一种数据结构，有完整而严格的定义。在维基百科中，队列的定义是这样的：</p><!-- [[[read_end]]] --><blockquote>
 

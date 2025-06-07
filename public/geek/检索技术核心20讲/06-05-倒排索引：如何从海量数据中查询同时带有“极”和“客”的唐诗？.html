@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈东。</p><p>试想这样一个场景：假设你已经熟读唐诗300首了。这个时候，如果我给你一首诗的题目，你可以马上背出这首诗的内容吗？相信你一定可以的。但是如果我问你，有哪些诗中同时包含了“极”字和“客”字？你就不见得能立刻回答出来了。你需要在头脑中一首诗一首诗地回忆，并判断每一首诗的内容是否同时包含了“极”字和“客”字。很显然，第二个问题的难度比第一个问题大得多。</p><p>那从程序设计的角度来看，这两个问题对应的检索过程又有什么不同呢？今天，我们就一起来聊一聊，两个非常常见又非常重要的检索技术：正排索引和倒排索引。</p><h2>什么是倒排索引？</h2><p>我们先来看比较简单的那个问题：给出一首诗的题目，马上背出内容。这其实就是一个典型的键值查询场景。针对这个场景，我们可以给每首诗一个唯一的编号作为ID，然后使用哈希表将诗的ID作为键（Key），把诗的内容作为键对应的值（Value）。这样，我们就能在O(1)的时间代价内，完成对指定key的检索。这样一个以对象的唯一ID为key的哈希索引结构，叫作<strong>正排索引</strong>（Forward Index）。<br>
 

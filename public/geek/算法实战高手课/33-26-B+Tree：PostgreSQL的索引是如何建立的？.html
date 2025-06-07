@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是微扰君。</p><p>过去几讲我们学习了一些经典的分布式算法，主要涉及多个节点之间的协作方式，在现在的业务场景下，它们更多被封装在各种中间件或者类库中，直接供我们使用，不过背后的很多思想还是很值得好好学习体悟的。</p><p>从今天开始，我们将更加贴近日常业务开发，剖析常用中间件里用到的、单机上的一些算法，帮助自己更好地分析和优化系统性能。比如在使用数据库的时候，如果我们不清楚底层索引的原理，写出来的查询语句可能性能会很差，甚至不见得能正确建立索引；再比如有时候我们希望不引入额外的网关组件，直接在业务代码里实现一个简单的限流模块，如何设计更合适……</p><p>类似场景还有很多，话不多说，今天我们一起来了解这些中间件的秘密。</p><h2>数据库</h2><p>我们先从数据库聊起。数据库，应该是我们广大程序员日常开发中必不可少的组件了，作为数据持久化的基石，在互联网应用中，大部分的业务数据都以结构化的方式存储在数据库中，而数据库为我们提供了良好的数据查询、管理、持久化、事务的能力。</p><p>在数据库场景下，我们存储的都是大量的数据，显然没有办法一次性把所有的数据全部加载到内存中，用内存高效的数据结构或者算法进行搜索。那数据库是如何快速查询数据的呢？比如：</p><pre><code class="language-scala">select * from student where id = 5130309492
 

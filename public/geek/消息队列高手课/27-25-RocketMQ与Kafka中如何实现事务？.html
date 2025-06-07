@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是李玥。</p><p>在之前《<a href="https://time.geekbang.org/column/article/111269">04 | 如何利用事务消息实现分布式事务？</a>》这节课中，我通过一个小例子来和大家讲解了如何来使用事务消息。在这节课的评论区，很多同学都提出来，非常想了解一下事务消息到底是怎么实现的。不仅要会使用，还要掌握实现原理，这种学习态度，一直是我们非常提倡的，这节课，我们就一起来学习一下，在RocketMQ和Kafka中，事务消息分别是如何来实现的？</p><h2>RocketMQ的事务是如何实现的？</h2><p>首先我们来看RocketMQ的事务。我在之前的课程中，已经给大家讲解过RocketMQ事务的大致流程，这里我们再一起通过代码，重温一下这个流程。</p><pre><code>public class CreateOrderService {
 

@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱涛。今天我们来学习Kotlin协程的Job。</p><p>Job其实就是协程的句柄。从某种程度上讲，当我们用launch和async创建一个协程以后，同时也会创建一个对应的Job对象。另外，Job也是我们理解<strong>协程生命周期</strong>、<strong>结构化并发</strong>的关键知识点。通过Job暴露的API，我们还可以让不同的协程之间互相配合，从而实现更加复杂的功能。</p><p>虽然前面已经解释过，Job就是协程的句柄，但你可能还是不清楚它到底是什么，因为句柄本身就是一个比较“虚”的概念。所以在这节课中，我们会从使用的角度入手，来看看Job到底能干什么。在充分理解了Job的用法以后，我们再来结合它的源代码进一步分析，这样对Job也会有一个更加清晰的认知。</p><h2>Job生命周期</h2><p>在上节课我们学习launch、async的时候，我们知道它们两个返回值类型分别是Job和Deferred。</p><pre><code class="language-plain">// 代码段1
 

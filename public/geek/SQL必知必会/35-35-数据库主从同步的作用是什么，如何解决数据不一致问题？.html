@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>我们之前讲解了Redis，它是一种高性能的内存数据库；而MySQL是基于磁盘文件的关系型数据库，相比于Redis来说，读取速度会慢一些，但是功能强大，可以用于存储持久化的数据。在实际工作中，我们常常将Redis作为缓存与MySQL配合来使用，当有数据访问请求的时候，首先会从缓存中进行查找，如果存在就直接取出，如果不存在再访问数据库，这样就提升了读取的效率，也减少了对后端数据库的访问压力。可以说使用Redis这种缓存架构是高并发架构中非常重要的一环。</p><p><img src="https://static001.geekbang.org/resource/image/96/ad/968bc668e91383a203cbd811021fb9ad.jpg" alt=""><br>
 

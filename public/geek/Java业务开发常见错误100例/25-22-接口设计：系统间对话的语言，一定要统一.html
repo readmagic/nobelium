@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱晔。今天，我要和你分享的主题是，在做接口设计时一定要确保系统之间对话的语言是统一的。</p><p>我们知道，开发一个服务的第一步就是设计接口。接口的设计需要考虑的点非常多，比如接口的命名、参数列表、包装结构体、接口粒度、版本策略、幂等性实现、同步异步处理方式等。</p><p>这其中，和接口设计相关比较重要的点有三个，分别是包装结构体、版本策略、同步异步处理方式。今天，我就通过我遇到的实际案例，和你一起看看因为接口设计思路和调用方理解不一致所导致的问题，以及相关的实践经验。</p><h2>接口的响应要明确表示接口的处理结果</h2><p>我曾遇到过一个处理收单的收单中心项目，下单接口返回的响应体中，包含了success、code、info、message等属性，以及二级嵌套对象data结构体。在对项目进行重构的时候，我们发现真的是无从入手，接口缺少文档，代码一有改动就出错。</p><p>有时候，下单操作的响应结果是这样的：success是true、message是OK，貌似代表下单成功了；但info里却提示订单存在风险，code是一个5001的错误码，data中能看到订单状态是Cancelled，订单ID是-1，好像又说明没有下单成功。</p><pre><code>{
 

@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是温铭。</p><p>正如上节课介绍过的，作为服务端开发工程师，我们并不会对动态调试的工具集做深入的学习，大都是停留在使用的这个层面上，最多去编写一些简单的 stap 脚本。更底层的，比如 CPU 缓存、体系结构、编译器等，那就是性能工程师的领域了。</p><p>在 OpenResty 中有两个开源项目：<code>openresty-systemtap-toolkit</code> 和 <code>stapxx</code> 。它们是基于 Systemtap 封装好的工具集，用于 Nginx 和 OpenResty 的实时分析和诊断。它们可以覆盖 on CPU、off CPU、共享字典、垃圾回收、请求延迟、内存池、连接池、文件访问等常用的功能和调试场景。</p><p>在今天这节课中，我会带你浏览下这些工具和对应的使用方法，目的是帮你在遇到 Nginx 和 OpenResty 的疑难杂症时，可以快速找到定位问题的工具。在 OpenResty 的世界中，学会使用这些工具是你进阶的必经之路，也是和其他开发者沟通的非常有效的方式——毕竟，工具产生的数据，会比你用文字描述更加准确和详尽。</p><p>不过，需要特别注意的是，OpenResty 的最新版本 1.15.8 默认开启了 LuaJIT GC64 模式，但是 <code>openresty-systemtap-toolkit</code> 和 <code>stapxx</code> 并没有跟着做对应的修改，这就会导致里面的工具都无法正常使用。所以，你最好在 OpenResty 旧的 1.13 版本中来使用这些工具。</p><!-- [[[read_end]]] --><p>开源项目的贡献者大都是兼职身份，他们并没有义务来保证这些工具可以一直正常使用，这也是你在使用开源项目时候需要意识到的一点。</p><h2>以共享字典为例</h2><p>按照惯例，我先用一个你最熟悉的、也是上手最简单的工具 <code>ngx-lua-shdict</code>，来作为今天开篇的示例。</p><p><code>ngx-lua-shdict</code> 这个工具，可以分析 Nginx 的共享内存字典，并且追踪字典的操作。你可以用 <code>-f</code> 选项指定 dict 和 key，来获取共享内存字典里面的数据。 <code>--raw</code> 选项可以导出指定 key 的原始值。</p><p>下面是一个从共享内存字典中获取数据的命令行示例：</p><pre><code># 假设 nginx worker pid 是 5050
 

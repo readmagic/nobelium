@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是四火。</p><p>在本专栏中，我们已经接触到了全栈开发中的一些算法了。在这一讲和下一讲中，我又精心挑选了几个比较重要的。<strong>和单纯地从数学角度去介绍算法不同，我想结合几个全栈开发中实际、典型的问题场景，向你介绍这几个相关的重要算法。</strong>毕竟，我们关心的算法，其实就是可以解决实际问题的方法的一种数学抽象。</p><p>希望通过这两讲的学习，你能理解这些算法。除了理解算法原理本身，我们更要抓住它们的用途和算法自身的巧妙之处。今天我们来讲其中的第一个典型的问题场景——流量控制。</p><h2>流量控制系统中的算法</h2><p>对于全栈工程师来说，无论是网站，还是其它 Web 应用，一旦对外商用，就要考虑流量控制的问题。因此我们往往需要设计使用单独的流量控制模块，我们来看下面这样的一个问题。</p><p>假如说，我们现在需要给一组 Web API 设计一个流量控制系统，以避免请求对系统的过度冲击，对于任意一个用户账户 ID，每一个 API 都要满足下面所有的要求：</p><ul>
 

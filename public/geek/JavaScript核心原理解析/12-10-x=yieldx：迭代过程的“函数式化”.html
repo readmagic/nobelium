@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是周爱民。欢迎回到我的专栏。</p><p>相信上一讲的迭代过程已经在许多人心中留下了巨大的阴影，所以很多人一看今天的标题，第一个反应是：“又来！”</p><p>其实我经常习惯用<strong>同一个例子</strong>，或者<strong>同类型示例的细微不同</strong>去分辨与反映语言特性上的核心与本质的不同。如同在<a href="https://time.geekbang.org/column/article/165198">第2讲</a>和<a href="https://time.geekbang.org/column/article/165985">第3讲</a>中都在讲的连续赋值，看起来形似，却根本上不同。</p><p>同样，我想你可能也已经注意到了，在<a href="https://time.geekbang.org/column/article/167907">第5讲</a>（for (let x of [1,2,3]) ...）和<a href="https://time.geekbang.org/column/article/172636">第9讲</a>（(...x)）中所讲述的内容是有一些相关性的。它们都是在讲循环。但第5讲主要讨论的是语句对循环的抽象和如何在循环中处理块。而第9讲则侧重于如何通过函数执行把（类似第5讲的）语句执行重新来实现一遍。事实上，仅仅是一个“循环过程”，在JavaScript中就实现了好几次。这些我将来都会具体地来为你分析。</p><p>至于今天，我还是回到函数的三个语义组件，也就是“参数、执行体和结果”来讨论。上一讲本质上讨论的是对“执行体”这个组件的重造，今天，则讨论对“参数和结果”的重构。</p><h2>将迭代过程展开</h2><p>通过上一讲，你应该知道迭代器是可以表达为一组函数的连续执行的。那么，如果我们要把这一组函数展开来看的话，其实它们之间的相似性是极强的。例如上一讲中提到的迭代函数<code>foo()</code>，当你把它作为对象x的迭代器符号名属性，并通过对象x来调用它的迭代展开，事实上也就相当于只调用了多次的return语句。</p><!-- [[[read_end]]] --><pre><code>// 迭代函数
 

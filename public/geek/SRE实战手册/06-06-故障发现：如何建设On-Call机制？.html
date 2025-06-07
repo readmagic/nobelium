@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是赵成，从今天开始，我们进入课程实践篇的内容。</p><p>在上一部分，我们学习了SRE的基础，需要掌握的重点是SLI和SLO以及Error Budget（错误预算）策略。SLI是我们选择的衡量系统稳定性的指标，SLO是每个指标对应的目标，而我们又经常把SLO转化为错误预算，因为错误预算的形式更加直观。转化后，我们要做的稳定性提升和保障工作，其实就是想办法不要把错误预算消耗完，或者不能把错误预算快速大量地消耗掉。</p><p>这么说，主要是针对两种情况：一种是我们制定的错误预算在周期还没有结束之前就消耗完了，这肯定就意味着稳定性目标达不成了；另一种情况是错误预算在单次问题中被消耗过多，这时候我们也要把这样的问题定性为故障。</p><p>今天，我们就来聊一聊，为了最大程度地避免错误预算被消耗，当我们定义一个问题为故障时，我们应该采取什么措施。</p><h2>聚焦MTTR，故障处理的关键环节</h2><p>好了，我们先回顾下在第1讲的时候，提到故障处理的环节就是MTTR，它又细分为4个指标：MTTI、MTTK、MTTF和MTTV，之所以分组分块，也是为了更加有目的性地做到系统稳定性。</p><p><img src="https://static001.geekbang.org/resource/image/3d/dd/3dd910e354da003e234b0340b68e76dd.jpg" alt=""></p><p>那么，这四个环节，在我们故障处理MTTR又各自占多长时间呢？下面这个MTTR的时长分布图，是IBM在做了大量的统计分析之后给出的。<br>
 

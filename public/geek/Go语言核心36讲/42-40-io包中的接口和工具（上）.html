@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>我们在前几篇文章中，主要讨论了<code>strings.Builder</code>、<code>strings.Reader</code>和<code>bytes.Buffer</code>这三个数据类型。</p><h2>知识回顾</h2><p>还记得吗？当时我还问过你“它们都实现了哪些接口”。在我们继续讲解<code>io</code>包中的接口和工具之前，我先来解答一下这个问题。</p><p><strong><code>strings.Builder</code>类型主要用于构建字符串</strong>，它的指针类型实现的接口有<code>io.Writer</code>、<code>io.ByteWriter</code>和<code>fmt.Stringer</code>。另外，它其实还实现了一个<code>io</code>包的包级私有接口<code>io.stringWriter</code>（自Go 1.12起它会更名为<code>io.StringWriter</code>）。</p><p><strong><code>strings.Reader</code>类型主要用于读取字符串</strong>，它的指针类型实现的接口比较多，包括：</p><ol>
 

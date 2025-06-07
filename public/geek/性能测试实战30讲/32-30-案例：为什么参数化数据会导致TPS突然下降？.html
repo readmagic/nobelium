@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>写这篇文章的时候，我想起来一句似乎无关紧要的话：“我离你如此之近，你却对我视而不见。”</p><p>在性能测试中，参数化数据是少有的每个性能测试工程师都会用得到，却经常出现问题的技术点之一。从我的角度来说，究其原因，大部分是因为对性能参数化数据的理解不足。导致的结果就是用了参数化，但和真实的用户场景不一致，从而使得整个性能测试场景都失去了意义。</p><p>这样的例子不在少数。</p><p>一个项目开始之初，由于没有历史沉淀的数据，所以我们需要造一些数据来做性能测试。造多少呢？并不是按未来生产的容量来造，而是按性能场景中需要的数据量级来造。这种错误的做法是很多项目中真实出现的事情。</p><p>这并不止是性能测试工程师之过，还有很多其他的复杂原因，比如时间不够；经验不足，只能造重复的数据等等。</p><p>那么性能测试参数化数据的获取逻辑到底是什么呢？我们来看一个图吧。</p><p><img src="https://static001.geekbang.org/resource/image/6b/ca/6bc265c84949230ec7f028e2de3fa1ca.jpg" alt=""></p><p>在这个图中，我用不同的颜色表示不同组件中的数据。压力工具中的参数化数据有两种，这一点，我们前面有提到过，参数化数据有两大类型：</p><ol>
 

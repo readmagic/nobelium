@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在本篇文章中，我将会对本专栏部分文章最后的思考题，进行一次集中的汇总和答疑。希望能够帮助你更好地理解和掌握 Kubernetes 项目。</p><p><span class="orange">问题1：</span>你是否知道如何修复容器中的top指令以及/proc文件系统中的信息呢？（提示：lxcfs）</p><p>其实，这个问题的答案在提示里其实已经给出了，即 lxcfs 方案。通过lxcfs，你可以把宿主机的 /var/lib/lxcfs/proc 文件系统挂载到Docker容器的/proc目录下。使得容器中进程读取相应文件内容时，实际上会从容器对应的Cgroups中读取正确的资源限制。 从而得到正确的top 命令的返回值。</p><blockquote>
 

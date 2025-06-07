@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。今天是Java编译器的最后一讲，我们来探讨编译过程最后的两个步骤：<strong>去除语法糖和生成字节码</strong>。</p><p>其实今天要讲的这两个编译步骤，总体上都是为生成字节码服务的。在这一阶段，编译器首先会把语法糖对应的AST，转换成更基础的语法对应的AST，然后基于AST和符号表，来生成字节码。</p><p>从AST和符号表，到变成字节码，这可是一个很大的转变，就像把源代码转化成AST一样。<strong>那么，这个过程的实现思路是什么？有什么难点呢？</strong></p><p>今天这一讲，我们就一起来解决以上这些问题，在这个过程中，你对Java编译器的认识会变得更加完整。</p><p>好了，我们首先来看看去除语法糖这一处理步骤。</p><h2>去除语法糖（Syntactic Sugar）</h2><p>Java里面提供了很多的语法糖，比如泛型、Lambda、自动装箱、自动拆箱、foreach循环、变长参数、内部类、枚举类、断言（assert），等等。</p><p>你可以这么理解语法糖：它就是提高我们编程便利性的一些语法设计。既然是提高便利性，那就意味着语法糖能做到的事情，用基础语法也能做到，只不过基础语法可能更啰嗦一点儿而已。</p><p>不过，我们最终还是要把语法糖还原成基础语法结构。比如，foreach循环会被还原成更加基础的for循环。那么，问题来了，<strong>在编译过程中，究竟是如何去除语法糖的？基础语法和语法糖又有什么区别呢？</strong></p><!-- [[[read_end]]] --><p>在<a href="https://time.geekbang.org/column/article/252828">第10讲</a>中，我提到过，在JDK14中，去除语法糖涵盖了编译过程的四个小阶段。</p><ul>
 

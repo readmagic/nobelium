@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈航。今天我们来聊聊如何调试Flutter App。</p><p>软件开发通常是一个不断迭代、螺旋式上升的过程。在迭代的过程中，我们不可避免地会经常与Bug打交道，特别是在多人协作的项目中，我们不仅要修复自己的Bug，有时还需要帮别人解决Bug。</p><p>而修复Bug的过程，不仅能帮我们排除代码中的隐患，也能帮助我们更快地上手项目。因此，掌握好调试这门技能，就显得尤为重要了。</p><p>在Flutter中，调试代码主要分为输出日志、断点调试和布局调试3类。所以，在今天这篇文章中，我将会围绕这3个主题为你详细介绍Flutter应用的代码调试。</p><p>我们先来看看，如何通过输出日志调试应用代码吧。</p><h2>输出日志</h2><p>为了便于跟踪和记录应用的运行情况，我们在开发时通常会在一些关键步骤输出日志（Log），即使用print函数在控制台打印出相关的上下文信息。通过这些信息，我们可以定位代码中可能出现的问题。</p><p>在前面的很多篇文章里，我们都大量使用了print函数来输出应用执行过程中的信息。不过，由于涉及I/O操作，使用print来打印信息会消耗较多的系统资源。同时，这些输出数据很可能会暴露App的执行细节，所以我们需要在发布正式版时屏蔽掉这些输出。</p><!-- [[[read_end]]] --><p>说到操作方法，你想到的可能是在发布版本前先注释掉所有的print语句，等以后需要调试时，再取消这些注释。但，这种方法无疑是非常无聊且耗时的。那么，Flutter给我们提供了什么更好的方式吗？</p><p>为了根据不同的运行环境来开启日志调试功能，我们可以使用Flutter提供的debugPrint来代替print。<strong>debugPrint函数同样会将消息打印至控制台，但与print不同的是，它提供了定制打印的能力。</strong>也就是说，我们可以向debugPrint函数，赋值一个函数声明来自定义打印行为。</p><p>比如在下面的代码中，我们将debugPrint函数定义为一个空函数体，这样就可以实现一键取消打印的功能了：</p><pre><code>debugPrint = (String message, {int wrapWidth}) {};//空实现
 

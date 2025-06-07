@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是孙鹏飞。又到了答疑的时间，今天我将围绕卡顿优化这个主题，和你探讨一下专栏第6期和补充篇的两个Sample的实现。</p><p>专栏第6期的Sample完全来自于Facebook的性能分析框架<a href="https://github.com/facebookincubator/profilo">Profilo</a>，主要功能是收集线上用户的atrace日志。关于atrace相信我们都比较熟悉了，平时经常使用的systrace工具就是封装了atrace命令来开启ftrace事件，并读取ftrace缓冲区生成可视化的HTML日志。这里多说一句，ftrace是Linux下常用的内核跟踪调试工具，如果你不熟悉的话可以返回第6期文稿最后查看ftrace的介绍。Android下的atrace扩展了一些自己使用的categories和tag，这个Sample获取的就是通过atrace的同步事件。</p><p>Sample的实现思路其实也很简单，有两种方案。</p><p>第一种方案：hook掉atrace写日志时的一系列方法。以Android 9.0的代码为例写入ftrace日志的代码在<a href="http://androidxref.com/9.0.0_r3/xref/system/core/libcutils/trace-dev.cpp">trace-dev.cpp</a>里，由于每个版本的代码有些区别，所以需要根据系统版本做一些区分。</p><p>第二种方案：也是Sample里所使用的方案，由于所有的atrace event写入都是通过<a href="http://androidxref.com/9.0.0_r3/xref/system/core/libcutils/trace-container.cpp#85">/sys/kernel/debug/tracing/trace_marker</a>，atrace在初始化的时候会将该路径fd的值写入<a href="http://androidxref.com/9.0.0_r3/s?defs=atrace_marker_fd&amp;project=system">atrace_marker_fd</a>全局变量中，我们可以通过dlsym轻易获取到这个fd的值。关于trace_maker这个文件我需要说明一下，这个文件涉及ftrace的一些内容，ftrace原来是内核的事件trace工具，并且ftrace文档的开头已经写道</p><!-- [[[read_end]]] --><blockquote>
 

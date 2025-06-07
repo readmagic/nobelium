@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。</p><p>在上一节课里，我们已经初步生成了汇编代码和可执行文件。不过，很多技术细节我还没有来得及给你介绍，而且我们支持的语言特性也比较简单。</p><p>那么，这一节课，我就来给你补上这些技术细节。比如，我们要如何把逻辑寄存器映射到物理寄存器或内存地址、如何管理栈桢，以及如何让程序符合调用约定等等。</p><p>好了，我们开始吧。先让我们解决逻辑寄存器的映射问题，这其中涉及一个简单的寄存器分配算法。</p><h2>给变量分配物理寄存器或内存</h2><p>在上一节课，我们在生成汇编代码的时候，给参数、本地变量和临时变量使用的都是逻辑寄存器，也就是只保存了变量的下标。那么我们要怎么把这些逻辑寄存器对应到物理的存储方式上来呢？</p><p>我们还是先来梳理一下实现思路吧。</p><p>其实，我们接下来要实现的寄存器分配算法，是一个比较初级的算法。你如果用clang或gcc把一个C语言的文件编译成汇编代码，并且不带-O1、-O2这样的优化选项，生成出来的汇编代码就是采用了类似的寄存器分配算法。现在我们就来看看这种汇编代码在实际存储变量上的特点。</p><p>首先，程序的参数都被保存到了内存里。具体是怎么来保存的呢？你可以先看看示例程序<a href="https://gitee.com/richard-gong/craft-a-language/blob/master/16-18/param.c">param.c</a>：</p><pre><code class="language-plain">void println(int a);
 

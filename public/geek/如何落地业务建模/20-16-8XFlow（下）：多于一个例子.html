@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是徐昊。今天我们继续8X Flow的学习。</p><p>上节课我们讲解了如何通过Request-Confirmation结构去建模履约项，并通过合同上下文聚合履约过程中产生的凭证。之后，我们又通过将履约确认泛化为角色，让凭证可以跨越不同的合同上下文完成履约。那么对于合同签订之后的业务逻辑，就都可以如此建模了。</p><p>不过到目前为止，你会发现，我们对业务逻辑的建模都是以合同签订为起点，以合同履约完成为终点。在合同上下文中聚合的业务逻辑，可以通过履约进行结构化地理解和建模。那么对于合同签订之前的业务逻辑，该怎么建模呢？</p><p>这正是我们接下来要讨论的问题。同时，这节课我们还会通过一个例子，将这三节的所学串到一起，来让你对8X Flow建模有更多的体会。</p><h2>以事件建模法使用8X Flow</h2><p>由于合同尚未签订，所以也就不存在履约项，于是我们无法通过履约关系去建模业务。这时我们要怎么办呢？<strong>答案是：不要自己臆想，要从生活中学习。</strong></p><p>在现实的业务中，绝大部分的合同签订，都遵从这样一个过程：请求邀请投标（Request For Proposal）、投标（Proposal）、合同签约。</p><p>如果算上合同之后的履约，那么我们可以将整个业务划分为四个不同的阶段：邀请投标、投标、合同签约、履约。</p><!-- [[[read_end]]] --><p>其中合同签约是最重要的时间点，合同是最重要的业务产出。如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/ba/0e/bae069de059734aac91fc73ea9471f0e.jpg?wh=2000x1125" alt=""></p><p>让我们用一个最简单的场景理解一下业务从邀请投标到履约的全生命周期。假设你现在去菜市场买菜，看到菜摊上的朝鲜蓟（Artichoke）妖艳诡异。</p><p><img src="https://static001.geekbang.org/resource/image/5a/c9/5a77abaaf88d57158b06e115d4677bc9.jpg?wh=1142x640" alt="" title="朝鲜蓟，一种高营养的保健蔬菜，具有良好的减肥功效，在法国菜中较为常见"></p><ul>
 

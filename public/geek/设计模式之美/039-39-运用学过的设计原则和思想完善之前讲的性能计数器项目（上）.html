@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在<a href="https://time.geekbang.org/column/article/179644">第25节</a>、<a href="https://time.geekbang.org/column/article/179673">第26节</a>中，我们讲了如何对一个性能计数器框架进行分析、设计与实现，并且实践了之前学过的一些设计原则和设计思想。当时我们提到，小步快跑、逐步迭代是一种非常实用的开发模式。所以，针对这个框架的开发，我们分多个版本来逐步完善。</p><p>在第25、26节课中，我们实现了框架的第一个版本，它只包含最基本的一些功能，在设计与实现上还有很多不足。所以，接下来，我会针对这些不足，继续迭代开发两个版本：版本2和版本3，分别对应第39节和第40节的内容。</p><p>在版本2中，我们会利用之前学过的重构方法，对版本1的设计与实现进行重构，解决版本1存在的设计问题，让它满足之前学过的设计原则、思想、编程规范。在版本3中，我们再对版本2进行迭代，并且完善框架的功能和非功能需求，让其满足第25节课中罗列的所有需求。</p><p>话不多说，让我们正式开始版本2的设计与实现吧！</p><h2>回顾版本1的设计与实现</h2><p>首先，让我们一块回顾一下版本1的设计与实现。当然，如果时间充足，你最好能再重新看一下第25、26节的内容。在版本1中，整个框架的代码被划分为下面这几个类。</p><ul>
 

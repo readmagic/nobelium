@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王新栋。</p><p>在前面几讲中，我都是基于Web应用的场景来讲解的OAuth 2.0。除了Web应用外，现实环境中还有非常多的移动App。那么，在移动App中，能不能使用OAuth 2.0 ，又该如何使用OAuth 2.0呢？</p><p>没错，OAuth 2.0最初的应用场景确实是Web应用，但是它的伟大之处就在于，它把自己的核心协议定位成了一个框架而不是单个的协议。这样做的好处是，我们可以基于这个基本的框架协议，在一些特定的领域进行扩展。</p><p>因此，到了桌面或者移动的场景下，OAuth 2.0的协议一样适用。考虑到授权码许可是最完备、最安全的许可类型，所以我在讲移动App如何使用OAuth 2.0的时候，依然会用授权码许可来讲解，毕竟“要用就用最好的”。</p><p>当我们开发一款移动App的时候，可以选择没有Server端的 “纯App” 架构，比如这款App不需要跟自己的Server端通信，或者可以调用其它开放的HTTP接口；当然也可以选择有服务端的架构，比如这款App还想把用户的操作日志记录下来并保存到Server端的数据库中。</p><p>那总结下来呢，移动App可以分为两类，一类是没有Server端的App应用，一类是有Server端的App应用。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/4c/99/4c034e019467aafae511f16055b57b99.png" alt="" title="图1 两类移动App"></p><p>这两类App在使用 OAuth 2.0 时的最大区别，在于获取访问令牌的方式：</p><ul>
 

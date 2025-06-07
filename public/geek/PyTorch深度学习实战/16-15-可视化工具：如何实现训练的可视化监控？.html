@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是方远。欢迎来到第15节课的学习。</p><p>上节课中，我们以线性回归模型为例，学习了模型从搭建到训练的全部过程。在深度学习领域，模型训练是一个必须的环节，而在训练过程中，我们常常需要对模型的参数、评价指标等信息进行可视化监控。</p><p>今天我们主要会学习两种可视化工具，并利用它们实现训练过程的可视化监控。</p><p>在TensorFlow中，最常使用的可视化工具非Tensorboard莫属，而TensorboardX工具使得PyTorch也享受到Tensorboard的便捷功能。另外，FaceBook也为PyTorch开发了一款交互式可视化工具Visdom，它可以对实时数据进行丰富的可视化，帮助我们实时监控实验过程。</p><p>让我们先从TensorboardX说起。</p><h2>TensorboardX</h2><p>Tensorboard是TensorFlow的一个附加工具，用于记录训练过程的模型的参数、评价指标与图像等细节内容，并通过Web页面提供查看细节与过程的功能，用浏览器可视化的形式展现，帮助我们在实验时观察神经网络的训练过程，把握训练趋势。</p><p>既然Tensorboard工具这么方便，TensorFlow外的其它深度学习框架自然也想获取Tensorboard的便捷功能，于是，TensorboardX应运而生。</p><!-- [[[read_end]]] --><h3>安装</h3><p>安装 Tensorboard很容易，我们可以使用pip进行安装，命令如下：</p><pre><code class="language-python">pip install tensorboard
 

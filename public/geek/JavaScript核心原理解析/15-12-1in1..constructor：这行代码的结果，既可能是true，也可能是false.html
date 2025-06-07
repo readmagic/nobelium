@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是周爱民。欢迎你回到我的专栏。</p><p>如果你听过上一讲，那么你应该知道，接下来我要与你聊的是JavaScript的<strong>面向对象系统</strong>。</p><p>最早期的JavaScript只有一个非常弱的对象系统。我用过JavaScript 1.0，甚至可能还是最早尝试用它在浏览器中写代码的一批程序员，我也寻找和收集过早期的CEniv和ScriptEase，只为了探究它最早的语言特性与JavaScript之间的相似之处。</p><p>然而，不得不说的是，曾经的JavaScript在<strong>面向对象</strong>特性方面，在语法上更像Java，而在实现上却是谁也不像。</p><h2>JavaScript 1.0~1.3中的对象</h2><p>在JavaScript 1.0的时候，对象是不支持继承的。那时的JavaScript使用的是称为“<strong>类抄写</strong>”的技术来创建对象，就是“在一个函数中将<code>this引用</code>添加属性，并且使用<code>new运算</code>来创建对象实例”，例如：</p><pre><code>function Car() {
 

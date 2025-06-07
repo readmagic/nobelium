@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是方远。</p><p>上一节课，我们一同迈出了训练开始的第一步——数据读取，初步认识了Torchvision，学习了如何利用Torchvision读取数据。不过仅仅将数据集中的图片读取出来是不够的，在训练的过程中，神经网络模型接收的数据类型是Tensor，而不是PIL对象，因此我们还需要对数据进行预处理操作，比如图像格式的转换。</p><p>与此同时，加载后的图像数据可能还需要进行一系列图像变换与增强操作，例如裁切边框、调整图像比例和大小、标准化等，以便模型能够更好地学习到数据的特征。这些操作都可以使用<code>torchvision.transforms</code>工具完成。</p><p>今天我们就来学习一下，利用Torchvision如何进行数据预处理操作，如何进行图像变换与增强。</p><h2>图像处理工具之torchvision.transforms</h2><p>Torchvision库中的<code>torchvision.transforms</code>包中提供了常用的图像操作，包括对Tensor 及PIL Image对象的操作，例如随机切割、旋转、数据类型转换等等。</p><p>按照<code>torchvision.transforms</code> 的功能，大致分为以下几类：数据类型转换、对PIL.Image 和 Tensor进行变化和变换的组合。下面我们依次来学习这些类别中的操作。</p><!-- [[[read_end]]] --><h3>数据类型转换</h3><p>在上一节课中，我们学习了读取数据集中的图片，读取到的数据是PIL.Image的对象。而在模型训练阶段，需要传入Tensor类型的数据，神经网络才能进行运算。</p><p>那么如何将PIL.Image或Numpy.ndarray格式的数据转化为Tensor格式呢？这需要用到<code>transforms.ToTensor()</code> 类。</p><p>而反之，将Tensor 或 Numpy.ndarray 格式的数据转化为PIL.Image格式，则使用<code>transforms.ToPILImage(mode=None)</code> 类。它则是ToTensor的一个逆操作，它能把Tensor或Numpy的数组转换成PIL.Image对象。</p><p>其中，参数mode代表PIL.Image的模式，如果mode为None（默认值），则根据输入数据的维度进行推断：</p><ul>
 

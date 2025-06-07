@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱涛。这节课，我们来学习协程的挂起函数。</p><p>挂起函数，是Kotlin协程当中最基础、最重要的知识点。如果对协程的挂起函数没有足够的认识，我们后续的学习将会困难重重。如果不理解挂起函数，我们将无法理解协程的非阻塞；如果不了解挂起函数，我们将无法掌握Channel、Flow等API；如果不理解挂起函数，我们写出来的代码也会漏洞百出，就更别提优化软件架构了。</p><p>相反，如果能将挂起函数理解透彻，我们后面的学习也会更加轻松一些。所以这节课，我会从应用和原理两个角度，来带你理解挂起函数，包括如何使用挂起函数来优化异步任务，以及挂起函数的CPS当中的Continuation到底是什么。通过对这两个维度的学习，你在更轻易地掌握挂起函数应用场景的同时，对它的底层原理也会有一定认识。</p><p>那么接下来，你一定要打起精神，我们一起来攻克这个关键的知识点！</p><h2>挂起函数：Kotlin协程的优势</h2><p>通过前面课程的学习，我们已经知道了：协程就像是轻量级的线程一样。用线程能实现的功能，我们借助launch和async也同样可以做到。</p><p>不过你可能会好奇，如果只是把thread{} 替换成launch{}，那协程比起线程也没什么特殊的优势吧？<strong>仅仅只是因为“轻量”“非阻塞”，我们就应该放弃线程，拥抱协程吗？</strong></p><!-- [[[read_end]]] --><p>其实，Kotlin协程最大的优势，就在于它的挂起函数。虽然很多编程语言都有协程的特性，但目前为止，只有Kotlin独树一帜，引入了“挂起函数”的概念。另外尽管有些语言的协程底层，也存在“挂起恢复”的概念，但是将这一概念直接暴露给开发者，直接用于修饰一个函数的，Kotlin算是做了一种创新。</p><p>那么，挂起函数到底有什么神奇的呢？我们先来看一段简单的Java代码：</p><pre><code class="language-java">// 代码段1
 

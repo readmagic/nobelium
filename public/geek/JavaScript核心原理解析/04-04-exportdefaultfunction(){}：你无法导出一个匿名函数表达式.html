@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是周爱民，欢迎回到我的专栏。</p><p>今天我要讲述的内容是从ECMAScript 6开始在JavaScript中出现的<strong>模块技术</strong>，这对许多JavaScript开发者来说都是比较陌生的。</p><p>一方面在于它出现得较晚，另一方面，则是因为在普遍使用的Node.js环境带有自己内置的模块加载技术。因此，ECMAScript 6模块需要通过特定的命令行参数才能开启，它的应用一直以来也就不够广泛。</p><p>导致这种现象的根本原因在于<strong>ECMAScript 6模块是静态装配的</strong>，而传统的Node.js模块却是动态加载的。因而两种模块的实现效果与处理逻辑都大相径庭，Node.js无法在短期内提供有效的手段帮助开发者将既有代码迁移到新的模块规范下。</p><p>总结起来，确实是这些更为现实的原因阻碍了ECMAScript 6模块技术的推广，而非是ECMAScript 6模块是否成熟，或者设计得好与不好。</p><p>不过即使如此，ECMAScript 6模块仍然在JavaScript的一些大型应用库、包，或者对新规范更友好的项目中得到了不错的运用和不俗的反响，尤其是在使用转译器（例如Babel）的项目中，开发者通常是首选ECMAScript 6模块语法的。</p><p>因此ECMAScript 6模块也有着非常好的应用环境与前景。</p><!-- [[[read_end]]] --><h2>导出的内容</h2><p>上一讲我提到过有且仅有六种声明语法，而本质上export也就只能导出这六种声明语法所声明的标识符，并且在导出时将它们统一称为“名字”。</p><p>在语言设计中，所谓“标识符”与“名字”是有语义差别的，export将之称为名字，就意味着这是一个标识符的子集。类似的其它子集也是存在的，例如“保留字是标识符名，但不能用作标识符（A reserved word is an IdentifierName that cannot be used as an Identifier）”。</p><p>在JavaScript语言的设计上，除了那些预设的标点符号（例如大括号、运算符之类），以及部分的保留字和关键字之外，事实上用户代码可以书写的只有三种东西。这包括：</p><ul>
 

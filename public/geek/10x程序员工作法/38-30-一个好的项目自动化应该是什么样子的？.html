@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是郑晔。</p><p>进入自动化这个模块，我准备从程序员的日常工作开始。介绍“<a href="http://time.geekbang.org/column/article/77294">迭代0</a>”时，我提到构建脚本是项目准备的一个重要组成部分，但在那一讲中，我并没有具体说构建脚本长成什么样。</p><p>今天，我们以一个典型的 Java REST 服务为例，介绍一下最基本的构建脚本应该做到什么样子。这里我采用的 Java 技术中最为常见的 Spring Boot 作为基础框架，而构建工具，我选择了 <a href="http://gradle.org">Gradle</a>。</p><p>估计很多 Java 程序员心中的第一个问题就是，为什么用 Gradle，而不是 Maven？Maven 明明是 Java 社区最经典的构建工具。答案是因为 Maven 不够灵活。</p><p>你可以回想一下，你有多少次用 Maven 实现过特定需求？估计大部分人的答案都是没有。随着持续集成、持续交付的兴起，构建脚本的订制能力会变得越来越重要，Maven 则表现得力有不逮。</p><p>其实，早在2012年，ThoughtWorks 技术雷达就将 Maven 放到了 <strong>暂缓（HOLD）</strong>里面，也就是说，能不用就不用。</p><p>为了配合这次的讲解，我写了一个 Demo，放在了 Github 上。它的功能非常简单：</p><ul>
 

@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是徐昊。今天我们来聊聊四色建模法（4 color modeling）。</p><p>在事件建模法中，获取事件流（Event Stream）是建立领域模型的切入点。而事件流在多大程度上可以反映业务的现实，影响了最终模型的质量与功用。不同的事件建模法，在获取事件流的方法上也有所不同。</p><p><a href="http://https://time.geekbang.org/column/article/390799">上节课</a>我们讲解的事件风暴法，是通过头脑风暴的形式来获取事件流。今天我来介绍另一种事件建模法：四色建模法。它的起源有点复杂。最早的源头是Peter Coad在1992年研究对象模式时，为了提取可复用的对象组件而发明的<strong>四原型法</strong>。</p><p>在1997年的时候，作为一种补充策略，Peter Coad开始提倡在模型中引入不同的颜色，从而将模型的动态交互展示在静态的模型中，形成了<strong>彩色建模法</strong>（Color Modeling）。</p><p>而后，我自己在2005年左右，将事件建模与彩色建模法结合形成了<strong>四色建模法</strong>，<strong>用以获得更具业务含义的模型，以便直接使用模型作为统一语言</strong>。</p><p>毋须讳言，四色建模法是一种我偏爱的方法，今天我们就来看看它的特点。我会先讲一下使用头脑风暴获取事件流的不足，然后再介绍四色法做了哪些改进。</p><h2>头脑风暴法的不足：成功取决于收敛逻辑</h2><p>在大多数事件建模法中，通过头脑风暴获取事件流是主流的做法。比如我们在<a href="http://https://time.geekbang.org/column/article/390799">上节课</a>讲的事件风暴法，就是这样一种以头脑风暴为主的事件建模法。</p><!-- [[[read_end]]] --><p>头脑风暴是一种通过发散-收敛荟萃信息的方法。它可以分为发散和收敛两个阶段：</p><ul>
 

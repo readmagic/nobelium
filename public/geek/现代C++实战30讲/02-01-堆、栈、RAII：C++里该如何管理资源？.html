@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴咏炜。</p><p>今天我们就正式开启了C++的学习之旅，作为第一讲，我想先带你把地基打牢。我们来学习一下内存管理的基本概念，大致的学习路径是：先讲堆和栈，然后讨论 C++ 的特色功能  RAII。掌握这些概念，是能够熟练运用 C++ 的基础。</p><h2>基本概念</h2><p><strong>堆</strong>，英文是 heap，在内存管理的语境下，指的是动态分配内存的区域。这个堆跟数据结构里的堆不是一回事。这里的内存，被分配之后需要手工释放，否则，就会造成内存泄漏。</p><p>C++ 标准里一个相关概念是自由存储区，英文是 free store，特指使用 <code>new</code> 和 <code>delete</code> 来分配和释放内存的区域。一般而言，这是堆的一个子集：</p><ul>
 

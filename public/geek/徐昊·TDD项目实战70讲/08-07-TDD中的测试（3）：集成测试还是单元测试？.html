@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是徐昊。今天我们来继续学习测试驱动开发中的测试。</p><p>上节课我们介绍了行为验证，以及为什么它不应该是TDD的主要验证方式，而应该尽可能地采用状态验证。至此，我们介绍完了测试驱动开发中测试的基本结构，及其主要的验证方法。</p><p>有了这些做基础，我们再来讨论一下测试驱动中测试的性质，以及为什么称呼它为“单元测试”是一种误解。</p><h2>集成测试还是单元测试？</h2><p>首先请回忆<a href="http://https://time.geekbang.org/column/article/494207">第一讲</a>中的视频演示，我们从功能出发，分解出来的第一个驱动开发的测试，是针对布尔选项的测试：</p><pre><code>//ArgsTest
 

@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是尹会生。</p><p>在上节课，我提到了使用比较简单的SQL来操作SQLite，并为你讲解了数据库的基本操作步骤。</p><p>不过当你的程序功能越来越强大的时候，随之而来的就是代码的复杂度越来越高。像是上一讲，我们在进行SQLite数据库搜索的时候，你需要建立连接、申请游标对象，才能进行查询。而这些准备工作，我们更希望在程序运行的时候就准备好，这样就不必多次重复编写。</p><p>而且对数据库进行增删改查能够通过尽可能少的SQL来实现数据库的操作。那么能实现这一功能的就是<strong>类</strong>。</p><p>通过类，你可以为越来越复杂的程序编写结构更清晰的代码。同时也能更好地把SQLite的增删改查封装成一个独立的对象，便于你调用数据库时能进行数据持久化。</p><p>那么今天这节课，我就带你使用类来实现SQLite数据的读取和写入。与此同时，我会继续以通讯录为例，来给你讲解，如果使用了比较复杂的SQL来操作SQLite时，怎么合理组织代码结构，让你更优雅地书写代码。</p><h2><strong>使用类实现SQLite的读写</strong></h2><p>由于类这个概念比较抽象，我还是采用老办法帮你理解它，我将使用“类”对SQLite的读写SQL操作进行封装，并将类进行实例化以后进行调用，得到SQLite中的通讯录数据。我先把代码贴出来，供你参考：</p><!-- [[[read_end]]] --><pre><code>import sqlite3
 

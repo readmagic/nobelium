@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是张磊。今天我和你分享的主题是：Kubernetes默认调度器调度策略解析。</p><p>在上一篇文章中，我主要为你讲解了Kubernetes默认调度器的设计原理和架构。在今天这篇文章中，我们就专注在调度过程中Predicates和Priorities这两个调度策略主要发生作用的阶段。</p><p><span class="orange">首先，我们一起看看Predicates。</span></p><p><strong>Predicates在调度过程中的作用，可以理解为Filter</strong>，即：它按照调度策略，从当前集群的所有节点中，“过滤”出一系列符合条件的节点。这些节点，都是可以运行待调度Pod的宿主机。</p><p>而在Kubernetes中，默认的调度策略有如下三种。</p><p><strong>第一种类型，叫作GeneralPredicates。</strong></p><p>顾名思义，这一组过滤规则，负责的是最基础的调度策略。比如，PodFitsResources计算的就是宿主机的CPU和内存资源等是否够用。</p><p>当然，我在前面已经提到过，PodFitsResources检查的只是 Pod 的 requests 字段。需要注意的是，Kubernetes 的调度器并没有为 GPU 等硬件资源定义具体的资源类型，而是统一用一种名叫 Extended Resource的、Key-Value 格式的扩展字段来描述的。比如下面这个例子：</p><!-- [[[read_end]]] --><pre><code>apiVersion: v1
 

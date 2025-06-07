@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是高楼。</p><p>在开篇词中，我已经提出过，全链路压测只是性能容量场景中的一个具体案例，它并没有跑出“RESAR性能工程”的范围。你可能会问，既然这样，这个全链路压测专栏还有什么新鲜的内容呢？这个专栏讲的是另一套性能工程级的逻辑吗？下面我们就来仔细地说一下。</p><p><img src="https://static001.geekbang.org/resource/image/yy/c1/yy23853dd67da65539483294077dfdc1.jpg?wh=1920x1010" alt=""></p><p>这张RESAR性能工程的全景图已经在开篇词中展示过，性能需求指标、性能环境、性能场景、性能分析、性能报告是其中重要的五个部分。全链路压测同样也可以按这五个大的部分来讨论。</p><p>请注意，这五个部分看似是做事情的先后顺序，但顺序不是我想表达的。我想表达的是，对完整的性能项目来说，应该从哪几个方面来保证性能项目的成功。而这些事情是跟用什么开发模型来实施关系不大的。所以，这五个部分，你放到瀑布模型中也好，放到敏捷也好，放到DevOps也好，都可以。重点是你必须要做到，不然性能项目的结果就是不可控的。</p><p>那既然全链路压测只是一个特定的性能场景，对应到RESAR性能工程中，也就是性能场景了。</p><p>既然这样，我们为什么还要用这么多篇幅来讨论全链路压测呢？那是因为，全链路压测场景需要做的工作实在是有点多，“需求-环境-场景-分析-报告”几乎都有要考虑的内容，所以将它拆开仔细研究很有价值。</p><!-- [[[read_end]]] --><p>下面我们就从流程的角度来说明一下，全链路压测场景，在整个RESAR性能工程的执行流程中，有哪些是需要特别关注的。</p><h2>RESAR性能工程的通用流程在全链路压测中的具体变化</h2><p>在RESAR性能工程的通用流程中，我画过这样的一个工作流程图来说明各个环节要做什么事情。</p><p><img src="https://static001.geekbang.org/resource/image/aa/39/aa8d495c44ab02yye87ed0ebbf6b6339.jpg?wh=1920x716" alt=""></p><p>针对这个通用流程，如果要满足全链路压测，我们来做一下标记，看一下，有哪些变化。</p><p><img src="https://static001.geekbang.org/resource/image/46/52/46946de33f0485d9f2f9a6fde8319652.jpg?wh=1920x1272" alt=""></p><p>图中，蓝色字体标示的是变化的关键点，这些内容和线下环境中性能项目要做的事有一些区别。我们一一对应看一下。</p><ul>
 

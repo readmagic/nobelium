@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴磊。</p><p>在平衡不同硬件资源的时候，相比CPU、内存、磁盘，网络开销无疑是最拖后腿的那一个，这一点在处理延迟上表现得非常明显。</p><p>下图就是不同硬件资源的处理延迟对比结果，我们可以看到最小的处理单位是纳秒。你可能对纳秒没什么概念，所以为了方便对比，我把纳秒等比放大到秒。这样，其他硬件资源的处理延迟也会跟着放大。最后一对比我们会发现，网络延迟是以天为单位的！</p><p><img src="https://static001.geekbang.org/resource/image/c1/a9/c1e4926d3748bdc98a5317fcf4e5b2a9.png" alt="" title="不同硬件资源处理延迟对比"></p><p>因此，要想维持硬件资源之间的平衡，尽可能地降低网络开销是我们在性能调优中必须要做的。今天这一讲，我就按照数据进入系统的时间顺序，也就是数据读取、数据处理和数据传输的顺序，带你去分析和总结数据生命周期的不同阶段有效降低网络开销的方法。</p><h2>数据读写</h2><p>对于绝大多数应用来说，第一步操作都是从分布式文件系统读取数据源。Spark支持的数据源种类非常丰富，涉及的存储格式和存储系统可以说是五花八门。</p><p><img src="https://static001.geekbang.org/resource/image/2a/c3/2a1e6190f6e746e97661bf6f09941cc3.jpeg" alt="" title="存储格式与存储系统"></p><p>这么多存储格式和外部存储系统交叉在一起又会有无数种组合，并且每一种组合都有它的应用场景。那么，我们该怎么判断网络开销会出现在哪些场景下呢？其实，<strong>不管是什么文件格式，也不管是哪种存储系统，访问数据源是否会引入网络开销，取决于任务与数据的本地性关系，也就是任务的本地性级别</strong>，它一共有4种：</p><!-- [[[read_end]]] --><ul>
 

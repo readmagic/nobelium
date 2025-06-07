@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是于航。</p><p>今天我们来聊另外一个老生常谈的话题：“ ABI 与 API 这两个概念究竟有什么区别？”</p><p>也许你之前也思考过这个问题。ABI 与 API 这两个英文缩写只差一个字符，因此它们对应的概念在很多线下讨论和博客文章中会被经常混用，甚至是乱用。当然，时不时地，这个问题也会成为人们在技术社交圈内的丰富谈资。这一讲，就以你熟悉的 C 语言体系为例，我们来一起看看 ABI 与 API 二者分别指代什么内容，有什么区别。</p><h2><strong>API</strong></h2><p>API 的全称为“应用程序编程接口（Application Programming Interface）”。从它的名字我们就能看出来，这一类接口的侧重点在于“编程”。因此，通过遵循 API 规范，我们可以在相应的编程语言代码中使用这些接口，以操作计算机系统来完成某项特定任务。而对 C 语言来说，那些由 C 标准库提供的，被定义在不同头文件中的函数原型，便是一种 API 的具体表现形式。</p><h3>重要特征</h3><p><strong>API 具有的一个最重要特征，便是隐藏了其背后具体功能的内部实现细节，<strong><strong>只</strong></strong>公开对编码有意义的部分</strong>（如接口名称、可接收参数的个数与类型等）。通过保持这部分特征的一致性，API 提供者与调用者便可在相对隔离的环境下被独立维护。在这种情况下，这部分相对统一和稳定的特征也可被单独抽离出来，成为相应的 API 规范。</p><!-- [[[read_end]]] --><p>如下面的代码所示，C 标准库函数 fopen 在 API 层面有着稳定的特征，但实际上，使用这些 API 构建的应用程序却可以在不修改代码的情况下，灵活选用不同的接口实现方案（如 musl 和 glibc）。这其中的一个重要原因，便是<strong>C 标准库的 API 规范是独立于具体实现的</strong>。</p><pre><code class="language-bash">FILE *fopen(const char* filename, const char* mode)
 

@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在各种场合遇到其他产品的开发人员时，大家总忍不住想在技术上切磋两招。第一句问的通常都是“你们产品的崩溃率是多少？”</p><p>程序员A自豪地说： “百分之一。”</p><p>旁边的程序员B鄙视地看了一眼，然后喊到： “千分之一！”</p><p>“万分之一” ，程序员C说完之后全场变得安静起来。</p><p>崩溃率是衡量一个应用质量高低的基本指标，这一点是你我都比较认可的。不过你说的“万分之一”就一定要比我说的“百分之一” 更好吗？我觉得，这个问题其实并不仅仅是比较两个数值这么简单。</p><p>今天我们就来聊一聊有关“崩溃”的那些事，我会从Android的两种崩溃类型谈起，再和你进一步讨论到底该怎样客观地衡量崩溃这个指标，以及又该如何看待和崩溃相关的稳定性。</p><h2>Android 的两种崩溃</h2><p>我们都知道，Android崩溃分为Java崩溃和Native崩溃。</p><p>简单来说，<strong>Java崩溃就是在Java代码中，出现了未捕获异常，导致程序异常退出</strong>。那Native崩溃又是怎么产生的呢？<strong>一般都是因为在Native代码中访问非法地址，也可能是地址对齐出现了问题，或者发生了程序主动abort，这些都会产生相应的signal信号，导致程序异常退出</strong>。</p><p>所以，“崩溃”就是程序出现异常，而一个产品的崩溃率，跟我们如何捕获、处理这些异常有比较大的关系。Java崩溃的捕获比较简单，但是很多同学对于如何捕获Native崩溃还是一知半解，下面我就重点介绍Native崩溃的捕获流程和难点。</p><!-- [[[read_end]]] --><p>1.Native崩溃的捕获流程</p><p>如果你对Native崩溃机制的一些基本知识还不是很熟悉，建议你阅读一下<a href="http://mp.weixin.qq.com/s/g-WzYF3wWAljok1XjPoo7w">《Android平台Native代码的崩溃捕获机制及实现》</a>。这里我着重给你讲讲一个完整的Native崩溃从捕获到解析要经历哪些流程。</p><ul>
 

@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱晓峰。</p><p>我们在进行查询的时候，经常需要按条件对查询结果进行筛选，这就要用到条件语句WHERE和HAVING了。</p><p>WHERE是直接对表中的字段进行限定，来筛选结果；HAVING则需要跟分组关键字GROUP BY一起使用，通过对分组字段或分组计算函数进行限定，来筛选结果。虽然它们都是对查询进行限定，却有着各自的特点和适用场景。很多时候，我们会遇到2个都可以用的情况。一旦用错，就很容易出现执行效率低下、查询结果错误，甚至是查询无法运行的情况。</p><p>下面我就借助项目实施过程中的实际需求，给你讲讲WHERE和HAVING分别是如何对查询结果进行筛选的，以及它们各自的优缺点，来帮助你正确地使用它们，使你的查询不仅能够得到正确的结果，还能占用更少的资源，并且速度更快。</p><h2>一个实际查询需求</h2><p>超市的经营者提出，要查单笔销售金额超过50元的商品。我们来分析一下这个需求：需要查询出一个商品记录集，限定条件是单笔销售金额超过50元。这个时候，我们就需要用到WHERE和HAVING了。</p><p>这个问题的条件很明确，查询的结果也只有“商品”一个字段，好像很容易实现。</p><p>假设我们有一个这样的商品信息表（demo.goodsmaster），里面有2种商品：书和笔。</p><!-- [[[read_end]]] --><pre><code>mysql&gt; SELECT *
 

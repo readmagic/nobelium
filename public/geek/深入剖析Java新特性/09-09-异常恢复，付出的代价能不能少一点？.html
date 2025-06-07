@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是范学雷。今天，我们接着讨论Java的错误处理。这一讲，是上一次我们讨论的关于错误处理问题的继续和升级。</p><p>就像我们上一次讨论到的，Java的异常处理是一个对代码性能有着重要影响的因素。所以说，Java错误处理的缺陷和滥用也成为了一个热度始终不减的老话题。但是，Java的异常处理，有着天生的优势，特别是它在错误排查方面的作用，我们很难找到合适的替代方案。</p><p>那有没有可能改进Java的异常处理，保持它在错误排查方面的优势的同时，提高它的性能呢？这是一个又让马儿跑，又让马儿不吃草的问题。不过，这并不妨碍我们顺着这个思路，找一找其中的可能性。</p><p>我们还是先从阅读案例开始，来试着找一找其中的蛛丝马迹吧。</p><h2>阅读案例</h2><p>要尝试解决一个问题，我们首先要做的，就是把问题梳理清楚，定义好。我们先来看看Java异常处理的三个典型使用场景。</p><p>下面的这段代码里，有三个不同的异常使用方法。在分别解析的过程中，你可能会遇到几个疑问，不过别急，带着这几个问题，我们最后来一一解读。</p><pre><code class="language-java">package co.ivi.jus.stack.former;
 

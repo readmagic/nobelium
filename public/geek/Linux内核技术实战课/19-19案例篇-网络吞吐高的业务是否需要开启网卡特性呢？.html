@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是邵亚方。</p><p>通过上一讲我们对CPU利用率的细化，相信你已经知道，对于应用而言，它的目标是让CPU的开销尽量用在执行用户代码上，而非其他方面。usr利用率越高，说明CPU的效率越高。如果usr低，就说明CPU执行应用的效率不高。在<a href="https://time.geekbang.org/column/article/292060">第18讲</a>里，我们还讲了CPU时间浪费在sys里的案例。那今天这一讲，我们一起来看看CPU在softirq上花费过多时间所引起的业务性能下降问题，这也是我们在生产环境中经常遇到的一类问题。接下来我会为你讲解相关案例，以及这类问题常用的观察方法。</p><h2>中断与业务进程之间是如何相互干扰的？</h2><p>这是我多年以前遇到的一个案例，当时业务反馈说为了提升QPS（Query per Second），他们开启了RPS（Receivce Packet Steering）来模拟网卡多队列，没想到开启RPS反而导致了QPS明显下降，不知道是什么原因。</p><p>其实，这类特定行为改变引起的性能下降问题相对好分析一些。最简单的方式就是去对比这个行为前后的性能数据。即使你不清楚RPS是什么，也不知道它背后的机制，你也可以采集需要的性能指标进行对比分析，然后判断问题可能出在哪里。这些性能指标包括CPU指标，内存指标，I/O指标，网络指标等，我们可以使用dstat来观察它们的变化。</p><!-- [[[read_end]]] --><p>在业务打开RPS之前的性能指标：</p><pre><code>$ dstat
 

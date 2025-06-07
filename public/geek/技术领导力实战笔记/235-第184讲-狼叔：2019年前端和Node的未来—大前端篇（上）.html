@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是阿里巴巴前端技术专家狼叔，今天想跟你分享2019年我对前端和Node现状及未来发展趋势的理解。</p><p>我其实特别反感很多人说“前端娱乐圈”这种话，诚然，爆发式增长必然会带来焦点，但也不必过度解读，2018年的几件大事儿我都了解，真的不是大家看到的那样的。学会辩证的看问题，用心去体味背后的趋势，我想这比所谓的“正直”更有价值，我更希望大家能够坚持学习，保持思辨和平和。</p><h2>大前端</h2><p>2018年的事儿特别多，从React v16普及，到jQuery被GitHub下掉完成阶段性历史使命，在唏嘘之外，版本帝Angular又发布了v6和v7两个版本。这些其实都不算啥大新闻，反观三大框架，写法越来越像，越来越贴近WebComponents标准，而周边应用层面的封装已经开始指数级增长。小程序是今年最火的技术，接连出现，快应用也想分一杯羹。PWA进入稳定期，尤其是PWA桌面版，可以让我们更好的看清楚PC桌面版开发的全貌。移动端还是以强运营为主，各大公司都开始不再all in移动，开始重视多端并进，到了开始拼细节的阶段了。TypeScript全面开花，GraphQL蠢蠢欲动，WebAssembly更是打开了浏览器上多语言的大门。所有的这一切都在暗示，浏览器即操作系统，你能想象到未来前端的样子么？下面跟着我一一进行解读吧。</p><!-- [[[read_end]]] --><h3>三大框架标准化</h3><p>有朋友吐槽：“Vue的特点就是上手快，初期相当好用，但如果接手一个别人写的 Vue 项目，再和 React 对比一下，你会感谢 React 的”。但当Vue 3.0发布之后，估计他就不会这样说了。因为Vue 3的Class API 和 React 的写法几乎是一模一样的，这个改动不是 Proxy 和 TypeScript，而是支持原生 Class 的写法。你用 Class 来写，那代码和 React 写法几乎是一模一样的！</p><pre><code class="language-python">import Vue from 'vue'
 

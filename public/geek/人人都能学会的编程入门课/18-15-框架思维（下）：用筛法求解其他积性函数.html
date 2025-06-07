@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是胡光，咱们又见面了。</p><p>上一节，我们讲了素数筛这个算法，并且强调了，要按照框架思维去学习算法代码，因为当你学会这么做的时候，它就可以变成解决多个问题的利器了。</p><p>本节我将带你具体使用素数筛算法框架，去解决一些其他简单的数论问题。通过解决这几个具体问题的过程，我希望你能找到“框架思维”的感觉。</p><h2>今日任务</h2><p>今天这个任务，需要你依靠自己的力量来完成。不过你也不用担心，我会把需要做的准备工作都讲给你。</p><p>这个任务和因数和有关，什么叫做因数和呢？就是一个数字所有因数的和。那么什么是一个数字的因数呢？因数就是小于等于这个数字中，能整除当前数字的数。例如，28 这个数字的因数有 1、2、4、7、14、28 ，因数和就是各因数相加，即 56。</p><p>所以今天我们要做的，就是求出 10000 以内所有数字的因数和。你明白了要算的结果后，可能已经想出采用如下方法来解决：</p><pre><code>#include &lt;stdio.h&gt;
 

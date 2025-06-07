@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈航。</p><p>在上一篇文章中，我与你介绍了Widget生命周期的实际承载者State，并详细介绍了初始化、状态更新与控件销毁，这3个不同阶段所涉及的关键方法调用顺序。深入理解视图从加载到构建再到销毁的过程，可以帮助你理解如何根据视图的状态在合适的时机做恰当的事情。</p><p>前面几次分享我们讲了很多关于Flutter框架视图渲染的基础知识和原理。但有些同学可能会觉得这些基础知识和原理在实践中并不常用，所以在学习时会选择忽视这些内容。</p><p>但其实，像视图数据流转机制、底层渲染方案、视图更新策略等知识，都是构成一个UI框架的根本，看似枯燥，却往往具有最长久的生命力。新框架每年层出不穷，可是扒下那层炫酷的“外衣”，里面其实还是那些最基础的知识和原理。</p><p>因此，<strong>只有把这些最基础的知识弄明白了，修炼好了内功，才能触类旁通，由点及面形成自己的知识体系，也能够在框架之上思考应用层构建视图实现的合理性。</strong></p><p>在对视图的基础知识有了整体印象后，我们再来学习Flutter视图系统所提供的UI控件，就会事半功倍了。而作为一个UI框架，与Android、iOS和React类似的，Flutter自然也提供了很多UI控件。而文本、图片和按钮则是这些不同的UI框架中构建视图都要用到的三个最基本的控件。因此，在今天这篇文章中，我就与你一起学习在Flutter中该如何使用它们。</p><!-- [[[read_end]]] --><h2>文本控件</h2><p>文本是视图系统中的常见控件，用来显示一段特定样式的字符串，就比如Android里的TextView、iOS中的UILabel。而在Flutter中，文本展示是通过Text控件实现的。</p><p>Text支持两种类型的文本展示，一个是默认的展示单一样式的文本Text，另一个是支持多种混合样式的富文本Text.rich。</p><p>我们先来看看<strong>如何使用单一样式的文本Text</strong>。</p><p>单一样式文本Text的初始化，是要传入需要展示的字符串。而这个字符串的具体展示效果，受构造函数中的其他参数控制。这些参数大致可以分为两类：</p><ul>
 

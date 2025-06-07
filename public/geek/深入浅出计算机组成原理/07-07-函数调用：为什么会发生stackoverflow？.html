@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在开发软件的过程中我们经常会遇到错误，如果你用Google搜过出错信息，那你多少应该都访问过<a href="https://stackoverflow.com/">Stack Overflow</a>这个网站。作为全球最大的程序员问答网站，Stack Overflow的名字来自于一个常见的报错，就是栈溢出（stack overflow）。</p><p>今天，我们就从程序的函数调用开始，讲讲函数间的相互调用，在计算机指令层面是怎么实现的，以及什么情况下会发生栈溢出这个错误。</p><h2>为什么我们需要程序栈？</h2><p>和前面几讲一样，我们还是从一个非常简单的C程序function_example.c看起。</p><pre><code>// function_example.c
 

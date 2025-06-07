@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好！我是郑晔。</p><p>在前面几讲中，我们讲的设计原则基本上都是关于如何设计一个类。SRP告诉我们，一个类的变化来源应该是单一的；OCP说，不要随意修改一个类；LSP则教导我们应该设计好类的继承关系。</p><p>而在面向对象的设计中，接口设计也是一个非常重要的组成部分。我们一直都在强调面向接口编程，想实现OCP也好，或者是下一讲要讲的DIP也罢，都是要依赖于接口实现的。</p><p>也许你会说，接口不就是一个语法吗？把需要的方法都放到接口里面，接口不就出来了吗？顶多是Java用interface，C++都声明成纯虚函数。这种对于接口的理解，显然还停留在语法的层面上。这样设计出来的只能算作是有了一个接口，但想要设计出好的接口，还要有在设计维度上的思考。</p><p>那什么样的接口算是一个好接口呢？这就需要我们了解接口隔离原则。</p><h2>接口隔离原则</h2><p>接口隔离原则（Interface segregation principle，简称ISP）是这样表述的：</p><blockquote>
 

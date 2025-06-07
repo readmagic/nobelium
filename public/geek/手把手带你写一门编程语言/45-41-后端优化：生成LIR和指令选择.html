@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是宫文学。</p><p>前面几节课中，我们讨论的主要是中端的优化。中端优化是跟具体硬件关系并不大，但由于我们还要生成针对具体CPU的汇编代码或机器码，所以做完中端优化之后，我们还要针对具体CPU的特性来做一些优化，也就是后端优化。</p><p>其实，我们已经接触过一些后端优化技术了。比如，之前我们已经讲过寄存器分配算法、尾调用和尾递归的优化，这些基本上都属于后端优化。不过，那个时候，我们是从AST直接生成汇编代码，然后在这个过程中做一些后端优化的。</p><p>在第三部分优化篇中，我们引入了新的、基于图的IR，进行了很多与硬件无关的优化。用这个基于图的IR来做后端优化，效果又怎样呢？接下来，我们就要修改以前的生成汇编代码的逻辑，改成从这个IR来生成汇编代码，并在这个过程中做一些优化。</p><p>今天这一节课，我就带你从中端过渡到后端，看看如何实现后端优化，并生成目标代码。这其中包括IR的Lower、生成LIR和指令选择，以及寄存器分配、指令重排序、窥孔优化和汇编代码的生成，等等工作。不过有些知识点我之前已经讲过了，还有一些知识点不是我们这门课的重点，我就不再展开讲了，重点帮你贯穿一下整个过程。</p><p>首先，我们先了解一下给IR做Lower的过程。</p><!-- [[[read_end]]] --><h2>Lower过程</h2><p>HIR要经过一系列Lower过程，最后变成LIR。我先举一个例子，让你理解一下在Lower过程中会发生什么事情。这是一个简单的例子，它只实现了给mammal对象weight字段赋值的功能：</p><pre><code class="language-plain">function accessField(mammal:Mammal, weight:number){
 

@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>我们知道在MySQL 5.5版本之前，默认的存储引擎是MyISAM，在5.5版本之后默认存储引擎是InnoDB。InnoDB和MyISAM区别之一就是InnoDB支持事务，也可以说这是InnoDB取代MyISAM的重要原因。那么什么是事务呢？事务的英文是transaction，从英文中你也能看出来它是进行一次处理的基本单元，要么完全执行，要么都不执行。</p><p>这么讲，你可能觉得有些抽象，我换一种方式讲。</p><p>不知道你是否遇到过这样的情况，你去家门口的小卖铺买东西，已经交了钱，但是老板比较忙接了个电话，忘记你是否交过钱，然后让你重新付款，这时你还要找之前的付款记录证明你已经完成了付款。</p><p>实际上如果我们线下的交易也能支持事务（满足事务的特性），就不会出现交了钱却拿不到商品的烦恼了，同样，对于小卖铺的老板来说，也不存在给出了商品但没有收到款的风险。总之，事务保证了一次处理的完整性，也保证了数据库中的数据一致性。它是一种高级的数据处理方式，如果我们在增加、删除、修改的时候某一个环节出了错，它允许我们回滚还原。正是因为这个特点，事务非常适合应用在安全性高的场景里，比如金融行业等。</p><p>我们今天就来学习下SQL中的事务。今天的课程你将重点掌握以下的内容：</p><!-- [[[read_end]]] --><ol>
 

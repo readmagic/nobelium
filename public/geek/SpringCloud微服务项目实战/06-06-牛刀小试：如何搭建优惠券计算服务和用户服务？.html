@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是姚秋辰。</p><p>上一节课我们搭建了coupon-template-serv模块，实现了优惠券模板的创建和批量查询等功能，相信你已经对如何使用Spring Boot搭建应用驾轻就熟了。今天我们就来搭建优惠券平台项目的另外两个模块，coupon-calculation-serv（优惠计算服务）和coupon-customer-serv（用户服务），组建一个完整的实战项目应用（middleware模块将在Spring Cloud环节进行搭建）。</p><p>通过今天的课程，你可以巩固并加深Spring Boot的实操能力，为接下来Spring Cloud微服务化改造打好前置知识的基础，在这节课里我也会分享一些关于设计模式和数据冗余的经验之谈。</p><p>另外，这节课的源码都可以在<a href="https://gitee.com/banxian-yao/geekbang-coupon-center">Gitee代码库</a>中找到。你可不要只读爽文不动手敲代码，我建议你把代码下载到本地，对照着源码动手练习一遍，才能学为己用。</p><p>闲话少叙，我们根据优惠券项目的依赖关系，先从上游服务coupon-calculation-serv开始动手搭建吧。</p><h2>搭建coupon-calculation-serv</h2><p>coupon-calculation-serv提供了用于计算订单的优惠信息的接口，它是一个典型的“计算密集型”服务。所谓计算密集型服务一般具备下面的两个特征：</p><!-- [[[read_end]]] --><ol>
 

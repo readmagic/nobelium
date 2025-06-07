@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是胡光，欢迎回来。</p><p>上节课呢，我们学习了递推算法的一般求解步骤：先是定义递推状态，然后推导递推公式，最后是程序设计与实现。并且为了顺利完成递推算法，还介绍了在推导递推公式中的重要指导思想“容斥原理”的相关内容。</p><p>递推算法解决的主要类型问题之一，就是计数类问题。就像上节课我们提到的，求 n 个月以后的小兔子数量，求拼凑钱币的方法总数，还有更早之前学习的，求前 n 个数字二进制表示中 1 的个数，等等，这些都是计数类问题。</p><p>而在递推算法中，还有一类不同于计数类问题，它是求解最优化解的问题的算法，这类算法有一个专有名称，叫做：动态规划。这就是我们今天要学习的，递推算法中的一个子集算法，动态规划算法。</p><h2>初识：数字三角形问题</h2><p>想了解什么是动态规划算法，咱们得先从一个叫做“数字三角形”的简单的动态规划问题开始。数字三角形这个问题很简单，这里我给出了一个由数字组成的 6 层三角形，如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/89/9b/89d94f71545022620d8df9ba2b01e69b.jpg" alt="" title="图1： 数字三角形结构示意图"><br>
 

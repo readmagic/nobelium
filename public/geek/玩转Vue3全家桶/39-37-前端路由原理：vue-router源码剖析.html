@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是大圣。</p><p>上一讲我们学习了下一代Vuex框架Pinia的原理，今天我来带你分析Vue生态中另外一个重要的框架vue-router的源码。</p><p>课程中我们也实现过一个迷你的router，我们通过监听路由的变化，把路由数据包裹成响应式对象后，一旦路由发生变化，我们就去定义好的路由数据中查询当前路由对应的组件，在router-view中渲染即可。今天我们就进入到vue-router源码的内部，看一下实际的vue-router和我们实现的迷你版本有什么区别。</p><h2>vue-router入口分析</h2><p>vue-router提供了createRouter方法来创建路由配置，我们传入每个路由地址对应的组件后，使用app.use在Vue中加载vue-router插件，并且给Vue注册了两个内置组件，router-view负责渲染当前路由匹配的组件，router-link负责页面的跳转。</p><p><strong>我们先来看下createRouter如何实现</strong>，完整的代码你可以在<a href="https://github.com/vuejs/vue-router-next/blob/master/src/router.ts#L355">GitHub</a>上看到。这个函数比较长，还好我们有TypeScript，我们先看下createRouter的参数。</p><p>在下面的代码中，参数RouterOptions是规范我们配置的路由对象，主要包含history、routes等数据。routes就是我们需要配置的路由对象，类型是RouteRecordRaw组成的数组，并且RouteRecordRaw的类型是三个类型的合并。然后返回值的类型Router就是包含了addRoute、push、beforeEnter、install方法的一个对象，<strong>并且维护了currentRoute和options两个属性</strong>。</p><!-- [[[read_end]]] --><p>并且每个类型方法还有详细的注释，这也极大降低了阅读源码的门槛，可以帮助我们在看到函数的类型时就知道函数大概的功能。我们知道Vue中app.use实际上执行的就是router对象内部的install方法，我们先进入到install方法看下是如何安装的。</p><pre><code class="language-javascript">// createRouter传递参数的类型
 

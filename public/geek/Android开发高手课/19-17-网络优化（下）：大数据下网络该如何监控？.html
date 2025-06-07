@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>通过上一期的学习，我们对如何打造一个高质量的网络已经有了一个整体的认识。但是这就足够了吗？回想一下，一个网络请求从手机到后台服务器，会涉及基站、光纤、路由器这些硬件设施，也会跟运营商和服务器机房有关。</p><p>不论是基站故障、光纤被挖断、运营商挟持，还是我们的机房、CDN服务商出现故障，都有可能会引起用户网络出现问题。你有没有感觉线上经常突发各种千奇百怪的网络问题，很多公司的运维人员每天过得胆战心惊、疲于奔命。</p><p>“善良”的故障过了一段时间之后莫名其妙就好了，“顽固”的故障难以定位也难以解决。这些故障究竟是如何产生的？为什么突然就恢复了？它们影响了多少用户、哪些用户？想要解决这些问题离不开高质量的网络，而高质量的网络又离不开强大的监控。今天我们就一起来看看网络该如何监控吧。</p><h2>移动端监控</h2><p>对于移动端来说，我们可能会有各种各样的网络请求。即使使用了OkHttp网络库，也可能会有一些开发人员或者第三方组件使用了系统的网络库。那应该如何统一的监控客户端的所有的网络请求呢？</p><p><strong>1. 如何监控网络</strong></p><p><strong>第一种方法：插桩。</strong></p><p>为了兼容性考虑，我首先想到的还是插桩。360开源的性能监控工具<a href="https://github.com/Qihoo360/ArgusAPM">ArgusAPM</a>就是利用Aspect切换插桩，实现监控系统和OkHttp网络库的请求。</p><!-- [[[read_end]]] --><p>系统网络库的插桩实现可以参考<a href="https://github.com/Qihoo360/ArgusAPM/blob/bc03d63c65019cd3ffe2cbef9533c9228b3f2381/argus-apm/argus-apm-aop/src/main/java/com/argusapm/android/aop/TraceNetTrafficMonitor.java">TraceNetTrafficMonitor</a>，主要利用<a href="http://www.shouce.ren/api/spring2.5/ch06s02.html">Aspect</a>的切面功能，关于OkHttp的拦截可以参考<a href="https://github.com/Qihoo360/ArgusAPM/blob/bc03d63c65019cd3ffe2cbef9533c9228b3f2381/argus-apm/argus-apm-okhttp/src/main/java/com/argusapm/android/okhttp3/OkHttp3Aspect.java">OkHttp3Aspect</a>，它会更加简单一些，因为OkHttp本身就有代理机制。</p><pre><code>@Pointcut(&quot;call(public okhttp3.OkHttpClient build())&quot;)
 

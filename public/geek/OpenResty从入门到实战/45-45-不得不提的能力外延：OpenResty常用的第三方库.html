@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是温铭。</p><p>对于开发语言和平台来讲，很多时候的学习，其实是对标准库和第三方库的学习，语法本身并不用花费很多的时间。这对 OpenResty 来说也是一样的，学完它自己的 API 和性能优化技巧后，就需要各种 lua-resty 库，来帮助我们把 OpenResty 的能力外延，以应用到更多的场景中去。</p><h2>去哪里找 lua-resty 库？</h2><p>和 PHP、Python、JavaScript 相比，当前 OpenResty 的标准库和第三方库还比较贫瘠，找出合适的 lua-resty 库还不是一件容易的事情。不过，这里仍然有两个推荐的渠道，可以帮你更快地找到它们。</p><p>我首先推荐的是由 Aapo 维护的 <code>awesome-resty</code> <a href="https://github.com/bungle/awesome-resty">仓库</a>，这个仓库分门别类地整理了和 OpenResty 相关的库，可以说是包罗万象，包括了 Nginx 的 C 模块、lua-resty 库、Web 框架、路由库、模板、测试框架等，是你寻找 OpenResty 资源的首选。</p><p>当然，如果你在 Aapo 的仓库中没有找到合适的库，那么还可以去 luarocks、opm和 GitHub 碰碰运气。有一些开源时间不长的、或者关注不多的库，可能就藏在其中。</p><p>在前面的课程中，我们已经接触了不少有用的库，比如 lua-resty-mlcache、lua-resty-traffic、lua-resty-shell 等。今天，在 OpenResty 性能优化部分的最后一节课，我们再来认识 3 个独具特色的周边库，它们都是由社区的开发者贡献的。</p><!-- [[[read_end]]] --><h2>ngx.var 的性能提升</h2><p>首先让我们来看一个 C 模块：<a href="https://github.com/iresty/lua-var-nginx-module">lua-var-nginx-module</a>。前面我曾经提到过，<code>ngx.var</code> 是一个性能损耗比较大的操作，在实际使用时，我们需要用 <code>ngx.ctx</code> 来做一层缓存。</p><p>那有没有什么方法，可以彻底解决 <code>ngx.var</code> 的性能问题呢？</p><p>这个 C 模块，就在这个方面做了一些尝试，效果也很显著，性能比起<code>ngx.var</code> 提升了 5 倍。它采用的是 FFI 的方式，所以，你需要在编译 OpenResty 的时候，先加上编译选项：</p><pre><code>./configure --prefix=/opt/openresty \
 

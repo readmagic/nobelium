@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p><strong>如果一款游戏不能用鼠标和键盘操作，那我们只能当动画来看。</strong></p><p>所以在一款游戏中，鼠标和键盘的操作是必不可少的，有时候甚至鼠标和键盘都要同时操作，比如FPS游戏，比如即时战略等等。鼠标和键盘的操作在Pygame中需要进行实时检测，这个上一节我有提到过，然后我们就可以对游戏画面进行操作。</p><p>我们在Pygame中有两种方式可以检测和编写键盘事件，一种是使用<strong>event事件</strong>操作，一种是使用<strong>keypressed函数</strong>来进行键盘的判断操作。</p><p>我们先来尝试一下使用事件进行操作的键盘事件。我们在之前的代码中，已经使用事件来判断是不是退出，我们来看如下代码：</p><pre><code>for event in pygame.event.get():
 

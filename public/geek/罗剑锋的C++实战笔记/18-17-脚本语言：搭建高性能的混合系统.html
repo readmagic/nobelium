@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是Chrono。</p><p>经过了前面这么多节课的学习，相信你已经认识到了C++的高效、灵活和强大。使用现代特性，再加上标准库和第三方库，C++几乎“无所不能”。</p><p>但是，C++也有自己的“阿喀琉斯之踵”，那就是语言复杂、学习曲线陡峭、开发周期长、排错/维护成本高。</p><p>所以，C++不能完全适应现在的快速开发和迭代的节奏，最终只能退到后端、底层等领域。要想充分发挥C++的功力，就要辅助其他的语言搭建混合系统，尽量扬长避短，做好那最关键、最核心的部分，这样才能展现出它应有的价值。</p><p>由于当前的操作系统、虚拟机、解释器、引擎很多都是用C或者C++编写的，所以，使用C++，可以很容易地编写各种底层模块，为上层的Java、Go等语言提供扩展功能。</p><p>不过，今天我不去说这些大型语言，而是讲两种轻便的脚本语言：Python和Lua，看看C++怎么和它们俩实现无缝对接：以C++为底层基础，Python和Lua作为上层建筑，共同搭建起高性能、易维护、可扩展的混合系统。</p><h2>Python</h2><p>Python应该是除了JavaScript以外最流行的一种脚本语言了，一直在TIOBE榜单里占据前三名的位置。而且，在新兴的大数据、人工智能、科学计算等领域，也都有着广泛的应用。很多大公司都长期招聘Python程序员，就是看中了它的高生产率。</p><!-- [[[read_end]]] --><p>Python本身就有C接口，可以用C语言编写扩展模块，把一些低效耗时的功能改用C实现，有的时候，会把整体性能提升几倍甚至几十倍。</p><p>但是，使用纯C语言写扩展模块非常麻烦，那么，能不能利用C++的那些高级特性来简化这部分的工作呢？</p><p>很多人都想到了这个问题，于是，就出现了一些专门的C++/Python工具，使用C++来开发Python扩展。其中，我认为最好的一个就是<a href="https://github.com/pybind/pybind11">pybind11</a>。</p><p>pybind11借鉴了“前辈”Boost.Python，能够在C++和Python之间自由转换，任意翻译两者的语言要素，比如把C++的vector转换为Python的列表，把Python的元组转换为C++的tuple，既可以在C++里调用Python脚本，也可以在Python里调用C++的函数、类。</p><p>pybind11名字里的“11”表示它完全基于现代C++开发（C++11以上），所以没有兼容旧系统的负担。它使用了大量的现代C++特性，不仅代码干净整齐，运行效率也更高。</p><p>下面，我就带你看看怎么用pybind11，让C++来辅助Python，提升Python的性能。</p><p>pybind11是一个纯头文件的库，但因为必须结合Python，所以首先要有Python的开发库，然后再用pip工具安装。</p><p>pybind11支持Python2.7、Python3和PyPy，这里我用的是Python3：</p><pre><code>apt-get install python3-dev
 

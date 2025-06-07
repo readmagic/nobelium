@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴磊。</p><p>今天，我们来学习Spark的存储系统，它和我们上一讲学过的调度系统一样，都是Spark分布式计算引擎的基础设施之一。</p><p>你可能会问：“在日常的开发工作中，除了业务逻辑实现，我真的需要去关心这么底层的东西吗？”确实，存储系统离开发者比较远。不过，如果把目光落在存储系统所服务的对象上，你很可能会改变这种看法。</p><p>接下来，咱们就先来看看Spark 存储系统都为谁服务，再去探讨它有哪些重要组件，以及它是如何工作的，带你一次性摸透存储系统。</p><h2>Spark存储系统是为谁服务的？</h2><p>Spark 存储系统用于存储 3个方面的数据，<strong>分别是RDD 缓存、Shuffle 中间文件、广播变量。我们一个一个来说。</strong></p><p>RDD缓存指的<strong>是将RDD以缓存的形式物化到内存或磁盘的过程</strong>。对于一些计算成本和访问频率都比较高的RDD来说，缓存有两个好处：一是通过截断DAG，可以降低失败重试的计算开销；二是通过对缓存内容的访问，可以有效减少从头计算的次数，从整体上提升作业端到端的执行性能。</p><p>而要说起Shuffle中间文件，我们就不得不提Shuffle这个话题。在很多场景中，Shuffle都扮演着性能瓶颈的角色，解决掉Shuffle引入的问题之后，执行性能往往能有立竿见影的提升。因此，凡是与Shuffle有关的环节，你都需要格外地重视。</p><!-- [[[read_end]]] --><p>关于Shuffle的工作原理，我们后面会详细来讲。这里，咱们先简单理解一下Shuffle的计算过程就可以了。它的计算过程可以分为2个阶段：</p><ul>
 

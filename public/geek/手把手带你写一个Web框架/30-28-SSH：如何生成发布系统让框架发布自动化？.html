@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是轩脉刃。</p><p>在前面的课程中，我们基本上已经完成了一个能同时生成前端和后端的框架hade，也能很方便对框架进行管理控制。下面两节课，我们来考虑框架的一些周边功能，比如部署自动化。</p><p>部署自动化其实不是一个框架的刚需，有很多方式可以将一个服务进行自动化部署，比如现在比较流行的Docker化或者CI/CD流程。</p><p>但是一些比较个人比较小的项目，比如一个博客、一个官网网站，<strong>这些部署流程往往都太庞大了，更需要一个服务，能快速将在开发机器上写好、调试好的程序上传到目标服务器，并且更新应用程序</strong>。这就是我们今天要实现的框架发布自动化。</p><p>所有的部署自动化工具，基本都依赖本地与远端服务器的连接，这个连接可以是FTP，可以是HTTP，但是更经常的连接是SSH连接。因为一旦我们购买了一个Web服务器，服务器提供商就会提供一个有SSH登录账号的服务器，我们可以通过这个账号登录到服务器上，来进行各种软件的安装，比如FTP、HTTP服务等。</p><p>基本上，SSH账号是我们拿到Web服务器的首要凭证，所以要设计的自动化发布系统也是依赖SSH的。</p><h2>SSH服务</h2><p>那么在Golang中如何SSH连接远端的服务器呢？有一个<a href="https://golang.org/x/crypto/ssh">ssh</a>库能完成SSH的远端连接。</p><!-- [[[read_end]]] --><p>这里介绍一个小知识，你可以看下这个ssh库的git：golang.org/x/crypto/ssh。它是在官网golang.org 下的，但是又不是官方的标准库，因为子目录是x。</p><p>这种库其实也是经过官方认证的，属于实验性的库，我们可以这么理解：<strong>以golang.org/x/ 开头的库，都是官方认为这些库后续有可能成为标准库的一部份</strong>，但是由于种种原因，现在还没有计划放进标准库中，需要更多时间打磨。但是这种库的维护者和开发者一般已经是Golang官方组的人员了。比如现在今年讨论热度很大的Golang泛型，据说也会先以实验库的形式出现。</p><p>不管怎么样，这种以golang.org/x/开头的库，成熟度已经非常高了，我们是可以放心使用的。来了解一下这个ssh库：</p><pre><code class="language-go">package main
 

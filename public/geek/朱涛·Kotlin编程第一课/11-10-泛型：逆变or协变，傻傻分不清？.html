@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱涛。这节课我们来学习Kotlin的泛型（Generics），包括泛型基础、使用处型变、声明处型变以及星投影。</p><p>泛型，这个概念在很多编程语言里面都存在。在中大型软件开发当中，我们对泛型的使用也十分频繁，因为它可以让我们<strong>在不同类型之间复用相似的逻辑代码</strong>。</p><p>不管是Android领域，还是后端领域，泛型在软件的架构当中都有着举足轻重的地位。只有透彻理解了泛型，我们才能理解各种设计模式，进而才可能设计出合理的软件架构。</p><p>然而，想要学好泛型却不是一件容易的事情。这是因为，泛型实在太抽象了。</p><p>我们都知道，程序其实是对真实世界的抽象，比如我们在前面实战课里写的计算器程序，现实生活当中就有计算器这个东西，我们想要在电脑里写一个抽象的计算器程序，也不会那么难理解，因为它和现实生活相关。可是泛型，它是<strong>对程序的抽象</strong>。程序本来就已经够抽象了，我们还要在它的基础上再做一次抽象。</p><p>这样一来，泛型和我们真实的物理世界差了两层抽象，因此，泛型对于我们人类来说，会显得尤为虚无缥缈。</p><p><img src="https://static001.geekbang.org/resource/image/14/d0/14f371f5352321cb32d085d7ab25dbd0.jpg?wh=2000x797" alt=""></p><p>不过，程序其实也是源自于生活的。所以在这节课里，我会尽量用生活中的例子来给你解释下Kotlin的泛型概念，让你能更直观、更立体地感知到泛型与现实生活的联系，然后，你也能够从这些生活的场景中，更深刻地理解并掌握Kotlin的泛型，从而为你将来构建大型软件打好基础。</p><!-- [[[read_end]]] --><p>好，那么下面，我们就拿“遥控器”这个生活中常见的物件儿，来聊聊它跟“泛型”之间，都能产生哪些联系。</p><h2>掌握泛型基础</h2><p>在现实生活中，我们能看到各式各样的电视机遥控器，比如小米就有1S、2S、3S、4S电视遥控器。</p><p>那么，如果我们将遥控器的概念迁移到程序的世界，我们就需要定义各种各样的“遥控器类”，比如说：</p><pre><code class="language-plain">// 小米1S电视机遥控
 

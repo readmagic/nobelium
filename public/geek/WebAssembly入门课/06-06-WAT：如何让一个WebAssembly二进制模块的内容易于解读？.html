@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是于航。</p><p>在前面的两节课中，我们分别讲解了 Wasm 模块在二进制层面的基本组成结构与数据编码方式。在 04 的结尾，我们还通过一个简单的例子，逐个字节地分析了定义在 C/C++ 源代码中的函数，在被编译到 Wasm 之后所对应的字节码组成结构。</p><p>比如字节码 “0x60 0x2 0x7f 0x7f 0x1 0x7f” ，便表示了 Type Section 中定义的一个函数类型（签名）。而该函数类型为 “接受两个 i32 类型参数，并返回一个 i32 类型值”。</p><p>我相信，无论你对 Wasm 的字节码组成结构、V-ISA 指令集中的各种指令使用方式有多么熟悉，在仅通过二进制字节码来分析一个 Wasm 模块时，都会觉得无从入手。那感觉仿佛是在上古时期时，直接面对着机器码来调试应用程序。那么，有没有一种更为简单、更具有可读性的方式来解读一个 Wasm 模块的内容呢？答案，就在 WAT。</p><h2>WAT（WebAssembly Text Format）</h2><p>首先，我们来直观地感受一下 WAT 的“样貌”。假设我们有如下这样一段 C/C++ 源代码，在这段代码中，我们定义了一个函数 factorial，该函数接受一个 int 类型的整数 n，然后返回该整数所对应的阶乘。现在，我们来将它编译成对应的 WAT 代码。</p><!-- [[[read_end]]] --><pre><code>int factorial(int n) {
 

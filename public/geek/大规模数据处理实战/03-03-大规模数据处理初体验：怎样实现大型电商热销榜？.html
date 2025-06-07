@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是蔡元楠。</p><p>今天我要与你分享的主题是“怎样实现大型电商热销榜”。</p><p>我在Google面试过很多优秀的候选人，应对普通的编程问题coding能力很强，算法数据结构也应用得不错。</p><p>可是当我追问数据规模变大时该怎么设计系统，他们却说不出所以然来。这说明他们缺乏必备的规模增长的技术思维（mindset of scaling）。这会限制这些候选人的职业成长。</p><p>因为产品从1万用户到1亿用户，技术团队从10个人到1000个人，你的技术规模和数据规模都会完全不一样。</p><p>今天我们就以大型电商热销榜为例，来谈一谈从1万用户到1亿用户，从GB数据到PB数据系统，技术思维需要怎样的转型升级？</p><p>同样的问题举一反三，可以应用在淘宝热卖，App排行榜，抖音热门，甚至是胡润百富榜，因为实际上他们背后都应用了相似的大规模数据处理技术。</p><p><img src="https://static001.geekbang.org/resource/image/46/ec/469707990cf33d24d8713efab8fe34ec.png" alt=""></p><p>真正的排序系统非常复杂，仅仅是用来排序的特征（features）就需要多年的迭代设计。</p><p>为了便于这一讲的讨论，我们来构想一个简化的玩具问题，来帮助你理解。</p><p>假设你的电商网站销售10亿件商品，已经跟踪了网站的销售记录：商品id和购买时间 {product_id, timestamp}，整个交易记录是1000亿行数据，TB级。作为技术负责人，你会怎样设计一个系统，根据销售记录统计去年销量前10的商品呢？</p><!-- [[[read_end]]] --><p>举个例子，假设我们的数据是：</p><p><img src="https://static001.geekbang.org/resource/image/bd/9d/bdafa7f74c568c107c38317e0a1a669d.png" alt=""></p><p>我们可以把热销榜按 product_id 排名为：1, 2, 3。</p><h2>小规模的经典算法</h2><p>如果上过极客时间的《数据结构与算法之美》，你可能一眼就看出来，这个问题的解法分为两步：</p><p><img src="https://static001.geekbang.org/resource/image/3e/af/3eaea261df4257f0cff4509d82f211af.png" alt=""></p><p>第一步，统计每个商品的销量。你可以用哈希表（hashtable）数据结构来解决，是一个O(n)的算法，这里n是1000亿。</p><p>第二步，找出销量前十，可以用经典的Top K算法，也是O(n)的算法。</p><p>如果你考虑到了这些，先恭喜你答对了。</p><p>在小规模系统中，我们确实完全可以用经典的算法简洁漂亮地解决。以Python编程的话可能是类似这样的：</p><pre><code>def CountSales(sale_records):
 

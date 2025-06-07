@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是陈航。</p><p>在上一篇文章中，我与你分享了如何在原生混编Flutter工程中管理混合导航栈，应对跨渲染引擎的页面跳转，即解决原生页面如何切换到Flutter页面，以及Flutter页面如何切换到原生页面的问题。</p><p>如果说跨渲染引擎页面切换的关键在于，如何确保页面跳转的渲染体验一致性，那么跨组件（页面）之间保持数据共享的关键就在于，如何清晰地维护组件共用的数据状态了。在第20篇文章“<a href="https://time.geekbang.org/column/article/116382">关于跨组件传递数据，你只需要记住这三招</a>”中，我已经与你介绍了InheritedWidget、Notification和EventBus这3种数据传递机制，通过它们可以实现组件间的单向数据传递。</p><p>如果我们的应用足够简单，数据流动的方向和顺序是清晰的，我们只需要将数据映射成视图就可以了。作为声明式的框架，Flutter可以自动处理数据到渲染的全过程，通常并不需要状态管理。</p><p>但，随着产品需求迭代节奏加快，项目逐渐变得庞大时，我们往往就需要管理不同组件、不同页面之间共享的数据关系。当需要共享的数据关系达到几十上百个的时候，我们就很难保持清晰的数据流动方向和顺序了，导致应用内各种数据传递嵌套和回调满天飞。在这个时候，我们迫切需要一个解决方案，来帮助我们理清楚这些共享数据的关系，于是状态管理框架便应运而生。</p><!-- [[[read_end]]] --><p>Flutter在设计声明式UI上借鉴了不少React的设计思想，因此涌现了诸如flutter_redux、flutter_mobx 、fish_redux等基于前端设计理念的状态管理框架。但这些框架大都比较复杂，且需要对框架设计概念有一定理解，学习门槛相对较高。</p><p>而源自Flutter官方的状态管理框架Provider则相对简单得多，不仅容易理解，而且框架的入侵性小，还可以方便地组合和控制UI刷新粒度。因此，在Google I/O 2019大会一经面世，Provider就成为了官方推荐的状态管理方式之一。</p><p>那么今天，我们就来聊聊Provider到底怎么用吧。</p><h2>Provider</h2><p>从名字就可以看出，Provider是一个用来提供数据的框架。它是InheritedWidget的语法糖，提供了依赖注入的功能，允许在Widget树中更加灵活地处理和传递数据。</p><p>那么，什么是依赖注入呢？通俗地说，依赖注入是一种可以让我们在需要时提取到所需资源的机制，即：预先将某种“资源”放到程序中某个我们都可以访问的位置，当需要使用这种“资源”时，直接去这个位置拿即可，而无需关心“资源”是谁放进去的。</p><p>所以，为了使用Provider，我们需要解决以下3个问题：</p><ul>
 

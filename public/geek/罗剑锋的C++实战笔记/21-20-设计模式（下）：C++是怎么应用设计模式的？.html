@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是Chrono。</p><p>上节课，我谈了设计模式和设计原则。今天，我就具体说说，在C++里，该怎么应用单件、工厂、适配器、代理、职责链等这些经典的设计模式，用到的有call_once()、make_unique()、async()等C++工具，希望能够给你一些在实际编码时的启发。</p><p>（在接下来学的时候，你也可以同时思考一下它们都符合哪些设计原则，把设计模式和设计原则结合起来学习。）</p><h2>创建型模式</h2><p>首先来看看创建型模式，<strong>它隐藏了类的实例化过程和细节，让对象的创建独立于系统的其他部分</strong>。</p><p>创建型模式不多，一共有5个，我觉得最有用的是<strong>单件和工厂</strong>。</p><p><img src="https://static001.geekbang.org/resource/image/9e/34/9e859a3bba338b1c4eff565d87a63834.jpg" alt=""></p><p>单件很简单，要点在于控制对象的创建数量，只能有一个实例，就像是公司的CEO一样，有且唯一。</p><p>关于它的使用方式、应用场景，存在着一些争议，但我个人觉得，它很好地体现了设计模式的基本思想，足够简单，可以作为范例，用来好好学习模式里的各个要素。</p><p>关于单件模式，一个“老生常谈”的话题是“双重检查锁定”，你可能也有所了解，它可以用来避免在多线程环境里多次初始化单件，写起来特别繁琐。</p><p>使用<a href="https://time.geekbang.org/column/article/245259">第14讲</a>里提到的call_once，可以很轻松地解决这个问题，但如果你想要更省事的话，其实在C++里还有一种方法（C++ 11之后），就是<strong>直接使用函数内部的static静态变量</strong>。C++语言会保证静态变量的初始化是线程安全的，绝对不会有线程冲突。比如：</p><!-- [[[read_end]]] --><pre><code>auto&amp; instance()    // 生产单件对象的函数
 

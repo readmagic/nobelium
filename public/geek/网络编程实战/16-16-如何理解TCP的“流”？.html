@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是盛延敏，这里是网络编程实战第16讲，欢迎回来。</p><p>上一讲我们讲到了使用SO_REUSEADDR套接字选项，可以让服务器满足快速重启的需求。在这一讲里，我们回到数据的收发这个主题，谈一谈如何理解TCP的数据流特性。</p><h2>TCP是一种流式协议</h2><p>在前面的章节中，我们讲的都是单个客户端-服务器的例子，可能会给你造成一种错觉，好像TCP是一种应答形式的数据传输过程，比如发送端一次发送network和program这样的报文，在前面的例子中，我们看到的结果基本是这样的：</p><p>发送端：network ----&gt; 接收端回应：Hi, network</p><p>发送端：program -----&gt; 接收端回应：Hi, program</p><p>这其实是一个假象，之所以会这样，是因为网络条件比较好，而且发送的数据也比较少。</p><p>为了让大家理解TCP数据是流式的这个特性，我们分别从发送端和接收端来阐述。</p><p>我们知道，在发送端，当我们调用send函数完成数据“发送”以后，数据并没有被真正从网络上发送出去，只是从应用程序拷贝到了操作系统内核协议栈中，至于什么时候真正被发送，取决于发送窗口、拥塞窗口以及当前发送缓冲区的大小等条件。也就是说，我们不能假设每次send调用发送的数据，都会作为一个整体完整地被发送出去。</p><!-- [[[read_end]]] --><p>如果我们考虑实际网络传输过程中的各种影响，假设发送端陆续调用send函数先后发送network和program报文，那么实际的发送很有可能是这个样子的。</p><p>第一种情况，一次性将network和program在一个TCP分组中发送出去，像这样：</p><pre><code>...xxxnetworkprogramxxx...
 

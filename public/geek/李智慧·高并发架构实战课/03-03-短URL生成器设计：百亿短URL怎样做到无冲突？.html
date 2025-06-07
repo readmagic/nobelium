@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是李智慧。</p><p>从这节课开始，我们将结合具体的案例，来看看怎么设计高并发系统，你也可以学习具体的软件设计文档写法了。这个模块，我们先来看看，当高并发遇到海量数据处理时的架构。</p><p>在社交媒体上，人们经常需要分享一些URL，但是有些URL可能会很长，比如：<code>https://time.geekbang.org/hybrid/pvip?utm_source=geektime-pc-discover-banner&amp;utm_term=geektime-pc-discover-banner </code></p><p>这样长的URL显然体验并不友好。我们期望分享的是一些更短、更易于阅读的短URL，比如像 <code>http://1.cn/ScW4dt</code> 这样的。当用户点击这个短URL的时候，可以重定向访问到原始的链接地址。为此我们将设计开发一个短URL生成器，产品名称是“Fuxi（伏羲）”。</p><p>我们预计Fuxi需要管理的短URL规模在百亿级别，并发吞吐量达到数万级别。这个量级的数据对应的存储方案是什么样的？用传统的关系数据库存储，还是有其他更简单的办法？此外，如何提升系统的并发处理能力呢？这些是我们今天要重点考虑的问题。</p><h2>需求分析</h2><p>短URL生成器，也称作短链接生成器，就是将一个比较长的URL生成一个比较短的URL，当浏览器通过短URL生成器访问这个短URL的时候，重定向访问到原始的长URL目标服务器，访问时序图如下。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/1e/1a/1e72b4e05d0884718b5a7ee2058a061a.jpg?wh=1920x873" alt="图片"></p><p>对于需要展示短URL的应用程序，由该应用调用短URL生成器生成短URL，并将该短URL展示给用户，用户在浏览器中点击该短URL的时候，请求发送到短URL生成器（短URL生成器以HTTP服务器的方式对外提供服务，短URL域名指向短URL生成器），短URL生成器返回HTTP重定向响应，将用户请求重定向到最初的原始长URL，浏览器访问长URL服务器，完成请求服务。</p><p><strong>短URL生成器的用例图</strong></p><p><img src="https://static001.geekbang.org/resource/image/79/5f/79b4e289b47b98e796a5b86d6d378b5f.jpg?wh=1920x873" alt="图片"></p><ol>
 

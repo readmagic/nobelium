@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是蔡元楠。</p><p>今天我要与你分享的主题是“Pipeline：Beam如何抽象多步骤的数据流水线”。</p><p>在上两讲中，我们一起学习了Beam是如何抽象封装数据，以及如何抽象对于数据集的转换操作的。在掌握了这两个基本概念后，我们就可以很好地回答Beam编程模型里的4个维度What、Where、When、How中的第一个问题——What了。也就是，我们要做什么计算？想得到什么样的结果？</p><p><img src="https://static001.geekbang.org/resource/image/71/bb/71c8ace006d56d7f6fe93cbc56dc91bb.png" alt="unpreview"></p><p>这个时候你可能已经跃跃欲试，开始想用PCollection和Transform解决我们平常经常会使用到的批处理任务了。没有问题，那我们就先抛开Where、When和How这三个问题，由简至繁地讲起。</p><p>现在假设我们的数据处理逻辑只需要处理有边界数据集，在这个情况下，让我们一起来看看Beam是如何运行一套批处理任务的。</p><h2>数据流水线</h2><p>在Beam的世界里，所有的数据处理逻辑都会被抽象成<strong>数据流水线（Pipeline）</strong>来运行。那么什么是数据流水线呢？</p><p>Beam的数据流水线是对于数据处理逻辑的一个封装，它包括了从<strong>读取数据集</strong>，<strong>将数据集转换成想要的结果</strong>和<strong>输出结果数据集</strong>这样的一整套流程。</p><p>所以，如果我们想要跑自己的数据处理逻辑，就必须在程序中创建一个Beam数据流水线出来，比较常见的做法是在main()函数中直接创建。</p><!-- [[[read_end]]] --><p>Java</p><pre><code>PipelineOptions options = PipelineOptionsFactory.create();
 

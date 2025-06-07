@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是倪朋飞。</p><p>在正式介绍 eBPF 的使用方法和具体应用之前，我会用两讲的内容，带你了解eBPF的技术脉络和学习路线，为你后面的学习做好准备。</p><p>在开篇词里，我带你一起了解了这门课的设计思路和主要内容，也简单介绍了 eBPF 的主要应用场景，包括故障诊断、网络优化、安全控制、性能监控等。那你可能就要问了：为什么 eBPF 可以应用到这么广泛的领域呢？</p><p>eBPF 广泛的应用场景和强大的功能，跟它的发展历程、基本原理密切相关。那么，eBPF 的发展历程是什么样的？它又是如何在确保安全的前提下，允许非内核开发者去扩展内核的功能的呢？今天，我就带你一起来看看这些问题。</p><h2>eBPF 的发展历程是什么样的?</h2><p>在开篇词中，我曾经提到，eBPF 是从 BPF (Berkeley Packet Filter) 技术扩展而来的。而说起 BPF，它的历史就更悠长了。</p><p>早在 1992 年的 USENIX 会议上，Steven McCanne 和 Van Jacobson 发布的论文“<a href="https://www.tcpdump.org/papers/bpf-usenix93.pdf">The BSD Packet Filter: A New Architecture for User-level Packet Capture</a>” 就为 BSD 操作系统带来了革命性的包过滤机制 BSD Packet Filter（简称为 BPF），这比当时最先进的数据包过滤技术还快 20 倍。为什么性能这么好呢？这主要得益于 BPF 的两大设计：</p><!-- [[[read_end]]] --><ul>
 

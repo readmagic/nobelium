@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是吴磊。</p><p>DPP（Dynamic Partition Pruning，动态分区剪裁）是Spark 3.0版本中第二个引人注目的特性，它指的是在星型数仓的数据关联场景中，可以充分利用过滤之后的维度表，大幅削减事实表的数据扫描量，从整体上提升关联计算的执行性能。</p><p>今天这一讲，我们就通过一个电商场景下的例子，来说说什么是分区剪裁，什么是动态分区剪裁，它的作用、用法和注意事项，让你一次就学会怎么用好DPP。</p><h2>分区剪裁</h2><p>我们先来看这个例子。在星型（Start Schema）数仓中，我们有两张表，一张是订单表orders，另一张是用户表users。显然，订单表是事实表（Fact），而用户表是维度表（Dimension）。业务需求是统计所有头部用户贡献的营业额，并按照营业额倒序排序。那这个需求该怎么实现呢？</p><p>首先，我们来了解一下两张表的关键字段，看看查询语句应该怎么写。</p><pre><code>// 订单表orders关键字段
 

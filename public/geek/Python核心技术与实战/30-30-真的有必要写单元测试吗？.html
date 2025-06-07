@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是景霄。</p><p>说到unit test（即单元测试，下文统一用中文称呼），大部分人的反应估计有这么两种：要么就是，单元测试啊，挺简单的呀，做不做无所谓吧；要么就是，哎呀，项目进度太赶，单元测试拖一拖之后再来吧。</p><p>显然，这两种人，都没有正确认识到单元测试的价值，也没能掌握正确的单元测试方法。你是不是觉得自己只要了解Python的各个feature，能够编写出符合规定功能的程序就可以了呢？</p><p>其实不然，完成产品的功能需求只是很基础的一部分，如何保证所写代码的稳定、高效、无误，才是我们工作的关键。而学会合理地使用单元测试，正是帮助你实现这一目标的重要路径。</p><p>我们总说，测试驱动开发（TDD）。今天我就以Python为例，教你设计编写Python的单元测试代码，带你熟悉并掌握这一重要技能。</p><h2>什么是单元测试？</h2><p>单元测试，通俗易懂地讲，就是编写测试来验证某一个模块的功能正确性，一般会指定输入，验证输出是否符合预期。</p><p>实际生产环境中，我们会对每一个模块的所有可能输入值进行测试。这样虽然显得繁琐，增加了额外的工作量，但是能够大大提高代码质量，减小bug发生的可能性，也更方便系统的维护。</p><p>说起单元测试，就不得不提 <a href="https://docs.python.org/3/library/unittest.html">Python unittest库</a>，它提供了我们需要的大多数工具。我们来看下面这个简单的测试，从代码中了解其使用方法：</p><!-- [[[read_end]]] --><pre><code>import unittest
 

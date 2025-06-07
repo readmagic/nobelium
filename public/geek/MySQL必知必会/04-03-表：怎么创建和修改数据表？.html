@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱晓峰。今天，我们来聊一聊怎么创建和修改数据表。</p><p>创建和修改数据表，是数据存储过程中的重要一环。我们不仅需要把表创建出来，还需要正确地设置限定条件，这样才能确保数据的一致性和完整性。同时，表中的数据会随着业务需求的变化而变化，添加和修改相应的字段也是常见的操作。这节课，我们就来学习下具体的方法。</p><p>在我们的超市项目里，客户经常需要进货，这就需要在MySQL数据库里面创建一个表，来管理进货相关的数据。我们先看看这个表里有什么内容。</p><p>假设这个表叫做进货单头表（importhead），如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/83/ff/83c593cb7679ed5f99c29d937712c8ff.jpg?wh=3883*1057" alt=""></p><p>这里的1、2、3表示门店的3种进货方式，分别是配送中心配送、门店采买和供货商直供。</p><p>其中，“1（配送中心配送）”是标准进货方式。因为超市是连锁经营，为了确保商品质量和品类一致，超过9成的门店进货，是通过配送中心进行配送的。因此，我们希望这个字段的值能够默认是1，这样一来，除非有特别的指定，否则，门店进货单的进货方式，就自动设置成“1”了。</p><p>现在，客户需要一个类似的表来存储进货数据，而且进货方式还有3个可能的取值范围，需要设置默认值，那么，应该怎么创建这个表呢？另外，创建好表以后，又该怎么进行修改呢？</p><h2>如何创建数据表？</h2><!-- [[[read_end]]] --><p>首先，我们要知道MySQL创建表的语法结构：</p><pre><code>CREATE TABLE &lt;表名&gt;
 

@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是聂鹏程。今天，我来继续带你打卡分布式核心技术。</p><p>在前面三个模块中，我带你学习了分布式领域中的分布式协调与同步、分布式资源管理与负载调度，以及分布式计算技术，相信你对分布式技术已经有了一定的了解。</p><p>通过前面的学习，不知道你有没有发现分布式的本质就是多进程协作，共同完成任务。要协作，自然免不了通信。那么，多个进程之间是如何通信的呢？这也就是在“第四站：分布式通信技术”模块中，我将要为你讲解的问题。</p><p>话不多说，接下来我们就一起进入分布式通信的世界吧。今天，我首先带你打卡的是，分布式通信中的远程调用。</p><h2>什么是远程调用？</h2><p>首先，我通过一个例子，来让你对远程调用和本地调用有一个直观了解。</p><p>以电商购物平台为例，每一笔交易都涉及订单系统、支付系统和库存系统，假设三个系统分别部署在三台机器A、B、C中独立运行，订单交易流程如下所示：</p><ol>
 

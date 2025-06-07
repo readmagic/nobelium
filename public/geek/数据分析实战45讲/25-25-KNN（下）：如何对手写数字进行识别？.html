@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>今天我来带你进行KNN的实战。上节课，我讲了KNN实际上是计算待分类物体与其他物体之间的距离，然后通过统计最近的K个邻居的分类情况，来决定这个物体的分类情况。</p><p>这节课，我们先看下如何在sklearn中使用KNN算法，然后通过sklearn中自带的手写数字数据集来进行实战。</p><p>之前我还讲过SVM、朴素贝叶斯和决策树分类，我们还可以用这个数据集来做下训练，对比下这四个分类器的训练结果。</p><h2>如何在sklearn中使用KNN</h2><p>在Python的sklearn工具包中有KNN算法。KNN既可以做分类器，也可以做回归。如果是做分类，你需要引用：</p><pre><code>from sklearn.neighbors import KNeighborsClassifier
 

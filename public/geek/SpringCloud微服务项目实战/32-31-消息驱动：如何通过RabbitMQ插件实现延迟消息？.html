@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是姚秋辰。</p><p>在平时网购的时候，你一定有过下单之后忘记付款的情况，等到再回过头想起要付款，发现订单已经被关闭了，很多网购流程里都有类似的“订单超时关闭”功能。相类似的功能还有“自动确认收货”，如果在一定时间内买家都没有点击确认收货按钮，那么系统会自动确认收货并且将订单款项打给卖家。</p><p>我举的这两个例子都有一个共同的特征，那就是业务逻辑会预设在未来的某一个时间点被触发。在早期我们经常会使用TTL+死信队列的方式来实现这种定时事件，通过设置一个正常的消息队列并使用TTL指定超时时间，如果队列中的消息超时了，它就会被DLX（死信交换机）转向死信队列。借助这种曲线救国的方式，你就可以通过MQ组件实现“定时消息”。</p><p>相比于TTL+DLX，RabbitMQ提供了一种更为优雅的方式来实现这类业务。在这节课中，我将带你使用RabbitMQ的延迟消息插件，实现延迟发放优惠券的场景。</p><p>那么首先，我们先来安装这个延迟消息插件吧。</p><h2>安装插件</h2><p>你需要先打开RabbitMQ官网并进入到<a href="https://www.rabbitmq.com/community-plugins.html">插件下载页面</a>，在页面中定位到<strong>rabbitmq_delayed_message_exchange这个插件。</strong></p><p><img src="https://static001.geekbang.org/resource/image/b8/04/b8c1ee9769b005bb8eb3932b72yy7e04.png?wh=1914x352" alt="图片"></p><p>点击插件上的“Releases”链接，你可以看到适配不同RabbitMQ版本的延迟消息插件。我本地安装的的RabbitMQ版本是3.9.8，最新的延迟消息插件的版本是3.9.0，它可以适配3.9.X系列的RMQ组件，所以我建议你下载3.9.0版本对应的rabbitmq_delayed_message_exchange-3.9.0.ez安装包。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/60/c5/605281d670ff9f4ba66638f9b99d6bc5.png?wh=1850x742" alt="图片"></p><p>接下来，你需要把安装包的后缀名从.ez改成.zip，然后使用解压缩工具对安装包进行解压。再把解压后的文件复制到RabbitMQ安装路径下的plugins文件夹。以我的本地MAC环境为例，plugins目录位于/usr/local/Cellar/rabbitmq/3.9.8/plugins，你需要根据自己的操作系统和安装路径找到对应的目录。</p><p>然后，你需要执行下面这行rabbitmq-plugins命令，通过人工的方式启动rabbitmq_delayed_message_exchange插件。</p><pre><code class="language-json">rabbitmq-plugins enable rabbitmq_delayed_message_exchange
 

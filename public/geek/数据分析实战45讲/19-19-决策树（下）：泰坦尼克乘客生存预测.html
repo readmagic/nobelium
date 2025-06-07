@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在前面的两篇文章中，我给你讲了决策树算法。决策树算法是经常使用的数据挖掘算法，这是因为决策树就像一个人脑中的决策模型一样，呈现出来非常直观。基于决策树还诞生了很多数据挖掘算法，比如随机森林（Random forest）。</p><p>今天我来带你用决策树进行项目的实战。</p><p>决策树分类的应用场景非常广泛，在各行各业都有应用，比如在金融行业可以用决策树做贷款风险评估，医疗行业可以用决策树生成辅助诊断，电商行业可以用决策树对销售额进行预测等。</p><p>在了解决策树的原理后，今天我们用sklearn工具解决一个实际的问题：泰坦尼克号乘客的生存预测。</p><h2>sklearn中的决策树模型</h2><p>首先，我们需要掌握sklearn中自带的决策树分类器DecisionTreeClassifier，方法如下：</p><pre><code>clf = DecisionTreeClassifier(criterion='entropy')
 

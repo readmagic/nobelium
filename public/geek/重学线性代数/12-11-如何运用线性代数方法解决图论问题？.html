@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱维刚。欢迎你继续跟我学习线性代数，今天我要讲的内容是“如何运用线性代数方法解决图论问题”。</p><p>“图”这个字在计算机科学领域很常见，特别是在数据结构中。一说到图，是必定要联系到图论（Graph Theory）的，因为它是以图为研究对象的数学的一个分支。图论中的图，是由若干给定的<strong>点</strong>及连接两点的<strong>线</strong>所构成的图形，这种图形通常用来描述某些事物之间的某种特定关系，用点代表事物，用连接两点的线表示相应两个事物间具有这种关系。</p><p>说到这，你也许会问，这个和线性代数、矩阵有什么关系？</p><h2>图的数学定义</h2><p>既然是数学课，我们还是要先讲一下图的数学定义：一个图$G$是指一个有序三元组$(V, E, \phi)$，$V$是非空的顶点集；$E$是不与$V$相交的边集；$\phi$是关联函数，它使$G$的每条边对应于$G$的无序顶点对。如果$e$是一条边，$u$和$v$是顶点，使得$\phi(e)=u v$，则$e$连接$u$和$v$，也就是顶点$u$和$v$是$e$的端点。</p><!-- [[[read_end]]] --><p>好了，现在是时候通过两个应用场景来看下，如何把矩阵和图论关联起来，并运用在解决实际问题中了。</p><h2>邻接矩阵应用</h2><p>首先，是邻接矩阵（Adjacency Matrix），邻接矩阵是表示顶点之间相邻关系的矩阵。假设$G$是一个图，$V(G)$是$G$的顶点集，$E(G)$是$G$的边集，设$G$中有$n$个顶点，$v_{1}, v_{2}, \ldots, v_{n}$，$A=(a_{ij})_{n×n}$是$G$的邻接矩阵。</p><p>$$a_{i}=\left\{\begin{array}{l}<br>
 

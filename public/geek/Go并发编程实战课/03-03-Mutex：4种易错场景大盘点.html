@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是鸟窝。</p><p>上一讲，我带你一起领略了Mutex的架构演进之美，现在我们已经清楚Mutex的实现细节了。当前Mutex的实现貌似非常复杂，其实主要还是针对饥饿模式和公平性问题，做了一些额外处理。但是，我们在第一讲中已经体验过了，Mutex使用起来还是非常简单的，毕竟，它只有Lock和Unlock两个方法，使用起来还能复杂到哪里去？</p><p>正常使用Mutex时，确实是这样的，很简单，基本不会有什么错误，即使出现错误，也是在一些复杂的场景中，比如跨函数调用Mutex或者是在重构或者修补Bug时误操作。但是，我们使用Mutex时，确实会出现一些Bug，比如说忘记释放锁、重入锁、复制已使用了的Mutex等情况。那在这一讲中，我们就一起来看看使用Mutex常犯的几个错误，做到“Bug提前知，后面早防范”。</p><h1>常见的4种错误场景</h1><p>我总结了一下，使用Mutex常见的错误场景有4类，分别是Lock/Unlock不是成对出现、Copy已使用的Mutex、重入和死锁。下面我们一一来看。</p><h2>Lock/Unlock不是成对出现</h2><p>Lock/Unlock没有成对出现，就意味着会出现死锁的情况，或者是因为Unlock一个未加锁的Mutex而导致panic。</p><!-- [[[read_end]]] --><p>我们先来看看缺少Unlock的场景，常见的有三种情况：</p><ol>
 

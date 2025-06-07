@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>在上一篇文章中，我们已经讲了监控系统层面的分析思路以及CPU分析，今天我们分析一下操作系统中其他的层面。</p><p>首先是I/O。</p><h2>I/O</h2><p>I/O其实是挺复杂的一个逻辑，但我们今天只说在做性能分析的时候，应该如何定位问题。</p><p>对性能优化比较有经验的人（或者说见过世面比较多的人）都会知道，当一个系统调到非常精致的程度时，基本上会卡在两个环节上，对计算密集型的应用来说，会卡在CPU上；对I/O密集型的应用来说，瓶颈会卡在I/O上。</p><p>我们对I/O的判断逻辑关系是什么呢？</p><p>我们先画一个I/O基本的逻辑过程。我们很多人嘴上说I/O，其实脑子里想的都是Disk I/O，但实际上一个数据要想写到磁盘当中，没那么容易，步骤并不简单。</p><p><img src="https://static001.geekbang.org/resource/image/0b/0c/0b8dd1fa8ddda518e666546205d9170c.jpg?wh=1632*1729" alt=""></p><p>这个简化的图是思虑再三的结果。</p><p>I/O有很多原理细节，那我们如何能快速地做出相应的判断呢？首先要祭出的一个工具就是<code>iostat</code>。</p><p><img src="https://static001.geekbang.org/resource/image/b8/31/b8de645585fa5804e26929c88c579031.png?wh=720*405" alt=""></p><p>在这张图中，我们取出一条数据来做详细看下：</p><pre><code>Device:   rrqm/s   wrqm/s     r/s     w/s    rkB/s    wkB/s  avgrq-sz
 

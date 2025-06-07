@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是郑晔。</p><p>我前面课程讲的所有坏味道都是告诉你如何在已有的代码中发现问题。不过你要明白，即便我们能够极尽所能把代码写整洁，规避各种坏味道，但我们小心翼翼维护的代码，还是可能因为新的需求到来，不经意间就会破坏。</p><p>一个有生命力的代码不会保持静止，新的需求总会到来，所以，<strong>写代码时需要时时刻刻保持嗅觉。</strong></p><p>这一讲加餐，我来给你讲讲两个发生在真实项目中的故事。</p><h2>一次驳回的实现</h2><p>我们的系统里有这样一个功能，内容作品提交之后要由相应的编辑进行审核。既然有审核，自然就有审核通过和不通过的情况，这是系统中早早开发完成的功能。</p><p>有一天，新的需求来了：驳回审核通过的章节，让作品的作者重新修改。造成作品需要驳回的原因有很多，比如，审核标准的调整，这就会导致原先通过审核的作品又变得不合格了。</p><p>在实现这个需求之前，我们先来看看代码库里已经有怎样的基础。</p><p>首先，系统里已经有了审核通过和审核不通过的接口。</p><pre><code>PUT /chapter/{chapterId}/review
 

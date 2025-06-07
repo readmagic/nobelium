@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是鸟窝。</p><p>前一讲，我介绍了Channel的基础知识，并且总结了几种应用场景。这一讲，我将通过实例的方式，带你逐个学习Channel解决这些问题的方法，帮你巩固和完全掌握它的用法。</p><p>在开始上课之前，我先补充一个知识点：通过反射的方式执行select语句，在处理很多的case clause，尤其是不定长的case clause的时候，非常有用。而且，在后面介绍任务编排的实现时，我也会采用这种方法，所以，我先带你具体学习下Channel的反射用法。</p><h1>使用反射操作Channel</h1><p>select语句可以处理chan的send和recv，send和recv都可以作为case clause。如果我们同时处理两个chan，就可以写成下面的样子：</p><pre><code>    select {
 

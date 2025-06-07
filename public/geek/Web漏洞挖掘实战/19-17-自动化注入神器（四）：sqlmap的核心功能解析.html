@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王昊天。</p><p>在上节课中，我们重点学习了sqlmap中一个非常重要的算法——页面相似度算法。相信你对页面相似度这个概念会有更加清晰的认知，不但知道它是什么含义，而且知道它是如何计算出来的。解决了这个大难点之后，我在上节课的结尾提出了一个空连接检测功能，有了它，sqlmap就可以大大提高执行效率。完成了检测，sqlmap就进入到实际的SQL注入测试阶段了。</p><p>在SQL注入测试阶段，系统首先会检测有哪些注入点，然后对这些注入点逐一发送合适的payload，检测注入是否成功。如果注入成功，那么系统会将注入点存储下来，最后对它们进行输出。</p><p>这节课，我们就来正式学习sqlmap的SQL注入测试过程。</p><h2>注入点检测</h2><p>在SQL正式注入测试之前，sqlmap会对每个目标的参数进行过滤。将那些非动态的，不存在注入可能的参数剔除掉，留下可能的注入点。这样sqlmap仅需要对这些可能的注入点进行正式的注入测试即可。</p><h3>动态参数检测</h3><p>我们首先来看sqlmap是如何检测动态参数的。这部分代码依旧在start函数中，紧接着空连接检测出现。</p><pre><code class="language-python"># sqlmap首先对所有可用于注入测试的参数进行简单的优先级排序。
 

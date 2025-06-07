@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王昊天。</p><p>在上节课中，我们认识了一款自动化注入测试工具sqlmap，并对它的初始化过程有了深入了解。在完成了初始化之后，大部分软件就会开始进入正式的工作流程了，而这节课，我们就将开始学习sqlmap的工作流程。</p><p>在介绍sqlmap的工作流程之前，你可以先思考一个问题，我们平时是如何进行SQL注入测试的？如果让你来设计一个自动化注入测试工具，将平时手动实现的SQL注入测试步骤转化为机器的自动化实现，会遇到什么困难吗？</p><p>自动化注入的主要难点与人工注入会有一些差异，比如，人工很容易判断目标是否受到waf保护，也可以更好地观测注入结果，而让机器做同样的事情，则是一件不容易的事情。</p><p>对于人工而言，你可以发送一个容易被waf拦截的payload，通过这样的方式来观察页面的响应，进而判断waf是否存在。可是机器要如何实现呢？相信学完这篇课程，你可以解决这个问题。</p><p>在上一节课中，我们对sqlmap.py中的main函数进行了拆解，具体分析了init函数的主要功能，而init函数之后，就是start函数 。所以在这节课程中，我们会接着上一节课的内容，继续分析sqlmap.py中的main函数，主要讲解start函数实现的功能和方法。</p><!-- [[[read_end]]] --><h2>start函数</h2><p>在系统运行完sqlmap的初始化流程后，就会进入到start函数中，也就是我们这节课需要学习的主要内容。为了方便大家理解，可以将它主要分为四个部分，即准备工作、循环遍历目标、处理输入参数，以及判断waf的存在。</p><p>这是我绘制的一幅start函数拆解图，图中解释了四个部分分别做了哪些工作。</p><p><img src="https://static001.geekbang.org/resource/image/5b/6d/5bdfb19549a69df4603b542db49edc6d.png?wh=1241x1029" alt="图片"></p><p>为了让你更好的理解start函数的功能，下面我们一起来看看start函数的内容。</p><pre><code class="language-python">@stackedmethod
 

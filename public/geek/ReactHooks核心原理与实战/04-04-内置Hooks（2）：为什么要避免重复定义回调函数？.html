@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是王沛。这节课我们来继续学习内置 Hooks 的用法。</p><p>在上节课你已经看到了 useState 和 useEffect 这两个最为核心的 Hooks 的用法。理解了它们，你基本上就掌握了 React 函数组件的开发思路。</p><p>但是还有一些细节问题，例如事件处理函数会被重复定义、数据计算过程没有缓存等，还都需要一些机制来处理。所以在这节课，你会看到其它四个最为常用的内置 Hooks （包括useCallback、useMemo、useRef和useContext）的作用和用法，以及如何利用这些 Hooks 进行功能开发。</p><h1>useCallback：缓存回调函数</h1><p>在 React 函数组件中，每一次 UI 的变化，都是通过重新执行整个函数来完成的，这和传统的 Class 组件有很大区别：函数组件中并没有一个直接的方式在多次渲染之间维持一个状态。</p><p>比如下面的代码中，我们在加号按钮上定义了一个事件处理函数，用来让计数器加1。但是因为定义是在函数组件内部，因此在多次渲染之间，是无法重用 handleIncrement 这个函数的，而是每次都需要创建一个新的：</p><pre><code>function Counter() {
 

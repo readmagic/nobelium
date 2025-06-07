@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是胡夕。今天我要跟你分享的主题是：如何重设消费者组位移。</p><h2>为什么要重设消费者组位移？</h2><p>我们知道，Kafka和传统的消息引擎在设计上是有很大区别的，其中一个比较显著的区别就是，Kafka的消费者读取消息是可以重演的（replayable）。</p><p>像RabbitMQ或ActiveMQ这样的传统消息中间件，它们处理和响应消息的方式是破坏性的（destructive），即一旦消息被成功处理，就会被从Broker上删除。</p><p>反观Kafka，由于它是基于日志结构（log-based）的消息引擎，消费者在消费消息时，仅仅是从磁盘文件上读取数据而已，是只读的操作，因此消费者不会删除消息数据。同时，由于位移数据是由消费者控制的，因此它能够很容易地修改位移的值，实现重复消费历史数据的功能。</p><p>对了，之前有很多同学在专栏的留言区提问：在实际使用场景中，我该如何确定是使用传统的消息中间件，还是使用Kafka呢？我在这里统一回答一下。如果在你的场景中，消息处理逻辑非常复杂，处理代价很高，同时你又不关心消息之间的顺序，那么传统的消息中间件是比较合适的；反之，如果你的场景需要较高的吞吐量，但每条消息的处理时间很短，同时你又很在意消息的顺序，此时，Kafka就是你的首选。</p><!-- [[[read_end]]] --><h2>重设位移策略</h2><p>不论是哪种设置方式，重设位移大致可以从两个维度来进行。</p><ol>
 

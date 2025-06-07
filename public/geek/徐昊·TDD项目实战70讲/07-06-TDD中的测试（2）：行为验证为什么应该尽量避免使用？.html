@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是徐昊。今天我们来继续学习测试驱动开发中的测试。</p><p>上节课我们介绍了测试的基础结构——四阶段测试。也就是将每个测试都看作四个依次执行的阶段：初始化、执行测试、验证结果和复原。并且，我们着重介绍了该如何使用状态验证来验证测试的结果。那么这节课，我们将介绍另一种验证方式——行为验证。以及为什么你应该尽量避免使用它。</p><h2>验证结果——行为验证</h2><p>行为验证是指通过待测系统与依赖组件（Depended On Component）的交互，来判断待测系统是否满足需求的验证方式。其验证方式如下图所示：</p><p><img src="https://static001.geekbang.org/resource/image/dc/81/dc38c422387a97b92e9f4247e9848181.jpg?wh=6104x3295" alt=""></p><p>行为验证背后的逻辑是，状态的改变是由交互引起的。如果所有的交互都正确，那么就可以<strong>推断</strong>最终的状态也不会错。例如，对于如下的代码：</p><pre><code>interface Counter {
 

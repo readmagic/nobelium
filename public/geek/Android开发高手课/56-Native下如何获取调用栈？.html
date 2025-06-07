@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是simsun，曾在微信从事Android开发，也是开源爱好者、Rust语言“铁粉”。应绍文邀请，很高兴可以在“高手课”里和你分享一些编译方面的底层知识。</p><p>当我们在调试Native崩溃或者在做profiling的时候是十分依赖backtrace的，高质量的backtrace可以大大减少我们修复崩溃的时间。但你是否了解系统是如何生成backtrace的呢？今天我们就来探索一下backtrace背后的故事。</p><p>下面是一个常见的Native崩溃。通常崩溃本身并没有任何backtrace信息，可以直接获得的就是当前寄存器的值，但显然backtrace才是能够帮助我们修复Bug的关键。</p><pre><code>pid: 4637, tid: 4637, name: crasher  &gt;&gt;&gt; crasher &lt;&lt;&lt;
 

@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是胜辉。</p><p>在前面三节课里，我带你排查了HTTP协议相关的问题。不知你有没有注意到，这三个案例里的HTTP都没有做加密，这就使得我们的排查工作省去了不少的麻烦，在抓包文件里直接就可以看清楚应用层的信息了。但在现实场景下，越来越多的站点已经做了HTTPS加密，所以像前面的三讲那样，在Wireshark里直接看到应用层信息的情况，已经越来越少了。</p><p>根据w3techs.com的<a href="https://w3techs.com/technologies/details/ce-httpsdefault">调查数据</a>，目前Internet上78%以上的站点，都默认使用了HTTPS。显而易见，要对Internet上的问题做应用层方面的分析，TLS是一道绕不开的坎。</p><p>那你可能会问了：“我主要处理内网的问题，应该不用关心太多HTTPS的事了吧？”</p><p>这句话也许目前还勉强算对，但是随着各大企业不断推进零信任（<a href="https://en.wikipedia.org/wiki/Zero_trust_security_model">Zero Trust</a>）安全策略，越来越多的内网流量也终将运行在HTTPS上，内网和公网将没有区别。</p><p>所以说，掌握HTTPS/TLS的相关知识和排查技巧，对于我们开展网络排查来说，是一项必备的技能了。</p><p>那么接下来的两节课，我们会集中到HTTPS/TLS这个主题上，来全面学习一下它的工作原理、常见问题和排查思路。这样以后面临HTTPS/TLS的问题时，你就可以运用这两讲里学到的知识和方法，展开排查工作了。</p><!-- [[[read_end]]] --><h2>什么是HTTPS？</h2><p>首先我们要认识一下HTTPS。它其实不是某个独立的协议，而是HTTP over TLS，也就是把HTTP消息用TLS进行加密传输。两者相互协同又各自独立，依然遵循了网络分层模型的思想：</p><p><img src="https://static001.geekbang.org/resource/image/e8/72/e84ea94b614dcb227ecfeeb158cc9a72.jpg?wh=2000x1125" alt=""></p><blockquote>
 

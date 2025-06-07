@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是朱晓峰。</p><p>在我们的超市信息系统刚刚开始运营的时候，因为数据量很少，每一次的查询都能很快拿到结果。但是，系统运转时间长了以后，数据量不断地累积，变得越来越庞大，很多查询的速度就变得特别慢。这个时候，我们就采用了MySQL 提供的高效访问数据的方法—— 索引，有效地解决了这个问题，甚至之前的一个需要8秒钟才能完成的查询，现在只用0.3秒就搞定了，速度提升了20多倍。</p><p>那么，索引到底是啥呢？该怎么使用呢？这节课，我们就来聊一聊。</p><h1>索引是什么？</h1><p>如果你去过图书馆，应该会知道图书馆的检索系统。图书馆为图书准备了检索目录，包括书名、书号、对应的位置信息，包括在哪个区、哪个书架、哪一层。我们可以通过书名或书号，快速获知书的位置，拿到需要的书。</p><p>MySQL中的索引，就相当于图书馆的检索目录，它是帮助MySQL系统快速检索数据的一种存储结构。我们可以在索引中按照查询条件，检索索引字段的值，然后快速定位数据记录的位置，这样就不需要遍历整个数据表了。而且，数据表中的字段越多，表中数据记录越多，速度提升越是明显。</p><p>我来举个例子，进一步解释下索引的作用。这里要用到销售流水表（demo.trans），表结构如下：</p><pre><code>mysql&gt; describe demo.trans;
 

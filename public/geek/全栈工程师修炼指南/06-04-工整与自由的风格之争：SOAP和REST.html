@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是四火。</p><p>今天我要邀请两位风格迥异的主角登上舞台，一位西装革履，另一位随性洒脱。前面那位，代表着工整、严谨和细致；后面那位，代表着自由、灵活和简约。</p><p>它们来自两个不同的时代，却同时活跃于当今的互联网，并担当着重量级的角色，影响了一批新技术的诞生。今天，就让我们来认识下它们，它们的名字，分别叫做 SOAP 和 REST。</p><h2>概念</h2><p>SOAP，Simple Object Access Protocol，即简单对象访问协议，定义了数据对象传输的格式，以便在网络的节点之间交换信息。你可能会问，HTTP 不就是干这事的吗？其实，它们都在 OSI 7 层模型的应用层上，但却互不冲突，SOAP 并不依赖于 HTTP 而存在，而且它们可以互相配合。</p><p>HTTP 负责信息的传输，比如传递文本数据，关心的是消息的送达，但却不关心这个数据代表着什么。这个数据可能本来是一个内存里的对象，是一篇文章，或者是一张图片。但是 SOAP 恰恰相反，它关心的就是怎样把这个数据给序列化成 XML 格式的文本，在传输到对端以后，再还原回来。</p><p>用一个形象的比喻就是，<strong>消息传输就像快递，HTTP 主要关心的是信封，而 SOAP 主要关心的是信封里的物件。</strong>今天我们讨论的 SOAP，不仅仅是协议本身，更主要的是它的风格。</p><!-- [[[read_end]]] --><p>REST，Representational State Transfer，即表现层状态转换，指的是一种为了信息能在互联网上顺利传递而设计的软件架构风格。对，请注意，<strong>SOAP 是协议，但 REST 是风格，而非协议或标准</strong>，至于 HTTP，它是 REST 风格的重要载体。重要，但不是唯一，因为载体并不只有 HTTP 一个，比如还有 HTML 和 XML，它们恰当地互相配合，组合在一起，来贯彻和体现 REST 的风格。</p><p>SOAP 和 REST，由于概念层次上的不同，其实原本是无法放到一起比较的，但是当我们旨在风格层面上讨论 SOAP 和 REST 的时候，这件事却变得可行而有趣了。</p><p>现在让我们用一个实际例子来进一步认识它们。这个例子很常见，假设我们要设计一个图书馆，馆中的书可以增删改查（CRUD），特别是要添加一本书的时候，我们分别来看看，应用 SOAP 该怎么做，应用 REST 又该怎么做。</p><h2>SOAP</h2><p>这是一个最简单的给图书馆添加一本书的 XML 消息体：</p><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 

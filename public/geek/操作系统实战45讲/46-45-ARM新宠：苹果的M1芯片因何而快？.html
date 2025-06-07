@@ -8,6 +8,8 @@
     <script src="../assets/responsive.js" defer></script>
     <link rel="stylesheet" href="../assets/tts.css">
     <script src="../assets/tts.js" defer></script>
+<script src="../assets/highlight.js" defer></script>
+<link rel="stylesheet" href="../assets/highlight.css"></script>
     <meta name="referrer" content="no-referrer" />
 </head><p>你好，我是 LMOS。</p><p>前面两节课，我们一起学习了虚拟机和容器的原理，这些知识属于向上延展。而这节课我们要向下深挖，看看操作系统下面的硬件层面，重点研究一下CPU的原理和它的加速套路。</p><p>有了这些知识的加持，我还会给你说说，为什么去年底发布的苹果M1芯片可以实现高性能、低功耗。你会发现，掌握了硬件的知识，很多“黑科技”就不再那么神秘了。</p><p>好，让我们正式开始今天的学习！</p><h2>CPU的原理初探</h2><p>经过前面的学习，我们已经对操作系统原理建立了一定认知。从操作系统的位置来看，它除了能够向上封装，为软件调用提供API（也就是系统调用），向下又对硬件资源进行了调度和抽象。我们通常更为关注系统调用，但为了更好地设计实现一个OS，我们当然也要对硬件足够了解。</p><p>接下来，我们一起看一看硬件中最重要的一个硬件——CPU是怎么工作的。让我们拆开CPU这个黑盒子，看一看一个最小的CPU应该包含哪些部分。不同架构的CPU，具体设计还是有很大差异的。为了方便你理解，我这里保留了CPU里的共性部分，给你抽象出了CPU的最小组成架构。</p><p><img src="https://static001.geekbang.org/resource/image/c2/d1/c2d0b75dffcfbdb5e72011013a6cd2d1.jpg?wh=2323x1528" alt="" title="CPU架构图"><br>
 
