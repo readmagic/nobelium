@@ -223,7 +223,7 @@ function playCurrentSegment() {
   const encodedText = encodeURIComponent(currentText);
   
   // 构建TTS API URL
-  const ttsUrl = `https://t.leftsite.cn/tts?t=${encodedText}&v=zh-CN-XiaoxiaoNeural&r=${ttsState.rate}&p=0&o=audio-24khz-48kbitrate-mono-mp3`;
+  const ttsUrl = `https://tts-forwarder.303734023.workers.dev/tts?t=${encodedText}&v=zh-CN-XiaoxiaoNeural&r=${ttsState.rate}&p=0&o=audio-24khz-48kbitrate-mono-mp3`;
   
   // 创建音频元素
   ttsState.audio = new Audio(ttsUrl);
